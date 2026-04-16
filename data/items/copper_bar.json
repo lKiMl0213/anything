@@ -1,0 +1,11 @@
+{
+    "id":  "copper_bar",
+    "name":  "Barra de Cobre",
+    "tags":  [
+                 "forge",
+                 "bar"
+             ],
+    "value":  12,
+    "type":  "MATERIAL",
+    "description":  "Barra refinada para forja de equipamentos."
+}

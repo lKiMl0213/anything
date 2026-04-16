@@ -1,0 +1,11 @@
+{
+    "id":  "runic_bar",
+    "name":  "Barra Runica",
+    "tags":  [
+                 "forge",
+                 "bar"
+             ],
+    "value":  34,
+    "type":  "MATERIAL",
+    "description":  "Barra refinada para forja de equipamentos."
+}

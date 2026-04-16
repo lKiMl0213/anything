@@ -1,0 +1,12 @@
+{
+    "id":  "arcane_fragment",
+    "name":  "Fragmento Arcano",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "construct",
+                 "material",
+                 "arcane"
+             ],
+    "value":  6,
+    "description":  "Fragmento de energia arcana solida."
+}

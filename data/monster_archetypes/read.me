@@ -1,0 +1,57 @@
+MONSTER ARCHETYPES
+
+Pasta: data/monster_archetypes
+Organizacao recomendada por subpastas de familia/tipo:
+- beast/
+- undead/
+- construct/
+- ...
+Cada arquivo JSON segue o modelo MonsterArchetypeDef.
+
+Campos obrigatorios:
+- id: string (unico)
+- name: string
+- dropTableId: string (referencia data/drop_tables)
+
+Campos opcionais:
+- archetype: string
+- baseType: string (identidade real do monstro para quest/drop/bestiario)
+- monsterTypeId: string (tipo funcional para heranca de afinidades/comportamento)
+- family: string (familia geral: beast, undead, construct, elemental, humanoid)
+- displayName: string (nome visual curto)
+- variantName: string (modificador estetico opcional)
+- baseAttributes: { str, agi, dex, vit, int, spr, luk }
+- growthAttributes: { str, agi, dex, vit, int, spr, luk }
+- variancePct: number (0-1)
+- tags: [string]
+- questTags: [string]
+- lootProfileId: string (perfil de drop; fallback para dropTableId)
+- behaviorProfileId: string (se definido, vira tag extra)
+- skillPool: [string]
+- damageAffinities: { "damageChannel": multiplier } (override de afinidade)
+- baseCastTime: number (segundos)
+- baseXp: number
+- baseGold: number
+
+Exemplo:
+{
+  "id": "skeleton_archer",
+  "name": "Esqueleto Arqueiro",
+  "archetype": "Undead",
+  "baseType": "skeleton",
+  "monsterTypeId": "undead",
+  "family": "undead",
+  "displayName": "Esqueleto Arqueiro",
+  "baseAttributes": { "dex": 4, "agi": 3, "vit": 3 },
+  "growthAttributes": { "dex": 2, "agi": 2, "vit": 1 },
+  "variancePct": 0.15,
+  "tags": ["undead"],
+  "questTags": ["undead", "archer"],
+  "damageAffinities": { "fire": 1.2, "poison": 0.35 },
+  "lootProfileId": "undead_relics",
+  "behaviorProfileId": "undead",
+  "baseCastTime": 0.0,
+  "dropTableId": "undead_relics",
+  "baseXp": 36,
+  "baseGold": 7
+}

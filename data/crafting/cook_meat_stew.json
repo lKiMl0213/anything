@@ -1,0 +1,30 @@
+{
+    "skillType":  "COOKING",
+    "id":  "cook_meat_stew",
+    "description":  "Receita culinaria para suporte em combate.",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  18,
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "name":  "Cozinhar Ensopado de Carne",
+    "baseDurationSeconds":  7,
+    "difficulty":  1.3599999999999999,
+    "outputItemId":  "meat_stew",
+    "outputQty":  1,
+    "minPlayerLevel":  6,
+    "minSkillLevel":  4,
+    "discipline":  "COOKING",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "beast_meat"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "bitter_root"
+                        }
+                    ]
+}

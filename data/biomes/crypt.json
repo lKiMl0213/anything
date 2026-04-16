@@ -1,0 +1,10 @@
+{
+  "id": "crypt",
+  "name": "Cripta",
+  "description": "Um frio eterno e presencas ancestrais.",
+  "monsterTagWeights": {
+    "undead": 1.3
+  },
+  "summonChanceBonusPct": 5.0,
+  "healingMultiplier": 0.95
+}

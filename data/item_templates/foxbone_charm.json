@@ -1,0 +1,13 @@
+{
+  "id": "foxbone_charm",
+  "name": "Amuleto de Osso Raposo",
+  "type": "EQUIPMENT",
+  "rarity": "COMMON",
+  "slot": "ACCESSORY",
+  "baseScaling": 3.0,
+  "baseStat": "CRIT_CHANCE",
+  "dropTier": 1,
+  "vendorBaseValue": 10,
+  "allowedAffixes": ["dex", "agi", "crit", "evasion"],
+  "tags": ["{Any.Class}", "accessory", "crit"]
+}

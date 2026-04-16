@@ -1,0 +1,34 @@
+{
+    "skillType":  "COOKING",
+    "id":  "cook_simple_banquet",
+    "description":  "Receita culinaria para suporte em combate.",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  34,
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "name":  "Cozinhar Banquete Simples",
+    "baseDurationSeconds":  12,
+    "difficulty":  1.72,
+    "outputItemId":  "simple_banquet",
+    "outputQty":  1,
+    "minPlayerLevel":  18,
+    "minSkillLevel":  14,
+    "discipline":  "COOKING",
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "giant_carp"
+                        },
+                        {
+                            "quantity":  3,
+                            "itemId":  "beast_meat"
+                        },
+                        {
+                            "quantity":  3,
+                            "itemId":  "rice"
+                        }
+                    ]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "barbarian",
+  "name": "Barbaro",
+  "parentClassId": "warrior",
+  "requiredSubclassIds": ["fighter", "paladin"],
+  "description": "Agressividade extrema com ganho de ritmo quando recebe dano.",
+  "bonuses": {
+    "attributes": {
+      "str": 4,
+      "vit": 1,
+      "agi": 2
+    },
+    "derivedAdd": {
+      "damagePhysical": 8,
+      "critDamagePct": 10,
+      "vampirismPct": 3
+    }
+  },
+  "autoPointWeights": {
+    "str": 4,
+    "agi": 2,
+    "vit": 1
+  },
+  "talentTreeId": "warrior_barbarian_v2"
+}

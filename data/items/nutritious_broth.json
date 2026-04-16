@@ -1,0 +1,15 @@
+{
+    "id":  "nutritious_broth",
+    "name":  "Caldo Nutritivo",
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "value":  25,
+    "type":  "CONSUMABLE",
+    "description":  "Refeicao preparada na cozinha do aventureiro.",
+    "effects":  {
+                    "hpRestore":  20,
+                    "mpRestore":  20
+                }
+}

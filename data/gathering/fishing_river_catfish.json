@@ -1,0 +1,18 @@
+{
+  "id": "fishing_river_catfish",
+  "name": "Rio Profundo",
+  "type": "FISHING",
+  "skillType": "FISHING",
+  "resourceItemId": "catfish",
+  "minQty": 1,
+  "maxQty": 2,
+  "minPlayerLevel": 12,
+  "minSkillLevel": 6,
+  "baseDurationSeconds": 5.4,
+  "baseXp": 16.0,
+  "difficulty": 1.35,
+  "tier": 2,
+  "description": "Bagres maiores em pontos fundos.",
+  "enabled": true,
+  "tags": ["fishing", "river"]
+}

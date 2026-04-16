@@ -1,0 +1,331 @@
+{
+    "id":  "warrior_barbarian_v2",
+    "classId":  "warrior",
+    "tier":  3,
+    "unlockLevel":  50,
+    "requirements":  [
+                         {
+                             "type":  "SPECIALIZATION_ID",
+                             "expectedValue":  "barbarian"
+                         }
+                     ],
+    "nodes":  [
+                  {
+                      "id":  "barbarian_rage_core",
+                      "name":  "Rage Core",
+                      "description":  "Extreme aggression baseline with heavy offensive scaling.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "damagePhysical":  10,
+                                                                           "critDamagePct":  18,
+                                                                           "vampirismPct":  4
+                                                                       }
+                                                    }
+                                    },
+                      "tags":  [
+                                   "barbarian",
+                                   "damage",
+                                   "aggression"
+                               ]
+                  },
+                  {
+                      "id":  "barbarian_rending_howl",
+                      "name":  "Rending Howl",
+                      "description":  "Savage opener that inflicts heavy bleeding pressure.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          2
+                                      ],
+                      "unlocksSkillId":  "barbarian_rending_howl",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  20.0,
+                                                       "cooldownSeconds":  3.8,
+                                                       "castTimeSeconds":  0.4,
+                                                       "damageMultiplier":  1.92,
+                                                       "damageTypeMagic":  0.0,
+                                                       "damageMultiplierPerRank":  0.12,
+                                                       "cooldownPerRank":  -0.12,
+                                                       "castTimePerRank":  -0.05,
+                                                       "statusChancePerRankPct":  4,
+                                                       "statusDurationPerRankSeconds":  0.25,
+                                                       "statusEffectPerRank":  0.35,
+                                                       "statusMaxStacksPerRank":  1
+                                                   },
+                                        "applyStatuses":  [
+                                                              {
+                                                                  "type":  "BLEEDING",
+                                                                  "chancePct":  88.0,
+                                                                  "durationSeconds":  6.0,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  0.013,
+                                                                  "stackable":  true,
+                                                                  "maxStacks":  4,
+                                                                  "source":  "Rending Howl"
+                                                              }
+                                                          ]
+                                    },
+                      "tags":  [
+                                   "barbarian",
+                                   "bleeding",
+                                   "damage"
+                               ]
+                  },
+                  {
+                      "id":  "barbarian_pain_fuel",
+                      "name":  "Pain Fuel",
+                      "description":  "Converts incoming punishment into combat tempo and execution force.",
+                      "nodeType":  "MODIFIER",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "atb":  {
+                                                    "barGainOnDamagedPct":  16.0,
+                                                    "fillRatePct":  10.0
+                                                },
+                                        "status":  {
+                                                       "bonusDamageVsLowHpPct":  24.0,
+                                                       "lowHpThresholdPct":  42.0,
+                                                       "bonusDamageVs.BLEEDING.Pct":  20.0
+                                                   }
+                                    },
+                      "tags":  [
+                                   "barbarian",
+                                   "aggression",
+                                   "tempo",
+                                   "execute"
+                               ]
+                  },
+                  {
+                      "id":  "barbarian_war_frenzy",
+                      "name":  "War Frenzy",
+                      "description":  "Accelerates barbarian rotation while keeping pressure high.",
+                      "nodeType":  "UPGRADE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "atb":  {
+                                                    "hastePct":  14.0,
+                                                    "gcdPct":  -12.0,
+                                                    "cooldownPct":  -12.0,
+                                                    "barGainOnHitPct":  14.0
+                                                }
+                                    },
+                      "tags":  [
+                                   "barbarian",
+                                   "aggression",
+                                   "atb"
+                               ]
+                  },
+                  {
+                      "id":  "barbarian_blood_execution",
+                      "name":  "Blood Execution",
+                      "description":  "Finisher strike that excels during kill windows.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          2
+                                      ],
+                      "unlocksSkillId":  "barbarian_blood_execution",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  18.0,
+                                                       "cooldownSeconds":  2.9,
+                                                       "castTimeSeconds":  0.2,
+                                                       "damageMultiplier":  1.74,
+                                                       "damageTypeMagic":  0.0,
+                                                       "damageMultiplierPerRank":  0.12,
+                                                       "cooldownPerRank":  -0.12,
+                                                       "castTimePerRank":  -0.05,
+                                                       "statusChancePerRankPct":  4,
+                                                       "statusDurationPerRankSeconds":  0.25,
+                                                       "statusEffectPerRank":  0.35,
+                                                       "statusMaxStacksPerRank":  1
+                                                   },
+                                        "applyStatuses":  [
+                                                              {
+                                                                  "type":  "WEAKNESS",
+                                                                  "chancePct":  52.0,
+                                                                  "durationSeconds":  3.0,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  8.0,
+                                                                  "stackable":  false,
+                                                                  "maxStacks":  1,
+                                                                  "source":  "Blood Execution"
+                                                              }
+                                                          ]
+                                    },
+                      "tags":  [
+                                   "barbarian",
+                                   "damage",
+                                   "execute"
+                               ]
+                  },
+                  {
+                      "id":  "warrior_barbarian_v2_offense_path",
+                      "name":  "Caminho de Dano",
+                      "description":  "Pressao de dano, critico e execute.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "barbarian_rage_core",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "warrior_barbarian_v2_choice_path",
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "damagePhysical":  4,
+                                                                           "critDamagePct":  8
+                                                                       }
+                                                    },
+                                        "atb":  {
+                                                    "barGainOnCritPct":  8,
+                                                    "cooldownReduceOnKillSeconds":  1
+                                                },
+                                        "status":  {
+                                                       "bonusDamageVsLowHpPct":  12,
+                                                       "lowHpThresholdPct":  35
+                                                   }
+                                    },
+                      "tags":  [
+                                   "warrior",
+                                   "choice",
+                                   "path"
+                               ]
+                  },
+                  {
+                      "id":  "warrior_barbarian_v2_control_path",
+                      "name":  "Caminho de Controle",
+                      "description":  "Controle, resistencia e sustain tatico.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "barbarian_rage_core",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "warrior_barbarian_v2_choice_path",
+                      "modifiers":  {
+                                        "atb":  {
+                                                    "noManaCostChancePct":  10,
+                                                    "barGainOnStatusApplyPct":  8,
+                                                    "tempDamageBuffOnStatusApplyPct":  6,
+                                                    "tempBuffDurationSeconds":  4
+                                                },
+                                        "status":  {
+                                                       "incomingDurationPct":  -12,
+                                                       "reflectDamagePct":  6
+                                                   }
+                                    },
+                      "tags":  [
+                                   "warrior",
+                                   "choice",
+                                   "path"
+                               ]
+                  },
+                  {
+                      "id":  "warrior_barbarian_v2_single_target_path",
+                      "name":  "Doutrina Single Target",
+                      "description":  "Foco em alvo unico, critico e finalizacao.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "barbarian_rending_howl",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "warrior_barbarian_v2_aoe_single_choice",
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "critChancePct":  2,
+                                                                           "critDamagePct":  6
+                                                                       }
+                                                    },
+                                        "status":  {
+                                                       "bonusDamageVsLowHpPct":  14,
+                                                       "lowHpThresholdPct":  35
+                                                   },
+                                        "atb":  {
+                                                    "barGainOnCritPct":  6
+                                                }
+                                    },
+                      "tags":  [
+                                   "warrior",
+                                   "choice",
+                                   "aoe_single"
+                               ]
+                  },
+                  {
+                      "id":  "warrior_barbarian_v2_aoe_path",
+                      "name":  "Doutrina AOE",
+                      "description":  "Foco em impacto em area e controle por status.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "barbarian_rending_howl",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "warrior_barbarian_v2_aoe_single_choice",
+                      "modifiers":  {
+                                        "status":  {
+                                                       "applyChancePct":  8,
+                                                       "durationPct":  8
+                                                   },
+                                        "atb":  {
+                                                    "barGainOnStatusApplyPct":  6,
+                                                    "tempDamageBuffOnStatusApplyPct":  6,
+                                                    "tempBuffDurationSeconds":  4
+                                                }
+                                    },
+                      "tags":  [
+                                   "warrior",
+                                   "choice",
+                                   "aoe_single"
+                               ]
+                  }
+              ]
+}

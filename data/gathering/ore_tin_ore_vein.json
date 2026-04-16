@@ -1,0 +1,21 @@
+{
+    "skillType":  "MINING",
+    "id":  "ore_tin_ore_vein",
+    "minQty":  1,
+    "resourceItemId":  "tin_ore",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  19,
+    "tags":  [
+                 "ore",
+                 "mining"
+             ],
+    "name":  "Veio de Estanho",
+    "type":  "MINING",
+    "baseDurationSeconds":  5.4,
+    "difficulty":  1.36,
+    "maxQty":  3,
+    "minPlayerLevel":  5,
+    "minSkillLevel":  3,
+    "description":  "Nodo de mineracao da regiao."
+}

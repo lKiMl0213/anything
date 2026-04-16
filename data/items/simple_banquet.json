@@ -1,0 +1,15 @@
+{
+    "id":  "simple_banquet",
+    "name":  "Banquete Simples",
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "value":  65,
+    "type":  "CONSUMABLE",
+    "description":  "Refeicao preparada na cozinha do aventureiro.",
+    "effects":  {
+                    "hpRestore":  70,
+                    "mpRestore":  40
+                }
+}

@@ -1,0 +1,11 @@
+{
+    "id":  "gunpowder",
+    "name":  "Polvora",
+    "tags":  [
+                 "ammo",
+                 "alchemy"
+             ],
+    "value":  8,
+    "type":  "MATERIAL",
+    "description":  "Composto explosivo para flechas especiais."
+}

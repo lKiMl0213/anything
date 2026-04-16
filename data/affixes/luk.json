@@ -1,0 +1,8 @@
+{
+  "id": "luk",
+  "name": "da Sorte",
+  "kind": "SUFFIX",
+  "bonuses": { "attributes": { "luk": 3 } },
+  "cost": 18,
+  "weight": 8
+}

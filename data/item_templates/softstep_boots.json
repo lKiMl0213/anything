@@ -1,0 +1,14 @@
+{
+  "id": "softstep_boots",
+  "name": "Botas de Passo Leve",
+  "type": "EQUIPMENT",
+  "rarity": "UNCOMMON",
+  "slot": "BOOTS",
+  "minLevel": 4,
+  "baseScaling": 3.2,
+  "baseStat": "ATTACK_SPEED",
+  "dropTier": 2,
+  "vendorBaseValue": 12,
+  "allowedAffixes": ["agi", "evasion", "atk_speed", "accuracy"],
+  "tags": ["{archer}", "light_armor", "leather"]
+}

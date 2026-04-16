@@ -1,0 +1,13 @@
+{
+    "id":  "luminous_fish",
+    "name":  "Peixe Luminoso",
+    "tags":  [
+                 "fish",
+                 "fishing",
+                 "cooking",
+                 "arcane"
+             ],
+    "value":  9,
+    "type":  "MATERIAL",
+    "description":  "Peixe raro com brilho natural."
+}

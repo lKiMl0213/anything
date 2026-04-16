@@ -1,0 +1,27 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_obsidian_boots",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  38,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "boots"
+             ],
+    "name":  "Forjar Botas de Obsidiana",
+    "baseDurationSeconds":  12,
+    "difficulty":  2.1,
+    "outputItemId":  "obsidian_boots",
+    "outputQty":  1,
+    "minPlayerLevel":  17,
+    "minSkillLevel":  14,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "obsidian_bar"
+                        }
+                    ]
+}

@@ -1,0 +1,12 @@
+{
+    "id":  "copper_ore",
+    "name":  "Cobre",
+    "tags":  [
+                 "ore",
+                 "mining",
+                 "forge"
+             ],
+    "value":  4,
+    "type":  "MATERIAL",
+    "description":  "Minerio condutor para barras iniciais."
+}

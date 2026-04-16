@@ -1,0 +1,12 @@
+{
+  "id": "shop_channeler_gloves",
+  "name": "Luvas de Canalizacao",
+  "itemId": "channeler_gloves",
+  "price": 90,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 4,
+  "description": "Aumentam o fluxo ofensivo das magias.",
+  "enabled": true,
+  "tags": ["gold", "mage", "armor"]
+}

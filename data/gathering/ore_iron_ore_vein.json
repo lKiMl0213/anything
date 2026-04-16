@@ -1,0 +1,21 @@
+{
+    "skillType":  "MINING",
+    "id":  "ore_iron_ore_vein",
+    "minQty":  1,
+    "resourceItemId":  "iron_ore",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  22.5,
+    "tags":  [
+                 "ore",
+                 "mining"
+             ],
+    "name":  "Veio de Ferro",
+    "type":  "MINING",
+    "baseDurationSeconds":  6.1,
+    "difficulty":  1.54,
+    "maxQty":  2,
+    "minPlayerLevel":  7,
+    "minSkillLevel":  4,
+    "description":  "Nodo de mineracao da regiao."
+}

@@ -1,0 +1,39 @@
+{
+  "id": "default",
+  "intros": [
+    "Uma criatura emerge das sombras",
+    "Algo salta sobre voce",
+    "Voce ouve um rosnado atras de si",
+    "Uma presenca hostil se revela",
+    "Passos apressados cortam o silencio",
+    "Um inimigo se aproxima rapidamente",
+    "Voce sente o perigo se aproximando",
+    "Uma figura ameacadora se destaca",
+    "O ar se enche de tensao",
+    "Voce se prepara para o confronto"
+  ],
+  "descriptors": [
+    "uma silhueta agressiva",
+    "um inimigo inesperado",
+    "uma figura imponente",
+    "um ser tomado pela raiva",
+    "algo que nao deveria estar aqui",
+    "um adversario perigoso",
+    "uma ameaca iminente",
+    "um oponente implacavel",
+    "uma criatura hostil",
+    "um inimigo que nao pode ser ignorado"
+  ],
+  "threats": [
+    "Ele ruge e avanca",
+    "Um ataque repentino se inicia",
+    "A atmosfera fica pesada",
+    "Seus olhos brilham com furia",
+    "Ele se lanca em sua direcao",
+    "O confronto e inevitavel",
+    "Ele ataca com ferocidade",
+    "A batalha comeca",
+    "Ele se move com rapidez",
+    "O combate e brutal"
+  ]
+}

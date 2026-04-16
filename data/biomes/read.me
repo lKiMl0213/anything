@@ -1,0 +1,25 @@
+BIOMES
+
+Pasta: data/biomes
+Cada arquivo JSON segue o modelo BiomeDef.
+
+Campos:
+- id: string
+- name: string
+- description: string
+- monsterTagWeights: { tag: weight }
+- summonChanceBonusPct: number
+- healingMultiplier: number
+- eventRoomChanceBonusPct: int
+- npcEventBonusPct: int
+
+Exemplo:
+{
+  "id": "wilds",
+  "name": "Selvagem",
+  "monsterTagWeights": { "beast": 1.2 },
+  "summonChanceBonusPct": 5.0,
+  "healingMultiplier": 1.0,
+  "eventRoomChanceBonusPct": 0,
+  "npcEventBonusPct": 0
+}

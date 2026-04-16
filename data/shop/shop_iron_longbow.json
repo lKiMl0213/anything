@@ -1,0 +1,12 @@
+{
+  "id": "shop_iron_longbow",
+  "name": "Arco Longo de Ferro",
+  "itemId": "iron_longbow",
+  "price": 180,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 5,
+  "description": "Modelo metalico para arqueiros que querem mais impacto por disparo.",
+  "enabled": true,
+  "tags": ["gold", "archer", "weapon"]
+}

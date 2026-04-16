@@ -1,0 +1,16 @@
+{
+    "id":  "hp_potion_large",
+    "name":  "HP Potion Large",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  70,
+    "type":  "CONSUMABLE",
+    "description":  "Restores 130 HP.",
+    "effects":  {
+                    "hpRestore":  130,
+                    "mpRestore":  0
+                }
+}
+

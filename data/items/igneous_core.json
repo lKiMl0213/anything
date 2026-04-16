@@ -1,0 +1,12 @@
+{
+    "id":  "igneous_core",
+    "name":  "Nucleo Igneo",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "elemental",
+                 "rare_component",
+                 "fire"
+             ],
+    "value":  10,
+    "description":  "Nucleo raro de criatura ignea."
+}

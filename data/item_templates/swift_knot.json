@@ -1,0 +1,13 @@
+{
+  "id": "swift_knot",
+  "name": "Laco Veloz",
+  "type": "EQUIPMENT",
+  "rarity": "UNCOMMON",
+  "slot": "ACCESSORY",
+  "baseScaling": 3.0,
+  "baseStat": "ATTACK_SPEED",
+  "dropTier": 1,
+  "vendorBaseValue": 11,
+  "allowedAffixes": ["agi", "atk_speed", "evasion", "accuracy"],
+  "tags": ["{Any.Class}", "accessory", "speed"]
+}

@@ -1,0 +1,31 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_obsidian_axe",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  38,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "axe"
+             ],
+    "name":  "Forjar Machado de Obsidiana",
+    "baseDurationSeconds":  14,
+    "difficulty":  2.1,
+    "outputItemId":  "obsidian_axe",
+    "outputQty":  1,
+    "minPlayerLevel":  17,
+    "minSkillLevel":  14,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  3,
+                            "itemId":  "obsidian_bar"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "wood_log"
+                        }
+                    ]
+}

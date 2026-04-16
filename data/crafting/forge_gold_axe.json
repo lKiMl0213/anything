@@ -1,0 +1,31 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_gold_axe",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  28,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "axe"
+             ],
+    "name":  "Forjar Machado de Ouro",
+    "baseDurationSeconds":  12,
+    "difficulty":  1.6,
+    "outputItemId":  "gold_axe",
+    "outputQty":  1,
+    "minPlayerLevel":  9,
+    "minSkillLevel":  7,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  3,
+                            "itemId":  "gold_bar"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "wood_log"
+                        }
+                    ]
+}

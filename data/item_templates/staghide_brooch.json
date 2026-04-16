@@ -1,0 +1,13 @@
+{
+  "id": "staghide_brooch",
+  "name": "Broche de Couro Nobre",
+  "type": "EQUIPMENT",
+  "rarity": "COMMON",
+  "slot": "ACCESSORY",
+  "baseScaling": 3.1,
+  "baseStat": "DEF_PHYSICAL",
+  "dropTier": 1,
+  "vendorBaseValue": 10,
+  "allowedAffixes": ["vit", "def", "bulwark", "hp"],
+  "tags": ["{Any.Class}", "accessory", "defense"]
+}

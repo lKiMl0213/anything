@@ -1,0 +1,12 @@
+{
+  "id": "field_ration",
+  "name": "Racao de Campo",
+  "type": "CONSUMABLE",
+  "tags": ["food"],
+  "effects": {
+    "hpRestore": 8
+  },
+  "value": 12,
+  "description": "Refeicao simples para recuperar um pouco de HP."
+}
+

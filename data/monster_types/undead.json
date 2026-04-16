@@ -1,0 +1,15 @@
+{
+  "id": "undead",
+  "name": "Undead",
+  "description": "Mortos-vivos resistentes a veneno e vulneraveis a fogo/luz.",
+  "tags": ["undead", "cursed"],
+  "damageAffinities": {
+    "physical": 0.95,
+    "magic": 1.05,
+    "fire": 1.2,
+    "holy": 1.3,
+    "poison": 0.35,
+    "bleed": 0.6
+  }
+}
+

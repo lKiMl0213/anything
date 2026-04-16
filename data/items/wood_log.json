@@ -1,0 +1,13 @@
+{
+    "id":  "wood_log",
+    "name":  "Madeira Comum",
+    "tags":  [
+                 "wood",
+                 "woodcutting",
+                 "forge",
+                 "cooking"
+             ],
+    "value":  3,
+    "type":  "MATERIAL",
+    "description":  "Tora comum para diversas receitas."
+}

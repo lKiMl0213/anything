@@ -1,0 +1,12 @@
+{
+    "id":  "iron_ore",
+    "name":  "Ferro",
+    "tags":  [
+                 "ore",
+                 "mining",
+                 "forge"
+             ],
+    "value":  6,
+    "type":  "MATERIAL",
+    "description":  "Metal resistente para forja de combate."
+}

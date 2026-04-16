@@ -1,0 +1,18 @@
+{
+  "id": "fishing_sun_ocean_golden",
+  "name": "Oceano Solar",
+  "type": "FISHING",
+  "skillType": "FISHING",
+  "resourceItemId": "golden_fish",
+  "minQty": 1,
+  "maxQty": 1,
+  "minPlayerLevel": 58,
+  "minSkillLevel": 34,
+  "baseDurationSeconds": 10.2,
+  "baseXp": 40.0,
+  "difficulty": 2.8,
+  "tier": 4,
+  "description": "Aparece em janelas curtas de mare alta.",
+  "enabled": true,
+  "tags": ["fishing", "ocean", "epic"]
+}

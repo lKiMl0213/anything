@@ -1,0 +1,14 @@
+{
+  "id": "hunter_quiver",
+  "name": "Aljava do Cacador",
+  "type": "EQUIPMENT",
+  "rarity": "UNCOMMON",
+  "slot": "ALJAVA",
+  "minLevel": 6,
+  "baseScaling": 3.8,
+  "baseStat": "CRIT_CHANCE",
+  "dropTier": 2,
+  "vendorBaseValue": 15,
+  "allowedAffixes": ["dex", "crit", "accuracy", "atk_speed", "evasion"],
+  "tags": ["{archer}", "quiver"]
+}

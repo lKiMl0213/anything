@@ -1,0 +1,13 @@
+{
+    "id":  "obsidian_ore",
+    "name":  "Obsidiana",
+    "tags":  [
+                 "ore",
+                 "mining",
+                 "forge",
+                 "dark"
+             ],
+    "value":  16,
+    "type":  "MATERIAL",
+    "description":  "Fragmento vulcanico de alta dureza."
+}

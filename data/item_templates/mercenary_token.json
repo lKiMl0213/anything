@@ -1,0 +1,13 @@
+{
+  "id": "mercenary_token",
+  "name": "Fica de Mercenario",
+  "type": "EQUIPMENT",
+  "rarity": "RARE",
+  "slot": "ACCESSORY",
+  "baseScaling": 4.0,
+  "baseStat": "DEF_PHYSICAL",
+  "dropTier": 2,
+  "vendorBaseValue": 14,
+  "allowedAffixes": ["def", "bulwark", "vit", "tenacity"],
+  "tags": ["{Any.Class}", "accessory", "defense"]
+}

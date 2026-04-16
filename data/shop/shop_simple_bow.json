@@ -1,0 +1,15 @@
+{
+    "id":  "shop_simple_bow",
+    "name":  "Arco Simples",
+    "itemId":  "simple_bow",
+    "price":  76,
+    "currency":  "GOLD",
+    "quantity":  1,
+    "minPlayerLevel":  1,
+    "description":  "Arma inicial para arqueiros.",
+    "enabled":  true,
+    "tags":  [
+                 "basic",
+                 "weapon"
+             ]
+}

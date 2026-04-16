@@ -1,0 +1,21 @@
+{
+    "skillType":  "WOODCUTTING",
+    "id":  "wood_fossil_wood_tree",
+    "minQty":  1,
+    "resourceItemId":  "fossil_wood",
+    "enabled":  true,
+    "tier":  5,
+    "baseXp":  41.7,
+    "tags":  [
+                 "wood",
+                 "woodcutting"
+             ],
+    "name":  "Bosque de Madeira Fossilizada",
+    "type":  "WOODCUTTING",
+    "baseDurationSeconds":  9.6,
+    "difficulty":  2.71,
+    "maxQty":  1,
+    "minPlayerLevel":  28,
+    "minSkillLevel":  10,
+    "description":  "Area de corte de madeira."
+}

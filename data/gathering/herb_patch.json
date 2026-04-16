@@ -1,0 +1,13 @@
+{
+  "id": "herb_patch",
+  "name": "Mata de Ervas",
+  "type": "HERBALISM",
+  "resourceItemId": "medicinal_herb",
+  "minQty": 1,
+  "maxQty": 3,
+  "minPlayerLevel": 1,
+  "description": "Fonte de ervas para alquimia e culinaria.",
+  "enabled": true,
+  "tags": ["herb", "alchemy"]
+}
+

@@ -1,0 +1,12 @@
+{
+    "id":  "broken_plate",
+    "name":  "Placa Quebrada",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "construct",
+                 "sell",
+                 "metal"
+             ],
+    "value":  3,
+    "description":  "Placa metalica partida de construto."
+}

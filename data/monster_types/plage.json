@@ -1,0 +1,13 @@
+{
+  "id": "plage",
+  "name": "Plage",
+  "description": "Criaturas urbanas imundas, agressivas e adaptadas a esgotos, becos e lixo acumulado.",
+  "tags": ["plage", "city", "vermin"],
+  "damageAffinities": {
+    "physical": 1.0,
+    "magic": 1.0,
+    "poison": 0.9,
+    "fire": 1.1,
+    "holy": 1.05
+  }
+}

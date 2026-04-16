@@ -1,0 +1,30 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "smelt_adamantite_bar",
+    "description":  "Refino de barra metalica.",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  34,
+    "tags":  [
+                 "smelting",
+                 "bar"
+             ],
+    "name":  "Fundir Barra de Adamantita",
+    "baseDurationSeconds":  15,
+    "difficulty":  1.8,
+    "outputItemId":  "adamantite_bar",
+    "outputQty":  1,
+    "minPlayerLevel":  18,
+    "minSkillLevel":  14,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "adamantite_ore"
+                        },
+                        {
+                            "quantity":  3,
+                            "itemId":  "charcoal"
+                        }
+                    ]
+}

@@ -1,0 +1,21 @@
+{
+    "skillType":  "WOODCUTTING",
+    "id":  "wood_bright_wood_tree",
+    "minQty":  1,
+    "resourceItemId":  "bright_wood",
+    "enabled":  true,
+    "tier":  5,
+    "baseXp":  38.4,
+    "tags":  [
+                 "wood",
+                 "woodcutting"
+             ],
+    "name":  "Bosque de Madeira Brilhante",
+    "type":  "WOODCUTTING",
+    "baseDurationSeconds":  9,
+    "difficulty":  2.52,
+    "maxQty":  1,
+    "minPlayerLevel":  25,
+    "minSkillLevel":  9,
+    "description":  "Area de corte de madeira."
+}

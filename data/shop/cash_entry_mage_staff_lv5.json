@@ -1,0 +1,12 @@
+{
+  "id": "cash_entry_mage_staff_lv5",
+  "name": "Aether Staff Mk-I",
+  "itemId": "cash_mage_staff_lv5",
+  "price": 90,
+  "currency": "CASH",
+  "quantity": 1,
+  "minPlayerLevel": 5,
+  "description": "Cajado premium de entrada para magos.",
+  "enabled": true,
+  "tags": ["cash", "mage", "weapon"]
+}

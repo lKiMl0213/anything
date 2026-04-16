@@ -1,0 +1,11 @@
+{
+    "id":  "iron_bar",
+    "name":  "Barra de Ferro",
+    "tags":  [
+                 "forge",
+                 "bar"
+             ],
+    "value":  14,
+    "type":  "MATERIAL",
+    "description":  "Barra refinada para forja de equipamentos."
+}

@@ -1,0 +1,36 @@
+TALENTS
+
+Pasta: data/talents
+Cada arquivo JSON segue o modelo TalentTreeDef.
+
+Campos:
+- id: string
+- name: string
+- nodes: lista de TalentNodeDef
+
+TalentNodeDef:
+- id: string
+- name: string
+- description: string
+- cost: int
+- requiredLevel: int
+- prerequisites: [string]
+- bonuses: Bonuses
+- classId: string (opcional)
+- subclassId: string (opcional)
+
+Exemplo:
+{
+  "id": "warrior_basic",
+  "name": "Guerreiro Basico",
+  "nodes": [
+    {
+      "id": "power_strike",
+      "name": "Golpe Poderoso",
+      "description": "Aumenta dano fisico.",
+      "cost": 1,
+      "requiredLevel": 1,
+      "bonuses": { "derivedAdd": { "damagePhysical": 2 } }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+    "id":  "cash_entry_bag_large",
+    "name":  "Mochila de Expedicao",
+    "itemId":  "cash_bag_large",
+    "price":  520,
+    "currency":  "CASH",
+    "quantity":  1,
+    "minPlayerLevel":  1,
+    "description":  "+30 slots de inventario.",
+    "enabled":  true,
+    "tags":  [
+                 "cash",
+                 "bag"
+             ]
+}

@@ -1,0 +1,30 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "craft_arrow_explosive",
+    "description":  "Municao para combate a distancia.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  25,
+    "tags":  [
+                 "ammo",
+                 "arrow"
+             ],
+    "name":  "Criar Flecha Explosiva",
+    "baseDurationSeconds":  9,
+    "difficulty":  1.6,
+    "outputItemId":  "arrow_explosive",
+    "outputQty":  20,
+    "minPlayerLevel":  14,
+    "minSkillLevel":  10,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "wood_log"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "gunpowder"
+                        }
+                    ]
+}

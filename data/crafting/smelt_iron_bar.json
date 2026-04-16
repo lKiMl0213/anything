@@ -1,0 +1,30 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "smelt_iron_bar",
+    "description":  "Refino de barra metalica.",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  18,
+    "tags":  [
+                 "smelting",
+                 "bar"
+             ],
+    "name":  "Fundir Barra de Ferro",
+    "baseDurationSeconds":  8,
+    "difficulty":  1.2,
+    "outputItemId":  "iron_bar",
+    "outputQty":  1,
+    "minPlayerLevel":  3,
+    "minSkillLevel":  2,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "iron_ore"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "charcoal"
+                        }
+                    ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "cash_entry_mage_cloak_lv10",
+  "name": "Astral Mantle",
+  "itemId": "cash_mage_cloak_lv10",
+  "price": 120,
+  "currency": "CASH",
+  "quantity": 1,
+  "minPlayerLevel": 10,
+  "description": "Capa premium com foco em recarga e defesa magica.",
+  "enabled": true,
+  "tags": ["cash", "mage", "armor"]
+}

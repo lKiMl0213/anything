@@ -1,0 +1,9 @@
+{
+  "id": "iron_ingot",
+  "name": "Barra de Ferro",
+  "type": "MATERIAL",
+  "tags": ["ingot", "forge", "metal"],
+  "value": 8,
+  "description": "Barra refinada pronta para forja."
+}
+

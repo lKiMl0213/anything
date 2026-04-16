@@ -1,0 +1,12 @@
+{
+    "id":  "shop_potion_fixed",
+    "name":  "Hybrid Potion Mini",
+    "type":  "CONSUMABLE",
+    "value":  24,
+    "description":  "Restores 25 HP and 25 MP. Fixed shop consumable.",
+    "effects":  {
+                    "hpRestore":  25,
+                    "mpRestore":  25
+                }
+}
+

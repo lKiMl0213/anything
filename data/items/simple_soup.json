@@ -1,0 +1,15 @@
+{
+    "id":  "simple_soup",
+    "name":  "Sopa Simples",
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "value":  16,
+    "type":  "CONSUMABLE",
+    "description":  "Refeicao preparada na cozinha do aventureiro.",
+    "effects":  {
+                    "hpRestore":  16,
+                    "mpRestore":  12
+                }
+}

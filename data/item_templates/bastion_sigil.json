@@ -1,0 +1,13 @@
+{
+  "id": "bastion_sigil",
+  "name": "Sigilo do Bastiao",
+  "type": "EQUIPMENT",
+  "rarity": "EPIC",
+  "slot": "ACCESSORY",
+  "baseScaling": 4.8,
+  "baseStat": "DEF_PHYSICAL",
+  "dropTier": 3,
+  "vendorBaseValue": 18,
+  "allowedAffixes": ["vit", "def", "bulwark", "tenacity", "hp"],
+  "tags": ["{Any.Class}", "accessory", "defense"]
+}

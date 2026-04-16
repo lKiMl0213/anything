@@ -1,0 +1,21 @@
+{
+    "skillType":  "MINING",
+    "id":  "ore_stone_chunk_vein",
+    "minQty":  1,
+    "resourceItemId":  "stone_chunk",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  12,
+    "tags":  [
+                 "ore",
+                 "mining"
+             ],
+    "name":  "Veio de Pedra Bruta",
+    "type":  "MINING",
+    "baseDurationSeconds":  4,
+    "difficulty":  1,
+    "maxQty":  3,
+    "minPlayerLevel":  1,
+    "minSkillLevel":  1,
+    "description":  "Nodo de mineracao da regiao."
+}

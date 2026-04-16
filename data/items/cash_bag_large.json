@@ -1,0 +1,14 @@
+{
+    "id":  "cash_bag_large",
+    "name":  "Mochila de Expedicao",
+    "type":  "EQUIPMENT",
+    "slot":  "BACKPACK",
+    "tags":  [
+                 "{Any.Class}",
+                 "inventory_slots:30",
+                 "cash"
+             ],
+    "minLevel":  1,
+    "value":  520,
+    "description":  "Aumenta o inventario em +30 slots."
+}

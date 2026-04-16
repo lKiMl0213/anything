@@ -1,0 +1,16 @@
+{
+    "id":  "antidote",
+    "name":  "Utility Potion Mini - Antidote",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  36,
+    "type":  "CONSUMABLE",
+    "description":  "Restores 10 HP. Status cleanse is not configured on this item yet.",
+    "effects":  {
+                    "hpRestore":  10,
+                    "mpRestore":  0
+                }
+}
+

@@ -1,0 +1,14 @@
+{
+  "id": "trailwrap_leggings",
+  "name": "Calcas de Trilha",
+  "type": "EQUIPMENT",
+  "rarity": "COMMON",
+  "slot": "LEGS",
+  "minLevel": 2,
+  "baseScaling": 3.6,
+  "baseStat": "DEF_PHYSICAL",
+  "dropTier": 1,
+  "vendorBaseValue": 10,
+  "allowedAffixes": ["agi", "def", "evasion", "atk_speed"],
+  "tags": ["{archer}", "light_armor", "leather"]
+}

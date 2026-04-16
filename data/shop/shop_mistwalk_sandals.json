@@ -1,0 +1,12 @@
+{
+  "id": "shop_mistwalk_sandals",
+  "name": "Sandalias da Neblina",
+  "itemId": "mistwalk_sandals",
+  "price": 86,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 4,
+  "description": "Mais ritmo para turnos e reposicionamento.",
+  "enabled": true,
+  "tags": ["gold", "mage", "armor"]
+}

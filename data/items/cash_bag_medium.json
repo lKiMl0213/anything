@@ -1,0 +1,14 @@
+{
+    "id":  "cash_bag_medium",
+    "name":  "Mochila de Aventureiro",
+    "type":  "EQUIPMENT",
+    "slot":  "BACKPACK",
+    "tags":  [
+                 "{Any.Class}",
+                 "inventory_slots:20",
+                 "cash"
+             ],
+    "minLevel":  1,
+    "value":  320,
+    "description":  "Aumenta o inventario em +20 slots."
+}

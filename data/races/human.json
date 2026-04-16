@@ -1,0 +1,29 @@
+{
+  "id": "human",
+  "name": "Humano",
+  "description": "Versatil e equilibrado.",
+  "bonuses": {
+    "attributes": {
+      "str": 2,
+      "agi": 2,
+      "dex": 1,
+      "vit": 2,
+      "int": 2,
+      "spr": 1,
+      "luk": 1
+    },
+    "derivedAdd": {
+      "xpGainPct": 2,
+      "dropBonusPct": 2
+    }
+  },
+  "growth": {
+    "str": 1,
+    "agi": 1,
+    "dex": 1,
+    "vit": 1,
+    "int": 1,
+    "spr": 1,
+    "luk": 1
+  }
+}

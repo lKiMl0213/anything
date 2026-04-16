@@ -1,0 +1,23 @@
+{
+  "id": "city",
+  "monsterTags": ["city"],
+  "biomeIds": ["city"],
+  "intros": [
+    "Passos ecoam no beco",
+    "Uma silhueta surge entre barracas fechadas",
+    "Um som vindo do esgoto quebra o silencio",
+    "A cidade engole a luz e revela movimento"
+  ],
+  "descriptors": [
+    "um predador urbano observando sua bolsa",
+    "uma criatura acostumada a sobreviver nas sombras da cidade",
+    "um inimigo que conhece cada viela ao redor",
+    "uma presenca hostil moldada por fome e oportunismo"
+  ],
+  "threats": [
+    "Nao ha guardas por perto para interromper a luta.",
+    "O confronto parece parte da rotina brutal daquele lugar.",
+    "As saídas apertadas deixam pouco espaco para errar.",
+    "Qualquer hesitacao vira vantagem para o inimigo."
+  ]
+}

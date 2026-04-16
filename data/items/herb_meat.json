@@ -1,0 +1,15 @@
+{
+    "id":  "herb_meat",
+    "name":  "Carne com Ervas",
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "value":  30,
+    "type":  "CONSUMABLE",
+    "description":  "Refeicao preparada na cozinha do aventureiro.",
+    "effects":  {
+                    "hpRestore":  36,
+                    "mpRestore":  14
+                }
+}

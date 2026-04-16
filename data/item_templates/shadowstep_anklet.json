@@ -1,0 +1,13 @@
+{
+  "id": "shadowstep_anklet",
+  "name": "Tornozeleira Passo Sombrio",
+  "type": "EQUIPMENT",
+  "rarity": "EPIC",
+  "slot": "ACCESSORY",
+  "baseScaling": 4.7,
+  "baseStat": "ATTACK_SPEED",
+  "dropTier": 3,
+  "vendorBaseValue": 18,
+  "allowedAffixes": ["agi", "evasion", "atk_speed", "cdr", "accuracy"],
+  "tags": ["{Any.Class}", "accessory", "speed"]
+}

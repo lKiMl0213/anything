@@ -1,0 +1,40 @@
+{
+  "id": "crypt",
+  "biomeIds": ["crypt", "necropolis"],
+  "intros": [
+    "A umidade gelada invade o ar",
+    "Velas apagadas tremulam",
+    "O eco das tumbas se abre",
+    "O cheiro de morte e forte",
+    "O silencio e perturbador",
+    "O chao esta coberto de ossos",
+    "A escuridao e quase palpavel",
+    "O ar e pesado e opressor",
+    "O ambiente e sombrio e claustrofobico",
+    "A sensacao de ser observado e constante"
+  ],
+  "descriptors": [
+    "uma presenca profana",
+    "um vulto envolto em poeira",
+    "um guardiao das criptas",
+    "um ser amaldicoado",
+    "uma criatura de outro mundo",
+    "um espectro vingativo",
+    "um morto-vivo faminto",
+    "um ser de ossos e carne putrefata",
+    "um inimigo que nao descansa",
+    "um adversario que se recusa a morrer"
+  ],
+  "threats": [
+    "Sombras se contorcem nas paredes",
+    "A luz parece enfraquecer",
+    "Um arrepio percorre o corpo",
+    "O inimigo se aproxima silenciosamente",
+    "O perigo e iminente",
+    "A batalha e inevitavel",
+    "O confronto e brutal",
+    "O inimigo ataca sem aviso",
+    "A luta e desesperada",
+    "O adversario e implacavel"
+  ]
+}

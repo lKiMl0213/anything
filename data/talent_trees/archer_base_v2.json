@@ -1,0 +1,138 @@
+{
+    "id":  "archer_base_v2",
+    "classId":  "archer",
+    "tier":  1,
+    "unlockLevel":  1,
+    "requirements":  [
+                         {
+                             "type":  "CLASS_ID",
+                             "expectedValue":  "archer"
+                         }
+                     ],
+    "nodes":  [
+                  {
+                      "id":  "archer_v2_sharpsight",
+                      "name":  "Sharpsight",
+                      "description":  "Improves baseline precision and consistency.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "accuracy":  4,
+                                                                           "critChancePct":  2
+                                                                       }
+                                                    }
+                                    },
+                      "tags":  [
+                                   "archer",
+                                   "base",
+                                   "precision"
+                               ]
+                  },
+                  {
+                      "id":  "archer_v2_precision_shot",
+                      "name":  "Precision Shot",
+                      "description":  "Reliable single-target physical strike.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          2
+                                      ],
+                      "unlocksSkillId":  "archer_precision_shot",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  9.0,
+                                                       "cooldownSeconds":  1.6,
+                                                       "castTimeSeconds":  0.3,
+                                                       "damageMultiplier":  1.22,
+                                                       "damageTypeMagic":  0.0,
+                                                       "damageMultiplierPerRank":  0.12,
+                                                       "cooldownPerRank":  -0.12,
+                                                       "castTimePerRank":  -0.05
+                                                   }
+                                    },
+                      "tags":  [
+                                   "single_target",
+                                   "precision",
+                                   "physical"
+                               ]
+                  },
+                  {
+                      "id":  "archer_base_v2_crit_path",
+                      "name":  "Caminho Critico",
+                      "description":  "Foco em critico e finalizacao de alvo.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "archer_v2_sharpsight",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "archer_base_v2_choice_path",
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "critChancePct":  4,
+                                                                           "accuracy":  6
+                                                                       }
+                                                    },
+                                        "atb":  {
+                                                    "barGainOnCritPct":  10,
+                                                    "cooldownReduceOnKillSeconds":  0.7
+                                                }
+                                    },
+                      "tags":  [
+                                   "archer",
+                                   "choice",
+                                   "path"
+                               ]
+                  },
+                  {
+                      "id":  "archer_base_v2_sustain_path",
+                      "name":  "Caminho de Sobrevivencia",
+                      "description":  "Sustain e cadencia ao aplicar status.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "archer_v2_sharpsight",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "archer_base_v2_choice_path",
+                      "modifiers":  {
+                                        "atb":  {
+                                                    "noManaCostChancePct":  12,
+                                                    "barGainOnStatusApplyPct":  8,
+                                                    "tempFillRateBuffOnStatusApplyPct":  9,
+                                                    "tempBuffDurationSeconds":  4
+                                                },
+                                        "status":  {
+                                                       "incomingDurationPct":  -10
+                                                   }
+                                    },
+                      "tags":  [
+                                   "archer",
+                                   "choice",
+                                   "path"
+                               ]
+                  }
+              ]
+}

@@ -1,0 +1,11 @@
+{
+    "id":  "mithril_bar",
+    "name":  "Barra de Mithril",
+    "tags":  [
+                 "forge",
+                 "bar"
+             ],
+    "value":  24,
+    "type":  "MATERIAL",
+    "description":  "Barra refinada para forja de equipamentos."
+}

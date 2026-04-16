@@ -1,0 +1,30 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "smelt_gold_bar",
+    "description":  "Refino de barra metalica.",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  22,
+    "tags":  [
+                 "smelting",
+                 "bar"
+             ],
+    "name":  "Fundir Barra de Ouro",
+    "baseDurationSeconds":  10,
+    "difficulty":  1.4,
+    "outputItemId":  "gold_bar",
+    "outputQty":  1,
+    "minPlayerLevel":  8,
+    "minSkillLevel":  6,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "gold_ore"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "charcoal"
+                        }
+                    ]
+}

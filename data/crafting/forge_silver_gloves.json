@@ -1,0 +1,27 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_silver_gloves",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  28,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "gloves"
+             ],
+    "name":  "Forjar Luvas de Prata",
+    "baseDurationSeconds":  10,
+    "difficulty":  1.6,
+    "outputItemId":  "silver_gloves",
+    "outputQty":  1,
+    "minPlayerLevel":  7,
+    "minSkillLevel":  5,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "silver_bar"
+                        }
+                    ]
+}

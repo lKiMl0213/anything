@@ -1,0 +1,332 @@
+{
+    "id":  "archer_wanderer_v2",
+    "classId":  "archer",
+    "tier":  3,
+    "unlockLevel":  50,
+    "requirements":  [
+                         {
+                             "type":  "SPECIALIZATION_ID",
+                             "expectedValue":  "wanderer"
+                         }
+                     ],
+    "nodes":  [
+                  {
+                      "id":  "wanderer_flowstep",
+                      "name":  "Flowstep",
+                      "description":  "Mobility core for attack cadence and survivability.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "evasion":  16,
+                                                                           "attackSpeed":  0.12,
+                                                                           "hpRegen":  1
+                                                                       }
+                                                    },
+                                        "atb":  {
+                                                    "fillRatePct":  12.0,
+                                                    "hastePct":  10.0
+                                                }
+                                    },
+                      "tags":  [
+                                   "wanderer",
+                                   "mobility",
+                                   "survival"
+                               ]
+                  },
+                  {
+                      "id":  "wanderer_skirmish_shot",
+                      "name":  "Skirmish Shot",
+                      "description":  "Fast offensive movement shot with control pressure.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          2
+                                      ],
+                      "unlocksSkillId":  "wanderer_skirmish_shot",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  10.0,
+                                                       "cooldownSeconds":  1.8,
+                                                       "castTimeSeconds":  0.1,
+                                                       "damageMultiplier":  1.28,
+                                                       "damageTypeMagic":  0.0,
+                                                       "damageMultiplierPerRank":  0.12,
+                                                       "cooldownPerRank":  -0.12,
+                                                       "castTimePerRank":  -0.05,
+                                                       "statusChancePerRankPct":  4,
+                                                       "statusDurationPerRankSeconds":  0.25,
+                                                       "statusEffectPerRank":  0.35,
+                                                       "statusMaxStacksPerRank":  1
+                                                   },
+                                        "applyStatuses":  [
+                                                              {
+                                                                  "type":  "SLOW",
+                                                                  "chancePct":  54.0,
+                                                                  "durationSeconds":  3.0,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  14.0,
+                                                                  "stackable":  false,
+                                                                  "maxStacks":  1,
+                                                                  "source":  "Skirmish Shot"
+                                                              }
+                                                          ]
+                                    },
+                      "tags":  [
+                                   "wanderer",
+                                   "mobility",
+                                   "control"
+                               ]
+                  },
+                  {
+                      "id":  "wanderer_survival_route",
+                      "name":  "Survival Route",
+                      "description":  "Defensive routing against status-heavy encounters.",
+                      "nodeType":  "MODIFIER",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "status":  {
+                                                       "incomingDurationPct":  -20.0,
+                                                       "incomingDuration.POISONED.Pct":  -25.0,
+                                                       "incomingDuration.BLEEDING.Pct":  -25.0,
+                                                       "incomingDuration.SLOW.Pct":  -20.0
+                                                   },
+                                        "atb":  {
+                                                    "slowResistPct":  30.0,
+                                                    "barGainOnHitPct":  12.0
+                                                }
+                                    },
+                      "tags":  [
+                                   "wanderer",
+                                   "survival",
+                                   "status"
+                               ]
+                  },
+                  {
+                      "id":  "wanderer_moving_hunt",
+                      "name":  "Moving Hunt",
+                      "description":  "Sustains combat flow while repositioning constantly.",
+                      "nodeType":  "UPGRADE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "atb":  {
+                                                    "fillRatePct":  14.0,
+                                                    "cooldownPct":  -12.0,
+                                                    "gcdPct":  -10.0,
+                                                    "barLossOnHitPct":  10.0
+                                                }
+                                    },
+                      "tags":  [
+                                   "wanderer",
+                                   "atb",
+                                   "mobility"
+                               ]
+                  },
+                  {
+                      "id":  "wanderer_field_medicine",
+                      "name":  "Field Medicine",
+                      "description":  "Combat sustain skill while keeping skirmish tempo.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          2
+                                      ],
+                      "unlocksSkillId":  "wanderer_field_medicine",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  14.0,
+                                                       "cooldownSeconds":  4.0,
+                                                       "castTimeSeconds":  0.4,
+                                                       "damageMultiplier":  1.08,
+                                                       "damageTypeMagic":  0.0,
+                                                       "selfHealFlat":  12.0,
+                                                       "selfHealPctMaxHp":  6.0,
+                                                       "damageMultiplierPerRank":  0.12,
+                                                       "cooldownPerRank":  -0.12,
+                                                       "castTimePerRank":  -0.05,
+                                                       "statusChancePerRankPct":  4,
+                                                       "statusDurationPerRankSeconds":  0.25,
+                                                       "statusEffectPerRank":  0.35,
+                                                       "statusMaxStacksPerRank":  1
+                                                   },
+                                        "applyStatuses":  [
+                                                              {
+                                                                  "type":  "POISONED",
+                                                                  "chancePct":  48.0,
+                                                                  "durationSeconds":  4.0,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  2.8,
+                                                                  "stackable":  true,
+                                                                  "maxStacks":  2,
+                                                                  "source":  "Field Medicine"
+                                                              }
+                                                          ]
+                                    },
+                      "tags":  [
+                                   "wanderer",
+                                   "survival",
+                                   "mobility"
+                               ]
+                  },
+                  {
+                      "id":  "archer_wanderer_v2_crit_path",
+                      "name":  "Caminho Critico",
+                      "description":  "Foco em critico e finalizacao de alvo.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "wanderer_flowstep",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "archer_wanderer_v2_choice_path",
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "critChancePct":  4,
+                                                                           "accuracy":  6
+                                                                       }
+                                                    },
+                                        "atb":  {
+                                                    "barGainOnCritPct":  10,
+                                                    "cooldownReduceOnKillSeconds":  0.7
+                                                }
+                                    },
+                      "tags":  [
+                                   "archer",
+                                   "choice",
+                                   "path"
+                               ]
+                  },
+                  {
+                      "id":  "archer_wanderer_v2_sustain_path",
+                      "name":  "Caminho de Sobrevivencia",
+                      "description":  "Sustain e cadencia ao aplicar status.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "wanderer_flowstep",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "archer_wanderer_v2_choice_path",
+                      "modifiers":  {
+                                        "atb":  {
+                                                    "noManaCostChancePct":  12,
+                                                    "barGainOnStatusApplyPct":  8,
+                                                    "tempFillRateBuffOnStatusApplyPct":  9,
+                                                    "tempBuffDurationSeconds":  4
+                                                },
+                                        "status":  {
+                                                       "incomingDurationPct":  -10
+                                                   }
+                                    },
+                      "tags":  [
+                                   "archer",
+                                   "choice",
+                                   "path"
+                               ]
+                  },
+                  {
+                      "id":  "archer_wanderer_v2_single_target_path",
+                      "name":  "Doutrina Single Target",
+                      "description":  "Foco em alvo unico, critico e finalizacao.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "wanderer_skirmish_shot",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "archer_wanderer_v2_aoe_single_choice",
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "critChancePct":  2,
+                                                                           "critDamagePct":  6
+                                                                       }
+                                                    },
+                                        "status":  {
+                                                       "bonusDamageVsLowHpPct":  14,
+                                                       "lowHpThresholdPct":  35
+                                                   },
+                                        "atb":  {
+                                                    "barGainOnCritPct":  6
+                                                }
+                                    },
+                      "tags":  [
+                                   "archer",
+                                   "choice",
+                                   "aoe_single"
+                               ]
+                  },
+                  {
+                      "id":  "archer_wanderer_v2_aoe_path",
+                      "name":  "Doutrina AOE",
+                      "description":  "Foco em impacto em area e controle por status.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "wanderer_skirmish_shot",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "archer_wanderer_v2_aoe_single_choice",
+                      "modifiers":  {
+                                        "status":  {
+                                                       "applyChancePct":  8,
+                                                       "durationPct":  8
+                                                   },
+                                        "atb":  {
+                                                    "barGainOnStatusApplyPct":  6,
+                                                    "tempDamageBuffOnStatusApplyPct":  6,
+                                                    "tempBuffDurationSeconds":  4
+                                                }
+                                    },
+                      "tags":  [
+                                   "archer",
+                                   "choice",
+                                   "aoe_single"
+                               ]
+                  }
+              ]
+}

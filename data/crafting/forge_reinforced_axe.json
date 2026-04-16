@@ -1,0 +1,31 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_reinforced_axe",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  33,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "axe"
+             ],
+    "name":  "Forjar Machado de Liga Reforcada",
+    "baseDurationSeconds":  13,
+    "difficulty":  1.85,
+    "outputItemId":  "reinforced_axe",
+    "outputQty":  1,
+    "minPlayerLevel":  15,
+    "minSkillLevel":  12,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  3,
+                            "itemId":  "reinforced_alloy"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "wood_log"
+                        }
+                    ]
+}

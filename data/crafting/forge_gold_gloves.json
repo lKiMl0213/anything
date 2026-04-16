@@ -1,0 +1,27 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_gold_gloves",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  28,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "gloves"
+             ],
+    "name":  "Forjar Luvas de Ouro",
+    "baseDurationSeconds":  10,
+    "difficulty":  1.6,
+    "outputItemId":  "gold_gloves",
+    "outputQty":  1,
+    "minPlayerLevel":  9,
+    "minSkillLevel":  7,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "gold_bar"
+                        }
+                    ]
+}

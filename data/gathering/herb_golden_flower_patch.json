@@ -1,0 +1,21 @@
+{
+    "skillType":  "GATHERING",
+    "id":  "herb_golden_flower_patch",
+    "minQty":  1,
+    "resourceItemId":  "golden_flower",
+    "enabled":  true,
+    "tier":  6,
+    "baseXp":  42,
+    "tags":  [
+                 "herb",
+                 "gathering"
+             ],
+    "name":  "Mata de Flor Dourada",
+    "type":  "HERBALISM",
+    "baseDurationSeconds":  9.1,
+    "difficulty":  2.6,
+    "maxQty":  1,
+    "minPlayerLevel":  21,
+    "minSkillLevel":  11,
+    "description":  "Fonte de ervas para alquimia e culinaria."
+}

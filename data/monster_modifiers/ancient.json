@@ -1,0 +1,7 @@
+{
+  "id": "ancient",
+  "name": "Ancestral",
+  "bonuses": { "derivedMult": { "hpMax": 20.0 } },
+  "addTags": ["ancient"],
+  "weight": 2
+}

@@ -1,0 +1,30 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "craft_arrow_mithril",
+    "description":  "Municao para combate a distancia.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  25,
+    "tags":  [
+                 "ammo",
+                 "arrow"
+             ],
+    "name":  "Criar Flecha de Mithril",
+    "baseDurationSeconds":  9,
+    "difficulty":  1.6,
+    "outputItemId":  "arrow_mithril",
+    "outputQty":  20,
+    "minPlayerLevel":  12,
+    "minSkillLevel":  9,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "wood_log"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "mithril_ore"
+                        }
+                    ]
+}

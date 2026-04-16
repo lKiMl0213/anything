@@ -1,0 +1,27 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_reinforced_gloves",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  33,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "gloves"
+             ],
+    "name":  "Forjar Luvas de Liga Reforcada",
+    "baseDurationSeconds":  11,
+    "difficulty":  1.85,
+    "outputItemId":  "reinforced_gloves",
+    "outputQty":  1,
+    "minPlayerLevel":  15,
+    "minSkillLevel":  12,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "reinforced_alloy"
+                        }
+                    ]
+}

@@ -1,0 +1,12 @@
+{
+    "id":  "profaned_medallion",
+    "name":  "Medalhao Profanado",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "undead",
+                 "quest",
+                 "rare_component"
+             ],
+    "value":  9,
+    "description":  "Medalhao marcado por corrupcao."
+}

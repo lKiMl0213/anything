@@ -1,0 +1,18 @@
+{
+  "id": "construct_arcane",
+  "baseChancePct": 48.0,
+  "entries": [
+    { "itemId": "arcane_fragment", "category": "COMMON_MATERIAL", "chancePct": 18, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "broken_plate", "category": "COMMON_SELL", "chancePct": 14, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "unstable_crystal", "category": "UNCOMMON_MATERIAL", "chancePct": 11, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "runic_core", "category": "RARE_COMPONENT", "chancePct": 7, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "EPIC" },
+    { "itemId": "damaged_gear", "category": "COMMON_SELL", "chancePct": 14, "minQty": 1, "maxQty": 3, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "arcane_crystal", "category": "UNCOMMON_MATERIAL", "chancePct": 9, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "runic_stone", "category": "UNCOMMON_MATERIAL", "chancePct": 8, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "arcane_fragment", "category": "QUEST_ITEM", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "ether_small", "category": "CONSUMABLE", "chancePct": 5, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "apprentice_staff", "category": "EQUIPMENT_DROP", "chancePct": 3, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "EPIC" },
+    { "itemId": "silver_ring", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "EPIC" },
+    { "itemId": "shadow_robe", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "EPIC" }
+  ]
+}

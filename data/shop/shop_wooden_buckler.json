@@ -1,0 +1,15 @@
+{
+    "id":  "shop_wooden_buckler",
+    "name":  "Broquel de Madeira",
+    "itemId":  "wooden_buckler",
+    "price":  62,
+    "currency":  "GOLD",
+    "quantity":  1,
+    "minPlayerLevel":  1,
+    "description":  "Defesa leve menor que escudos maiores.",
+    "enabled":  true,
+    "tags":  [
+                 "basic",
+                 "shield"
+             ]
+}

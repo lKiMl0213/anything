@@ -1,0 +1,16 @@
+{
+    "id":  "rusty_sword",
+    "name":  "Espada Enferrujada",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "description":  "Uma lamina simples e enferrujada, mas confiavel.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "str":  2
+                                   }
+                },
+    "value":  24,
+    "tags":  [
+                 "{warrior}"
+             ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "short_bow",
+  "name": "Arco Curto",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "twoHanded": true,
+  "description": "Leve e agil. Precisa de aljava e flechas para ser usado.",
+  "bonuses": {
+    "attributes": {
+      "dex": 2,
+      "agi": 1
+    }
+  },
+  "value": 24,
+  "tags": ["{archer}", "bow", "two_handed"]
+}

@@ -1,0 +1,8 @@
+{
+  "id": "cdr",
+  "name": "do Ritmo",
+  "kind": "SUFFIX",
+  "bonuses": { "derivedAdd": { "cdrPct": 3.0 } },
+  "cost": 18,
+  "weight": 6
+}

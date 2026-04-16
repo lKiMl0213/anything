@@ -1,0 +1,13 @@
+{
+    "id":  "abyssal_fish",
+    "name":  "Peixe Abissal",
+    "tags":  [
+                 "fish",
+                 "fishing",
+                 "cooking",
+                 "rare"
+             ],
+    "value":  12,
+    "type":  "MATERIAL",
+    "description":  "Peixe de aguas profundas."
+}

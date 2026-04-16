@@ -1,0 +1,8 @@
+{
+  "id": "guardian",
+  "name": "Guardiao",
+  "kind": "SPECIAL",
+  "bonuses": { "derivedAdd": { "hpMax": 30.0 }, "derivedMult": { "damageReductionPct": 5.0 } },
+  "cost": 0,
+  "weight": 2
+}

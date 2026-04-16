@@ -1,0 +1,12 @@
+{
+  "tag": "construct",
+  "summonChancePct": 5.0,
+  "enrageChancePct": 8.0,
+  "evolveChancePct": 12.0,
+  "maxSummons": 1,
+  "enrageTurns": 2,
+  "enrageHpThresholdPct": 55.0,
+  "evolveHpThresholdPct": 35.0,
+  "enrageMultiplier": { "defPhysical": 15.0, "damagePhysical": 10.0 },
+  "evolveMultiplier": { "hpMax": 25.0, "defMagic": 10.0 }
+}

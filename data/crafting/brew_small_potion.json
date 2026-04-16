@@ -1,0 +1,18 @@
+{
+  "id": "brew_small_potion",
+  "name": "Brew HP Potion Mini",
+  "discipline": "ALCHEMY",
+  "outputItemId": "potion_small",
+  "outputQty": 1,
+  "minPlayerLevel": 1,
+  "ingredients": [
+    { "itemId": "medicinal_herb", "quantity": 3 },
+    { "itemId": "slime_gel", "quantity": 1 }
+  ],
+  "description": "Brews HP Potion Mini (restores 15 HP).",
+  "enabled": true,
+  "tags": ["potion", "healing"]
+}
+
+
+

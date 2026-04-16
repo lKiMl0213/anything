@@ -1,0 +1,30 @@
+{
+    "skillType":  "COOKING",
+    "id":  "cook_herb_meat",
+    "description":  "Receita culinaria para suporte em combate.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  23,
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "name":  "Cozinhar Carne com Ervas",
+    "baseDurationSeconds":  8,
+    "difficulty":  1.54,
+    "outputItemId":  "herb_meat",
+    "outputQty":  1,
+    "minPlayerLevel":  12,
+    "minSkillLevel":  9,
+    "discipline":  "COOKING",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "beast_meat"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "golden_flower"
+                        }
+                    ]
+}

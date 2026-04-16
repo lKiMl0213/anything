@@ -1,0 +1,26 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_venom",
+    "description":  "Extrai toxina concentrada de ervas toxicas.",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  14,
+    "tags":  [
+                 "alchemy",
+                 "resource"
+             ],
+    "name":  "Destilar Veneno",
+    "baseDurationSeconds":  6,
+    "difficulty":  1.2,
+    "outputItemId":  "venom",
+    "outputQty":  1,
+    "minPlayerLevel":  6,
+    "minSkillLevel":  4,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "toxic_herb"
+                        }
+                    ]
+}

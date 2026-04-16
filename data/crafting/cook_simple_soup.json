@@ -1,0 +1,30 @@
+{
+    "skillType":  "COOKING",
+    "id":  "cook_simple_soup",
+    "description":  "Receita culinaria para suporte em combate.",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  14,
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "name":  "Cozinhar Sopa Simples",
+    "baseDurationSeconds":  6,
+    "difficulty":  1.18,
+    "outputItemId":  "simple_soup",
+    "outputQty":  1,
+    "minPlayerLevel":  2,
+    "minSkillLevel":  2,
+    "discipline":  "COOKING",
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "medicinal_herb"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "rice"
+                        }
+                    ]
+}

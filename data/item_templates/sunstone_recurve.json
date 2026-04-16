@@ -1,0 +1,15 @@
+{
+  "id": "sunstone_recurve",
+  "name": "Arco Recurvo de Pedra Solar",
+  "type": "EQUIPMENT",
+  "rarity": "RARE",
+  "slot": "WEAPON_MAIN",
+  "twoHanded": true,
+  "minLevel": 10,
+  "baseScaling": 6.4,
+  "baseStat": "DAMAGE_PHYSICAL",
+  "dropTier": 3,
+  "vendorBaseValue": 26,
+  "allowedAffixes": ["dex", "agi", "crit", "atk_speed", "accuracy", "evasion"],
+  "tags": ["{archer}", "bow", "two_handed"]
+}

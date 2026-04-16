@@ -1,0 +1,15 @@
+{
+  "id": "smelt_iron_ingot",
+  "name": "Fundir Barra de Ferro",
+  "discipline": "FORGE",
+  "outputItemId": "iron_ingot",
+  "outputQty": 1,
+  "minPlayerLevel": 1,
+  "ingredients": [
+    { "itemId": "iron_ore", "quantity": 3 }
+  ],
+  "description": "Refina minerio bruto em barras de ferro.",
+  "enabled": true,
+  "tags": ["smelting", "metal"]
+}
+

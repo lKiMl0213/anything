@@ -1,0 +1,16 @@
+{
+  "id": "simple_bow",
+  "name": "Arco Simples",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "twoHanded": true,
+  "tags": ["{archer}", "bow", "two_handed"],
+  "value": 24,
+  "description": "Arco de treino para combate inicial. Precisa de aljava e flechas.",
+  "bonuses": {
+    "attributes": {
+      "dex": 2,
+      "agi": 1
+    }
+  }
+}

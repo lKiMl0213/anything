@@ -1,0 +1,13 @@
+{
+    "id":  "ghost_fish",
+    "name":  "Peixe Fantasma",
+    "tags":  [
+                 "fish",
+                 "fishing",
+                 "cooking",
+                 "dark"
+             ],
+    "value":  15,
+    "type":  "MATERIAL",
+    "description":  "Peixe espectral dificil de capturar."
+}

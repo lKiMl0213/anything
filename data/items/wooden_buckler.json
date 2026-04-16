@@ -1,0 +1,20 @@
+{
+    "id":  "wooden_buckler",
+    "name":  "Broquel de Madeira",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_OFF",
+    "tags":  [
+                 "{Any.Class}",
+                 "shield"
+             ],
+    "value":  18,
+    "description":  "Escudo leve e simples para iniciantes.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "vit":  1
+                                   },
+                    "derivedAdd":  {
+                                       "defPhysical":  3.0
+                                   }
+                }
+}

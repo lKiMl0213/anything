@@ -1,0 +1,13 @@
+{
+  "id": "copper_vein",
+  "name": "Veio de Cobre",
+  "type": "MINING",
+  "resourceItemId": "copper_ore",
+  "minQty": 1,
+  "maxQty": 3,
+  "minPlayerLevel": 1,
+  "description": "Veio comum em regioes de baixa profundidade.",
+  "enabled": true,
+  "tags": ["ore", "starter"]
+}
+

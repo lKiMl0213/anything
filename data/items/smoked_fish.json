@@ -1,0 +1,15 @@
+{
+    "id":  "smoked_fish",
+    "name":  "Peixe Defumado",
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "value":  30,
+    "type":  "CONSUMABLE",
+    "description":  "Refeicao preparada na cozinha do aventureiro.",
+    "effects":  {
+                    "hpRestore":  34,
+                    "mpRestore":  18
+                }
+}

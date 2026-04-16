@@ -1,0 +1,13 @@
+{
+    "id":  "arcane_crystal",
+    "name":  "Cristal Arcano",
+    "tags":  [
+                 "ore",
+                 "mining",
+                 "forge",
+                 "arcane"
+             ],
+    "value":  18,
+    "type":  "MATERIAL",
+    "description":  "Cristal de energia usado em itens runicos."
+}

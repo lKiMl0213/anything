@@ -1,0 +1,21 @@
+{
+    "skillType":  "WOODCUTTING",
+    "id":  "wood_weak_wood_tree",
+    "minQty":  1,
+    "resourceItemId":  "weak_wood",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  12,
+    "tags":  [
+                 "wood",
+                 "woodcutting"
+             ],
+    "name":  "Bosque de Madeira Fraca",
+    "type":  "WOODCUTTING",
+    "baseDurationSeconds":  4.2,
+    "difficulty":  1,
+    "maxQty":  3,
+    "minPlayerLevel":  1,
+    "minSkillLevel":  1,
+    "description":  "Area de corte de madeira."
+}

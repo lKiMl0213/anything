@@ -1,0 +1,21 @@
+{
+    "skillType":  "WOODCUTTING",
+    "id":  "wood_giant_log_tree",
+    "minQty":  1,
+    "resourceItemId":  "giant_log",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  35.1,
+    "tags":  [
+                 "wood",
+                 "woodcutting"
+             ],
+    "name":  "Bosque de Tronco Gigante",
+    "type":  "WOODCUTTING",
+    "baseDurationSeconds":  8.4,
+    "difficulty":  2.33,
+    "maxQty":  1,
+    "minPlayerLevel":  22,
+    "minSkillLevel":  8,
+    "description":  "Area de corte de madeira."
+}

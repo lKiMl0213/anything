@@ -1,0 +1,12 @@
+{
+  "tag": "beast",
+  "summonChancePct": 12.0,
+  "enrageChancePct": 18.0,
+  "evolveChancePct": 8.0,
+  "maxSummons": 2,
+  "enrageTurns": 2,
+  "enrageHpThresholdPct": 60.0,
+  "evolveHpThresholdPct": 35.0,
+  "enrageMultiplier": { "damagePhysical": 20.0, "attackSpeed": 10.0 },
+  "evolveMultiplier": { "hpMax": 15.0, "defPhysical": 10.0 }
+}

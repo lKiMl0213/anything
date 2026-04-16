@@ -1,0 +1,21 @@
+{
+    "skillType":  "GATHERING",
+    "id":  "herb_bitter_root_patch",
+    "minQty":  1,
+    "resourceItemId":  "bitter_root",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  17.2,
+    "tags":  [
+                 "herb",
+                 "gathering"
+             ],
+    "name":  "Mata de Raiz Amarga",
+    "type":  "HERBALISM",
+    "baseDurationSeconds":  4.7,
+    "difficulty":  1.32,
+    "maxQty":  3,
+    "minPlayerLevel":  5,
+    "minSkillLevel":  3,
+    "description":  "Fonte de ervas para alquimia e culinaria."
+}

@@ -1,0 +1,8 @@
+{
+  "id": "arcane_burst",
+  "name": "Arcanico",
+  "kind": "SPECIAL",
+  "bonuses": { "derivedAdd": { "damageMagic": 12.0, "critDamagePct": 8.0 } },
+  "cost": 0,
+  "weight": 2
+}

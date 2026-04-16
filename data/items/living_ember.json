@@ -1,0 +1,12 @@
+{
+    "id":  "living_ember",
+    "name":  "Brasa Viva",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "elemental",
+                 "material",
+                 "fire"
+             ],
+    "value":  5,
+    "description":  "Brasa que continua aquecida."
+}

@@ -1,0 +1,31 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_mithril_sword",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  33,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "sword"
+             ],
+    "name":  "Forjar Espada de Mithril",
+    "baseDurationSeconds":  12,
+    "difficulty":  1.85,
+    "outputItemId":  "mithril_sword",
+    "outputQty":  1,
+    "minPlayerLevel":  14,
+    "minSkillLevel":  12,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "mithril_bar"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "wood_log"
+                        }
+                    ]
+}

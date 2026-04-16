@@ -1,0 +1,13 @@
+{
+  "id": "aether_prism",
+  "name": "Prisma de Eter",
+  "type": "EQUIPMENT",
+  "rarity": "RARE",
+  "slot": "ACCESSORY",
+  "baseScaling": 4.2,
+  "baseStat": "DAMAGE_MAGIC",
+  "dropTier": 2,
+  "vendorBaseValue": 15,
+  "allowedAffixes": ["int", "spr", "mp", "focus", "cdr"],
+  "tags": ["{Any.Class}", "accessory", "offense"]
+}

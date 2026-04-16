@@ -1,0 +1,15 @@
+{
+    "id":  "cash_entry_full_restore",
+    "name":  "Elixir Full Restore",
+    "itemId":  "cash_full_restore_potion",
+    "price":  120,
+    "currency":  "CASH",
+    "quantity":  1,
+    "minPlayerLevel":  1,
+    "description":  "Recupera HP/MP total.",
+    "enabled":  true,
+    "tags":  [
+                 "cash",
+                 "potion"
+             ]
+}

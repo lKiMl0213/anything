@@ -1,0 +1,33 @@
+{
+    "id":  "gather_fishing_focus",
+    "titleTemplate":  "Dia de Pesca",
+    "rewardProfile":  {
+                          "effortMultiplier":  1.1,
+                          "xpBase":  16,
+                          "goldBase":  10
+                      },
+    "category":  "gather",
+    "targetType":  "RESOURCE_ID",
+    "objectiveType":  "GATHER_RESOURCE",
+    "targetTag":  "fishing",
+    "enabled":  true,
+    "hintTemplate":  "Pesque em pontos de pesca desbloqueados.",
+    "constraints":  {
+                        "requiresDungeon":  false,
+                        "requiresGathering":  true,
+                        "maxPlayerLevel":  999,
+                        "minPlayerLevel":  1
+                    },
+    "supportedTiers":  [
+                           "ACCEPTED",
+                           "DAILY",
+                           "WEEKLY",
+                           "MONTHLY"
+                       ],
+    "amountRange":  {
+                        "min":  3,
+                        "max":  9
+                    },
+    "descriptionTemplate":  "Obtenha {amount} recursos ligados a fishing.",
+    "weight":  6
+}

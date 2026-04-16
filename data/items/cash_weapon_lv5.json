@@ -1,0 +1,25 @@
+{
+    "id":  "cash_weapon_lv5",
+    "name":  "Lamina Neon Mk-I",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  5,
+    "tags":  [
+                 "{Any.Class}",
+                 "cash",
+                 "endgame"
+             ],
+    "value":  380,
+    "description":  "Arma premium de entrada para acelerar progressao.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "str":  8,
+                                       "dex":  6,
+                                       "agi":  4
+                                   },
+                    "derivedAdd":  {
+                                       "damagePhysical":  14.0,
+                                       "hpMax":  30.0
+                                   }
+                }
+}

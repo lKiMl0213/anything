@@ -1,0 +1,31 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_potion_speed",
+    "description":  "Brews Utility Potion Mini - Speed (buff effect pending).",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  24,
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "name":  "Brew Utility Potion Mini - Speed",
+    "baseDurationSeconds":  9,
+    "difficulty":  1.6,
+    "outputItemId":  "potion_speed",
+    "outputQty":  1,
+    "minPlayerLevel":  12,
+    "minSkillLevel":  9,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "wild_mint_leaf"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "oil"
+                        }
+                    ]
+}
+

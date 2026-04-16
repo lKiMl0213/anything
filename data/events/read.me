@@ -1,0 +1,16 @@
+DUNGEON EVENT CONFIG
+
+Pasta: data/events
+Arquivo principal: dungeon_events.json
+
+Estrutura:
+- rules: probabilidades e pesos dos eventos
+- texts: frases usadas em eventos de viajante, liquido e bau
+
+Placeholders suportados:
+- {gold} no npcMoneyPitch
+- {item} e {qty} no npcItemPitch
+
+Objetivo:
+- evitar hardcode de narrativa no GameCli
+- permitir iteracao de texto e chance sem alterar Kotlin

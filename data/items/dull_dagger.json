@@ -1,0 +1,12 @@
+{
+    "id":  "dull_dagger",
+    "name":  "Adaga Cega",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "humanoid",
+                 "sell",
+                 "weapon_scrap"
+             ],
+    "value":  2,
+    "description":  "Adaga sem fio util para sucata."
+}

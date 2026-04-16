@@ -1,0 +1,13 @@
+{
+  "id": "warded_loop",
+  "name": "Aro Guardado",
+  "type": "EQUIPMENT",
+  "rarity": "RARE",
+  "slot": "ACCESSORY",
+  "baseScaling": 3.9,
+  "baseStat": "DEF_MAGIC",
+  "dropTier": 2,
+  "vendorBaseValue": 14,
+  "allowedAffixes": ["warding", "mp", "spr", "cdr"],
+  "tags": ["{Any.Class}", "accessory", "ward"]
+}

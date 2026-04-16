@@ -1,0 +1,12 @@
+{
+    "id":  "green_jelly",
+    "name":  "Gelatina Verde",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "slime",
+                 "material",
+                 "alchemy"
+             ],
+    "value":  3,
+    "description":  "Gelatina densa usada em preparo de compostos."
+}

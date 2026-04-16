@@ -1,0 +1,11 @@
+{
+  "id": "potion_small",
+  "name": "HP Potion Mini",
+  "type": "CONSUMABLE",
+  "description": "Restores 15 HP.",
+  "value": 18,
+  "effects": {
+    "hpRestore": 15
+  }
+}
+

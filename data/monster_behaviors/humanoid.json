@@ -1,0 +1,12 @@
+{
+  "tag": "humanoid",
+  "summonChancePct": 15.0,
+  "enrageChancePct": 10.0,
+  "evolveChancePct": 5.0,
+  "maxSummons": 2,
+  "enrageTurns": 2,
+  "enrageHpThresholdPct": 60.0,
+  "evolveHpThresholdPct": 35.0,
+  "enrageMultiplier": { "damagePhysical": 10.0, "accuracy": 10.0 },
+  "evolveMultiplier": { "attackSpeed": 10.0, "defPhysical": 5.0 }
+}

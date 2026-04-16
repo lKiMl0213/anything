@@ -1,0 +1,16 @@
+{
+    "id":  "potion_regeneration",
+    "name":  "Utility Potion Medium - Regeneration",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  75,
+    "type":  "CONSUMABLE",
+    "description":  "Restores 55 HP and 35 MP.",
+    "effects":  {
+                    "hpRestore":  55,
+                    "mpRestore":  35
+                }
+}
+

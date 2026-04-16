@@ -1,0 +1,31 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_hybrid_medium",
+    "description":  "Brews Hybrid Potion Medium (restores 45 HP and 40 MP).",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  24,
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "name":  "Brew Hybrid Potion Medium",
+    "baseDurationSeconds":  9,
+    "difficulty":  1.4,
+    "outputItemId":  "hybrid_potion_medium",
+    "outputQty":  1,
+    "minPlayerLevel":  10,
+    "minSkillLevel":  7,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "bitter_root"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "luminous_mushroom"
+                        }
+                    ]
+}
+

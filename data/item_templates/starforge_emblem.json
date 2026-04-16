@@ -1,0 +1,13 @@
+{
+  "id": "starforge_emblem",
+  "name": "Emblema Forja-Estelar",
+  "type": "EQUIPMENT",
+  "rarity": "LEGENDARY",
+  "slot": "ACCESSORY",
+  "baseScaling": 5.4,
+  "baseStat": "DAMAGE_MAGIC",
+  "dropTier": 4,
+  "vendorBaseValue": 24,
+  "allowedAffixes": ["int", "spr", "focus", "crit", "cdr", "mp"],
+  "tags": ["{Any.Class}", "accessory", "legendary"]
+}

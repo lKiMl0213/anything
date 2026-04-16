@@ -1,0 +1,16 @@
+{
+    "id":  "hybrid_potion_large",
+    "name":  "Hybrid Potion Large",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  95,
+    "type":  "CONSUMABLE",
+    "description":  "Restores 90 HP and 80 MP.",
+    "effects":  {
+                    "hpRestore":  90,
+                    "mpRestore":  80
+                }
+}
+

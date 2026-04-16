@@ -1,0 +1,15 @@
+{
+    "id":  "cash_entry_bag_small",
+    "name":  "Mochila Compacta",
+    "itemId":  "cash_bag_small",
+    "price":  150,
+    "currency":  "CASH",
+    "quantity":  1,
+    "minPlayerLevel":  1,
+    "description":  "+10 slots de inventario.",
+    "enabled":  true,
+    "tags":  [
+                 "cash",
+                 "bag"
+             ]
+}

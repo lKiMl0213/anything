@@ -1,0 +1,16 @@
+{
+    "id":  "cash_entry_weapon_lv10",
+    "name":  "Lamina Neon Mk-II",
+    "itemId":  "cash_weapon_lv10",
+    "price":  850,
+    "currency":  "CASH",
+    "quantity":  1,
+    "minPlayerLevel":  10,
+    "description":  "Arma premium (req lvl 10).",
+    "enabled":  true,
+    "tags":  [
+                 "cash",
+                 "weapon",
+                 "endgame"
+             ]
+}

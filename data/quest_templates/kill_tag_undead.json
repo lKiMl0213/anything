@@ -1,0 +1,28 @@
+{
+  "id": "kill_tag_undead",
+  "category": "combat",
+  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"],
+  "objectiveType": "KILL_TAG",
+  "targetType": "MONSTER_TAG",
+  "targetTag": "undead",
+  "amountRange": { "min": 4, "max": 10 },
+  "rewardProfile": {
+    "xpBase": 16,
+    "goldBase": 12,
+    "effortMultiplier": 1.1,
+    "itemRewards": [
+      { "itemId": "cracked_bone", "chancePct": 35, "minQty": 1, "maxQty": 3 }
+    ]
+  },
+  "constraints": {
+    "minPlayerLevel": 1,
+    "maxPlayerLevel": 999,
+    "requiresDungeon": true
+  },
+  "titleTemplate": "Purgue os Mortos-vivos",
+  "descriptionTemplate": "Derrote {amount} monstros da categoria {target}.",
+  "hintTemplate": "Criptas e necropolises concentram inimigos mortos-vivos.",
+  "enabled": true,
+  "weight": 8
+}
+

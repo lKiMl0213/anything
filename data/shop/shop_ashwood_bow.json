@@ -1,0 +1,12 @@
+{
+  "id": "shop_ashwood_bow",
+  "name": "Arco de Madeira Cinzenta",
+  "itemId": "ashwood_bow",
+  "price": 95,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 1,
+  "description": "Arco leve de madeira para arqueiros em inicio de jornada.",
+  "enabled": true,
+  "tags": ["gold", "archer", "weapon"]
+}

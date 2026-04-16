@@ -1,0 +1,30 @@
+{
+    "skillType":  "COOKING",
+    "id":  "cook_nutritious_broth",
+    "description":  "Receita culinaria para suporte em combate.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  22,
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "name":  "Cozinhar Caldo Nutritivo",
+    "baseDurationSeconds":  8,
+    "difficulty":  1.54,
+    "outputItemId":  "nutritious_broth",
+    "outputQty":  1,
+    "minPlayerLevel":  11,
+    "minSkillLevel":  8,
+    "discipline":  "COOKING",
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "catfish"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "medicinal_herb"
+                        }
+                    ]
+}

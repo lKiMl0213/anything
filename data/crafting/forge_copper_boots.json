@@ -1,0 +1,27 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_copper_boots",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  23,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "boots"
+             ],
+    "name":  "Forjar Botas de Cobre",
+    "baseDurationSeconds":  9,
+    "difficulty":  1.35,
+    "outputItemId":  "copper_boots",
+    "outputQty":  1,
+    "minPlayerLevel":  2,
+    "minSkillLevel":  2,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "copper_bar"
+                        }
+                    ]
+}

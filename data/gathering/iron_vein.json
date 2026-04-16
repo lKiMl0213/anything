@@ -1,0 +1,13 @@
+{
+  "id": "iron_vein",
+  "name": "Veio de Ferro",
+  "type": "MINING",
+  "resourceItemId": "iron_ore",
+  "minQty": 1,
+  "maxQty": 2,
+  "minPlayerLevel": 5,
+  "description": "Minerio mais resistente, exige mais experiencia.",
+  "enabled": true,
+  "tags": ["ore", "advanced"]
+}
+

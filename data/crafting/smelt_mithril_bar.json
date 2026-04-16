@@ -1,0 +1,30 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "smelt_mithril_bar",
+    "description":  "Refino de barra metalica.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  28,
+    "tags":  [
+                 "smelting",
+                 "bar"
+             ],
+    "name":  "Fundir Barra de Mithril",
+    "baseDurationSeconds":  13,
+    "difficulty":  1.6,
+    "outputItemId":  "mithril_bar",
+    "outputQty":  1,
+    "minPlayerLevel":  14,
+    "minSkillLevel":  11,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "mithril_ore"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "charcoal"
+                        }
+                    ]
+}

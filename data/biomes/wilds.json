@@ -1,0 +1,9 @@
+{
+  "id": "wilds",
+  "name": "Selva",
+  "description": "Terras vivas e instaveis.",
+  "monsterTagWeights": {
+    "beast": 1.2
+  },
+  "healingMultiplier": 1.0
+}

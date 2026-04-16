@@ -1,0 +1,12 @@
+{
+    "id":  "salmon",
+    "name":  "Salmao",
+    "tags":  [
+                 "fish",
+                 "fishing",
+                 "cooking"
+             ],
+    "value":  6,
+    "type":  "MATERIAL",
+    "description":  "Peixe de carne nobre."
+}

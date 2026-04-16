@@ -1,0 +1,31 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_titanium_axe",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  33,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "axe"
+             ],
+    "name":  "Forjar Machado de Titanio",
+    "baseDurationSeconds":  13,
+    "difficulty":  1.85,
+    "outputItemId":  "titanium_axe",
+    "outputQty":  1,
+    "minPlayerLevel":  12,
+    "minSkillLevel":  10,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  3,
+                            "itemId":  "titanium_bar"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "wood_log"
+                        }
+                    ]
+}

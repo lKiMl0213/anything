@@ -1,0 +1,33 @@
+{
+    "id":  "gather_mining_focus",
+    "titleTemplate":  "Expedicao de Mineracao",
+    "rewardProfile":  {
+                          "effortMultiplier":  1.1,
+                          "xpBase":  16,
+                          "goldBase":  10
+                      },
+    "category":  "gather",
+    "targetType":  "RESOURCE_ID",
+    "objectiveType":  "GATHER_RESOURCE",
+    "targetTag":  "mining",
+    "enabled":  true,
+    "hintTemplate":  "Extraia minerios em veios de mineracao.",
+    "constraints":  {
+                        "requiresDungeon":  false,
+                        "requiresGathering":  true,
+                        "maxPlayerLevel":  999,
+                        "minPlayerLevel":  1
+                    },
+    "supportedTiers":  [
+                           "ACCEPTED",
+                           "DAILY",
+                           "WEEKLY",
+                           "MONTHLY"
+                       ],
+    "amountRange":  {
+                        "min":  3,
+                        "max":  9
+                    },
+    "descriptionTemplate":  "Obtenha {amount} recursos ligados a mining.",
+    "weight":  6
+}

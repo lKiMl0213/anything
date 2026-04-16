@@ -1,0 +1,7 @@
+{
+  "id": "corrupted",
+  "name": "Corrompido",
+  "bonuses": { "derivedMult": { "damageMagic": 15.0, "defMagic": 10.0 } },
+  "addTags": ["corrupted"],
+  "weight": 2
+}

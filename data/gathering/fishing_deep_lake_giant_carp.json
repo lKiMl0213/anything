@@ -1,0 +1,18 @@
+{
+  "id": "fishing_deep_lake_giant_carp",
+  "name": "Lago Titanic",
+  "type": "FISHING",
+  "skillType": "FISHING",
+  "resourceItemId": "giant_carp",
+  "minQty": 1,
+  "maxQty": 1,
+  "minPlayerLevel": 85,
+  "minSkillLevel": 58,
+  "baseDurationSeconds": 12.5,
+  "baseXp": 56.0,
+  "difficulty": 3.5,
+  "tier": 5,
+  "description": "Carpa gigante para mestres da pesca.",
+  "enabled": true,
+  "tags": ["fishing", "lake", "legendary"]
+}

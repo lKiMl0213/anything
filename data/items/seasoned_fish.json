@@ -1,0 +1,15 @@
+{
+    "id":  "seasoned_fish",
+    "name":  "Peixe Temperado",
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "value":  24,
+    "type":  "CONSUMABLE",
+    "description":  "Refeicao preparada na cozinha do aventureiro.",
+    "effects":  {
+                    "hpRestore":  26,
+                    "mpRestore":  14
+                }
+}

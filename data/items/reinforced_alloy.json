@@ -1,0 +1,11 @@
+{
+    "id":  "reinforced_alloy",
+    "name":  "Liga Reforcada",
+    "tags":  [
+                 "forge",
+                 "bar"
+             ],
+    "value":  20,
+    "type":  "MATERIAL",
+    "description":  "Barra refinada para forja de equipamentos."
+}

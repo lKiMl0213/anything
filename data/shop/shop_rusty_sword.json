@@ -1,0 +1,15 @@
+{
+    "id":  "shop_rusty_sword",
+    "name":  "Espada Enferrujada",
+    "itemId":  "rusty_sword",
+    "price":  70,
+    "currency":  "GOLD",
+    "quantity":  1,
+    "minPlayerLevel":  1,
+    "description":  "Arma inicial para combate corpo a corpo.",
+    "enabled":  true,
+    "tags":  [
+                 "basic",
+                 "weapon"
+             ]
+}

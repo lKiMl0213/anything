@@ -1,0 +1,58 @@
+{
+  "id": "alley_lookout",
+  "name": "Alley Lookout",
+  "archetype": "Humanoid",
+  "baseType": "lookout",
+  "monsterTypeId": "humanoid",
+  "family": "humanoid",
+  "displayName": "Olheiro de Viela",
+  "baseAttributes": {
+    "str": 5,
+    "agi": 8,
+    "dex": 11,
+    "vit": 5,
+    "spr": 4
+  },
+  "growthAttributes": {
+    "dex": 3,
+    "agi": 2,
+    "vit": 1,
+    "spr": 1
+  },
+  "variancePct": 0.14,
+  "tags": ["humanoid", "city", "scout", "ranged"],
+  "questTags": ["humanoid", "city"],
+  "behaviorProfileId": "humanoid",
+  "onHitStatuses": [
+    {
+      "type": "MARKED",
+      "chancePct": 24,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Assobio de Emboscada"
+    },
+    {
+      "type": "SLOW",
+      "chancePct": 18,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 12,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Passo Travado"
+    }
+  ],
+  "dropTableId": "city_cutpurse",
+  "lootProfileId": "city_cutpurse",
+  "baseXp": 40,
+  "baseGold": 16,
+  "damageAffinities": {
+    "physical": 1.0,
+    "magic": 1.05,
+    "holy": 1.1,
+    "shadow": 0.95
+  }
+}

@@ -1,0 +1,31 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_hybrid_small",
+    "description":  "Brews Hybrid Potion Small (restores 20 HP and 18 MP).",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  18,
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "name":  "Brew Hybrid Potion Small",
+    "baseDurationSeconds":  7,
+    "difficulty":  1.2,
+    "outputItemId":  "hybrid_potion_small",
+    "outputQty":  1,
+    "minPlayerLevel":  4,
+    "minSkillLevel":  3,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "medicinal_herb"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "wild_mint_leaf"
+                        }
+                    ]
+}
+

@@ -1,0 +1,13 @@
+{
+    "id":  "adamantite_ore",
+    "name":  "Adamantita",
+    "tags":  [
+                 "ore",
+                 "mining",
+                 "forge",
+                 "legendary"
+             ],
+    "value":  22,
+    "type":  "MATERIAL",
+    "description":  "Minerio lendario de extrema resistencia."
+}

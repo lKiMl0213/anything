@@ -1,0 +1,13 @@
+{
+    "id":  "ancient_wood",
+    "name":  "Madeira Antiga",
+    "tags":  [
+                 "wood",
+                 "woodcutting",
+                 "forge",
+                 "rare"
+             ],
+    "value":  7,
+    "type":  "MATERIAL",
+    "description":  "Madeira velha de grande durabilidade."
+}

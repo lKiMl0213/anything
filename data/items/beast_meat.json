@@ -1,0 +1,9 @@
+{
+  "id": "beast_meat",
+  "name": "Carne de Fera",
+  "type": "MATERIAL",
+  "tags": ["beast", "cooking"],
+  "value": 4,
+  "description": "Ingrediente base para receitas culinarias."
+}
+

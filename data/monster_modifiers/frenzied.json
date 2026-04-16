@@ -1,0 +1,8 @@
+{
+  "id": "frenzied",
+  "name": "Frenetico",
+  "attributeMultiplier": 1.10,
+  "bonuses": { "derivedMult": { "damagePhysical": 15.0 } },
+  "addTags": ["frenzied"],
+  "weight": 3
+}

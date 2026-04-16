@@ -1,0 +1,18 @@
+{
+  "id": "fishing_river_salmon",
+  "name": "Rio Gelado",
+  "type": "FISHING",
+  "skillType": "FISHING",
+  "resourceItemId": "salmon",
+  "minQty": 1,
+  "maxQty": 2,
+  "minPlayerLevel": 16,
+  "minSkillLevel": 8,
+  "baseDurationSeconds": 6.1,
+  "baseXp": 18.0,
+  "difficulty": 1.5,
+  "tier": 2,
+  "description": "Salmoes fortes em agua fria.",
+  "enabled": true,
+  "tags": ["fishing", "river"]
+}

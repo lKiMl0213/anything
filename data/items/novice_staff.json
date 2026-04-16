@@ -1,0 +1,17 @@
+{
+    "id":  "novice_staff",
+    "name":  "Cajado do Aprendiz",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "description":  "Focado em energia arcana basica.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "int":  2,
+                                       "spr":  1
+                                   }
+                },
+    "value":  26,
+    "tags":  [
+                 "{mage}"
+             ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "undead_high",
+  "baseChancePct": 55.0,
+  "entries": [
+    { "itemId": "cracked_bone", "category": "COMMON_MATERIAL", "chancePct": 15, "minQty": 2, "maxQty": 4, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "bone_bow", "category": "EQUIPMENT_DROP", "chancePct": 3, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "EPIC" },
+    { "itemId": "shadow_robe", "category": "EQUIPMENT_DROP", "chancePct": 3, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "EPIC" },
+    { "itemId": "silver_ring", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "LEGENDARY" },
+    { "itemId": "apprentice_staff", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "EPIC" },
+    { "itemId": "potion_small", "category": "CONSUMABLE", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "ether_small", "category": "CONSUMABLE", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" }
+  ]
+}

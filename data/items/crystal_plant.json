@@ -1,0 +1,13 @@
+{
+    "id":  "crystal_plant",
+    "name":  "Planta Cristalina",
+    "tags":  [
+                 "herb",
+                 "gathering",
+                 "alchemy",
+                 "arcane"
+             ],
+    "value":  14,
+    "type":  "MATERIAL",
+    "description":  "Broto raro impregnado com energia cristalina."
+}

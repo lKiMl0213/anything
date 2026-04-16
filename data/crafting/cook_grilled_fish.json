@@ -1,0 +1,30 @@
+{
+    "skillType":  "COOKING",
+    "id":  "cook_grilled_fish",
+    "description":  "Receita culinaria para suporte em combate.",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  12,
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "name":  "Cozinhar Peixe Assado",
+    "baseDurationSeconds":  5,
+    "difficulty":  1.18,
+    "outputItemId":  "grilled_fish",
+    "outputQty":  1,
+    "minPlayerLevel":  1,
+    "minSkillLevel":  1,
+    "discipline":  "COOKING",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "small_fish"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "charcoal"
+                        }
+                    ]
+}

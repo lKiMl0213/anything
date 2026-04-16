@@ -1,0 +1,8 @@
+{
+  "id": "spr",
+  "name": "do Espirito",
+  "kind": "SUFFIX",
+  "bonuses": { "attributes": { "spr": 3 } },
+  "cost": 15,
+  "weight": 10
+}

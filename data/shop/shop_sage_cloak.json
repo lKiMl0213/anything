@@ -1,0 +1,12 @@
+{
+  "id": "shop_sage_cloak",
+  "name": "Capa do Sabio",
+  "itemId": "sage_cloak",
+  "price": 98,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 5,
+  "description": "Capa focada em defesa magica e recarga.",
+  "enabled": true,
+  "tags": ["gold", "mage", "armor"]
+}

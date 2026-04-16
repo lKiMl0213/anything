@@ -1,0 +1,13 @@
+{
+    "id":  "shadow_herb",
+    "name":  "Erva Sombria",
+    "tags":  [
+                 "herb",
+                 "gathering",
+                 "alchemy",
+                 "dark"
+             ],
+    "value":  18,
+    "type":  "MATERIAL",
+    "description":  "Erva de biomas escuros para formulas avancadas."
+}

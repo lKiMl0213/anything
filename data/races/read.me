@@ -1,0 +1,19 @@
+RACES
+
+Pasta: data/races
+Cada arquivo JSON segue o modelo RaceDef.
+
+Campos:
+- id: string
+- name: string
+- description: string
+- bonuses: Bonuses
+- growth: Attributes
+
+Exemplo:
+{
+  "id": "human",
+  "name": "Humano",
+  "bonuses": { "attributes": { "luk": 1 } },
+  "growth": { "str": 1, "agi": 1 }
+}

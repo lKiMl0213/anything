@@ -1,0 +1,31 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_reinforced_armor",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  33,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "armor"
+             ],
+    "name":  "Forjar Armadura de Liga Reforcada",
+    "baseDurationSeconds":  14,
+    "difficulty":  1.85,
+    "outputItemId":  "reinforced_armor",
+    "outputQty":  1,
+    "minPlayerLevel":  15,
+    "minSkillLevel":  12,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  4,
+                            "itemId":  "reinforced_alloy"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "dense_wood"
+                        }
+                    ]
+}

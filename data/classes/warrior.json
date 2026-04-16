@@ -1,0 +1,32 @@
+{
+  "id": "warrior",
+  "name": "Espadachim",
+  "description": "Especialista em combate marcial e pressao fisica constante.",
+  "bonuses": {
+    "attributes": {
+      "str": 8,
+      "vit": 6,
+      "dex": 2,
+      "int": -2
+    },
+    "derivedAdd": {
+      "defPhysical": 4,
+      "tenacityPct": 3
+    },
+    "derivedMult": {
+      "hpMax": 5
+    }
+  },
+  "autoPointWeights": {
+    "str": 3,
+    "vit": 2,
+    "dex": 1
+  },
+  "talentTreeId": "warrior",
+  "subclassIds": ["fighter", "paladin"],
+  "subclassUnlockLevel": 25,
+  "subclassUnlockQuestTemplateId": "unlock_warrior_subclass_lv25",
+  "specializationIds": ["imperial_guard", "barbarian"],
+  "specializationUnlockLevel": 50,
+  "specializationUnlockQuestTemplateId": "unlock_warrior_specialization_lv50"
+}

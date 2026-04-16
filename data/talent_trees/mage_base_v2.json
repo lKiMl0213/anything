@@ -1,0 +1,138 @@
+{
+    "id":  "mage_base_v2",
+    "classId":  "mage",
+    "tier":  1,
+    "unlockLevel":  1,
+    "requirements":  [
+                         {
+                             "type":  "CLASS_ID",
+                             "expectedValue":  "mage"
+                         }
+                     ],
+    "nodes":  [
+                  {
+                      "id":  "mage_v2_arcane_study",
+                      "name":  "Arcane Study",
+                      "description":  "Base mastery of arcane channels.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "damageMagic":  2,
+                                                                           "mpRegen":  1
+                                                                       }
+                                                    },
+                                        "status":  {
+                                                       "duration.SLOW.Pct":  10.0
+                                                   }
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "base"
+                               ]
+                  },
+                  {
+                      "id":  "mage_v2_arcane_bolt",
+                      "name":  "Arcane Bolt",
+                      "description":  "Fast arcane projectile with low cooldown.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          2
+                                      ],
+                      "unlocksSkillId":  "mage_arcane_bolt",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  10.0,
+                                                       "cooldownSeconds":  1.7,
+                                                       "castTimeSeconds":  0.4,
+                                                       "damageMultiplier":  1.2,
+                                                       "damageMultiplierPerRank":  0.12,
+                                                       "cooldownPerRank":  -0.12,
+                                                       "castTimePerRank":  -0.05
+                                                   }
+                                    },
+                      "tags":  [
+                                   "arcane",
+                                   "single_target"
+                               ]
+                  },
+                  {
+                      "id":  "mage_base_v2_burst_path",
+                      "name":  "Caminho de Burst",
+                      "description":  "Critico e execucao com ritmo ofensivo.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "mage_v2_arcane_study",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "mage_base_v2_choice_path",
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "critChancePct":  3,
+                                                                           "critDamagePct":  8
+                                                                       }
+                                                    },
+                                        "atb":  {
+                                                    "barGainOnCritPct":  12,
+                                                    "cooldownReduceOnKillSeconds":  0.8
+                                                }
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "choice",
+                                   "path"
+                               ]
+                  },
+                  {
+                      "id":  "mage_base_v2_control_path",
+                      "name":  "Caminho de Controle",
+                      "description":  "Status e buffs temporarios ao aplicar efeitos.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "mage_v2_arcane_study",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "mage_base_v2_choice_path",
+                      "modifiers":  {
+                                        "atb":  {
+                                                    "barGainOnStatusApplyPct":  10,
+                                                    "tempDamageBuffOnStatusApplyPct":  8,
+                                                    "tempFillRateBuffOnStatusApplyPct":  10,
+                                                    "tempBuffDurationSeconds":  4
+                                                },
+                                        "status":  {
+                                                       "durationPct":  12
+                                                   }
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "choice",
+                                   "path"
+                               ]
+                  }
+              ]
+}

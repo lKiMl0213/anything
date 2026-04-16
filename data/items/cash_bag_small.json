@@ -1,0 +1,14 @@
+{
+    "id":  "cash_bag_small",
+    "name":  "Mochila Compacta",
+    "type":  "EQUIPMENT",
+    "slot":  "BACKPACK",
+    "tags":  [
+                 "{Any.Class}",
+                 "inventory_slots:10",
+                 "cash"
+             ],
+    "minLevel":  1,
+    "value":  180,
+    "description":  "Aumenta o inventario em +10 slots."
+}

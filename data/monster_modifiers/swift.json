@@ -1,0 +1,7 @@
+{
+  "id": "swift",
+  "name": "Veloz",
+  "bonuses": { "attributes": { "agi": 2, "dex": 2 } },
+  "addTags": ["swift"],
+  "weight": 2
+}

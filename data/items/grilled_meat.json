@@ -1,0 +1,15 @@
+{
+    "id":  "grilled_meat",
+    "name":  "Carne Grelhada",
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "value":  18,
+    "type":  "CONSUMABLE",
+    "description":  "Refeicao preparada na cozinha do aventureiro.",
+    "effects":  {
+                    "hpRestore":  24,
+                    "mpRestore":  4
+                }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "cash_mage_staff_lv5",
+  "name": "Aether Staff Mk-I",
+  "type": "EQUIPMENT",
+  "rarity": "EPIC",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 5,
+  "baseScaling": 6.8,
+  "baseStat": "DAMAGE_MAGIC",
+  "dropTier": 2,
+  "vendorBaseValue": 40,
+  "allowedAffixes": ["int", "spr", "mp", "focus", "cdr", "warding"],
+  "tags": ["{mage}", "staff", "cash", "premium"]
+}

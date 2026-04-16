@@ -1,0 +1,26 @@
+{
+  "id": "archmage",
+  "name": "Arquimago",
+  "parentClassId": "mage",
+  "requiredSubclassIds": ["pyromancer", "arcanist"],
+  "description": "Explosao arcana com critico magico elevado e cast refinado.",
+  "bonuses": {
+    "attributes": {
+      "int": 3,
+      "spr": 2
+    },
+    "derivedAdd": {
+      "critChancePct": 4,
+      "critDamagePct": 14,
+      "cdrPct": 4
+    },
+    "derivedMult": {
+      "damageMagic": 6
+    }
+  },
+  "autoPointWeights": {
+    "int": 4,
+    "spr": 2
+  },
+  "talentTreeId": "mage_archmage_v2"
+}

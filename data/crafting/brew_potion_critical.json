@@ -1,0 +1,31 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_potion_critical",
+    "description":  "Brews Utility Potion Mini - Critical (buff effect pending).",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  28,
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "name":  "Brew Utility Potion Mini - Critical",
+    "baseDurationSeconds":  10,
+    "difficulty":  1.6,
+    "outputItemId":  "potion_critical",
+    "outputQty":  1,
+    "minPlayerLevel":  14,
+    "minSkillLevel":  10,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "crimson_flower"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "venom"
+                        }
+                    ]
+}
+

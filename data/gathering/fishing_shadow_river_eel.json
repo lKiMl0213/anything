@@ -1,0 +1,18 @@
+{
+  "id": "fishing_shadow_river_eel",
+  "name": "Rio Sombrio",
+  "type": "FISHING",
+  "skillType": "FISHING",
+  "resourceItemId": "eel",
+  "minQty": 1,
+  "maxQty": 2,
+  "minPlayerLevel": 36,
+  "minSkillLevel": 20,
+  "baseDurationSeconds": 8.6,
+  "baseXp": 29.0,
+  "difficulty": 2.2,
+  "tier": 3,
+  "description": "Enguias agressivas em agua escura.",
+  "enabled": true,
+  "tags": ["fishing", "river", "rare"]
+}

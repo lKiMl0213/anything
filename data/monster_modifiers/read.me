@@ -1,0 +1,22 @@
+MONSTER MODIFIERS
+
+Pasta: data/monster_modifiers
+Cada arquivo JSON segue o modelo MonsterModifier.
+
+Campos:
+- id: string
+- name: string
+- attributeMultiplier: number (ex: 1.1)
+- bonuses: Bonuses (attributes, derivedAdd, derivedMult)
+- addTags: [string]
+- weight: int (peso relativo no sorteio)
+
+Exemplo:
+{
+  "id": "feroz",
+  "name": "Feroz",
+  "attributeMultiplier": 1.1,
+  "bonuses": { "derivedAdd": { "damagePhysical": 4.0 } },
+  "addTags": ["aggressive"],
+  "weight": 3
+}

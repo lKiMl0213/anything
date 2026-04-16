@@ -1,0 +1,56 @@
+{
+  "id": "street_enforcer",
+  "name": "Street Enforcer",
+  "archetype": "Humanoid",
+  "baseType": "enforcer",
+  "monsterTypeId": "humanoid",
+  "family": "humanoid",
+  "displayName": "Capanga da Rua",
+  "baseAttributes": {
+    "str": 10,
+    "agi": 5,
+    "dex": 6,
+    "vit": 10
+  },
+  "growthAttributes": {
+    "str": 3,
+    "vit": 3,
+    "dex": 1
+  },
+  "variancePct": 0.13,
+  "tags": ["humanoid", "city", "bruiser", "enforcer"],
+  "questTags": ["humanoid", "city"],
+  "behaviorProfileId": "humanoid",
+  "onHitStatuses": [
+    {
+      "type": "WEAKNESS",
+      "chancePct": 18,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Golpe Desmoralizante"
+    },
+    {
+      "type": "BLEEDING",
+      "chancePct": 10,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 4,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Porretada Serrada"
+    }
+  ],
+  "dropTableId": "city_cutpurse",
+  "lootProfileId": "city_cutpurse",
+  "baseXp": 48,
+  "baseGold": 19,
+  "damageAffinities": {
+    "physical": 0.95,
+    "magic": 1.1,
+    "holy": 1.05,
+    "shadow": 0.95
+  }
+}

@@ -1,0 +1,26 @@
+GATHERING NODES
+
+Pasta: data/gathering
+Cada JSON descreve um ponto de coleta.
+
+Campos:
+- id: string
+- name: string
+- type: "MINING" | "HERBALISM" | "WOODCUTTING" | "FISHING"
+- resourceItemId: item gerado (deve existir no ItemRegistry)
+- minQty / maxQty
+- minPlayerLevel
+- minSkillLevel
+- skillType: skill usada para progressao
+- baseDurationSeconds
+- baseXp
+- difficulty
+- tier
+- description
+- enabled
+- tags
+
+Regras:
+- O node nao deve apontar para item inexistente.
+- Quest de gathering e coleta de item escutam estes drops.
+- Quantidade final e sorteada no intervalo minQty..maxQty.

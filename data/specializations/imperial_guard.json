@@ -1,0 +1,28 @@
+{
+  "id": "imperial_guard",
+  "name": "Guarda Imperial",
+  "parentClassId": "warrior",
+  "requiredSubclassIds": ["fighter", "paladin"],
+  "description": "Mitigacao suprema, protecao de linha de frente e estabilidade total.",
+  "bonuses": {
+    "attributes": {
+      "vit": 3,
+      "spr": 2,
+      "str": 1
+    },
+    "derivedAdd": {
+      "defPhysical": 10,
+      "defMagic": 8,
+      "damageReductionPct": 4
+    },
+    "derivedMult": {
+      "hpMax": 6
+    }
+  },
+  "autoPointWeights": {
+    "vit": 4,
+    "str": 1,
+    "spr": 2
+  },
+  "talentTreeId": "warrior_imperial_guard_v2"
+}

@@ -1,0 +1,11 @@
+{
+    "id":  "adamantite_bar",
+    "name":  "Barra de Adamantita",
+    "tags":  [
+                 "forge",
+                 "bar"
+             ],
+    "value":  30,
+    "type":  "MATERIAL",
+    "description":  "Barra refinada para forja de equipamentos."
+}

@@ -1,0 +1,12 @@
+{
+  "id": "shop_spellweave_robe",
+  "name": "Robe de Trama Arcana",
+  "itemId": "spellweave_robe",
+  "price": 92,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 2,
+  "description": "Robe leve para defesa magica e sustain.",
+  "enabled": true,
+  "tags": ["gold", "mage", "armor"]
+}

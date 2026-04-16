@@ -1,0 +1,21 @@
+{
+    "skillType":  "GATHERING",
+    "id":  "herb_blue_calm_flower_patch",
+    "minQty":  1,
+    "resourceItemId":  "blue_calm_flower",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  14.1,
+    "tags":  [
+                 "herb",
+                 "gathering"
+             ],
+    "name":  "Mata de Flor Azul Calmante",
+    "type":  "HERBALISM",
+    "baseDurationSeconds":  4.15,
+    "difficulty":  1.16,
+    "maxQty":  3,
+    "minPlayerLevel":  3,
+    "minSkillLevel":  2,
+    "description":  "Fonte de ervas para alquimia e culinaria."
+}

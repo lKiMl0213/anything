@@ -1,0 +1,13 @@
+{
+    "id":  "golden_fish",
+    "name":  "Peixe Dourado",
+    "tags":  [
+                 "fish",
+                 "fishing",
+                 "cooking",
+                 "rare"
+             ],
+    "value":  14,
+    "type":  "MATERIAL",
+    "description":  "Peixe raro muito valioso."
+}

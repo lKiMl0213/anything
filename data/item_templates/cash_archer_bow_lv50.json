@@ -1,0 +1,15 @@
+{
+  "id": "cash_archer_bow_lv50",
+  "name": "Tempest Bow Mk-V",
+  "type": "EQUIPMENT",
+  "rarity": "LEGENDARY",
+  "slot": "WEAPON_MAIN",
+  "twoHanded": true,
+  "minLevel": 50,
+  "baseScaling": 9.5,
+  "baseStat": "DAMAGE_PHYSICAL",
+  "dropTier": 4,
+  "vendorBaseValue": 150,
+  "allowedAffixes": ["dex", "agi", "crit", "atk_speed", "accuracy", "evasion"],
+  "tags": ["{archer}", "bow", "two_handed", "cash", "premium"]
+}

@@ -1,0 +1,12 @@
+{
+    "id":  "slime_piece",
+    "name":  "Pedaco de Slime",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "slime",
+                 "material",
+                 "sell"
+             ],
+    "value":  2,
+    "description":  "Fragmento viscoso de slime."
+}

@@ -1,0 +1,12 @@
+{
+  "id": "cash_entry_mage_staff_lv10",
+  "name": "Aether Staff Mk-II",
+  "itemId": "cash_mage_staff_lv10",
+  "price": 180,
+  "currency": "CASH",
+  "quantity": 1,
+  "minPlayerLevel": 10,
+  "description": "Upgrade premium para magos no mid game.",
+  "enabled": true,
+  "tags": ["cash", "mage", "weapon"]
+}

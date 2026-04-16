@@ -1,0 +1,16 @@
+{
+  "id": "cook_field_ration",
+  "name": "Racao de Campo",
+  "discipline": "COOKING",
+  "outputItemId": "field_ration",
+  "outputQty": 1,
+  "minPlayerLevel": 1,
+  "ingredients": [
+    { "itemId": "beast_meat", "quantity": 2 },
+    { "itemId": "medicinal_herb", "quantity": 1 }
+  ],
+  "description": "Comida simples para sustain em exploracoes longas.",
+  "enabled": true,
+  "tags": ["food", "buff"]
+}
+

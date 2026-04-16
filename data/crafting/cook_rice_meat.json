@@ -1,0 +1,30 @@
+{
+    "skillType":  "COOKING",
+    "id":  "cook_rice_meat",
+    "description":  "Receita culinaria para suporte em combate.",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  19,
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "name":  "Cozinhar Arroz com Carne",
+    "baseDurationSeconds":  7,
+    "difficulty":  1.3599999999999999,
+    "outputItemId":  "rice_meat",
+    "outputQty":  1,
+    "minPlayerLevel":  8,
+    "minSkillLevel":  6,
+    "discipline":  "COOKING",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "beast_meat"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "rice"
+                        }
+                    ]
+}

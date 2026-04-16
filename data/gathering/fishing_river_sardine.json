@@ -1,0 +1,18 @@
+{
+  "id": "fishing_river_sardine",
+  "name": "Rio Veloz",
+  "type": "FISHING",
+  "skillType": "FISHING",
+  "resourceItemId": "sardine",
+  "minQty": 1,
+  "maxQty": 3,
+  "minPlayerLevel": 8,
+  "minSkillLevel": 4,
+  "baseDurationSeconds": 4.8,
+  "baseXp": 14.0,
+  "difficulty": 1.2,
+  "tier": 1,
+  "description": "Correnteza media, exige mais precisao.",
+  "enabled": true,
+  "tags": ["fishing", "river"]
+}

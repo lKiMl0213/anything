@@ -1,0 +1,18 @@
+{
+    "id":  "shadow_robe",
+    "name":  "Manto Sombrio",
+    "type":  "EQUIPMENT",
+    "slot":  "CHEST",
+    "baseScaling":  4.5,
+    "baseStat":  "DEF_MAGIC",
+    "dropTier":  2,
+    "vendorBaseValue":  14,
+    "allowedAffixes":  [
+                           "spr",
+                           "mp",
+                           "def"
+                       ],
+    "tags":  [
+                 "{Any.Class}"
+             ]
+}

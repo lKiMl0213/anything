@@ -1,0 +1,20 @@
+SPECIALIZATIONS
+
+Pasta: data/specializations
+Cada arquivo JSON segue o modelo SpecializationDef.
+
+Campos:
+- id: string
+- name: string
+- parentClassId: string
+- requiredSubclassIds: [string] (opcional)
+- description: string
+- bonuses: Bonuses
+- growth: Attributes
+- autoPointWeights: Attributes
+- talentTreeId: string (opcional)
+
+Regras:
+- Especializacao e um nivel acima da subclasse.
+- Classe base e subclasse continuam ativas.
+- Arvore de especializacao e habilitada via TalentTreeV2 + requirement SPECIALIZATION_ID.

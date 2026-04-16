@@ -1,0 +1,40 @@
+{
+  "id": "beast",
+  "monsterTags": ["beast"],
+  "intros": [
+    "Um rosnado ecoa nas proximidades",
+    "Folhas tremem ao redor",
+    "Algo selvagem se aproxima",
+    "O cheiro de carne fresca invade o ar",
+    "O chao treme com passos pesados",
+    "Um grito distante e ouvido",
+    "O vento carrega um uivo ameacador",
+    "O som de galhos quebrando se aproxima",
+    "Um rugido ecoa pela floresta",
+    "O ar se enche de tensao e perigo"
+  ],
+  "descriptors": [
+    "uma fera faminta",
+    "um predador impaciente",
+    "um animal territorial",
+    "um cacador solitario",
+    "uma criatura selvagem",
+    "um monstro feroz",
+    "um ser instintivo",
+    "uma besta indomavel",
+    "um inimigo implacavel",
+    "um adversario perigoso"
+  ],
+  "threats": [
+    "Ele salta para atacar",
+    "Suas garras riscam o ar",
+    "A cacada comeca",
+    "Ele avanca com ferocidade",
+    "O confronto e inevitavel",
+    "Ele investe com forca total",
+    "A batalha comeca",
+    "Ele se lanca em sua direcao",
+    "O combate e brutal",
+    "Ele ataca sem piedade"
+  ]
+}

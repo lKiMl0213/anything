@@ -1,0 +1,64 @@
+{
+    "id":  "mimic",
+    "name":  "Mimico",
+    "archetype":  "Construct",
+    "baseAttributes":  {
+                           "str":  6,
+                           "vit":  10,
+                           "dex":  4,
+                           "agi":  3,
+                           "luk":  1
+                       },
+    "growthAttributes":  {
+                             "str":  2,
+                             "vit":  2,
+                             "dex":  1
+                         },
+    "variancePct":  0.15,
+    "tags":  [
+                 "construct"
+             ],
+    "onHitStatuses":  [
+                          {
+                              "type":  "BLEEDING",
+                              "chancePct":  20,
+                              "durationSeconds":  6,
+                              "tickIntervalSeconds":  2,
+                              "effectValue":  0.012,
+                              "stackable":  true,
+                              "maxStacks":  2,
+                              "source":  "Mordida de Mimico"
+                          },
+                          {
+                              "type":  "WEAKNESS",
+                              "chancePct":  15,
+                              "durationSeconds":  5,
+                              "tickIntervalSeconds":  1,
+                              "effectValue":  12,
+                              "stackable":  false,
+                              "maxStacks":  1,
+                              "source":  "Maldicao do Bau"
+                          }
+                      ],
+    "dropTableId":  "construct_arcane",
+    "baseXp":  50,
+    "baseGold":  12,
+    "baseType":  "construct",
+    "monsterTypeId":  "construct",
+    "family":  "construct",
+    "damageAffinities":  {
+                             "physical":  0.88,
+                             "magic":  1.12,
+                             "fire":  1.05,
+                             "poison":  0.6,
+                             "bleed":  0.4,
+                             "blunt":  1.15
+                         },
+    "displayName":  "Mimico",
+    "variantName":  "",
+    "lootProfileId":  "construct_arcane",
+    "questTags":  [
+                      "construct",
+                      "arcane"
+                  ]
+}

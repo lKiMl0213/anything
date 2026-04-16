@@ -1,0 +1,12 @@
+{
+    "id":  "dense_wood",
+    "name":  "Madeira Densa",
+    "tags":  [
+                 "wood",
+                 "woodcutting",
+                 "forge"
+             ],
+    "value":  5,
+    "type":  "MATERIAL",
+    "description":  "Madeira compacta para reforcos."
+}

@@ -1,0 +1,16 @@
+{
+  "id": "forge_bone_shield",
+  "name": "Montar Escudo Oseo",
+  "discipline": "FORGE",
+  "outputItemId": "bone_shield",
+  "outputQty": 1,
+  "minPlayerLevel": 3,
+  "ingredients": [
+    { "itemId": "cracked_bone", "quantity": 5 },
+    { "itemId": "wood_log", "quantity": 1 }
+  ],
+  "description": "Escudo leve reforcado com fragmentos de osso.",
+  "enabled": true,
+  "tags": ["shield", "defense"]
+}
+

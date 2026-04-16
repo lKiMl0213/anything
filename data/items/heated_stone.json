@@ -1,0 +1,12 @@
+{
+    "id":  "heated_stone",
+    "name":  "Pedra Aquecida",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "elemental",
+                 "sell",
+                 "fire"
+             ],
+    "value":  3,
+    "description":  "Pedra ainda quente ao toque."
+}

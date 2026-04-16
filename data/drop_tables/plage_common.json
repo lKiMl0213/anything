@@ -1,0 +1,23 @@
+{
+  "id": "plage_common",
+  "baseChancePct": 46.0,
+  "entries": [
+    { "itemId": "rat_tail", "category": "COMMON_MATERIAL", "chancePct": 18, "minQty": 1, "maxQty": 3, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "old_rag", "category": "COMMON_SELL", "chancePct": 12, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "rough_hide", "category": "COMMON_MATERIAL", "chancePct": 12, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "venom", "category": "UNCOMMON_MATERIAL", "chancePct": 7, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "cracked_bone", "category": "COMMON_MATERIAL", "chancePct": 8, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "arrow_simple", "category": "COMMON_MATERIAL", "chancePct": 6, "minQty": 2, "maxQty": 5, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "potion_small", "category": "CONSUMABLE", "chancePct": 4, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "copper_luck_ring", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "UNCOMMON" },
+    { "itemId": "foxbone_charm", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "UNCOMMON" },
+    { "itemId": "staghide_brooch", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "UNCOMMON" },
+    { "itemId": "amber_pendant", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "UNCOMMON", "maxRarity": "RARE" },
+    { "itemId": "apprentice_choker", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "UNCOMMON" },
+    { "itemId": "swift_knot", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "UNCOMMON", "maxRarity": "RARE" },
+    { "itemId": "runed_teardrop", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "UNCOMMON", "maxRarity": "RARE" },
+    { "itemId": "aether_prism", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "EPIC" },
+    { "itemId": "bastion_sigil", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "EPIC" },
+    { "itemId": "bloodroot_talisman", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "EPIC" }
+  ]
+}

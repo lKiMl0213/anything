@@ -1,0 +1,12 @@
+{
+    "id":  "ancient_seed",
+    "name":  "Semente Antiga",
+    "tags":  [
+                 "herb",
+                 "gathering",
+                 "alchemy"
+             ],
+    "value":  12,
+    "type":  "MATERIAL",
+    "description":  "Semente ancestral rica em essencia natural."
+}

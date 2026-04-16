@@ -1,0 +1,31 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_iron_sword",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  23,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "sword"
+             ],
+    "name":  "Forjar Espada de Ferro",
+    "baseDurationSeconds":  10,
+    "difficulty":  1.35,
+    "outputItemId":  "iron_sword",
+    "outputQty":  1,
+    "minPlayerLevel":  4,
+    "minSkillLevel":  3,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "iron_bar"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "wood_log"
+                        }
+                    ]
+}

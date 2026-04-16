@@ -1,0 +1,67 @@
+{
+    "id":  "lich",
+    "name":  "Lich",
+    "archetype":  "Undead",
+    "baseAttributes":  {
+                           "int":  6,
+                           "spr":  5,
+                           "vit":  4,
+                           "dex":  2
+                       },
+    "growthAttributes":  {
+                             "int":  3,
+                             "spr":  2,
+                             "vit":  2
+                         },
+    "variancePct":  0.15,
+    "tags":  [
+                 "undead",
+                 "ancient"
+             ],
+    "onHitStatuses":  [
+                          {
+                              "type":  "BURNING",
+                              "chancePct":  20,
+                              "durationSeconds":  6,
+                              "tickIntervalSeconds":  2,
+                              "effectValue":  6,
+                              "stackable":  true,
+                              "maxStacks":  2,
+                              "source":  "Chama Profana"
+                          },
+                          {
+                              "type":  "FROZEN",
+                              "chancePct":  12,
+                              "durationSeconds":  3,
+                              "tickIntervalSeconds":  1,
+                              "effectValue":  0,
+                              "stackable":  false,
+                              "maxStacks":  1,
+                              "source":  "Toque Gelido"
+                          }
+                      ],
+    "dropTableId":  "undead_ancient",
+    "baseXp":  80,
+    "baseGold":  15,
+    "baseType":  "lich",
+    "monsterTypeId":  "undead",
+    "family":  "undead",
+    "damageAffinities":  {
+                             "physical":  0.8,
+                             "magic":  0.7,
+                             "fire":  1.15,
+                             "holy":  1.4,
+                             "shadow":  0.75,
+                             "poison":  0.2,
+                             "bleed":  0.2,
+                             "arcane":  0.9
+                         },
+    "displayName":  "Lich",
+    "variantName":  "",
+    "lootProfileId":  "undead_ancient",
+    "questTags":  [
+                      "undead",
+                      "ancient",
+                      "boss"
+                  ]
+}

@@ -1,0 +1,17 @@
+{
+    "id":  "basic_scepter",
+    "name":  "Cetro Basico",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "value":  26,
+    "description":  "Canaliza magia simples para aventureiros novos.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "int":  2,
+                                       "spr":  1
+                                   }
+                },
+    "tags":  [
+                 "{mage}"
+             ]
+}

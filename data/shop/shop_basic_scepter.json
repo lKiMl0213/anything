@@ -1,0 +1,15 @@
+{
+    "id":  "shop_basic_scepter",
+    "name":  "Cetro Basico",
+    "itemId":  "basic_scepter",
+    "price":  78,
+    "currency":  "GOLD",
+    "quantity":  1,
+    "minPlayerLevel":  1,
+    "description":  "Arma inicial para classes magicas.",
+    "enabled":  true,
+    "tags":  [
+                 "basic",
+                 "weapon"
+             ]
+}

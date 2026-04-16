@@ -1,0 +1,8 @@
+{
+  "id": "hp",
+  "name": "da Vida",
+  "kind": "SUFFIX",
+  "bonuses": { "derivedAdd": { "hpMax": 20.0 } },
+  "cost": 12,
+  "weight": 10
+}

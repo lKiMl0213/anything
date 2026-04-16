@@ -1,0 +1,31 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_copper_axe",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  23,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "axe"
+             ],
+    "name":  "Forjar Machado de Cobre",
+    "baseDurationSeconds":  11,
+    "difficulty":  1.35,
+    "outputItemId":  "copper_axe",
+    "outputQty":  1,
+    "minPlayerLevel":  2,
+    "minSkillLevel":  2,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  3,
+                            "itemId":  "copper_bar"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "wood_log"
+                        }
+                    ]
+}

@@ -1,0 +1,13 @@
+{
+    "id":  "runic_stone",
+    "name":  "Pedra Runica",
+    "tags":  [
+                 "ore",
+                 "mining",
+                 "forge",
+                 "runic"
+             ],
+    "value":  24,
+    "type":  "MATERIAL",
+    "description":  "Pedra encantada para forja runica."
+}

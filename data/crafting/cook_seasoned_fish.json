@@ -1,0 +1,30 @@
+{
+    "skillType":  "COOKING",
+    "id":  "cook_seasoned_fish",
+    "description":  "Receita culinaria para suporte em combate.",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  18,
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "name":  "Cozinhar Peixe Temperado",
+    "baseDurationSeconds":  7,
+    "difficulty":  1.3599999999999999,
+    "outputItemId":  "seasoned_fish",
+    "outputQty":  1,
+    "minPlayerLevel":  7,
+    "minSkillLevel":  5,
+    "discipline":  "COOKING",
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "salmon"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "wild_mint_leaf"
+                        }
+                    ]
+}

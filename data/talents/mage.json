@@ -1,0 +1,54 @@
+{
+  "id": "mage",
+  "name": "Arvore do Mago",
+  "nodes": [
+    {
+      "id": "mage_root",
+      "name": "Afaque Arcano",
+      "description": "+5% dano magico",
+      "cost": 1,
+      "requiredLevel": 1,
+      "prerequisites": [],
+      "bonuses": {
+        "derivedMult": { "damageMagic": 5 }
+      },
+      "classId": "mage"
+    },
+    {
+      "id": "mage_focus",
+      "name": "Foco Mental",
+      "description": "+5% MP maximo",
+      "cost": 1,
+      "requiredLevel": 3,
+      "prerequisites": ["mage_root"],
+      "bonuses": {
+        "derivedMult": { "mpMax": 5 }
+      },
+      "classId": "mage"
+    },
+    {
+      "id": "mage_cdr",
+      "name": "Ritmo Arcano",
+      "description": "+4% CDR",
+      "cost": 1,
+      "requiredLevel": 4,
+      "prerequisites": ["mage_root"],
+      "bonuses": {
+        "derivedAdd": { "cdrPct": 4 }
+      },
+      "classId": "mage"
+    },
+    {
+      "id": "mage_burst",
+      "name": "Explosao",
+      "description": "+10% dano magico",
+      "cost": 2,
+      "requiredLevel": 6,
+      "prerequisites": ["mage_focus"],
+      "bonuses": {
+        "derivedMult": { "damageMagic": 10 }
+      },
+      "classId": "mage"
+    }
+  ]
+}

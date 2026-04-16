@@ -1,0 +1,12 @@
+{
+    "id":  "unstable_crystal",
+    "name":  "Cristal Instavel",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "construct",
+                 "uncommon",
+                 "arcane"
+             ],
+    "value":  7,
+    "description":  "Cristal com energia oscilante."
+}

@@ -1,0 +1,8 @@
+{
+  "id": "deadeye",
+  "name": "Olho Mortal",
+  "kind": "SPECIAL",
+  "bonuses": { "derivedAdd": { "accuracy": 12.0, "critChancePct": 3.0, "critDamagePct": 12.0 } },
+  "cost": 0,
+  "weight": 2
+}

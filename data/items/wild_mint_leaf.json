@@ -1,0 +1,13 @@
+{
+    "id":  "wild_mint_leaf",
+    "name":  "Folha de Hortela Selvagem",
+    "tags":  [
+                 "herb",
+                 "gathering",
+                 "alchemy",
+                 "cooking"
+             ],
+    "value":  5,
+    "type":  "MATERIAL",
+    "description":  "Folha fresca para receitas e elixires."
+}

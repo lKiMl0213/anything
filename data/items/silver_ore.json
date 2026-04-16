@@ -1,0 +1,12 @@
+{
+    "id":  "silver_ore",
+    "name":  "Prata",
+    "tags":  [
+                 "ore",
+                 "mining",
+                 "forge"
+             ],
+    "value":  8,
+    "type":  "MATERIAL",
+    "description":  "Minerio refinado para itens especiais."
+}

@@ -1,0 +1,15 @@
+SKILLS
+
+Pasta: data/skills
+Cada arquivo descreve uma profissao.
+
+Campos:
+- id: "MINING" | "GATHERING" | "WOODCUTTING" | "FISHING" | "BLACKSMITH" | "ALCHEMIST" | "COOKING"
+- name
+- baseXp
+- unlocks: [{ level, unlockType, targetId, description }]
+
+Formulas aplicadas pelo sistema:
+- requiredXP = baseXP * level^1.5
+- efficiencyMultiplier = level * 0.08
+- finalTime = baseTime / (1 + efficiencyMultiplier), com minimo de 1 segundo

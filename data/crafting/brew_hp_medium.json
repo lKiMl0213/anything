@@ -1,0 +1,31 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_hp_medium",
+    "description":  "Brews HP Potion Medium (restores 70 HP).",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  20,
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "name":  "Brew HP Potion Medium",
+    "baseDurationSeconds":  8,
+    "difficulty":  1.4,
+    "outputItemId":  "hp_potion_medium",
+    "outputQty":  1,
+    "minPlayerLevel":  6,
+    "minSkillLevel":  4,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  3,
+                            "itemId":  "medicinal_herb"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "bitter_root"
+                        }
+                    ]
+}
+

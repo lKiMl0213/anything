@@ -1,0 +1,8 @@
+{
+  "id": "accuracy",
+  "name": "da Mira",
+  "kind": "SUFFIX",
+  "bonuses": { "derivedAdd": { "accuracy": 10.0 } },
+  "cost": 14,
+  "weight": 8
+}

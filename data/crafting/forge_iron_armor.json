@@ -1,0 +1,31 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_iron_armor",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  23,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "armor"
+             ],
+    "name":  "Forjar Armadura de Ferro",
+    "baseDurationSeconds":  12,
+    "difficulty":  1.35,
+    "outputItemId":  "iron_armor",
+    "outputQty":  1,
+    "minPlayerLevel":  4,
+    "minSkillLevel":  3,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  4,
+                            "itemId":  "iron_bar"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "dense_wood"
+                        }
+                    ]
+}

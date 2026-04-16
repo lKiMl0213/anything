@@ -1,0 +1,13 @@
+{
+  "id": "deadeye_medallion",
+  "name": "Medalhao Olho Letal",
+  "type": "EQUIPMENT",
+  "rarity": "LEGENDARY",
+  "slot": "ACCESSORY",
+  "baseScaling": 5.4,
+  "baseStat": "DAMAGE_PHYSICAL",
+  "dropTier": 4,
+  "vendorBaseValue": 24,
+  "allowedAffixes": ["dex", "str", "crit", "accuracy", "atk_speed", "evasion"],
+  "tags": ["{Any.Class}", "accessory", "legendary"]
+}

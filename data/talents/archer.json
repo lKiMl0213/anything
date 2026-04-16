@@ -1,0 +1,54 @@
+{
+  "id": "archer",
+  "name": "Arvore do Arqueiro",
+  "nodes": [
+    {
+      "id": "archer_root",
+      "name": "Tiro Rapido",
+      "description": "+5% velocidade de ataque",
+      "cost": 1,
+      "requiredLevel": 1,
+      "prerequisites": [],
+      "bonuses": {
+        "derivedMult": { "attackSpeed": 5 }
+      },
+      "classId": "archer"
+    },
+    {
+      "id": "archer_crit",
+      "name": "Mira Precisa",
+      "description": "+5% chance critica",
+      "cost": 1,
+      "requiredLevel": 3,
+      "prerequisites": ["archer_root"],
+      "bonuses": {
+        "derivedAdd": { "critChancePct": 5 }
+      },
+      "classId": "archer"
+    },
+    {
+      "id": "archer_agility",
+      "name": "Passos Leves",
+      "description": "+5% evasao",
+      "cost": 1,
+      "requiredLevel": 4,
+      "prerequisites": ["archer_root"],
+      "bonuses": {
+        "derivedMult": { "evasion": 5 }
+      },
+      "classId": "archer"
+    },
+    {
+      "id": "archer_burst",
+      "name": "Disparo Mortal",
+      "description": "+10% dano fisico",
+      "cost": 2,
+      "requiredLevel": 6,
+      "prerequisites": ["archer_crit"],
+      "bonuses": {
+        "derivedMult": { "damagePhysical": 10 }
+      },
+      "classId": "archer"
+    }
+  ]
+}

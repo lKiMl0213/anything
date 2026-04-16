@@ -1,0 +1,21 @@
+{
+    "skillType":  "GATHERING",
+    "id":  "herb_ancient_seed_patch",
+    "minQty":  1,
+    "resourceItemId":  "ancient_seed",
+    "enabled":  true,
+    "tier":  5,
+    "baseXp":  35.8,
+    "tags":  [
+                 "herb",
+                 "gathering"
+             ],
+    "name":  "Mata de Semente Antiga",
+    "type":  "HERBALISM",
+    "baseDurationSeconds":  8,
+    "difficulty":  2.28,
+    "maxQty":  2,
+    "minPlayerLevel":  17,
+    "minSkillLevel":  9,
+    "description":  "Fonte de ervas para alquimia e culinaria."
+}

@@ -1,0 +1,43 @@
+DROP TABLES
+
+Pasta: data/drop_tables
+Cada arquivo JSON segue o modelo DropTableDef.
+
+Campos:
+- id: string
+- baseChancePct: number (chance base de cair algo)
+- entries: lista de DropEntryDef
+
+DropEntryDef:
+- itemId: string (referencia ItemRegistry)
+- category: DropCategory (COMMON_SELL, COMMON_MATERIAL, UNCOMMON_MATERIAL, QUEST_ITEM, RARE_COMPONENT, EQUIPMENT_DROP, CONSUMABLE)
+- chancePct: number (peso relativo dentro da tabela)
+- minQty: int
+- maxQty: int
+- minRarity: ItemRarity
+- maxRarity: ItemRarity
+
+Notas:
+- chancePct funciona como peso relativo (nao precisa somar 100).
+- baseChancePct decide se cai algo antes do sorteio da lista.
+
+Exemplo:
+{
+  "id": "undead_low",
+  "baseChancePct": 40.0,
+  "entries": [
+    { "itemId": "cracked_bone", "category": "COMMON_MATERIAL", "chancePct": 20, "minQty": 1, "maxQty": 3, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "bone_bow", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "potion_small", "category": "CONSUMABLE", "chancePct": 3, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" }
+  ]
+}
+
+Perfis atuais relevantes para monstros/quests de classe:
+- slime_core
+- wolf_beast
+- elemental_fire
+- undead_relics
+- undead_ancient
+- bandit_shadow
+- construct_arcane
+- war_scraps

@@ -1,0 +1,26 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "refine_crystal_shard",
+    "description":  "Refina cristal bruto para uso em encantamentos.",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  15,
+    "tags":  [
+                 "forge",
+                 "resource"
+             ],
+    "name":  "Lapidar Cristal",
+    "baseDurationSeconds":  6,
+    "difficulty":  1.3,
+    "outputItemId":  "crystal_shard",
+    "outputQty":  2,
+    "minPlayerLevel":  8,
+    "minSkillLevel":  6,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "arcane_crystal"
+                        }
+                    ]
+}

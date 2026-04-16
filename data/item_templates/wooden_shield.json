@@ -1,0 +1,19 @@
+{
+    "id":  "wooden_shield",
+    "name":  "Escudo de Madeira",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_OFF",
+    "tags":  [
+                 "{Any.Class}",
+                 "shield"
+             ],
+    "baseScaling":  3.0,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  1,
+    "vendorBaseValue":  10,
+    "allowedAffixes":  [
+                           "vit",
+                           "def",
+                           "hp"
+                       ]
+}

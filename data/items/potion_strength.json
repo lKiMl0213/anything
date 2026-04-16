@@ -1,0 +1,16 @@
+{
+    "id":  "potion_strength",
+    "name":  "Utility Potion Mini - Strength",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  65,
+    "type":  "CONSUMABLE",
+    "description":  "No direct HP/MP restore. Strength buff effect is not configured yet.",
+    "effects":  {
+                    "hpRestore":  0,
+                    "mpRestore":  0
+                }
+}
+

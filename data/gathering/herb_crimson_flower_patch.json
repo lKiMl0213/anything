@@ -1,0 +1,21 @@
+{
+    "skillType":  "GATHERING",
+    "id":  "herb_crimson_flower_patch",
+    "minQty":  1,
+    "resourceItemId":  "crimson_flower",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  29.6,
+    "tags":  [
+                 "herb",
+                 "gathering"
+             ],
+    "name":  "Mata de Flor Rubra",
+    "type":  "HERBALISM",
+    "baseDurationSeconds":  6.9,
+    "difficulty":  1.96,
+    "maxQty":  2,
+    "minPlayerLevel":  13,
+    "minSkillLevel":  7,
+    "description":  "Fonte de ervas para alquimia e culinaria."
+}

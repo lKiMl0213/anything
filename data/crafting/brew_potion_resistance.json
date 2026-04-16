@@ -1,0 +1,31 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_potion_resistance",
+    "description":  "Brews Utility Potion Mini - Resistance (buff effect pending).",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  24,
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "name":  "Brew Utility Potion Mini - Resistance",
+    "baseDurationSeconds":  9,
+    "difficulty":  1.6,
+    "outputItemId":  "potion_resistance",
+    "outputQty":  1,
+    "minPlayerLevel":  12,
+    "minSkillLevel":  9,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "thorny_vine"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "charcoal"
+                        }
+                    ]
+}
+

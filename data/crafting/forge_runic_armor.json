@@ -1,0 +1,31 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_runic_armor",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  5,
+    "baseXp":  43,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "armor"
+             ],
+    "name":  "Forjar Armadura de Runica",
+    "baseDurationSeconds":  16,
+    "difficulty":  2.35,
+    "outputItemId":  "runic_armor",
+    "outputQty":  1,
+    "minPlayerLevel":  22,
+    "minSkillLevel":  18,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  4,
+                            "itemId":  "runic_bar"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "dense_wood"
+                        }
+                    ]
+}

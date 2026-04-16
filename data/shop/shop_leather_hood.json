@@ -1,0 +1,12 @@
+{
+  "id": "shop_leather_hood",
+  "name": "Capuz de Couro",
+  "itemId": "leather_hood",
+  "price": 60,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 1,
+  "description": "Protecao leve com foco em esquiva.",
+  "enabled": true,
+  "tags": ["gold", "archer", "armor"]
+}

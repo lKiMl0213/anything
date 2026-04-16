@@ -1,0 +1,11 @@
+{
+    "id":  "titanium_bar",
+    "name":  "Barra de Titanio",
+    "tags":  [
+                 "forge",
+                 "bar"
+             ],
+    "value":  22,
+    "type":  "MATERIAL",
+    "description":  "Barra refinada para forja de equipamentos."
+}

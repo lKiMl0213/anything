@@ -1,0 +1,26 @@
+{
+    "skillType":  "COOKING",
+    "id":  "extract_oil",
+    "description":  "Extrai oleo para receitas culinarias e forge.",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  14,
+    "tags":  [
+                 "cooking",
+                 "resource"
+             ],
+    "name":  "Extrair Oleo",
+    "baseDurationSeconds":  6,
+    "difficulty":  1.25,
+    "outputItemId":  "oil",
+    "outputQty":  1,
+    "minPlayerLevel":  7,
+    "minSkillLevel":  5,
+    "discipline":  "COOKING",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "small_fish"
+                        }
+                    ]
+}

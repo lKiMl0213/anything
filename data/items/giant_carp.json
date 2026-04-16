@@ -1,0 +1,13 @@
+{
+    "id":  "giant_carp",
+    "name":  "Carpa Gigante",
+    "tags":  [
+                 "fish",
+                 "fishing",
+                 "cooking",
+                 "legendary"
+             ],
+    "value":  18,
+    "type":  "MATERIAL",
+    "description":  "Carpa enorme de qualidade superior."
+}

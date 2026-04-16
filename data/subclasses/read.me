@@ -1,0 +1,25 @@
+SUBCLASSES
+
+Pasta: data/subclasses
+Cada arquivo JSON segue o modelo SubclassDef.
+
+Campos:
+- id: string
+- name: string
+- parentClassId: string
+- description: string
+- bonuses: Bonuses
+- growth: Attributes
+- autoPointWeights: Attributes
+- talentTreeId: string (opcional)
+
+Exemplo:
+{
+  "id": "berserker",
+  "name": "Berserker",
+  "parentClassId": "warrior",
+  "bonuses": { "attributes": { "str": 2 } },
+  "growth": { "str": 2 },
+  "autoPointWeights": { "str": 3 },
+  "talentTreeId": "berserker_tree"
+}

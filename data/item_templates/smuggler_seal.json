@@ -1,0 +1,13 @@
+{
+  "id": "smuggler_seal",
+  "name": "Selo de Contrabandista",
+  "type": "EQUIPMENT",
+  "rarity": "UNCOMMON",
+  "slot": "ACCESSORY",
+  "baseScaling": 3.5,
+  "baseStat": "HP_MAX",
+  "dropTier": 2,
+  "vendorBaseValue": 13,
+  "allowedAffixes": ["luk", "dex", "hp", "evasion", "accuracy"],
+  "tags": ["{Any.Class}", "accessory", "city"]
+}

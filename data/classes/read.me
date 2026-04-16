@@ -1,0 +1,36 @@
+CLASSES
+
+Pasta: data/classes
+Cada arquivo JSON segue o modelo ClassDef.
+
+Campos:
+- id: string
+- name: string
+- description: string
+- bonuses: Bonuses
+- growth: Attributes
+- autoPointWeights: Attributes (pesos para auto-distribuicao)
+- talentTreeId: string (opcional)
+- subclassIds: [string]
+- subclassUnlockLevel: int (opcional, default 10)
+- subclassUnlockQuestTemplateId: string (opcional)
+- specializationIds: [string] (opcional)
+- specializationUnlockLevel: int (opcional, default 50)
+- specializationUnlockQuestTemplateId: string (opcional)
+
+Exemplo:
+{
+  "id": "warrior",
+  "name": "Guerreiro",
+  "description": "Combate corpo a corpo.",
+  "bonuses": { "attributes": { "str": 2, "vit": 1 } },
+  "growth": { "str": 2, "vit": 2 },
+  "autoPointWeights": { "str": 3, "vit": 2 },
+  "talentTreeId": "warrior_basic",
+  "subclassIds": ["berserker"],
+  "subclassUnlockLevel": 25,
+  "subclassUnlockQuestTemplateId": "unlock_warrior_subclass_lv25",
+  "specializationIds": ["imperial_guard", "barbarian"],
+  "specializationUnlockLevel": 50,
+  "specializationUnlockQuestTemplateId": "unlock_warrior_specialization_lv50"
+}

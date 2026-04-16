@@ -1,0 +1,21 @@
+{
+    "skillType":  "MINING",
+    "id":  "ore_gold_ore_vein",
+    "minQty":  1,
+    "resourceItemId":  "gold_ore",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  29.5,
+    "tags":  [
+                 "ore",
+                 "mining"
+             ],
+    "name":  "Veio de Ouro",
+    "type":  "MINING",
+    "baseDurationSeconds":  7.5,
+    "difficulty":  1.9,
+    "maxQty":  2,
+    "minPlayerLevel":  11,
+    "minSkillLevel":  6,
+    "description":  "Nodo de mineracao da regiao."
+}

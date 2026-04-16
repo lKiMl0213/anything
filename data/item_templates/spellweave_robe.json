@@ -1,0 +1,14 @@
+{
+  "id": "spellweave_robe",
+  "name": "Robe de Trama Arcana",
+  "type": "EQUIPMENT",
+  "rarity": "COMMON",
+  "slot": "CHEST",
+  "minLevel": 2,
+  "baseScaling": 4.1,
+  "baseStat": "DEF_MAGIC",
+  "dropTier": 1,
+  "vendorBaseValue": 12,
+  "allowedAffixes": ["int", "spr", "mp", "warding", "regen"],
+  "tags": ["{mage}", "light_armor", "cloth"]
+}

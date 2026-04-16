@@ -1,0 +1,12 @@
+{
+    "id":  "runic_core",
+    "name":  "Nucleo Runico",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "construct",
+                 "rare_component",
+                 "arcane"
+             ],
+    "value":  11,
+    "description":  "Nucleo runico recuperado de sentinelas."
+}

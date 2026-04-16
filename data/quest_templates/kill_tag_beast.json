@@ -1,0 +1,28 @@
+{
+  "id": "kill_tag_beast",
+  "category": "combat",
+  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"],
+  "objectiveType": "KILL_TAG",
+  "targetType": "MONSTER_TAG",
+  "targetTag": "beast",
+  "amountRange": { "min": 4, "max": 10 },
+  "rewardProfile": {
+    "xpBase": 15,
+    "goldBase": 11,
+    "effortMultiplier": 1.05,
+    "itemRewards": [
+      { "itemId": "beast_meat", "chancePct": 30, "minQty": 1, "maxQty": 3 }
+    ]
+  },
+  "constraints": {
+    "minPlayerLevel": 1,
+    "maxPlayerLevel": 999,
+    "requiresDungeon": true
+  },
+  "titleTemplate": "Controle da Fauna Hostil",
+  "descriptionTemplate": "Elimine {amount} monstros da categoria {target}.",
+  "hintTemplate": "Bestas surgem com frequencia em areas selvagens.",
+  "enabled": true,
+  "weight": 8
+}
+

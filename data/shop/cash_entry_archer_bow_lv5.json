@@ -1,0 +1,12 @@
+{
+  "id": "cash_entry_archer_bow_lv5",
+  "name": "Tempest Bow Mk-I",
+  "itemId": "cash_archer_bow_lv5",
+  "price": 90,
+  "currency": "CASH",
+  "quantity": 1,
+  "minPlayerLevel": 5,
+  "description": "Bow premium de entrada para arqueiros.",
+  "enabled": true,
+  "tags": ["cash", "archer", "weapon"]
+}

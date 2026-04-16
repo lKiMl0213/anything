@@ -1,0 +1,28 @@
+CRAFTING RECIPES
+
+Pasta: data/crafting
+Cada arquivo JSON representa uma receita de craft.
+
+Campos:
+- id: string
+- name: string
+- discipline: "FORGE" | "ALCHEMY" | "COOKING"
+- outputItemId: id existente em data/items ou data/item_templates
+- outputQty: quantidade gerada por execucao
+- minPlayerLevel: nivel minimo para usar receita
+- minSkillLevel: nivel minimo da skill de profissao
+- skillType: "BLACKSMITH" | "ALCHEMIST" | "COOKING"
+- baseDurationSeconds: tempo base de execucao (antes da eficiencia)
+- baseXp: XP base da skill por execucao
+- difficulty: escala de dificuldade da receita
+- tier: tier da receita
+- ingredients: [{ itemId, quantity }]
+- description: texto opcional
+- enabled: true/false
+- tags: metadados opcionais
+
+Regras:
+- Todos os itemId devem existir no ItemRegistry.
+- Ingredientes sao consumidos no craft.
+- Se outputItemId for template, o jogo gera ItemInstance procedural.
+- Se outputItemId for item fixo, ele entra no inventario pelo proprio id.

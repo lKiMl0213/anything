@@ -1,0 +1,21 @@
+{
+    "skillType":  "MINING",
+    "id":  "ore_mithril_ore_vein",
+    "minQty":  1,
+    "resourceItemId":  "mithril_ore",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  36.5,
+    "tags":  [
+                 "ore",
+                 "mining"
+             ],
+    "name":  "Veio de Mithril",
+    "type":  "MINING",
+    "baseDurationSeconds":  8.9,
+    "difficulty":  2.26,
+    "maxQty":  2,
+    "minPlayerLevel":  15,
+    "minSkillLevel":  8,
+    "description":  "Nodo de mineracao da regiao."
+}

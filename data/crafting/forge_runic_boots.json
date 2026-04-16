@@ -1,0 +1,27 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_runic_boots",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  5,
+    "baseXp":  43,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "boots"
+             ],
+    "name":  "Forjar Botas de Runica",
+    "baseDurationSeconds":  13,
+    "difficulty":  2.35,
+    "outputItemId":  "runic_boots",
+    "outputQty":  1,
+    "minPlayerLevel":  22,
+    "minSkillLevel":  18,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "runic_bar"
+                        }
+                    ]
+}

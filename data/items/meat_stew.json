@@ -1,0 +1,15 @@
+{
+    "id":  "meat_stew",
+    "name":  "Ensopado de Carne",
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "value":  24,
+    "type":  "CONSUMABLE",
+    "description":  "Refeicao preparada na cozinha do aventureiro.",
+    "effects":  {
+                    "hpRestore":  30,
+                    "mpRestore":  10
+                }
+}

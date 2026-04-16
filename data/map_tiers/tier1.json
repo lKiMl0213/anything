@@ -1,0 +1,13 @@
+{
+  "id": "tier1",
+  "minLevel": 1,
+  "recommendedLevel": 3,
+  "baseMonsterLevel": 1,
+  "difficultyMultiplier": 1.0,
+  "allowedMonsterTemplates": ["slime", "skeleton_warrior"],
+  "dropTier": 1,
+  "dropChanceMultiplier": 1.0,
+  "xpMultiplier": 1.0,
+  "goldMultiplier": 1.0,
+  "biomeId": "wilds"
+}

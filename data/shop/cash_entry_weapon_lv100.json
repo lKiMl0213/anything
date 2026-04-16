@@ -1,0 +1,16 @@
+{
+    "id":  "cash_entry_weapon_lv100",
+    "name":  "Lamina Neon Omega",
+    "itemId":  "cash_weapon_lv100",
+    "price":  9800,
+    "currency":  "CASH",
+    "quantity":  1,
+    "minPlayerLevel":  100,
+    "description":  "Arma premium (req lvl 100).",
+    "enabled":  true,
+    "tags":  [
+                 "cash",
+                 "weapon",
+                 "endgame"
+             ]
+}

@@ -1,0 +1,21 @@
+{
+    "skillType":  "WOODCUTTING",
+    "id":  "wood_enchanted_wood_tree",
+    "minQty":  1,
+    "resourceItemId":  "enchanted_wood",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  28.5,
+    "tags":  [
+                 "wood",
+                 "woodcutting"
+             ],
+    "name":  "Bosque de Madeira Encantada",
+    "type":  "WOODCUTTING",
+    "baseDurationSeconds":  7.2,
+    "difficulty":  1.95,
+    "maxQty":  2,
+    "minPlayerLevel":  16,
+    "minSkillLevel":  6,
+    "description":  "Area de corte de madeira."
+}

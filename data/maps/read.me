@@ -1,0 +1,33 @@
+MAPS
+
+Pasta: data/maps
+Cada arquivo JSON segue o modelo MapDef.
+
+MapDef:
+- id: string
+- name: string
+- startRoomId: string
+- rooms: lista de RoomDef
+
+RoomDef:
+- id: string
+- name: string
+- description: string
+- monsters: [string] (ids de monster_archetypes)
+- connections: [string] (ids de outras salas)
+
+Exemplo:
+{
+  "id": "dungeon_01",
+  "name": "Cripta Esquecida",
+  "startRoomId": "entrance",
+  "rooms": [
+    {
+      "id": "entrance",
+      "name": "Entrada",
+      "description": "...",
+      "monsters": ["slime"],
+      "connections": ["hall"]
+    }
+  ]
+}

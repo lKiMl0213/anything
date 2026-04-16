@@ -1,0 +1,12 @@
+{
+  "id": "shop_ironbound_staff",
+  "name": "Cajado Reforcado de Ferro",
+  "itemId": "ironbound_staff",
+  "price": 185,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 5,
+  "description": "Versao metalica para magos que precisam de dano estavel.",
+  "enabled": true,
+  "tags": ["gold", "mage", "weapon"]
+}

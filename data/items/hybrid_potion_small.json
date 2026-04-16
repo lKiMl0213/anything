@@ -1,0 +1,16 @@
+{
+    "id":  "hybrid_potion_small",
+    "name":  "Hybrid Potion Small",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  26,
+    "type":  "CONSUMABLE",
+    "description":  "Restores 20 HP and 18 MP.",
+    "effects":  {
+                    "hpRestore":  20,
+                    "mpRestore":  18
+                }
+}
+

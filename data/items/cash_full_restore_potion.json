@@ -1,0 +1,13 @@
+{
+  "id": "cash_full_restore_potion",
+  "name": "Hybrid Potion Giant",
+  "type": "CONSUMABLE",
+  "tags": ["cash", "potion"],
+  "value": 220,
+  "description": "Fully restores HP and MP.",
+  "effects": {
+    "fullRestore": true
+  }
+}
+
+

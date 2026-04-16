@@ -1,0 +1,31 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_copper_armor",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  23,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "armor"
+             ],
+    "name":  "Forjar Armadura de Cobre",
+    "baseDurationSeconds":  12,
+    "difficulty":  1.35,
+    "outputItemId":  "copper_armor",
+    "outputQty":  1,
+    "minPlayerLevel":  2,
+    "minSkillLevel":  2,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  4,
+                            "itemId":  "copper_bar"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "dense_wood"
+                        }
+                    ]
+}

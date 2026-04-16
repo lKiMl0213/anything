@@ -1,0 +1,18 @@
+{
+  "id": "fishing_mist_lake_ghost",
+  "name": "Lago Nebuloso",
+  "type": "FISHING",
+  "skillType": "FISHING",
+  "resourceItemId": "ghost_fish",
+  "minQty": 1,
+  "maxQty": 1,
+  "minPlayerLevel": 72,
+  "minSkillLevel": 45,
+  "baseDurationSeconds": 11.3,
+  "baseXp": 48.0,
+  "difficulty": 3.15,
+  "tier": 5,
+  "description": "Peixe raro detectado apenas com visibilidade baixa.",
+  "enabled": true,
+  "tags": ["fishing", "lake", "legendary"]
+}

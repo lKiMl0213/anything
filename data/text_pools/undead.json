@@ -1,0 +1,39 @@
+{
+  "id": "undead",
+  "monsterTags": ["undead"],
+  "intros": [
+    "Um frio cortante toma o ambiente",
+    "Sussurros antigos ecoam",
+    "O ar se torna pesado",
+    "O cheiro de decomposicao e forte",
+    "O silencio e perturbador",
+    "O chao esta coberto de ossos",
+    "A escuridao e quase palpavel",
+    "O ambiente e sombrio e claustrofobico",
+    "A sensacao de ser observado e constante"
+  ],
+  "descriptors": [
+    "um morto-vivo deformado",
+    "uma carcaca animada",
+    "um ser profano",
+    "um espectro vingativo",
+    "um zumbi faminto",
+    "um esqueleto armado",
+    "um ser de ossos e carne putrefata",
+    "um inimigo que nao descansa",
+    "um adversario que se recusa a morrer",
+    "um ser amaldicoado"
+  ],
+  "threats": [
+    "Ele arrasta correntes enferrujadas",
+    "Um gemido sepulcral ecoa",
+    "O mal antigo desperta",
+    "O inimigo se aproxima silenciosamente",
+    "O perigo e iminente",
+    "A batalha e inevitavel",
+    "O confronto e brutal",
+    "O inimigo ataca sem aviso",
+    "A luta e desesperada",
+    "O adversario e implacavel"
+  ]
+}

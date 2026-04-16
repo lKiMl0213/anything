@@ -1,0 +1,21 @@
+{
+    "skillType":  "WOODCUTTING",
+    "id":  "wood_sturdy_wood_tree",
+    "minQty":  1,
+    "resourceItemId":  "sturdy_wood",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  31.8,
+    "tags":  [
+                 "wood",
+                 "woodcutting"
+             ],
+    "name":  "Bosque de Madeira Resistente",
+    "type":  "WOODCUTTING",
+    "baseDurationSeconds":  7.8,
+    "difficulty":  2.14,
+    "maxQty":  2,
+    "minPlayerLevel":  19,
+    "minSkillLevel":  7,
+    "description":  "Area de corte de madeira."
+}

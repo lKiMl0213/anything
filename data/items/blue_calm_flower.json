@@ -1,0 +1,12 @@
+{
+    "id":  "blue_calm_flower",
+    "name":  "Flor Azul Calmante",
+    "tags":  [
+                 "herb",
+                 "gathering",
+                 "alchemy"
+             ],
+    "value":  5,
+    "type":  "MATERIAL",
+    "description":  "Flor aromatica para compostos calmantes."
+}

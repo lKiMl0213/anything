@@ -1,0 +1,8 @@
+{
+  "id": "agi",
+  "name": "da Agilidade",
+  "kind": "SUFFIX",
+  "bonuses": { "attributes": { "agi": 3 } },
+  "cost": 15,
+  "weight": 10
+}

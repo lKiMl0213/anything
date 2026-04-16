@@ -1,0 +1,11 @@
+{
+    "id":  "obsidian_bar",
+    "name":  "Barra de Obsidiana",
+    "tags":  [
+                 "forge",
+                 "bar"
+             ],
+    "value":  26,
+    "type":  "MATERIAL",
+    "description":  "Barra refinada para forja de equipamentos."
+}

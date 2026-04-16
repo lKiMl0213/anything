@@ -1,0 +1,8 @@
+{
+  "id": "str",
+  "name": "da Forca",
+  "kind": "SUFFIX",
+  "bonuses": { "attributes": { "str": 3 } },
+  "cost": 15,
+  "weight": 10
+}

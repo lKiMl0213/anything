@@ -1,0 +1,12 @@
+{
+    "id":  "thorny_vine",
+    "name":  "Trepadeira Espinhosa",
+    "tags":  [
+                 "herb",
+                 "gathering",
+                 "craft"
+             ],
+    "value":  11,
+    "type":  "MATERIAL",
+    "description":  "Fibra vegetal resistente para receitas utilitarias."
+}

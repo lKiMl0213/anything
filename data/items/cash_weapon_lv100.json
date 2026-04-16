@@ -1,0 +1,29 @@
+{
+    "id":  "cash_weapon_lv100",
+    "name":  "Lamina Neon Omega",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  100,
+    "tags":  [
+                 "{Any.Class}",
+                 "cash",
+                 "endgame"
+             ],
+    "value":  9000,
+    "description":  "Arma premium extrema para nivel 100+.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "str":  170,
+                                       "dex":  95,
+                                       "agi":  80,
+                                       "vit":  120,
+                                       "luk":  35
+                                   },
+                    "derivedAdd":  {
+                                       "damagePhysical":  340.0,
+                                       "hpMax":  1800.0,
+                                       "attackSpeed":  0.7,
+                                       "critChancePct":  12.0
+                                   }
+                }
+}

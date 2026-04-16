@@ -1,0 +1,8 @@
+{
+  "id": "focus",
+  "name": "da Convergencia",
+  "kind": "SUFFIX",
+  "bonuses": { "derivedAdd": { "critDamagePct": 10.0, "mpRegen": 1.0 } },
+  "cost": 20,
+  "weight": 5
+}

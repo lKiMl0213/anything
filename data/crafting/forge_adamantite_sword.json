@@ -1,0 +1,31 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_adamantite_sword",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  38,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "sword"
+             ],
+    "name":  "Forjar Espada de Adamantita",
+    "baseDurationSeconds":  13,
+    "difficulty":  2.1,
+    "outputItemId":  "adamantite_sword",
+    "outputQty":  1,
+    "minPlayerLevel":  18,
+    "minSkillLevel":  15,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "adamantite_bar"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "wood_log"
+                        }
+                    ]
+}

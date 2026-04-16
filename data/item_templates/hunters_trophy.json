@@ -1,0 +1,13 @@
+{
+  "id": "hunters_trophy",
+  "name": "Trofeu do Cacador",
+  "type": "EQUIPMENT",
+  "rarity": "RARE",
+  "slot": "ACCESSORY",
+  "baseScaling": 4.2,
+  "baseStat": "DAMAGE_PHYSICAL",
+  "dropTier": 2,
+  "vendorBaseValue": 15,
+  "allowedAffixes": ["dex", "str", "crit", "accuracy", "atk_speed"],
+  "tags": ["{Any.Class}", "accessory", "offense"]
+}

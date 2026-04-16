@@ -1,0 +1,13 @@
+{
+    "id":  "weak_wood",
+    "name":  "Madeira Fraca",
+    "tags":  [
+                 "wood",
+                 "woodcutting",
+                 "forge",
+                 "cooking"
+             ],
+    "value":  2,
+    "type":  "MATERIAL",
+    "description":  "Fibra simples para artesanato basico."
+}

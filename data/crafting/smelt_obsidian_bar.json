@@ -1,0 +1,30 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "smelt_obsidian_bar",
+    "description":  "Refino de barra metalica.",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  32,
+    "tags":  [
+                 "smelting",
+                 "bar"
+             ],
+    "name":  "Fundir Barra de Obsidiana",
+    "baseDurationSeconds":  14,
+    "difficulty":  1.8,
+    "outputItemId":  "obsidian_bar",
+    "outputQty":  1,
+    "minPlayerLevel":  17,
+    "minSkillLevel":  13,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "obsidian_ore"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "charcoal"
+                        }
+                    ]
+}

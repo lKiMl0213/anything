@@ -1,0 +1,14 @@
+{
+  "id": "construct",
+  "name": "Construct",
+  "description": "Criaturas artificiais com corpo rigido e pouco sangue.",
+  "tags": ["construct", "armored"],
+  "damageAffinities": {
+    "physical": 0.9,
+    "magic": 1.08,
+    "bleed": 0.4,
+    "poison": 0.7,
+    "blunt": 1.15
+  }
+}
+

@@ -1,0 +1,21 @@
+{
+    "skillType":  "GATHERING",
+    "id":  "herb_wild_mint_leaf_patch",
+    "minQty":  1,
+    "resourceItemId":  "wild_mint_leaf",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  20.3,
+    "tags":  [
+                 "herb",
+                 "gathering"
+             ],
+    "name":  "Mata de Folha de Hortela Selvagem",
+    "type":  "HERBALISM",
+    "baseDurationSeconds":  5.25,
+    "difficulty":  1.48,
+    "maxQty":  3,
+    "minPlayerLevel":  7,
+    "minSkillLevel":  4,
+    "description":  "Fonte de ervas para alquimia e culinaria."
+}

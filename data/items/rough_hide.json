@@ -1,0 +1,12 @@
+{
+    "id":  "rough_hide",
+    "name":  "Couro Bruto",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "beast",
+                 "material",
+                 "craft"
+             ],
+    "value":  3,
+    "description":  "Couro bruto pronto para curtume."
+}

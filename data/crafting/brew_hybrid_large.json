@@ -1,0 +1,31 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_hybrid_large",
+    "description":  "Brews Hybrid Potion Large (restores 90 HP and 80 MP).",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  36,
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "name":  "Brew Hybrid Potion Large",
+    "baseDurationSeconds":  12,
+    "difficulty":  1.8,
+    "outputItemId":  "hybrid_potion_large",
+    "outputQty":  1,
+    "minPlayerLevel":  18,
+    "minSkillLevel":  14,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "golden_flower"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "shadow_herb"
+                        }
+                    ]
+}
+

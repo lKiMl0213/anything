@@ -1,0 +1,16 @@
+{
+    "id":  "potion_resistance",
+    "name":  "Utility Potion Mini - Resistance",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  65,
+    "type":  "CONSUMABLE",
+    "description":  "No direct HP/MP restore. Resistance buff effect is not configured yet.",
+    "effects":  {
+                    "hpRestore":  0,
+                    "mpRestore":  0
+                }
+}
+

@@ -1,0 +1,11 @@
+{
+    "id":  "arrow_explosive",
+    "name":  "Flecha Explosiva",
+    "tags":  [
+                 "ammo",
+                 "arrow"
+             ],
+    "value":  8,
+    "type":  "MATERIAL",
+    "description":  "Municao para arcos e bestas."
+}

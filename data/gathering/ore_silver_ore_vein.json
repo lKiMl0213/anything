@@ -1,0 +1,21 @@
+{
+    "skillType":  "MINING",
+    "id":  "ore_silver_ore_vein",
+    "minQty":  1,
+    "resourceItemId":  "silver_ore",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  26,
+    "tags":  [
+                 "ore",
+                 "mining"
+             ],
+    "name":  "Veio de Prata",
+    "type":  "MINING",
+    "baseDurationSeconds":  6.8,
+    "difficulty":  1.72,
+    "maxQty":  2,
+    "minPlayerLevel":  9,
+    "minSkillLevel":  5,
+    "description":  "Nodo de mineracao da regiao."
+}

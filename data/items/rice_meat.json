@@ -1,0 +1,15 @@
+{
+    "id":  "rice_meat",
+    "name":  "Arroz com Carne",
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "value":  24,
+    "type":  "CONSUMABLE",
+    "description":  "Refeicao preparada na cozinha do aventureiro.",
+    "effects":  {
+                    "hpRestore":  28,
+                    "mpRestore":  12
+                }
+}

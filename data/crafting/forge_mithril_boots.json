@@ -1,0 +1,27 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_mithril_boots",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  33,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "boots"
+             ],
+    "name":  "Forjar Botas de Mithril",
+    "baseDurationSeconds":  11,
+    "difficulty":  1.85,
+    "outputItemId":  "mithril_boots",
+    "outputQty":  1,
+    "minPlayerLevel":  14,
+    "minSkillLevel":  12,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "mithril_bar"
+                        }
+                    ]
+}

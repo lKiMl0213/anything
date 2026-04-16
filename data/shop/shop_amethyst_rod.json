@@ -1,0 +1,12 @@
+{
+  "id": "shop_amethyst_rod",
+  "name": "Bastao de Ametista",
+  "itemId": "amethyst_rod",
+  "price": 430,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 10,
+  "description": "Arma de pedra preciosa para magos de burst e controle.",
+  "enabled": true,
+  "tags": ["gold", "mage", "weapon"]
+}

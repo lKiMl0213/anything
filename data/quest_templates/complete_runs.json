@@ -1,0 +1,27 @@
+{
+  "id": "complete_runs",
+  "category": "exploration",
+  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"],
+  "objectiveType": "COMPLETE_RUN",
+  "targetType": "RUN",
+  "amountRange": { "min": 1, "max": 3 },
+  "rewardProfile": {
+    "xpBase": 22,
+    "goldBase": 18,
+    "effortMultiplier": 1.25,
+    "itemRewards": [
+      { "itemId": "ether_small", "chancePct": 30, "minQty": 1, "maxQty": 2 }
+    ]
+  },
+  "constraints": {
+    "minPlayerLevel": 1,
+    "maxPlayerLevel": 999,
+    "requiresDungeon": true
+  },
+  "titleTemplate": "Explorador Persistente",
+  "descriptionTemplate": "Conclua {amount} exploracoes completas da dungeon.",
+  "hintTemplate": "Sair vivo da run conta para esta meta.",
+  "enabled": true,
+  "weight": 6
+}
+

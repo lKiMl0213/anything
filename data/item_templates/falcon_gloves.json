@@ -1,0 +1,14 @@
+{
+  "id": "falcon_gloves",
+  "name": "Luvas de Falcoeiro",
+  "type": "EQUIPMENT",
+  "rarity": "UNCOMMON",
+  "slot": "GLOVES",
+  "minLevel": 4,
+  "baseScaling": 3.2,
+  "baseStat": "ATTACK_SPEED",
+  "dropTier": 2,
+  "vendorBaseValue": 12,
+  "allowedAffixes": ["dex", "agi", "accuracy", "atk_speed", "crit"],
+  "tags": ["{archer}", "light_armor", "leather"]
+}

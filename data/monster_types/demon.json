@@ -1,0 +1,14 @@
+{
+  "id": "demon",
+  "name": "Demon",
+  "description": "Criaturas corrompidas que resistem trevas e sofrem contra luz.",
+  "tags": ["demon", "corrupted"],
+  "damageAffinities": {
+    "physical": 1.0,
+    "magic": 0.95,
+    "shadow": 0.7,
+    "holy": 1.3,
+    "fire": 0.9
+  }
+}
+

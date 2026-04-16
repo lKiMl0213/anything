@@ -1,0 +1,18 @@
+{
+  "id": "fishing_ocean_tuna",
+  "name": "Oceano Costeiro",
+  "type": "FISHING",
+  "skillType": "FISHING",
+  "resourceItemId": "tuna",
+  "minQty": 1,
+  "maxQty": 2,
+  "minPlayerLevel": 20,
+  "minSkillLevel": 11,
+  "baseDurationSeconds": 6.9,
+  "baseXp": 21.0,
+  "difficulty": 1.7,
+  "tier": 2,
+  "description": "Mar aberto com capturas mais robustas.",
+  "enabled": true,
+  "tags": ["fishing", "ocean"]
+}

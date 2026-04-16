@@ -1,0 +1,12 @@
+{
+    "id":  "torn_cape",
+    "name":  "Capa Rasgada",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "humanoid",
+                 "sell",
+                 "cloth"
+             ],
+    "value":  2,
+    "description":  "Capa velha arrancada em combate."
+}

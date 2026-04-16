@@ -1,0 +1,31 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_hp_large",
+    "description":  "Brews HP Potion Large (restores 130 HP).",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  32,
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "name":  "Brew HP Potion Large",
+    "baseDurationSeconds":  11,
+    "difficulty":  1.8,
+    "outputItemId":  "hp_potion_large",
+    "outputQty":  1,
+    "minPlayerLevel":  16,
+    "minSkillLevel":  12,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "golden_flower"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "shadow_herb"
+                        }
+                    ]
+}
+

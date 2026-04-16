@@ -1,0 +1,12 @@
+{
+    "id":  "magma_shard",
+    "name":  "Fragmento de Magma",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "elemental",
+                 "material",
+                 "fire"
+             ],
+    "value":  6,
+    "description":  "Fragmento incandescente de magma."
+}

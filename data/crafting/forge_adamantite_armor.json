@@ -1,0 +1,31 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_adamantite_armor",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  38,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "armor"
+             ],
+    "name":  "Forjar Armadura de Adamantita",
+    "baseDurationSeconds":  15,
+    "difficulty":  2.1,
+    "outputItemId":  "adamantite_armor",
+    "outputQty":  1,
+    "minPlayerLevel":  18,
+    "minSkillLevel":  15,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  4,
+                            "itemId":  "adamantite_bar"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "dense_wood"
+                        }
+                    ]
+}

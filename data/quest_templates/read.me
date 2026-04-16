@@ -1,0 +1,41 @@
+QUEST TEMPLATES (PROCEDURAL)
+
+Pasta: data/quest_templates
+Cada arquivo JSON representa um template reutilizavel (nao uma quest fixa).
+
+Campos principais:
+- id: string
+- category: string livre (ex: "combat", "gather", "craft")
+- supportedTiers: ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"]
+- objectiveType:
+  - "KILL_MONSTER"
+  - "KILL_TAG"
+  - "COLLECT_ITEM"
+  - "CRAFT_ITEM"
+  - "GATHER_RESOURCE"
+  - "REACH_FLOOR"
+  - "COMPLETE_RUN"
+- targetType:
+  - "MONSTER_ID" | "MONSTER_TAG" | "ITEM_ID" | "RESOURCE_ID" | "FLOOR" | "RUN"
+- targetId / targetTag:
+  - deixe vazio para target dinamico procedural
+  - preencha para restringir (ex: "undead")
+- amountRange: { "min": 1, "max": 10 }
+- rewardProfile:
+  - xpBase, goldBase, effortMultiplier
+  - itemRewards: [{ itemId, chancePct, minQty, maxQty }]
+  - specialCurrencyBase
+- constraints:
+  - minPlayerLevel / maxPlayerLevel
+  - requiresCrafting / requiresGathering / requiresDungeon
+  - consumeTargetOnComplete (entrega remove item do inventario ao concluir)
+- titleTemplate / descriptionTemplate / hintTemplate
+  Placeholders: {target}, {targetId}, {targetTag}, {amount}, {tier}
+- enabled: true/false
+- weight: peso de selecao procedural
+
+Observacoes:
+- O sistema gera a QuestInstance baseado no estado atual do jogador.
+- Nao crie quests impossiveis: sempre valide alvo/itens existentes.
+- Prefira templates genericos para escalar o conteudo.
+

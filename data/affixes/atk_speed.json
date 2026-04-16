@@ -1,0 +1,8 @@
+{
+  "id": "atk_speed",
+  "name": "da Celeridade",
+  "kind": "SUFFIX",
+  "bonuses": { "derivedMult": { "attackSpeed": 5.0 } },
+  "cost": 22,
+  "weight": 7
+}

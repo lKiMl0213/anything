@@ -1,0 +1,11 @@
+{
+  "id": "ether_small",
+  "name": "MP Potion Mini",
+  "type": "CONSUMABLE",
+  "description": "Restores 10 MP.",
+  "value": 18,
+  "effects": {
+    "mpRestore": 10
+  }
+}
+

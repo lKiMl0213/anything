@@ -1,0 +1,11 @@
+{
+    "id":  "crystal_shard",
+    "name":  "Cristal",
+    "tags":  [
+                 "alchemy",
+                 "arcane"
+             ],
+    "value":  8,
+    "type":  "MATERIAL",
+    "description":  "Fragmento de cristal para imbuicoes."
+}

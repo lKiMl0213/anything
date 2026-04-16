@@ -1,0 +1,62 @@
+{
+  "id": "thief",
+  "name": "Thief",
+  "archetype": "Humanoid",
+  "baseType": "thief",
+  "monsterTypeId": "humanoid",
+  "family": "humanoid",
+  "displayName": "Ladrao",
+  "baseAttributes": {
+    "str": 7,
+    "agi": 9,
+    "dex": 9,
+    "vit": 6,
+    "spr": 4
+  },
+  "growthAttributes": {
+    "agi": 3,
+    "dex": 3,
+    "vit": 2,
+    "str": 1
+  },
+  "variancePct": 0.15,
+  "tags": ["humanoid", "city", "rogue", "thief"],
+  "questTags": ["humanoid", "thief", "city"],
+  "behaviorProfileId": "humanoid",
+  "onHitStatuses": [
+    {
+      "type": "BLEEDING",
+      "chancePct": 18,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 2,
+      "effectValue": 6,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Corte Profundo"
+    },
+    {
+      "type": "POISONED",
+      "chancePct": 10,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 3,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Lamina Suja"
+    }
+  ],
+  "dropTableId": "city_cutpurse",
+  "lootProfileId": "city_cutpurse",
+  "baseXp": 36,
+  "baseGold": 13,
+  "damageAffinities": {
+    "physical": 1.0,
+    "magic": 1.1,
+    "fire": 1.05,
+    "holy": 1.15,
+    "shadow": 0.9,
+    "poison": 1.0,
+    "bleed": 1.0,
+    "arcane": 1.0
+  }
+}

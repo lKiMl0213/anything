@@ -1,0 +1,12 @@
+{
+  "id": "shop_scout_tunic",
+  "name": "Tunica de Batedor",
+  "itemId": "scout_tunic",
+  "price": 90,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 2,
+  "description": "Peitoral leve para combate movel.",
+  "enabled": true,
+  "tags": ["gold", "archer", "armor"]
+}

@@ -1,0 +1,13 @@
+{
+    "id":  "shadow_wood",
+    "name":  "Madeira Sombria",
+    "tags":  [
+                 "wood",
+                 "woodcutting",
+                 "forge",
+                 "dark"
+             ],
+    "value":  8,
+    "type":  "MATERIAL",
+    "description":  "Madeira de biomas escuros."
+}

@@ -1,0 +1,24 @@
+TEXT POOLS
+
+Pasta: data/text_pools
+Cada arquivo JSON segue o modelo TextPoolDef.
+
+Campos:
+- id: string
+- intros: [string]
+- descriptors: [string]
+- threats: [string]
+- monsterTags: [string]
+- biomeIds: [string]
+- dangerLevels: [string]
+
+Exemplo:
+{
+  "id": "wilds_default",
+  "intros": ["Voce sente o perigo"],
+  "descriptors": ["sombras densas"],
+  "threats": ["um rugido distante"],
+  "monsterTags": ["beast"],
+  "biomeIds": ["wilds"],
+  "dangerLevels": ["low", "mid", "high"]
+}

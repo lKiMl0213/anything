@@ -1,0 +1,28 @@
+{
+  "id": "craft_item_any",
+  "category": "craft",
+  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"],
+  "objectiveType": "CRAFT_ITEM",
+  "targetType": "ITEM_ID",
+  "amountRange": { "min": 1, "max": 4 },
+  "rewardProfile": {
+    "xpBase": 18,
+    "goldBase": 14,
+    "effortMultiplier": 1.15,
+    "itemRewards": [
+      { "itemId": "iron_ingot", "chancePct": 35, "minQty": 1, "maxQty": 2 }
+    ]
+  },
+  "constraints": {
+    "minPlayerLevel": 1,
+    "maxPlayerLevel": 999,
+    "requiresCrafting": true,
+    "requiresDungeon": false
+  },
+  "titleTemplate": "Producao de Oficina",
+  "descriptionTemplate": "Crie {amount} {target} em uma disciplina de craft habilitada.",
+  "hintTemplate": "Use Forja, Alquimia ou Culinaria conforme a receita disponivel.",
+  "enabled": true,
+  "weight": 8
+}
+

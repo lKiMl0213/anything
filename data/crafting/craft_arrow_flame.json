@@ -1,0 +1,34 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "craft_arrow_flame",
+    "description":  "Municao para combate a distancia.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  25,
+    "tags":  [
+                 "ammo",
+                 "arrow"
+             ],
+    "name":  "Criar Flecha Flamejante",
+    "baseDurationSeconds":  9,
+    "difficulty":  1.6,
+    "outputItemId":  "arrow_flame",
+    "outputQty":  20,
+    "minPlayerLevel":  15,
+    "minSkillLevel":  11,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "wood_log"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "charcoal"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "oil"
+                        }
+                    ]
+}

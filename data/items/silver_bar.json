@@ -1,0 +1,11 @@
+{
+    "id":  "silver_bar",
+    "name":  "Barra de Prata",
+    "tags":  [
+                 "forge",
+                 "bar"
+             ],
+    "value":  16,
+    "type":  "MATERIAL",
+    "description":  "Barra refinada para forja de equipamentos."
+}

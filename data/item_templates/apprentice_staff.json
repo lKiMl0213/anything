@@ -1,0 +1,19 @@
+{
+    "id":  "apprentice_staff",
+    "name":  "Cajado Aprendiz",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "baseScaling":  5.0,
+    "baseStat":  "DAMAGE_MAGIC",
+    "dropTier":  1,
+    "vendorBaseValue":  12,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "crit",
+                           "mp"
+                       ],
+    "tags":  [
+                 "{mage}"
+             ]
+}

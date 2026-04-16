@@ -1,0 +1,38 @@
+ITEMS (FIXOS)
+
+Pasta: data/items
+Cada arquivo JSON segue o modelo ItemDef (itens nao-procedurais).
+
+Campos:
+- id: string
+- name: string
+- type: "EQUIPMENT" | "CONSUMABLE" | "MATERIAL"
+- rarity: ItemRarity
+- tags: [string]
+- slot: EquipSlot (se for equipamento)
+- twoHanded: bool (somente armas)
+- bonuses: Bonuses
+- effects: ItemEffects (consumiveis)
+- value: int
+- description: string
+
+EquipSlot:
+HEAD, CHEST, LEGS, BOOTS, GLOVES, CAPE, WEAPON_MAIN, WEAPON_OFF, ALJAVA, BACKPACK, ACCESSORY
+
+Exemplo:
+{
+  "id": "short_bow",
+  "name": "Arco Curto",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "twoHanded": true,
+  "tags": ["bow", "two_handed"],
+  "bonuses": { "attributes": { "dex": 2, "agi": 1 } },
+  "description": "Leve e agil."
+}
+
+Tags recomendadas (uso por regras de equipamento):
+- "shield": escudo (so pode em WEAPON_OFF e exige arma de 1 mao)
+Uso de MATERIAL:
+- Itens de recurso para craft/gather.
+- Nao sao equipaveis nem consumiveis em combate.

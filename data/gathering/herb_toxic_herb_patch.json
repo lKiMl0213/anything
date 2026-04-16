@@ -1,0 +1,21 @@
+{
+    "skillType":  "GATHERING",
+    "id":  "herb_toxic_herb_patch",
+    "minQty":  1,
+    "resourceItemId":  "toxic_herb",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  26.5,
+    "tags":  [
+                 "herb",
+                 "gathering"
+             ],
+    "name":  "Mata de Erva Toxica",
+    "type":  "HERBALISM",
+    "baseDurationSeconds":  6.35,
+    "difficulty":  1.8,
+    "maxQty":  2,
+    "minPlayerLevel":  11,
+    "minSkillLevel":  6,
+    "description":  "Fonte de ervas para alquimia e culinaria."
+}

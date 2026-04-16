@@ -1,0 +1,341 @@
+{
+    "id":  "warrior_imperial_guard_v2",
+    "classId":  "warrior",
+    "tier":  3,
+    "unlockLevel":  50,
+    "requirements":  [
+                         {
+                             "type":  "SPECIALIZATION_ID",
+                             "expectedValue":  "imperial_guard"
+                         }
+                     ],
+    "nodes":  [
+                  {
+                      "id":  "imperial_guard_unbreakable_wall",
+                      "name":  "Unbreakable Wall",
+                      "description":  "Tank core with extreme mitigation and frontline consistency.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "defPhysical":  14,
+                                                                           "defMagic":  12,
+                                                                           "damageReductionPct":  7,
+                                                                           "tenacityPct":  10
+                                                                       },
+                                                        "derivedMult":  {
+                                                                            "hpMax":  10
+                                                                        }
+                                                    }
+                                    },
+                      "tags":  [
+                                   "imperial_guard",
+                                   "tank",
+                                   "mitigation"
+                               ]
+                  },
+                  {
+                      "id":  "imperial_guard_provoking_blow",
+                      "name":  "Provoking Blow",
+                      "description":  "Forces enemy pressure down with reliable control effects.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          2
+                                      ],
+                      "unlocksSkillId":  "imperial_provoking_blow",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  14.0,
+                                                       "cooldownSeconds":  2.8,
+                                                       "castTimeSeconds":  0.3,
+                                                       "damageMultiplier":  1.2,
+                                                       "damageTypeMagic":  0.0,
+                                                       "damageMultiplierPerRank":  0.12,
+                                                       "cooldownPerRank":  -0.12,
+                                                       "castTimePerRank":  -0.05,
+                                                       "statusChancePerRankPct":  4,
+                                                       "statusDurationPerRankSeconds":  0.25,
+                                                       "statusEffectPerRank":  0.35,
+                                                       "statusMaxStacksPerRank":  1
+                                                   },
+                                        "applyStatuses":  [
+                                                              {
+                                                                  "type":  "WEAKNESS",
+                                                                  "chancePct":  78.0,
+                                                                  "durationSeconds":  4.5,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  14.0,
+                                                                  "stackable":  false,
+                                                                  "maxStacks":  1,
+                                                                  "source":  "Provoking Blow"
+                                                              },
+                                                              {
+                                                                  "type":  "SLOW",
+                                                                  "chancePct":  62.0,
+                                                                  "durationSeconds":  3.5,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  16.0,
+                                                                  "stackable":  false,
+                                                                  "maxStacks":  1,
+                                                                  "source":  "Provoking Blow"
+                                                              }
+                                                          ]
+                                    },
+                      "tags":  [
+                                   "imperial_guard",
+                                   "tank",
+                                   "control",
+                                   "provoke"
+                               ]
+                  },
+                  {
+                      "id":  "imperial_guard_bastion_aura",
+                      "name":  "Bastion Aura",
+                      "description":  "Area-like defensive aura with status resistance and reflection.",
+                      "nodeType":  "MODIFIER",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "status":  {
+                                                       "incomingDurationPct":  -22.0,
+                                                       "incomingDuration.BURNING.Pct":  -30.0,
+                                                       "incomingDuration.POISONED.Pct":  -30.0,
+                                                       "incomingDuration.BLEEDING.Pct":  -30.0,
+                                                       "reflectDamagePct":  24.0
+                                                   },
+                                        "atb":  {
+                                                    "slowResistPct":  35.0,
+                                                    "interruptResistPct":  24.0
+                                                }
+                                    },
+                      "tags":  [
+                                   "imperial_guard",
+                                   "aura",
+                                   "status_resist",
+                                   "reflect"
+                               ]
+                  },
+                  {
+                      "id":  "imperial_guard_guardian_pulse",
+                      "name":  "Guardian Pulse",
+                      "description":  "Steady tank sustain with mild pressure and recovery.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          2
+                                      ],
+                      "unlocksSkillId":  "imperial_guardian_pulse",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  18.0,
+                                                       "cooldownSeconds":  4.4,
+                                                       "castTimeSeconds":  0.7,
+                                                       "damageMultiplier":  1.05,
+                                                       "damageTypeMagic":  0.0,
+                                                       "selfHealFlat":  18.0,
+                                                       "selfHealPctMaxHp":  9.0,
+                                                       "damageMultiplierPerRank":  0.12,
+                                                       "cooldownPerRank":  -0.12,
+                                                       "castTimePerRank":  -0.05
+                                                   }
+                                    },
+                      "tags":  [
+                                   "imperial_guard",
+                                   "tank",
+                                   "sustain"
+                               ]
+                  },
+                  {
+                      "id":  "imperial_guard_phalanx",
+                      "name":  "Phalanx Discipline",
+                      "description":  "Supreme mitigation cadence for long boss encounters.",
+                      "nodeType":  "UPGRADE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "damageReductionPct":  5,
+                                                                           "defPhysical":  8,
+                                                                           "defMagic":  6
+                                                                       }
+                                                    },
+                                        "atb":  {
+                                                    "gcdPct":  -10.0,
+                                                    "cooldownPct":  -8.0,
+                                                    "fillRatePct":  6.0
+                                                }
+                                    },
+                      "tags":  [
+                                   "imperial_guard",
+                                   "tank",
+                                   "mitigation",
+                                   "atb"
+                               ]
+                  },
+                  {
+                      "id":  "warrior_imperial_guard_v2_offense_path",
+                      "name":  "Caminho de Dano",
+                      "description":  "Pressao de dano, critico e execute.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "imperial_guard_unbreakable_wall",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "warrior_imperial_guard_v2_choice_path",
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "damagePhysical":  4,
+                                                                           "critDamagePct":  8
+                                                                       }
+                                                    },
+                                        "atb":  {
+                                                    "barGainOnCritPct":  8,
+                                                    "cooldownReduceOnKillSeconds":  1
+                                                },
+                                        "status":  {
+                                                       "bonusDamageVsLowHpPct":  12,
+                                                       "lowHpThresholdPct":  35
+                                                   }
+                                    },
+                      "tags":  [
+                                   "warrior",
+                                   "choice",
+                                   "path"
+                               ]
+                  },
+                  {
+                      "id":  "warrior_imperial_guard_v2_control_path",
+                      "name":  "Caminho de Controle",
+                      "description":  "Controle, resistencia e sustain tatico.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "imperial_guard_unbreakable_wall",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "warrior_imperial_guard_v2_choice_path",
+                      "modifiers":  {
+                                        "atb":  {
+                                                    "noManaCostChancePct":  10,
+                                                    "barGainOnStatusApplyPct":  8,
+                                                    "tempDamageBuffOnStatusApplyPct":  6,
+                                                    "tempBuffDurationSeconds":  4
+                                                },
+                                        "status":  {
+                                                       "incomingDurationPct":  -12,
+                                                       "reflectDamagePct":  6
+                                                   }
+                                    },
+                      "tags":  [
+                                   "warrior",
+                                   "choice",
+                                   "path"
+                               ]
+                  },
+                  {
+                      "id":  "warrior_imperial_guard_v2_single_target_path",
+                      "name":  "Doutrina Single Target",
+                      "description":  "Foco em alvo unico, critico e finalizacao.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "imperial_guard_provoking_blow",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "warrior_imperial_guard_v2_aoe_single_choice",
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "critChancePct":  2,
+                                                                           "critDamagePct":  6
+                                                                       }
+                                                    },
+                                        "status":  {
+                                                       "bonusDamageVsLowHpPct":  14,
+                                                       "lowHpThresholdPct":  35
+                                                   },
+                                        "atb":  {
+                                                    "barGainOnCritPct":  6
+                                                }
+                                    },
+                      "tags":  [
+                                   "warrior",
+                                   "choice",
+                                   "aoe_single"
+                               ]
+                  },
+                  {
+                      "id":  "warrior_imperial_guard_v2_aoe_path",
+                      "name":  "Doutrina AOE",
+                      "description":  "Foco em impacto em area e controle por status.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "imperial_guard_provoking_blow",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "warrior_imperial_guard_v2_aoe_single_choice",
+                      "modifiers":  {
+                                        "status":  {
+                                                       "applyChancePct":  8,
+                                                       "durationPct":  8
+                                                   },
+                                        "atb":  {
+                                                    "barGainOnStatusApplyPct":  6,
+                                                    "tempDamageBuffOnStatusApplyPct":  6,
+                                                    "tempBuffDurationSeconds":  4
+                                                }
+                                    },
+                      "tags":  [
+                                   "warrior",
+                                   "choice",
+                                   "aoe_single"
+                               ]
+                  }
+              ]
+}

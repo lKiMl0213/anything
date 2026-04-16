@@ -1,0 +1,9 @@
+{
+  "id": "slime_gel",
+  "name": "Gel de Slime",
+  "type": "MATERIAL",
+  "tags": ["slime", "alchemy"],
+  "value": 3,
+  "description": "Substancia viscosa usada em alquimia."
+}
+

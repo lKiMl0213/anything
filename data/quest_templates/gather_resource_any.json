@@ -1,0 +1,25 @@
+{
+  "id": "gather_resource_any",
+  "category": "gather",
+  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"],
+  "objectiveType": "GATHER_RESOURCE",
+  "targetType": "RESOURCE_ID",
+  "amountRange": { "min": 3, "max": 10 },
+  "rewardProfile": {
+    "xpBase": 13,
+    "goldBase": 9,
+    "effortMultiplier": 1.0
+  },
+  "constraints": {
+    "minPlayerLevel": 1,
+    "maxPlayerLevel": 999,
+    "requiresGathering": true,
+    "requiresDungeon": false
+  },
+  "titleTemplate": "Expedicao de Recursos",
+  "descriptionTemplate": "Obtenha {amount} {target} em atividades de gathering.",
+  "hintTemplate": "Minere, colete ervas ou corte madeira para progredir.",
+  "enabled": true,
+  "weight": 8
+}
+

@@ -1,0 +1,21 @@
+{
+    "skillType":  "GATHERING",
+    "id":  "herb_thorny_vine_patch",
+    "minQty":  1,
+    "resourceItemId":  "thorny_vine",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  32.7,
+    "tags":  [
+                 "herb",
+                 "gathering"
+             ],
+    "name":  "Mata de Trepadeira Espinhosa",
+    "type":  "HERBALISM",
+    "baseDurationSeconds":  7.45,
+    "difficulty":  2.12,
+    "maxQty":  2,
+    "minPlayerLevel":  15,
+    "minSkillLevel":  8,
+    "description":  "Fonte de ervas para alquimia e culinaria."
+}

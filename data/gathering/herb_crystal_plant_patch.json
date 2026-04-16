@@ -1,0 +1,21 @@
+{
+    "skillType":  "GATHERING",
+    "id":  "herb_crystal_plant_patch",
+    "minQty":  1,
+    "resourceItemId":  "crystal_plant",
+    "enabled":  true,
+    "tier":  5,
+    "baseXp":  38.9,
+    "tags":  [
+                 "herb",
+                 "gathering"
+             ],
+    "name":  "Mata de Planta Cristalina",
+    "type":  "HERBALISM",
+    "baseDurationSeconds":  8.55,
+    "difficulty":  2.44,
+    "maxQty":  1,
+    "minPlayerLevel":  19,
+    "minSkillLevel":  10,
+    "description":  "Fonte de ervas para alquimia e culinaria."
+}

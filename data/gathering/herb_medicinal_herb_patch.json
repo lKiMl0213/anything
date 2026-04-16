@@ -1,0 +1,21 @@
+{
+    "skillType":  "GATHERING",
+    "id":  "herb_medicinal_herb_patch",
+    "minQty":  1,
+    "resourceItemId":  "medicinal_herb",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  11,
+    "tags":  [
+                 "herb",
+                 "gathering"
+             ],
+    "name":  "Mata de Erva Medicinal",
+    "type":  "HERBALISM",
+    "baseDurationSeconds":  3.6,
+    "difficulty":  1,
+    "maxQty":  3,
+    "minPlayerLevel":  1,
+    "minSkillLevel":  1,
+    "description":  "Fonte de ervas para alquimia e culinaria."
+}

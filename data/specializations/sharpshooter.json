@@ -1,0 +1,25 @@
+{
+  "id": "sharpshooter",
+  "name": "Atirador de Elite",
+  "parentClassId": "archer",
+  "requiredSubclassIds": ["hunter", "assassin"],
+  "description": "Precisao extrema, foco em alvo unico e disparos carregados.",
+  "bonuses": {
+    "attributes": {
+      "dex": 3,
+      "agi": 1,
+      "luk": 2
+    },
+    "derivedAdd": {
+      "accuracy": 14,
+      "critChancePct": 5,
+      "critDamagePct": 12
+    }
+  },
+  "autoPointWeights": {
+    "dex": 4,
+    "agi": 1,
+    "luk": 2
+  },
+  "talentTreeId": "archer_sharpshooter_v2"
+}

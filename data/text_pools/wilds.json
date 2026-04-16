@@ -1,0 +1,40 @@
+{
+  "id": "wilds",
+  "biomeIds": ["wilds"],
+  "intros": [
+    "O vento corta a vegetacao",
+    "Galhos se agitam ao redor",
+    "A mata fecha sobre voce",
+    "O som de algo se movendo se aproxima",
+    "O cheiro de terra molhada invade o ar",
+    "O canto de aves silvestres e abafado",
+    "O ambiente e denso e opressor",
+    "A luz do sol e bloqueada pelas copas das arvores",
+    "O som de folhas sendo pisoteadas se aproxima",
+    "O ar se enche de tensao e perigo"
+  ],
+  "descriptors": [
+    "uma sombra entre as arvores",
+    "um inimigo camuflado",
+    "uma silhueta veloz",
+    "um predador oculto",
+    "uma criatura selvagem",
+    "um ser furtivo",
+    "um adversario que se esconde",
+    "um inimigo que ataca de surpresa",
+    "um oponente que conhece o terreno",
+    "uma ameaca que se move nas sombras"
+  ],
+  "threats": [
+    "O ataque vem do mato",
+    "O perigo se move rapido",
+    "Voce sente o cerco",
+    "O inimigo ataca sem aviso",
+    "A batalha e inevitavel",
+    "O confronto e brutal",
+    "O inimigo se move com agilidade",
+    "A luta e intensa",
+    "Ele ataca sem hesitar",
+    "O combate e implacavel"
+  ]
+}

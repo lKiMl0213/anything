@@ -1,0 +1,30 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "smelt_reinforced_alloy",
+    "description":  "Refino de barra metalica.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  26,
+    "tags":  [
+                 "smelting",
+                 "bar"
+             ],
+    "name":  "Fundir Liga Reforcada",
+    "baseDurationSeconds":  11,
+    "difficulty":  1.6,
+    "outputItemId":  "reinforced_alloy",
+    "outputQty":  1,
+    "minPlayerLevel":  13,
+    "minSkillLevel":  10,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "iron_ore"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "titanium_ore"
+                        }
+                    ]
+}

@@ -1,0 +1,12 @@
+{
+    "id":  "viscous_core",
+    "name":  "Nucleo Viscoso",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "slime",
+                 "rare_component",
+                 "alchemy"
+             ],
+    "value":  8,
+    "description":  "Nucleo raro formado em slimes fortes."
+}

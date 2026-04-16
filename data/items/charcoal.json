@@ -1,0 +1,11 @@
+{
+    "id":  "charcoal",
+    "name":  "Carvao",
+    "tags":  [
+                 "forge",
+                 "fuel"
+             ],
+    "value":  4,
+    "type":  "MATERIAL",
+    "description":  "Combustivel essencial para forja."
+}

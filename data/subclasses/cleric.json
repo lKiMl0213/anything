@@ -1,0 +1,21 @@
+{
+  "id": "cleric",
+  "name": "Clerigo",
+  "parentClassId": "mage",
+  "description": "Resistencia e suporte mistico.",
+  "bonuses": {
+    "attributes": {
+      "spr": 2,
+      "vit": 1
+    },
+    "derivedAdd": {
+      "mpRegen": 1,
+      "defMagic": 2
+    }
+  },
+  "autoPointWeights": {
+    "spr": 2,
+    "vit": 1
+  },
+  "talentTreeId": "cleric"
+}

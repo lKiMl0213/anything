@@ -1,0 +1,15 @@
+{
+    "id":  "cash_entry_bag_medium",
+    "name":  "Mochila de Aventureiro",
+    "itemId":  "cash_bag_medium",
+    "price":  300,
+    "currency":  "CASH",
+    "quantity":  1,
+    "minPlayerLevel":  1,
+    "description":  "+20 slots de inventario.",
+    "enabled":  true,
+    "tags":  [
+                 "cash",
+                 "bag"
+             ]
+}

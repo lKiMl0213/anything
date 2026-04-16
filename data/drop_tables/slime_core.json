@@ -1,0 +1,16 @@
+{
+  "id": "slime_core",
+  "baseChancePct": 38.0,
+  "entries": [
+    { "itemId": "slime_piece", "category": "COMMON_SELL", "chancePct": 24, "minQty": 1, "maxQty": 3, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "green_jelly", "category": "COMMON_MATERIAL", "chancePct": 16, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "viscous_core", "category": "UNCOMMON_MATERIAL", "chancePct": 7, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "slime_gel", "category": "COMMON_MATERIAL", "chancePct": 15, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "old_rag", "category": "COMMON_SELL", "chancePct": 12, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "potion_small", "category": "CONSUMABLE", "chancePct": 5, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "slime_piece", "category": "QUEST_ITEM", "chancePct": 3, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "unstable_crystal", "category": "RARE_COMPONENT", "chancePct": 3, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "iron_ring", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "wooden_shield", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+    "id":  "potion_speed",
+    "name":  "Utility Potion Mini - Speed",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  65,
+    "type":  "CONSUMABLE",
+    "description":  "No direct HP/MP restore. Speed buff effect is not configured yet.",
+    "effects":  {
+                    "hpRestore":  0,
+                    "mpRestore":  0
+                }
+}
+

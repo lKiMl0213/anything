@@ -1,0 +1,14 @@
+{
+  "id": "sage_cloak",
+  "name": "Capa do Sabio",
+  "type": "EQUIPMENT",
+  "rarity": "UNCOMMON",
+  "slot": "CAPE",
+  "minLevel": 5,
+  "baseScaling": 3.6,
+  "baseStat": "DEF_MAGIC",
+  "dropTier": 2,
+  "vendorBaseValue": 13,
+  "allowedAffixes": ["spr", "warding", "mp", "regen", "cdr"],
+  "tags": ["{mage}", "light_armor", "cloth"]
+}

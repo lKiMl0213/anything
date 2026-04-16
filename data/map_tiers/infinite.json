@@ -1,0 +1,13 @@
+{
+  "id": "infinite",
+  "minLevel": 30,
+  "recommendedLevel": 30,
+  "baseMonsterLevel": 30,
+  "difficultyMultiplier": 1.35,
+  "allowedMonsterTemplates": [],
+  "dropTier": 4,
+  "dropChanceMultiplier": 1.0,
+  "xpMultiplier": 1.35,
+  "goldMultiplier": 1.25,
+  "isInfinite": true
+}

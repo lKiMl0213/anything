@@ -1,0 +1,62 @@
+{
+    "id":  "skeleton_archer",
+    "name":  "Esqueleto Arqueiro",
+    "archetype":  "Undead",
+    "baseAttributes":  {
+                           "dex":  4,
+                           "agi":  3,
+                           "vit":  3
+                       },
+    "growthAttributes":  {
+                             "dex":  2,
+                             "agi":  2,
+                             "vit":  1
+                         },
+    "variancePct":  0.15,
+    "tags":  [
+                 "undead"
+             ],
+    "onHitStatuses":  [
+                          {
+                              "type":  "PARALYZED",
+                              "chancePct":  14,
+                              "durationSeconds":  5,
+                              "tickIntervalSeconds":  1,
+                              "effectValue":  18,
+                              "stackable":  false,
+                              "maxStacks":  1,
+                              "source":  "Flecha Atordoante"
+                          },
+                          {
+                              "type":  "SLOW",
+                              "chancePct":  16,
+                              "durationSeconds":  5,
+                              "tickIntervalSeconds":  1,
+                              "effectValue":  15,
+                              "stackable":  false,
+                              "maxStacks":  1,
+                              "source":  "Flecha de Tendao"
+                          }
+                      ],
+    "dropTableId":  "undead_relics",
+    "baseXp":  36,
+    "baseGold":  7,
+    "baseType":  "skeleton",
+    "monsterTypeId":  "undead",
+    "family":  "undead",
+    "damageAffinities":  {
+                             "physical":  1.0,
+                             "magic":  1.15,
+                             "fire":  1.2,
+                             "holy":  1.35,
+                             "poison":  0.35,
+                             "bleed":  0.65
+                         },
+    "displayName":  "Esqueleto Arqueiro",
+    "variantName":  "",
+    "lootProfileId":  "undead_relics",
+    "questTags":  [
+                      "undead",
+                      "archer"
+                  ]
+}

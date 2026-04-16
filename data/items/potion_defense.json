@@ -1,0 +1,16 @@
+{
+    "id":  "potion_defense",
+    "name":  "Utility Potion Mini - Defense",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  68,
+    "type":  "CONSUMABLE",
+    "description":  "No direct HP/MP restore. Defense buff effect is not configured yet.",
+    "effects":  {
+                    "hpRestore":  0,
+                    "mpRestore":  0
+                }
+}
+

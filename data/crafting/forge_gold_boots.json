@@ -1,0 +1,27 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_gold_boots",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  28,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "boots"
+             ],
+    "name":  "Forjar Botas de Ouro",
+    "baseDurationSeconds":  10,
+    "difficulty":  1.6,
+    "outputItemId":  "gold_boots",
+    "outputQty":  1,
+    "minPlayerLevel":  9,
+    "minSkillLevel":  7,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "gold_bar"
+                        }
+                    ]
+}

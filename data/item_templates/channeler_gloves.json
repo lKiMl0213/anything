@@ -1,0 +1,14 @@
+{
+  "id": "channeler_gloves",
+  "name": "Luvas de Canalizacao",
+  "type": "EQUIPMENT",
+  "rarity": "UNCOMMON",
+  "slot": "GLOVES",
+  "minLevel": 4,
+  "baseScaling": 3.1,
+  "baseStat": "DAMAGE_MAGIC",
+  "dropTier": 2,
+  "vendorBaseValue": 12,
+  "allowedAffixes": ["int", "spr", "focus", "cdr"],
+  "tags": ["{mage}", "light_armor", "cloth"]
+}

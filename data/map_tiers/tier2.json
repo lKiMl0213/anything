@@ -1,0 +1,13 @@
+{
+  "id": "tier2",
+  "minLevel": 5,
+  "recommendedLevel": 7,
+  "baseMonsterLevel": 6,
+  "difficultyMultiplier": 1.1,
+  "allowedMonsterTemplates": ["skeleton_warrior", "skeleton_archer"],
+  "dropTier": 2,
+  "dropChanceMultiplier": 1.0,
+  "xpMultiplier": 1.1,
+  "goldMultiplier": 1.05,
+  "biomeId": "crypt"
+}

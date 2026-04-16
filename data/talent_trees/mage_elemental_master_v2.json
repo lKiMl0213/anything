@@ -1,0 +1,374 @@
+{
+    "id":  "mage_elemental_master_v2",
+    "classId":  "mage",
+    "tier":  3,
+    "unlockLevel":  50,
+    "requirements":  [
+                         {
+                             "type":  "SPECIALIZATION_ID",
+                             "expectedValue":  "elemental_master"
+                         }
+                     ],
+    "nodes":  [
+                  {
+                      "id":  "elemental_master_harmonic_matrix",
+                      "name":  "Harmonic Matrix",
+                      "description":  "Improves elemental application and hybrid control windows.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "status":  {
+                                                       "applyChancePct":  12.0,
+                                                       "duration.BURNING.Pct":  20.0,
+                                                       "duration.FROZEN.Pct":  20.0,
+                                                       "duration.POISONED.Pct":  20.0,
+                                                       "duration.SLOW.Pct":  20.0
+                                                   }
+                                    },
+                      "tags":  [
+                                   "elemental",
+                                   "hybrid",
+                                   "status"
+                               ]
+                  },
+                  {
+                      "id":  "elemental_master_prism_burst",
+                      "name":  "Prism Burst",
+                      "description":  "Elemental blast that mixes fire and temporal drag.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          2
+                                      ],
+                      "unlocksSkillId":  "elemental_prism_burst",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  20.0,
+                                                       "cooldownSeconds":  3.2,
+                                                       "castTimeSeconds":  1.0,
+                                                       "damageMultiplier":  1.55,
+                                                       "damageTypeMagic":  1.0,
+                                                       "damageMultiplierPerRank":  0.12,
+                                                       "cooldownPerRank":  -0.12,
+                                                       "castTimePerRank":  -0.05,
+                                                       "statusChancePerRankPct":  4,
+                                                       "statusDurationPerRankSeconds":  0.25,
+                                                       "statusEffectPerRank":  0.35,
+                                                       "statusMaxStacksPerRank":  1
+                                                   },
+                                        "applyStatuses":  [
+                                                              {
+                                                                  "type":  "BURNING",
+                                                                  "chancePct":  72.0,
+                                                                  "durationSeconds":  5.0,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  4.6,
+                                                                  "stackable":  true,
+                                                                  "maxStacks":  3,
+                                                                  "source":  "Prism Burst"
+                                                              },
+                                                              {
+                                                                  "type":  "SLOW",
+                                                                  "chancePct":  62.0,
+                                                                  "durationSeconds":  4.0,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  16.0,
+                                                                  "stackable":  false,
+                                                                  "maxStacks":  1,
+                                                                  "source":  "Prism Burst"
+                                                              }
+                                                          ]
+                                    },
+                      "tags":  [
+                                   "elemental",
+                                   "fire",
+                                   "control",
+                                   "hybrid"
+                               ]
+                  },
+                  {
+                      "id":  "elemental_master_frost_rupture",
+                      "name":  "Frost Rupture",
+                      "description":  "Cold-impact cast that can freeze and weaken the target.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          2
+                                      ],
+                      "unlocksSkillId":  "elemental_frost_rupture",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  22.0,
+                                                       "cooldownSeconds":  4.0,
+                                                       "castTimeSeconds":  1.2,
+                                                       "damageMultiplier":  1.62,
+                                                       "damageTypeMagic":  1.0,
+                                                       "damageMultiplierPerRank":  0.12,
+                                                       "cooldownPerRank":  -0.12,
+                                                       "castTimePerRank":  -0.05,
+                                                       "statusChancePerRankPct":  4,
+                                                       "statusDurationPerRankSeconds":  0.25,
+                                                       "statusEffectPerRank":  0.35,
+                                                       "statusMaxStacksPerRank":  1
+                                                   },
+                                        "applyStatuses":  [
+                                                              {
+                                                                  "type":  "FROZEN",
+                                                                  "chancePct":  30.0,
+                                                                  "durationSeconds":  2.4,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  0.0,
+                                                                  "stackable":  false,
+                                                                  "maxStacks":  1,
+                                                                  "source":  "Frost Rupture"
+                                                              },
+                                                              {
+                                                                  "type":  "WEAKNESS",
+                                                                  "chancePct":  58.0,
+                                                                  "durationSeconds":  4.0,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  10.0,
+                                                                  "stackable":  false,
+                                                                  "maxStacks":  1,
+                                                                  "source":  "Frost Rupture"
+                                                              }
+                                                          ]
+                                    },
+                      "tags":  [
+                                   "elemental",
+                                   "frost",
+                                   "control"
+                               ]
+                  },
+                  {
+                      "id":  "elemental_master_toxic_tempest",
+                      "name":  "Toxic Tempest",
+                      "description":  "Hybrid elemental poison pressure for sustained fights.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          2
+                                      ],
+                      "unlocksSkillId":  "elemental_toxic_tempest",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  18.0,
+                                                       "cooldownSeconds":  2.9,
+                                                       "castTimeSeconds":  0.7,
+                                                       "damageMultiplier":  1.35,
+                                                       "damageTypeMagic":  1.0,
+                                                       "damageMultiplierPerRank":  0.12,
+                                                       "cooldownPerRank":  -0.12,
+                                                       "castTimePerRank":  -0.05,
+                                                       "statusChancePerRankPct":  4,
+                                                       "statusDurationPerRankSeconds":  0.25,
+                                                       "statusEffectPerRank":  0.35,
+                                                       "statusMaxStacksPerRank":  1
+                                                   },
+                                        "applyStatuses":  [
+                                                              {
+                                                                  "type":  "POISONED",
+                                                                  "chancePct":  84.0,
+                                                                  "durationSeconds":  6.0,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  3.8,
+                                                                  "stackable":  true,
+                                                                  "maxStacks":  4,
+                                                                  "source":  "Toxic Tempest"
+                                                              }
+                                                          ]
+                                    },
+                      "tags":  [
+                                   "elemental",
+                                   "poison",
+                                   "hybrid"
+                               ]
+                  },
+                  {
+                      "id":  "elemental_master_hybrid_control",
+                      "name":  "Hybrid Control",
+                      "description":  "Converts mixed status setups into higher pressure and cadence.",
+                      "nodeType":  "MODIFIER",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "status":  {
+                                                       "bonusDamageVs.BURNING.Pct":  12.0,
+                                                       "bonusDamageVs.FROZEN.Pct":  18.0,
+                                                       "bonusDamageVs.POISONED.Pct":  14.0,
+                                                       "bonusDamageVs.SLOW.Pct":  10.0,
+                                                       "consumeChance.BURNING.Pct":  12.0,
+                                                       "consumeChance.POISONED.Pct":  10.0
+                                                   },
+                                        "atb":  {
+                                                    "cooldownPct":  -10.0,
+                                                    "gcdPct":  -8.0,
+                                                    "castTimePct":  -10.0
+                                                }
+                                    },
+                      "tags":  [
+                                   "elemental",
+                                   "hybrid",
+                                   "atb",
+                                   "status"
+                               ]
+                  },
+                  {
+                      "id":  "mage_elemental_master_v2_burst_path",
+                      "name":  "Caminho de Burst",
+                      "description":  "Critico e execucao com ritmo ofensivo.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "elemental_master_harmonic_matrix",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "mage_elemental_master_v2_choice_path",
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "critChancePct":  3,
+                                                                           "critDamagePct":  8
+                                                                       }
+                                                    },
+                                        "atb":  {
+                                                    "barGainOnCritPct":  12,
+                                                    "cooldownReduceOnKillSeconds":  0.8
+                                                }
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "choice",
+                                   "path"
+                               ]
+                  },
+                  {
+                      "id":  "mage_elemental_master_v2_control_path",
+                      "name":  "Caminho de Controle",
+                      "description":  "Status e buffs temporarios ao aplicar efeitos.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "elemental_master_harmonic_matrix",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "mage_elemental_master_v2_choice_path",
+                      "modifiers":  {
+                                        "atb":  {
+                                                    "barGainOnStatusApplyPct":  10,
+                                                    "tempDamageBuffOnStatusApplyPct":  8,
+                                                    "tempFillRateBuffOnStatusApplyPct":  10,
+                                                    "tempBuffDurationSeconds":  4
+                                                },
+                                        "status":  {
+                                                       "durationPct":  12
+                                                   }
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "choice",
+                                   "path"
+                               ]
+                  },
+                  {
+                      "id":  "mage_elemental_master_v2_single_target_path",
+                      "name":  "Doutrina Single Target",
+                      "description":  "Foco em alvo unico, critico e finalizacao.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "elemental_master_prism_burst",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "mage_elemental_master_v2_aoe_single_choice",
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "critChancePct":  2,
+                                                                           "critDamagePct":  6
+                                                                       }
+                                                    },
+                                        "status":  {
+                                                       "bonusDamageVsLowHpPct":  14,
+                                                       "lowHpThresholdPct":  35
+                                                   },
+                                        "atb":  {
+                                                    "barGainOnCritPct":  6
+                                                }
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "choice",
+                                   "aoe_single"
+                               ]
+                  },
+                  {
+                      "id":  "mage_elemental_master_v2_aoe_path",
+                      "name":  "Doutrina AOE",
+                      "description":  "Foco em impacto em area e controle por status.",
+                      "nodeType":  "CHOICE",
+                      "maxRank":  1,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "elemental_master_prism_burst",
+                                                "minRank":  1
+                                            }
+                                        ],
+                      "exclusiveGroup":  "mage_elemental_master_v2_aoe_single_choice",
+                      "modifiers":  {
+                                        "status":  {
+                                                       "applyChancePct":  8,
+                                                       "durationPct":  8
+                                                   },
+                                        "atb":  {
+                                                    "barGainOnStatusApplyPct":  6,
+                                                    "tempDamageBuffOnStatusApplyPct":  6,
+                                                    "tempBuffDurationSeconds":  4
+                                                }
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "choice",
+                                   "aoe_single"
+                               ]
+                  }
+              ]
+}

@@ -1,0 +1,40 @@
+# Gradle
+.gradle/
+.gradle-local/
+.gradle-local-build/
+.gradle-native/
+
+# Build
+build/
+bin/
+
+# Kotlin
+.kotlin/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Runtime data
+saves/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+#exclude any other files or directories specific to your project
+# For example, if you have a 'dist' directory for distribution files:
+dist/
+compilar_pra_exportar.bat
+compilar-pra-exportar.sh
+compilar-pra-exportar.ps1
+README.md
+saves/
+.vscode/
+*.log
+*.tmp
+.gradle

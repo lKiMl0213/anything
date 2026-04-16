@@ -1,0 +1,16 @@
+{
+    "id":  "mp_potion_medium",
+    "name":  "MP Potion Medium",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  38,
+    "type":  "CONSUMABLE",
+    "description":  "Restores 60 MP.",
+    "effects":  {
+                    "hpRestore":  0,
+                    "mpRestore":  60
+                }
+}
+

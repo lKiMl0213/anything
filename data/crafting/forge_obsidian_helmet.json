@@ -1,0 +1,27 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "forge_obsidian_helmet",
+    "description":  "Equipamento de forja orientado a progressao.",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  38,
+    "tags":  [
+                 "equipment",
+                 "forge",
+                 "helmet"
+             ],
+    "name":  "Forjar Capacete de Obsidiana",
+    "baseDurationSeconds":  12,
+    "difficulty":  2.1,
+    "outputItemId":  "obsidian_helmet",
+    "outputQty":  1,
+    "minPlayerLevel":  17,
+    "minSkillLevel":  14,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "obsidian_bar"
+                        }
+                    ]
+}

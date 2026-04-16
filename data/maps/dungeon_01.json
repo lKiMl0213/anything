@@ -1,0 +1,35 @@
+{
+  "id": "dungeon_01",
+  "name": "Cripta Esquecida",
+  "startRoomId": "entrance",
+  "rooms": [
+    {
+      "id": "entrance",
+      "name": "Entrada",
+      "description": "Uma entrada umida e escura. O silencio e quebrado por sons viscosos.",
+      "monsters": ["slime"],
+      "connections": ["hall"]
+    },
+    {
+      "id": "hall",
+      "name": "Sala dos Ossos",
+      "description": "Pilastras rachadas e ossos espalhados pelo chao.",
+      "monsters": ["skeleton_warrior"],
+      "connections": ["entrance", "armory", "library"]
+    },
+    {
+      "id": "armory",
+      "name": "Armaria",
+      "description": "Um antigo deposito de armas tomado por teias.",
+      "monsters": ["skeleton_archer"],
+      "connections": ["hall"]
+    },
+    {
+      "id": "library",
+      "name": "Biblioteca Profana",
+      "description": "Livros empoeirados e uma presenca gelida no ar.",
+      "monsters": ["lich"],
+      "connections": ["hall"]
+    }
+  ]
+}

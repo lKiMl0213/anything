@@ -1,0 +1,16 @@
+{
+    "id":  "cash_entry_run_buff_25",
+    "name":  "Tonica de Run 25",
+    "itemId":  "cash_run_buff_25",
+    "price":  300,
+    "currency":  "CASH",
+    "quantity":  1,
+    "minPlayerLevel":  1,
+    "description":  "+25% durante a run.",
+    "enabled":  true,
+    "tags":  [
+                 "cash",
+                 "buff",
+                 "run"
+             ]
+}

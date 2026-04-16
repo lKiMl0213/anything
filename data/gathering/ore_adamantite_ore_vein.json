@@ -1,0 +1,21 @@
+{
+    "skillType":  "MINING",
+    "id":  "ore_adamantite_ore_vein",
+    "minQty":  1,
+    "resourceItemId":  "adamantite_ore",
+    "enabled":  true,
+    "tier":  6,
+    "baseXp":  47,
+    "tags":  [
+                 "ore",
+                 "mining"
+             ],
+    "name":  "Veio de Adamantita",
+    "type":  "MINING",
+    "baseDurationSeconds":  11,
+    "difficulty":  2.8,
+    "maxQty":  1,
+    "minPlayerLevel":  21,
+    "minSkillLevel":  11,
+    "description":  "Nodo de mineracao da regiao."
+}

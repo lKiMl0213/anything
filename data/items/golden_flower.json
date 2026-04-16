@@ -1,0 +1,13 @@
+{
+    "id":  "golden_flower",
+    "name":  "Flor Dourada",
+    "tags":  [
+                 "herb",
+                 "gathering",
+                 "alchemy",
+                 "rare"
+             ],
+    "value":  16,
+    "type":  "MATERIAL",
+    "description":  "Flor valiosa para preparos de alto nivel."
+}

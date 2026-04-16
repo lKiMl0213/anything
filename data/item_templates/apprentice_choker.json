@@ -1,0 +1,13 @@
+{
+  "id": "apprentice_choker",
+  "name": "Gargantilha de Aprendiz",
+  "type": "EQUIPMENT",
+  "rarity": "COMMON",
+  "slot": "ACCESSORY",
+  "baseScaling": 2.9,
+  "baseStat": "MP_MAX",
+  "dropTier": 1,
+  "vendorBaseValue": 10,
+  "allowedAffixes": ["int", "spr", "mp", "focus"],
+  "tags": ["{Any.Class}", "accessory", "mana"]
+}

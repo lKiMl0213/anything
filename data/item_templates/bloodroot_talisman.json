@@ -1,0 +1,13 @@
+{
+  "id": "bloodroot_talisman",
+  "name": "Talisma de Raiz Sangrenta",
+  "type": "EQUIPMENT",
+  "rarity": "EPIC",
+  "slot": "ACCESSORY",
+  "baseScaling": 4.9,
+  "baseStat": "HP_MAX",
+  "dropTier": 3,
+  "vendorBaseValue": 18,
+  "allowedAffixes": ["hp", "vit", "regen", "bulwark", "tenacity"],
+  "tags": ["{Any.Class}", "accessory", "survival"]
+}

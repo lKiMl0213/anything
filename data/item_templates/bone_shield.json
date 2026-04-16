@@ -1,0 +1,20 @@
+{
+    "id":  "bone_shield",
+    "name":  "Escudo de Ossos",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_OFF",
+    "tags":  [
+                 "{Any.Class}",
+                 "shield"
+             ],
+    "baseScaling":  4.0,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  1,
+    "vendorBaseValue":  12,
+    "allowedAffixes":  [
+                           "vit",
+                           "def",
+                           "hp",
+                           "luk"
+                       ]
+}

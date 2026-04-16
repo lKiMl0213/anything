@@ -1,0 +1,18 @@
+{
+  "id": "fishing_lake_small_fish",
+  "name": "Lago Raso",
+  "type": "FISHING",
+  "skillType": "FISHING",
+  "resourceItemId": "small_fish",
+  "minQty": 1,
+  "maxQty": 3,
+  "minPlayerLevel": 1,
+  "minSkillLevel": 1,
+  "baseDurationSeconds": 3.8,
+  "baseXp": 10.0,
+  "difficulty": 1.0,
+  "tier": 1,
+  "description": "Area calma para pesca inicial.",
+  "enabled": true,
+  "tags": ["fishing", "lake"]
+}

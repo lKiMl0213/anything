@@ -1,0 +1,12 @@
+{
+    "id":  "dark_essence",
+    "name":  "Essencia Sombria",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "undead",
+                 "uncommon",
+                 "craft"
+             ],
+    "value":  8,
+    "description":  "Essencia obtida de energia necrotica."
+}

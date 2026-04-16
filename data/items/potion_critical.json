@@ -1,0 +1,16 @@
+{
+    "id":  "potion_critical",
+    "name":  "Utility Potion Mini - Critical",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  68,
+    "type":  "CONSUMABLE",
+    "description":  "No direct HP/MP restore. Critical buff effect is not configured yet.",
+    "effects":  {
+                    "hpRestore":  0,
+                    "mpRestore":  0
+                }
+}
+

@@ -1,0 +1,12 @@
+{
+  "id": "beast",
+  "name": "Beast",
+  "description": "Criaturas naturais com resistencia equilibrada.",
+  "tags": ["beast", "wild"],
+  "damageAffinities": {
+    "physical": 1.0,
+    "magic": 1.0,
+    "poison": 0.95
+  }
+}
+

@@ -1,0 +1,11 @@
+{
+    "id":  "arrow_poison",
+    "name":  "Flecha Envenenada",
+    "tags":  [
+                 "ammo",
+                 "arrow"
+             ],
+    "value":  7,
+    "type":  "MATERIAL",
+    "description":  "Municao para arcos e bestas."
+}

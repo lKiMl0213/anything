@@ -1,0 +1,28 @@
+{
+  "id": "collect_item_stockpile",
+  "category": "collection",
+  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"],
+  "objectiveType": "COLLECT_ITEM",
+  "targetType": "ITEM_ID",
+  "amountRange": { "min": 3, "max": 9 },
+  "rewardProfile": {
+    "xpBase": 10,
+    "goldBase": 8,
+    "effortMultiplier": 0.9,
+    "itemRewards": [
+      { "itemId": "potion_small", "chancePct": 40, "minQty": 1, "maxQty": 2 }
+    ]
+  },
+  "constraints": {
+    "minPlayerLevel": 1,
+    "maxPlayerLevel": 999,
+    "requiresDungeon": false,
+    "consumeTargetOnComplete": false
+  },
+  "titleTemplate": "Estoque de Campo",
+  "descriptionTemplate": "Obtenha {amount} {target} durante suas atividades.",
+  "hintTemplate": "O item pode vir de drop, coleta ou craft dependendo da origem.",
+  "enabled": true,
+  "weight": 6
+}
+

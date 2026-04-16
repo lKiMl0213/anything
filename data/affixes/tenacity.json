@@ -1,0 +1,8 @@
+{
+  "id": "tenacity",
+  "name": "da Tenacidade",
+  "kind": "SUFFIX",
+  "bonuses": { "derivedAdd": { "tenacityPct": 8.0 } },
+  "cost": 16,
+  "weight": 6
+}

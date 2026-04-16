@@ -1,0 +1,12 @@
+{
+    "id":  "rusted_coin",
+    "name":  "Moeda Enferrujada",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "humanoid",
+                 "sell",
+                 "junk"
+             ],
+    "value":  1,
+    "description":  "Moeda antiga oxidada."
+}

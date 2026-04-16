@@ -1,0 +1,21 @@
+{
+    "skillType":  "WOODCUTTING",
+    "id":  "wood_shadow_wood_tree",
+    "minQty":  1,
+    "resourceItemId":  "shadow_wood",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  25.2,
+    "tags":  [
+                 "wood",
+                 "woodcutting"
+             ],
+    "name":  "Bosque de Madeira Sombria",
+    "type":  "WOODCUTTING",
+    "baseDurationSeconds":  6.6,
+    "difficulty":  1.76,
+    "maxQty":  2,
+    "minPlayerLevel":  13,
+    "minSkillLevel":  5,
+    "description":  "Area de corte de madeira."
+}

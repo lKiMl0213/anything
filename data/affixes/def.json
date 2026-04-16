@@ -1,0 +1,8 @@
+{
+  "id": "def",
+  "name": "do Escudo",
+  "kind": "SUFFIX",
+  "bonuses": { "derivedAdd": { "defPhysical": 5.0, "defMagic": 5.0 } },
+  "cost": 16,
+  "weight": 9
+}

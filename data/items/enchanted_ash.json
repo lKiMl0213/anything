@@ -1,0 +1,12 @@
+{
+    "id":  "enchanted_ash",
+    "name":  "Cinza Encantada",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "elemental",
+                 "material",
+                 "arcane"
+             ],
+    "value":  4,
+    "description":  "Cinza que retem energia magica."
+}

@@ -1,0 +1,13 @@
+{
+  "id": "mist_runner_charm",
+  "name": "Talismã do Corredor de Neblina",
+  "type": "EQUIPMENT",
+  "rarity": "RARE",
+  "slot": "ACCESSORY",
+  "baseScaling": 3.8,
+  "baseStat": "ATTACK_SPEED",
+  "dropTier": 2,
+  "vendorBaseValue": 14,
+  "allowedAffixes": ["atk_speed", "evasion", "accuracy", "cdr"],
+  "tags": ["{Any.Class}", "accessory", "speed"]
+}

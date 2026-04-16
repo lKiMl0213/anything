@@ -1,0 +1,8 @@
+{
+    "id":  "cash_pack_medium",
+    "name":  "Pacote Medio",
+    "premiumCashAmount":  280,
+    "platformPriceLabel":  "R$ 11,90",
+    "description":  "Pacote equilibrado para progresso.",
+    "enabled":  true
+}

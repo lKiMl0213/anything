@@ -1,0 +1,12 @@
+{
+  "id": "cash_run_buff_10",
+  "name": "Tonica de Run 10",
+  "type": "CONSUMABLE",
+  "tags": ["cash", "buff", "run"],
+  "value": 170,
+  "description": "+10% de atributos durante a run atual.",
+  "effects": {
+    "runAttributeMultiplierPct": 10.0
+  }
+}
+

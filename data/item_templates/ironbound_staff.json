@@ -1,0 +1,14 @@
+{
+  "id": "ironbound_staff",
+  "name": "Cajado Reforcado de Ferro",
+  "type": "EQUIPMENT",
+  "rarity": "UNCOMMON",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 5,
+  "baseScaling": 5.7,
+  "baseStat": "DAMAGE_MAGIC",
+  "dropTier": 2,
+  "vendorBaseValue": 19,
+  "allowedAffixes": ["int", "spr", "mp", "cdr", "focus"],
+  "tags": ["{mage}", "staff"]
+}

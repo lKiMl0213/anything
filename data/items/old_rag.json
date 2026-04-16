@@ -1,0 +1,12 @@
+{
+    "id":  "old_rag",
+    "name":  "Pano Velho",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "undead",
+                 "sell",
+                 "cloth"
+             ],
+    "value":  1,
+    "description":  "Pano gasto e sem valor de combate."
+}

@@ -1,0 +1,21 @@
+{
+    "skillType":  "GATHERING",
+    "id":  "herb_luminous_mushroom_patch",
+    "minQty":  1,
+    "resourceItemId":  "luminous_mushroom",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  23.4,
+    "tags":  [
+                 "herb",
+                 "gathering"
+             ],
+    "name":  "Mata de Cogumelo Luminoso",
+    "type":  "HERBALISM",
+    "baseDurationSeconds":  5.8,
+    "difficulty":  1.64,
+    "maxQty":  2,
+    "minPlayerLevel":  9,
+    "minSkillLevel":  5,
+    "description":  "Fonte de ervas para alquimia e culinaria."
+}

@@ -1,0 +1,7 @@
+{
+  "id": "armored",
+  "name": "Blindado",
+  "bonuses": { "derivedMult": { "defPhysical": 20.0 } },
+  "addTags": ["armored"],
+  "weight": 3
+}

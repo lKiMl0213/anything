@@ -1,0 +1,14 @@
+{
+  "id": "cash_mage_cloak_lv10",
+  "name": "Astral Mantle",
+  "type": "EQUIPMENT",
+  "rarity": "EPIC",
+  "slot": "CAPE",
+  "minLevel": 10,
+  "baseScaling": 4.8,
+  "baseStat": "DEF_MAGIC",
+  "dropTier": 3,
+  "vendorBaseValue": 42,
+  "allowedAffixes": ["spr", "warding", "mp", "cdr", "regen", "focus"],
+  "tags": ["{mage}", "cash", "premium"]
+}

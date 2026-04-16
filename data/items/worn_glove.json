@@ -1,0 +1,12 @@
+{
+    "id":  "worn_glove",
+    "name":  "Luva Gasta",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "humanoid",
+                 "sell",
+                 "cloth"
+             ],
+    "value":  2,
+    "description":  "Luva danificada por uso intenso."
+}

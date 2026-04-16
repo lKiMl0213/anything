@@ -1,0 +1,12 @@
+{
+  "id": "cash_entry_archer_quiver_lv10",
+  "name": "Phantom Quiver",
+  "itemId": "cash_archer_quiver_lv10",
+  "price": 120,
+  "currency": "CASH",
+  "quantity": 1,
+  "minPlayerLevel": 10,
+  "description": "Aljava premium com foco em critico e precisao.",
+  "enabled": true,
+  "tags": ["cash", "archer", "quiver"]
+}

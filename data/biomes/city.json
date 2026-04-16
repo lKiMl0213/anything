@@ -1,0 +1,18 @@
+{
+  "id": "city",
+  "name": "Cidade",
+  "description": "Mercados, vielas e esgotos apertados criam um bioma de risco constante, com ladroes oportunistas, vermes urbanos e muitos encontros com gente suspeita.",
+  "monsterTagWeights": {
+    "city": 2.4,
+    "humanoid": 2.0,
+    "plage": 1.9,
+    "thief": 1.6,
+    "rogue": 1.4,
+    "rat": 1.35,
+    "vermin": 1.25
+  },
+  "summonChanceBonusPct": 8.0,
+  "healingMultiplier": 1.05,
+  "eventRoomChanceBonusPct": 6,
+  "npcEventBonusPct": 28
+}

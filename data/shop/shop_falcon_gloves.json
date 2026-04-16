@@ -1,0 +1,12 @@
+{
+  "id": "shop_falcon_gloves",
+  "name": "Luvas de Falcoeiro",
+  "itemId": "falcon_gloves",
+  "price": 88,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 4,
+  "description": "Luvas focadas em rapidez e precisao.",
+  "enabled": true,
+  "tags": ["gold", "archer", "armor"]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "arcanist",
+  "name": "Arcanista",
+  "parentClassId": "mage",
+  "description": "Controle de tempo, barra de acao e manipulacao arcana.",
+  "bonuses": {
+    "attributes": {
+      "int": 1,
+      "spr": 2,
+      "agi": 1
+    },
+    "derivedAdd": {
+      "cdrPct": 4,
+      "mpRegen": 2
+    },
+    "derivedMult": {
+      "mpMax": 8
+    }
+  },
+  "autoPointWeights": {
+    "int": 2,
+    "spr": 2,
+    "agi": 1
+  }
+}

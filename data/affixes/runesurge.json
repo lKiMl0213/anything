@@ -1,0 +1,8 @@
+{
+  "id": "runesurge",
+  "name": "Surto Runico",
+  "kind": "SPECIAL",
+  "bonuses": { "derivedAdd": { "damageMagic": 10.0, "cdrPct": 4.0, "mpMax": 18.0 } },
+  "cost": 0,
+  "weight": 2
+}

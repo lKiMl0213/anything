@@ -1,0 +1,8 @@
+{
+  "id": "mp",
+  "name": "do Mana",
+  "kind": "SUFFIX",
+  "bonuses": { "derivedAdd": { "mpMax": 15.0 } },
+  "cost": 12,
+  "weight": 10
+}

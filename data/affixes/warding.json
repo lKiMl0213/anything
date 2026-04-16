@@ -1,0 +1,8 @@
+{
+  "id": "warding",
+  "name": "da Guarda Arcana",
+  "kind": "SUFFIX",
+  "bonuses": { "derivedAdd": { "defMagic": 6.0, "mpMax": 12.0 } },
+  "cost": 18,
+  "weight": 7
+}

@@ -1,0 +1,54 @@
+{
+  "id": "warrior",
+  "name": "Arvore do Guerreiro",
+  "nodes": [
+    {
+      "id": "warrior_root",
+      "name": "Instinto Marcial",
+      "description": "+5% dano fisico",
+      "cost": 1,
+      "requiredLevel": 1,
+      "prerequisites": [],
+      "bonuses": {
+        "derivedMult": { "damagePhysical": 5 }
+      },
+      "classId": "warrior"
+    },
+    {
+      "id": "warrior_crit",
+      "name": "Corte Preciso",
+      "description": "+5% chance critica",
+      "cost": 1,
+      "requiredLevel": 3,
+      "prerequisites": ["warrior_root"],
+      "bonuses": {
+        "derivedAdd": { "critChancePct": 5 }
+      },
+      "classId": "warrior"
+    },
+    {
+      "id": "warrior_guard",
+      "name": "Postura de Guarda",
+      "description": "+5 defesa fisica",
+      "cost": 1,
+      "requiredLevel": 4,
+      "prerequisites": ["warrior_root"],
+      "bonuses": {
+        "derivedAdd": { "defPhysical": 5 }
+      },
+      "classId": "warrior"
+    },
+    {
+      "id": "warrior_execute",
+      "name": "Execucao",
+      "description": "+10% dano fisico",
+      "cost": 2,
+      "requiredLevel": 6,
+      "prerequisites": ["warrior_crit"],
+      "bonuses": {
+        "derivedMult": { "damagePhysical": 10 }
+      },
+      "classId": "warrior"
+    }
+  ]
+}

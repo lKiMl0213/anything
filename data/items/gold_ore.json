@@ -1,0 +1,12 @@
+{
+    "id":  "gold_ore",
+    "name":  "Ouro",
+    "tags":  [
+                 "ore",
+                 "mining",
+                 "forge"
+             ],
+    "value":  10,
+    "type":  "MATERIAL",
+    "description":  "Metal precioso usado em pecas nobres."
+}

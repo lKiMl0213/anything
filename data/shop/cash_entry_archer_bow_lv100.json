@@ -1,0 +1,12 @@
+{
+  "id": "cash_entry_archer_bow_lv100",
+  "name": "Tempest Bow Mk-X",
+  "itemId": "cash_archer_bow_lv100",
+  "price": 1200,
+  "currency": "CASH",
+  "quantity": 1,
+  "minPlayerLevel": 100,
+  "description": "Bow premium de endgame para arqueiros.",
+  "enabled": true,
+  "tags": ["cash", "archer", "weapon"]
+}

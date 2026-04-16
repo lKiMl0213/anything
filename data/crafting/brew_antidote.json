@@ -1,0 +1,31 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_antidote",
+    "description":  "Brews Utility Potion Mini - Antidote (restores 10 HP).",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  21,
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "name":  "Brew Utility Potion Mini - Antidote",
+    "baseDurationSeconds":  8,
+    "difficulty":  1.4,
+    "outputItemId":  "antidote",
+    "outputQty":  1,
+    "minPlayerLevel":  8,
+    "minSkillLevel":  6,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "toxic_herb"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "blue_calm_flower"
+                        }
+                    ]
+}
+

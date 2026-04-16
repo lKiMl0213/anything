@@ -1,0 +1,12 @@
+{
+  "id": "shop_wayfarer_cloak",
+  "name": "Capa do Andarilho",
+  "itemId": "wayfarer_cloak",
+  "price": 96,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 5,
+  "description": "Capa leve contra magia e emboscadas.",
+  "enabled": true,
+  "tags": ["gold", "archer", "armor"]
+}

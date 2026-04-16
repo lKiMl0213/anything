@@ -1,0 +1,30 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "smelt_titanium_bar",
+    "description":  "Refino de barra metalica.",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  26,
+    "tags":  [
+                 "smelting",
+                 "bar"
+             ],
+    "name":  "Fundir Barra de Titanio",
+    "baseDurationSeconds":  12,
+    "difficulty":  1.6,
+    "outputItemId":  "titanium_bar",
+    "outputQty":  1,
+    "minPlayerLevel":  12,
+    "minSkillLevel":  9,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "titanium_ore"
+                        },
+                        {
+                            "quantity":  3,
+                            "itemId":  "charcoal"
+                        }
+                    ]
+}

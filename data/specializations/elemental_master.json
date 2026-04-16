@@ -1,0 +1,27 @@
+{
+  "id": "elemental_master",
+  "name": "Mestre Elemental",
+  "parentClassId": "mage",
+  "requiredSubclassIds": ["pyromancer", "arcanist"],
+  "description": "Combina fogo, gelo e toxina para controle hibrido de combate.",
+  "bonuses": {
+    "attributes": {
+      "int": 2,
+      "spr": 2,
+      "dex": 1
+    },
+    "derivedAdd": {
+      "damageMagic": 4,
+      "mpRegen": 2
+    },
+    "derivedMult": {
+      "damageMagic": 4
+    }
+  },
+  "autoPointWeights": {
+    "int": 3,
+    "spr": 2,
+    "dex": 1
+  },
+  "talentTreeId": "mage_elemental_master_v2"
+}

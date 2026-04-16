@@ -1,0 +1,30 @@
+{
+    "skillType":  "COOKING",
+    "id":  "cook_grilled_meat",
+    "description":  "Receita culinaria para suporte em combate.",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  12,
+    "tags":  [
+                 "food",
+                 "cooking"
+             ],
+    "name":  "Cozinhar Carne Grelhada",
+    "baseDurationSeconds":  5,
+    "difficulty":  1.18,
+    "outputItemId":  "grilled_meat",
+    "outputQty":  1,
+    "minPlayerLevel":  1,
+    "minSkillLevel":  1,
+    "discipline":  "COOKING",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "beast_meat"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "charcoal"
+                        }
+                    ]
+}

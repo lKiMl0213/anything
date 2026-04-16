@@ -1,0 +1,30 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_gunpowder",
+    "description":  "Composto explosivo para municao especial.",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  17,
+    "tags":  [
+                 "alchemy",
+                 "resource"
+             ],
+    "name":  "Misturar Polvora",
+    "baseDurationSeconds":  7,
+    "difficulty":  1.35,
+    "outputItemId":  "gunpowder",
+    "outputQty":  1,
+    "minPlayerLevel":  9,
+    "minSkillLevel":  6,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "charcoal"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "stone_chunk"
+                        }
+                    ]
+}

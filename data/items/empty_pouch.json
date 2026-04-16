@@ -1,0 +1,12 @@
+{
+    "id":  "empty_pouch",
+    "name":  "Bolsa Vazia",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "humanoid",
+                 "sell",
+                 "junk"
+             ],
+    "value":  1,
+    "description":  "Bolsa sem moedas ou utilidade."
+}

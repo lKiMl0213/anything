@@ -1,0 +1,14 @@
+{
+  "id": "wayfarer_cloak",
+  "name": "Capa do Andarilho",
+  "type": "EQUIPMENT",
+  "rarity": "UNCOMMON",
+  "slot": "CAPE",
+  "minLevel": 5,
+  "baseScaling": 3.6,
+  "baseStat": "DEF_MAGIC",
+  "dropTier": 2,
+  "vendorBaseValue": 13,
+  "allowedAffixes": ["agi", "mp", "warding", "evasion"],
+  "tags": ["{archer}", "light_armor", "cloth"]
+}

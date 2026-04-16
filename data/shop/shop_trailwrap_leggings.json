@@ -1,0 +1,12 @@
+{
+  "id": "shop_trailwrap_leggings",
+  "name": "Calcas de Trilha",
+  "itemId": "trailwrap_leggings",
+  "price": 82,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 2,
+  "description": "Mobilidade e defesa leve para perseguicoes longas.",
+  "enabled": true,
+  "tags": ["gold", "archer", "armor"]
+}

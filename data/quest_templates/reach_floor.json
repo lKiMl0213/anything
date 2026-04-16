@@ -1,0 +1,24 @@
+{
+  "id": "reach_floor",
+  "category": "exploration",
+  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"],
+  "objectiveType": "REACH_FLOOR",
+  "targetType": "FLOOR",
+  "amountRange": { "min": 2, "max": 6 },
+  "rewardProfile": {
+    "xpBase": 20,
+    "goldBase": 16,
+    "effortMultiplier": 1.2
+  },
+  "constraints": {
+    "minPlayerLevel": 1,
+    "maxPlayerLevel": 999,
+    "requiresDungeon": true
+  },
+  "titleTemplate": "Descida Profunda",
+  "descriptionTemplate": "Alcance ao menos o andar {amount} da dungeon infinita.",
+  "hintTemplate": "Andares mais fundos aumentam risco e recompensa.",
+  "enabled": true,
+  "weight": 7
+}
+

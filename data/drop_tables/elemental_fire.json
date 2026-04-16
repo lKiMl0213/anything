@@ -1,0 +1,17 @@
+{
+  "id": "elemental_fire",
+  "baseChancePct": 45.0,
+  "entries": [
+    { "itemId": "living_ember", "category": "COMMON_MATERIAL", "chancePct": 18, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "magma_shard", "category": "UNCOMMON_MATERIAL", "chancePct": 12, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "enchanted_ash", "category": "COMMON_SELL", "chancePct": 15, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "heated_stone", "category": "COMMON_SELL", "chancePct": 12, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "igneous_core", "category": "RARE_COMPONENT", "chancePct": 6, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "EPIC" },
+    { "itemId": "arcane_crystal", "category": "UNCOMMON_MATERIAL", "chancePct": 8, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "living_ember", "category": "QUEST_ITEM", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "ether_small", "category": "CONSUMABLE", "chancePct": 5, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "mp_potion_small", "category": "CONSUMABLE", "chancePct": 4, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "apprentice_staff", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "EPIC" },
+    { "itemId": "silver_ring", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "EPIC" }
+  ]
+}

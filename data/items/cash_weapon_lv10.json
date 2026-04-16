@@ -1,0 +1,26 @@
+{
+    "id":  "cash_weapon_lv10",
+    "name":  "Lamina Neon Mk-II",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  10,
+    "tags":  [
+                 "{Any.Class}",
+                 "cash",
+                 "endgame"
+             ],
+    "value":  740,
+    "description":  "Arma premium reforcada para mid game.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "str":  14,
+                                       "dex":  10,
+                                       "agi":  8,
+                                       "vit":  6
+                                   },
+                    "derivedAdd":  {
+                                       "damagePhysical":  28.0,
+                                       "hpMax":  80.0
+                                   }
+                }
+}

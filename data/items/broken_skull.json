@@ -1,0 +1,12 @@
+{
+    "id":  "broken_skull",
+    "name":  "Cranio Quebrado",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "undead",
+                 "material",
+                 "sell"
+             ],
+    "value":  3,
+    "description":  "Restos de cranio de morto-vivo."
+}

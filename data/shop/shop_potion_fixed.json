@@ -1,0 +1,15 @@
+{
+    "id":  "shop_potion_fixed",
+    "name":  "Pocao de Loja",
+    "itemId":  "shop_potion_fixed",
+    "price":  26,
+    "currency":  "GOLD",
+    "quantity":  1,
+    "minPlayerLevel":  1,
+    "description":  "Consumivel fixo para sustain inicial.",
+    "enabled":  true,
+    "tags":  [
+                 "basic",
+                 "potion"
+             ]
+}

@@ -1,0 +1,12 @@
+{
+    "id":  "titanium_ore",
+    "name":  "Titanio",
+    "tags":  [
+                 "ore",
+                 "mining",
+                 "forge"
+             ],
+    "value":  12,
+    "type":  "MATERIAL",
+    "description":  "Liga resistente para forja avancada."
+}

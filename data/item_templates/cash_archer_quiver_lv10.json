@@ -1,0 +1,14 @@
+{
+  "id": "cash_archer_quiver_lv10",
+  "name": "Phantom Quiver",
+  "type": "EQUIPMENT",
+  "rarity": "EPIC",
+  "slot": "ALJAVA",
+  "minLevel": 10,
+  "baseScaling": 4.6,
+  "baseStat": "CRIT_CHANCE",
+  "dropTier": 3,
+  "vendorBaseValue": 45,
+  "allowedAffixes": ["dex", "crit", "accuracy", "atk_speed", "evasion", "cdr"],
+  "tags": ["{archer}", "quiver", "cash", "premium"]
+}

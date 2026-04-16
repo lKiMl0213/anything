@@ -1,0 +1,18 @@
+{
+    "id":  "silver_ring",
+    "name":  "Anel de Prata",
+    "type":  "EQUIPMENT",
+    "slot":  "ACCESSORY",
+    "baseScaling":  3.5,
+    "baseStat":  "CRIT_CHANCE",
+    "dropTier":  2,
+    "vendorBaseValue":  12,
+    "allowedAffixes":  [
+                           "luk",
+                           "crit",
+                           "dex"
+                       ],
+    "tags":  [
+                 "{Any.Class}"
+             ]
+}

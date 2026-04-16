@@ -1,0 +1,13 @@
+{
+    "id":  "fossil_wood",
+    "name":  "Madeira Fossilizada",
+    "tags":  [
+                 "wood",
+                 "woodcutting",
+                 "forge",
+                 "legendary"
+             ],
+    "value":  16,
+    "type":  "MATERIAL",
+    "description":  "Madeira mineralizada e muito rara."
+}

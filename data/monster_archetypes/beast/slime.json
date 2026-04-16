@@ -1,0 +1,63 @@
+{
+    "id":  "slime",
+    "name":  "Slime",
+    "archetype":  "Beast",
+    "baseAttributes":  {
+                           "str":  2,
+                           "vit":  4,
+                           "dex":  1,
+                           "agi":  1
+                       },
+    "growthAttributes":  {
+                             "str":  1,
+                             "vit":  2,
+                             "dex":  1
+                         },
+    "variancePct":  0.15,
+    "tags":  [
+                 "beast"
+             ],
+    "onHitStatuses":  [
+                          {
+                              "type":  "POISONED",
+                              "chancePct":  24,
+                              "durationSeconds":  8,
+                              "tickIntervalSeconds":  2,
+                              "effectValue":  4,
+                              "stackable":  true,
+                              "maxStacks":  3,
+                              "source":  "Lodo Venenoso"
+                          },
+                          {
+                              "type":  "SLOW",
+                              "chancePct":  16,
+                              "durationSeconds":  4,
+                              "tickIntervalSeconds":  1,
+                              "effectValue":  12,
+                              "stackable":  false,
+                              "maxStacks":  1,
+                              "source":  "Lodo Pegajoso"
+                          }
+                      ],
+    "dropTableId":  "slime_core",
+    "baseXp":  18,
+    "baseGold":  4,
+    "baseType":  "slime",
+    "monsterTypeId":  "slime",
+    "family":  "beast",
+    "damageAffinities":  {
+                             "physical":  0.95,
+                             "magic":  1.2,
+                             "fire":  1.3,
+                             "poison":  0.75,
+                             "bleed":  0.45,
+                             "pierce":  0.75
+                         },
+    "displayName":  "Slime",
+    "variantName":  "",
+    "lootProfileId":  "slime_core",
+    "questTags":  [
+                      "slime",
+                      "ooze"
+                  ]
+}

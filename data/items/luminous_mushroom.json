@@ -1,0 +1,12 @@
+{
+    "id":  "luminous_mushroom",
+    "name":  "Cogumelo Luminoso",
+    "tags":  [
+                 "herb",
+                 "gathering",
+                 "alchemy"
+             ],
+    "value":  9,
+    "type":  "MATERIAL",
+    "description":  "Fungo raro com brilho arcano."
+}

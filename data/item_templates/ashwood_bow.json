@@ -1,0 +1,14 @@
+{
+  "id": "ashwood_bow",
+  "name": "Arco de Madeira Cinzenta",
+  "type": "EQUIPMENT",
+  "rarity": "COMMON",
+  "slot": "WEAPON_MAIN",
+  "twoHanded": true,
+  "baseScaling": 4.8,
+  "baseStat": "DAMAGE_PHYSICAL",
+  "dropTier": 1,
+  "vendorBaseValue": 13,
+  "allowedAffixes": ["dex", "agi", "crit", "atk_speed", "accuracy"],
+  "tags": ["{archer}", "bow", "two_handed"]
+}

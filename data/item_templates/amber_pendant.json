@@ -1,0 +1,13 @@
+{
+  "id": "amber_pendant",
+  "name": "Pingente de Ambar",
+  "type": "EQUIPMENT",
+  "rarity": "UNCOMMON",
+  "slot": "ACCESSORY",
+  "baseScaling": 3.1,
+  "baseStat": "DEF_MAGIC",
+  "dropTier": 1,
+  "vendorBaseValue": 11,
+  "allowedAffixes": ["spr", "mp", "warding", "regen"],
+  "tags": ["{Any.Class}", "accessory", "ward"]
+}

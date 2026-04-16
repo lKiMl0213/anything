@@ -1,0 +1,11 @@
+{
+    "id":  "arrow_iron",
+    "name":  "Flecha de Ferro",
+    "tags":  [
+                 "ammo",
+                 "arrow"
+             ],
+    "value":  3,
+    "type":  "MATERIAL",
+    "description":  "Municao para arcos e bestas."
+}

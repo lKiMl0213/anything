@@ -1,0 +1,12 @@
+{
+    "id":  "sturdy_wood",
+    "name":  "Madeira Resistente",
+    "tags":  [
+                 "wood",
+                 "woodcutting",
+                 "forge"
+             ],
+    "value":  9,
+    "type":  "MATERIAL",
+    "description":  "Material robusto para estruturas e armas."
+}

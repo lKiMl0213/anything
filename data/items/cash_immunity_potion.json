@@ -1,0 +1,14 @@
+{
+  "id": "cash_immunity_potion",
+  "name": "Utility Potion Giant - Immunity",
+  "type": "CONSUMABLE",
+  "tags": ["cash", "potion"],
+  "value": 240,
+  "description": "Removes negative status effects and grants 10s of status immunity.",
+  "effects": {
+    "clearNegativeStatuses": true,
+    "statusImmunitySeconds": 10.0
+  }
+}
+
+

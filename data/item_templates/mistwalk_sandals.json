@@ -1,0 +1,14 @@
+{
+  "id": "mistwalk_sandals",
+  "name": "Sandalias da Neblina",
+  "type": "EQUIPMENT",
+  "rarity": "UNCOMMON",
+  "slot": "BOOTS",
+  "minLevel": 4,
+  "baseScaling": 3.0,
+  "baseStat": "ATTACK_SPEED",
+  "dropTier": 2,
+  "vendorBaseValue": 12,
+  "allowedAffixes": ["agi", "atk_speed", "cdr", "evasion"],
+  "tags": ["{mage}", "light_armor", "cloth"]
+}

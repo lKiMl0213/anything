@@ -1,0 +1,12 @@
+{
+  "tag": "undead",
+  "summonChancePct": 8.0,
+  "enrageChancePct": 12.0,
+  "evolveChancePct": 10.0,
+  "maxSummons": 1,
+  "enrageTurns": 3,
+  "enrageHpThresholdPct": 55.0,
+  "evolveHpThresholdPct": 40.0,
+  "enrageMultiplier": { "damageMagic": 15.0, "defMagic": 10.0 },
+  "evolveMultiplier": { "hpMax": 20.0, "damageMagic": 10.0 }
+}

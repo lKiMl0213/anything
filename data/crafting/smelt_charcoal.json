@@ -1,0 +1,26 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "smelt_charcoal",
+    "description":  "Converte madeira fraca em combustivel de forja.",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  10,
+    "tags":  [
+                 "smelting",
+                 "fuel"
+             ],
+    "name":  "Produzir Carvao",
+    "baseDurationSeconds":  5,
+    "difficulty":  1,
+    "outputItemId":  "charcoal",
+    "outputQty":  2,
+    "minPlayerLevel":  1,
+    "minSkillLevel":  1,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "weak_wood"
+                        }
+                    ]
+}

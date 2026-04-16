@@ -1,0 +1,25 @@
+{
+  "id": "wanderer",
+  "name": "Andarilho",
+  "parentClassId": "archer",
+  "requiredSubclassIds": ["hunter", "assassin"],
+  "description": "Mobilidade, sobrevivencia e pressao continua em movimento.",
+  "bonuses": {
+    "attributes": {
+      "agi": 3,
+      "dex": 2,
+      "vit": 1
+    },
+    "derivedAdd": {
+      "evasion": 12,
+      "attackSpeed": 0.08,
+      "hpRegen": 1
+    }
+  },
+  "autoPointWeights": {
+    "agi": 4,
+    "dex": 2,
+    "vit": 1
+  },
+  "talentTreeId": "archer_wanderer_v2"
+}

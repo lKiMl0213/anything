@@ -1,0 +1,13 @@
+{
+  "id": "cash_room_buff_50",
+  "name": "Tonica de Poder 50",
+  "type": "CONSUMABLE",
+  "tags": ["cash", "buff"],
+  "value": 520,
+  "description": "+50% de atributos por 5 salas.",
+  "effects": {
+    "roomAttributeMultiplierPct": 50.0,
+    "roomAttributeDurationRooms": 5
+  }
+}
+

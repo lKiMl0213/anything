@@ -1,0 +1,21 @@
+{
+    "skillType":  "GATHERING",
+    "id":  "herb_shadow_herb_patch",
+    "minQty":  1,
+    "resourceItemId":  "shadow_herb",
+    "enabled":  true,
+    "tier":  6,
+    "baseXp":  45.1,
+    "tags":  [
+                 "herb",
+                 "gathering"
+             ],
+    "name":  "Mata de Erva Sombria",
+    "type":  "HERBALISM",
+    "baseDurationSeconds":  9.65,
+    "difficulty":  2.76,
+    "maxQty":  1,
+    "minPlayerLevel":  23,
+    "minSkillLevel":  12,
+    "description":  "Fonte de ervas para alquimia e culinaria."
+}

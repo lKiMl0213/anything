@@ -1,0 +1,12 @@
+{
+    "id":  "damaged_gear",
+    "name":  "Engrenagem Danificada",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "construct",
+                 "sell",
+                 "metal"
+             ],
+    "value":  2,
+    "description":  "Engrenagem inutilizada de automato."
+}

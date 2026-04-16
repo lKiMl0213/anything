@@ -1,0 +1,18 @@
+{
+    "id":  "iron_ring",
+    "name":  "Anel de Ferro",
+    "type":  "EQUIPMENT",
+    "slot":  "ACCESSORY",
+    "baseScaling":  3.0,
+    "baseStat":  "HP_MAX",
+    "dropTier":  1,
+    "vendorBaseValue":  9,
+    "allowedAffixes":  [
+                           "luk",
+                           "hp",
+                           "regen"
+                       ],
+    "tags":  [
+                 "{Any.Class}"
+             ]
+}

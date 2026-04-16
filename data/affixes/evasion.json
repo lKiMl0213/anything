@@ -1,0 +1,8 @@
+{
+  "id": "evasion",
+  "name": "da Esquiva",
+  "kind": "SUFFIX",
+  "bonuses": { "derivedAdd": { "evasion": 8.0 } },
+  "cost": 16,
+  "weight": 8
+}

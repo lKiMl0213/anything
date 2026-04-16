@@ -1,0 +1,11 @@
+{
+  "id": "necropolis",
+  "name": "Necropole",
+  "description": "Ecos de morte e poder antigo.",
+  "monsterTagWeights": {
+    "undead": 1.5,
+    "ancient": 1.2
+  },
+  "summonChanceBonusPct": 8.0,
+  "healingMultiplier": 0.9
+}

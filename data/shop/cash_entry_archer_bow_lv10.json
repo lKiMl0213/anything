@@ -1,0 +1,12 @@
+{
+  "id": "cash_entry_archer_bow_lv10",
+  "name": "Tempest Bow Mk-II",
+  "itemId": "cash_archer_bow_lv10",
+  "price": 180,
+  "currency": "CASH",
+  "quantity": 1,
+  "minPlayerLevel": 10,
+  "description": "Upgrade premium para arqueiros no mid game.",
+  "enabled": true,
+  "tags": ["cash", "archer", "weapon"]
+}

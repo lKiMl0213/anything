@@ -1,0 +1,13 @@
+{
+  "id": "leather_hood",
+  "name": "Capuz de Couro",
+  "type": "EQUIPMENT",
+  "rarity": "COMMON",
+  "slot": "HEAD",
+  "baseScaling": 3.0,
+  "baseStat": "DEF_PHYSICAL",
+  "dropTier": 1,
+  "vendorBaseValue": 8,
+  "allowedAffixes": ["agi", "dex", "def", "evasion"],
+  "tags": ["{archer}", "light_armor", "leather"]
+}

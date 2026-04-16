@@ -1,0 +1,12 @@
+{
+    "id":  "tin_ore",
+    "name":  "Estanho",
+    "tags":  [
+                 "ore",
+                 "mining",
+                 "forge"
+             ],
+    "value":  5,
+    "type":  "MATERIAL",
+    "description":  "Metal leve usado em ligas basicas."
+}

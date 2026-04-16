@@ -1,0 +1,12 @@
+{
+  "id": "shop_sunstone_recurve",
+  "name": "Arco Recurvo de Pedra Solar",
+  "itemId": "sunstone_recurve",
+  "price": 420,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 10,
+  "description": "Arma de pedra preciosa para criticos consistentes.",
+  "enabled": true,
+  "tags": ["gold", "archer", "weapon"]
+}

@@ -1,0 +1,21 @@
+{
+    "skillType":  "WOODCUTTING",
+    "id":  "wood_wood_log_tree",
+    "minQty":  1,
+    "resourceItemId":  "wood_log",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  15.3,
+    "tags":  [
+                 "wood",
+                 "woodcutting"
+             ],
+    "name":  "Bosque de Madeira Comum",
+    "type":  "WOODCUTTING",
+    "baseDurationSeconds":  4.8,
+    "difficulty":  1.19,
+    "maxQty":  3,
+    "minPlayerLevel":  4,
+    "minSkillLevel":  2,
+    "description":  "Area de corte de madeira."
+}

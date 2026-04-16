@@ -1,0 +1,15 @@
+{
+  "id": "iron_longbow",
+  "name": "Arco Longo de Ferro",
+  "type": "EQUIPMENT",
+  "rarity": "UNCOMMON",
+  "slot": "WEAPON_MAIN",
+  "twoHanded": true,
+  "minLevel": 5,
+  "baseScaling": 5.6,
+  "baseStat": "DAMAGE_PHYSICAL",
+  "dropTier": 2,
+  "vendorBaseValue": 18,
+  "allowedAffixes": ["dex", "str", "crit", "atk_speed", "accuracy"],
+  "tags": ["{archer}", "bow", "two_handed"]
+}

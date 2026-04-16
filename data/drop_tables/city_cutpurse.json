@@ -1,0 +1,28 @@
+{
+  "id": "city_cutpurse",
+  "baseChancePct": 44.0,
+  "entries": [
+    { "itemId": "dull_dagger", "category": "COMMON_SELL", "chancePct": 16, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "torn_cape", "category": "COMMON_SELL", "chancePct": 14, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "empty_pouch", "category": "COMMON_SELL", "chancePct": 12, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "rusted_coin", "category": "QUEST_ITEM", "chancePct": 18, "minQty": 2, "maxQty": 6, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "worn_glove", "category": "COMMON_SELL", "chancePct": 10, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "oil", "category": "COMMON_MATERIAL", "chancePct": 8, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "venom", "category": "UNCOMMON_MATERIAL", "chancePct": 6, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "arrow_simple", "category": "COMMON_MATERIAL", "chancePct": 8, "minQty": 3, "maxQty": 8, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "ashwood_bow", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "UNCOMMON" },
+    { "itemId": "field_quiver", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "UNCOMMON" },
+    { "itemId": "leather_hood", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "UNCOMMON" },
+    { "itemId": "scout_tunic", "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "UNCOMMON" },
+    { "itemId": "smuggler_seal", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "UNCOMMON", "maxRarity": "RARE" },
+    { "itemId": "moonglass_earring", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "UNCOMMON", "maxRarity": "RARE" },
+    { "itemId": "warded_loop", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "UNCOMMON", "maxRarity": "RARE" },
+    { "itemId": "mercenary_token", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "UNCOMMON", "maxRarity": "RARE" },
+    { "itemId": "mist_runner_charm", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "UNCOMMON", "maxRarity": "RARE" },
+    { "itemId": "hunters_trophy", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "EPIC" },
+    { "itemId": "oracle_eye", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "EPIC" },
+    { "itemId": "shadowstep_anklet", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "EPIC" },
+    { "itemId": "deadeye_medallion", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "EPIC" },
+    { "itemId": "starforge_emblem", "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "EPIC", "maxRarity": "LEGENDARY" }
+  ]
+}

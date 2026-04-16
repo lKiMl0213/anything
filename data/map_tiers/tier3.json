@@ -1,0 +1,13 @@
+{
+  "id": "tier3",
+  "minLevel": 10,
+  "recommendedLevel": 12,
+  "baseMonsterLevel": 12,
+  "difficultyMultiplier": 1.2,
+  "allowedMonsterTemplates": ["skeleton_archer", "lich"],
+  "dropTier": 3,
+  "dropChanceMultiplier": 1.0,
+  "xpMultiplier": 1.2,
+  "goldMultiplier": 1.1,
+  "biomeId": "crypt"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "oak_staff",
+  "name": "Cajado de Carvalho",
+  "type": "EQUIPMENT",
+  "rarity": "COMMON",
+  "slot": "WEAPON_MAIN",
+  "baseScaling": 4.9,
+  "baseStat": "DAMAGE_MAGIC",
+  "dropTier": 1,
+  "vendorBaseValue": 13,
+  "allowedAffixes": ["int", "spr", "mp", "cdr", "focus"],
+  "tags": ["{mage}", "staff"]
+}

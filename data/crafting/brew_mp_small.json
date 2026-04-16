@@ -1,0 +1,31 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_mp_small",
+    "description":  "Brews MP Potion Small (restores 24 MP).",
+    "enabled":  true,
+    "tier":  1,
+    "baseXp":  15,
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "name":  "Brew MP Potion Small",
+    "baseDurationSeconds":  6,
+    "difficulty":  1.2,
+    "outputItemId":  "mp_potion_small",
+    "outputQty":  1,
+    "minPlayerLevel":  2,
+    "minSkillLevel":  2,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "wild_mint_leaf"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "arcane_crystal"
+                        }
+                    ]
+}
+

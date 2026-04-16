@@ -1,0 +1,9 @@
+{
+  "id": "cracked_bone",
+  "name": "Osso Rachado",
+  "type": "MATERIAL",
+  "tags": ["undead", "bone", "craft"],
+  "value": 3,
+  "description": "Fragmento osseo coletado de mortos-vivos."
+}
+

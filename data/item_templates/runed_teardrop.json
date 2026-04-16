@@ -1,0 +1,13 @@
+{
+  "id": "runed_teardrop",
+  "name": "Gota Runica",
+  "type": "EQUIPMENT",
+  "rarity": "RARE",
+  "slot": "ACCESSORY",
+  "baseScaling": 3.8,
+  "baseStat": "MP_MAX",
+  "dropTier": 2,
+  "vendorBaseValue": 14,
+  "allowedAffixes": ["mp", "int", "spr", "focus", "cdr"],
+  "tags": ["{Any.Class}", "accessory", "mana"]
+}

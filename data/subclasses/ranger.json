@@ -1,0 +1,19 @@
+{
+  "id": "ranger",
+  "name": "Ranger",
+  "parentClassId": "archer",
+  "description": "Rastreador e atirador preciso.",
+  "bonuses": {
+    "attributes": {
+      "dex": 2,
+      "agi": 1
+    },
+    "derivedAdd": {
+      "accuracy": 3
+    }
+  },
+  "autoPointWeights": {
+    "dex": 2,
+    "agi": 1
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "mystic_slacks",
+  "name": "Calcas Misticas",
+  "type": "EQUIPMENT",
+  "rarity": "COMMON",
+  "slot": "LEGS",
+  "minLevel": 2,
+  "baseScaling": 3.5,
+  "baseStat": "MP_MAX",
+  "dropTier": 1,
+  "vendorBaseValue": 10,
+  "allowedAffixes": ["spr", "mp", "cdr", "regen"],
+  "tags": ["{mage}", "light_armor", "cloth"]
+}

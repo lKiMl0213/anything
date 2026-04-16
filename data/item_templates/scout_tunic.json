@@ -1,0 +1,14 @@
+{
+  "id": "scout_tunic",
+  "name": "Tunica de Batedor",
+  "type": "EQUIPMENT",
+  "rarity": "COMMON",
+  "slot": "CHEST",
+  "minLevel": 2,
+  "baseScaling": 4.0,
+  "baseStat": "DEF_PHYSICAL",
+  "dropTier": 1,
+  "vendorBaseValue": 12,
+  "allowedAffixes": ["agi", "dex", "def", "hp", "evasion"],
+  "tags": ["{archer}", "light_armor", "leather"]
+}

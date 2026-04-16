@@ -1,0 +1,13 @@
+{
+  "id": "oracle_eye",
+  "name": "Olho do Oraculo",
+  "type": "EQUIPMENT",
+  "rarity": "EPIC",
+  "slot": "ACCESSORY",
+  "baseScaling": 4.6,
+  "baseStat": "CRIT_CHANCE",
+  "dropTier": 3,
+  "vendorBaseValue": 18,
+  "allowedAffixes": ["crit", "focus", "cdr", "accuracy", "mp"],
+  "tags": ["{Any.Class}", "accessory", "crit"]
+}

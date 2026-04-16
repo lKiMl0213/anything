@@ -1,0 +1,51 @@
+{
+  "powerWeights": {
+    "hp": 0.25,
+    "damage": 1.0,
+    "defense": 0.5,
+    "attackSpeed": 4.0,
+    "crit": 0.1
+  },
+  "xpPowerScale": 0.40,
+  "goldPowerScale": 0.16,
+  "difficultyMin": 0.40,
+  "difficultyMax": 1.45,
+  "antiFarmLevelGap": 5,
+  "antiFarmXpMultiplier": 0.40,
+  "antiFarmDropMultiplier": 0.40,
+  "antiFarmGoldMultiplier": 0.25,
+  "talentPoints": {
+    "mode": "SHARED_POOL",
+    "sharedPointsPerLevel": 1,
+    "sharedStartingPoints": 1,
+    "perTreePointsPerLevelDefault": 1,
+    "perTreePointsPerLevel": {},
+    "perTreeStartingPoints": {}
+  },
+  "combat": {
+    "tickSeconds": 0.1,
+    "actionThreshold": 100.0,
+    "speedNormalization": 4.0,
+    "speedScale": 100.0,
+    "globalCooldownSeconds": 0.4,
+    "softCap": {
+      "threshold1": 100.0,
+      "threshold2": 200.0,
+      "multiplier1": 0.5,
+      "multiplier2": 0.25
+    }
+  },
+  "starRewards": {
+    "xpPerStarPct": 5.0,
+    "goldPerStarPct": 4.0,
+    "dropPerStarPct": 3.5,
+    "maxXpBonusPct": 55.0,
+    "maxGoldBonusPct": 45.0,
+    "maxDropBonusPct": 40.0
+  },
+  "starTags": [
+    { "minStars": 7, "label": "Impecavel", "format": "{name} Impecavel ({stars}*)" },
+    { "minStars": 5, "label": "Excepcional", "format": "{name} Excepcional ({stars}*)" },
+    { "minStars": 3, "label": "Notavel", "format": "{name} Notavel ({stars}*)" }
+  ]
+}

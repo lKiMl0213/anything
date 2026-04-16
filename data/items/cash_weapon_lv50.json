@@ -1,0 +1,27 @@
+{
+    "id":  "cash_weapon_lv50",
+    "name":  "Lamina Neon Mk-V",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  50,
+    "tags":  [
+                 "{Any.Class}",
+                 "cash",
+                 "endgame"
+             ],
+    "value":  3200,
+    "description":  "Arma premium pesada para conteudo avancado.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "str":  80,
+                                       "dex":  45,
+                                       "agi":  35,
+                                       "vit":  50
+                                   },
+                    "derivedAdd":  {
+                                       "damagePhysical":  160.0,
+                                       "hpMax":  700.0,
+                                       "attackSpeed":  0.35
+                                   }
+                }
+}

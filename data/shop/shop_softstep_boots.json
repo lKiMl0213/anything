@@ -1,0 +1,12 @@
+{
+  "id": "shop_softstep_boots",
+  "name": "Botas de Passo Leve",
+  "itemId": "softstep_boots",
+  "price": 88,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 4,
+  "description": "Botas para manter o arqueiro sempre em movimento.",
+  "enabled": true,
+  "tags": ["gold", "archer", "armor"]
+}

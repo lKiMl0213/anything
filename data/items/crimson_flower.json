@@ -1,0 +1,12 @@
+{
+    "id":  "crimson_flower",
+    "name":  "Flor Rubra",
+    "tags":  [
+                 "herb",
+                 "gathering",
+                 "alchemy"
+             ],
+    "value":  10,
+    "type":  "MATERIAL",
+    "description":  "Flor intensa usada em concoecoes ofensivas."
+}

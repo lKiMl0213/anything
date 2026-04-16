@@ -1,0 +1,18 @@
+{
+  "id": "fishing_moon_lake_luminous",
+  "name": "Lago Luminoso",
+  "type": "FISHING",
+  "skillType": "FISHING",
+  "resourceItemId": "luminous_fish",
+  "minQty": 1,
+  "maxQty": 2,
+  "minPlayerLevel": 28,
+  "minSkillLevel": 15,
+  "baseDurationSeconds": 7.8,
+  "baseXp": 25.0,
+  "difficulty": 1.95,
+  "tier": 3,
+  "description": "Peixes brilhantes aparecem ao anoitecer.",
+  "enabled": true,
+  "tags": ["fishing", "lake", "rare"]
+}

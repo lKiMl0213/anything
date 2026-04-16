@@ -1,0 +1,58 @@
+{
+  "id": "sewer_rat",
+  "name": "Sewer Rat",
+  "archetype": "Plage",
+  "baseType": "rat",
+  "monsterTypeId": "plage",
+  "family": "plage",
+  "displayName": "Rato de Cano",
+  "baseAttributes": {
+    "str": 5,
+    "agi": 6,
+    "dex": 4,
+    "vit": 4,
+    "spr": 3
+  },
+  "growthAttributes": {
+    "agi": 3,
+    "str": 2,
+    "dex": 2
+  },
+  "variancePct": 0.16,
+  "tags": ["plage", "city", "rat", "vermin"],
+  "questTags": ["plage", "rat", "city"],
+  "behaviorProfileId": "plage",
+  "onHitStatuses": [
+    {
+      "type": "POISONED",
+      "chancePct": 24,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 5,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Mordida Infecta"
+    },
+    {
+      "type": "SLOW",
+      "chancePct": 10,
+      "durationSeconds": 3,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Salto Baixo"
+    }
+  ],
+  "dropTableId": "plage_common",
+  "lootProfileId": "plage_common",
+  "baseXp": 24,
+  "baseGold": 5,
+  "damageAffinities": {
+    "physical": 1.0,
+    "magic": 1.0,
+    "fire": 1.12,
+    "poison": 0.88,
+    "shadow": 0.82
+  }
+}

@@ -1,0 +1,16 @@
+{
+    "id":  "hybrid_potion_medium",
+    "name":  "Hybrid Potion Medium",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  54,
+    "type":  "CONSUMABLE",
+    "description":  "Restores 45 HP and 40 MP.",
+    "effects":  {
+                    "hpRestore":  45,
+                    "mpRestore":  40
+                }
+}
+

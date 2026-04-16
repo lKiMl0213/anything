@@ -1,0 +1,14 @@
+{
+  "id": "amethyst_rod",
+  "name": "Bastao de Ametista",
+  "type": "EQUIPMENT",
+  "rarity": "RARE",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 10,
+  "baseScaling": 6.5,
+  "baseStat": "DAMAGE_MAGIC",
+  "dropTier": 3,
+  "vendorBaseValue": 27,
+  "allowedAffixes": ["int", "spr", "mp", "focus", "cdr", "warding"],
+  "tags": ["{mage}", "staff", "gemstone"]
+}

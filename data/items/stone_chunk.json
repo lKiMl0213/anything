@@ -1,0 +1,12 @@
+{
+    "id":  "stone_chunk",
+    "name":  "Pedra Bruta",
+    "tags":  [
+                 "ore",
+                 "mining",
+                 "forge"
+             ],
+    "value":  2,
+    "type":  "MATERIAL",
+    "description":  "Rocha base para flechas e ligas simples."
+}

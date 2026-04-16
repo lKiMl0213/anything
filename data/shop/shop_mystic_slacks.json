@@ -1,0 +1,12 @@
+{
+  "id": "shop_mystic_slacks",
+  "name": "Calcas Misticas",
+  "itemId": "mystic_slacks",
+  "price": 84,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 2,
+  "description": "Mais mana e regeneracao para runs longas.",
+  "enabled": true,
+  "tags": ["gold", "mage", "armor"]
+}

@@ -1,0 +1,13 @@
+{
+    "id":  "enchanted_wood",
+    "name":  "Madeira Encantada",
+    "tags":  [
+                 "wood",
+                 "woodcutting",
+                 "forge",
+                 "arcane"
+             ],
+    "value":  10,
+    "type":  "MATERIAL",
+    "description":  "Madeira energizada para itens especiais."
+}

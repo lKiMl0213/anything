@@ -1,0 +1,22 @@
+AFFIXES
+
+Pasta: data/affixes
+Cada arquivo JSON segue o modelo AffixDef.
+
+Campos:
+- id: string
+- name: string
+- kind: "PREFIX" | "SUFFIX" | "SPECIAL"
+- bonuses: Bonuses
+- cost: int (consome budget do item)
+- weight: int (peso relativo)
+
+Exemplo:
+{
+  "id": "str",
+  "name": "+Forca",
+  "kind": "SUFFIX",
+  "bonuses": { "attributes": { "str": 2 } },
+  "cost": 10,
+  "weight": 3
+}

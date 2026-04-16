@@ -1,0 +1,12 @@
+{
+    "id":  "giant_log",
+    "name":  "Tronco Gigante",
+    "tags":  [
+                 "wood",
+                 "woodcutting",
+                 "forge"
+             ],
+    "value":  12,
+    "type":  "MATERIAL",
+    "description":  "Tronco enorme para projetos avancados."
+}

@@ -1,0 +1,12 @@
+{
+    "id":  "wolf_fang",
+    "name":  "Dente de Lobo",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "beast",
+                 "material",
+                 "craft"
+             ],
+    "value":  4,
+    "description":  "Dente afiado de lobo."
+}

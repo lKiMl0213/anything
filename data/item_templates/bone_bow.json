@@ -1,0 +1,13 @@
+{
+  "id": "bone_bow",
+  "name": "Arco de Ossos",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "twoHanded": true,
+  "baseScaling": 5.5,
+  "baseStat": "DAMAGE_PHYSICAL",
+  "dropTier": 2,
+  "vendorBaseValue": 16,
+  "allowedAffixes": ["dex", "agi", "crit", "atk_speed"],
+  "tags": ["{archer}", "bow", "two_handed"]
+}

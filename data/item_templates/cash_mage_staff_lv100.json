@@ -1,0 +1,14 @@
+{
+  "id": "cash_mage_staff_lv100",
+  "name": "Aether Staff Mk-X",
+  "type": "EQUIPMENT",
+  "rarity": "LEGENDARY",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 100,
+  "baseScaling": 12.2,
+  "baseStat": "DAMAGE_MAGIC",
+  "dropTier": 4,
+  "vendorBaseValue": 260,
+  "allowedAffixes": ["int", "spr", "mp", "focus", "cdr", "warding"],
+  "tags": ["{mage}", "staff", "cash", "premium"]
+}

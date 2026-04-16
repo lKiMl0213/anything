@@ -1,0 +1,13 @@
+{
+    "id":  "medicinal_herb",
+    "name":  "Erva Medicinal",
+    "tags":  [
+                 "herb",
+                 "gathering",
+                 "alchemy",
+                 "cooking"
+             ],
+    "value":  3,
+    "type":  "MATERIAL",
+    "description":  "Planta curativa usada em pocoes e culinaria."
+}

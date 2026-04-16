@@ -1,0 +1,8 @@
+{
+  "id": "bulwark",
+  "name": "da Muralha",
+  "kind": "SUFFIX",
+  "bonuses": { "derivedAdd": { "defPhysical": 6.0, "damageReductionPct": 2.0 } },
+  "cost": 20,
+  "weight": 5
+}

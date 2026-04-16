@@ -1,0 +1,12 @@
+{
+  "id": "shop_oak_staff",
+  "name": "Cajado de Carvalho",
+  "itemId": "oak_staff",
+  "price": 98,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 1,
+  "description": "Cajado de madeira para magos focados em canalizacao limpa.",
+  "enabled": true,
+  "tags": ["gold", "mage", "weapon"]
+}

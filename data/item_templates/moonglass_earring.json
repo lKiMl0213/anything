@@ -1,0 +1,13 @@
+{
+  "id": "moonglass_earring",
+  "name": "Brinco de Vidro Lunar",
+  "type": "EQUIPMENT",
+  "rarity": "UNCOMMON",
+  "slot": "ACCESSORY",
+  "baseScaling": 3.7,
+  "baseStat": "CRIT_CHANCE",
+  "dropTier": 2,
+  "vendorBaseValue": 13,
+  "allowedAffixes": ["crit", "dex", "agi", "accuracy"],
+  "tags": ["{Any.Class}", "accessory", "crit"]
+}

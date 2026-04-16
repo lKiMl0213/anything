@@ -1,0 +1,16 @@
+{
+    "id":  "hp_potion_medium",
+    "name":  "HP Potion Medium",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  38,
+    "type":  "CONSUMABLE",
+    "description":  "Restores 70 HP.",
+    "effects":  {
+                    "hpRestore":  70,
+                    "mpRestore":  0
+                }
+}
+

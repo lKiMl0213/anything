@@ -1,0 +1,30 @@
+MAP TIERS
+
+Pasta: data/map_tiers
+Cada arquivo JSON segue o modelo MapTierDef.
+
+Campos:
+- id: string
+- minLevel: int
+- recommendedLevel: int
+- baseMonsterLevel: int
+- difficultyMultiplier: number
+- allowedMonsterTemplates: [string] (ids de monster_archetypes)
+- dropTier: int
+- dropChanceMultiplier: number
+- xpMultiplier: number
+- goldMultiplier: number
+- biomeId: string (opcional)
+- isInfinite: bool
+
+Exemplo:
+{
+  "id": "tier1",
+  "minLevel": 1,
+  "recommendedLevel": 3,
+  "baseMonsterLevel": 1,
+  "difficultyMultiplier": 1.0,
+  "allowedMonsterTemplates": ["slime", "skeleton_warrior"],
+  "dropTier": 1,
+  "biomeId": "wilds"
+}

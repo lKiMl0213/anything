@@ -1,0 +1,21 @@
+{
+    "skillType":  "WOODCUTTING",
+    "id":  "wood_dense_wood_tree",
+    "minQty":  1,
+    "resourceItemId":  "dense_wood",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  18.6,
+    "tags":  [
+                 "wood",
+                 "woodcutting"
+             ],
+    "name":  "Bosque de Madeira Densa",
+    "type":  "WOODCUTTING",
+    "baseDurationSeconds":  5.4,
+    "difficulty":  1.38,
+    "maxQty":  3,
+    "minPlayerLevel":  7,
+    "minSkillLevel":  3,
+    "description":  "Area de corte de madeira."
+}

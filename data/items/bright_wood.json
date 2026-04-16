@@ -1,0 +1,13 @@
+{
+    "id":  "bright_wood",
+    "name":  "Madeira Brilhante",
+    "tags":  [
+                 "wood",
+                 "woodcutting",
+                 "forge",
+                 "arcane"
+             ],
+    "value":  13,
+    "type":  "MATERIAL",
+    "description":  "Madeira com brilho natural."
+}

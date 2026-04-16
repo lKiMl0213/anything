@@ -1,0 +1,39 @@
+{
+  "id": "humanoid",
+  "monsterTags": ["humanoid"],
+  "intros": [
+    "Passos humanos se aproximam",
+    "Um vulto armado surge",
+    "Uma voz hostil ressoa",
+    "Um inimigo humano se revela",
+    "Olhos humanos brilham na escuridao",
+    "Uma figura humana se destaca",
+    "O som de uma arma sendo preparada e ouvido",
+    "Um humano se aproxima com intencoes claras",
+    "Um oponente humano se apresenta"
+  ],
+  "descriptors": [
+    "um inimigo determinado",
+    "um saqueador cruel",
+    "um oponente experiente",
+    "um adversario implacavel",
+    "um humano perigoso",
+    "um inimigo astuto",
+    "um combatente habilidoso",
+    "um ser humano hostil",
+    "um inimigo que nao pode ser subestimado",
+    "um adversario que conhece o terreno"
+  ],
+  "threats": [
+    "Ele prepara a investida",
+    "Olhares se cruzam em desafio",
+    "A batalha e inevitavel",
+    "Ele ataca com precisao",
+    "O confronto e intenso",
+    "Ele se move com agilidade",
+    "A luta e brutal",
+    "Ele ataca sem hesitar",
+    "O combate e implacavel",
+    "Ele se recusa a recuar"
+  ]
+}

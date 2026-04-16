@@ -1,0 +1,8 @@
+{
+  "id": "shadowstep",
+  "name": "Passo Sombrio",
+  "kind": "SPECIAL",
+  "bonuses": { "derivedAdd": { "evasion": 12.0, "attackSpeed": 0.25, "moveSpeed": 0.3 } },
+  "cost": 0,
+  "weight": 2
+}

@@ -1,0 +1,25 @@
+{
+  "id": "collect_item_delivery",
+  "category": "collection",
+  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"],
+  "objectiveType": "COLLECT_ITEM",
+  "targetType": "ITEM_ID",
+  "amountRange": { "min": 2, "max": 6 },
+  "rewardProfile": {
+    "xpBase": 12,
+    "goldBase": 10,
+    "effortMultiplier": 0.95
+  },
+  "constraints": {
+    "minPlayerLevel": 1,
+    "maxPlayerLevel": 999,
+    "requiresDungeon": false,
+    "consumeTargetOnComplete": true
+  },
+  "titleTemplate": "Entrega de Suprimentos",
+  "descriptionTemplate": "Reuna {amount} {target} e entregue ao quadro de quests.",
+  "hintTemplate": "Confira a dica da quest para saber a origem do item.",
+  "enabled": true,
+  "weight": 9
+}
+

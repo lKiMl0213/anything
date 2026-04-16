@@ -1,0 +1,31 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_mp_large",
+    "description":  "Brews MP Potion Large (restores 120 MP).",
+    "enabled":  true,
+    "tier":  4,
+    "baseXp":  32,
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "name":  "Brew MP Potion Large",
+    "baseDurationSeconds":  11,
+    "difficulty":  1.8,
+    "outputItemId":  "mp_potion_large",
+    "outputQty":  1,
+    "minPlayerLevel":  17,
+    "minSkillLevel":  13,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "crystal_plant"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "arcane_crystal"
+                        }
+                    ]
+}
+

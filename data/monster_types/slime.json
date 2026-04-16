@@ -1,0 +1,14 @@
+{
+  "id": "slime",
+  "name": "Slime",
+  "description": "Massa viscosa que tende a absorver impacto e sangramento.",
+  "tags": ["slime", "ooze", "beast"],
+  "damageAffinities": {
+    "physical": 0.95,
+    "magic": 1.1,
+    "fire": 1.2,
+    "bleed": 0.5,
+    "pierce": 0.8
+  }
+}
+

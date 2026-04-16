@@ -1,0 +1,12 @@
+{
+  "id": "shop_field_quiver",
+  "name": "Aljava de Campo",
+  "itemId": "field_quiver",
+  "price": 70,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 1,
+  "description": "Aljava basica para habilitar e acelerar os disparos do arqueiro.",
+  "enabled": true,
+  "tags": ["gold", "archer", "quiver"]
+}

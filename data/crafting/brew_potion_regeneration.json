@@ -1,0 +1,31 @@
+{
+    "skillType":  "ALCHEMIST",
+    "id":  "brew_potion_regeneration",
+    "description":  "Brews Utility Potion Medium - Regeneration (restores 55 HP and 35 MP).",
+    "enabled":  true,
+    "tier":  3,
+    "baseXp":  28,
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "name":  "Brew Utility Potion Medium - Regeneration",
+    "baseDurationSeconds":  10,
+    "difficulty":  1.6,
+    "outputItemId":  "potion_regeneration",
+    "outputQty":  1,
+    "minPlayerLevel":  14,
+    "minSkillLevel":  10,
+    "discipline":  "ALCHEMY",
+    "ingredients":  [
+                        {
+                            "quantity":  3,
+                            "itemId":  "medicinal_herb"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "crystal_plant"
+                        }
+                    ]
+}
+

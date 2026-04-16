@@ -1,0 +1,26 @@
+MONSTER BEHAVIORS
+
+Pasta: data/monster_behaviors
+Cada arquivo JSON segue o modelo MonsterBehaviorDef.
+
+Campos:
+- tag: string (tag que ativa esse comportamento)
+- summonChancePct: number
+- enrageChancePct: number
+- evolveChancePct: number
+- maxSummons: int
+- enrageTurns: int
+- enrageHpThresholdPct: number
+- evolveHpThresholdPct: number
+- enrageMultiplier: DerivedStats (multiplicadores em %)
+- evolveMultiplier: DerivedStats (multiplicadores em %)
+
+Exemplo:
+{
+  "tag": "undead",
+  "summonChancePct": 5.0,
+  "enrageChancePct": 10.0,
+  "maxSummons": 1,
+  "enrageTurns": 2,
+  "enrageMultiplier": { "damagePhysical": 20.0 }
+}

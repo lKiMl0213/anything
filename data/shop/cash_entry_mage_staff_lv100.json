@@ -1,0 +1,12 @@
+{
+  "id": "cash_entry_mage_staff_lv100",
+  "name": "Aether Staff Mk-X",
+  "itemId": "cash_mage_staff_lv100",
+  "price": 1200,
+  "currency": "CASH",
+  "quantity": 1,
+  "minPlayerLevel": 100,
+  "description": "Cajado premium de endgame para magos.",
+  "enabled": true,
+  "tags": ["cash", "mage", "weapon"]
+}

@@ -1,0 +1,11 @@
+{
+    "id":  "gold_bar",
+    "name":  "Barra de Ouro",
+    "tags":  [
+                 "forge",
+                 "bar"
+             ],
+    "value":  18,
+    "type":  "MATERIAL",
+    "description":  "Barra refinada para forja de equipamentos."
+}

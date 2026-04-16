@@ -1,0 +1,21 @@
+{
+    "skillType":  "WOODCUTTING",
+    "id":  "wood_ancient_wood_tree",
+    "minQty":  1,
+    "resourceItemId":  "ancient_wood",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  21.9,
+    "tags":  [
+                 "wood",
+                 "woodcutting"
+             ],
+    "name":  "Bosque de Madeira Antiga",
+    "type":  "WOODCUTTING",
+    "baseDurationSeconds":  6,
+    "difficulty":  1.57,
+    "maxQty":  2,
+    "minPlayerLevel":  10,
+    "minSkillLevel":  4,
+    "description":  "Area de corte de madeira."
+}

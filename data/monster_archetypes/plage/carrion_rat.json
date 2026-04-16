@@ -1,0 +1,57 @@
+{
+  "id": "carrion_rat",
+  "name": "Carrion Rat",
+  "archetype": "Plage",
+  "baseType": "rat",
+  "monsterTypeId": "plage",
+  "family": "plage",
+  "displayName": "Rato Carniceiro",
+  "baseAttributes": {
+    "str": 7,
+    "agi": 5,
+    "dex": 4,
+    "vit": 5
+  },
+  "growthAttributes": {
+    "str": 3,
+    "agi": 2,
+    "vit": 2
+  },
+  "variancePct": 0.14,
+  "tags": ["plage", "city", "rat", "vermin"],
+  "questTags": ["plage", "rat", "city"],
+  "behaviorProfileId": "plage",
+  "onHitStatuses": [
+    {
+      "type": "BLEEDING",
+      "chancePct": 18,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 5,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Dentes Podres"
+    },
+    {
+      "type": "WEAKNESS",
+      "chancePct": 14,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 8,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Fome Doentia"
+    }
+  ],
+  "dropTableId": "plage_common",
+  "lootProfileId": "plage_common",
+  "baseXp": 28,
+  "baseGold": 6,
+  "damageAffinities": {
+    "physical": 1.0,
+    "magic": 1.0,
+    "fire": 1.15,
+    "holy": 1.05,
+    "poison": 0.9
+  }
+}

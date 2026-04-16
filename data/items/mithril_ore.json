@@ -1,0 +1,13 @@
+{
+    "id":  "mithril_ore",
+    "name":  "Mithril",
+    "tags":  [
+                 "ore",
+                 "mining",
+                 "forge",
+                 "arcane"
+             ],
+    "value":  15,
+    "type":  "MATERIAL",
+    "description":  "Metal raro com leveza excepcional."
+}

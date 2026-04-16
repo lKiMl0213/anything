@@ -1,0 +1,27 @@
+{
+  "id": "kill_monster_any",
+  "category": "combat",
+  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"],
+  "objectiveType": "KILL_MONSTER",
+  "targetType": "MONSTER_ID",
+  "amountRange": { "min": 3, "max": 8 },
+  "rewardProfile": {
+    "xpBase": 14,
+    "goldBase": 10,
+    "effortMultiplier": 1.0,
+    "itemRewards": [
+      { "itemId": "potion_small", "chancePct": 20, "minQty": 1, "maxQty": 2 }
+    ]
+  },
+  "constraints": {
+    "minPlayerLevel": 1,
+    "maxPlayerLevel": 999,
+    "requiresDungeon": true
+  },
+  "titleTemplate": "Elimine {amount} {target}",
+  "descriptionTemplate": "Derrote {amount} {target} nas areas desbloqueadas da dungeon.",
+  "hintTemplate": "Monstros aparecem nos tiers que seu nivel permite.",
+  "enabled": true,
+  "weight": 12
+}
+

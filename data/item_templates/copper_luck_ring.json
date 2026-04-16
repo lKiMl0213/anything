@@ -1,0 +1,13 @@
+{
+  "id": "copper_luck_ring",
+  "name": "Anel de Cobre Afortunado",
+  "type": "EQUIPMENT",
+  "rarity": "COMMON",
+  "slot": "ACCESSORY",
+  "baseScaling": 2.8,
+  "baseStat": "HP_MAX",
+  "dropTier": 1,
+  "vendorBaseValue": 9,
+  "allowedAffixes": ["luk", "hp", "regen", "accuracy"],
+  "tags": ["{Any.Class}", "accessory", "luck"]
+}

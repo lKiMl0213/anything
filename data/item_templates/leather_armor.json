@@ -1,0 +1,18 @@
+{
+    "id":  "leather_armor",
+    "name":  "Armadura de Couro",
+    "type":  "EQUIPMENT",
+    "slot":  "CHEST",
+    "baseScaling":  4.0,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  1,
+    "vendorBaseValue":  10,
+    "allowedAffixes":  [
+                           "vit",
+                           "hp",
+                           "def"
+                       ],
+    "tags":  [
+                 "{Any.Class}"
+             ]
+}

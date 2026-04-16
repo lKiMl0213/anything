@@ -1,0 +1,15 @@
+{
+    "id":  "cash_entry_room_buff_50",
+    "name":  "Tonica de Poder 50",
+    "itemId":  "cash_room_buff_50",
+    "price":  520,
+    "currency":  "CASH",
+    "quantity":  1,
+    "minPlayerLevel":  1,
+    "description":  "+50% por 5 salas.",
+    "enabled":  true,
+    "tags":  [
+                 "cash",
+                 "buff"
+             ]
+}

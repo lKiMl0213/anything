@@ -1,0 +1,30 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "smelt_silver_bar",
+    "description":  "Refino de barra metalica.",
+    "enabled":  true,
+    "tier":  2,
+    "baseXp":  20,
+    "tags":  [
+                 "smelting",
+                 "bar"
+             ],
+    "name":  "Fundir Barra de Prata",
+    "baseDurationSeconds":  9,
+    "difficulty":  1.4,
+    "outputItemId":  "silver_bar",
+    "outputQty":  1,
+    "minPlayerLevel":  6,
+    "minSkillLevel":  4,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "silver_ore"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "charcoal"
+                        }
+                    ]
+}

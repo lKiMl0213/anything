@@ -1,0 +1,16 @@
+{
+    "id":  "mp_potion_small",
+    "name":  "MP Potion Small",
+    "tags":  [
+                 "alchemy",
+                 "potion"
+             ],
+    "value":  18,
+    "type":  "CONSUMABLE",
+    "description":  "Restores 24 MP.",
+    "effects":  {
+                    "hpRestore":  0,
+                    "mpRestore":  24
+                }
+}
+

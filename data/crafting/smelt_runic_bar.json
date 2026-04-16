@@ -1,0 +1,30 @@
+{
+    "skillType":  "BLACKSMITH",
+    "id":  "smelt_runic_bar",
+    "description":  "Refino de barra metalica.",
+    "enabled":  true,
+    "tier":  5,
+    "baseXp":  40,
+    "tags":  [
+                 "smelting",
+                 "bar"
+             ],
+    "name":  "Fundir Barra Runica",
+    "baseDurationSeconds":  18,
+    "difficulty":  2,
+    "outputItemId":  "runic_bar",
+    "outputQty":  1,
+    "minPlayerLevel":  22,
+    "minSkillLevel":  18,
+    "discipline":  "FORGE",
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "runic_stone"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "arcane_crystal"
+                        }
+                    ]
+}

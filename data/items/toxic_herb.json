@@ -1,0 +1,13 @@
+{
+    "id":  "toxic_herb",
+    "name":  "Erva Toxica",
+    "tags":  [
+                 "herb",
+                 "gathering",
+                 "alchemy",
+                 "poison"
+             ],
+    "value":  8,
+    "type":  "MATERIAL",
+    "description":  "Ingrediente para venenos e antidotos."
+}

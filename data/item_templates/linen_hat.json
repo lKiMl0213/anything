@@ -1,0 +1,13 @@
+{
+  "id": "linen_hat",
+  "name": "Chapeu de Linho",
+  "type": "EQUIPMENT",
+  "rarity": "COMMON",
+  "slot": "HEAD",
+  "baseScaling": 3.0,
+  "baseStat": "DEF_MAGIC",
+  "dropTier": 1,
+  "vendorBaseValue": 8,
+  "allowedAffixes": ["int", "spr", "mp", "warding"],
+  "tags": ["{mage}", "light_armor", "cloth"]
+}
