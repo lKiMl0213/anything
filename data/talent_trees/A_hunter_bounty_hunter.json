@@ -1,0 +1,292 @@
+{
+    "id": "A_hunter_bounty_hunter",
+    "classId": "archer",
+    "tier": 3,
+    "unlockLevel": 50,
+    "requirements": [
+        {
+            "type": "SPECIALIZATION_ID",
+            "expectedValue": "bounty_hunter"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "A_hunter_bounty_hunter_reward_scent",
+            "name": "Olfato de Recompensa",
+            "description": "Aumenta a chance de tirar mais valor de cada alvo abatido.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "dropBonusPct": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "archer",
+                "bounty_hunter",
+                "loot"
+            ]
+        },
+        {
+            "id": "A_hunter_bounty_hunter_paralyzing_shot",
+            "name": "Tiro Paralisante",
+            "description": "Suas flechas prendem melhor o alvo no lugar. Efeito pratico: aumenta a chance e a duracao de PARALYZED.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "status": {
+                    "applyChance.PARALYZED.Pct": 2.0,
+                    "duration.PARALYZED.Pct": 5.0
+                }
+            },
+            "tags": [
+                "archer",
+                "bounty_hunter",
+                "control"
+            ]
+        },
+        {
+            "id": "A_hunter_bounty_hunter_flawless_tracking",
+            "name": "Rastreio Impecavel",
+            "description": "Aperfeicoa a perseguicao de alvos marcados, ampliando dano e critico.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_hunter_bounty_hunter_reward_scent",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "critChancePct": 1.0
+                    }
+                },
+                "status": {
+                    "bonusDamageVs.MARKED.Pct": 5.0
+                }
+            },
+            "tags": [
+                "archer",
+                "bounty_hunter",
+                "mark"
+            ]
+        },
+        {
+            "id": "A_hunter_bounty_hunter_crippling_trap",
+            "name": "Armadilha Incapacitante",
+            "description": "Suas tecnicas de captura travam o deslocamento do inimigo. Efeito pratico: aumenta SLOW e reforca sua duracao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_hunter_bounty_hunter_paralyzing_shot",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "status": {
+                    "applyChance.SLOW.Pct": 4.0,
+                    "duration.SLOW.Pct": 6.0
+                }
+            },
+            "tags": [
+                "archer",
+                "bounty_hunter",
+                "control"
+            ]
+        },
+        {
+            "id": "A_hunter_bounty_hunter_hunting_thirst",
+            "name": "Sede de Caca",
+            "description": "Cada abate acelera a proxima captura. Efeito pratico: reduzir cooldown ao matar e ganhar ritmo de ATB.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "atb": {
+                    "cooldownReduceOnKillSeconds": 0.3,
+                    "fillRatePct": 1.5
+                }
+            },
+            "tags": [
+                "archer",
+                "bounty_hunter",
+                "tempo"
+            ]
+        },
+        {
+            "id": "A_hunter_bounty_hunter_control_specialist",
+            "name": "Perito em Restricao",
+            "description": "Enfraquece a resistencia do alvo contra controle e facilita novas capturas.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "status": {
+                    "applyChance.PARALYZED.Pct": 2.0,
+                    "applyChance.SLOW.Pct": 2.0,
+                    "duration.PARALYZED.Pct": 5.0,
+                    "duration.SLOW.Pct": 5.0
+                }
+            },
+            "tags": [
+                "archer",
+                "bounty_hunter",
+                "control"
+            ]
+        },
+        {
+            "id": "A_hunter_bounty_hunter_precise_execution",
+            "name": "Execucao Precisa",
+            "description": "Um disparo focado para concluir a recompensa com muito dano direto.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_hunter_bounty_hunter_flawless_tracking",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "A_hunter_bounty_hunter_precise_execution",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 14.0,
+                    "cooldownSeconds": 3.8,
+                    "castTimeSeconds": 0.25,
+                    "damageMultiplier": 1.55,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.18,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.15
+                },
+                "applyStatuses": [
+                    {
+                        "type": "MARKED",
+                        "chancePct": 45.0,
+                        "durationSeconds": 3.5,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 1.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Execucao Precisa"
+                    }
+                ]
+            },
+            "tags": [
+                "archer",
+                "bounty_hunter",
+                "active",
+                "burst"
+            ]
+        },
+        {
+            "id": "A_hunter_bounty_hunter_capture_net",
+            "name": "Rede de Captura",
+            "description": "Arremessa uma rede reforcada. Efeito pratico: dano leve com PARALYZED curto e confiavel.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_hunter_bounty_hunter_crippling_trap",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "A_hunter_bounty_hunter_capture_net",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 12.0,
+                    "cooldownSeconds": 4.4,
+                    "castTimeSeconds": 0.35,
+                    "damageMultiplier": 0.96,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.12,
+                    "cooldownPerRank": -0.12,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 2.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "PARALYZED",
+                        "chancePct": 38.0,
+                        "durationSeconds": 2.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 16.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Rede de Captura"
+                    }
+                ]
+            },
+            "tags": [
+                "archer",
+                "bounty_hunter",
+                "active",
+                "control"
+            ]
+        }
+    ]
+}

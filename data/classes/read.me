@@ -11,26 +11,28 @@ Campos:
 - growth: Attributes
 - autoPointWeights: Attributes (pesos para auto-distribuicao)
 - talentTreeId: string (opcional)
-- subclassIds: [string]
-- subclassUnlockLevel: int (opcional, default 10)
-- subclassUnlockQuestTemplateId: string (opcional)
-- specializationIds: [string] (opcional)
+- secondClassIds: [string]
+- secondClassUnlockLevel: int (opcional, default 10)
+- secondClassUnlockQuestTemplateId: string (opcional)
 - specializationUnlockLevel: int (opcional, default 50)
 - specializationUnlockQuestTemplateId: string (opcional)
 
 Exemplo:
 {
-  "id": "warrior",
-  "name": "Guerreiro",
+  "id": "swordman",
+  "name": "Espadachim",
   "description": "Combate corpo a corpo.",
   "bonuses": { "attributes": { "str": 2, "vit": 1 } },
   "growth": { "str": 2, "vit": 2 },
   "autoPointWeights": { "str": 3, "vit": 2 },
-  "talentTreeId": "warrior_basic",
-  "subclassIds": ["berserker"],
-  "subclassUnlockLevel": 25,
-  "subclassUnlockQuestTemplateId": "unlock_warrior_subclass_lv25",
-  "specializationIds": ["imperial_guard", "barbarian"],
+  "talentTreeId": "Swordman_base",
+  "secondClassIds": ["warrior", "barbarian"],
+  "secondClassUnlockLevel": 25,
+  "secondClassUnlockQuestTemplateId": "unlock_swordman_subclass_lv25",
   "specializationUnlockLevel": 50,
-  "specializationUnlockQuestTemplateId": "unlock_warrior_specialization_lv50"
+  "specializationUnlockQuestTemplateId": "unlock_swordman_specialization_lv50"
 }
+
+Convencao atual de `talentTreeId`:
+- base: `Archer_base`, `Mage_base`, `Swordman_base`
+

@@ -1,0 +1,307 @@
+{
+    "id": "S_barbarian",
+    "classId": "swordman",
+    "tier": 2,
+    "unlockLevel": 25,
+    "requirements": [
+        {
+            "type": "SUBCLASS_ID",
+            "expectedValue": "barbarian"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "S_barbarian_savage_fury",
+            "name": "Furia Selvagem",
+            "description": "Mantem ofensiva agressiva o tempo todo. Efeito pratico: dano fisico e dano critico permanentes para representar a furia pela vida perdida.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damagePhysical": 2.5,
+                        "critDamagePct": 3.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "barbarian",
+                "offense"
+            ]
+        },
+        {
+            "id": "S_barbarian_tough_hide",
+            "name": "Pele Resistente",
+            "description": "Aumenta defesa fisica para resistir a trocas brutais.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "defPhysical": 2.5
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "barbarian",
+                "defense"
+            ]
+        },
+        {
+            "id": "S_barbarian_tireless_attack",
+            "name": "Ataque Incansavel",
+            "description": "Acelera a cadencia dos golpes em sequencia.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_barbarian_savage_fury",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedMult": {
+                        "attackSpeed": 5.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "barbarian",
+                "tempo"
+            ]
+        },
+        {
+            "id": "S_barbarian_war_roar",
+            "name": "Rugido de Guerra",
+            "description": "Debilita o inimigo e recompensa seu proprio impulso ofensivo ao aplicar controle.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_barbarian_tough_hide",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "atb": {
+                    "tempDamageBuffOnStatusApplyPct": 2.0,
+                    "tempBuffDurationSeconds": 0.8
+                },
+                "status": {
+                    "applyChance.WEAKNESS.Pct": 3.0,
+                    "duration.WEAKNESS.Pct": 5.0
+                }
+            },
+            "tags": [
+                "swordman",
+                "barbarian",
+                "control"
+            ]
+        },
+        {
+            "id": "S_barbarian_indomitable_spirit",
+            "name": "Espirito Indomavel",
+            "description": "Encurta a duracao de controles sofridos e sustenta a investida.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "tenacityPct": 2.0
+                    }
+                },
+                "status": {
+                    "incomingDurationPct": -4.0
+                }
+            },
+            "tags": [
+                "swordman",
+                "barbarian",
+                "resist"
+            ]
+        },
+        {
+            "id": "S_barbarian_ancestral_hunter",
+            "name": "Cacador Ancestral",
+            "description": "Aumenta pressao critica e aproveita melhor aberturas do combate.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "critChancePct": 1.0,
+                        "critDamagePct": 3.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "barbarian",
+                "crit"
+            ]
+        },
+        {
+            "id": "S_barbarian_berserker_fury",
+            "name": "Furia do Berserker",
+            "description": "Entra em frenesi agressivo. Efeito pratico: dano direto, WEAKNESS no alvo e buff curto de dano e velocidade quando voce aplica controle.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_barbarian_tireless_attack",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "S_barbarian_berserker_fury",
+            "modifiers": {
+                "atb": {
+                    "tempDamageBuffOnStatusApplyPct": 2.5,
+                    "tempFillRateBuffOnStatusApplyPct": 2.5,
+                    "tempBuffDurationSeconds": 1.0
+                },
+                "combat": {
+                    "mpCost": 14.0,
+                    "cooldownSeconds": 4.4,
+                    "castTimeSeconds": 0.1,
+                    "damageMultiplier": 1.22,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.14,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "WEAKNESS",
+                        "chancePct": 60.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 7.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Furia do Berserker"
+                    }
+                ]
+            },
+            "tags": [
+                "swordman",
+                "barbarian",
+                "active",
+                "frenzy"
+            ]
+        },
+        {
+            "id": "S_barbarian_devastating_leap",
+            "name": "Salto Devastador",
+            "description": "Salta sobre o alvo e espalha impacto em volta. Efeito pratico: dano principal com splash em ranks altos e SLOW.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_barbarian_war_roar",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "S_barbarian_devastating_leap",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 16.0,
+                    "cooldownSeconds": 4.9,
+                    "castTimeSeconds": 0.35,
+                    "damageMultiplier": 1.54,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.18,
+                    "cooldownPerRank": -0.1,
+                    "aoeUnlockRank": 2.0,
+                    "aoeBonusDamagePct": 30.0,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.5
+                },
+                "applyStatuses": [
+                    {
+                        "type": "SLOW",
+                        "chancePct": 55.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 14.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Salto Devastador"
+                    }
+                ]
+            },
+            "tags": [
+                "swordman",
+                "barbarian",
+                "active",
+                "aoe"
+            ]
+        }
+    ]
+}

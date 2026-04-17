@@ -1,0 +1,307 @@
+{
+    "id": "M_elementalist",
+    "classId": "mage",
+    "tier": 2,
+    "unlockLevel": 25,
+    "requirements": [
+        {
+            "type": "SUBCLASS_ID",
+            "expectedValue": "elementalist"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "M_elementalist_element_control",
+            "name": "Controle dos Elementos",
+            "description": "Aprimora o dano de magias elementais sem exigir uma escola unica.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageMagic": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "elementalist",
+                "damage"
+            ]
+        },
+        {
+            "id": "M_elementalist_elemental_attunement",
+            "name": "Sintonizacao Elemental",
+            "description": "Melhora a sintonia com a mana elemental. Efeito pratico: chance de conjurar sem custo.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "atb": {
+                    "noManaCostChancePct": 3.0
+                }
+            },
+            "tags": [
+                "mage",
+                "elementalist",
+                "mana"
+            ]
+        },
+        {
+            "id": "M_elementalist_air_whirl",
+            "name": "Turbilhao de Ar",
+            "description": "Canaliza correntes de ar para ficar mais agil e dificil de acertar.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_elementalist_element_control",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "evasion": 1.5
+                    },
+                    "derivedMult": {
+                        "moveSpeed": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "elementalist",
+                "mobility"
+            ]
+        },
+        {
+            "id": "M_elementalist_earth_resilience",
+            "name": "Resiliencia da Terra",
+            "description": "Assenta a postura do conjurador e reforca suas defesas.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_elementalist_elemental_attunement",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "defPhysical": 2.0,
+                        "defMagic": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "elementalist",
+                "defense"
+            ]
+        },
+        {
+            "id": "M_elementalist_fire_fury",
+            "name": "Furia do Fogo",
+            "description": "Aumenta a punicao sobre inimigos queimando.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "status": {
+                    "bonusDamageVs.BURNING.Pct": 6.0,
+                    "duration.BURNING.Pct": 4.0
+                }
+            },
+            "tags": [
+                "mage",
+                "elementalist",
+                "burning"
+            ]
+        },
+        {
+            "id": "M_elementalist_water_embrace",
+            "name": "Abraco da Agua",
+            "description": "A agua estabiliza a recuperacao entre conjuracoes.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "hpRegen": 0.8,
+                        "mpRegen": 0.4
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "elementalist",
+                "sustain"
+            ]
+        },
+        {
+            "id": "M_elementalist_elemental_storm",
+            "name": "Tempestade Elemental",
+            "description": "Convoca uma mistura caotica de fogo e vento. Efeito pratico: dano em area com BURNING e SLOW.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_elementalist_air_whirl",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "M_elementalist_elemental_storm",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 18.0,
+                    "cooldownSeconds": 5.0,
+                    "castTimeSeconds": 0.8,
+                    "damageMultiplier": 1.46,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.18,
+                    "cooldownPerRank": -0.12,
+                    "aoeUnlockRank": 3.0,
+                    "aoeBonusDamagePct": 35.0,
+                    "statusChancePerRankPct": 3.0,
+                    "statusDurationPerRankSeconds": 0.15
+                },
+                "applyStatuses": [
+                    {
+                        "type": "BURNING",
+                        "chancePct": 45.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 2.4,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Tempestade Elemental"
+                    },
+                    {
+                        "type": "SLOW",
+                        "chancePct": 45.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 12.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Tempestade Elemental"
+                    }
+                ]
+            },
+            "tags": [
+                "mage",
+                "elementalist",
+                "active",
+                "aoe"
+            ]
+        },
+        {
+            "id": "M_elementalist_elemental_golem",
+            "name": "Golem Elemental",
+            "description": "Ergue uma presenca protetora de pedra e mana. Efeito pratico: a invocacao vira uma barreira propria com cura percentual e WEAKNESS no alvo.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_elementalist_earth_resilience",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "M_elementalist_elemental_golem",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 16.0,
+                    "cooldownSeconds": 5.2,
+                    "castTimeSeconds": 0.9,
+                    "damageMultiplier": 1.04,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.12,
+                    "selfHealPctMaxHp": 4.0,
+                    "selfHealPctMaxHpPerRank": 1.0,
+                    "cooldownPerRank": -0.12,
+                    "statusChancePerRankPct": 3.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "WEAKNESS",
+                        "chancePct": 40.0,
+                        "durationSeconds": 3.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 6.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Golem Elemental"
+                    }
+                ]
+            },
+            "tags": [
+                "mage",
+                "elementalist",
+                "active",
+                "defense"
+            ]
+        }
+    ]
+}

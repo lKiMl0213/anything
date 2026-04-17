@@ -1,0 +1,311 @@
+{
+    "id": "S_warrior_elite_guard",
+    "classId": "swordman",
+    "tier": 3,
+    "unlockLevel": 50,
+    "requirements": [
+        {
+            "type": "SPECIALIZATION_ID",
+            "expectedValue": "elite_guard"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "S_warrior_elite_guard_elite_training",
+            "name": "Treinamento de Elite",
+            "description": "Aprimora dominio tecnico das armas e o acerto da primeira linha.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damagePhysical": 1.5,
+                        "accuracy": 1.0,
+                        "penPhysical": 1.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "elite_guard",
+                "offense"
+            ]
+        },
+        {
+            "id": "S_warrior_elite_guard_unwavering_firmness",
+            "name": "Firmeza Inabalavel",
+            "description": "Reduz o impacto de controle e lentidao sobre o guarda.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "tenacityPct": 2.0
+                    }
+                },
+                "atb": {
+                    "slowResistPct": 3.0
+                }
+            },
+            "tags": [
+                "swordman",
+                "elite_guard",
+                "resist"
+            ]
+        },
+        {
+            "id": "S_warrior_elite_guard_impenetrable_guard",
+            "name": "Guarda Impenetravel",
+            "description": "Refina bloqueio e mitigacao para segurar a linha de frente.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_warrior_elite_guard_elite_training",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "defPhysical": 2.5,
+                        "damageReductionPct": 1.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "elite_guard",
+                "defense"
+            ]
+        },
+        {
+            "id": "S_warrior_elite_guard_counter_attack",
+            "name": "Contra-Ataque",
+            "description": "Aproveita bloqueios e postura firme para devolver pressao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_warrior_elite_guard_unwavering_firmness",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "critDamagePct": 3.0
+                    }
+                },
+                "status": {
+                    "reflectDamagePct": 3.0
+                }
+            },
+            "tags": [
+                "swordman",
+                "elite_guard",
+                "counter"
+            ]
+        },
+        {
+            "id": "S_warrior_elite_guard_line_strategy",
+            "name": "Estrategia de Linha",
+            "description": "Coordenacao defensiva constante. Efeito pratico: defesa adicional permanente para representar a formacao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "defPhysical": 1.5,
+                        "defMagic": 1.5
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "elite_guard",
+                "defense"
+            ]
+        },
+        {
+            "id": "S_warrior_elite_guard_patrol_discipline",
+            "name": "Disciplina de Patrulha",
+            "description": "Melhora deslocamento e prontidao de resposta.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedMult": {
+                        "moveSpeed": 2.0
+                    }
+                },
+                "atb": {
+                    "fillRatePct": 2.0
+                }
+            },
+            "tags": [
+                "swordman",
+                "elite_guard",
+                "tempo"
+            ]
+        },
+        {
+            "id": "S_warrior_elite_guard_shield_rush",
+            "name": "Investida de Escudo",
+            "description": "Avanca com o escudo e quebra a movimentacao do alvo.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_warrior_elite_guard_impenetrable_guard",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "S_warrior_elite_guard_shield_rush",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 13.0,
+                    "cooldownSeconds": 3.8,
+                    "castTimeSeconds": 0.2,
+                    "damageMultiplier": 1.24,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.15,
+                    "cooldownPerRank": -0.08,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.5
+                },
+                "applyStatuses": [
+                    {
+                        "type": "SLOW",
+                        "chancePct": 60.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 16.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Investida de Escudo"
+                    }
+                ]
+            },
+            "tags": [
+                "swordman",
+                "elite_guard",
+                "active",
+                "control"
+            ]
+        },
+        {
+            "id": "S_warrior_elite_guard_wall_formation",
+            "name": "Formacao de Muralha",
+            "description": "Fecha a linha com disciplina total. Efeito pratico: como nao ha buff de grupo em tempo real, a habilidade vira autocura curta, fraqueza no alvo e reforco proprio ao aplicar status.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_warrior_elite_guard_counter_attack",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "S_warrior_elite_guard_wall_formation",
+            "modifiers": {
+                "atb": {
+                    "tempFillRateBuffOnStatusApplyPct": 2.0,
+                    "tempBuffDurationSeconds": 1.0
+                },
+                "combat": {
+                    "mpCost": 14.0,
+                    "cooldownSeconds": 4.9,
+                    "castTimeSeconds": 0.35,
+                    "damageMultiplier": 0.9,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.1,
+                    "selfHealPctMaxHp": 3.0,
+                    "selfHealPctMaxHpPerRank": 0.8,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 3.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "WEAKNESS",
+                        "chancePct": 50.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 6.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Formacao de Muralha"
+                    }
+                ]
+            },
+            "tags": [
+                "swordman",
+                "elite_guard",
+                "active",
+                "guard"
+            ]
+        }
+    ]
+}

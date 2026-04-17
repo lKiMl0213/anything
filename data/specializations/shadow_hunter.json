@@ -1,0 +1,25 @@
+{
+    "id":  "shadow_hunter",
+    "name":  "Cacador Sombrio",
+    "parentClassId":  "archer",
+    "parentSubclassId":  "ranger",
+    "description":  "Combina mobilidade, rastreio e pressao furtiva em combate prolongado.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "agi":  3,
+                                       "dex":  2,
+                                       "vit":  1
+                                   },
+                    "derivedAdd":  {
+                                       "evasion":  12,
+                                       "attackSpeed":  0.08,
+                                       "hpRegen":  1
+                                   }
+                },
+    "autoPointWeights":  {
+                             "agi":  4,
+                             "dex":  2,
+                             "vit":  1
+                         },
+    "talentTreeId":  "A_ranger_shadow_hunter"
+}

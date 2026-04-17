@@ -1,0 +1,25 @@
+{
+    "id":  "cleric",
+    "name":  "Clerigo",
+    "parentClassId":  "mage",
+    "parentSubclassId":  "arcanist",
+    "description":  "Combina canalizacao mistica, protecao e suporte ofensivo.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "spr":  2,
+                                       "vit":  1,
+                                       "int":  1
+                                   },
+                    "derivedAdd":  {
+                                       "mpRegen":  2,
+                                       "defMagic":  4,
+                                       "damageMagic":  2
+                                   }
+                },
+    "autoPointWeights":  {
+                             "int":  1,
+                             "spr":  2,
+                             "vit":  1
+                         },
+    "talentTreeId":  "M_arcanist_cleric"
+}

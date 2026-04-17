@@ -1,0 +1,25 @@
+{
+    "id":  "predator",
+    "name":  "Predador",
+    "parentClassId":  "swordman",
+    "parentSubclassId":  "barbarian",
+    "description":  "Cacador corpo a corpo que alterna investida, sangramento e perseguicao feroz.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "str":  3,
+                                       "agi":  2,
+                                       "vit":  1
+                                   },
+                    "derivedAdd":  {
+                                       "damagePhysical":  8,
+                                       "critChancePct":  3,
+                                       "vampirismPct":  2
+                                   }
+                },
+    "autoPointWeights":  {
+                             "str":  3,
+                             "agi":  3,
+                             "vit":  1
+                         },
+    "talentTreeId":  "S_barbarian_predator"
+}

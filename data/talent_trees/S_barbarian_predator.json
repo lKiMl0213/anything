@@ -1,0 +1,297 @@
+{
+    "id": "S_barbarian_predator",
+    "classId": "swordman",
+    "tier": 3,
+    "unlockLevel": 50,
+    "requirements": [
+        {
+            "type": "SPECIALIZATION_ID",
+            "expectedValue": "predator"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "S_barbarian_predator_relentless_hunt",
+            "name": "Caca Implacavel",
+            "description": "Aumenta dano contra alvos sangrando ou enfraquecidos.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "status": {
+                    "bonusDamageVs.BLEEDING.Pct": 4.0,
+                    "bonusDamageVs.WEAKNESS.Pct": 4.0
+                }
+            },
+            "tags": [
+                "swordman",
+                "predator",
+                "execution"
+            ]
+        },
+        {
+            "id": "S_barbarian_predator_silent_steps",
+            "name": "Passos Silenciosos",
+            "description": "Reduz exposicao e melhora o reposicionamento agressivo.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "evasion": 1.5
+                    },
+                    "derivedMult": {
+                        "moveSpeed": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "predator",
+                "mobility"
+            ]
+        },
+        {
+            "id": "S_barbarian_predator_hunter_eye",
+            "name": "Olho do Cacador",
+            "description": "Aumenta a leitura de presa e a chance de acerto decisivo.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_barbarian_predator_relentless_hunt",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "accuracy": 2.0,
+                        "critChancePct": 1.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "predator",
+                "precision"
+            ]
+        },
+        {
+            "id": "S_barbarian_predator_sharpened_hook",
+            "name": "Gancho Afiado",
+            "description": "Seus ataques limitam melhor o movimento do alvo. Efeito pratico: mais chance e duracao de SLOW.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_barbarian_predator_silent_steps",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "status": {
+                    "applyChance.SLOW.Pct": 4.0,
+                    "duration.SLOW.Pct": 6.0
+                }
+            },
+            "tags": [
+                "swordman",
+                "predator",
+                "control"
+            ]
+        },
+        {
+            "id": "S_barbarian_predator_blood_instinct",
+            "name": "Instinto de Sangue",
+            "description": "Abates bem-sucedidos aceleram sua proxima investida.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "atb": {
+                    "cooldownReduceOnKillSeconds": 0.35,
+                    "fillRatePct": 1.5
+                }
+            },
+            "tags": [
+                "swordman",
+                "predator",
+                "tempo"
+            ]
+        },
+        {
+            "id": "S_barbarian_predator_feline_reflexes",
+            "name": "Reflexos Felinos",
+            "description": "Combina esquiva com golpes mais rapidos.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "evasion": 1.0
+                    },
+                    "derivedMult": {
+                        "attackSpeed": 3.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "predator",
+                "mobility"
+            ]
+        },
+        {
+            "id": "S_barbarian_predator_brutal_trap",
+            "name": "Armadilha Brutal",
+            "description": "Emboscada predatoria condensada em um unico impacto. Efeito pratico: dano alto com BLEEDING.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_barbarian_predator_hunter_eye",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "S_barbarian_predator_brutal_trap",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 13.0,
+                    "cooldownSeconds": 4.1,
+                    "castTimeSeconds": 0.2,
+                    "damageMultiplier": 1.38,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.16,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.25,
+                    "statusEffectPerRank": 0.001,
+                    "statusMaxStacksPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "BLEEDING",
+                        "chancePct": 55.0,
+                        "durationSeconds": 5.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 0.007,
+                        "stackable": true,
+                        "maxStacks": 2,
+                        "source": "Armadilha Brutal"
+                    }
+                ]
+            },
+            "tags": [
+                "swordman",
+                "predator",
+                "active",
+                "bleeding"
+            ]
+        },
+        {
+            "id": "S_barbarian_predator_stealth_strike",
+            "name": "Ataque Furtivo",
+            "description": "Avanca silenciosamente e pune um alvo vulneravel com dano pesado.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_barbarian_predator_sharpened_hook",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "S_barbarian_predator_stealth_strike",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 14.0,
+                    "cooldownSeconds": 4.5,
+                    "castTimeSeconds": 0.15,
+                    "damageMultiplier": 1.66,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.2,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.15,
+                    "statusEffectPerRank": 2.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "PARALYZED",
+                        "chancePct": 40.0,
+                        "durationSeconds": 2.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 18.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Ataque Furtivo"
+                    }
+                ]
+            },
+            "tags": [
+                "swordman",
+                "predator",
+                "active",
+                "burst"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,301 @@
+{
+    "id": "M_arcanist",
+    "classId": "mage",
+    "tier": 2,
+    "unlockLevel": 25,
+    "requirements": [
+        {
+            "type": "SUBCLASS_ID",
+            "expectedValue": "arcanist"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "M_arcanist_arcane_study",
+            "name": "Estudo Arcano",
+            "description": "Amplia sua reserva de mana e a estabilidade da conjuracao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "mpRegen": 0.4
+                    },
+                    "derivedMult": {
+                        "mpMax": 4.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "arcanist",
+                "mana"
+            ]
+        },
+        {
+            "id": "M_arcanist_mystic_channeling",
+            "name": "Canalizacao Mistica",
+            "description": "Aprimora o fluxo de mana. Efeito pratico: reduz o gasto efetivo e acelera conjuracoes.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "atb": {
+                    "noManaCostChancePct": 3.0,
+                    "castTimePct": -2.0
+                }
+            },
+            "tags": [
+                "mage",
+                "arcanist",
+                "tempo"
+            ]
+        },
+        {
+            "id": "M_arcanist_runic_script",
+            "name": "Escritura Runica",
+            "description": "Runas melhor escritas empurram suas magias para um patamar mais alto.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_arcanist_arcane_study",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageMagic": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "arcanist",
+                "damage"
+            ]
+        },
+        {
+            "id": "M_arcanist_temporal_flow",
+            "name": "Fluxo Temporal",
+            "description": "Manipula o ritmo do combate reduzindo recarga e tempo de preparo.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_arcanist_mystic_channeling",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "atb": {
+                    "cooldownPct": -4.0,
+                    "castTimePct": -3.0
+                }
+            },
+            "tags": [
+                "mage",
+                "arcanist",
+                "tempo"
+            ]
+        },
+        {
+            "id": "M_arcanist_magic_barrier",
+            "name": "Protecao Magica",
+            "description": "Reforca sua resistencia contra dano e interferencia magica.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "defMagic": 2.0,
+                        "tenacityPct": 1.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "arcanist",
+                "defense"
+            ]
+        },
+        {
+            "id": "M_arcanist_essence_control",
+            "name": "Controle de Essencia",
+            "description": "Canaliza melhor a essencia arcana para criticos mais frequentes e precisos.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "critChancePct": 1.0,
+                        "accuracy": 1.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "arcanist",
+                "crit"
+            ]
+        },
+        {
+            "id": "M_arcanist_arcane_blast",
+            "name": "Explosao Arcana",
+            "description": "Libera energia arcana em uma onda de impacto. Efeito pratico: dano com splash em ranks altos e WEAKNESS.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_arcanist_runic_script",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "M_arcanist_arcane_blast",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 15.0,
+                    "cooldownSeconds": 4.0,
+                    "castTimeSeconds": 0.55,
+                    "damageMultiplier": 1.38,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.18,
+                    "cooldownPerRank": -0.1,
+                    "aoeUnlockRank": 3.0,
+                    "aoeBonusDamagePct": 30.0,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "WEAKNESS",
+                        "chancePct": 45.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 6.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Explosao Arcana"
+                    }
+                ]
+            },
+            "tags": [
+                "mage",
+                "arcanist",
+                "active",
+                "control"
+            ]
+        },
+        {
+            "id": "M_arcanist_temporal_distortion",
+            "name": "Distorcao Temporal",
+            "description": "Desacelera o alvo e abre espaco para seu proprio ritmo de conjuracao crescer. Efeito pratico: SLOW no inimigo; como nao ha buff direto em aliados, a trilha da habilidade acelera seu proprio fluxo ao aplicar status.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_arcanist_temporal_flow",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "M_arcanist_temporal_distortion",
+            "modifiers": {
+                "atb": {
+                    "tempFillRateBuffOnStatusApplyPct": 3.0,
+                    "tempBuffDurationSeconds": 1.0
+                },
+                "combat": {
+                    "mpCost": 14.0,
+                    "cooldownSeconds": 4.5,
+                    "castTimeSeconds": 0.6,
+                    "damageMultiplier": 0.96,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.12,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.5
+                },
+                "applyStatuses": [
+                    {
+                        "type": "SLOW",
+                        "chancePct": 70.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 14.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Distorcao Temporal"
+                    }
+                ]
+            },
+            "tags": [
+                "mage",
+                "arcanist",
+                "active",
+                "slow"
+            ]
+        }
+    ]
+}

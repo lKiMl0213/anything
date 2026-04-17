@@ -7,7 +7,7 @@ data class SpecializationDef(
     val id: String,
     val name: String,
     val parentClassId: String,
-    val requiredSubclassIds: List<String> = emptyList(),
+    val parentSubclassId: String,
     val description: String = "",
     val bonuses: Bonuses = Bonuses(),
     val growth: Attributes = Attributes(),

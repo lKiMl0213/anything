@@ -1,0 +1,28 @@
+{
+    "id":  "barbarian",
+    "name":  "Barbaro",
+    "parentClassId":  "swordman",
+    "description":  "Combate brutal com foco em furia, pressao e sobrevivencia agressiva.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "str":  3,
+                                       "vit":  1,
+                                       "agi":  2
+                                   },
+                    "derivedAdd":  {
+                                       "damagePhysical":  6,
+                                       "critDamagePct":  8,
+                                       "vampirismPct":  3
+                                   }
+                },
+    "autoPointWeights":  {
+                             "str":  4,
+                             "agi":  2,
+                             "vit":  1
+                         },
+    "specializationIds":  [
+                              "predator",
+                              "berserker"
+                          ],
+    "talentTreeId":  "S_barbarian"
+}

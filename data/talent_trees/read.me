@@ -1,4 +1,4 @@
-TALENT TREES V2
+﻿TALENT TREES V2
 
 Pasta: data/talent_trees
 Cada arquivo JSON segue o modelo TalentTree (nova arquitetura).
@@ -45,6 +45,11 @@ Regras:
 - Prerequisitos devem apontar para nodes existentes na mesma arvore.
 - Exclusividade e ranks sao validados no dominio (TalentTreeService).
 - Sem hardcode de classe/subclasse/skill no motor.
+
+Convencao de ids:
+- base: `Archer_base`, `Mage_base`, `Swordman_base`
+- 2a classe: `A_*`, `M_*`, `S_*`
+- especializacao: `<linha da 2a classe>_<especializacao>`
 
 Integracao de combate (Bloco 5):
 - `modifiers.atb` aceita chaves numericas (percentuais):
@@ -110,3 +115,4 @@ Pontos de talento (Bloco 3):
   - `SHARED_POOL`: pool unico global.
   - `PER_TREE`: pontos separados por arvore.
 - O calculo de pontos ganhos e por nivel do player (data-driven).
+

@@ -1,31 +1,33 @@
 {
-  "id": "archer",
-  "name": "Arqueiro",
-  "description": "Alto DPS sustentado e mobilidade.",
-  "bonuses": {
-    "attributes": {
-      "dex": 7,
-      "agi": 6,
-      "luk": 3,
-      "vit": -2
-    },
-    "derivedAdd": {
-      "critChancePct": 4
-    },
-    "derivedMult": {
-      "attackSpeed": 5
-    }
-  },
-  "autoPointWeights": {
-    "dex": 3,
-    "agi": 2,
-    "luk": 1
-  },
-  "talentTreeId": "archer",
-  "subclassIds": ["hunter", "assassin"],
-  "subclassUnlockLevel": 25,
-  "subclassUnlockQuestTemplateId": "unlock_archer_subclass_lv25",
-  "specializationIds": ["sharpshooter", "wanderer"],
-  "specializationUnlockLevel": 50,
-  "specializationUnlockQuestTemplateId": "unlock_archer_specialization_lv50"
+    "id":  "archer",
+    "name":  "Arqueiro",
+    "description":  "Alto DPS sustentado e mobilidade.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "dex":  7,
+                                       "agi":  6,
+                                       "luk":  3,
+                                       "vit":  -2
+                                   },
+                    "derivedAdd":  {
+                                       "critChancePct":  4
+                                   },
+                    "derivedMult":  {
+                                        "attackSpeed":  5
+                                    }
+                },
+    "autoPointWeights":  {
+                             "dex":  3,
+                             "agi":  2,
+                             "luk":  1
+                         },
+    "talentTreeId":  "Archer_base",
+    "secondClassIds":  [
+                           "hunter",
+                           "ranger"
+                       ],
+    "secondClassUnlockLevel":  25,
+    "secondClassUnlockQuestTemplateId":  "unlock_archer_subclass_lv25",
+    "specializationUnlockLevel":  50,
+    "specializationUnlockQuestTemplateId":  "unlock_archer_specialization_lv50"
 }

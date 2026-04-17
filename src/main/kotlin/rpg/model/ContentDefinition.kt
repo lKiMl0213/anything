@@ -60,8 +60,7 @@ object ContentDefinitionMapper {
             tags = buildSet {
                 add("class")
                 add(def.id.lowercase())
-                addAll(def.subclassIds.map { "subclass:$it" })
-                addAll(def.specializationIds.map { "specialization:$it" })
+                addAll(def.secondClassIds.map { "second_class:$it" })
             }
         )
     }
@@ -94,4 +93,3 @@ object ContentDefinitionMapper {
         )
     }
 }
-

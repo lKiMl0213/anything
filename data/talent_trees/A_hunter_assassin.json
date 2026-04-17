@@ -1,0 +1,298 @@
+{
+    "id": "A_hunter_assassin",
+    "classId": "archer",
+    "tier": 3,
+    "unlockLevel": 50,
+    "requirements": [
+        {
+            "type": "SPECIALIZATION_ID",
+            "expectedValue": "assassin"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "A_hunter_assassin_shadow_camouflage",
+            "name": "Camuflagem das Sombras",
+            "description": "Aprimora furtividade e movimentacao sutil. Efeito pratico: aumenta esquiva e velocidade.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "evasion": 1.0
+                    },
+                    "derivedMult": {
+                        "moveSpeed": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "archer",
+                "assassin",
+                "mobility"
+            ]
+        },
+        {
+            "id": "A_hunter_assassin_vital_target",
+            "name": "Alvo Vital",
+            "description": "Treino para ampliar o estrago dos acertos criticos.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "critDamagePct": 3.0
+                    }
+                }
+            },
+            "tags": [
+                "archer",
+                "assassin",
+                "crit"
+            ]
+        },
+        {
+            "id": "A_hunter_assassin_hidden_blade",
+            "name": "Lamina Oculta",
+            "description": "Especialista em finalizar de perto. Efeito pratico: aumenta dano fisico e chance critica.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_hunter_assassin_shadow_camouflage",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damagePhysical": 2.0,
+                        "critChancePct": 1.0
+                    }
+                }
+            },
+            "tags": [
+                "archer",
+                "assassin",
+                "burst"
+            ]
+        },
+        {
+            "id": "A_hunter_assassin_deadly_precision",
+            "name": "Precisao Mortal",
+            "description": "Aumenta a pressao contra alvos em fim de vida, funcionando como finalizador consistente.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_hunter_assassin_vital_target",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "status": {
+                    "bonusDamageVsLowHpPct": 6.0
+                }
+            },
+            "tags": [
+                "archer",
+                "assassin",
+                "execute"
+            ]
+        },
+        {
+            "id": "A_hunter_assassin_shadow_agility",
+            "name": "Agilidade Sombria",
+            "description": "Movimentos curtos e agressivos melhoram seu reposicionamento no combate.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "evasion": 1.0
+                    },
+                    "derivedMult": {
+                        "moveSpeed": 1.0,
+                        "attackSpeed": 3.0
+                    }
+                }
+            },
+            "tags": [
+                "archer",
+                "assassin",
+                "mobility"
+            ]
+        },
+        {
+            "id": "A_hunter_assassin_silent_poison",
+            "name": "Veneno Silencioso",
+            "description": "Ataques discretos deixam toxinas agindo no alvo por mais tempo.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "status": {
+                    "applyChance.POISONED.Pct": 5.0,
+                    "duration.POISONED.Pct": 5.0
+                }
+            },
+            "tags": [
+                "archer",
+                "assassin",
+                "poison"
+            ]
+        },
+        {
+            "id": "A_hunter_assassin_lightning_ambush",
+            "name": "Emboscada Relampago",
+            "description": "Avanco rapido para abrir uma janela de controle logo no primeiro impacto.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_hunter_assassin_hidden_blade",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "A_hunter_assassin_lightning_ambush",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 12.0,
+                    "cooldownSeconds": 3.2,
+                    "castTimeSeconds": 0.1,
+                    "damageMultiplier": 1.42,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.16,
+                    "cooldownPerRank": -0.08,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.15,
+                    "statusEffectPerRank": 2.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "PARALYZED",
+                        "chancePct": 30.0,
+                        "durationSeconds": 1.5,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 18.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Emboscada Relampago"
+                    }
+                ]
+            },
+            "tags": [
+                "archer",
+                "assassin",
+                "active",
+                "control"
+            ]
+        },
+        {
+            "id": "A_hunter_assassin_finishing_blow",
+            "name": "Golpe Final",
+            "description": "Ataque de execucao que rasga o alvo e intensifica o sangramento.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_hunter_assassin_deadly_precision",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "A_hunter_assassin_finishing_blow",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 16.0,
+                    "cooldownSeconds": 4.5,
+                    "castTimeSeconds": 0.25,
+                    "damageMultiplier": 1.68,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.2,
+                    "cooldownPerRank": -0.12,
+                    "statusChancePerRankPct": 5.0,
+                    "statusDurationPerRankSeconds": 0.25,
+                    "statusEffectPerRank": 0.0012,
+                    "statusMaxStacksPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "BLEEDING",
+                        "chancePct": 55.0,
+                        "durationSeconds": 5.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 0.008,
+                        "stackable": true,
+                        "maxStacks": 2,
+                        "source": "Golpe Final"
+                    }
+                ]
+            },
+            "tags": [
+                "archer",
+                "assassin",
+                "active",
+                "bleeding"
+            ]
+        }
+    ]
+}

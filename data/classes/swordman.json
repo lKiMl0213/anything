@@ -1,0 +1,34 @@
+{
+    "id":  "swordman",
+    "name":  "Espadachim",
+    "description":  "Especialista em combate marcial e pressao fisica constante.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "str":  8,
+                                       "vit":  6,
+                                       "dex":  2,
+                                       "int":  -2
+                                   },
+                    "derivedAdd":  {
+                                       "defPhysical":  4,
+                                       "tenacityPct":  3
+                                   },
+                    "derivedMult":  {
+                                        "hpMax":  5
+                                    }
+                },
+    "autoPointWeights":  {
+                             "str":  3,
+                             "vit":  2,
+                             "dex":  1
+                         },
+    "talentTreeId":  "Swordman_base",
+    "secondClassIds":  [
+                           "warrior",
+                           "barbarian"
+                       ],
+    "secondClassUnlockLevel":  25,
+    "secondClassUnlockQuestTemplateId":  "unlock_swordman_subclass_lv25",
+    "specializationUnlockLevel":  50,
+    "specializationUnlockQuestTemplateId":  "unlock_swordman_specialization_lv50"
+}

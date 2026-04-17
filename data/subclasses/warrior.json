@@ -1,0 +1,27 @@
+{
+    "id":  "warrior",
+    "name":  "Guerreiro",
+    "parentClassId":  "swordman",
+    "description":  "Linha marcial equilibrada entre ofensiva, postura e combate de frente.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "str":  3,
+                                       "vit":  1,
+                                       "agi":  1
+                                   },
+                    "derivedAdd":  {
+                                       "damagePhysical":  4,
+                                       "vampirismPct":  2
+                                   }
+                },
+    "autoPointWeights":  {
+                             "str":  3,
+                             "agi":  2,
+                             "vit":  1
+                         },
+    "specializationIds":  [
+                              "paladin",
+                              "elite_guard"
+                          ],
+    "talentTreeId":  "S_warrior"
+}

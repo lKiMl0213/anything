@@ -1,0 +1,310 @@
+{
+    "id": "S_barbarian_berserker",
+    "classId": "swordman",
+    "tier": 3,
+    "unlockLevel": 50,
+    "requirements": [
+        {
+            "type": "SPECIALIZATION_ID",
+            "expectedValue": "berserker"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "S_barbarian_berserker_uncontrolled_wrath",
+            "name": "Ira Descontrolada",
+            "description": "Aumenta dano bruto, mas sacrifica parte da defesa para manter o estilo arriscado.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damagePhysical": 3.0,
+                        "defPhysical": -1.5,
+                        "critDamagePct": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "berserker",
+                "offense"
+            ]
+        },
+        {
+            "id": "S_barbarian_berserker_savage_determination",
+            "name": "Determinacao Selvagem",
+            "description": "Concede sustain moderado e recuperacao entre trocas violentas.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "vampirismPct": 1.5,
+                        "hpRegen": 0.6
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "berserker",
+                "sustain"
+            ]
+        },
+        {
+            "id": "S_barbarian_berserker_frenzied_slaughter",
+            "name": "Matanca Frenetica",
+            "description": "Abates encadeados aceleram sua proxima ofensiva.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_barbarian_berserker_uncontrolled_wrath",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedMult": {
+                        "attackSpeed": 4.0
+                    }
+                },
+                "atb": {
+                    "cooldownReduceOnKillSeconds": 0.4
+                }
+            },
+            "tags": [
+                "swordman",
+                "berserker",
+                "tempo"
+            ]
+        },
+        {
+            "id": "S_barbarian_berserker_hatred_armor",
+            "name": "Blindagem do Odio",
+            "description": "Converte furia em resistencia persistente.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_barbarian_berserker_savage_determination",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageReductionPct": 1.5
+                    },
+                    "derivedMult": {
+                        "hpMax": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "berserker",
+                "defense"
+            ]
+        },
+        {
+            "id": "S_barbarian_berserker_brutal_resilience",
+            "name": "Resiliencia Brutal",
+            "description": "Aumenta a vida maxima para sustentar a troca agressiva.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedMult": {
+                        "hpMax": 3.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "berserker",
+                "sustain"
+            ]
+        },
+        {
+            "id": "S_barbarian_berserker_pure_adrenaline",
+            "name": "Adrenalina Pura",
+            "description": "Mantem criticos frequentes mesmo sob pressao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "critChancePct": 1.2,
+                        "critDamagePct": 3.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "berserker",
+                "crit"
+            ]
+        },
+        {
+            "id": "S_barbarian_berserker_steel_storm",
+            "name": "Tormenta de Aco",
+            "description": "Giro continuo que espalha dano e sangramento em volta.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_barbarian_berserker_frenzied_slaughter",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "S_barbarian_berserker_steel_storm",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 15.0,
+                    "cooldownSeconds": 4.6,
+                    "castTimeSeconds": 0.2,
+                    "damageMultiplier": 1.54,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.18,
+                    "cooldownPerRank": -0.1,
+                    "aoeUnlockRank": 2.0,
+                    "aoeBonusDamagePct": 35.0,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.25,
+                    "statusEffectPerRank": 0.001,
+                    "statusMaxStacksPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "BLEEDING",
+                        "chancePct": 55.0,
+                        "durationSeconds": 5.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 0.0075,
+                        "stackable": true,
+                        "maxStacks": 2,
+                        "source": "Tormenta de Aco"
+                    }
+                ]
+            },
+            "tags": [
+                "swordman",
+                "berserker",
+                "active",
+                "aoe"
+            ]
+        },
+        {
+            "id": "S_barbarian_berserker_war_cry",
+            "name": "Grito de Guerra",
+            "description": "Explode em furia e eleva seu proprio ritmo ofensivo. Efeito pratico: dano leve, WEAKNESS no alvo e buff curto de dano e velocidade ao aplicar controle.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_barbarian_berserker_hatred_armor",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "S_barbarian_berserker_war_cry",
+            "modifiers": {
+                "atb": {
+                    "tempDamageBuffOnStatusApplyPct": 3.0,
+                    "tempFillRateBuffOnStatusApplyPct": 3.0,
+                    "tempBuffDurationSeconds": 1.2
+                },
+                "combat": {
+                    "mpCost": 12.0,
+                    "cooldownSeconds": 4.2,
+                    "castTimeSeconds": 0.1,
+                    "damageMultiplier": 1.0,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.1,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "WEAKNESS",
+                        "chancePct": 75.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 8.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Grito de Guerra"
+                    }
+                ]
+            },
+            "tags": [
+                "swordman",
+                "berserker",
+                "active",
+                "buff"
+            ]
+        }
+    ]
+}

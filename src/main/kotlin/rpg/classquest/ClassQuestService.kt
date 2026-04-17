@@ -74,11 +74,10 @@ class ClassQuestService(
     private val rng: Random
 ) {
     fun synchronize(player: PlayerState): PlayerState {
-        val classDef = classSystem.classDef(player.classId)
         val synced = player.classQuestProgressByKey.toMutableMap()
 
         for (unlockType in ClassQuestUnlockType.entries) {
-            val definition = definitionFor(classDef, unlockType) ?: continue
+            val definition = definitionFor(player, unlockType) ?: continue
             val key = progressKey(definition.classId, unlockType)
             val current = synced[key] ?: emptyProgress(definition.classId, unlockType)
             val shouldShow = shouldShowQuest(player, definition)
@@ -104,8 +103,7 @@ class ClassQuestService(
     }
 
     fun progressFor(player: PlayerState, unlockType: ClassQuestUnlockType): ClassQuestProgress? {
-        val classDef = runCatching { classSystem.classDef(player.classId) }.getOrNull() ?: return null
-        val definition = definitionFor(classDef, unlockType) ?: return null
+        val definition = definitionFor(player, unlockType) ?: return null
         return progressForDefinition(synchronize(player), definition)
     }
 
@@ -601,7 +599,7 @@ class ClassQuestService(
         } else {
             slotDisplayName(slot)
         }
-        val questKind = if (definition.unlockType == ClassQuestUnlockType.SUBCLASS) "Subclasse" else "Especializacao"
+        val questKind = if (definition.unlockType == ClassQuestUnlockType.SUBCLASS) "2a Classe" else "Especializacao"
         val pathName = pathName(definition.unlockType, normalizedPath)
         val templateId = "class_quest_${definition.classId}_${definition.unlockType.name.lowercase()}_${normalizedPath}_${slot.name.lowercase()}"
         val tags = listOf(
@@ -737,6 +735,7 @@ class ClassQuestService(
     ): ClassQuestDungeonDefinition? {
         val path = pathId.lowercase()
         val baseClass = classId.lowercase()
+        val canonicalPath = canonicalDungeonPathId(unlockType, baseClass, path) ?: return null
         fun monster(
             id: String,
             name: String,
@@ -765,12 +764,12 @@ class ClassQuestService(
             )
         }
 
-        val definition = when (path) {
+        val definition = when (canonicalPath) {
             "pyromancer" -> ClassQuestDungeonDefinition(
-                unlockType = ClassQuestUnlockType.SUBCLASS,
+                unlockType = ClassQuestUnlockType.SPECIALIZATION,
                 classId = "mage",
-                pathId = path,
-                pathName = pathName(ClassQuestUnlockType.SUBCLASS, path),
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, canonicalPath),
                 normalMonsters = listOf(
                     monster("cq_pyromancer_elemental_fire", "Elemental de Fogo", "slime", "elemental", "elemental", "elemental_fire", "fogo"),
                     monster("cq_pyromancer_salamander", "Salamandra Ignea", "skeleton_warrior", "salamander", "elemental", "elemental_fire", "fogo"),
@@ -789,8 +788,8 @@ class ClassQuestService(
             "arcanist" -> ClassQuestDungeonDefinition(
                 unlockType = ClassQuestUnlockType.SUBCLASS,
                 classId = "mage",
-                pathId = path,
-                pathName = pathName(ClassQuestUnlockType.SUBCLASS, path),
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SUBCLASS, canonicalPath),
                 normalMonsters = listOf(
                     monster("cq_arcanist_arcane_sentinel", "Sentinela Arcana", "skeleton_warrior", "arcane_sentinel", "construct", "construct_arcane", "arcane"),
                     monster("cq_arcanist_unstable_orb", "Orbe Instavel", "slime", "unstable_orb", "construct", "construct_arcane", "arcane"),
@@ -806,11 +805,31 @@ class ClassQuestService(
                 collectibleTemplateId = "cq_collect_arcanist",
                 collectibleName = "Fragmento Temporal"
             )
+            "elementalist" -> ClassQuestDungeonDefinition(
+                unlockType = ClassQuestUnlockType.SUBCLASS,
+                classId = "mage",
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SUBCLASS, canonicalPath),
+                normalMonsters = listOf(
+                    monster("cq_elementalist_ember_adept", "Adepto das Brasas", "skeleton_archer", "ember_adept", "humanoid", "elemental_fire", "fire"),
+                    monster("cq_elementalist_storm_wisp", "Faisca da Tempestade", "slime", "storm_wisp", "elemental", "elemental_fire", "storm"),
+                    monster("cq_elementalist_granite_sentinel", "Sentinela Granitica", "skeleton_warrior", "granite_sentinel", "construct", "elemental_fire", "stone"),
+                    monster("cq_elementalist_tide_spirit", "Espirito da Mare", "slime", "tide_spirit", "elemental", "elemental_fire", "water"),
+                    monster("cq_elementalist_salamander_warden", "Guardia Salamandra", "mimic", "salamander_warden", "elemental", "elemental_fire", "fire")
+                ),
+                bossMonsters = listOf(
+                    monster("cq_elementalist_primal_conduit", "Condutor Primordial", "lich", "primal_conduit", "elemental", "elemental_fire", "boss"),
+                    monster("cq_elementalist_storm_forge", "Forja Tempestuosa", "mimic", "storm_forge", "construct", "elemental_fire", "boss")
+                ),
+                finalBoss = monster("cq_elementalist_final_equilibrium_core", "Nucleo do Equilibrio", "lich", "equilibrium_core", "elemental", "elemental_fire", "boss_final"),
+                collectibleTemplateId = "cq_collect_elementalist",
+                collectibleName = "Essencia Primordial"
+            )
             "hunter" -> ClassQuestDungeonDefinition(
                 unlockType = ClassQuestUnlockType.SUBCLASS,
                 classId = "archer",
-                pathId = path,
-                pathName = pathName(ClassQuestUnlockType.SUBCLASS, path),
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SUBCLASS, canonicalPath),
                 normalMonsters = listOf(
                     monster("cq_hunter_wolf", "Lobo", "skeleton_warrior", "wolf", "beast", "wolf_beast", "predator"),
                     monster("cq_hunter_gray_wolf", "Lobo Cinzento", "skeleton_archer", "wolf", "beast", "wolf_beast", "predator"),
@@ -827,10 +846,10 @@ class ClassQuestService(
                 collectibleName = "Presa Marcada"
             )
             "assassin" -> ClassQuestDungeonDefinition(
-                unlockType = ClassQuestUnlockType.SUBCLASS,
+                unlockType = ClassQuestUnlockType.SPECIALIZATION,
                 classId = "archer",
-                pathId = path,
-                pathName = pathName(ClassQuestUnlockType.SUBCLASS, path),
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, canonicalPath),
                 normalMonsters = listOf(
                     monster("cq_assassin_stealth_bandit", "Bandido Furtivo", "skeleton_archer", "bandit", "humanoid", "bandit_shadow", "shadow"),
                     monster("cq_assassin_shadow_blade", "Lamina Sombria", "skeleton_warrior", "shadow_blade", "humanoid", "bandit_shadow", "assassin"),
@@ -846,31 +865,31 @@ class ClassQuestService(
                 collectibleTemplateId = "cq_collect_assassin",
                 collectibleName = "Selo da Sombra"
             )
-            "fighter" -> ClassQuestDungeonDefinition(
+            "warrior" -> ClassQuestDungeonDefinition(
                 unlockType = ClassQuestUnlockType.SUBCLASS,
-                classId = "warrior",
-                pathId = path,
-                pathName = pathName(ClassQuestUnlockType.SUBCLASS, path),
+                classId = "swordman",
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SUBCLASS, canonicalPath),
                 normalMonsters = listOf(
-                    monster("cq_fighter_war_brute", "Bruto de Guerra", "skeleton_warrior", "war_brute", "humanoid", "war_scraps", "war"),
-                    monster("cq_fighter_berserker", "Berserker", "skeleton_archer", "berserker", "humanoid", "war_scraps", "rage"),
-                    monster("cq_fighter_wild_gladiator", "Gladiador Selvagem", "mimic", "wild_gladiator", "humanoid", "war_scraps", "arena"),
-                    monster("cq_fighter_shield_breaker", "Quebra-Escudos", "skeleton_warrior", "shield_breaker", "humanoid", "war_scraps", "crusher"),
-                    monster("cq_fighter_armored_bull", "Touro Blindado", "slime", "armored_bull", "beast", "wolf_beast", "beast")
+                    monster("cq_warrior_war_brute", "Bruto de Guerra", "skeleton_warrior", "war_brute", "humanoid", "war_scraps", "war"),
+                    monster("cq_warrior_vanguard_raider", "Saqueador da Vanguarda", "skeleton_archer", "vanguard_raider", "humanoid", "war_scraps", "vanguard"),
+                    monster("cq_warrior_wild_gladiator", "Gladiador Selvagem", "mimic", "wild_gladiator", "humanoid", "war_scraps", "arena"),
+                    monster("cq_warrior_shield_breaker", "Quebra-Escudos", "skeleton_warrior", "shield_breaker", "humanoid", "war_scraps", "crusher"),
+                    monster("cq_warrior_armored_bull", "Touro Blindado", "slime", "armored_bull", "beast", "wolf_beast", "beast")
                 ),
                 bossMonsters = listOf(
-                    monster("cq_fighter_arena_champion", "Campeao da Arena", "mimic", "arena_champion", "humanoid", "war_scraps", "boss"),
-                    monster("cq_fighter_berserker_general", "General Berserker", "lich", "berserker_general", "humanoid", "war_scraps", "boss")
+                    monster("cq_warrior_arena_champion", "Campeao da Arena", "mimic", "arena_champion", "humanoid", "war_scraps", "boss"),
+                    monster("cq_warrior_field_commander", "Comandante de Campo", "lich", "field_commander", "humanoid", "war_scraps", "boss")
                 ),
-                finalBoss = monster("cq_fighter_final_war_tyrant", "Tirano de Guerra", "lich", "war_tyrant", "humanoid", "war_scraps", "boss_final"),
-                collectibleTemplateId = "cq_collect_fighter",
-                collectibleName = "Trofeu de Guerra"
+                finalBoss = monster("cq_warrior_final_war_tyrant", "Tirano de Guerra", "lich", "war_tyrant", "humanoid", "war_scraps", "boss_final"),
+                collectibleTemplateId = "cq_collect_warrior",
+                collectibleName = "Insignia de Vanguarda"
             )
             "paladin" -> ClassQuestDungeonDefinition(
-                unlockType = ClassQuestUnlockType.SUBCLASS,
-                classId = "warrior",
-                pathId = path,
-                pathName = pathName(ClassQuestUnlockType.SUBCLASS, path),
+                unlockType = ClassQuestUnlockType.SPECIALIZATION,
+                classId = "swordman",
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, canonicalPath),
                 normalMonsters = listOf(
                     monster("cq_paladin_profaned_skeleton", "Esqueleto Profanado", "skeleton_warrior", "skeleton", "undead", "undead_relics", "undead"),
                     monster("cq_paladin_fallen_knight", "Cavaleiro Caido", "skeleton_warrior", "fallen_knight", "undead", "undead_relics", "corrupted"),
@@ -889,8 +908,8 @@ class ClassQuestService(
             "archmage" -> ClassQuestDungeonDefinition(
                 unlockType = ClassQuestUnlockType.SPECIALIZATION,
                 classId = "mage",
-                pathId = path,
-                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, path),
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, canonicalPath),
                 normalMonsters = listOf(
                     monster("cq_archmage_arcane_devourer", "Devorador Arcano", "skeleton_warrior", "arcane_devourer", "construct", "construct_arcane", "arcane"),
                     monster("cq_archmage_spectral_magistrate", "Magistrado Espectral", "lich", "spectral_magistrate", "construct", "construct_arcane", "spectral"),
@@ -906,11 +925,31 @@ class ClassQuestService(
                 collectibleTemplateId = "cq_collect_archmage",
                 collectibleName = "Foco Arcano"
             )
+            "cleric" -> ClassQuestDungeonDefinition(
+                unlockType = ClassQuestUnlockType.SPECIALIZATION,
+                classId = "mage",
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, canonicalPath),
+                normalMonsters = listOf(
+                    monster("cq_cleric_fallen_choir", "Coro Caido", "skeleton_archer", "fallen_choir", "undead", "undead_relics", "holy"),
+                    monster("cq_cleric_blight_priest", "Sacerdote Maculado", "lich", "blight_priest", "undead", "undead_ancient", "curse"),
+                    monster("cq_cleric_relic_guard", "Guardiao do Relicario", "skeleton_warrior", "relic_guard", "undead", "undead_relics", "relic"),
+                    monster("cq_cleric_sanctified_flame", "Chama Consagrada", "slime", "sanctified_flame", "elemental", "elemental_fire", "light"),
+                    monster("cq_cleric_grave_herald", "Arauto do Sepulcro", "mimic", "grave_herald", "undead", "undead_ancient", "grave")
+                ),
+                bossMonsters = listOf(
+                    monster("cq_cleric_requiem_bishop", "Bispo do Requiem", "lich", "requiem_bishop", "undead", "undead_ancient", "boss"),
+                    monster("cq_cleric_censer_knight", "Cavaleiro do Turibulo", "mimic", "censer_knight", "undead", "undead_relics", "boss")
+                ),
+                finalBoss = monster("cq_cleric_final_cathedral_remnant", "Remanescente da Catedral", "lich", "cathedral_remnant", "undead", "undead_ancient", "boss_final"),
+                collectibleTemplateId = "cq_collect_cleric",
+                collectibleName = "Sigilo Consagrado"
+            )
             "elemental_master" -> ClassQuestDungeonDefinition(
                 unlockType = ClassQuestUnlockType.SPECIALIZATION,
                 classId = "mage",
-                pathId = path,
-                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, path),
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, canonicalPath),
                 normalMonsters = listOf(
                     monster("cq_elemental_hybrid_elemental", "Elemental Hibrido", "skeleton_warrior", "elemental_hybrid", "elemental", "elemental_fire", "elemental"),
                     monster("cq_elemental_storm_spirit", "Espirito da Tempestade", "skeleton_archer", "storm_spirit", "elemental", "elemental_fire", "storm"),
@@ -926,11 +965,31 @@ class ClassQuestService(
                 collectibleTemplateId = "cq_collect_elemental_master",
                 collectibleName = "Essencia Prismatica"
             )
+            "bounty_hunter" -> ClassQuestDungeonDefinition(
+                unlockType = ClassQuestUnlockType.SPECIALIZATION,
+                classId = "archer",
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, canonicalPath),
+                normalMonsters = listOf(
+                    monster("cq_bounty_hunter_deserter", "Desertor Procurado", "skeleton_warrior", "deserter", "humanoid", "bandit_shadow", "contract"),
+                    monster("cq_bounty_hunter_outlaw_archer", "Foragido Armado", "skeleton_archer", "outlaw_archer", "humanoid", "bandit_shadow", "ranged"),
+                    monster("cq_bounty_hunter_smuggler", "Contrabandista", "mimic", "smuggler", "humanoid", "bandit_shadow", "smuggler"),
+                    monster("cq_bounty_hunter_tracker_hound", "Cao Rastreador", "slime", "tracker_hound", "beast", "wolf_beast", "hound"),
+                    monster("cq_bounty_hunter_chain_duelist", "Duelista Acorrentado", "lich", "chain_duelist", "humanoid", "bandit_shadow", "duelist")
+                ),
+                bossMonsters = listOf(
+                    monster("cq_bounty_hunter_black_warrant", "Mandado Negro", "mimic", "black_warrant", "humanoid", "bandit_shadow", "boss"),
+                    monster("cq_bounty_hunter_last_target", "Ultimo Alvo", "lich", "last_target", "humanoid", "bandit_shadow", "boss")
+                ),
+                finalBoss = monster("cq_bounty_hunter_final_contract_king", "Rei dos Contratos", "lich", "contract_king", "humanoid", "bandit_shadow", "boss_final"),
+                collectibleTemplateId = "cq_collect_bounty_hunter",
+                collectibleName = "Contrato Lacrado"
+            )
             "sharpshooter" -> ClassQuestDungeonDefinition(
                 unlockType = ClassQuestUnlockType.SPECIALIZATION,
                 classId = "archer",
-                pathId = path,
-                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, path),
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, canonicalPath),
                 normalMonsters = listOf(
                     monster("cq_sharpshooter_armored_spotter", "Olheiro Blindado", "skeleton_archer", "armored_spotter", "humanoid", "war_scraps", "ranged"),
                     monster("cq_sharpshooter_veteran_archer", "Arqueiro Veterano", "skeleton_archer", "veteran_archer", "humanoid", "war_scraps", "ranged"),
@@ -946,51 +1005,111 @@ class ClassQuestService(
                 collectibleTemplateId = "cq_collect_sharpshooter",
                 collectibleName = "Nucleo de Precisao"
             )
-            "wanderer" -> ClassQuestDungeonDefinition(
+            "shadow_hunter" -> ClassQuestDungeonDefinition(
                 unlockType = ClassQuestUnlockType.SPECIALIZATION,
                 classId = "archer",
-                pathId = path,
-                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, path),
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, canonicalPath),
                 normalMonsters = listOf(
-                    monster("cq_wanderer_wastes_beast", "Besta do Ermo", "skeleton_warrior", "wastes_beast", "beast", "wolf_beast", "wilderness"),
-                    monster("cq_wanderer_dune_runner", "Corredor das Dunas", "skeleton_archer", "dune_runner", "beast", "wolf_beast", "mobility"),
-                    monster("cq_wanderer_roaming_predator", "Predador Errante", "slime", "roaming_predator", "beast", "wolf_beast", "predator"),
-                    monster("cq_wanderer_wind_raptor", "Raptor do Vento", "mimic", "wind_raptor", "beast", "wolf_beast", "wind"),
-                    monster("cq_wanderer_exiled_ranger", "Patrulheiro Exilado", "lich", "exiled_ranger", "humanoid", "bandit_shadow", "ranger")
+                    monster("cq_shadow_hunter_gloom_stalker", "Espreitador Umbral", "skeleton_warrior", "gloom_stalker", "humanoid", "bandit_shadow", "shadow"),
+                    monster("cq_shadow_hunter_dune_raptor", "Raptor da Penumbra", "skeleton_archer", "dune_raptor", "beast", "wolf_beast", "predator"),
+                    monster("cq_shadow_hunter_nocturne_strider", "Corredor Noturno", "slime", "nocturne_strider", "beast", "wolf_beast", "mobility"),
+                    monster("cq_shadow_hunter_umbra_falcon", "Falcao Umbral", "mimic", "umbra_falcon", "beast", "wolf_beast", "wind"),
+                    monster("cq_shadow_hunter_exiled_pathfinder", "Explorador Exilado", "lich", "exiled_pathfinder", "humanoid", "bandit_shadow", "ranger")
                 ),
                 bossMonsters = listOf(
-                    monster("cq_wanderer_route_master", "Mestre das Rotas", "mimic", "route_master", "humanoid", "wolf_beast", "boss"),
-                    monster("cq_wanderer_nomad_storm", "Tempestade Nomade", "lich", "nomad_storm", "beast", "wolf_beast", "boss")
+                    monster("cq_shadow_hunter_night_route_master", "Mestre da Rota Sombria", "mimic", "night_route_master", "humanoid", "bandit_shadow", "boss"),
+                    monster("cq_shadow_hunter_eclipse_nomad", "Nomade do Eclipse", "lich", "eclipse_nomad", "humanoid", "bandit_shadow", "boss")
                 ),
-                finalBoss = monster("cq_wanderer_final_route_lord", "Senhor das Rotas", "lich", "route_lord", "humanoid", "wolf_beast", "boss_final"),
-                collectibleTemplateId = "cq_collect_wanderer",
-                collectibleName = "Marca do Errante"
+                finalBoss = monster("cq_shadow_hunter_final_umbra_lord", "Senhor Umbral", "lich", "umbra_lord", "humanoid", "bandit_shadow", "boss_final"),
+                collectibleTemplateId = "cq_collect_shadow_hunter",
+                collectibleName = "Marca Umbral"
             )
-            "imperial_guard" -> ClassQuestDungeonDefinition(
-                unlockType = ClassQuestUnlockType.SPECIALIZATION,
-                classId = "warrior",
-                pathId = path,
-                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, path),
+            "ranger" -> ClassQuestDungeonDefinition(
+                unlockType = ClassQuestUnlockType.SUBCLASS,
+                classId = "archer",
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SUBCLASS, canonicalPath),
                 normalMonsters = listOf(
-                    monster("cq_guard_fortress_champion", "Campeao da Fortaleza", "skeleton_warrior", "fortress_champion", "humanoid", "war_scraps", "tank"),
-                    monster("cq_guard_steel_defender", "Defensor de Aco", "skeleton_warrior", "steel_defender", "humanoid", "war_scraps", "defender"),
-                    monster("cq_guard_royal_sentinel", "Sentinela Real", "skeleton_archer", "royal_sentinel", "humanoid", "war_scraps", "royal"),
-                    monster("cq_guard_war_colossus", "Colosso de Guerra", "mimic", "war_colossus", "construct", "war_scraps", "tank"),
-                    monster("cq_guard_fallen_imperial_captain", "Capitao Imperial Caido", "lich", "imperial_captain", "undead", "war_scraps", "imperial")
+                    monster("cq_ranger_longstride_scout", "Batedor Passo Longo", "skeleton_archer", "longstride_scout", "humanoid", "bandit_shadow", "scout"),
+                    monster("cq_ranger_briar_stalker", "Perseguidor da Sarca", "skeleton_warrior", "briar_stalker", "humanoid", "bandit_shadow", "tracker"),
+                    monster("cq_ranger_marsh_falcon", "Falcao do Brejo", "slime", "marsh_falcon", "beast", "wolf_beast", "falcon"),
+                    monster("cq_ranger_rootbound_beast", "Besta Enraizada", "mimic", "rootbound_beast", "beast", "wolf_beast", "wilderness"),
+                    monster("cq_ranger_trail_watcher", "Vigia da Trilha", "lich", "trail_watcher", "humanoid", "bandit_shadow", "ranger")
                 ),
                 bossMonsters = listOf(
-                    monster("cq_guard_imperial_executioner", "Executor Imperial", "mimic", "imperial_executioner", "humanoid", "war_scraps", "boss"),
-                    monster("cq_guard_wall_general", "General da Muralha", "lich", "wall_general", "humanoid", "war_scraps", "boss")
+                    monster("cq_ranger_compass_warden", "Guardiao da Bussola", "mimic", "compass_warden", "humanoid", "bandit_shadow", "boss"),
+                    monster("cq_ranger_dusk_tracker", "Rastreador do Crepusculo", "lich", "dusk_tracker", "humanoid", "bandit_shadow", "boss")
                 ),
-                finalBoss = monster("cq_guard_final_armor_emperor", "Imperador da Couraca", "lich", "armor_emperor", "humanoid", "war_scraps", "boss_final"),
-                collectibleTemplateId = "cq_collect_imperial_guard",
-                collectibleName = "Emblema Imperial"
+                finalBoss = monster("cq_ranger_final_trail_sovereign", "Soberano das Trilhas", "lich", "trail_sovereign", "humanoid", "bandit_shadow", "boss_final"),
+                collectibleTemplateId = "cq_collect_ranger",
+                collectibleName = "Insignia do Rastreador"
+            )
+            "elite_guard" -> ClassQuestDungeonDefinition(
+                unlockType = ClassQuestUnlockType.SPECIALIZATION,
+                classId = "swordman",
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, canonicalPath),
+                normalMonsters = listOf(
+                    monster("cq_elite_guard_bastion_knight", "Cavaleiro do Bastiao", "skeleton_warrior", "bastion_knight", "humanoid", "war_scraps", "tank"),
+                    monster("cq_elite_guard_steel_lancer", "Lanceiro de Aco", "skeleton_archer", "steel_lancer", "humanoid", "war_scraps", "formation"),
+                    monster("cq_elite_guard_shield_colossus", "Colosso do Escudo", "mimic", "shield_colossus", "construct", "war_scraps", "defender"),
+                    monster("cq_elite_guard_sanction_keeper", "Guardiao da Sancao", "lich", "sanction_keeper", "humanoid", "war_scraps", "discipline"),
+                    monster("cq_elite_guard_wall_hound", "Cao da Muralha", "slime", "wall_hound", "beast", "wolf_beast", "watch")
+                ),
+                bossMonsters = listOf(
+                    monster("cq_elite_guard_bulwark_marshal", "Marechal do Baluarte", "mimic", "bulwark_marshal", "humanoid", "war_scraps", "boss"),
+                    monster("cq_elite_guard_gate_judicator", "Justicar do Portao", "lich", "gate_judicator", "humanoid", "war_scraps", "boss")
+                ),
+                finalBoss = monster("cq_elite_guard_final_citadel_lord", "Senhor da Cidadela", "lich", "citadel_lord", "humanoid", "war_scraps", "boss_final"),
+                collectibleTemplateId = "cq_collect_elite_guard",
+                collectibleName = "Brasao de Elite"
+            )
+            "predator" -> ClassQuestDungeonDefinition(
+                unlockType = ClassQuestUnlockType.SPECIALIZATION,
+                classId = "swordman",
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, canonicalPath),
+                normalMonsters = listOf(
+                    monster("cq_predator_pack_stalker", "Perseguidor de Matilha", "skeleton_warrior", "pack_stalker", "beast", "wolf_beast", "predator"),
+                    monster("cq_predator_rend_panther", "Pantera Dilacerante", "skeleton_archer", "rend_panther", "beast", "wolf_beast", "ambush"),
+                    monster("cq_predator_bone_howler", "Uivador Oseo", "mimic", "bone_howler", "beast", "wolf_beast", "feral"),
+                    monster("cq_predator_savage_tracker", "Rastreador Selvagem", "lich", "savage_tracker", "humanoid", "bandit_shadow", "tracker"),
+                    monster("cq_predator_thorn_maw", "Mandibula de Espinhos", "slime", "thorn_maw", "beast", "wolf_beast", "beast")
+                ),
+                bossMonsters = listOf(
+                    monster("cq_predator_alpha_huntmaster", "Mestre Alfa", "mimic", "alpha_huntmaster", "beast", "wolf_beast", "boss"),
+                    monster("cq_predator_feral_crown", "Coroa Feral", "lich", "feral_crown", "beast", "wolf_beast", "boss")
+                ),
+                finalBoss = monster("cq_predator_final_apex_devourer", "Devorador Apex", "lich", "apex_devourer", "beast", "wolf_beast", "boss_final"),
+                collectibleTemplateId = "cq_collect_predator",
+                collectibleName = "Garra de Alfa"
+            )
+            "berserker" -> ClassQuestDungeonDefinition(
+                unlockType = ClassQuestUnlockType.SPECIALIZATION,
+                classId = "swordman",
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, canonicalPath),
+                normalMonsters = listOf(
+                    monster("cq_berserker_blood_raider", "Saqueador Sangrento", "skeleton_warrior", "blood_raider", "humanoid", "war_scraps", "rage"),
+                    monster("cq_berserker_chain_howler", "Uivador Acorrentado", "skeleton_archer", "chain_howler", "humanoid", "war_scraps", "frenzy"),
+                    monster("cq_berserker_gore_brute", "Brutamontes da Carnificina", "mimic", "gore_brute", "humanoid", "war_scraps", "arena"),
+                    monster("cq_berserker_rage_totem", "Totem de Furia", "slime", "rage_totem", "construct", "war_scraps", "totem"),
+                    monster("cq_berserker_blood_mastiff", "Mastim de Sangue", "lich", "blood_mastiff", "beast", "wolf_beast", "beast")
+                ),
+                bossMonsters = listOf(
+                    monster("cq_berserker_massacre_herald", "Arauto da Carnificina", "mimic", "massacre_herald", "humanoid", "war_scraps", "boss"),
+                    monster("cq_berserker_red_arena_lord", "Senhor da Arena Rubra", "lich", "red_arena_lord", "humanoid", "war_scraps", "boss")
+                ),
+                finalBoss = monster("cq_berserker_final_bloodstorm", "Tempestade de Sangue", "lich", "bloodstorm", "humanoid", "war_scraps", "boss_final"),
+                collectibleTemplateId = "cq_collect_berserker",
+                collectibleName = "Totem de Carnificina"
             )
             "barbarian" -> ClassQuestDungeonDefinition(
-                unlockType = ClassQuestUnlockType.SPECIALIZATION,
-                classId = "warrior",
-                pathId = path,
-                pathName = pathName(ClassQuestUnlockType.SPECIALIZATION, path),
+                unlockType = ClassQuestUnlockType.SUBCLASS,
+                classId = "swordman",
+                pathId = canonicalPath,
+                pathName = pathName(ClassQuestUnlockType.SUBCLASS, canonicalPath),
                 normalMonsters = listOf(
                     monster("cq_barbarian_tribal_butcher", "Carniceiro Tribal", "skeleton_warrior", "tribal_butcher", "humanoid", "war_scraps", "aggressive"),
                     monster("cq_barbarian_devastator", "Devastador", "skeleton_archer", "devastator", "humanoid", "war_scraps", "aggressive"),
@@ -1008,37 +1127,36 @@ class ClassQuestService(
             )
             else -> null
         } ?: return null
-
-        if (definition.unlockType != unlockType) return null
-        if (definition.classId != baseClass) return null
-        return definition
+        return normalizeDungeonDefinition(definition, unlockType, baseClass, path)
     }
 
     private fun activeDefinition(player: PlayerState): ClassQuestDefinition? {
-        val classDef = runCatching { classSystem.classDef(player.classId) }.getOrNull() ?: return null
         if (player.subclassId == null) {
-            return definitionFor(classDef, ClassQuestUnlockType.SUBCLASS)
+            return definitionFor(player, ClassQuestUnlockType.SUBCLASS)
         }
         if (player.specializationId == null) {
-            return definitionFor(classDef, ClassQuestUnlockType.SPECIALIZATION)
+            return definitionFor(player, ClassQuestUnlockType.SPECIALIZATION)
         }
         return null
     }
 
     private fun definitionFor(
-        classDef: rpg.model.ClassDef,
+        player: PlayerState,
         unlockType: ClassQuestUnlockType
     ): ClassQuestDefinition? {
+        val classDef = runCatching { classSystem.classDef(player.classId) }.getOrNull() ?: return null
         val paths = when (unlockType) {
-            ClassQuestUnlockType.SUBCLASS -> classDef.subclassIds
-            ClassQuestUnlockType.SPECIALIZATION -> classDef.specializationIds
+            ClassQuestUnlockType.SUBCLASS -> classDef.secondClassIds
+            ClassQuestUnlockType.SPECIALIZATION -> classSystem
+                .specializationOptions(classDef, player.subclassId)
+                .map { it.id }
         }.map { it.lowercase() }.distinct()
         if (paths.size < 2) return null
 
         val pathA = paths[0]
         val pathB = paths[1]
         val unlockLevel = when (unlockType) {
-            ClassQuestUnlockType.SUBCLASS -> classDef.subclassUnlockLevel.coerceAtLeast(1)
+            ClassQuestUnlockType.SUBCLASS -> classDef.secondClassUnlockLevel.coerceAtLeast(1)
             ClassQuestUnlockType.SPECIALIZATION -> classDef.specializationUnlockLevel.coerceAtLeast(1)
         }
         return ClassQuestDefinition(
@@ -1121,7 +1239,13 @@ class ClassQuestService(
         if (player.level < definition.unlockLevel) return false
         return when (definition.unlockType) {
             ClassQuestUnlockType.SUBCLASS -> player.subclassId == null
-            ClassQuestUnlockType.SPECIALIZATION -> player.subclassId != null && player.specializationId == null
+            ClassQuestUnlockType.SPECIALIZATION ->
+                player.subclassId != null &&
+                    player.specializationId == null &&
+                    classSystem.specializationOptions(
+                        classSystem.classDef(player.classId),
+                        player.subclassId
+                    ).size >= 2
         }
     }
 
@@ -1167,7 +1291,7 @@ class ClassQuestService(
     }
 
     private fun unlockLabel(unlockType: ClassQuestUnlockType): String = when (unlockType) {
-        ClassQuestUnlockType.SUBCLASS -> "Subclasse"
+        ClassQuestUnlockType.SUBCLASS -> "2a Classe"
         ClassQuestUnlockType.SPECIALIZATION -> "Especializacao"
     }
 
@@ -1185,6 +1309,81 @@ class ClassQuestService(
         EquipSlot.ACCESSORY -> "Acessorio"
     }
 
+    private fun canonicalDungeonPathId(
+        unlockType: ClassQuestUnlockType,
+        classId: String,
+        pathId: String
+    ): String? {
+        val baseClass = classId.lowercase()
+        val path = pathId.lowercase()
+        return when (unlockType) {
+            ClassQuestUnlockType.SUBCLASS -> when (baseClass) {
+                "archer" -> when (path) {
+                    "hunter" -> "hunter"
+                    "ranger" -> "ranger"
+                    else -> null
+                }
+
+                "mage" -> when (path) {
+                    "arcanist" -> "arcanist"
+                    "elementalist" -> "elementalist"
+                    else -> null
+                }
+
+                "swordman" -> when (path) {
+                    "warrior" -> "warrior"
+                    "barbarian" -> "barbarian"
+                    else -> null
+                }
+
+                else -> null
+            }
+
+            ClassQuestUnlockType.SPECIALIZATION -> when (baseClass) {
+                "archer" -> when (path) {
+                    "bounty_hunter" -> "bounty_hunter"
+                    "assassin" -> "assassin"
+                    "sharpshooter" -> "sharpshooter"
+                    "shadow_hunter" -> "shadow_hunter"
+                    else -> null
+                }
+
+                "mage" -> when (path) {
+                    "archmage" -> "archmage"
+                    "cleric" -> "cleric"
+                    "pyromancer" -> "pyromancer"
+                    "elemental_master" -> "elemental_master"
+                    else -> null
+                }
+
+                "swordman" -> when (path) {
+                    "paladin" -> "paladin"
+                    "elite_guard" -> "elite_guard"
+                    "predator" -> "predator"
+                    "berserker" -> "berserker"
+                    else -> null
+                }
+
+                else -> null
+            }
+        }
+    }
+
+    private fun normalizeDungeonDefinition(
+        definition: ClassQuestDungeonDefinition,
+        unlockType: ClassQuestUnlockType,
+        classId: String,
+        requestedPathId: String
+    ): ClassQuestDungeonDefinition {
+        val path = requestedPathId.lowercase()
+        return definition.copy(
+            unlockType = unlockType,
+            classId = classId.lowercase(),
+            pathId = path,
+            pathName = pathName(unlockType, path)
+        )
+    }
+
     private fun pathWeaponName(
         unlockType: ClassQuestUnlockType,
         pathId: String,
@@ -1193,12 +1392,12 @@ class ClassQuestService(
         val path = pathId.lowercase()
         return when (unlockType) {
             ClassQuestUnlockType.SUBCLASS -> when (path) {
-                "pyromancer" -> "Catalisador Igneo"
                 "arcanist" -> "Tomo Arcano"
+                "elementalist" -> "Catalisador Elemental"
                 "hunter" -> "Arco de Caca"
-                "assassin" -> "Lamina de Sombra"
-                "fighter" -> "Lamina de Vanguarda"
-                "paladin" -> "Martelo Sagrado"
+                "ranger" -> "Arco do Rastreador"
+                "warrior" -> "Lamina de Vanguarda"
+                "barbarian" -> "Machado Tribal"
                 else -> when (classId.lowercase()) {
                     "mage" -> "Tomo Arcano"
                     "archer" -> "Arco de Caca"
@@ -1207,11 +1406,17 @@ class ClassQuestService(
             }
             ClassQuestUnlockType.SPECIALIZATION -> when (path) {
                 "archmage" -> "Orbe Arcana"
+                "cleric" -> "Cetro Consagrado"
+                "pyromancer" -> "Catalisador Igneo"
                 "elemental_master" -> "Nucleo Elemental"
+                "bounty_hunter" -> "Balestra de Contrato"
+                "assassin" -> "Lamina de Sombra"
                 "sharpshooter" -> "Arcobalista de Elite"
-                "wanderer" -> "Arco do Andarilho"
-                "imperial_guard" -> "Lanca Imperial"
-                "barbarian" -> "Machado de Frenesi"
+                "shadow_hunter" -> "Arco Umbral"
+                "paladin" -> "Martelo Sagrado"
+                "elite_guard" -> "Lanca de Elite"
+                "predator" -> "Lamina Feral"
+                "berserker" -> "Machado de Carnificina"
                 else -> when (classId.lowercase()) {
                     "mage" -> "Orbe Arcana"
                     "archer" -> "Arcobalista de Elite"

@@ -1,0 +1,301 @@
+{
+    "id":  "Swordman_base",
+    "classId":  "swordman",
+    "tier":  1,
+    "unlockLevel":  1,
+    "requirements":  [
+                         {
+                             "type":  "CLASS_ID",
+                             "expectedValue":  "swordman"
+                         }
+                     ],
+    "nodes":  [
+                  {
+                      "id":  "Swordman_base_blade_fundamentals",
+                      "name":  "Habilidade com laminas",
+                      "description":  "Treinamento inicial de precisao com armas marciais.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  5,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "accuracy":  1
+                                                                       }
+                                                    }
+                                    },
+                      "tags":  [
+                                   "swordman",
+                                   "base",
+                                   "precision"
+                               ]
+                  },
+                  {
+                      "id":  "Swordman_base_battle_stride",
+                      "name":  "Passos de batalha",
+                      "description":  "Movimentacao marcial para manter pressao e esquiva.",
+                      "nodeType":  "UPGRADE",
+                      "maxRank":  5,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "Swordman_base_blade_fundamentals",
+                                                "minRank":  5
+                                            }
+                                        ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "evasion":  1
+                                                                       }
+                                                    }
+                                    },
+                      "tags":  [
+                                   "swordman",
+                                   "base",
+                                   "mobility"
+                               ]
+                  },
+                  {
+                      "id":  "Swordman_base_sharpened_blade",
+                      "name":  "Lamina afiada",
+                      "description":  "Aperfeicoa o corte para aumentar o dano fisico.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "Swordman_base_battle_stride",
+                                                "minRank":  5
+                                            }
+                                        ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "damagePhysical":  6
+                                                                       }
+                                                    }
+                                    },
+                      "tags":  [
+                                   "swordman",
+                                   "base",
+                                   "damage"
+                               ]
+                  },
+                  {
+                      "id":  "Swordman_base_keen_guard",
+                      "name":  "Mente afiada",
+                      "description":  "Leitura de combate para reduzir o dano recebido.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "Swordman_base_battle_stride",
+                                                "minRank":  5
+                                            }
+                                        ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "damageReductionPct":  1
+                                                                       }
+                                                    }
+                                    },
+                      "tags":  [
+                                   "swordman",
+                                   "base",
+                                   "defense"
+                               ]
+                  },
+                  {
+                      "id":  "Swordman_base_offensive_stance",
+                      "name":  "Postura ofensiva",
+                      "description":  "Postura agressiva para acelerar os ataques.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  5,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedMult":  {
+                                                                            "attackSpeed":  4
+                                                                        }
+                                                    }
+                                    },
+                      "tags":  [
+                                   "swordman",
+                                   "base",
+                                   "tempo"
+                               ]
+                  },
+                  {
+                      "id":  "Swordman_base_guarded_stance",
+                      "name":  "Guarda disciplinada",
+                      "description":  "Base defensiva focada em firmeza e mitigacao.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  5,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "defPhysical":  3
+                                                                       }
+                                                    }
+                                    },
+                      "tags":  [
+                                   "swordman",
+                                   "base",
+                                   "guard"
+                               ]
+                  },
+                  {
+                      "id":  "Swordman_base_steel_slash",
+                      "name":  "Corte rapido",
+                      "description":  "Sequencia curta de golpes convertida em um unico impacto.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  5,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "Swordman_base_sharpened_blade",
+                                                "minRank":  3
+                                            }
+                                        ],
+                      "unlocksSkillId":  "warrior_quick_slash",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  8.0,
+                                                       "cooldownSeconds":  1.8,
+                                                       "castTimeSeconds":  0.1,
+                                                       "damageMultiplier":  1.15,
+                                                       "damageTypeMagic":  0.0,
+                                                       "damageMultiplierPerRank":  0.15,
+                                                       "cooldownPerRank":  -0.08,
+                                                       "castTimePerRank":  -0.01,
+                                                       "statusChancePerRankPct":  3,
+                                                       "statusDurationPerRankSeconds":  0.15,
+                                                       "statusEffectPerRank":  0.0015
+                                                   },
+                                        "applyStatuses":  [
+                                                              {
+                                                                  "type":  "BLEEDING",
+                                                                  "chancePct":  20.0,
+                                                                  "durationSeconds":  3.0,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  0.006,
+                                                                  "stackable":  true,
+                                                                  "maxStacks":  2,
+                                                                  "source":  "Corte rapido"
+                                                              }
+                                                          ]
+                                    },
+                      "tags":  [
+                                   "swordman",
+                                   "base",
+                                   "active",
+                                   "bleeding"
+                               ]
+                  },
+                  {
+                      "id":  "Swordman_base_steel_spirit",
+                      "name":  "Espirito de aco",
+                      "description":  "Golpe firme que enfraquece o inimigo e sustenta a linha de frente.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  5,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "Swordman_base_keen_guard",
+                                                "minRank":  3
+                                            }
+                                        ],
+                      "unlocksSkillId":  "warrior_steel_spirit",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  12.0,
+                                                       "cooldownSeconds":  4.0,
+                                                       "castTimeSeconds":  0.2,
+                                                       "damageMultiplier":  1.05,
+                                                       "damageTypeMagic":  0.0,
+                                                       "damageMultiplierPerRank":  0.1,
+                                                       "cooldownPerRank":  -0.15,
+                                                       "selfHealPctMaxHp":  4.0,
+                                                       "selfHealPctMaxHpPerRank":  2.0,
+                                                       "statusChancePerRankPct":  4,
+                                                       "statusDurationPerRankSeconds":  0.15,
+                                                       "statusEffectPerRank":  2.0
+                                                   },
+                                        "applyStatuses":  [
+                                                              {
+                                                                  "type":  "WEAKNESS",
+                                                                  "chancePct":  35.0,
+                                                                  "durationSeconds":  2.5,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  8.0,
+                                                                  "stackable":  false,
+                                                                  "maxStacks":  1,
+                                                                  "source":  "Espirito de aco"
+                                                              }
+                                                          ]
+                                    },
+                      "tags":  [
+                                   "swordman",
+                                   "base",
+                                   "active",
+                                   "defensive"
+                               ]
+                  }
+              ]
+}

@@ -1,0 +1,24 @@
+{
+    "id":  "berserker",
+    "name":  "Berserker",
+    "parentClassId":  "swordman",
+    "parentSubclassId":  "barbarian",
+    "description":  "Converte furia em explosoes de dano, cadencia e risco calculado.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "str":  4,
+                                       "agi":  2
+                                   },
+                    "derivedAdd":  {
+                                       "damagePhysical":  10,
+                                       "critDamagePct":  12,
+                                       "vampirismPct":  3
+                                   }
+                },
+    "autoPointWeights":  {
+                             "str":  4,
+                             "agi":  2,
+                             "vit":  1
+                         },
+    "talentTreeId":  "S_barbarian_berserker"
+}

@@ -11,5 +11,6 @@ data class SubclassDef(
     val bonuses: Bonuses = Bonuses(),
     val growth: Attributes = Attributes(),
     val autoPointWeights: Attributes = Attributes(),
+    val specializationIds: List<String> = emptyList(),
     val talentTreeId: String? = null
 )

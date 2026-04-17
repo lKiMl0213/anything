@@ -418,7 +418,7 @@ class AchievementService {
         add(
             id = "progress_path_choice",
             name = "Escolha de Caminho",
-            description = "Desbloqueie caminhos de subclasse.",
+            description = "Desbloqueie caminhos de 2a classe.",
             category = AchievementCategory.PROGRESSAO,
             trackedStat = AchievementTrackedStat.LifetimeKey(StatKeys.TOTAL_SUBCLASS_UNLOCKS),
             tierTargets = listOf(1, 2, 3),
@@ -486,4 +486,3 @@ class AchievementService {
         const val TOTAL_MONSTERS_KILLED = "totalMonstersKilled"
     }
 }
-

@@ -108,13 +108,6 @@ class TalentTreeService(
         val updatedRanks = player.talentNodeRanks.toMutableMap()
         updatedRanks[node.id] = next
 
-        // Compatibilidade com sistema legado: primeira aquisicao do node mantem a lista de ids antigos.
-        val updatedLegacy = if (current <= 0 && !player.talents.contains(node.id)) {
-            player.talents + node.id
-        } else {
-            player.talents
-        }
-
         val updatedUnlockedTrees = if (player.unlockedTalentTrees.contains(tree.id)) {
             player.unlockedTalentTrees
         } else {
@@ -123,7 +116,6 @@ class TalentTreeService(
 
         val updated = player.copy(
             talentNodeRanks = updatedRanks,
-            talents = updatedLegacy,
             unlockedTalentTrees = updatedUnlockedTrees
         )
         val buildValidation = validateBuild(updated, allTrees)
@@ -186,12 +178,7 @@ class TalentTreeService(
         val updatedRanks = player.talentNodeRanks.toMutableMap().apply {
             keys.filter { nodeIdsToClear.contains(it) }.forEach { remove(it) }
         }
-        val updatedLegacy = player.talents.filterNot { nodeIdsToClear.contains(it) }
-
-        return player.copy(
-            talentNodeRanks = updatedRanks,
-            talents = updatedLegacy
-        )
+        return player.copy(talentNodeRanks = updatedRanks)
     }
 
     fun validateBuild(player: PlayerState, trees: Iterable<TalentTree>): TalentValidationResult {

@@ -1,0 +1,315 @@
+{
+    "id": "M_elementalist_elemental_master",
+    "classId": "mage",
+    "tier": 3,
+    "unlockLevel": 50,
+    "requirements": [
+        {
+            "type": "SPECIALIZATION_ID",
+            "expectedValue": "elemental_master"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "M_elementalist_elemental_master_elemental_harmony",
+            "name": "Harmonia Elemental",
+            "description": "Equilibra ataque e resistencia ao lidar com varios elementos.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageMagic": 2.0,
+                        "defMagic": 1.5
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "elemental_master",
+                "balance"
+            ]
+        },
+        {
+            "id": "M_elementalist_elemental_master_mana_convergence",
+            "name": "Convergencia de Mana",
+            "description": "Refina a passagem de mana entre escolas e reduz desperdicio.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "mpRegen": 0.5
+                    }
+                },
+                "atb": {
+                    "noManaCostChancePct": 3.0
+                }
+            },
+            "tags": [
+                "mage",
+                "elemental_master",
+                "mana"
+            ]
+        },
+        {
+            "id": "M_elementalist_elemental_master_element_transfer",
+            "name": "Transferencia de Elementos",
+            "description": "Converte vantagem elemental em pressao adaptativa. Efeito pratico: aumenta dano contra alvos sob BURNING, SLOW ou PARALYZED.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_elementalist_elemental_master_elemental_harmony",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "status": {
+                    "bonusDamageVs.BURNING.Pct": 4.0,
+                    "bonusDamageVs.SLOW.Pct": 4.0,
+                    "bonusDamageVs.PARALYZED.Pct": 4.0
+                }
+            },
+            "tags": [
+                "mage",
+                "elemental_master",
+                "adaptive"
+            ]
+        },
+        {
+            "id": "M_elementalist_elemental_master_natural_amplification",
+            "name": "Ampliacao Natural",
+            "description": "Melhora cura e regeneracao por meio do equilibrio elemental. Efeito pratico: mais vida e mana por segundo.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_elementalist_elemental_master_mana_convergence",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "hpRegen": 0.8,
+                        "mpRegen": 0.8
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "elemental_master",
+                "sustain"
+            ]
+        },
+        {
+            "id": "M_elementalist_elemental_master_electric_current",
+            "name": "Corrente Eletrica",
+            "description": "A eletricidade ganha mais chance de travar o alvo.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "status": {
+                    "applyChance.PARALYZED.Pct": 3.0,
+                    "duration.PARALYZED.Pct": 6.0
+                }
+            },
+            "tags": [
+                "mage",
+                "elemental_master",
+                "control"
+            ]
+        },
+        {
+            "id": "M_elementalist_elemental_master_stone_skin",
+            "name": "Pele de Pedra",
+            "description": "Endurece o corpo contra impacto e interrupcao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "defPhysical": 2.5,
+                        "tenacityPct": 1.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "elemental_master",
+                "defense"
+            ]
+        },
+        {
+            "id": "M_elementalist_elemental_master_elemental_fusion",
+            "name": "Fusao Elemental",
+            "description": "Combina varios elementos em um ataque de area com efeitos mistos.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_elementalist_elemental_master_element_transfer",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "M_elementalist_elemental_master_elemental_fusion",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 19.0,
+                    "cooldownSeconds": 5.2,
+                    "castTimeSeconds": 0.85,
+                    "damageMultiplier": 1.54,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.18,
+                    "cooldownPerRank": -0.12,
+                    "aoeUnlockRank": 3.0,
+                    "aoeBonusDamagePct": 40.0,
+                    "statusChancePerRankPct": 3.0,
+                    "statusDurationPerRankSeconds": 0.15
+                },
+                "applyStatuses": [
+                    {
+                        "type": "BURNING",
+                        "chancePct": 40.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 2.8,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Fusao Elemental"
+                    },
+                    {
+                        "type": "SLOW",
+                        "chancePct": 40.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 12.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Fusao Elemental"
+                    }
+                ]
+            },
+            "tags": [
+                "mage",
+                "elemental_master",
+                "active",
+                "aoe"
+            ]
+        },
+        {
+            "id": "M_elementalist_elemental_master_elemental_circle",
+            "name": "Circulo Elemental",
+            "description": "Cria uma zona de poder misto. Efeito pratico: como nao ha area persistente para aliados, a habilidade vira autocura curta, fraqueza no alvo e um pequeno buff proprio ao aplicar status.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_elementalist_elemental_master_natural_amplification",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "M_elementalist_elemental_master_elemental_circle",
+            "modifiers": {
+                "atb": {
+                    "tempDamageBuffOnStatusApplyPct": 2.0,
+                    "tempFillRateBuffOnStatusApplyPct": 2.0,
+                    "tempBuffDurationSeconds": 1.0
+                },
+                "combat": {
+                    "mpCost": 16.0,
+                    "cooldownSeconds": 4.8,
+                    "castTimeSeconds": 0.65,
+                    "damageMultiplier": 0.98,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.12,
+                    "selfHealPctMaxHp": 3.0,
+                    "selfHealPctMaxHpPerRank": 0.8,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 3.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "WEAKNESS",
+                        "chancePct": 55.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 6.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Circulo Elemental"
+                    }
+                ]
+            },
+            "tags": [
+                "mage",
+                "elemental_master",
+                "active",
+                "support"
+            ]
+        }
+    ]
+}

@@ -1,33 +1,35 @@
 {
-  "id": "mage",
-  "name": "Mago",
-  "description": "Alto dano magico, fragil fisicamente.",
-  "bonuses": {
-    "attributes": {
-      "int": 10,
-      "spr": 6,
-      "dex": 2,
-      "str": -3,
-      "vit": -1
-    },
-    "derivedAdd": {
-      "cdrPct": 3
-    },
-    "derivedMult": {
-      "damageMagic": 5,
-      "mpMax": 5
-    }
-  },
-  "autoPointWeights": {
-    "int": 3,
-    "spr": 2,
-    "dex": 1
-  },
-  "talentTreeId": "mage",
-  "subclassIds": ["pyromancer", "arcanist"],
-  "subclassUnlockLevel": 25,
-  "subclassUnlockQuestTemplateId": "unlock_mage_subclass_lv25",
-  "specializationIds": ["archmage", "elemental_master"],
-  "specializationUnlockLevel": 50,
-  "specializationUnlockQuestTemplateId": "unlock_mage_specialization_lv50"
+    "id":  "mage",
+    "name":  "Mago",
+    "description":  "Alto dano magico, fragil fisicamente.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "int":  10,
+                                       "spr":  6,
+                                       "dex":  2,
+                                       "str":  -3,
+                                       "vit":  -1
+                                   },
+                    "derivedAdd":  {
+                                       "cdrPct":  3
+                                   },
+                    "derivedMult":  {
+                                        "damageMagic":  5,
+                                        "mpMax":  5
+                                    }
+                },
+    "autoPointWeights":  {
+                             "int":  3,
+                             "spr":  2,
+                             "dex":  1
+                         },
+    "talentTreeId":  "Mage_base",
+    "secondClassIds":  [
+                           "arcanist",
+                           "elementalist"
+                       ],
+    "secondClassUnlockLevel":  25,
+    "secondClassUnlockQuestTemplateId":  "unlock_mage_subclass_lv25",
+    "specializationUnlockLevel":  50,
+    "specializationUnlockQuestTemplateId":  "unlock_mage_specialization_lv50"
 }

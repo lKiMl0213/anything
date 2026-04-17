@@ -16,9 +16,9 @@
     "maxPlayerLevel": 999,
     "requiresDungeon": true
   },
-  "titleTemplate": "Olho de Aguia",
-  "descriptionTemplate": "Prove sua maestria absoluta para escolher sua especializacao de Arqueiro.",
-  "hintTemplate": "Estrutura de quest preparada para desbloqueio de especializacao do Arqueiro.",
+  "titleTemplate": "Deixe sua marca.",
+  "descriptionTemplate": "Sua habilidade com o arco atingiu um nível raro. Seu estilo será moldado por uma escolha definitiva.",
+  "hintTemplate": "Supere desafios avançados e escolha seu caminho para desbloquear a especialização do Arqueiro.",
   "enabled": false,
   "weight": 1
 }

@@ -1,0 +1,25 @@
+{
+    "id":  "bounty_hunter",
+    "name":  "Cacador de Recompensas",
+    "parentClassId":  "archer",
+    "parentSubclassId":  "hunter",
+    "description":  "Especialista em eliminar alvos marcados com precisao e utilidade ofensiva.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "dex":  3,
+                                       "agi":  1,
+                                       "luk":  1
+                                   },
+                    "derivedAdd":  {
+                                       "accuracy":  10,
+                                       "critChancePct":  4,
+                                       "critDamagePct":  8
+                                   }
+                },
+    "autoPointWeights":  {
+                             "dex":  4,
+                             "agi":  1,
+                             "luk":  2
+                         },
+    "talentTreeId":  "A_hunter_bounty_hunter"
+}

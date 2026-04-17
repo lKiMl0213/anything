@@ -1,0 +1,24 @@
+{
+    "id":  "paladin",
+    "name":  "Paladino",
+    "parentClassId":  "swordman",
+    "parentSubclassId":  "warrior",
+    "description":  "Defesa e protecao sagrada.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "vit":  2,
+                                       "spr":  1
+                                   },
+                    "derivedAdd":  {
+                                       "damageReductionPct":  3
+                                   },
+                    "derivedMult":  {
+                                        "hpMax":  3
+                                    }
+                },
+    "autoPointWeights":  {
+                             "vit":  2,
+                             "spr":  1
+                         },
+    "talentTreeId":  "S_warrior_paladin"
+}

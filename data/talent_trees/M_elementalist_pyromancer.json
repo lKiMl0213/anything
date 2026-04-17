@@ -1,0 +1,299 @@
+{
+    "id": "M_elementalist_pyromancer",
+    "classId": "mage",
+    "tier": 3,
+    "unlockLevel": 50,
+    "requirements": [
+        {
+            "type": "SPECIALIZATION_ID",
+            "expectedValue": "pyromancer"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "M_elementalist_pyromancer_inner_flame",
+            "name": "Chama Interior",
+            "description": "Aumenta a potenca das magias de fogo e da pressao sobre alvos queimando.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageMagic": 2.0
+                    }
+                },
+                "status": {
+                    "bonusDamageVs.BURNING.Pct": 4.0
+                }
+            },
+            "tags": [
+                "mage",
+                "pyromancer",
+                "burning"
+            ]
+        },
+        {
+            "id": "M_elementalist_pyromancer_rapid_ignition",
+            "name": "Ignicao Rapida",
+            "description": "Acelera o preparo das magias de fogo e sua aplicacao inicial.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "atb": {
+                    "castTimePct": -3.0
+                },
+                "status": {
+                    "applyChance.BURNING.Pct": 4.0
+                }
+            },
+            "tags": [
+                "mage",
+                "pyromancer",
+                "tempo"
+            ]
+        },
+        {
+            "id": "M_elementalist_pyromancer_heat_wave",
+            "name": "Onda de Calor",
+            "description": "Expande a agressividade das chamas. Efeito pratico: mais dano magico e penetracao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_elementalist_pyromancer_inner_flame",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageMagic": 2.0,
+                        "penMagic": 1.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "pyromancer",
+                "damage"
+            ]
+        },
+        {
+            "id": "M_elementalist_pyromancer_lasting_inferno",
+            "name": "Inferno Duradouro",
+            "description": "Mantem o alvo queimando por mais tempo.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_elementalist_pyromancer_rapid_ignition",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "status": {
+                    "duration.BURNING.Pct": 8.0
+                }
+            },
+            "tags": [
+                "mage",
+                "pyromancer",
+                "burning"
+            ]
+        },
+        {
+            "id": "M_elementalist_pyromancer_fire_shield",
+            "name": "Escudo de Fogo",
+            "description": "Fogo ao redor do corpo suaviza o dano recebido e devolve parte da agressao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageReductionPct": 1.0
+                    }
+                },
+                "status": {
+                    "reflectDamagePct": 2.0
+                }
+            },
+            "tags": [
+                "mage",
+                "pyromancer",
+                "defense"
+            ]
+        },
+        {
+            "id": "M_elementalist_pyromancer_thermal_convulsion",
+            "name": "Convulsao Termica",
+            "description": "O calor extremo debilita o inimigo. Efeito pratico: aumenta WEAKNESS e o dano contra alvos enfraquecidos.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "status": {
+                    "applyChance.WEAKNESS.Pct": 3.0,
+                    "bonusDamageVs.WEAKNESS.Pct": 4.0
+                }
+            },
+            "tags": [
+                "mage",
+                "pyromancer",
+                "control"
+            ]
+        },
+        {
+            "id": "M_elementalist_pyromancer_meteor_shower",
+            "name": "Chuva de Meteoros",
+            "description": "Bombardeio pesado de fogo em area.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_elementalist_pyromancer_heat_wave",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "M_elementalist_pyromancer_meteor_shower",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 22.0,
+                    "cooldownSeconds": 5.8,
+                    "castTimeSeconds": 1.0,
+                    "damageMultiplier": 1.74,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.22,
+                    "cooldownPerRank": -0.12,
+                    "aoeUnlockRank": 2.0,
+                    "aoeBonusDamagePct": 45.0,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 0.4
+                },
+                "applyStatuses": [
+                    {
+                        "type": "BURNING",
+                        "chancePct": 55.0,
+                        "durationSeconds": 5.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 3.4,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Chuva de Meteoros"
+                    }
+                ]
+            },
+            "tags": [
+                "mage",
+                "pyromancer",
+                "active",
+                "aoe"
+            ]
+        },
+        {
+            "id": "M_elementalist_pyromancer_infernal_blast",
+            "name": "Explosao Infernal",
+            "description": "Detonacao de fogo concentrado com queimadura reforcada.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_elementalist_pyromancer_lasting_inferno",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "M_elementalist_pyromancer_infernal_blast",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 18.0,
+                    "cooldownSeconds": 4.7,
+                    "castTimeSeconds": 0.55,
+                    "damageMultiplier": 1.56,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.2,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.25,
+                    "statusEffectPerRank": 0.5
+                },
+                "applyStatuses": [
+                    {
+                        "type": "BURNING",
+                        "chancePct": 70.0,
+                        "durationSeconds": 5.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 4.2,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Explosao Infernal"
+                    }
+                ]
+            },
+            "tags": [
+                "mage",
+                "pyromancer",
+                "active",
+                "burning"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,302 @@
+{
+    "id": "S_warrior",
+    "classId": "swordman",
+    "tier": 2,
+    "unlockLevel": 25,
+    "requirements": [
+        {
+            "type": "SUBCLASS_ID",
+            "expectedValue": "warrior"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "S_warrior_guard_technique",
+            "name": "Tecnica de Guarda",
+            "description": "Melhora defesa e consistencia ao segurar a linha de frente.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "defPhysical": 2.0,
+                        "tenacityPct": 1.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "warrior",
+                "defense"
+            ]
+        },
+        {
+            "id": "S_warrior_blade_mastery",
+            "name": "Dominio da Lamina",
+            "description": "Aprimora o dano e a precisao com laminas de uma mao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damagePhysical": 2.0,
+                        "accuracy": 1.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "warrior",
+                "offense"
+            ]
+        },
+        {
+            "id": "S_warrior_tenacity",
+            "name": "Tenacidade",
+            "description": "Aumenta a vida maxima e a capacidade de se manter em combate.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_warrior_guard_technique",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "hpRegen": 0.5
+                    },
+                    "derivedMult": {
+                        "hpMax": 3.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "warrior",
+                "sustain"
+            ]
+        },
+        {
+            "id": "S_warrior_tactical_offense",
+            "name": "Ofensiva Tatica",
+            "description": "Transforma leitura de combate em critico e dano extra.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_warrior_blade_mastery",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "critChancePct": 1.0,
+                        "critDamagePct": 4.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "warrior",
+                "crit"
+            ]
+        },
+        {
+            "id": "S_warrior_controlled_fury",
+            "name": "Furia Controlada",
+            "description": "Mantem pressao maior contra inimigos ja enfraquecidos ou quase derrotados.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "status": {
+                    "bonusDamageVsLowHpPct": 4.0
+                }
+            },
+            "tags": [
+                "swordman",
+                "warrior",
+                "execute"
+            ]
+        },
+        {
+            "id": "S_warrior_defensive_stance",
+            "name": "Postura Defensiva",
+            "description": "Reduz dano recebido, mas sacrifica parte da cadencia ofensiva.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageReductionPct": 1.5
+                    },
+                    "derivedMult": {
+                        "attackSpeed": -2.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "warrior",
+                "defense"
+            ]
+        },
+        {
+            "id": "S_warrior_shield_bash",
+            "name": "Golpe de Escudo",
+            "description": "Impacto curto para quebrar o ritmo do inimigo. Efeito pratico: dano com WEAKNESS.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_warrior_tenacity",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "S_warrior_shield_bash",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 12.0,
+                    "cooldownSeconds": 3.4,
+                    "castTimeSeconds": 0.15,
+                    "damageMultiplier": 1.22,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.15,
+                    "cooldownPerRank": -0.08,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "WEAKNESS",
+                        "chancePct": 55.0,
+                        "durationSeconds": 3.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 6.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Golpe de Escudo"
+                    }
+                ]
+            },
+            "tags": [
+                "swordman",
+                "warrior",
+                "active",
+                "control"
+            ]
+        },
+        {
+            "id": "S_warrior_spinning_blade",
+            "name": "Lamina Circular",
+            "description": "Varredura de laminas para atingir varios inimigos e abrir sangramento.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_warrior_tactical_offense",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "S_warrior_spinning_blade",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 15.0,
+                    "cooldownSeconds": 4.2,
+                    "castTimeSeconds": 0.3,
+                    "damageMultiplier": 1.44,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.18,
+                    "cooldownPerRank": -0.1,
+                    "aoeUnlockRank": 3.0,
+                    "aoeBonusDamagePct": 30.0,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 0.001,
+                    "statusMaxStacksPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "BLEEDING",
+                        "chancePct": 50.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 0.006,
+                        "stackable": true,
+                        "maxStacks": 2,
+                        "source": "Lamina Circular"
+                    }
+                ]
+            },
+            "tags": [
+                "swordman",
+                "warrior",
+                "active",
+                "bleeding"
+            ]
+        }
+    ]
+}

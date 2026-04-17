@@ -17,7 +17,7 @@
   "talentPoints": {
     "mode": "SHARED_POOL",
     "sharedPointsPerLevel": 1,
-    "sharedStartingPoints": 1,
+    "sharedStartingPoints": 0,
     "perTreePointsPerLevelDefault": 1,
     "perTreePointsPerLevel": {},
     "perTreeStartingPoints": {}

@@ -11,15 +11,21 @@ Campos:
 - bonuses: Bonuses
 - growth: Attributes
 - autoPointWeights: Attributes
+- specializationIds: [string] (opcional)
 - talentTreeId: string (opcional)
 
 Exemplo:
 {
-  "id": "berserker",
-  "name": "Berserker",
-  "parentClassId": "warrior",
+  "id": "warrior",
+  "name": "Guerreiro",
+  "parentClassId": "swordman",
   "bonuses": { "attributes": { "str": 2 } },
   "growth": { "str": 2 },
   "autoPointWeights": { "str": 3 },
-  "talentTreeId": "berserker_tree"
+  "specializationIds": ["paladin", "elite_guard"],
+  "talentTreeId": "S_warrior"
 }
+
+Convencao atual de `talentTreeId`:
+- 2a classe: `A_hunter`, `A_ranger`, `M_arcanist`, `M_elementalist`, `S_warrior`, `S_barbarian`
+

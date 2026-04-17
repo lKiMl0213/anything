@@ -11,10 +11,9 @@ data class ClassDef(
     val growth: Attributes = Attributes(),
     val autoPointWeights: Attributes = Attributes(),
     val talentTreeId: String? = null,
-    val subclassIds: List<String> = emptyList(),
-    val subclassUnlockLevel: Int = 10,
-    val subclassUnlockQuestTemplateId: String? = null,
-    val specializationIds: List<String> = emptyList(),
+    val secondClassIds: List<String> = emptyList(),
+    val secondClassUnlockLevel: Int = 10,
+    val secondClassUnlockQuestTemplateId: String? = null,
     val specializationUnlockLevel: Int = 50,
     val specializationUnlockQuestTemplateId: String? = null
 )

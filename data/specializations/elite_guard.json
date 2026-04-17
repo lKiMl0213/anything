@@ -1,0 +1,28 @@
+{
+    "id":  "elite_guard",
+    "name":  "Guarda de Elite",
+    "parentClassId":  "swordman",
+    "parentSubclassId":  "warrior",
+    "description":  "Mitigacao suprema, disciplina de muralha e controle da linha de frente.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "vit":  3,
+                                       "spr":  2,
+                                       "str":  1
+                                   },
+                    "derivedAdd":  {
+                                       "defPhysical":  10,
+                                       "defMagic":  8,
+                                       "damageReductionPct":  4
+                                   },
+                    "derivedMult":  {
+                                        "hpMax":  6
+                                    }
+                },
+    "autoPointWeights":  {
+                             "vit":  4,
+                             "str":  1,
+                             "spr":  2
+                         },
+    "talentTreeId":  "S_warrior_elite_guard"
+}

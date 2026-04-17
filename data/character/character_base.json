@@ -3,7 +3,7 @@
   "starterGold": 0,
   "starterInventory": ["potion_small", "potion_small", "ether_small"],
   "starterEquipmentByClass": {
-    "warrior": { "WEAPON_MAIN": "rusty_sword" },
+    "swordman": { "WEAPON_MAIN": "rusty_sword" },
     "mage": { "WEAPON_MAIN": "novice_staff" },
     "archer": { "WEAPON_MAIN": "short_bow", "ALJAVA": "training_quiver" }
   },

@@ -1,0 +1,312 @@
+{
+    "id": "S_warrior_paladin",
+    "classId": "swordman",
+    "tier": 3,
+    "unlockLevel": 50,
+    "requirements": [
+        {
+            "type": "SPECIALIZATION_ID",
+            "expectedValue": "paladin"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "S_warrior_paladin_light_aura",
+            "name": "Aura de Luz",
+            "description": "Sua presenca reduz o dano recebido. Efeito pratico: como nao ha grupo em combate, o bonus fica no proprio paladino.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageReductionPct": 1.0,
+                        "defMagic": 1.5
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "paladin",
+                "defense"
+            ]
+        },
+        {
+            "id": "S_warrior_paladin_oath_of_loyalty",
+            "name": "Voto de Lealdade",
+            "description": "Fortalece a resistencia contra efeitos negativos e controle.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "tenacityPct": 2.0
+                    }
+                },
+                "status": {
+                    "incomingDurationPct": -4.0
+                }
+            },
+            "tags": [
+                "swordman",
+                "paladin",
+                "resist"
+            ]
+        },
+        {
+            "id": "S_warrior_paladin_consecrated_shield",
+            "name": "Escudo Consagrado",
+            "description": "Absorve melhor o impacto e devolve parte da agressao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_warrior_paladin_light_aura",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "defPhysical": 2.0
+                    }
+                },
+                "status": {
+                    "reflectDamagePct": 3.0
+                }
+            },
+            "tags": [
+                "swordman",
+                "paladin",
+                "shield"
+            ]
+        },
+        {
+            "id": "S_warrior_paladin_righteous_judgment",
+            "name": "Julgamento Justo",
+            "description": "Canaliza poder sagrado para fortalecer golpes e magias santificadas.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_warrior_paladin_oath_of_loyalty",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageMagic": 2.0,
+                        "critChancePct": 0.8
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "paladin",
+                "holy"
+            ]
+        },
+        {
+            "id": "S_warrior_paladin_unwavering_faith",
+            "name": "Fe Inabalavel",
+            "description": "Aumenta o ganho obtido por cura e sustain. Efeito pratico: mais regeneracao e vida maxima.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "hpRegen": 0.8
+                    },
+                    "derivedMult": {
+                        "hpMax": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "paladin",
+                "sustain"
+            ]
+        },
+        {
+            "id": "S_warrior_paladin_protective_spirit",
+            "name": "Espirito de Protecao",
+            "description": "Refina sua defesa fisica e magica ao mesmo tempo.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "defPhysical": 2.0,
+                        "defMagic": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "swordman",
+                "paladin",
+                "defense"
+            ]
+        },
+        {
+            "id": "S_warrior_paladin_holy_strike",
+            "name": "Golpe Sagrado",
+            "description": "Ataque santificado que quebra o folego do inimigo.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_warrior_paladin_consecrated_shield",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "S_warrior_paladin_holy_strike",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 14.0,
+                    "cooldownSeconds": 3.9,
+                    "castTimeSeconds": 0.25,
+                    "damageMultiplier": 1.38,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.18,
+                    "cooldownPerRank": -0.1,
+                    "selfHealFlat": 4.0,
+                    "selfHealFlatPerRank": 1.0,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "WEAKNESS",
+                        "chancePct": 50.0,
+                        "durationSeconds": 3.5,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 7.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Golpe Sagrado"
+                    }
+                ]
+            },
+            "tags": [
+                "swordman",
+                "paladin",
+                "active",
+                "holy"
+            ]
+        },
+        {
+            "id": "S_warrior_paladin_divine_guard",
+            "name": "Guarda Divina",
+            "description": "Ergue protecao sagrada sobre si mesmo. Efeito pratico: o grupo nao existe em combate, entao a habilidade vira autocura com fraqueza no alvo e reforco proprio ao aplicar status.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "S_warrior_paladin_righteous_judgment",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "S_warrior_paladin_divine_guard",
+            "modifiers": {
+                "atb": {
+                    "tempFillRateBuffOnStatusApplyPct": 2.0,
+                    "tempBuffDurationSeconds": 1.0
+                },
+                "combat": {
+                    "mpCost": 15.0,
+                    "cooldownSeconds": 4.8,
+                    "castTimeSeconds": 0.45,
+                    "damageMultiplier": 0.92,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.1,
+                    "selfHealPctMaxHp": 4.0,
+                    "selfHealPctMaxHpPerRank": 1.0,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 3.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "WEAKNESS",
+                        "chancePct": 45.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 6.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Guarda Divina"
+                    }
+                ]
+            },
+            "tags": [
+                "swordman",
+                "paladin",
+                "active",
+                "guard"
+            ]
+        }
+    ]
+}

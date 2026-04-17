@@ -1,19 +1,27 @@
 {
-  "id": "ranger",
-  "name": "Ranger",
-  "parentClassId": "archer",
-  "description": "Rastreador e atirador preciso.",
-  "bonuses": {
-    "attributes": {
-      "dex": 2,
-      "agi": 1
-    },
-    "derivedAdd": {
-      "accuracy": 3
-    }
-  },
-  "autoPointWeights": {
-    "dex": 2,
-    "agi": 1
-  }
+    "id":  "ranger",
+    "name":  "Ranger",
+    "parentClassId":  "archer",
+    "description":  "Patrulheiro agil com foco em mobilidade, terreno e cadencia.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "dex":  2,
+                                       "agi":  2,
+                                       "luk":  1
+                                   },
+                    "derivedAdd":  {
+                                       "accuracy":  3,
+                                       "evasion":  4
+                                   }
+                },
+    "autoPointWeights":  {
+                             "dex":  2,
+                             "agi":  2,
+                             "luk":  1
+                         },
+    "specializationIds":  [
+                              "sharpshooter",
+                              "shadow_hunter"
+                          ],
+    "talentTreeId":  "A_ranger"
 }

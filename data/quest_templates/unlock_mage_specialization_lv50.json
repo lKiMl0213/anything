@@ -16,9 +16,9 @@
     "maxPlayerLevel": 999,
     "requiresDungeon": true
   },
-  "titleTemplate": "Convergencia Arcana",
-  "descriptionTemplate": "Alcance dominio absoluto para escolher sua especializacao de Mago.",
-  "hintTemplate": "Estrutura de quest preparada para desbloqueio de especializacao do Mago.",
+  "titleTemplate": "Defina seu legado mágico.",
+  "descriptionTemplate": "Seu poder atingiu um nível raro. A partir daqui, suas escolhas moldarão permanentemente seu estilo de combate.",
+  "hintTemplate": "Supere desafios de alto nível e tome uma decisão definitiva para desbloquear sua especialização de Mago.",
   "enabled": false,
   "weight": 1
 }

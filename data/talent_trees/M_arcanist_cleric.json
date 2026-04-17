@@ -1,0 +1,291 @@
+{
+    "id": "M_arcanist_cleric",
+    "classId": "mage",
+    "tier": 3,
+    "unlockLevel": 50,
+    "requirements": [
+        {
+            "type": "SPECIALIZATION_ID",
+            "expectedValue": "cleric"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "M_arcanist_cleric_healing_blessing",
+            "name": "Bencao Curativa",
+            "description": "Fortalece sua recuperacao e melhora o folego magico em lutas demoradas.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "hpRegen": 0.8,
+                        "mpRegen": 0.6
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "cleric",
+                "healing"
+            ]
+        },
+        {
+            "id": "M_arcanist_cleric_force_of_faith",
+            "name": "Forca da Fe",
+            "description": "Converte conviccao em dano sagrado consistente.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageMagic": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "cleric",
+                "holy"
+            ]
+        },
+        {
+            "id": "M_arcanist_cleric_divine_protection",
+            "name": "Protecao Divina",
+            "description": "Reforca o corpo e o fluxo de mana contra pressao inimiga.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_arcanist_cleric_healing_blessing",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageReductionPct": 1.5,
+                        "defMagic": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "cleric",
+                "defense"
+            ]
+        },
+        {
+            "id": "M_arcanist_cleric_sacred_judgment",
+            "name": "Julgamento Sagrado",
+            "description": "Eleva o dano das tecnicas sagradas e melhora a chance de impacto decisivo.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_arcanist_cleric_force_of_faith",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageMagic": 3.0,
+                        "critChancePct": 1.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "cleric",
+                "holy"
+            ]
+        },
+        {
+            "id": "M_arcanist_cleric_spirit_of_sacrifice",
+            "name": "Espirito de Sacrificio",
+            "description": "Transforma disciplina em resiliencia. Efeito pratico: como nao ha cura de aliado em tempo real, o sacrificio vira mais vida e tenacidade para sustentar a linhagem.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "tenacityPct": 1.0,
+                        "hpRegen": 0.4
+                    },
+                    "derivedMult": {
+                        "hpMax": 3.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "cleric",
+                "sustain"
+            ]
+        },
+        {
+            "id": "M_arcanist_cleric_inspiring_presence",
+            "name": "Presenca Inspiradora",
+            "description": "Sua simples presenca acelera a recuperacao de energia. Efeito pratico: o bonus fica no proprio conjurador.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "mpRegen": 0.8
+                    }
+                },
+                "atb": {
+                    "fillRatePct": 2.0
+                }
+            },
+            "tags": [
+                "mage",
+                "cleric",
+                "tempo"
+            ]
+        },
+        {
+            "id": "M_arcanist_cleric_healing_prayer",
+            "name": "Oracao de Cura",
+            "description": "Canaliza uma prece restauradora. Efeito pratico: no combate atual a cura recai sobre o proprio conjurador.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_arcanist_cleric_divine_protection",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "M_arcanist_cleric_healing_prayer",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 16.0,
+                    "cooldownSeconds": 5.0,
+                    "castTimeSeconds": 0.8,
+                    "damageMultiplier": 0.82,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.08,
+                    "selfHealPctMaxHp": 6.0,
+                    "selfHealPctMaxHpPerRank": 1.5,
+                    "cooldownPerRank": -0.12
+                }
+            },
+            "tags": [
+                "mage",
+                "cleric",
+                "active",
+                "heal"
+            ]
+        },
+        {
+            "id": "M_arcanist_cleric_purifying_light",
+            "name": "Luz Purificadora",
+            "description": "Lanca luz sagrada que pune o alvo e limpa sua propria trilha de combate. Efeito pratico: dano magico, autocura curta e WEAKNESS no inimigo.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_arcanist_cleric_sacred_judgment",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "M_arcanist_cleric_purifying_light",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 15.0,
+                    "cooldownSeconds": 4.4,
+                    "castTimeSeconds": 0.45,
+                    "damageMultiplier": 1.24,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.16,
+                    "selfHealFlat": 6.0,
+                    "selfHealFlatPerRank": 2.0,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "WEAKNESS",
+                        "chancePct": 40.0,
+                        "durationSeconds": 3.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 6.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Luz Purificadora"
+                    }
+                ]
+            },
+            "tags": [
+                "mage",
+                "cleric",
+                "active",
+                "holy"
+            ]
+        }
+    ]
+}

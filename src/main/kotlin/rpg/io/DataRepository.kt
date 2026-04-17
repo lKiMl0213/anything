@@ -15,7 +15,6 @@ import rpg.model.MonsterTypeDefinition
 import rpg.model.RaceDef
 import rpg.model.SubclassDef
 import rpg.model.SpecializationDef
-import rpg.model.TalentTreeDef
 import rpg.model.TalentTree
 import rpg.model.DropTableDef
 import rpg.model.BiomeDef
@@ -55,7 +54,6 @@ class DataRepository(private val root: Path) {
     val maps: Map<String, MapDef> = loadDir<MapDef>("maps").associateBy { it.id }
     val mapTiers: Map<String, MapTierDef> = loadDir<MapTierDef>("map_tiers").associateBy { it.id }
     val biomes: Map<String, BiomeDef> = loadDir<BiomeDef>("biomes").associateBy { it.id }
-    val talentTrees: Map<String, TalentTreeDef> = loadDir<TalentTreeDef>("talents").associateBy { it.id }
     val talentTreesV2: Map<String, TalentTree> = loadDir<TalentTree>("talent_trees").associateBy { it.id }
     val textPools: Map<String, TextPoolDef> = loadDir<TextPoolDef>("text_pools").associateBy { it.id }
     val character: CharacterDef = loadFile("character/character_base.json") ?: CharacterDef()

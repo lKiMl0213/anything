@@ -1,0 +1,30 @@
+{
+    "id":  "elementalist",
+    "name":  "Elementalista",
+    "parentClassId":  "mage",
+    "description":  "Canaliza fogo, raio e gelo para dano versatil e efeitos elementais.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "int":  2,
+                                       "spr":  1,
+                                       "dex":  1
+                                   },
+                    "derivedAdd":  {
+                                       "damageMagic":  4,
+                                       "mpRegen":  1
+                                   },
+                    "derivedMult":  {
+                                        "damageMagic":  4
+                                    }
+                },
+    "autoPointWeights":  {
+                             "int":  3,
+                             "spr":  1,
+                             "dex":  1
+                         },
+    "specializationIds":  [
+                              "pyromancer",
+                              "elemental_master"
+                          ],
+    "talentTreeId":  "M_elementalist"
+}

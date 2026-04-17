@@ -1,0 +1,302 @@
+{
+    "id": "M_arcanist_archmage",
+    "classId": "mage",
+    "tier": 3,
+    "unlockLevel": 50,
+    "requirements": [
+        {
+            "type": "SPECIALIZATION_ID",
+            "expectedValue": "archmage"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "M_arcanist_archmage_universal_mastery",
+            "name": "Maestria Universal",
+            "description": "Aumenta a consistencia de todas as escolas elementais.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageMagic": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "archmage",
+                "damage"
+            ]
+        },
+        {
+            "id": "M_arcanist_archmage_brilliant_mind",
+            "name": "Mente Genial",
+            "description": "Reduz o atrito entre pensamento e conjuracao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "atb": {
+                    "castTimePct": -3.0,
+                    "noManaCostChancePct": 3.0
+                }
+            },
+            "tags": [
+                "mage",
+                "archmage",
+                "tempo"
+            ]
+        },
+        {
+            "id": "M_arcanist_archmage_supreme_magic",
+            "name": "Magia Suprema",
+            "description": "Eleva o teto do dano magico pesado e dos criticos.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_arcanist_archmage_universal_mastery",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageMagic": 3.0,
+                        "critDamagePct": 4.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "archmage",
+                "burst"
+            ]
+        },
+        {
+            "id": "M_arcanist_archmage_arcane_amplification",
+            "name": "Amplificacao Arcana",
+            "description": "Expande o impacto das magias. Efeito pratico: mais penetracao magica e precisao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_arcanist_archmage_brilliant_mind",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "penMagic": 2.0,
+                        "accuracy": 1.0
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "archmage",
+                "pierce"
+            ]
+        },
+        {
+            "id": "M_arcanist_archmage_power_aura",
+            "name": "Aura de Poder",
+            "description": "Impulsiona sua presenca magica no campo. Efeito pratico: como nao ha grupo em combate, o bonus fortalece o proprio conjurador.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damageMagic": 1.5,
+                        "mpRegen": 0.5
+                    }
+                }
+            },
+            "tags": [
+                "mage",
+                "archmage",
+                "sustain"
+            ]
+        },
+        {
+            "id": "M_arcanist_archmage_extreme_focus",
+            "name": "Concentracao Extrema",
+            "description": "Reduz a chance de interrupcao e melhora a estabilidade da magia pesada.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "tenacityPct": 1.0
+                    }
+                },
+                "atb": {
+                    "interruptResistPct": 4.0
+                }
+            },
+            "tags": [
+                "mage",
+                "archmage",
+                "control"
+            ]
+        },
+        {
+            "id": "M_arcanist_archmage_arcane_meteor",
+            "name": "Meteoro Arcano",
+            "description": "Invoca um impacto devastador de energia e fogo arcano.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_arcanist_archmage_supreme_magic",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "M_arcanist_archmage_arcane_meteor",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 20.0,
+                    "cooldownSeconds": 5.4,
+                    "castTimeSeconds": 0.9,
+                    "damageMultiplier": 1.62,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.2,
+                    "cooldownPerRank": -0.12,
+                    "aoeUnlockRank": 3.0,
+                    "aoeBonusDamagePct": 40.0,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 0.4
+                },
+                "applyStatuses": [
+                    {
+                        "type": "BURNING",
+                        "chancePct": 55.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 3.2,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Meteoro Arcano"
+                    }
+                ]
+            },
+            "tags": [
+                "mage",
+                "archmage",
+                "active",
+                "burning"
+            ]
+        },
+        {
+            "id": "M_arcanist_archmage_mystic_catalyst",
+            "name": "Catalisador Mistico",
+            "description": "Canaliza uma runa de poder para preparar sua proxima ofensiva. Efeito pratico: marca o alvo e, ao aplicar status, concede um buff curto de dano para o proprio mago.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "M_arcanist_archmage_arcane_amplification",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "M_arcanist_archmage_mystic_catalyst",
+            "modifiers": {
+                "atb": {
+                    "tempDamageBuffOnStatusApplyPct": 4.0,
+                    "tempBuffDurationSeconds": 1.2
+                },
+                "combat": {
+                    "mpCost": 12.0,
+                    "cooldownSeconds": 4.6,
+                    "castTimeSeconds": 0.35,
+                    "damageMultiplier": 1.08,
+                    "damageTypeMagic": 1.0,
+                    "damageMultiplierPerRank": 0.12,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 0.0,
+                    "statusDurationPerRankSeconds": 0.2
+                },
+                "applyStatuses": [
+                    {
+                        "type": "MARKED",
+                        "chancePct": 100.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 1.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Catalisador Mistico"
+                    }
+                ]
+            },
+            "tags": [
+                "mage",
+                "archmage",
+                "active",
+                "setup"
+            ]
+        }
+    ]
+}

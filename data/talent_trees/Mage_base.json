@@ -1,0 +1,295 @@
+{
+    "id":  "Mage_base",
+    "classId":  "mage",
+    "tier":  1,
+    "unlockLevel":  1,
+    "requirements":  [
+                         {
+                             "type":  "CLASS_ID",
+                             "expectedValue":  "mage"
+                         }
+                     ],
+    "nodes":  [
+                  {
+                      "id":  "Mage_base_arcane_study",
+                      "name":  "Aprendiz magico",
+                      "description":  "Primeiros estudos para sustentar mana em combate.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  5,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "mpRegen":  1
+                                                                       }
+                                                    }
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "base",
+                                   "mana"
+                               ]
+                  },
+                  {
+                      "id":  "Mage_base_mage_initiate",
+                      "name":  "Mago iniciante",
+                      "description":  "Refina o canal arcano para elevar o dano magico.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  5,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "Mage_base_arcane_study",
+                                                "minRank":  5
+                                            }
+                                        ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "damageMagic":  2
+                                                                       }
+                                                    }
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "base",
+                                   "damage"
+                               ]
+                  },
+                  {
+                      "id":  "Mage_base_fast_reading",
+                      "name":  "Leitura rapida",
+                      "description":  "Conjuracao mais veloz por meio de rotas arcanas otimizadas.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "Mage_base_mage_initiate",
+                                                "minRank":  5
+                                            }
+                                        ],
+                      "modifiers":  {
+                                        "atb":  {
+                                                    "castTimePct":  -5.0
+                                                }
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "base",
+                                   "cast"
+                               ]
+                  },
+                  {
+                      "id":  "Mage_base_precise_magic",
+                      "name":  "Precisao magica",
+                      "description":  "Canalizacao mais limpa para acertar e critar melhor.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  3,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "Mage_base_mage_initiate",
+                                                "minRank":  5
+                                            }
+                                        ],
+                      "modifiers":  {
+                                        "bonuses":  {
+                                                        "derivedAdd":  {
+                                                                           "accuracy":  2,
+                                                                           "critChancePct":  1
+                                                                       }
+                                                    }
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "base",
+                                   "precision"
+                               ]
+                  },
+                  {
+                      "id":  "Mage_base_arcane_gift",
+                      "name":  "Aptidao magica",
+                      "description":  "Dom natural para economizar mana ao conjurar.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  5,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "atb":  {
+                                                    "noManaCostChancePct":  10.0
+                                                }
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "base",
+                                   "mana"
+                               ]
+                  },
+                  {
+                      "id":  "Mage_base_arcane_flow",
+                      "name":  "Circuito arcano",
+                      "description":  "Fluxo continuo para acelerar o ciclo das magias.",
+                      "nodeType":  "PASSIVE",
+                      "maxRank":  5,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "modifiers":  {
+                                        "atb":  {
+                                                    "fillRatePct":  4.0,
+                                                    "cooldownPct":  -3.0
+                                                }
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "base",
+                                   "tempo"
+                               ]
+                  },
+                  {
+                      "id":  "Mage_base_fireball",
+                      "name":  "Bola de fogo",
+                      "description":  "Projeta uma esfera ardente que deixa o alvo queimando.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  5,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "Mage_base_fast_reading",
+                                                "minRank":  3
+                                            }
+                                        ],
+                      "unlocksSkillId":  "mage_fireball",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  11.0,
+                                                       "cooldownSeconds":  2.4,
+                                                       "castTimeSeconds":  0.5,
+                                                       "damageMultiplier":  1.18,
+                                                       "damageMultiplierPerRank":  0.18,
+                                                       "cooldownPerRank":  -0.08,
+                                                       "castTimePerRank":  -0.03,
+                                                       "statusChancePerRankPct":  4,
+                                                       "statusDurationPerRankSeconds":  0.3,
+                                                       "statusEffectPerRank":  0.7,
+                                                       "statusMaxStacksPerRank":  1
+                                                   },
+                                        "applyStatuses":  [
+                                                              {
+                                                                  "type":  "BURNING",
+                                                                  "chancePct":  25.0,
+                                                                  "durationSeconds":  4.0,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  3.0,
+                                                                  "stackable":  true,
+                                                                  "maxStacks":  2,
+                                                                  "source":  "Bola de fogo"
+                                                              }
+                                                          ]
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "base",
+                                   "active",
+                                   "burning"
+                               ]
+                  },
+                  {
+                      "id":  "Mage_base_lightning_bolt",
+                      "name":  "Relampago",
+                      "description":  "Descarga arcana que pode paralisar o alvo.",
+                      "nodeType":  "ACTIVE_SKILL",
+                      "maxRank":  5,
+                      "currentRank":  0,
+                      "costPerRank":  [
+                                          1,
+                                          1,
+                                          1,
+                                          1,
+                                          1
+                                      ],
+                      "prerequisites":  [
+                                            {
+                                                "nodeId":  "Mage_base_precise_magic",
+                                                "minRank":  3
+                                            }
+                                        ],
+                      "unlocksSkillId":  "mage_lightning_bolt",
+                      "modifiers":  {
+                                        "combat":  {
+                                                       "mpCost":  14.0,
+                                                       "cooldownSeconds":  3.0,
+                                                       "castTimeSeconds":  0.7,
+                                                       "damageMultiplier":  1.22,
+                                                       "damageMultiplierPerRank":  0.2,
+                                                       "cooldownPerRank":  -0.1,
+                                                       "castTimePerRank":  -0.03,
+                                                       "statusChancePerRankPct":  3,
+                                                       "statusDurationPerRankSeconds":  0.1,
+                                                       "statusEffectPerRank":  4.0
+                                                   },
+                                        "applyStatuses":  [
+                                                              {
+                                                                  "type":  "PARALYZED",
+                                                                  "chancePct":  18.0,
+                                                                  "durationSeconds":  2.0,
+                                                                  "tickIntervalSeconds":  1.0,
+                                                                  "effectValue":  10.0,
+                                                                  "stackable":  false,
+                                                                  "maxStacks":  1,
+                                                                  "source":  "Relampago"
+                                                              }
+                                                          ]
+                                    },
+                      "tags":  [
+                                   "mage",
+                                   "base",
+                                   "active",
+                                   "paralyzed"
+                               ]
+                  }
+              ]
+}

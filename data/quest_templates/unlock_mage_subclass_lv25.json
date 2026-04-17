@@ -16,9 +16,10 @@
     "maxPlayerLevel": 999,
     "requiresDungeon": true
   },
-  "titleTemplate": "Ascensao Arcana",
-  "descriptionTemplate": "Prove seu dominio magico para liberar a escolha de subclasse.",
-  "hintTemplate": "Estrutura de quest preparada para desbloqueio de subclasse do Mago.",
+
+  "titleTemplate": "Desperte seu verdadeiro poder.",
+  "descriptionTemplate": "Sua conexão com a magia ultrapassa os limites básicos. Agora você deve provar domínio sobre forças mais profundas e instáveis.",
+  "hintTemplate": "Enfrente desafios e conclua uma sequência de provas para desbloquear sua subclasse de Mago.",
   "enabled": false,
   "weight": 1
 }

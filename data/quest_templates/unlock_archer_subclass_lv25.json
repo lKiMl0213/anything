@@ -16,9 +16,10 @@
     "maxPlayerLevel": 999,
     "requiresDungeon": true
   },
-  "titleTemplate": "Predador das Sombras",
-  "descriptionTemplate": "Prove sua maestria com o arco para liberar a escolha de subclasse.",
-  "hintTemplate": "Estrutura de quest preparada para desbloqueio de subclasse do Arqueiro.",
+
+  "titleTemplate": "Aprimore sua precisão.",
+  "descriptionTemplate": "Seu domínio do arco evoluiu. Agora você deve provar foco, controle e eficiência em situações reais.",
+  "hintTemplate": "Complete provas de precisão e estratégia para desbloquear a subclasse do Arqueiro.",
   "enabled": false,
   "weight": 1
 }

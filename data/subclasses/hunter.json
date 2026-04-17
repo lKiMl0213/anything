@@ -1,22 +1,27 @@
 {
-  "id": "hunter",
-  "name": "Cacador",
-  "parentClassId": "archer",
-  "description": "Especialista em precisao, alvo marcado e consistencia.",
-  "bonuses": {
-    "attributes": {
-      "dex": 2,
-      "agi": 1,
-      "luk": 1
-    },
-    "derivedAdd": {
-      "accuracy": 5,
-      "critChancePct": 3
-    }
-  },
-  "autoPointWeights": {
-    "dex": 3,
-    "agi": 2,
-    "luk": 1
-  }
+    "id":  "hunter",
+    "name":  "Hunter",
+    "parentClassId":  "archer",
+    "description":  "Especialista em alvo marcado, rastreio e execucao precisa.",
+    "bonuses":  {
+                    "attributes":  {
+                                       "dex":  2,
+                                       "agi":  1,
+                                       "luk":  1
+                                   },
+                    "derivedAdd":  {
+                                       "accuracy":  5,
+                                       "critChancePct":  3
+                                   }
+                },
+    "autoPointWeights":  {
+                             "dex":  3,
+                             "agi":  2,
+                             "luk":  1
+                         },
+    "specializationIds":  [
+                              "bounty_hunter",
+                              "assassin"
+                          ],
+    "talentTreeId":  "A_hunter"
 }

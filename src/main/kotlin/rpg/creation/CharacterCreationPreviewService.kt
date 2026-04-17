@@ -21,10 +21,10 @@ class CharacterCreationPreviewService(private val repo: DataRepository) {
         val reason: String
     )
 
-    data class SpecializationPreview(
+    data class SecondClassPreview(
         val id: String,
         val name: String,
-        val requiredSubclasses: List<String>
+        val specializations: List<String>
     )
 
     data class RacePreview(
@@ -39,8 +39,7 @@ class CharacterCreationPreviewService(private val repo: DataRepository) {
         val initialAttributes: List<AttributePreviewLine>,
         val growthAttributes: List<AttributePreviewLine>,
         val suggestedRaces: List<CompatibilitySuggestion>,
-        val subclasses: List<SubclassDef>,
-        val specializations: List<SpecializationPreview>
+        val secondClasses: List<SecondClassPreview>
     )
 
     private data class AttrMeta(
@@ -77,23 +76,12 @@ class CharacterCreationPreviewService(private val repo: DataRepository) {
     }
 
     fun buildClassPreview(classDef: ClassDef, suggestionLimit: Int = 3): ClassPreview {
-        val subclasses = resolveClassSubclasses(classDef)
-        val specializations = resolveClassSpecializations(classDef)
         return ClassPreview(
             clazz = classDef,
             initialAttributes = filterNonZeroAttributes(classDef.bonuses.attributes),
             growthAttributes = filterNonZeroAttributes(classDef.growth),
             suggestedRaces = suggestedRacesForClass(classDef, suggestionLimit),
-            subclasses = subclasses,
-            specializations = specializations.map { specialization ->
-                SpecializationPreview(
-                    id = specialization.id,
-                    name = specialization.name,
-                    requiredSubclasses = specialization.requiredSubclassIds.map { subclassId ->
-                        repo.subclasses[subclassId]?.name ?: subclassId
-                    }
-                )
-            }
+            secondClasses = resolveSecondClassPreviews(classDef)
         )
     }
 
@@ -198,26 +186,20 @@ class CharacterCreationPreviewService(private val repo: DataRepository) {
         return fragments.joinToString(" | ")
     }
 
-    private fun resolveClassSubclasses(classDef: ClassDef): List<SubclassDef> {
-        val listed = classDef.subclassIds.mapNotNull { repo.subclasses[it] }
-        val inferred = repo.subclasses.values
-            .filter { subclass ->
-                subclass.parentClassId.equals(classDef.id, ignoreCase = true) &&
-                    listed.none { it.id == subclass.id }
+    private fun resolveSecondClassPreviews(classDef: ClassDef): List<SecondClassPreview> {
+        return classDef.secondClassIds
+            .mapNotNull { repo.subclasses[it] }
+            .filter { it.parentClassId.equals(classDef.id, ignoreCase = true) }
+            .distinctBy { it.id }
+            .map { secondClass ->
+                SecondClassPreview(
+                    id = secondClass.id,
+                    name = secondClass.name,
+                    specializations = secondClass.specializationIds.map { specializationId ->
+                        repo.specializations[specializationId]?.name ?: specializationId
+                    }
+                )
             }
-            .sortedBy { it.name }
-        return (listed + inferred).distinctBy { it.id }
-    }
-
-    private fun resolveClassSpecializations(classDef: ClassDef): List<SpecializationDef> {
-        val listed = classDef.specializationIds.mapNotNull { repo.specializations[it] }
-        val inferred = repo.specializations.values
-            .filter { specialization ->
-                specialization.parentClassId.equals(classDef.id, ignoreCase = true) &&
-                    listed.none { it.id == specialization.id }
-            }
-            .sortedBy { it.name }
-        return (listed + inferred).distinctBy { it.id }
     }
 
     private fun getAttr(attrs: Attributes, code: String): Int = when (code) {

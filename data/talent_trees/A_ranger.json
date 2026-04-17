@@ -1,0 +1,307 @@
+{
+    "id": "A_ranger",
+    "classId": "archer",
+    "tier": 2,
+    "unlockLevel": 25,
+    "requirements": [
+        {
+            "type": "SUBCLASS_ID",
+            "expectedValue": "ranger"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "A_ranger_nature_mastery",
+            "name": "Maestria da Natureza",
+            "description": "Fortalece sua recuperacao em lutas longas. Efeito pratico: aumenta regeneracao de vida.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "hpRegen": 0.8
+                    }
+                }
+            },
+            "tags": [
+                "archer",
+                "ranger",
+                "sustain"
+            ]
+        },
+        {
+            "id": "A_ranger_windstep",
+            "name": "Pe de Vento",
+            "description": "Movimento leve e constante para kitear com seguranca.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "evasion": 1.0
+                    },
+                    "derivedMult": {
+                        "moveSpeed": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "archer",
+                "ranger",
+                "mobility"
+            ]
+        },
+        {
+            "id": "A_ranger_beast_companion",
+            "name": "Companheiro de Besta",
+            "description": "Aprimora sua cacada em dupla. Efeito pratico: como o sistema nao usa pet em combate, o bonus vira dano e velocidade do proprio arqueiro.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_ranger_nature_mastery",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damagePhysical": 2.0
+                    },
+                    "derivedMult": {
+                        "attackSpeed": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "archer",
+                "ranger",
+                "offense"
+            ]
+        },
+        {
+            "id": "A_ranger_longbow_mastery",
+            "name": "Dominio do Arco Longo",
+            "description": "Treino para disparos mais longos e letais. Efeito pratico: aumenta dano critico e penetracao fisica.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_ranger_windstep",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "critDamagePct": 5.0,
+                        "penPhysical": 1.0
+                    }
+                }
+            },
+            "tags": [
+                "archer",
+                "ranger",
+                "crit"
+            ]
+        },
+        {
+            "id": "A_ranger_ricochet_arrow",
+            "name": "Flecha Ricochete",
+            "description": "A flecha desvia melhor entre alvos. Efeito pratico: mais dano direto e ganho de barra ao acertar.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damagePhysical": 1.0
+                    }
+                },
+                "atb": {
+                    "barGainOnHitPct": 2.0
+                }
+            },
+            "tags": [
+                "archer",
+                "ranger",
+                "tempo"
+            ]
+        },
+        {
+            "id": "A_ranger_wild_vigor",
+            "name": "Vigor Selvagem",
+            "description": "Mantem sua energia de combate sempre alta.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "hpRegen": 0.4
+                    }
+                },
+                "atb": {
+                    "fillRatePct": 3.0
+                }
+            },
+            "tags": [
+                "archer",
+                "ranger",
+                "tempo"
+            ]
+        },
+        {
+            "id": "A_ranger_explosive_shot",
+            "name": "Tiro Explosivo",
+            "description": "Flecha com impacto em area. Efeito pratico: dano principal com explosao adicional em ranks altos e BURNING.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_ranger_beast_companion",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "A_ranger_explosive_shot",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 14.0,
+                    "cooldownSeconds": 4.0,
+                    "castTimeSeconds": 0.35,
+                    "damageMultiplier": 1.34,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.18,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 0.3,
+                    "aoeUnlockRank": 3.0,
+                    "aoeBonusDamagePct": 35.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "BURNING",
+                        "chancePct": 45.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 2.6,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Tiro Explosivo"
+                    }
+                ]
+            },
+            "tags": [
+                "archer",
+                "ranger",
+                "active",
+                "burning"
+            ]
+        },
+        {
+            "id": "A_ranger_forest_call",
+            "name": "Chamado da Floresta",
+            "description": "Raizes e investidas da mata prendem o alvo. Efeito pratico: dano moderado com SLOW confiavel.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_ranger_longbow_mastery",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "A_ranger_forest_call",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 13.0,
+                    "cooldownSeconds": 4.3,
+                    "castTimeSeconds": 0.45,
+                    "damageMultiplier": 1.12,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.14,
+                    "cooldownPerRank": -0.1,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 1.5
+                },
+                "applyStatuses": [
+                    {
+                        "type": "SLOW",
+                        "chancePct": 65.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 15.0,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Chamado da Floresta"
+                    }
+                ]
+            },
+            "tags": [
+                "archer",
+                "ranger",
+                "active",
+                "control"
+            ]
+        }
+    ]
+}
