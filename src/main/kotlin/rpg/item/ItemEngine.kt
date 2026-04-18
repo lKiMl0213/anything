@@ -13,8 +13,9 @@ class ItemEngine(
 ) {
     fun generateItem(level: Int, dropTier: Int, forcedRarity: ItemRarity? = null): ItemInstance {
         val templates = availableTemplates(dropTier)
-        val template = templates.random(rng)
-        val rarity = forcedRarity ?: ItemRarity.roll(rng)
+        val template = pickWeightedTemplate(templates)
+        val rolledRarity = forcedRarity ?: ItemRarity.roll(rng)
+        val rarity = ItemRarity.clamp(rolledRarity, template.rarity, template.maxRarity)
         return ItemGenerator.generate(template, level, rarity, rng, affixes)
     }
 
@@ -24,6 +25,18 @@ class ItemEngine(
     }
 
     fun generateFromTemplate(template: ItemTemplateDef, level: Int, rarity: ItemRarity): ItemInstance {
-        return ItemGenerator.generate(template, level, rarity, rng, affixes)
+        val clampedRarity = ItemRarity.clamp(rarity, template.rarity, template.maxRarity)
+        return ItemGenerator.generate(template, level, clampedRarity, rng, affixes)
+    }
+
+    private fun pickWeightedTemplate(templates: List<ItemTemplateDef>): ItemTemplateDef {
+        if (templates.size <= 1) return templates.first()
+        val total = templates.sumOf { it.dropWeight.coerceAtLeast(1) }
+        var roll = rng.nextInt(total)
+        for (template in templates) {
+            roll -= template.dropWeight.coerceAtLeast(1)
+            if (roll < 0) return template
+        }
+        return templates.first()
     }
 }

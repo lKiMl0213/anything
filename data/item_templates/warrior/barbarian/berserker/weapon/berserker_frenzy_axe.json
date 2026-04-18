@@ -1,0 +1,37 @@
+{
+    "id":  "berserker_frenzy_axe",
+    "name":  "Machado de Frenesi",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{berserker}",
+                 "axe",
+                 "two_handed",
+                 "berserker"
+             ],
+    "lootTags":  [
+                     "war",
+                     "berserker",
+                     "swordman"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "twoHanded":  true,
+    "baseScaling":  8.6,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  4,
+    "vendorBaseValue":  60,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "crit",
+                           "atk_speed",
+                           "piercing",
+                           "fervor",
+                           "warcry",
+                           "vampiric"
+                       ],
+    "description":  "Machado descontrolado para picos de dano, critico e massacre continuo."
+}

@@ -1,0 +1,41 @@
+{
+    "id":  "m_elementalist_elemental_master_boots_template",
+    "name":  "Sandalias do Mestre Elemental",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{elemental_master}",
+                 "class_set",
+                 "set:elemental_master",
+                 "armor_cloth",
+                 "boots"
+             ],
+    "lootTags":  [
+                     "wilds",
+                     "elemental",
+                     "elemental_master",
+                     "mage",
+                     "drop_tier:4"
+                 ],
+    "slot":  "BOOTS",
+    "baseScaling":  5.6,
+    "baseStat":  "DEF_MAGIC",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  30,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "vit",
+                           "mp",
+                           "regen",
+                           "warding",
+                           "runeshield",
+                           "spellflux",
+                           "insight",
+                           "cdr"
+                       ],
+    "description":  "Equipamento de Mestre Elemental focado em controle, resistencia elemental e combinacao de afinidades."
+}

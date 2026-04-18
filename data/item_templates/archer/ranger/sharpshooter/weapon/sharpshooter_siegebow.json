@@ -1,0 +1,38 @@
+{
+    "id":  "sharpshooter_siegebow",
+    "name":  "Arco de Cerco",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{sharpshooter}",
+                 "bow",
+                 "two_handed",
+                 "ranged",
+                 "precision"
+             ],
+    "lootTags":  [
+                     "war",
+                     "sharpshooter",
+                     "archer"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "twoHanded":  true,
+    "baseScaling":  8.5,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  4,
+    "vendorBaseValue":  58,
+    "allowedAffixes":  [
+                           "dex",
+                           "crit",
+                           "accuracy",
+                           "precision",
+                           "piercing",
+                           "marksman",
+                           "deadeye",
+                           "fervor"
+                       ],
+    "description":  "Arco de elite calibrado para disparos de longa distancia e perfuracao."
+}

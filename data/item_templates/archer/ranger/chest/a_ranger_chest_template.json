@@ -1,0 +1,43 @@
+{
+    "id":  "a_ranger_chest_template",
+    "name":  "Jaco do Ranger",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "RARE",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{ranger}",
+                 "class_set",
+                 "set:ranger",
+                 "armor_light",
+                 "leather"
+             ],
+    "lootTags":  [
+                     "wilds",
+                     "beast",
+                     "ranger",
+                     "archer",
+                     "nature",
+                     "drop_tier:2"
+                 ],
+    "slot":  "CHEST",
+    "baseScaling":  5.8,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  2,
+    "dropWeight":  6,
+    "vendorBaseValue":  26,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "vit",
+                           "hp",
+                           "def",
+                           "accuracy",
+                           "atk_speed",
+                           "evasion",
+                           "precision",
+                           "recovery",
+                           "stalker"
+                       ],
+    "description":  "Equipamento de Ranger focado em mobilidade, sustain e combate em campo aberto."
+}

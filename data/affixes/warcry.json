@@ -1,0 +1,21 @@
+{
+    "id":  "warcry",
+    "name":  "do Brado",
+    "kind":  "SPECIAL",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "damagePhysical":  8,
+                                       "hpMax":  30,
+                                       "tenacityPct":  6
+                                   }
+                },
+    "cost":  0,
+    "weight":  2,
+    "minRarity":  "EPIC",
+    "requiredTagsAny":  [
+                            "sword",
+                            "axe",
+                            "guard",
+                            "barbarian"
+                        ]
+}

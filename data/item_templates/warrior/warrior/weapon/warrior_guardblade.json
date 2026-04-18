@@ -1,0 +1,37 @@
+{
+    "id":  "warrior_guardblade",
+    "name":  "Lamina de Guarda",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "COMMON",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{warrior}",
+                 "sword",
+                 "blade",
+                 "guard"
+             ],
+    "lootTags":  [
+                     "war",
+                     "warrior",
+                     "swordman"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "baseScaling":  6.5,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  2,
+    "dropWeight":  10,
+    "vendorBaseValue":  29,
+    "allowedAffixes":  [
+                           "str",
+                           "dex",
+                           "vit",
+                           "crit",
+                           "def",
+                           "tenacity",
+                           "piercing",
+                           "fervor",
+                           "warcry"
+                       ],
+    "description":  "Espada de patrulha equilibrada entre controle e pressao de linha."
+}

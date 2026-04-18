@@ -1,0 +1,35 @@
+{
+    "id":  "sharpshooter_siege_quiver",
+    "name":  "Aljava de Precisao",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "LEGENDARY",
+    "tags":  [
+                 "{sharpshooter}",
+                 "quiver",
+                 "ammo_capacity:56",
+                 "precision"
+             ],
+    "lootTags":  [
+                     "war",
+                     "sharpshooter",
+                     "archer"
+                 ],
+    "slot":  "ALJAVA",
+    "baseScaling":  3.8,
+    "baseStat":  "CRIT_CHANCE",
+    "dropTier":  4,
+    "dropWeight":  4,
+    "vendorBaseValue":  46,
+    "allowedAffixes":  [
+                           "dex",
+                           "accuracy",
+                           "crit",
+                           "precision",
+                           "deadeye",
+                           "marksman",
+                           "quivercraft"
+                       ],
+    "description":  "Compartimentos firmes para municao cara e altamente calibrada."
+}

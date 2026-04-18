@@ -1,7 +1,13 @@
-﻿SPECIALIZATIONS
+SPECIALIZATIONS
 
 Pasta: data/specializations
 Cada arquivo JSON segue o modelo SpecializationDef.
+
+Organizacao atual:
+- A pasta aceita subpastas recursivas.
+- Estrutura recomendada:
+  - `data/specializations/<classe_base>/<segunda_classe>/<especializacao>.json`
+- Isso preserva a hierarquia `classe base -> segunda classe -> especializacao` na navegacao.
 
 Campos:
 - id: string
@@ -13,18 +19,3 @@ Campos:
 - growth: Attributes
 - autoPointWeights: Attributes
 - talentTreeId: string (opcional)
-
-Regras:
-- Especializacao e um nivel acima da 2a classe.
-- Classe base e 2a classe continuam ativas.
-- Cada especializacao pertence a uma unica 2a classe.
-- Arvore de especializacao e habilitada via TalentTreeV2 + requirement SPECIALIZATION_ID.
-
-Convencao atual de `talentTreeId`:
-- `A_hunter_bounty_hunter`, `A_hunter_assassin`
-- `A_ranger_sharpshooter`, `A_ranger_shadow_hunter`
-- `M_arcanist_archmage`, `M_arcanist_cleric`
-- `M_elementalist_pyromancer`, `M_elementalist_elemental_master`
-- `S_warrior_paladin`, `S_warrior_elite_guard`
-- `S_barbarian_predator`, `S_barbarian_berserker`
-

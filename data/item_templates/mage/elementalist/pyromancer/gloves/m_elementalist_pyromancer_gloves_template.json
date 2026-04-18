@@ -1,0 +1,40 @@
+{
+    "id":  "m_elementalist_pyromancer_gloves_template",
+    "name":  "Luvas do Piromante",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{pyromancer}",
+                 "class_set",
+                 "set:pyromancer",
+                 "armor_cloth",
+                 "gloves"
+             ],
+    "lootTags":  [
+                     "wilds",
+                     "elemental",
+                     "fire",
+                     "pyromancer",
+                     "mage",
+                     "drop_tier:4"
+                 ],
+    "slot":  "GLOVES",
+    "baseScaling":  5.8,
+    "baseStat":  "MP_MAX",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  31,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "crit",
+                           "mp",
+                           "spellflux",
+                           "arcane_burst",
+                           "insight",
+                           "cdr"
+                       ],
+    "description":  "Equipamento de Piromante focado em dano de fogo, queimadura e pressao agressiva."
+}

@@ -1,0 +1,42 @@
+{
+    "id":  "s_warrior_paladin_legs_template",
+    "name":  "Grevas do Paladino",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{paladin}",
+                 "class_set",
+                 "set:paladin",
+                 "armor_plate",
+                 "legs"
+             ],
+    "lootTags":  [
+                     "crypt",
+                     "undead",
+                     "paladin",
+                     "holy",
+                     "swordman",
+                     "drop_tier:4"
+                 ],
+    "slot":  "LEGS",
+    "baseScaling":  7,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  40,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "spr",
+                           "hp",
+                           "def",
+                           "tenacity",
+                           "guardian",
+                           "bastion",
+                           "recovery",
+                           "warding"
+                       ],
+    "description":  "Equipamento de Paladino focado em mitigacao, resistencia e ofensiva sagrada."
+}

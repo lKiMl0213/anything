@@ -1,0 +1,18 @@
+{
+    "id":  "arrow_mithril",
+    "name":  "Flecha de Mithril",
+    "tags":  [
+                 "ammo",
+                 "arrow"
+             ],
+    "value":  9,
+    "type":  "MATERIAL",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "damagePhysical":  6,
+                                       "accuracy":  4,
+                                       "critChancePct":  1.5
+                                   }
+                },
+    "description":  "Flecha leve e precisa, ideal para tiros de alto valor."
+}

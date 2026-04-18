@@ -3,6 +3,13 @@ SUBCLASSES
 Pasta: data/subclasses
 Cada arquivo JSON segue o modelo SubclassDef.
 
+Organizacao atual:
+- A pasta aceita subpastas recursivas.
+- Estrutura recomendada por classe base:
+  - `data/subclasses/archer/...`
+  - `data/subclasses/mage/...`
+  - `data/subclasses/warrior/...`
+
 Campos:
 - id: string
 - name: string
@@ -13,19 +20,3 @@ Campos:
 - autoPointWeights: Attributes
 - specializationIds: [string] (opcional)
 - talentTreeId: string (opcional)
-
-Exemplo:
-{
-  "id": "warrior",
-  "name": "Guerreiro",
-  "parentClassId": "swordman",
-  "bonuses": { "attributes": { "str": 2 } },
-  "growth": { "str": 2 },
-  "autoPointWeights": { "str": 3 },
-  "specializationIds": ["paladin", "elite_guard"],
-  "talentTreeId": "S_warrior"
-}
-
-Convencao atual de `talentTreeId`:
-- 2a classe: `A_hunter`, `A_ranger`, `M_arcanist`, `M_elementalist`, `S_warrior`, `S_barbarian`
-

@@ -6,6 +6,7 @@ import kotlin.random.Random
 import rpg.classsystem.AttributeEngine
 import rpg.classsystem.ClassSystem
 import rpg.inventory.InventorySystem
+import rpg.item.ItemGenerator
 import rpg.io.DataRepository
 import rpg.item.ItemRarity
 import rpg.model.Bonuses
@@ -515,15 +516,30 @@ class ClassQuestService(
         }
 
         for (slot in reward.equipmentSlots) {
-            val generated = buildQuestSetEquipment(
-                player = updatedPlayer,
+            val rewardItemId = classQuestRewardItemId(
                 definition = context.definition,
                 pathId = context.progress.chosenPath ?: continue,
-                slot = slot,
-                stage = stage.stage
-            )
-            updatedInstances[generated.id] = generated
-            incomingItems += generated.id
+                slot = slot
+            ) ?: continue
+            val template = itemRegistry.template(rewardItemId)
+            if (template != null) {
+                val generated = ItemGenerator.generate(
+                    template = template,
+                    level = updatedPlayer.level.coerceAtLeast(template.minLevel),
+                    rarity = classQuestRewardRarity(
+                        templateMinRarity = template.rarity,
+                        templateMaxRarity = template.maxRarity,
+                        unlockType = context.definition.unlockType,
+                        stage = stage.stage
+                    ),
+                    rng = rng,
+                    affixPool = repo.affixes
+                )
+                updatedInstances[generated.id] = generated
+                incomingItems += generated.id
+            } else if (itemExists(rewardItemId)) {
+                incomingItems += rewardItemId
+            }
         }
 
         val insert = InventorySystem.addItemsWithLimit(
@@ -544,7 +560,11 @@ class ClassQuestService(
             granted[canonical] = (granted[canonical] ?: 0) + 1
         }
 
-        updatedPlayer = updatedPlayer.copy(inventory = insert.inventory)
+        updatedPlayer = updatedPlayer.copy(
+            inventory = insert.inventory,
+            quiverInventory = insert.quiverInventory,
+            selectedAmmoTemplateId = insert.selectedAmmoTemplateId
+        )
         val stageName = "Etapa ${stage.stage}"
         val messages = mutableListOf(
             "$stageName: +${reward.xp} XP, +${reward.gold} ouro e recompensas recebidas."
@@ -558,71 +578,6 @@ class ClassQuestService(
             itemInstances = updatedInstances.toMap(),
             messages = messages,
             grantedItems = granted
-        )
-    }
-
-    private fun buildQuestSetEquipment(
-        player: PlayerState,
-        definition: ClassQuestDefinition,
-        pathId: String,
-        slot: EquipSlot,
-        stage: Int
-    ): ItemInstance {
-        val normalizedPath = pathId.lowercase()
-        val basePower = player.level.coerceAtLeast(1).toDouble() *
-            if (definition.unlockType == ClassQuestUnlockType.SUBCLASS) 1.05 else 1.35
-
-        val derived = when (slot) {
-            EquipSlot.HEAD -> DerivedStats(defPhysical = basePower * 0.9, hpMax = basePower * 2.0)
-            EquipSlot.CHEST -> DerivedStats(defPhysical = basePower * 1.4, hpMax = basePower * 3.0)
-            EquipSlot.LEGS -> DerivedStats(defPhysical = basePower * 1.1, hpMax = basePower * 2.3)
-            EquipSlot.GLOVES -> {
-                if (isMagicPath(normalizedPath, definition.classId)) {
-                    DerivedStats(damageMagic = basePower * 0.8, attackSpeed = basePower * 0.02)
-                } else {
-                    DerivedStats(damagePhysical = basePower * 0.8, attackSpeed = basePower * 0.02)
-                }
-            }
-            EquipSlot.BOOTS -> DerivedStats(defPhysical = basePower * 0.8, moveSpeed = basePower * 0.03)
-            EquipSlot.WEAPON_MAIN -> {
-                if (isMagicPath(normalizedPath, definition.classId)) {
-                    DerivedStats(damageMagic = basePower * 2.6, mpMax = basePower * 1.4)
-                } else {
-                    DerivedStats(damagePhysical = basePower * 2.6, hpMax = basePower * 1.4)
-                }
-            }
-            else -> DerivedStats(defPhysical = basePower * 0.7)
-        }
-
-        val slotName = if (slot == EquipSlot.WEAPON_MAIN) {
-            pathWeaponName(definition.unlockType, normalizedPath, definition.classId)
-        } else {
-            slotDisplayName(slot)
-        }
-        val questKind = if (definition.unlockType == ClassQuestUnlockType.SUBCLASS) "2a Classe" else "Especializacao"
-        val pathName = pathName(definition.unlockType, normalizedPath)
-        val templateId = "class_quest_${definition.classId}_${definition.unlockType.name.lowercase()}_${normalizedPath}_${slot.name.lowercase()}"
-        val tags = listOf(
-            ClassQuestTagRules.classTagLiteral(normalizedPath),
-            "classLocked:${definition.classId}",
-            "pathLocked:$normalizedPath",
-            "questReward:true",
-            "sellValue:1"
-        )
-        return ItemInstance(
-            id = UUID.randomUUID().toString(),
-            templateId = templateId,
-            name = "$slotName de $pathName",
-            level = player.level.coerceAtLeast(1),
-            minLevel = player.level.coerceAtLeast(1),
-            rarity = ItemRarity.RARE,
-            type = ItemType.EQUIPMENT,
-            slot = slot,
-            twoHanded = false,
-            tags = tags,
-            bonuses = Bonuses(derivedAdd = derived),
-            value = 1,
-            description = "Recompensa da quest de $questKind (etapa $stage)."
         )
     }
 
@@ -1168,14 +1123,22 @@ class ClassQuestService(
             pathAName = pathName(unlockType, pathA),
             pathB = pathB,
             pathBName = pathName(unlockType, pathB),
-            stages = stageDefinitions(unlockType)
+            stages = stageDefinitions(unlockType, classDef.id)
         )
     }
 
-    private fun stageDefinitions(unlockType: ClassQuestUnlockType): List<ClassQuestStageDefinition> {
+    private fun stageDefinitions(
+        unlockType: ClassQuestUnlockType,
+        classId: String
+    ): List<ClassQuestStageDefinition> {
         val collectStage2 = if (unlockType == ClassQuestUnlockType.SUBCLASS) 15 else 20
         val collectStage4 = if (unlockType == ClassQuestUnlockType.SUBCLASS) 20 else 25
         val killStage4 = if (unlockType == ClassQuestUnlockType.SUBCLASS) 20 else 30
+        val finalStageSlots = if (classId.lowercase() == "archer") {
+            listOf(EquipSlot.WEAPON_MAIN, EquipSlot.ALJAVA)
+        } else {
+            listOf(EquipSlot.WEAPON_MAIN)
+        }
         return listOf(
             ClassQuestStageDefinition(
                 stage = 1,
@@ -1185,19 +1148,19 @@ class ClassQuestService(
             ClassQuestStageDefinition(
                 stage = 2,
                 collectTarget = collectStage2,
-                reward = stageReward(unlockType, stage = 2, equipment = listOf(EquipSlot.CHEST, EquipSlot.LEGS))
+                reward = stageReward(unlockType, stage = 2, equipment = listOf(EquipSlot.CHEST, EquipSlot.GLOVES))
             ),
             ClassQuestStageDefinition(
                 stage = 3,
                 bossKillTarget = 10,
-                reward = stageReward(unlockType, stage = 3, equipment = listOf(EquipSlot.GLOVES, EquipSlot.BOOTS))
+                reward = stageReward(unlockType, stage = 3, equipment = listOf(EquipSlot.LEGS, EquipSlot.BOOTS))
             ),
             ClassQuestStageDefinition(
                 stage = 4,
                 collectTarget = collectStage4,
                 killTarget = killStage4,
                 requiresFinalBoss = true,
-                reward = stageReward(unlockType, stage = 4, equipment = listOf(EquipSlot.WEAPON_MAIN))
+                reward = stageReward(unlockType, stage = 4, equipment = finalStageSlots)
             )
         )
     }
@@ -1307,6 +1270,71 @@ class ClassQuestService(
         EquipSlot.CAPE -> "Capa"
         EquipSlot.BACKPACK -> "Mochila"
         EquipSlot.ACCESSORY -> "Acessorio"
+    }
+
+    private fun classQuestRewardItemId(
+        definition: ClassQuestDefinition,
+        pathId: String,
+        slot: EquipSlot
+    ): String? {
+        val prefix = classQuestRewardPrefix(definition.unlockType, definition.classId, pathId) ?: return null
+        return when (slot) {
+            EquipSlot.HEAD -> "${prefix}_helm_template"
+            EquipSlot.CHEST -> "${prefix}_chest_template"
+            EquipSlot.GLOVES -> "${prefix}_gloves_template"
+            EquipSlot.LEGS -> "${prefix}_legs_template"
+            EquipSlot.BOOTS -> "${prefix}_boots_template"
+            EquipSlot.WEAPON_MAIN -> classQuestWeaponTemplateId(pathId, definition.classId, definition.unlockType)
+                ?: "${prefix}_weapon"
+            EquipSlot.ALJAVA -> classQuestQuiverTemplateId(pathId)
+                ?: "${prefix}_quiver"
+            else -> null
+        }
+    }
+
+    private fun classQuestRewardPrefix(
+        unlockType: ClassQuestUnlockType,
+        classId: String,
+        pathId: String
+    ): String? {
+        val normalizedClassId = classId.lowercase()
+        val normalizedPathId = pathId.lowercase()
+        return when (unlockType) {
+            ClassQuestUnlockType.SUBCLASS -> when (normalizedClassId) {
+                "archer" -> when (normalizedPathId) {
+                    "hunter" -> "a_hunter"
+                    "ranger" -> "a_ranger"
+                    else -> null
+                }
+                "mage" -> when (normalizedPathId) {
+                    "arcanist" -> "m_arcanist"
+                    "elementalist" -> "m_elementalist"
+                    else -> null
+                }
+                "swordman" -> when (normalizedPathId) {
+                    "warrior" -> "s_warrior"
+                    "barbarian" -> "s_barbarian"
+                    else -> null
+                }
+                else -> null
+            }
+
+            ClassQuestUnlockType.SPECIALIZATION -> when (normalizedPathId) {
+                "bounty_hunter" -> "a_hunter_bounty_hunter"
+                "assassin" -> "a_hunter_assassin"
+                "sharpshooter" -> "a_ranger_sharpshooter"
+                "shadow_hunter" -> "a_ranger_shadow_hunter"
+                "archmage" -> "m_arcanist_archmage"
+                "cleric" -> "m_arcanist_cleric"
+                "pyromancer" -> "m_elementalist_pyromancer"
+                "elemental_master" -> "m_elementalist_elemental_master"
+                "paladin" -> "s_warrior_paladin"
+                "elite_guard" -> "s_warrior_elite_guard"
+                "predator" -> "s_barbarian_predator"
+                "berserker" -> "s_barbarian_berserker"
+                else -> null
+            }
+        }
     }
 
     private fun canonicalDungeonPathId(
@@ -1468,6 +1496,70 @@ class ClassQuestService(
 
     private fun containsAny(value: String, vararg tokens: String): Boolean {
         return tokens.any { token -> token in value }
+    }
+
+    private fun classQuestWeaponTemplateId(
+        pathId: String,
+        classId: String,
+        unlockType: ClassQuestUnlockType
+    ): String? {
+        val path = pathId.trim().lowercase()
+        return when (unlockType) {
+            ClassQuestUnlockType.SUBCLASS -> when (path) {
+                "hunter" -> "hunter_trackers_bow"
+                "ranger" -> "ranger_longwatch_bow"
+                "arcanist" -> "arcanist_rune_staff"
+                "elementalist" -> "elementalist_primal_staff"
+                "warrior" -> "warrior_guardblade"
+                "barbarian" -> "barbarian_raider_axe"
+                else -> null
+            }
+            ClassQuestUnlockType.SPECIALIZATION -> when (path) {
+                "bounty_hunter" -> "bounty_writ_bow"
+                "assassin" -> "assassin_fang_bow"
+                "sharpshooter" -> "sharpshooter_siegebow"
+                "shadow_hunter" -> "shadow_hunter_gloombow"
+                "archmage" -> "archmage_comet_staff"
+                "cleric" -> "cleric_sanctified_crozier"
+                "pyromancer" -> "pyromancer_cinder_staff"
+                "elemental_master" -> "elemental_master_conflux_staff"
+                "paladin" -> "paladin_sunblade"
+                "elite_guard" -> "elite_guard_bastion_blade"
+                "predator" -> "predator_ripper_axe"
+                "berserker" -> "berserker_frenzy_axe"
+                else -> when (classId.trim().lowercase()) {
+                    "archer" -> "sharpshooter_siegebow"
+                    "mage" -> "archmage_comet_staff"
+                    "swordman" -> "elite_guard_bastion_blade"
+                    else -> null
+                }
+            }
+        }
+    }
+
+    private fun classQuestQuiverTemplateId(pathId: String): String? {
+        return when (pathId.trim().lowercase()) {
+            "hunter" -> "hunter_field_quiver"
+            "ranger" -> "ranger_wayfarer_quiver"
+            "bounty_hunter" -> "hunter_field_quiver"
+            "assassin" -> "hunter_field_quiver"
+            "sharpshooter" -> "sharpshooter_siege_quiver"
+            "shadow_hunter" -> "shadow_hunter_night_quiver"
+            else -> null
+        }
+    }
+
+    private fun classQuestRewardRarity(
+        templateMinRarity: ItemRarity,
+        templateMaxRarity: ItemRarity,
+        unlockType: ClassQuestUnlockType,
+        stage: Int
+    ): ItemRarity {
+        val target = when (unlockType) {
+            ClassQuestUnlockType.SUBCLASS -> if (stage >= 4) ItemRarity.EPIC else ItemRarity.RARE
+            ClassQuestUnlockType.SPECIALIZATION -> if (stage >= 4) ItemRarity.LEGENDARY else ItemRarity.EPIC
+        }
+        return ItemRarity.clamp(target, templateMinRarity, templateMaxRarity)
     }
 
     private fun itemExists(itemId: String): Boolean {

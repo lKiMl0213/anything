@@ -1,0 +1,30 @@
+{
+  "id": "a_ranger_quiver",
+  "name": "Aljava da Mata",
+  "type": "EQUIPMENT",
+  "slot": "ALJAVA",
+  "minLevel": 25,
+  "rarity": "RARE",
+  "tags": [
+    "{ranger}",
+    "class_set",
+    "set:ranger",
+    "questReward:true",
+    "sellValue:1",
+    "quiver",
+    "ammo_capacity:50"
+  ],
+  "bonuses": {
+    "attributes": {
+      "dex": 1,
+      "agi": 1
+    },
+    "derivedAdd": {
+      "accuracy": 5.0,
+      "attackSpeed": 0.15,
+      "critChancePct": 1.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Ranger focado em mobilidade, sustain e combate em campo aberto."
+}

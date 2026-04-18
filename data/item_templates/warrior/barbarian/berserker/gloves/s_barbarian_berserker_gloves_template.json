@@ -1,0 +1,39 @@
+{
+    "id":  "s_barbarian_berserker_gloves_template",
+    "name":  "Guanteletes do Berserker",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{berserker}",
+                 "class_set",
+                 "set:berserker",
+                 "armor_mail",
+                 "gloves"
+             ],
+    "lootTags":  [
+                     "war",
+                     "beast",
+                     "berserker",
+                     "swordman",
+                     "drop_tier:4"
+                 ],
+    "slot":  "GLOVES",
+    "baseScaling":  5.8,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  31,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "crit",
+                           "atk_speed",
+                           "hp",
+                           "vampiric",
+                           "fervor",
+                           "warcry"
+                       ],
+    "description":  "Equipamento de Berserker focado em all-in ofensivo, critico, velocidade e sustain agressivo."
+}

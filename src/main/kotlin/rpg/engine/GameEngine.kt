@@ -56,6 +56,7 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
     val combatEngine = CombatEngine(
         statsEngine = statsEngine,
         itemResolver = itemResolver,
+        itemRegistry = itemRegistry,
         behaviorEngine = behaviorEngine,
         rng = rng,
         balance = balance,
@@ -278,8 +279,8 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
         }
 
         rareDropPity = if (outcome.rareDropped) 0 else rareDropPity + 1
-        val finalInventory = if (collectToLoot || incomingInventoryIds.isEmpty()) {
-            player.inventory
+        val finalStorage = if (collectToLoot || incomingInventoryIds.isEmpty()) {
+            Triple(player.inventory, player.quiverInventory, player.selectedAmmoTemplateId)
         } else {
             val insert = InventorySystem.addItemsWithLimit(
                 player = player,
@@ -291,10 +292,12 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
             if (rejectedGenerated.isNotEmpty()) {
                 instances = instances - rejectedGenerated.toSet()
             }
-            insert.inventory
+            Triple(insert.inventory, insert.quiverInventory, insert.selectedAmmoTemplateId)
         }
         updatedPlayer = updatedPlayer.copy(
-            inventory = finalInventory,
+            inventory = finalStorage.first,
+            quiverInventory = finalStorage.second,
+            selectedAmmoTemplateId = finalStorage.third,
             rareDropPity = rareDropPity
         )
 

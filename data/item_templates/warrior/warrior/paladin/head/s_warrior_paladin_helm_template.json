@@ -1,0 +1,42 @@
+{
+    "id":  "s_warrior_paladin_helm_template",
+    "name":  "Elmo do Paladino",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{paladin}",
+                 "class_set",
+                 "set:paladin",
+                 "armor_plate",
+                 "helmet"
+             ],
+    "lootTags":  [
+                     "crypt",
+                     "undead",
+                     "paladin",
+                     "holy",
+                     "swordman",
+                     "drop_tier:4"
+                 ],
+    "slot":  "HEAD",
+    "baseScaling":  6.4,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  34,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "spr",
+                           "hp",
+                           "def",
+                           "tenacity",
+                           "guardian",
+                           "bastion",
+                           "recovery",
+                           "warding"
+                       ],
+    "description":  "Equipamento de Paladino focado em mitigacao, resistencia e ofensiva sagrada."
+}

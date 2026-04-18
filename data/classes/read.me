@@ -3,6 +3,15 @@ CLASSES
 Pasta: data/classes
 Cada arquivo JSON segue o modelo ClassDef.
 
+Organizacao atual:
+- A pasta aceita subpastas recursivas.
+- Estrutura recomendada por classe base:
+  - `data/classes/archer/...`
+  - `data/classes/mage/...`
+  - `data/classes/warrior/...`
+- O nome da pasta pode refletir a linha visual mesmo quando o `id` interno for diferente.
+  Exemplo: `swordman` vive em `data/classes/warrior/`.
+
 Campos:
 - id: string
 - name: string
@@ -16,23 +25,3 @@ Campos:
 - secondClassUnlockQuestTemplateId: string (opcional)
 - specializationUnlockLevel: int (opcional, default 50)
 - specializationUnlockQuestTemplateId: string (opcional)
-
-Exemplo:
-{
-  "id": "swordman",
-  "name": "Espadachim",
-  "description": "Combate corpo a corpo.",
-  "bonuses": { "attributes": { "str": 2, "vit": 1 } },
-  "growth": { "str": 2, "vit": 2 },
-  "autoPointWeights": { "str": 3, "vit": 2 },
-  "talentTreeId": "Swordman_base",
-  "secondClassIds": ["warrior", "barbarian"],
-  "secondClassUnlockLevel": 25,
-  "secondClassUnlockQuestTemplateId": "unlock_swordman_subclass_lv25",
-  "specializationUnlockLevel": 50,
-  "specializationUnlockQuestTemplateId": "unlock_swordman_specialization_lv50"
-}
-
-Convencao atual de `talentTreeId`:
-- base: `Archer_base`, `Mage_base`, `Swordman_base`
-

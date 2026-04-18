@@ -1,0 +1,42 @@
+{
+    "id":  "s_warrior_paladin_gloves_template",
+    "name":  "Manoplas do Paladino",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{paladin}",
+                 "class_set",
+                 "set:paladin",
+                 "armor_plate",
+                 "gloves"
+             ],
+    "lootTags":  [
+                     "crypt",
+                     "undead",
+                     "paladin",
+                     "holy",
+                     "swordman",
+                     "drop_tier:4"
+                 ],
+    "slot":  "GLOVES",
+    "baseScaling":  5.8,
+    "baseStat":  "HP_MAX",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  31,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "spr",
+                           "hp",
+                           "def",
+                           "tenacity",
+                           "guardian",
+                           "bastion",
+                           "recovery",
+                           "warding"
+                       ],
+    "description":  "Equipamento de Paladino focado em mitigacao, resistencia e ofensiva sagrada."
+}

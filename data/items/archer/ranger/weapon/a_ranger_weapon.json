@@ -1,0 +1,32 @@
+{
+  "id": "a_ranger_weapon",
+  "name": "Arco da Mata",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 25,
+  "rarity": "RARE",
+  "tags": [
+    "{ranger}",
+    "class_set",
+    "set:ranger",
+    "questReward:true",
+    "sellValue:1",
+    "bow",
+    "two_handed"
+  ],
+  "bonuses": {
+    "attributes": {
+      "dex": 3,
+      "agi": 1
+    },
+    "derivedAdd": {
+      "damagePhysical": 40.0,
+      "accuracy": 10.0,
+      "critChancePct": 3.0,
+      "penPhysical": 3.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Ranger focado em mobilidade, sustain e combate em campo aberto.",
+  "twoHanded": true
+}

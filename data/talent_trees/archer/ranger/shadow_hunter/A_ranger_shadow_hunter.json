@@ -1,0 +1,305 @@
+{
+    "id": "A_ranger_shadow_hunter",
+    "classId": "archer",
+    "tier": 3,
+    "unlockLevel": 50,
+    "requirements": [
+        {
+            "type": "SPECIALIZATION_ID",
+            "expectedValue": "shadow_hunter"
+        }
+    ],
+    "nodes": [
+        {
+            "id": "A_ranger_shadow_hunter_fleeting_shadow",
+            "name": "Sombra Fugaz",
+            "description": "Combina evasao com passos rapidos entre os pontos cegos do inimigo.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "evasion": 1.5
+                    },
+                    "derivedMult": {
+                        "moveSpeed": 2.0
+                    }
+                }
+            },
+            "tags": [
+                "archer",
+                "shadow_hunter",
+                "mobility"
+            ]
+        },
+        {
+            "id": "A_ranger_shadow_hunter_trail_of_the_dead",
+            "name": "Trilha dos Mortos",
+            "description": "Aproveita alvos feridos ou enfraquecidos para amplificar seu dano.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "status": {
+                    "bonusDamageVs.BLEEDING.Pct": 3.0,
+                    "bonusDamageVs.WEAKNESS.Pct": 3.0
+                }
+            },
+            "tags": [
+                "archer",
+                "shadow_hunter",
+                "execution"
+            ]
+        },
+        {
+            "id": "A_ranger_shadow_hunter_ghost_blade",
+            "name": "Lamina Fantasma",
+            "description": "Abre janelas curtas de dano brutal com a lamina oculta.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_ranger_shadow_hunter_fleeting_shadow",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "damagePhysical": 2.0,
+                        "critDamagePct": 4.0
+                    }
+                }
+            },
+            "tags": [
+                "archer",
+                "shadow_hunter",
+                "burst"
+            ]
+        },
+        {
+            "id": "A_ranger_shadow_hunter_shadow_shot",
+            "name": "Tiro Sombrio",
+            "description": "Flechas banhadas em sombras ampliam o sangramento causado.",
+            "nodeType": "PASSIVE",
+            "maxRank": 3,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_ranger_shadow_hunter_trail_of_the_dead",
+                    "minRank": 5
+                }
+            ],
+            "modifiers": {
+                "status": {
+                    "applyChance.BLEEDING.Pct": 5.0,
+                    "duration.BLEEDING.Pct": 8.0
+                }
+            },
+            "tags": [
+                "archer",
+                "shadow_hunter",
+                "bleeding"
+            ]
+        },
+        {
+            "id": "A_ranger_shadow_hunter_silent_path",
+            "name": "Caminho Silencioso",
+            "description": "Diminui sua exposicao e economiza recursos durante a perseguicao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "bonuses": {
+                    "derivedAdd": {
+                        "evasion": 1.0
+                    },
+                    "derivedMult": {
+                        "moveSpeed": 1.0
+                    }
+                },
+                "atb": {
+                    "noManaCostChancePct": 3.0
+                }
+            },
+            "tags": [
+                "archer",
+                "shadow_hunter",
+                "resource"
+            ]
+        },
+        {
+            "id": "A_ranger_shadow_hunter_poison_expertise",
+            "name": "Perito em Veneno",
+            "description": "Suas armas espalham toxinas com mais frequencia e duracao.",
+            "nodeType": "PASSIVE",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                1,
+                1
+            ],
+            "modifiers": {
+                "status": {
+                    "applyChance.POISONED.Pct": 4.0,
+                    "duration.POISONED.Pct": 5.0
+                }
+            },
+            "tags": [
+                "archer",
+                "shadow_hunter",
+                "poison"
+            ]
+        },
+        {
+            "id": "A_ranger_shadow_hunter_shadow_rift",
+            "name": "Fenda das Sombras",
+            "description": "Avanca pelas sombras e acerta varios alvos em sequencia. Efeito pratico: ataque forte com dano adicional de area em ranks altos e BLEEDING.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_ranger_shadow_hunter_ghost_blade",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "A_ranger_shadow_hunter_shadow_rift",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 14.0,
+                    "cooldownSeconds": 4.1,
+                    "castTimeSeconds": 0.2,
+                    "damageMultiplier": 1.44,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.16,
+                    "cooldownPerRank": -0.1,
+                    "aoeUnlockRank": 3.0,
+                    "aoeBonusDamagePct": 25.0,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 0.001,
+                    "statusMaxStacksPerRank": 1.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "BLEEDING",
+                        "chancePct": 50.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 0.0065,
+                        "stackable": true,
+                        "maxStacks": 2,
+                        "source": "Fenda das Sombras"
+                    }
+                ]
+            },
+            "tags": [
+                "archer",
+                "shadow_hunter",
+                "active",
+                "bleeding"
+            ]
+        },
+        {
+            "id": "A_ranger_shadow_hunter_dark_rain",
+            "name": "Chuva Sombria",
+            "description": "Dispara flechas em area envoltas por toxinas e penumbra.",
+            "nodeType": "ACTIVE_SKILL",
+            "maxRank": 5,
+            "currentRank": 0,
+            "costPerRank": [
+                1,
+                1,
+                1,
+                2,
+                2
+            ],
+            "prerequisites": [
+                {
+                    "nodeId": "A_ranger_shadow_hunter_shadow_shot",
+                    "minRank": 3
+                }
+            ],
+            "unlocksSkillId": "A_ranger_shadow_hunter_dark_rain",
+            "modifiers": {
+                "combat": {
+                    "mpCost": 15.0,
+                    "cooldownSeconds": 4.7,
+                    "castTimeSeconds": 0.45,
+                    "damageMultiplier": 1.24,
+                    "damageTypeMagic": 0.0,
+                    "damageMultiplierPerRank": 0.15,
+                    "cooldownPerRank": -0.1,
+                    "aoeUnlockRank": 2.0,
+                    "aoeBonusDamagePct": 40.0,
+                    "statusChancePerRankPct": 4.0,
+                    "statusDurationPerRankSeconds": 0.2,
+                    "statusEffectPerRank": 0.3,
+                    "ammoCost": 2.0
+                },
+                "applyStatuses": [
+                    {
+                        "type": "POISONED",
+                        "chancePct": 55.0,
+                        "durationSeconds": 4.0,
+                        "tickIntervalSeconds": 1.0,
+                        "effectValue": 2.4,
+                        "stackable": false,
+                        "maxStacks": 1,
+                        "source": "Chuva Sombria"
+                    }
+                ]
+            },
+            "tags": [
+                "archer",
+                "shadow_hunter",
+                "active",
+                "poison"
+            ]
+        }
+    ]
+}

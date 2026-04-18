@@ -1,0 +1,18 @@
+{
+  "id": "undead_relics",
+  "baseChancePct": 44.0,
+  "entries": [
+    { "itemId": "cracked_bone", "category": "COMMON_MATERIAL", "chancePct": 18, "minQty": 1, "maxQty": 3, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "bone_dust", "category": "COMMON_MATERIAL", "chancePct": 12, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "rotten_shroud", "category": "COMMON_SELL", "chancePct": 10, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "broken_skull", "category": "COMMON_SELL", "chancePct": 10, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "dark_essence", "category": "UNCOMMON_MATERIAL", "chancePct": 9, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "profaned_medallion", "category": "QUEST_ITEM", "chancePct": 5, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "potion_small", "category": "CONSUMABLE", "chancePct": 5, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "ether_small", "category": "CONSUMABLE", "chancePct": 4, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "runic_core", "category": "RARE_COMPONENT", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "EPIC" },
+    { "templateIds": ["bone_bow", "bone_shield", "shadow_robe"], "category": "EQUIPMENT_DROP", "chancePct": 4, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "EPIC" },
+    { "templateIds": ["cleric_sanctified_crozier", "paladin_sunblade", "paladin_aegis_shield"], "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "LEGENDARY", "minMonsterLevel": 45 },
+    { "templateIds": ["warded_loop", "bastion_sigil", "amber_pendant"], "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "UNCOMMON", "maxRarity": "EPIC" }
+  ]
+}

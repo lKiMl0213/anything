@@ -1,0 +1,42 @@
+{
+    "id":  "a_hunter_assassin_boots_template",
+    "name":  "Botas do Assassino",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{assassin}",
+                 "class_set",
+                 "set:assassin",
+                 "armor_light",
+                 "boots"
+             ],
+    "lootTags":  [
+                     "city",
+                     "shadow",
+                     "thief",
+                     "assassin",
+                     "archer",
+                     "drop_tier:4"
+                 ],
+    "slot":  "BOOTS",
+    "baseScaling":  5.6,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  30,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "crit",
+                           "atk_speed",
+                           "evasion",
+                           "precision",
+                           "stalker",
+                           "shadowstep",
+                           "vampiric",
+                           "deadeye"
+                       ],
+    "description":  "Equipamento de Assassino focado em burst, veneno, evasao e finalizacao rapida."
+}

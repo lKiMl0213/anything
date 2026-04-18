@@ -1,0 +1,41 @@
+{
+    "id":  "a_ranger_sharpshooter_boots_template",
+    "name":  "Botas do Atirador de Elite",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{sharpshooter}",
+                 "class_set",
+                 "set:sharpshooter",
+                 "armor_light",
+                 "boots"
+             ],
+    "lootTags":  [
+                     "city",
+                     "war",
+                     "humanoid",
+                     "sharpshooter",
+                     "archer",
+                     "drop_tier:4"
+                 ],
+    "slot":  "BOOTS",
+    "baseScaling":  5.6,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  30,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "crit",
+                           "accuracy",
+                           "precision",
+                           "marksman",
+                           "deadeye",
+                           "atk_speed",
+                           "hp"
+                       ],
+    "description":  "Equipamento de Atirador de Elite focado em alcance, perfuracao, critico e precisao absoluta."
+}

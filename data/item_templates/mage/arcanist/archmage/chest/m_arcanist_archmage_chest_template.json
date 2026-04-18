@@ -1,0 +1,41 @@
+{
+    "id":  "m_arcanist_archmage_chest_template",
+    "name":  "Manto do Arquimago",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{archmage}",
+                 "class_set",
+                 "set:archmage",
+                 "armor_cloth",
+                 "robe"
+             ],
+    "lootTags":  [
+                     "necropolis",
+                     "construct",
+                     "arcane",
+                     "archmage",
+                     "mage",
+                     "drop_tier:4"
+                 ],
+    "slot":  "CHEST",
+    "baseScaling":  7.6,
+    "baseStat":  "DEF_MAGIC",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  44,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "mp",
+                           "crit",
+                           "spellflux",
+                           "insight",
+                           "arcane_burst",
+                           "cdr",
+                           "runeshield"
+                       ],
+    "description":  "Equipamento de Arquimago focado em dano magico bruto, alcance de feiticos e sobrecarga arcana."
+}

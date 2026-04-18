@@ -1,0 +1,43 @@
+{
+  "id": "s_barbarian_weapon",
+  "name": "Machado Tribal",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 25,
+  "rarity": "RARE",
+  "tags": [
+    "{barbarian}",
+    "class_set",
+    "set:barbarian",
+    "questReward:true",
+    "sellValue:1",
+    "axe",
+    "two_handed"
+  ],
+  "bonuses": {
+    "attributes": {
+      "str": 4,
+      "dex": 1
+    },
+    "derivedAdd": {
+      "damagePhysical": 46.0,
+      "critChancePct": 3.0,
+      "critDamagePct": 14.0,
+      "penPhysical": 5.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Barbaro focado em impacto brutal, velocidade ofensiva e dano direto.",
+  "twoHanded": true,
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "BLEEDING",
+        "chancePct": 10.0,
+        "durationSeconds": 5.0,
+        "effectValue": 0.015,
+        "source": "Machado Tribal"
+      }
+    ]
+  }
+}

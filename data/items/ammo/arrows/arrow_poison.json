@@ -1,0 +1,31 @@
+{
+    "id":  "arrow_poison",
+    "name":  "Flecha Envenenada",
+    "tags":  [
+                 "ammo",
+                 "arrow"
+             ],
+    "value":  7,
+    "type":  "MATERIAL",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "damagePhysical":  3,
+                                       "accuracy":  1
+                                   }
+                },
+    "effects":  {
+                    "applyStatuses":  [
+                                          {
+                                              "type":  "POISONED",
+                                              "chancePct":  30,
+                                              "durationSeconds":  5,
+                                              "tickIntervalSeconds":  1,
+                                              "effectValue":  4,
+                                              "stackable":  false,
+                                              "maxStacks":  1,
+                                              "source":  "Flecha Envenenada"
+                                          }
+                                      ]
+                },
+    "description":  "Municao tratada com toxina fraca, boa para desgaste."
+}

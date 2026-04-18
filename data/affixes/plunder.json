@@ -1,0 +1,19 @@
+{
+    "id":  "plunder",
+    "name":  "do Saque",
+    "kind":  "SUFFIX",
+    "bonuses":  {
+                    "attributes":  {
+                                       "luk":  2
+                                   },
+                    "derivedAdd":  {
+                                       "dropBonusPct":  6,
+                                       "xpGainPct":  4
+                                   }
+                },
+    "cost":  14,
+    "weight":  5,
+    "allowedSlots":  [
+                         "ACCESSORY"
+                     ]
+}

@@ -3,6 +3,7 @@ package rpg.economy
 import kotlin.math.max
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import rpg.item.ItemRarity
 import rpg.model.GameBalanceDef
 import rpg.model.ItemType
 import rpg.model.MapTierDef
@@ -30,7 +31,12 @@ class EconomyEngine(
         return max(1, gold.roundToInt())
     }
 
-    fun sellValue(itemValue: Int, type: ItemType? = null, tags: List<String> = emptyList()): Int {
+    fun sellValue(
+        itemValue: Int,
+        rarity: ItemRarity = ItemRarity.COMMON,
+        type: ItemType? = null,
+        tags: List<String> = emptyList()
+    ): Int {
         if (itemValue <= 0) return 0
         val loweredTags = tags.map { it.lowercase() }.toSet()
         val isCashItem = "cash" in loweredTags || "premium" in loweredTags
@@ -44,6 +50,14 @@ class EconomyEngine(
                 null -> 0.15
             }
         }
-        return max(1, (itemValue * pct).roundToInt())
+        val rarityMultiplier = when (rarity) {
+            ItemRarity.COMMON -> 1.0
+            ItemRarity.UNCOMMON -> 1.12
+            ItemRarity.RARE -> 1.28
+            ItemRarity.EPIC -> 1.55
+            ItemRarity.LEGENDARY -> 2.0
+            ItemRarity.MYTHIC -> 2.8
+        }
+        return max(1, (itemValue * pct * rarityMultiplier).roundToInt())
     }
 }

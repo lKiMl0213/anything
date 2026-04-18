@@ -1,0 +1,7 @@
+{
+    "id":  "sewer_tooth",
+    "name":  "Dente de Esgoto",
+    "type":  "MATERIAL",
+    "value":  3,
+    "description":  "Presa pequena tirada de vermes e ratos contaminados."
+}

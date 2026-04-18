@@ -1,0 +1,31 @@
+{
+  "id": "a_hunter_assassin_quiver",
+  "name": "Aljava Silenciosa",
+  "type": "EQUIPMENT",
+  "slot": "ALJAVA",
+  "minLevel": 50,
+  "rarity": "EPIC",
+  "tags": [
+    "{assassin}",
+    "class_set",
+    "set:assassin",
+    "questReward:true",
+    "sellValue:1",
+    "quiver",
+    "ammo_capacity:55"
+  ],
+  "bonuses": {
+    "attributes": {
+      "dex": 2,
+      "agi": 2
+    },
+    "derivedAdd": {
+      "accuracy": 8.0,
+      "attackSpeed": 0.19,
+      "critChancePct": 3.0,
+      "evasion": 2.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Assassino focado em burst, veneno, evasao e finalizacao rapida."
+}

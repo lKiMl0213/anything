@@ -1,0 +1,39 @@
+{
+    "id":  "s_barbarian_berserker_chest_template",
+    "name":  "Couraca do Berserker",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{berserker}",
+                 "class_set",
+                 "set:berserker",
+                 "armor_mail",
+                 "chest"
+             ],
+    "lootTags":  [
+                     "war",
+                     "beast",
+                     "berserker",
+                     "swordman",
+                     "drop_tier:4"
+                 ],
+    "slot":  "CHEST",
+    "baseScaling":  7.6,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  44,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "crit",
+                           "atk_speed",
+                           "hp",
+                           "vampiric",
+                           "fervor",
+                           "warcry"
+                       ],
+    "description":  "Equipamento de Berserker focado em all-in ofensivo, critico, velocidade e sustain agressivo."
+}

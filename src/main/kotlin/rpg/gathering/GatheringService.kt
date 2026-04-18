@@ -172,7 +172,11 @@ class GatheringService(
             )
         }
 
-        var updatedPlayer = preparedPlayer.copy(inventory = withCapacity.inventory)
+        var updatedPlayer = preparedPlayer.copy(
+            inventory = withCapacity.inventory,
+            quiverInventory = withCapacity.quiverInventory,
+            selectedAmmoTemplateId = withCapacity.selectedAmmoTemplateId
+        )
         val rarityMultiplier = resourceRarityMultiplier(resourceId)
         val xpResult = skillSystem.gainXp(
             player = updatedPlayer,

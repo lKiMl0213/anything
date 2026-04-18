@@ -1,0 +1,35 @@
+{
+    "id":  "paladin_aegis_shield",
+    "name":  "Escudo Consagrado",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "LEGENDARY",
+    "tags":  [
+                 "{paladin}",
+                 "shield",
+                 "holy",
+                 "guard"
+             ],
+    "lootTags":  [
+                     "war",
+                     "paladin",
+                     "swordman"
+                 ],
+    "slot":  "WEAPON_OFF",
+    "baseScaling":  6.8,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  4,
+    "vendorBaseValue":  52,
+    "allowedAffixes":  [
+                           "vit",
+                           "def",
+                           "hp",
+                           "tenacity",
+                           "guardian",
+                           "bastion",
+                           "bulwark"
+                       ],
+    "description":  "Escudo de protecao divina para sustentar a frente da batalha."
+}

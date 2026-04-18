@@ -1,118 +1,17 @@
-﻿TALENT TREES V2
+TALENT TREES V2
 
 Pasta: data/talent_trees
 Cada arquivo JSON segue o modelo TalentTree (nova arquitetura).
 
-Campos de TalentTree:
-- id: string
-- classId: string
-- tier: int
-- nodes: lista de TalentNode
-- unlockLevel: int
-- requirements: lista de TalentRequirement
+Organizacao atual:
+- A pasta aceita subpastas recursivas.
+- Estrutura recomendada:
+  - `data/talent_trees/archer/base/...`
+  - `data/talent_trees/archer/hunter/...`
+  - `data/talent_trees/archer/hunter/assassin/...`
+  - `data/talent_trees/mage/...`
+  - `data/talent_trees/warrior/...`
 
-Campos de TalentNode:
-- id: string
-- name: string
-- description: string
-- nodeType: "ACTIVE_SKILL" | "PASSIVE" | "MODIFIER" | "UPGRADE" | "CHOICE"
-- maxRank: int
-- currentRank: int (opcional, default 0)
-- costPerRank: [int]
-- prerequisites: [{ nodeId, minRank }]
-- exclusiveGroup: string (opcional)
-- unlocksSkillId: string (opcional)
-- modifiers:
-  - bonuses: Bonuses (attributes, derivedAdd, derivedMult)
-  - combat/status/atb/progression: mapas opcionais chave->valor
-  - applyStatuses: [CombatStatusApplyDef] (opcional, para skills)
-- tags: [string]
-
-Campos de TalentRequirement:
-- type:
-  - PLAYER_LEVEL
-  - CLASS_ID
-  - SUBCLASS_ID
-  - SPECIALIZATION_ID
-  - TREE_UNLOCKED
-  - NODE_RANK_AT_LEAST
-- targetId: string
-- expectedValue: string
-- minValue: int
-
-Regras:
-- IDs de nodes devem ser unicos globalmente.
-- Prerequisitos devem apontar para nodes existentes na mesma arvore.
-- Exclusividade e ranks sao validados no dominio (TalentTreeService).
-- Sem hardcode de classe/subclasse/skill no motor.
-
-Convencao de ids:
-- base: `Archer_base`, `Mage_base`, `Swordman_base`
-- 2a classe: `A_*`, `M_*`, `S_*`
-- especializacao: `<linha da 2a classe>_<especializacao>`
-
-Integracao de combate (Bloco 5):
-- `modifiers.atb` aceita chaves numericas (percentuais):
-  - `fillRatePct`
-  - `castTimePct` (negativo reduz tempo de cast)
-  - `gcdPct` (negativo reduz GCD)
-  - `cooldownPct` (negativo reduz cooldown)
-  - `interruptChancePct`
-  - `interruptResistPct`
-  - `barGainOnHitPct`
-  - `barGainOnCritPct`
-  - `barGainOnDamagedPct`
-  - `barLossOnHitPct`
-  - `noManaCostChancePct`
-  - `cooldownReduceOnKillSeconds`
-  - `barGainOnStatusApplyPct`
-  - `tempDamageBuffOnStatusApplyPct`
-  - `tempFillRateBuffOnStatusApplyPct`
-  - `tempBuffDurationSeconds`
-  - `manaOnHit` (flat por hit)
-  - `manaOnHitPctMax` (% do MP max por hit)
-  - `hastePct`
-  - `slowResistPct`
-  - `slowAmplifyPct`
-
-- `modifiers.combat` para ACTIVE_SKILL:
-  - `mpCost`
-  - `cooldownSeconds`
-  - `castTimeSeconds`
-  - `damageMultiplier`
-  - `selfHealFlat` (cura flat no usuario ao resolver a skill)
-  - `selfHealPctMaxHp` (% do HP max curado no usuario)
-  - `damageMultiplierPerRank`
-  - `cooldownPerRank`
-  - `castTimePerRank`
-  - `statusChancePerRankPct`
-  - `statusDurationPerRankSeconds`
-  - `statusEffectPerRank`
-  - `statusMaxStacksPerRank`
-  - `aoeUnlockRank` (milestone)
-  - `aoeBonusDamagePct` (dano adicional quando milestone e atingido)
-
-Integracao de status (Bloco 6):
-- `modifiers.status` aceita chaves globais:
-  - `applyChancePct`
-  - `durationPct`
-  - `incomingDurationPct`
-  - `reflectDamagePct`
-- Chaves por tipo de status (usar enum em ingles, ex: `BURNING`, `POISONED`):
-  - Tipos base + extras atuais: `BURNING`, `FROZEN`, `POISONED`, `PARALYZED`, `BLEEDING`, `WEAKNESS`, `SLOW`, `MARKED`
-  - `applyChance.<STATUS>.Pct`
-  - `duration.<STATUS>.Pct`
-  - `incomingDuration.<STATUS>.Pct`
-  - `consumeChance.<STATUS>.Pct`
-  - `bonusDamageVs.<STATUS>.Pct`
-  - `bonusDamageWhileSelf.<STATUS>.Pct`
-  - `bonusDamageVsLowHpPct`
-  - `lowHpThresholdPct`
-
-Pontos de talento (Bloco 3):
-- Configurados em `data/balance.json` no bloco `talentPoints`.
-- Modos suportados:
-  - `SHARED_POOL`: pool unico global.
-  - `PER_TREE`: pontos separados por arvore.
-- O calculo de pontos ganhos e por nivel do player (data-driven).
-
+Notas:
+- IDs de arvores e nodes continuam sendo a fonte de verdade; a pasta serve para navegacao.
+- Mantenha a hierarquia `base -> segunda classe -> especializacao`.

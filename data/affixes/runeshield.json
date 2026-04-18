@@ -1,0 +1,20 @@
+{
+    "id":  "runeshield",
+    "name":  "do Aegis Runico",
+    "kind":  "SPECIAL",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "defMagic":  10,
+                                       "mpMax":  24,
+                                       "damageReductionPct":  2
+                                   }
+                },
+    "cost":  0,
+    "weight":  2,
+    "minRarity":  "EPIC",
+    "requiredTagsAny":  [
+                            "staff",
+                            "arcane",
+                            "ward"
+                        ]
+}

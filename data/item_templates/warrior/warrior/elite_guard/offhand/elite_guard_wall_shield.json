@@ -1,0 +1,35 @@
+{
+    "id":  "elite_guard_wall_shield",
+    "name":  "Muralha de Elite",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "LEGENDARY",
+    "tags":  [
+                 "{elite_guard}",
+                 "shield",
+                 "guard",
+                 "wall"
+             ],
+    "lootTags":  [
+                     "war",
+                     "elite_guard",
+                     "swordman"
+                 ],
+    "slot":  "WEAPON_OFF",
+    "baseScaling":  7,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  4,
+    "vendorBaseValue":  53,
+    "allowedAffixes":  [
+                           "vit",
+                           "def",
+                           "hp",
+                           "tenacity",
+                           "guardian",
+                           "bastion",
+                           "bulwark"
+                       ],
+    "description":  "Escudo espesso usado para travar corredores e proteger aliados."
+}

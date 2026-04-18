@@ -1,0 +1,42 @@
+{
+  "id": "m_arcanist_weapon",
+  "name": "Cajado Runico",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 25,
+  "rarity": "RARE",
+  "tags": [
+    "{arcanist}",
+    "class_set",
+    "set:arcanist",
+    "questReward:true",
+    "sellValue:1",
+    "staff",
+    "focus"
+  ],
+  "bonuses": {
+    "attributes": {
+      "int": 3,
+      "spr": 2
+    },
+    "derivedAdd": {
+      "damageMagic": 46.0,
+      "mpMax": 24.0,
+      "penMagic": 5.0,
+      "cdrPct": 4.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Arcanista focado em mana, runas, fluxo arcano e precisao magica.",
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "WEAKNESS",
+        "chancePct": 10.0,
+        "durationSeconds": 4.0,
+        "effectValue": 8.0,
+        "source": "Cajado Runico"
+      }
+    ]
+  }
+}

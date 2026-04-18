@@ -1,0 +1,30 @@
+{
+  "id": "a_hunter_quiver",
+  "name": "Aljava do Predador",
+  "type": "EQUIPMENT",
+  "slot": "ALJAVA",
+  "minLevel": 25,
+  "rarity": "RARE",
+  "tags": [
+    "{hunter}",
+    "class_set",
+    "set:hunter",
+    "questReward:true",
+    "sellValue:1",
+    "quiver",
+    "ammo_capacity:45"
+  ],
+  "bonuses": {
+    "attributes": {
+      "dex": 1,
+      "agi": 1
+    },
+    "derivedAdd": {
+      "accuracy": 7.0,
+      "attackSpeed": 0.1,
+      "critChancePct": 1.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Hunter focado em rastreio, marcacao e perseguicao."
+}

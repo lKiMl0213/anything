@@ -1,0 +1,19 @@
+{
+    "id":  "marksman",
+    "name":  "do Atirador",
+    "kind":  "SPECIAL",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "damagePhysical":  5,
+                                       "accuracy":  8,
+                                       "critDamagePct":  12
+                                   }
+                },
+    "cost":  0,
+    "weight":  3,
+    "minRarity":  "RARE",
+    "requiredTagsAny":  [
+                            "bow",
+                            "quiver"
+                        ]
+}

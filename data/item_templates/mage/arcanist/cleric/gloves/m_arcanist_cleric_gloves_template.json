@@ -1,0 +1,42 @@
+{
+    "id":  "m_arcanist_cleric_gloves_template",
+    "name":  "Luvas do Clerigo",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{cleric}",
+                 "class_set",
+                 "set:cleric",
+                 "armor_cloth",
+                 "gloves"
+             ],
+    "lootTags":  [
+                     "crypt",
+                     "undead",
+                     "holy",
+                     "cleric",
+                     "mage",
+                     "drop_tier:4"
+                 ],
+    "slot":  "GLOVES",
+    "baseScaling":  5.8,
+    "baseStat":  "MP_MAX",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  31,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "vit",
+                           "hp",
+                           "mp",
+                           "regen",
+                           "recovery",
+                           "warding",
+                           "runeshield",
+                           "insight"
+                       ],
+    "description":  "Equipamento de Clerigo focado em sustain, mana, mitigacao e apoio sagrado."
+}

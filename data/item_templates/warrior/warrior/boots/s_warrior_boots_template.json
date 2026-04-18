@@ -1,0 +1,40 @@
+{
+    "id":  "s_warrior_boots_template",
+    "name":  "Botas do Guerreiro",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "RARE",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{warrior}",
+                 "class_set",
+                 "set:warrior",
+                 "armor_plate",
+                 "boots"
+             ],
+    "lootTags":  [
+                     "war",
+                     "humanoid",
+                     "warrior",
+                     "swordman",
+                     "drop_tier:2"
+                 ],
+    "slot":  "BOOTS",
+    "baseScaling":  4.2,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  2,
+    "dropWeight":  6,
+    "vendorBaseValue":  17,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "hp",
+                           "def",
+                           "tenacity",
+                           "guardian",
+                           "bastion",
+                           "crit",
+                           "fervor"
+                       ],
+    "description":  "Equipamento de Guerreiro focado em guarda, disciplina marcial e trocas consistentes."
+}

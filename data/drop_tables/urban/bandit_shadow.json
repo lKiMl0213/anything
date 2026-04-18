@@ -1,0 +1,169 @@
+{
+    "id":  "bandit_shadow",
+    "baseChancePct":  41.0,
+    "entries":  [
+                    {
+                        "itemId":  "chipped_shiv",
+                        "category":  "COMMON_SELL",
+                        "chancePct":  18,
+                        "minQty":  1,
+                        "maxQty":  2,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "COMMON"
+                    },
+                    {
+                        "itemId":  "frayed_mask",
+                        "category":  "COMMON_SELL",
+                        "chancePct":  14,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "COMMON"
+                    },
+                    {
+                        "itemId":  "empty_pouch",
+                        "category":  "COMMON_SELL",
+                        "chancePct":  12,
+                        "minQty":  1,
+                        "maxQty":  2,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "COMMON"
+                    },
+                    {
+                        "itemId":  "rusted_coin",
+                        "category":  "COMMON_SELL",
+                        "chancePct":  18,
+                        "minQty":  2,
+                        "maxQty":  6,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "COMMON"
+                    },
+                    {
+                        "itemId":  "oil",
+                        "category":  "COMMON_MATERIAL",
+                        "chancePct":  8,
+                        "minQty":  1,
+                        "maxQty":  2,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "COMMON"
+                    },
+                    {
+                        "itemId":  "venom",
+                        "category":  "UNCOMMON_MATERIAL",
+                        "chancePct":  6,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "RARE"
+                    },
+                    {
+                        "itemId":  "arrow_simple",
+                        "category":  "COMMON_MATERIAL",
+                        "chancePct":  8,
+                        "minQty":  3,
+                        "maxQty":  8,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "COMMON"
+                    },
+                    {
+                        "itemId":  "potion_small",
+                        "category":  "CONSUMABLE",
+                        "chancePct":  5,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "COMMON"
+                    },
+                    {
+                        "templateIds":  [
+                                            "hunter_trackers_bow",
+                                            "hunter_field_quiver",
+                                            "ranger_longwatch_bow",
+                                            "ranger_wayfarer_quiver"
+                                        ],
+                        "category":  "EQUIPMENT_DROP",
+                        "chancePct":  4,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "UNCOMMON",
+                        "maxRarity":  "EPIC",
+                        "minMonsterLevel":  20
+                    },
+                    {
+                        "templateIds":  [
+                                            "bounty_writ_bow",
+                                            "assassin_fang_bow",
+                                            "sharpshooter_siegebow",
+                                            "sharpshooter_siege_quiver",
+                                            "shadow_hunter_gloombow",
+                                            "shadow_hunter_night_quiver"
+                                        ],
+                        "category":  "EQUIPMENT_DROP",
+                        "chancePct":  2,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "RARE",
+                        "maxRarity":  "LEGENDARY",
+                        "minMonsterLevel":  45
+                    },
+                    {
+                        "templateIds":  [
+                                            "deadeye_medallion",
+                                            "shadowstep_anklet",
+                                            "mist_runner_charm",
+                                            "moonglass_earring"
+                                        ],
+                        "category":  "EQUIPMENT_DROP",
+                        "chancePct":  2,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "UNCOMMON",
+                        "maxRarity":  "EPIC"
+                    },
+                    {
+                        "templateIds":  [
+                                            "hunters_trophy",
+                                            "oracle_eye"
+                                        ],
+                        "category":  "EQUIPMENT_DROP",
+                        "chancePct":  1,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "RARE",
+                        "maxRarity":  "EPIC",
+                        "minMonsterLevel":  35
+                    },
+                    {
+                        "templateIds":  [
+                                            "a_hunter_bounty_hunter_helm_template",
+                                            "a_hunter_bounty_hunter_chest_template",
+                                            "a_hunter_bounty_hunter_gloves_template",
+                                            "a_hunter_bounty_hunter_legs_template",
+                                            "a_hunter_bounty_hunter_boots_template",
+                                            "a_hunter_assassin_helm_template",
+                                            "a_hunter_assassin_chest_template",
+                                            "a_hunter_assassin_gloves_template",
+                                            "a_hunter_assassin_legs_template",
+                                            "a_hunter_assassin_boots_template",
+                                            "a_ranger_sharpshooter_helm_template",
+                                            "a_ranger_sharpshooter_chest_template",
+                                            "a_ranger_sharpshooter_gloves_template",
+                                            "a_ranger_sharpshooter_legs_template",
+                                            "a_ranger_sharpshooter_boots_template",
+                                            "a_ranger_shadow_hunter_helm_template",
+                                            "a_ranger_shadow_hunter_chest_template",
+                                            "a_ranger_shadow_hunter_gloves_template",
+                                            "a_ranger_shadow_hunter_legs_template",
+                                            "a_ranger_shadow_hunter_boots_template"
+                                        ],
+                        "category":  "EQUIPMENT_DROP",
+                        "chancePct":  1.8,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "RARE",
+                        "maxRarity":  "LEGENDARY",
+                        "minMonsterLevel":  45,
+                        "minMapDropTier":  4
+                    }
+                ]
+}

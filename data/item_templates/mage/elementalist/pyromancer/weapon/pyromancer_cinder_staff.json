@@ -1,0 +1,36 @@
+{
+    "id":  "pyromancer_cinder_staff",
+    "name":  "Cajado Cinzaviva",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "LEGENDARY",
+    "tags":  [
+                 "{pyromancer}",
+                 "staff",
+                 "fire",
+                 "elemental"
+             ],
+    "lootTags":  [
+                     "fire",
+                     "pyromancer",
+                     "mage"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "baseScaling":  8.4,
+    "baseStat":  "DAMAGE_MAGIC",
+    "dropTier":  4,
+    "dropWeight":  4,
+    "vendorBaseValue":  57,
+    "allowedAffixes":  [
+                           "int",
+                           "crit",
+                           "mp",
+                           "cdr",
+                           "spellflux",
+                           "arcane_burst",
+                           "focus",
+                           "runesurge"
+                       ],
+    "description":  "Cajado instavel e agressivo para incendiar grupos inteiros."
+}

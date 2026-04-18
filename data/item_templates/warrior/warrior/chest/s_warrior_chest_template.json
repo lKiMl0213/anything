@@ -1,0 +1,40 @@
+{
+    "id":  "s_warrior_chest_template",
+    "name":  "Armadura do Guerreiro",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "RARE",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{warrior}",
+                 "class_set",
+                 "set:warrior",
+                 "armor_plate",
+                 "chest"
+             ],
+    "lootTags":  [
+                     "war",
+                     "humanoid",
+                     "warrior",
+                     "swordman",
+                     "drop_tier:2"
+                 ],
+    "slot":  "CHEST",
+    "baseScaling":  5.8,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  2,
+    "dropWeight":  6,
+    "vendorBaseValue":  26,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "hp",
+                           "def",
+                           "tenacity",
+                           "guardian",
+                           "bastion",
+                           "crit",
+                           "fervor"
+                       ],
+    "description":  "Equipamento de Guerreiro focado em guarda, disciplina marcial e trocas consistentes."
+}

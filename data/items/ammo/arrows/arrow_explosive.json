@@ -1,0 +1,40 @@
+{
+    "id":  "arrow_explosive",
+    "name":  "Flecha Explosiva",
+    "tags":  [
+                 "ammo",
+                 "arrow"
+             ],
+    "value":  12,
+    "type":  "MATERIAL",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "damagePhysical":  8
+                                   }
+                },
+    "effects":  {
+                    "applyStatuses":  [
+                                          {
+                                              "type":  "WEAKNESS",
+                                              "chancePct":  25,
+                                              "durationSeconds":  4,
+                                              "tickIntervalSeconds":  1,
+                                              "effectValue":  12,
+                                              "stackable":  false,
+                                              "maxStacks":  1,
+                                              "source":  "Flecha Explosiva"
+                                          },
+                                          {
+                                              "type":  "BURNING",
+                                              "chancePct":  20,
+                                              "durationSeconds":  4,
+                                              "tickIntervalSeconds":  1,
+                                              "effectValue":  4,
+                                              "stackable":  false,
+                                              "maxStacks":  1,
+                                              "source":  "Flecha Explosiva"
+                                          }
+                                      ]
+                },
+    "description":  "Municao cara de alto impacto, com chance de enfraquecer o alvo."
+}

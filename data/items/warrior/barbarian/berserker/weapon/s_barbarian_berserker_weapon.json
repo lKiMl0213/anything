@@ -1,0 +1,45 @@
+{
+  "id": "s_barbarian_berserker_weapon",
+  "name": "Machado da Carnificina",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 50,
+  "rarity": "EPIC",
+  "tags": [
+    "{berserker}",
+    "class_set",
+    "set:berserker",
+    "questReward:true",
+    "sellValue:1",
+    "axe",
+    "two_handed"
+  ],
+  "bonuses": {
+    "attributes": {
+      "str": 5,
+      "dex": 2,
+      "agi": 1
+    },
+    "derivedAdd": {
+      "damagePhysical": 76.0,
+      "critChancePct": 8.0,
+      "critDamagePct": 26.0,
+      "penPhysical": 8.0,
+      "vampirismPct": 2.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Berserker focado em all-in ofensivo, critico, velocidade e sustain agressivo.",
+  "twoHanded": true,
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "BLEEDING",
+        "chancePct": 12.0,
+        "durationSeconds": 5.0,
+        "effectValue": 0.016,
+        "source": "Machado da Carnificina"
+      }
+    ]
+  }
+}

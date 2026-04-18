@@ -1,0 +1,52 @@
+{
+  "id": "a_hunter_bounty_hunter_weapon",
+  "name": "Arco de Contrato",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 50,
+  "rarity": "EPIC",
+  "tags": [
+    "{bounty_hunter}",
+    "class_set",
+    "set:bounty_hunter",
+    "questReward:true",
+    "sellValue:1",
+    "bow",
+    "two_handed"
+  ],
+  "bonuses": {
+    "attributes": {
+      "dex": 4,
+      "agi": 2,
+      "luk": 1
+    },
+    "derivedAdd": {
+      "damagePhysical": 68.0,
+      "accuracy": 18.0,
+      "critChancePct": 6.0,
+      "critDamagePct": 10.0,
+      "penPhysical": 7.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Cacador de Recompensas focado em alvo marcado, controle e retorno de recompensa.",
+  "twoHanded": true,
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "MARKED",
+        "chancePct": 14.0,
+        "durationSeconds": 4.5,
+        "effectValue": 0.0,
+        "source": "Arco de Contrato"
+      },
+      {
+        "type": "PARALYZED",
+        "chancePct": 6.0,
+        "durationSeconds": 2.2,
+        "effectValue": 18.0,
+        "source": "Arco de Contrato"
+      }
+    ]
+  }
+}

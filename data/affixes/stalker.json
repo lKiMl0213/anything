@@ -1,0 +1,21 @@
+{
+    "id":  "stalker",
+    "name":  "do Perseguidor",
+    "kind":  "SUFFIX",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "moveSpeed":  0.35,
+                                       "evasion":  8,
+                                       "accuracy":  4
+                                   }
+                },
+    "cost":  16,
+    "weight":  6,
+    "requiredTagsAny":  [
+                            "hunter",
+                            "shadow",
+                            "light_armor",
+                            "leather",
+                            "quiver"
+                        ]
+}

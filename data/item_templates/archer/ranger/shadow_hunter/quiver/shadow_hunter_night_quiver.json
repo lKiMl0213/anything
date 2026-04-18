@@ -1,0 +1,35 @@
+{
+    "id":  "shadow_hunter_night_quiver",
+    "name":  "Aljava Noturna",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "LEGENDARY",
+    "tags":  [
+                 "{shadow_hunter}",
+                 "quiver",
+                 "ammo_capacity:54",
+                 "shadow"
+             ],
+    "lootTags":  [
+                     "undead",
+                     "shadow",
+                     "archer"
+                 ],
+    "slot":  "ALJAVA",
+    "baseScaling":  3.7,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  4,
+    "dropWeight":  4,
+    "vendorBaseValue":  44,
+    "allowedAffixes":  [
+                           "agi",
+                           "dex",
+                           "evasion",
+                           "precision",
+                           "stalker",
+                           "shadowstep",
+                           "quivercraft"
+                       ],
+    "description":  "Aljava discreta para municoes especiais e cacas silenciosas."
+}

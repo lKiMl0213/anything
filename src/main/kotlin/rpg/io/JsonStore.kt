@@ -14,7 +14,7 @@ object JsonStore {
     }
 
     inline fun <reified T> load(path: Path): T {
-        val content = Files.readString(path)
+        val content = Files.readString(path).removePrefix("\uFEFF")
         return json.decodeFromString(content)
     }
 

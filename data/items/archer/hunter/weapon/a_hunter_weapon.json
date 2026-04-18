@@ -1,0 +1,43 @@
+{
+  "id": "a_hunter_weapon",
+  "name": "Arco do Predador",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 25,
+  "rarity": "RARE",
+  "tags": [
+    "{hunter}",
+    "class_set",
+    "set:hunter",
+    "questReward:true",
+    "sellValue:1",
+    "bow",
+    "two_handed"
+  ],
+  "bonuses": {
+    "attributes": {
+      "dex": 3,
+      "agi": 1
+    },
+    "derivedAdd": {
+      "damagePhysical": 42.0,
+      "accuracy": 12.0,
+      "critChancePct": 2.0,
+      "penPhysical": 3.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Hunter focado em rastreio, marcacao e perseguicao.",
+  "twoHanded": true,
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "MARKED",
+        "chancePct": 12.0,
+        "durationSeconds": 4.0,
+        "effectValue": 0.0,
+        "source": "Arco do Predador"
+      }
+    ]
+  }
+}

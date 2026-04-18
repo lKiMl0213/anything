@@ -1,0 +1,36 @@
+{
+    "id":  "paladin_sunblade",
+    "name":  "Lamina Solar",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "LEGENDARY",
+    "tags":  [
+                 "{paladin}",
+                 "sword",
+                 "blade",
+                 "holy"
+             ],
+    "lootTags":  [
+                     "war",
+                     "paladin",
+                     "swordman"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "baseScaling":  8.1,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  4,
+    "vendorBaseValue":  56,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "crit",
+                           "def",
+                           "tenacity",
+                           "piercing",
+                           "fervor",
+                           "warcry"
+                       ],
+    "description":  "Espada consagrada para ofensiva sagrada e linha defensiva."
+}

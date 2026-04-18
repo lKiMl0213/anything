@@ -1,0 +1,40 @@
+{
+    "id":  "s_warrior_elite_guard_gloves_template",
+    "name":  "Manoplas da Guarda de Elite",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{elite_guard}",
+                 "class_set",
+                 "set:elite_guard",
+                 "armor_plate",
+                 "gloves"
+             ],
+    "lootTags":  [
+                     "city",
+                     "war",
+                     "humanoid",
+                     "elite_guard",
+                     "swordman",
+                     "drop_tier:4"
+                 ],
+    "slot":  "GLOVES",
+    "baseScaling":  5.8,
+    "baseStat":  "HP_MAX",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  31,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "hp",
+                           "def",
+                           "tenacity",
+                           "guardian",
+                           "bastion",
+                           "warcry"
+                       ],
+    "description":  "Equipamento de Guarda de Elite focado em linha de frente, estabilidade e controle de grupo."
+}

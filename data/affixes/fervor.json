@@ -1,0 +1,19 @@
+{
+    "id":  "fervor",
+    "name":  "do Fervor",
+    "kind":  "PREFIX",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "attackSpeed":  0.35,
+                                       "critDamagePct":  10
+                                   }
+                },
+    "cost":  15,
+    "weight":  7,
+    "requiredTagsAny":  [
+                            "sword",
+                            "axe",
+                            "blade",
+                            "bow"
+                        ]
+}

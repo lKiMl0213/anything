@@ -1,0 +1,41 @@
+{
+    "id":  "m_arcanist_boots_template",
+    "name":  "Sandalias do Arcanista",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "RARE",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{arcanist}",
+                 "class_set",
+                 "set:arcanist",
+                 "armor_cloth",
+                 "boots"
+             ],
+    "lootTags":  [
+                     "crypt",
+                     "construct",
+                     "arcane",
+                     "mage",
+                     "arcanist",
+                     "drop_tier:2"
+                 ],
+    "slot":  "BOOTS",
+    "baseScaling":  4.2,
+    "baseStat":  "DEF_MAGIC",
+    "dropTier":  2,
+    "dropWeight":  6,
+    "vendorBaseValue":  17,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "mp",
+                           "regen",
+                           "warding",
+                           "spellflux",
+                           "insight",
+                           "cdr",
+                           "runeshield"
+                       ],
+    "description":  "Equipamento de Arcanista focado em mana, runas, fluxo arcano e precisao magica."
+}

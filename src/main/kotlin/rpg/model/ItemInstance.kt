@@ -11,6 +11,8 @@ data class ItemInstance(
     val level: Int,
     val minLevel: Int = 1,
     val rarity: ItemRarity,
+    val qualityRollPct: Int = 100,
+    val powerScore: Int = 0,
     val type: ItemType,
     val slot: EquipSlot? = null,
     val twoHanded: Boolean = false,

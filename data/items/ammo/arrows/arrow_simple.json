@@ -1,0 +1,16 @@
+{
+    "id":  "arrow_simple",
+    "name":  "Flecha Simples",
+    "tags":  [
+                 "ammo",
+                 "arrow"
+             ],
+    "value":  2,
+    "type":  "MATERIAL",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "accuracy":  1
+                                   }
+                },
+    "description":  "Municao basica para arco. Leve e barata."
+}

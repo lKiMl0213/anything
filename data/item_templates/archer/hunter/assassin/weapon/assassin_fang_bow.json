@@ -1,0 +1,41 @@
+{
+    "id":  "assassin_fang_bow",
+    "name":  "Arco Presa Sombria",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "LEGENDARY",
+    "tags":  [
+                 "{assassin}",
+                 "bow",
+                 "two_handed",
+                 "shadow",
+                 "ranged",
+                 "poison"
+             ],
+    "lootTags":  [
+                     "city",
+                     "shadow",
+                     "assassin"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "twoHanded":  true,
+    "baseScaling":  8,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  5,
+    "vendorBaseValue":  54,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "crit",
+                           "atk_speed",
+                           "evasion",
+                           "stalker",
+                           "precision",
+                           "fervor",
+                           "shadowstep",
+                           "deadeye"
+                       ],
+    "description":  "Arco leve de emboscada, feito para burst e reposicionamento."
+}

@@ -1,0 +1,43 @@
+{
+  "id": "s_warrior_elite_guard_weapon",
+  "name": "Lanca de Muralha",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 50,
+  "rarity": "EPIC",
+  "tags": [
+    "{elite_guard}",
+    "class_set",
+    "set:elite_guard",
+    "questReward:true",
+    "sellValue:1",
+    "spear",
+    "one_handed"
+  ],
+  "bonuses": {
+    "attributes": {
+      "str": 4,
+      "dex": 2
+    },
+    "derivedAdd": {
+      "damagePhysical": 61.0,
+      "accuracy": 8.0,
+      "critChancePct": 4.0,
+      "penPhysical": 6.0,
+      "defPhysical": 3.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Guarda de Elite focado em linha de frente, estabilidade e controle de grupo.",
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "SLOW",
+        "chancePct": 10.0,
+        "durationSeconds": 4.0,
+        "effectValue": 12.0,
+        "source": "Lanca de Muralha"
+      }
+    ]
+  }
+}

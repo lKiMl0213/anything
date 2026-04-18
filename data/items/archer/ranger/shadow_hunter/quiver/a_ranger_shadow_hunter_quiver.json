@@ -1,0 +1,30 @@
+{
+  "id": "a_ranger_shadow_hunter_quiver",
+  "name": "Aljava do Crepusculo",
+  "type": "EQUIPMENT",
+  "slot": "ALJAVA",
+  "minLevel": 50,
+  "rarity": "EPIC",
+  "tags": [
+    "{shadow_hunter}",
+    "class_set",
+    "set:shadow_hunter",
+    "questReward:true",
+    "sellValue:1",
+    "quiver",
+    "ammo_capacity:60"
+  ],
+  "bonuses": {
+    "attributes": {
+      "dex": 2,
+      "agi": 2
+    },
+    "derivedAdd": {
+      "accuracy": 10.0,
+      "attackSpeed": 0.19,
+      "critChancePct": 3.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Cacador Sombrio focado em toxina, sangramento, mobilidade e debuffs persistentes."
+}

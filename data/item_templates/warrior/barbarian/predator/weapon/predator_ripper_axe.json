@@ -1,0 +1,38 @@
+{
+    "id":  "predator_ripper_axe",
+    "name":  "Machado Rasgador",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "LEGENDARY",
+    "tags":  [
+                 "{predator}",
+                 "axe",
+                 "two_handed",
+                 "predator",
+                 "bleed"
+             ],
+    "lootTags":  [
+                     "beast",
+                     "predator",
+                     "swordman"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "twoHanded":  true,
+    "baseScaling":  8.2,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  4,
+    "vendorBaseValue":  57,
+    "allowedAffixes":  [
+                           "str",
+                           "agi",
+                           "crit",
+                           "atk_speed",
+                           "piercing",
+                           "fervor",
+                           "warcry",
+                           "shadowstep"
+                       ],
+    "description":  "Machado de perseguicao feito para abrir carne e manter a caca ferida."
+}

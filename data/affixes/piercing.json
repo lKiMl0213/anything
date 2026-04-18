@@ -1,0 +1,20 @@
+{
+    "id":  "piercing",
+    "name":  "Perfurante",
+    "kind":  "PREFIX",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "penPhysical":  8,
+                                       "damagePhysical":  3
+                                   }
+                },
+    "cost":  14,
+    "weight":  7,
+    "requiredTagsAny":  [
+                            "bow",
+                            "sword",
+                            "axe",
+                            "blade",
+                            "two_handed"
+                        ]
+}

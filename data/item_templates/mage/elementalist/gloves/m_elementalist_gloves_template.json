@@ -1,0 +1,39 @@
+{
+    "id":  "m_elementalist_gloves_template",
+    "name":  "Luvas do Elementalista",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "RARE",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{elementalist}",
+                 "class_set",
+                 "set:elementalist",
+                 "armor_cloth",
+                 "gloves"
+             ],
+    "lootTags":  [
+                     "wilds",
+                     "elemental",
+                     "mage",
+                     "elementalist",
+                     "drop_tier:2"
+                 ],
+    "slot":  "GLOVES",
+    "baseScaling":  4.3,
+    "baseStat":  "MP_MAX",
+    "dropTier":  2,
+    "dropWeight":  6,
+    "vendorBaseValue":  18,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "mp",
+                           "regen",
+                           "cdr",
+                           "spellflux",
+                           "warding",
+                           "insight"
+                       ],
+    "description":  "Equipamento de Elementalista focado em versatilidade elemental, controle e resistencia."
+}

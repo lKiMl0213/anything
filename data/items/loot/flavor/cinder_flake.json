@@ -1,0 +1,7 @@
+{
+    "id":  "cinder_flake",
+    "name":  "Escama de Brasa",
+    "type":  "MATERIAL",
+    "value":  5,
+    "description":  "Fragmento mineral quente, bom para ligas e catalise."
+}

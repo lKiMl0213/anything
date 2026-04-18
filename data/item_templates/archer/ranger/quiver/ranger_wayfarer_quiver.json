@@ -1,0 +1,35 @@
+{
+    "id":  "ranger_wayfarer_quiver",
+    "name":  "Aljava de Trilheiro",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "COMMON",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{ranger}",
+                 "quiver",
+                 "ammo_capacity:52",
+                 "ranger"
+             ],
+    "lootTags":  [
+                     "forest",
+                     "ranger",
+                     "archer"
+                 ],
+    "slot":  "ALJAVA",
+    "baseScaling":  3.3,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  2,
+    "dropWeight":  8,
+    "vendorBaseValue":  25,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "accuracy",
+                           "atk_speed",
+                           "precision",
+                           "recovery",
+                           "quivercraft"
+                       ],
+    "description":  "Aljava leve feita para mobilidade e disparo constante."
+}

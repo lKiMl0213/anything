@@ -1,0 +1,43 @@
+{
+    "id":  "a_hunter_chest_template",
+    "name":  "Jaco do Cacador",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "RARE",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{hunter}",
+                 "class_set",
+                 "set:hunter",
+                 "armor_light",
+                 "leather"
+             ],
+    "lootTags":  [
+                     "city",
+                     "plage",
+                     "humanoid",
+                     "hunter",
+                     "archer",
+                     "drop_tier:2"
+                 ],
+    "slot":  "CHEST",
+    "baseScaling":  5.8,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  2,
+    "dropWeight":  6,
+    "vendorBaseValue":  26,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "vit",
+                           "hp",
+                           "def",
+                           "accuracy",
+                           "evasion",
+                           "atk_speed",
+                           "precision",
+                           "stalker",
+                           "recovery"
+                       ],
+    "description":  "Equipamento de Hunter focado em rastreio, marcacao e perseguicao."
+}

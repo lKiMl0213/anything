@@ -126,7 +126,11 @@ class QuestRewardService(
             val canonical = updatedInstances[acceptedId]?.templateId ?: acceptedId
             granted[canonical] = (granted[canonical] ?: 0) + 1
         }
-        updatedPlayer = updatedPlayer.copy(inventory = withCapacity.inventory)
+        updatedPlayer = updatedPlayer.copy(
+            inventory = withCapacity.inventory,
+            quiverInventory = withCapacity.quiverInventory,
+            selectedAmmoTemplateId = withCapacity.selectedAmmoTemplateId
+        )
         val claimedQuest = quest.copy(
             status = QuestStatus.CLAIMED,
             currentProgress = quest.requiredAmount

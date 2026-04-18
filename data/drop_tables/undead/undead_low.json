@@ -1,0 +1,14 @@
+{
+  "id": "undead_low",
+  "baseChancePct": 40.0,
+  "entries": [
+    { "itemId": "cracked_bone", "category": "COMMON_MATERIAL", "chancePct": 18, "minQty": 1, "maxQty": 3, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "bone_dust", "category": "COMMON_MATERIAL", "chancePct": 14, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "rotten_shroud", "category": "COMMON_SELL", "chancePct": 12, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "dark_essence", "category": "UNCOMMON_MATERIAL", "chancePct": 7, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "potion_small", "category": "CONSUMABLE", "chancePct": 3, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "ether_small", "category": "CONSUMABLE", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "templateIds": ["bone_bow", "bone_shield", "shadow_robe"], "category": "EQUIPMENT_DROP", "chancePct": 4, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "templateIds": ["warded_loop"], "category": "EQUIPMENT_DROP", "chancePct": 1, "minQty": 1, "maxQty": 1, "minRarity": "UNCOMMON", "maxRarity": "RARE" }
+  ]
+}

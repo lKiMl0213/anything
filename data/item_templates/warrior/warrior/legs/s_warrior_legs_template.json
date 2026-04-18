@@ -1,0 +1,40 @@
+{
+    "id":  "s_warrior_legs_template",
+    "name":  "Grevas do Guerreiro",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "RARE",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{warrior}",
+                 "class_set",
+                 "set:warrior",
+                 "armor_plate",
+                 "legs"
+             ],
+    "lootTags":  [
+                     "war",
+                     "humanoid",
+                     "warrior",
+                     "swordman",
+                     "drop_tier:2"
+                 ],
+    "slot":  "LEGS",
+    "baseScaling":  5.4,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  2,
+    "dropWeight":  6,
+    "vendorBaseValue":  23,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "hp",
+                           "def",
+                           "tenacity",
+                           "guardian",
+                           "bastion",
+                           "crit",
+                           "fervor"
+                       ],
+    "description":  "Equipamento de Guerreiro focado em guarda, disciplina marcial e trocas consistentes."
+}

@@ -1,0 +1,41 @@
+{
+    "id":  "m_elementalist_elemental_master_gloves_template",
+    "name":  "Luvas do Mestre Elemental",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{elemental_master}",
+                 "class_set",
+                 "set:elemental_master",
+                 "armor_cloth",
+                 "gloves"
+             ],
+    "lootTags":  [
+                     "wilds",
+                     "elemental",
+                     "elemental_master",
+                     "mage",
+                     "drop_tier:4"
+                 ],
+    "slot":  "GLOVES",
+    "baseScaling":  5.8,
+    "baseStat":  "MP_MAX",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  31,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "vit",
+                           "mp",
+                           "regen",
+                           "warding",
+                           "runeshield",
+                           "spellflux",
+                           "insight",
+                           "cdr"
+                       ],
+    "description":  "Equipamento de Mestre Elemental focado em controle, resistencia elemental e combinacao de afinidades."
+}

@@ -1,39 +1,37 @@
-# Gradle
+# Gradle / Kotlin
 .gradle/
 .gradle-local/
 .gradle-local-build/
 .gradle-native/
-
-# Build
+.kotlin/
 build/
 bin/
 
-# Kotlin
-.kotlin/
-
 # IDE
-.vscode/
 .idea/
+.vscode/
 *.iml
 
 # Runtime data
 saves/
-
-# Logs
 *.log
+*.tmp
+
 # OS
 .DS_Store
 Thumbs.db
 
-#exclude any other files or directories specific to your project
-# For example, if you have a 'dist' directory for distribution files:
+# Local helper notes and scratch
+docs/local_notes/
+*.bak
+*.orig
+
+# Context scratch and local-only memory
+context/**/*.tmp
+context/**/*.local.md
+context/**/scratch*.md
+context/**/.cache/
+context/**/working-memory*.md
+
+# Local packaging helpers
 dist/
-compilar_pra_exportar.bat
-compilar-pra-exportar.sh
-compilar-pra-exportar.ps1
-README.md
-saves/
-.vscode/
-*.log
-*.tmp
-.gradle

@@ -1,0 +1,42 @@
+{
+    "id":  "bounty_writ_bow",
+    "name":  "Arco do Mandado",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "LEGENDARY",
+    "tags":  [
+                 "{bounty_hunter}",
+                 "bow",
+                 "two_handed",
+                 "hunter",
+                 "ranged",
+                 "control"
+             ],
+    "lootTags":  [
+                     "city",
+                     "hunter",
+                     "bounty",
+                     "humanoid"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "twoHanded":  true,
+    "baseScaling":  8.2,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  5,
+    "vendorBaseValue":  52,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "crit",
+                           "accuracy",
+                           "precision",
+                           "piercing",
+                           "stalker",
+                           "marksman",
+                           "luk",
+                           "deadeye"
+                       ],
+    "description":  "Arco pesado usado por cacadores de recompensa para execucoes limpas."
+}

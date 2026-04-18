@@ -1,0 +1,40 @@
+{
+    "id":  "s_barbarian_predator_legs_template",
+    "name":  "Perneiras do Predador",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{predator}",
+                 "class_set",
+                 "set:predator",
+                 "armor_mail",
+                 "legs"
+             ],
+    "lootTags":  [
+                     "wilds",
+                     "beast",
+                     "predator",
+                     "swordman",
+                     "drop_tier:4"
+                 ],
+    "slot":  "LEGS",
+    "baseScaling":  7,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  40,
+    "allowedAffixes":  [
+                           "str",
+                           "dex",
+                           "agi",
+                           "crit",
+                           "atk_speed",
+                           "hp",
+                           "evasion",
+                           "stalker",
+                           "fervor"
+                       ],
+    "description":  "Equipamento de Predador focado em perseguicao, mobilidade, critico e sangramento."
+}

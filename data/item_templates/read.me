@@ -3,36 +3,12 @@ ITEM TEMPLATES (PROCEDURAL)
 Pasta: data/item_templates
 Cada arquivo JSON segue o modelo ItemTemplateDef (base para geracao procedural).
 
-Campos:
-- id: string
-- name: string
-- type: "EQUIPMENT" | "CONSUMABLE"
-- rarity: ItemRarity
-- tags: [string]
-- slot: EquipSlot
-- twoHanded: bool
-- baseScaling: number
-- baseStat: ItemBaseStat
-- dropTier: int
-- vendorBaseValue: int
-- allowedAffixes: [string] (ids em data/affixes)
-
-ItemBaseStat:
-DAMAGE_PHYSICAL, DAMAGE_MAGIC, DEF_PHYSICAL, DEF_MAGIC, HP_MAX, MP_MAX, CRIT_CHANCE, ATTACK_SPEED
-
-Exemplo:
-{
-  "id": "iron_sword",
-  "name": "Espada de Ferro",
-  "type": "EQUIPMENT",
-  "slot": "WEAPON_MAIN",
-  "baseScaling": 5.0,
-  "baseStat": "DAMAGE_PHYSICAL",
-  "dropTier": 1,
-  "vendorBaseValue": 12,
-  "allowedAffixes": ["str", "dex", "crit"]
-}
-
-Tags recomendadas (uso por regras de equipamento):
-- "shield": escudo (so pode em WEAPON_OFF e exige arma de 1 mao)
-- "bow": marca armas que consomem flechas
+Organizacao atual:
+- A pasta aceita subpastas recursivas.
+- Equipamentos de linha devem seguir a hierarquia:
+  - `data/item_templates/archer/base/...`
+  - `data/item_templates/archer/hunter/...`
+  - `data/item_templates/archer/hunter/bounty_hunter/...`
+  - `data/item_templates/mage/...`
+  - `data/item_templates/warrior/...`
+- Itens universais ficam em `data/item_templates/general/...`.

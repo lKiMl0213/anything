@@ -1,0 +1,43 @@
+{
+  "id": "s_warrior_weapon",
+  "name": "Lamina da Vanguarda",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 25,
+  "rarity": "RARE",
+  "tags": [
+    "{warrior}",
+    "class_set",
+    "set:warrior",
+    "questReward:true",
+    "sellValue:1",
+    "blade",
+    "one_handed"
+  ],
+  "bonuses": {
+    "attributes": {
+      "str": 3,
+      "dex": 1
+    },
+    "derivedAdd": {
+      "damagePhysical": 38.0,
+      "accuracy": 5.0,
+      "critChancePct": 2.0,
+      "penPhysical": 4.0,
+      "defPhysical": 2.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Guerreiro focado em guarda, disciplina marcial e trocas consistentes.",
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "WEAKNESS",
+        "chancePct": 10.0,
+        "durationSeconds": 4.0,
+        "effectValue": 8.0,
+        "source": "Lamina da Vanguarda"
+      }
+    ]
+  }
+}

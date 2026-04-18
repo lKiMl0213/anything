@@ -1,0 +1,36 @@
+{
+    "id":  "elementalist_primal_staff",
+    "name":  "Cajado Primordial",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "COMMON",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{elementalist}",
+                 "staff",
+                 "elemental"
+             ],
+    "lootTags":  [
+                     "arcane",
+                     "elemental",
+                     "mage"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "baseScaling":  6.6,
+    "baseStat":  "DAMAGE_MAGIC",
+    "dropTier":  2,
+    "dropWeight":  9,
+    "vendorBaseValue":  30,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "crit",
+                           "mp",
+                           "cdr",
+                           "spellflux",
+                           "insight",
+                           "focus",
+                           "regen"
+                       ],
+    "description":  "Cajado elementar para alternar fogo, agua, vento e terra com seguranca."
+}

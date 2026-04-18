@@ -1,0 +1,157 @@
+{
+    "id":  "undead_high",
+    "baseChancePct":  55.0,
+    "entries":  [
+                    {
+                        "itemId":  "cracked_bone",
+                        "category":  "COMMON_MATERIAL",
+                        "chancePct":  15,
+                        "minQty":  2,
+                        "maxQty":  4,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "COMMON"
+                    },
+                    {
+                        "itemId":  "bone_dust",
+                        "category":  "COMMON_MATERIAL",
+                        "chancePct":  12,
+                        "minQty":  1,
+                        "maxQty":  3,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "COMMON"
+                    },
+                    {
+                        "itemId":  "rotten_shroud",
+                        "category":  "COMMON_SELL",
+                        "chancePct":  10,
+                        "minQty":  1,
+                        "maxQty":  2,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "COMMON"
+                    },
+                    {
+                        "itemId":  "dark_essence",
+                        "category":  "UNCOMMON_MATERIAL",
+                        "chancePct":  10,
+                        "minQty":  1,
+                        "maxQty":  2,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "RARE"
+                    },
+                    {
+                        "itemId":  "runic_core",
+                        "category":  "RARE_COMPONENT",
+                        "chancePct":  5,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "RARE",
+                        "maxRarity":  "EPIC"
+                    },
+                    {
+                        "itemId":  "potion_small",
+                        "category":  "CONSUMABLE",
+                        "chancePct":  2,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "COMMON"
+                    },
+                    {
+                        "itemId":  "ether_small",
+                        "category":  "CONSUMABLE",
+                        "chancePct":  2,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "COMMON",
+                        "maxRarity":  "COMMON"
+                    },
+                    {
+                        "templateIds":  [
+                                            "bone_bow",
+                                            "bone_shield",
+                                            "shadow_robe"
+                                        ],
+                        "category":  "EQUIPMENT_DROP",
+                        "chancePct":  4,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "RARE",
+                        "maxRarity":  "EPIC"
+                    },
+                    {
+                        "templateIds":  [
+                                            "cleric_sanctified_crozier",
+                                            "paladin_sunblade",
+                                            "paladin_aegis_shield"
+                                        ],
+                        "category":  "EQUIPMENT_DROP",
+                        "chancePct":  2.2,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "RARE",
+                        "maxRarity":  "LEGENDARY",
+                        "minMonsterLevel":  45
+                    },
+                    {
+                        "templateIds":  [
+                                            "archmage_comet_staff"
+                                        ],
+                        "category":  "EQUIPMENT_DROP",
+                        "chancePct":  1,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "RARE",
+                        "maxRarity":  "LEGENDARY",
+                        "minMonsterLevel":  45
+                    },
+                    {
+                        "templateIds":  [
+                                            "warded_loop",
+                                            "oracle_eye",
+                                            "bastion_sigil"
+                                        ],
+                        "category":  "EQUIPMENT_DROP",
+                        "chancePct":  2,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "RARE",
+                        "maxRarity":  "EPIC"
+                    },
+                    {
+                        "templateIds":  [
+                                            "m_arcanist_archmage_helm_template",
+                                            "m_arcanist_archmage_chest_template",
+                                            "m_arcanist_archmage_gloves_template",
+                                            "m_arcanist_archmage_legs_template",
+                                            "m_arcanist_archmage_boots_template",
+                                            "m_arcanist_cleric_helm_template",
+                                            "m_arcanist_cleric_chest_template",
+                                            "m_arcanist_cleric_gloves_template",
+                                            "m_arcanist_cleric_legs_template",
+                                            "m_arcanist_cleric_boots_template",
+                                            "m_elementalist_pyromancer_helm_template",
+                                            "m_elementalist_pyromancer_chest_template",
+                                            "m_elementalist_pyromancer_gloves_template",
+                                            "m_elementalist_pyromancer_legs_template",
+                                            "m_elementalist_pyromancer_boots_template",
+                                            "m_elementalist_elemental_master_helm_template",
+                                            "m_elementalist_elemental_master_chest_template",
+                                            "m_elementalist_elemental_master_gloves_template",
+                                            "m_elementalist_elemental_master_legs_template",
+                                            "m_elementalist_elemental_master_boots_template"
+                                        ],
+                        "category":  "EQUIPMENT_DROP",
+                        "chancePct":  1.6,
+                        "minQty":  1,
+                        "maxQty":  1,
+                        "minRarity":  "RARE",
+                        "maxRarity":  "LEGENDARY",
+                        "minMonsterLevel":  45,
+                        "requiredBiomeIds":  [
+                                                 "crypt",
+                                                 "necropolis"
+                                             ],
+                        "minMapDropTier":  4
+                    }
+                ]
+}

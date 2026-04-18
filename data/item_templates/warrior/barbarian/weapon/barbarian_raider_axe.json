@@ -1,0 +1,37 @@
+{
+    "id":  "barbarian_raider_axe",
+    "name":  "Machado Saqueador",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "COMMON",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{barbarian}",
+                 "axe",
+                 "two_handed",
+                 "barbarian"
+             ],
+    "lootTags":  [
+                     "beast",
+                     "barbarian",
+                     "swordman"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "twoHanded":  true,
+    "baseScaling":  6.8,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  2,
+    "dropWeight":  9,
+    "vendorBaseValue":  30,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "crit",
+                           "atk_speed",
+                           "piercing",
+                           "fervor",
+                           "warcry",
+                           "vampiric"
+                       ],
+    "description":  "Machado brutal para quem troca defesa por pressao e sangue."
+}

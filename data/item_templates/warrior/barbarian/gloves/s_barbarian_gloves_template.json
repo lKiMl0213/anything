@@ -1,0 +1,40 @@
+{
+    "id":  "s_barbarian_gloves_template",
+    "name":  "Guanteletes do Barbaro",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "RARE",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{barbarian}",
+                 "class_set",
+                 "set:barbarian",
+                 "armor_mail",
+                 "gloves"
+             ],
+    "lootTags":  [
+                     "wilds",
+                     "beast",
+                     "barbarian",
+                     "swordman",
+                     "drop_tier:2"
+                 ],
+    "slot":  "GLOVES",
+    "baseScaling":  4.3,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  2,
+    "dropWeight":  6,
+    "vendorBaseValue":  18,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "hp",
+                           "def",
+                           "crit",
+                           "atk_speed",
+                           "tenacity",
+                           "fervor",
+                           "warcry"
+                       ],
+    "description":  "Equipamento de Barbaro focado em impacto brutal, velocidade ofensiva e dano direto."
+}

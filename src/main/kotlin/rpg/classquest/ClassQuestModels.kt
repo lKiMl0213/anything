@@ -122,6 +122,9 @@ object ClassQuestTagRules {
         allowed += player.classId.lowercase()
         player.subclassId?.lowercase()?.let { allowed += it }
         player.specializationId?.lowercase()?.let { allowed += it }
+        for (progress in player.classQuestProgressByKey.values) {
+            progress.chosenPath?.lowercase()?.takeIf { it.isNotBlank() }?.let { allowed += it }
+        }
         return allowed
     }
 

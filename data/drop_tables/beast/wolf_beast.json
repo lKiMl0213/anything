@@ -1,0 +1,16 @@
+{
+  "id": "wolf_beast",
+  "baseChancePct": 42.0,
+  "entries": [
+    { "itemId": "wolf_pelt", "category": "COMMON_MATERIAL", "chancePct": 18, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "wolf_fang", "category": "COMMON_MATERIAL", "chancePct": 16, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "matted_fur", "category": "COMMON_MATERIAL", "chancePct": 12, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "splintered_claw", "category": "COMMON_SELL", "chancePct": 10, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "predator_eye", "category": "UNCOMMON_MATERIAL", "chancePct": 8, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "itemId": "beast_meat", "category": "CONSUMABLE", "chancePct": 9, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "cracked_bone", "category": "COMMON_SELL", "chancePct": 8, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "templateIds": ["hunter_trackers_bow", "hunter_field_quiver", "ranger_longwatch_bow", "ranger_wayfarer_quiver", "barbarian_raider_axe"], "category": "EQUIPMENT_DROP", "chancePct": 4, "minQty": 1, "maxQty": 1, "minRarity": "UNCOMMON", "maxRarity": "EPIC", "minMonsterLevel": 20 },
+    { "templateIds": ["predator_ripper_axe", "shadow_hunter_gloombow", "shadow_hunter_night_quiver"], "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "RARE", "maxRarity": "LEGENDARY", "minMonsterLevel": 45 },
+    { "templateIds": ["hunters_trophy", "shadowstep_anklet", "bloodroot_talisman"], "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "UNCOMMON", "maxRarity": "EPIC" }
+  ]
+}

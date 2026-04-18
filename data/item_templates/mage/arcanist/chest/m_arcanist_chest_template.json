@@ -1,0 +1,41 @@
+{
+    "id":  "m_arcanist_chest_template",
+    "name":  "Manto do Arcanista",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "RARE",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{arcanist}",
+                 "class_set",
+                 "set:arcanist",
+                 "armor_cloth",
+                 "robe"
+             ],
+    "lootTags":  [
+                     "crypt",
+                     "construct",
+                     "arcane",
+                     "mage",
+                     "arcanist",
+                     "drop_tier:2"
+                 ],
+    "slot":  "CHEST",
+    "baseScaling":  5.8,
+    "baseStat":  "DEF_MAGIC",
+    "dropTier":  2,
+    "dropWeight":  6,
+    "vendorBaseValue":  26,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "mp",
+                           "regen",
+                           "warding",
+                           "spellflux",
+                           "insight",
+                           "cdr",
+                           "runeshield"
+                       ],
+    "description":  "Equipamento de Arcanista focado em mana, runas, fluxo arcano e precisao magica."
+}

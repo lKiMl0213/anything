@@ -1,0 +1,38 @@
+{
+    "id":  "archmage_comet_staff",
+    "name":  "Cajado Cometa",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{archmage}",
+                 "staff",
+                 "arcane",
+                 "burst"
+             ],
+    "lootTags":  [
+                     "arcane",
+                     "archmage",
+                     "construct"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "baseScaling":  8.7,
+    "baseStat":  "DAMAGE_MAGIC",
+    "dropTier":  4,
+    "dropWeight":  4,
+    "vendorBaseValue":  60,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "crit",
+                           "mp",
+                           "cdr",
+                           "spellflux",
+                           "insight",
+                           "arcane_burst",
+                           "runesurge",
+                           "runeshield"
+                       ],
+    "description":  "Cajado de alta amplificacao para magias de area e explosao arcana."
+}

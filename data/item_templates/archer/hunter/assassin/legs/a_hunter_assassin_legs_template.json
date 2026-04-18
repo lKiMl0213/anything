@@ -1,0 +1,42 @@
+{
+    "id":  "a_hunter_assassin_legs_template",
+    "name":  "Calcas do Assassino",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{assassin}",
+                 "class_set",
+                 "set:assassin",
+                 "armor_light",
+                 "legs"
+             ],
+    "lootTags":  [
+                     "city",
+                     "shadow",
+                     "thief",
+                     "assassin",
+                     "archer",
+                     "drop_tier:4"
+                 ],
+    "slot":  "LEGS",
+    "baseScaling":  7,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  40,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "crit",
+                           "atk_speed",
+                           "evasion",
+                           "precision",
+                           "stalker",
+                           "shadowstep",
+                           "vampiric",
+                           "deadeye"
+                       ],
+    "description":  "Equipamento de Assassino focado em burst, veneno, evasao e finalizacao rapida."
+}

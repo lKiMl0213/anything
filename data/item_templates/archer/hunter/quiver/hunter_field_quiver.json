@@ -1,0 +1,35 @@
+{
+    "id":  "hunter_field_quiver",
+    "name":  "Aljava de Campo",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "COMMON",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{hunter}",
+                 "quiver",
+                 "ammo_capacity:50",
+                 "hunter"
+             ],
+    "lootTags":  [
+                     "city",
+                     "hunter",
+                     "archer"
+                 ],
+    "slot":  "ALJAVA",
+    "baseScaling":  3.2,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  2,
+    "dropWeight":  8,
+    "vendorBaseValue":  24,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "accuracy",
+                           "atk_speed",
+                           "precision",
+                           "stalker",
+                           "quivercraft"
+                       ],
+    "description":  "Aljava reforcada para quem alterna flechas e armadilhas."
+}

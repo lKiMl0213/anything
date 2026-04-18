@@ -188,7 +188,11 @@ class CraftingService(
             )
         }
 
-        var updatedPlayer = preparedPlayer.copy(inventory = withCapacity.inventory)
+        var updatedPlayer = preparedPlayer.copy(
+            inventory = withCapacity.inventory,
+            quiverInventory = withCapacity.quiverInventory,
+            selectedAmmoTemplateId = withCapacity.selectedAmmoTemplateId
+        )
         val rarityMultiplier = outputRarityMultiplier(recipe.outputItemId)
         val xpResult = skillSystem.gainXp(
             player = updatedPlayer,

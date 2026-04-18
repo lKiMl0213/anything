@@ -1,0 +1,42 @@
+{
+    "id":  "m_arcanist_cleric_chest_template",
+    "name":  "Manto do Clerigo",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{cleric}",
+                 "class_set",
+                 "set:cleric",
+                 "armor_cloth",
+                 "robe"
+             ],
+    "lootTags":  [
+                     "crypt",
+                     "undead",
+                     "holy",
+                     "cleric",
+                     "mage",
+                     "drop_tier:4"
+                 ],
+    "slot":  "CHEST",
+    "baseScaling":  7.6,
+    "baseStat":  "DEF_MAGIC",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  44,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "vit",
+                           "hp",
+                           "mp",
+                           "regen",
+                           "recovery",
+                           "warding",
+                           "runeshield",
+                           "insight"
+                       ],
+    "description":  "Equipamento de Clerigo focado em sustain, mana, mitigacao e apoio sagrado."
+}

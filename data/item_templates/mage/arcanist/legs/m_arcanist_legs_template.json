@@ -1,0 +1,41 @@
+{
+    "id":  "m_arcanist_legs_template",
+    "name":  "Calcas do Arcanista",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "RARE",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{arcanist}",
+                 "class_set",
+                 "set:arcanist",
+                 "armor_cloth",
+                 "legs"
+             ],
+    "lootTags":  [
+                     "crypt",
+                     "construct",
+                     "arcane",
+                     "mage",
+                     "arcanist",
+                     "drop_tier:2"
+                 ],
+    "slot":  "LEGS",
+    "baseScaling":  5.4,
+    "baseStat":  "DEF_MAGIC",
+    "dropTier":  2,
+    "dropWeight":  6,
+    "vendorBaseValue":  23,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "mp",
+                           "regen",
+                           "warding",
+                           "spellflux",
+                           "insight",
+                           "cdr",
+                           "runeshield"
+                       ],
+    "description":  "Equipamento de Arcanista focado em mana, runas, fluxo arcano e precisao magica."
+}

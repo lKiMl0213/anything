@@ -1,0 +1,17 @@
+{
+    "id":  "arrow_iron",
+    "name":  "Flecha de Ferro",
+    "tags":  [
+                 "ammo",
+                 "arrow"
+             ],
+    "value":  4,
+    "type":  "MATERIAL",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "damagePhysical":  3,
+                                       "accuracy":  2
+                                   }
+                },
+    "description":  "Pontas de ferro para dano fisico mais confiavel."
+}

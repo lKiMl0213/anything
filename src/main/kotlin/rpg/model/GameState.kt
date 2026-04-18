@@ -1,7 +1,5 @@
 package rpg.model
 
-import kotlinx.serialization.EncodeDefault
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import rpg.achievement.AchievementProgress
 import rpg.achievement.PlayerLifetimeStats
@@ -23,6 +21,8 @@ data class PlayerState(
     val currentHp: Double = 0.0,
     val currentMp: Double = 0.0,
     val inventory: List<String> = emptyList(),
+    val quiverInventory: List<String> = emptyList(),
+    val selectedAmmoTemplateId: String? = null,
     val equipped: Map<String, String> = emptyMap(),
     val inventoryBaseSlots: Int = 30,
     val gold: Int = 0,
@@ -53,9 +53,6 @@ data class PlayerState(
     val roomRegenMpRooms: Int = 0,
     val talentNodeRanks: Map<String, Int> = emptyMap(),
     val unlockedTalentTrees: List<String> = emptyList(),
-    @EncodeDefault(EncodeDefault.Mode.NEVER)
-    @SerialName("talents")
-    val legacyTalentIds: List<String> = emptyList(),
     val subclassUnlockProgressByClass: Map<String, SubclassUnlockProgress> = emptyMap(),
     val specializationUnlockProgressByClass: Map<String, SpecializationUnlockProgress> = emptyMap(),
     val classQuestProgressByKey: Map<String, ClassQuestProgress> = emptyMap(),

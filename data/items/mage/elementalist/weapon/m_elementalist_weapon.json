@@ -1,0 +1,42 @@
+{
+  "id": "m_elementalist_weapon",
+  "name": "Catalisador Elemental",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 25,
+  "rarity": "RARE",
+  "tags": [
+    "{elementalist}",
+    "class_set",
+    "set:elementalist",
+    "questReward:true",
+    "sellValue:1",
+    "staff",
+    "focus"
+  ],
+  "bonuses": {
+    "attributes": {
+      "int": 3,
+      "spr": 2
+    },
+    "derivedAdd": {
+      "damageMagic": 44.0,
+      "mpMax": 24.0,
+      "penMagic": 6.0,
+      "cdrPct": 2.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Elementalista focado em versatilidade elemental, controle e resistencia.",
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "SLOW",
+        "chancePct": 12.0,
+        "durationSeconds": 4.0,
+        "effectValue": 10.0,
+        "source": "Catalisador Elemental"
+      }
+    ]
+  }
+}

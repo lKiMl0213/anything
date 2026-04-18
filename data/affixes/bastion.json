@@ -1,0 +1,20 @@
+{
+    "id":  "bastion",
+    "name":  "Bastiao",
+    "kind":  "PREFIX",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "defPhysical":  7,
+                                       "damageReductionPct":  2.5,
+                                       "hpMax":  20
+                                   }
+                },
+    "cost":  18,
+    "weight":  6,
+    "requiredTagsAny":  [
+                            "shield",
+                            "guard",
+                            "plate",
+                            "swordman"
+                        ]
+}

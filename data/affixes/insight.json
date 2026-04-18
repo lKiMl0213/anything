@@ -1,0 +1,21 @@
+{
+    "id":  "insight",
+    "name":  "de Insight",
+    "kind":  "SUFFIX",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "mpMax":  18,
+                                       "cdrPct":  4,
+                                       "critChancePct":  1.2
+                                   }
+                },
+    "cost":  16,
+    "weight":  6,
+    "requiredTagsAny":  [
+                            "staff",
+                            "mana",
+                            "ward",
+                            "mage",
+                            "arcane"
+                        ]
+}

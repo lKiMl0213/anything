@@ -14,13 +14,16 @@ data class ItemRegistryEntry(
     val type: ItemType,
     val minLevel: Int,
     val rarity: ItemRarity,
+    val maxRarity: ItemRarity = rarity,
     val tags: List<String>,
+    val lootTags: List<String> = emptyList(),
     val slot: EquipSlot? = null,
     val twoHanded: Boolean = false,
     val bonuses: Bonuses = Bonuses(),
     val effects: ItemEffects = ItemEffects(),
     val value: Int = 0,
     val description: String = "",
+    val dropWeight: Int = 0,
     val template: ItemTemplateDef? = null
 )
 
@@ -37,13 +40,16 @@ class ItemRegistry(
                 type = item.type,
                 minLevel = item.minLevel,
                 rarity = item.rarity,
+                maxRarity = item.rarity,
                 tags = item.tags,
+                lootTags = emptyList(),
                 slot = item.slot,
                 twoHanded = item.twoHanded,
                 bonuses = item.bonuses,
                 effects = item.effects,
                 value = item.value,
-                description = item.description
+                description = item.description,
+                dropWeight = 0
             )
         }
         val template = templates[id] ?: return null
@@ -53,9 +59,13 @@ class ItemRegistry(
             type = template.type,
             minLevel = template.minLevel,
             rarity = template.rarity,
+            maxRarity = template.maxRarity,
             tags = template.tags,
+            lootTags = template.lootTags,
             slot = template.slot,
             twoHanded = template.twoHanded,
+            description = template.description,
+            dropWeight = template.dropWeight,
             template = template
         )
     }

@@ -1,0 +1,41 @@
+{
+    "id":  "m_arcanist_gloves_template",
+    "name":  "Luvas do Arcanista",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "RARE",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{arcanist}",
+                 "class_set",
+                 "set:arcanist",
+                 "armor_cloth",
+                 "gloves"
+             ],
+    "lootTags":  [
+                     "crypt",
+                     "construct",
+                     "arcane",
+                     "mage",
+                     "arcanist",
+                     "drop_tier:2"
+                 ],
+    "slot":  "GLOVES",
+    "baseScaling":  4.3,
+    "baseStat":  "MP_MAX",
+    "dropTier":  2,
+    "dropWeight":  6,
+    "vendorBaseValue":  18,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "mp",
+                           "regen",
+                           "warding",
+                           "spellflux",
+                           "insight",
+                           "cdr",
+                           "runeshield"
+                       ],
+    "description":  "Equipamento de Arcanista focado em mana, runas, fluxo arcano e precisao magica."
+}

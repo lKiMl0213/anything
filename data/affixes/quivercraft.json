@@ -1,0 +1,17 @@
+{
+    "id":  "quivercraft",
+    "name":  "da Aljava Fina",
+    "kind":  "SUFFIX",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "accuracy":  6,
+                                       "attackSpeed":  0.25,
+                                       "moveSpeed":  0.2
+                                   }
+                },
+    "cost":  12,
+    "weight":  7,
+    "requiredTagsAny":  [
+                            "quiver"
+                        ]
+}

@@ -1,0 +1,36 @@
+{
+    "id":  "arcanist_rune_staff",
+    "name":  "Cajado Runico",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "COMMON",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{arcanist}",
+                 "staff",
+                 "arcane"
+             ],
+    "lootTags":  [
+                     "arcane",
+                     "mage",
+                     "construct"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "baseScaling":  6.5,
+    "baseStat":  "DAMAGE_MAGIC",
+    "dropTier":  2,
+    "dropWeight":  10,
+    "vendorBaseValue":  29,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "crit",
+                           "mp",
+                           "cdr",
+                           "spellflux",
+                           "insight",
+                           "focus",
+                           "runesurge"
+                       ],
+    "description":  "Catalisador runico para quem molda mana com disciplina."
+}

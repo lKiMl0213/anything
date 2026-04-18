@@ -1,0 +1,39 @@
+{
+    "id":  "ranger_longwatch_bow",
+    "name":  "Arco de Vigia",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "COMMON",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{ranger}",
+                 "bow",
+                 "two_handed",
+                 "ranged",
+                 "nature"
+             ],
+    "lootTags":  [
+                     "forest",
+                     "ranger",
+                     "archer"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "twoHanded":  true,
+    "baseScaling":  6.3,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  2,
+    "dropWeight":  9,
+    "vendorBaseValue":  27,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "crit",
+                           "atk_speed",
+                           "accuracy",
+                           "precision",
+                           "stalker",
+                           "piercing",
+                           "regen"
+                       ],
+    "description":  "Arco de patrulha para quem vive entre trilhas e emboscadas."
+}

@@ -6,8 +6,10 @@ import rpg.engine.Combat
 import rpg.engine.ComputedStats
 import rpg.engine.StatsCalculator
 import rpg.engine.StatsEngine
+import rpg.inventory.InventorySystem
 import rpg.item.ItemResolver
 import rpg.model.BiomeDef
+import rpg.model.Bonuses
 import rpg.model.CombatStatusApplyDef
 import rpg.model.DamageChannel
 import rpg.model.DerivedStats
@@ -27,6 +29,7 @@ import rpg.status.StatusSystem
 import rpg.talent.TalentCombatIntegrationService
 import rpg.talent.TalentCombatModifiers
 import rpg.talent.TalentTreeService
+import rpg.registry.ItemRegistry
 
 sealed class CombatAction {
     data class Attack(val preferMagic: Boolean? = null) : CombatAction()
@@ -46,6 +49,7 @@ data class CombatSkillSpec(
     val onHitStatuses: List<CombatStatusApplyDef> = emptyList(),
     val selfHealFlat: Double = 0.0,
     val selfHealPctMaxHp: Double = 0.0,
+    val ammoCost: Int = 1,
     val rank: Int = 1,
     val aoeUnlockRank: Int = 0,
     val aoeBonusDamagePct: Double = 0.0
@@ -119,6 +123,7 @@ private data class CombatActor(
 class CombatEngine(
     private val statsEngine: StatsEngine,
     private val itemResolver: ItemResolver,
+    private val itemRegistry: ItemRegistry,
     private val behaviorEngine: MonsterBehaviorEngine,
     private val rng: Random,
     private val balance: GameBalanceDef,
@@ -588,20 +593,23 @@ class CombatEngine(
                 if (castTime > 0.0) {
                     startCasting(actor, action, castTime)
                 } else {
-                    val ammoConsumed = consumeArrowAmmo(playerState, itemInstances)
+                    val ammoPayload = previewAmmoPayload(playerState, itemInstances, amount = 1)
+                    val ammoConsumed = consumeArrowAmmo(playerState, itemInstances, amount = 1)
                     if (ammoConsumed == null && playerUsesBowAmmo(playerState, itemInstances)) {
                         combatLog(colorize("Voce esta sem flechas para atacar.", ansiYellow))
                         return ActionOutcome(consumedReady = false)
                     }
                     if (ammoConsumed != null) {
-                        val syncedPlayer = ammoConsumed.first.copy(currentHp = actor.currentHp, currentMp = actor.currentMp)
-                        onPlayerUpdate(syncedPlayer, ammoConsumed.second)
+                        val syncedPlayer = ammoConsumed.player.copy(currentHp = actor.currentHp, currentMp = actor.currentMp)
+                        onPlayerUpdate(syncedPlayer, ammoConsumed.itemInstances)
                     }
                     val resolution = resolveSkill(
                         attacker = actor,
                         defender = target,
                         preferMagic = action.preferMagic,
-                        telemetry = telemetry
+                        telemetry = telemetry,
+                        extraBonuses = ammoPayload.bonuses,
+                        extraOnHitStatuses = ammoPayload.statuses
                     )
                     val carryPct = if (resolution.hit) {
                         actor.talentModifiers.atb.actionBarGainOnHitPct + resolution.carryBonusPct
@@ -645,14 +653,15 @@ class CombatEngine(
                 if (castTime > 0.0) {
                     startCasting(actor, action, castTime)
                 } else {
-                    val ammoConsumed = consumeArrowAmmo(playerState, itemInstances)
+                    val ammoPayload = previewAmmoPayload(playerState, itemInstances, amount = spec.ammoCost)
+                    val ammoConsumed = consumeArrowAmmo(playerState, itemInstances, amount = spec.ammoCost)
                     if (ammoConsumed == null && playerUsesBowAmmo(playerState, itemInstances)) {
                         combatLog(colorize("Voce esta sem flechas para usar ${spec.name}.", ansiYellow))
                         return ActionOutcome(consumedReady = false)
                     }
                     if (ammoConsumed != null) {
-                        val syncedPlayer = ammoConsumed.first.copy(currentHp = actor.currentHp, currentMp = actor.currentMp)
-                        onPlayerUpdate(syncedPlayer, ammoConsumed.second)
+                        val syncedPlayer = ammoConsumed.player.copy(currentHp = actor.currentHp, currentMp = actor.currentMp)
+                        onPlayerUpdate(syncedPlayer, ammoConsumed.itemInstances)
                     }
                     val resolution = resolveSkill(
                         attacker = actor,
@@ -661,7 +670,8 @@ class CombatEngine(
                         telemetry = telemetry,
                         actionMultiplier = spec.damageMultiplier.coerceAtLeast(0.1),
                         actionName = spec.name,
-                        extraOnHitStatuses = spec.onHitStatuses,
+                        extraOnHitStatuses = spec.onHitStatuses + ammoPayload.statuses,
+                        extraBonuses = ammoPayload.bonuses,
                         selfHealFlat = spec.selfHealFlat,
                         selfHealPctMaxHp = spec.selfHealPctMaxHp,
                         skillRank = spec.rank,
@@ -778,8 +788,13 @@ class CombatEngine(
         var resolution = SkillResolutionResult(hit = false)
         when (pending) {
             is CombatAction.Attack -> {
+                val ammoPayload = if (caster.kind == CombatantKind.PLAYER) {
+                    previewAmmoPayload(playerState, itemInstances, amount = 1)
+                } else {
+                    AmmoPayload()
+                }
                 if (caster.kind == CombatantKind.PLAYER) {
-                    val ammoConsumed = consumeArrowAmmo(playerState, itemInstances)
+                    val ammoConsumed = consumeArrowAmmo(playerState, itemInstances, amount = 1)
                     if (ammoConsumed == null && playerUsesBowAmmo(playerState, itemInstances)) {
                         combatLog(colorize("Voce ficou sem flechas antes do disparo.", ansiYellow))
                         caster.pendingAfterResolve?.invoke()
@@ -787,20 +802,27 @@ class CombatEngine(
                         return
                     }
                     if (ammoConsumed != null) {
-                        val syncedPlayer = ammoConsumed.first.copy(currentHp = caster.currentHp, currentMp = caster.currentMp)
-                        onPlayerUpdate(syncedPlayer, ammoConsumed.second)
+                        val syncedPlayer = ammoConsumed.player.copy(currentHp = caster.currentHp, currentMp = caster.currentMp)
+                        onPlayerUpdate(syncedPlayer, ammoConsumed.itemInstances)
                     }
                 }
                 resolution = resolveSkill(
                     attacker = caster,
                     defender = target,
                     preferMagic = pending.preferMagic ?: caster.preferMagic,
-                    telemetry = telemetry
+                    telemetry = telemetry,
+                    extraBonuses = ammoPayload.bonuses,
+                    extraOnHitStatuses = ammoPayload.statuses
                 )
             }
             is CombatAction.Skill -> {
+                val ammoPayload = if (caster.kind == CombatantKind.PLAYER) {
+                    previewAmmoPayload(playerState, itemInstances, amount = pending.spec.ammoCost)
+                } else {
+                    AmmoPayload()
+                }
                 if (caster.kind == CombatantKind.PLAYER) {
-                    val ammoConsumed = consumeArrowAmmo(playerState, itemInstances)
+                    val ammoConsumed = consumeArrowAmmo(playerState, itemInstances, amount = pending.spec.ammoCost)
                     if (ammoConsumed == null && playerUsesBowAmmo(playerState, itemInstances)) {
                         combatLog(colorize("Voce ficou sem flechas antes de concluir ${pending.spec.name}.", ansiYellow))
                         caster.pendingAfterResolve?.invoke()
@@ -808,8 +830,8 @@ class CombatEngine(
                         return
                     }
                     if (ammoConsumed != null) {
-                        val syncedPlayer = ammoConsumed.first.copy(currentHp = caster.currentHp, currentMp = caster.currentMp)
-                        onPlayerUpdate(syncedPlayer, ammoConsumed.second)
+                        val syncedPlayer = ammoConsumed.player.copy(currentHp = caster.currentHp, currentMp = caster.currentMp)
+                        onPlayerUpdate(syncedPlayer, ammoConsumed.itemInstances)
                     }
                 }
                 resolution = resolveSkill(
@@ -819,7 +841,8 @@ class CombatEngine(
                     telemetry = telemetry,
                     actionMultiplier = pending.spec.damageMultiplier.coerceAtLeast(0.1),
                     actionName = pending.spec.name,
-                    extraOnHitStatuses = pending.spec.onHitStatuses,
+                    extraOnHitStatuses = pending.spec.onHitStatuses + ammoPayload.statuses,
+                    extraBonuses = ammoPayload.bonuses,
                     selfHealFlat = pending.spec.selfHealFlat,
                     selfHealPctMaxHp = pending.spec.selfHealPctMaxHp,
                     skillRank = pending.spec.rank,
@@ -854,13 +877,15 @@ class CombatEngine(
         actionMultiplier: Double = 1.0,
         actionName: String? = null,
         extraOnHitStatuses: List<CombatStatusApplyDef> = emptyList(),
+        extraBonuses: Bonuses = Bonuses(),
         selfHealFlat: Double = 0.0,
         selfHealPctMaxHp: Double = 0.0,
         skillRank: Int = 1,
         aoeUnlockRank: Int = 0,
         aoeBonusDamagePct: Double = 0.0
     ): SkillResolutionResult {
-        val result = Combat.attack(attacker.stats, defender.stats, rng, preferMagic = preferMagic)
+        val attackStats = applyTransientBonuses(attacker.stats, extraBonuses)
+        val result = Combat.attack(attackStats, defender.stats, rng, preferMagic = preferMagic)
         val conditionalStatusMultiplier = statusConditionalDamageMultiplier(attacker, defender)
         val finalMultiplier = (
             attacker.runtime.statusDamageMultiplier *
@@ -1257,8 +1282,9 @@ class CombatEngine(
         if (player.equipped[EquipSlot.ALJAVA.name].isNullOrBlank()) {
             return "Voce precisa equipar uma aljava para usar arcos."
         }
-        if (selectArrowAmmoId(player, itemInstances) == null) {
-            return "Voce esta sem flechas no inventario."
+        val normalizedPlayer = InventorySystem.normalizeAmmoStorage(player, itemInstances, itemRegistry)
+        if (InventorySystem.quiverAmmoCount(normalizedPlayer, itemInstances, itemRegistry) <= 0) {
+            return "Voce esta sem flechas na aljava."
         }
         return null
     }
@@ -1275,52 +1301,60 @@ class CombatEngine(
         return "bow" in source || "arco" in source
     }
 
-    private fun selectArrowAmmoId(
-        player: PlayerState,
-        itemInstances: Map<String, ItemInstance>
-    ): String? {
-        return player.inventory
-            .filter { isArrowAmmo(it, itemInstances) }
-            .minByOrNull { arrowPriority(it, itemInstances) }
-    }
-
     private fun consumeArrowAmmo(
         player: PlayerState,
-        itemInstances: Map<String, ItemInstance>
-    ): Pair<PlayerState, Map<String, ItemInstance>>? {
+        itemInstances: Map<String, ItemInstance>,
+        amount: Int = 1
+    ): rpg.inventory.ArrowConsumeResult? {
         if (!playerUsesBowAmmo(player, itemInstances)) return null
-        val arrowId = selectArrowAmmoId(player, itemInstances) ?: return null
-        val inventory = player.inventory.toMutableList()
-        if (!inventory.remove(arrowId)) return null
-        val updatedInstances = if (itemInstances.containsKey(arrowId)) {
-            itemInstances - arrowId
+        val consumed = InventorySystem.consumeArrowAmmo(
+            player = player,
+            itemInstances = itemInstances,
+            itemRegistry = itemRegistry,
+            amount = amount
+        ) ?: return null
+        val arrowLabel = if (consumed.consumedArrowIds.size == 1) {
+            itemResolver.resolve(consumed.consumedArrowIds.first(), itemInstances)?.name ?: "Flecha"
         } else {
-            itemInstances
+            "${consumed.consumedArrowIds.size} flecha(s)"
         }
-        val arrowName = itemResolver.resolve(arrowId, itemInstances)?.name ?: "Flecha"
-        combatLog(colorize("Municao consumida: $arrowName.", ansiBlue))
-        return player.copy(inventory = inventory) to updatedInstances
+        combatLog(colorize("Municao consumida: $arrowLabel.", ansiBlue))
+        return consumed
     }
 
-    private fun isArrowAmmo(itemId: String, itemInstances: Map<String, ItemInstance>): Boolean {
-        val resolved = itemResolver.resolve(itemId, itemInstances) ?: return false
-        val normalizedTags = resolved.tags.mapTo(mutableSetOf()) { it.trim().lowercase() }
-        return "arrow" in normalizedTags || resolved.id.lowercase().startsWith("arrow_")
+    private fun previewAmmoPayload(
+        player: PlayerState,
+        itemInstances: Map<String, ItemInstance>,
+        amount: Int
+    ): AmmoPayload {
+        if (!playerUsesBowAmmo(player, itemInstances)) return AmmoPayload()
+        val ammoIds = InventorySystem.peekArrowAmmo(
+            player = player,
+            itemInstances = itemInstances,
+            itemRegistry = itemRegistry,
+            amount = amount
+        )
+        if (ammoIds.isEmpty()) return AmmoPayload()
+        var bonuses = Bonuses()
+        val statuses = mutableListOf<CombatStatusApplyDef>()
+        val labelCounts = linkedMapOf<String, Int>()
+        for (ammoId in ammoIds) {
+            val ammo = itemResolver.resolve(ammoId, itemInstances) ?: continue
+            bonuses += ammo.bonuses
+            statuses += ammo.effects.applyStatuses
+            labelCounts[ammo.name] = (labelCounts[ammo.name] ?: 0) + 1
+        }
+        val label = labelCounts.entries.joinToString(", ") { (name, qty) ->
+            if (qty > 1) "$name x$qty" else name
+        }
+        return AmmoPayload(bonuses = bonuses, statuses = statuses, label = label)
     }
 
-    private fun arrowPriority(itemId: String, itemInstances: Map<String, ItemInstance>): Int {
-        val normalized = (itemResolver.resolve(itemId, itemInstances)?.id ?: itemId).lowercase()
-        return when {
-            "arrow_simple" in normalized -> 10
-            "arrow_iron" in normalized -> 20
-            "arrow_steel" in normalized -> 30
-            "arrow_mithril" in normalized -> 40
-            "arrow_poison" in normalized -> 50
-            "arrow_frost" in normalized -> 55
-            "arrow_flame" in normalized -> 60
-            "arrow_explosive" in normalized -> 70
-            else -> 100
-        }
+    private fun applyTransientBonuses(stats: ComputedStats, bonuses: Bonuses): ComputedStats {
+        if (bonuses == Bonuses()) return stats
+        val attributes = stats.attributes + bonuses.attributes
+        val derived = (stats.derived + bonuses.derivedAdd).applyMultiplier(bonuses.derivedMult)
+        return ComputedStats(attributes = attributes, derived = derived)
     }
 
     private fun startCasting(
@@ -1772,6 +1806,12 @@ class CombatEngine(
         val itemInstances: Map<String, ItemInstance>,
         val statuses: List<rpg.status.StatusEffectInstance> = emptyList(),
         val statusImmunitySeconds: Double = 0.0
+    )
+
+    private data class AmmoPayload(
+        val bonuses: Bonuses = Bonuses(),
+        val statuses: List<CombatStatusApplyDef> = emptyList(),
+        val label: String = ""
     )
 
     private data class SkillResolutionResult(

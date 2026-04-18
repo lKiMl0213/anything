@@ -1,0 +1,45 @@
+{
+  "id": "a_hunter_assassin_weapon",
+  "name": "Arco da Penumbra",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 50,
+  "rarity": "EPIC",
+  "tags": [
+    "{assassin}",
+    "class_set",
+    "set:assassin",
+    "questReward:true",
+    "sellValue:1",
+    "bow",
+    "two_handed"
+  ],
+  "bonuses": {
+    "attributes": {
+      "dex": 4,
+      "agi": 2,
+      "luk": 1
+    },
+    "derivedAdd": {
+      "damagePhysical": 62.0,
+      "accuracy": 16.0,
+      "critChancePct": 7.0,
+      "critDamagePct": 18.0,
+      "penPhysical": 7.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Assassino focado em burst, veneno, evasao e finalizacao rapida.",
+  "twoHanded": true,
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "POISONED",
+        "chancePct": 18.0,
+        "durationSeconds": 5.0,
+        "effectValue": 4.0,
+        "source": "Arco da Penumbra"
+      }
+    ]
+  }
+}

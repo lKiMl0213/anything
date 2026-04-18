@@ -1,0 +1,42 @@
+{
+  "id": "m_arcanist_archmage_weapon",
+  "name": "Cajado Supremo",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 50,
+  "rarity": "EPIC",
+  "tags": [
+    "{archmage}",
+    "class_set",
+    "set:archmage",
+    "questReward:true",
+    "sellValue:1",
+    "staff",
+    "focus"
+  ],
+  "bonuses": {
+    "attributes": {
+      "int": 5,
+      "spr": 3
+    },
+    "derivedAdd": {
+      "damageMagic": 78.0,
+      "mpMax": 36.0,
+      "penMagic": 12.0,
+      "cdrPct": 5.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Arquimago focado em dano magico bruto, alcance de feiticos e sobrecarga arcana.",
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "WEAKNESS",
+        "chancePct": 12.0,
+        "durationSeconds": 4.5,
+        "effectValue": 10.0,
+        "source": "Cajado Supremo"
+      }
+    ]
+  }
+}

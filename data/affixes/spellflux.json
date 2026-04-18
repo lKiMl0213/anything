@@ -1,0 +1,20 @@
+{
+    "id":  "spellflux",
+    "name":  "de Fluxo Arcano",
+    "kind":  "SUFFIX",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "damageMagic":  5,
+                                       "mpRegen":  2,
+                                       "cdrPct":  3
+                                   }
+                },
+    "cost":  15,
+    "weight":  7,
+    "requiredTagsAny":  [
+                            "staff",
+                            "arcane",
+                            "mage",
+                            "elemental"
+                        ]
+}

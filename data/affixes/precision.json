@@ -1,0 +1,18 @@
+{
+    "id":  "precision",
+    "name":  "de Precisao",
+    "kind":  "SUFFIX",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "accuracy":  10,
+                                       "critChancePct":  1.5
+                                   }
+                },
+    "cost":  12,
+    "weight":  8,
+    "requiredTagsAny":  [
+                            "bow",
+                            "quiver",
+                            "ranged"
+                        ]
+}

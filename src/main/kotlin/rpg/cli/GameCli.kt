@@ -6,6 +6,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.Instant
 import java.time.ZoneId
+import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.min
@@ -26,6 +27,7 @@ import rpg.engine.Progression
 import rpg.inventory.InventorySystem
 import rpg.io.DataRepository
 import rpg.io.JsonStore
+import rpg.item.ItemRarity
 import rpg.events.EventContext
 import rpg.events.DungeonEventService
 import rpg.events.EventEngine
@@ -50,6 +52,7 @@ import rpg.model.WorldState
 import rpg.monster.MonsterInstance
 import rpg.quest.QuestInstance
 import rpg.quest.QuestStatus
+import rpg.status.StatusSystem
 import rpg.talent.TalentTreeService
 import rpg.world.RunRoomType
 
@@ -174,6 +177,7 @@ class GameCli(private val repo: DataRepository) {
             equipped = starterEquipment,
             gold = characterDef.starterGold
         )
+        player = InventorySystem.normalizeAmmoStorage(player, emptyMap(), engine.itemRegistry)
         player = engine.skillSystem.ensureProgress(player)
         player = achievementTracker.synchronize(player)
 
@@ -267,16 +271,20 @@ class GameCli(private val repo: DataRepository) {
     }
 
     private fun normalizeLoadedState(state: GameState): GameState {
-        val migratedState = engine.classSystem.migrateLegacyState(state)
+        val ammoNormalizedPlayer = InventorySystem.normalizeAmmoStorage(
+            state.player,
+            state.itemInstances,
+            engine.itemRegistry
+        )
         val migratedPlayer = achievementTracker.synchronize(
             engine.classSystem.sanitizePlayerHierarchy(
-                engine.skillSystem.ensureProgress(migratedState.player)
+                engine.skillSystem.ensureProgress(ammoNormalizedPlayer)
             )
         )
-        return if (migratedPlayer == migratedState.player) {
-            migratedState
+        return if (migratedPlayer == state.player) {
+            if (ammoNormalizedPlayer == state.player) state else state.copy(player = ammoNormalizedPlayer)
         } else {
-            migratedState.copy(player = migratedPlayer)
+            state.copy(player = migratedPlayer)
         }
     }
 
@@ -418,7 +426,7 @@ class GameCli(private val repo: DataRepository) {
                 val label = when {
                     equippedId == null -> "-"
                     equippedId == offhandBlockedId -> "Bloqueado por arma de duas maos"
-                    else -> engine.itemResolver.resolve(equippedId, itemInstances)?.name ?: equippedId
+                    else -> engine.itemResolver.resolve(equippedId, itemInstances)?.let(::itemDisplayLabel) ?: equippedId
                 }
                 println("${index + 1}. ${equippedSlotLabel(slot)} -> $label")
             }
@@ -473,7 +481,7 @@ class GameCli(private val repo: DataRepository) {
         item: rpg.item.ResolvedItem
     ) {
         println("\n=== ${equippedSlotLabel(slotKey)} ===")
-        println("Item: ${item.name}")
+        println("Item: ${itemDisplayLabel(item)}")
         if (item.description.isNotBlank()) {
             println("Descricao: ${item.description}")
         }
@@ -504,6 +512,13 @@ class GameCli(private val repo: DataRepository) {
         return player.copy(equipped = equipped)
     }
 
+    private fun normalizePlayerStorage(
+        player: PlayerState,
+        itemInstances: Map<String, rpg.model.ItemInstance>
+    ): PlayerState {
+        return InventorySystem.normalizeAmmoStorage(player, itemInstances, engine.itemRegistry)
+    }
+
     private fun unequipSlot(
         player: PlayerState,
         itemInstances: Map<String, rpg.model.ItemInstance>,
@@ -523,7 +538,14 @@ class GameCli(private val repo: DataRepository) {
         }
         println("Desequipou ${item.name}.")
         return clampPlayerResources(
-            unequipped.copy(inventory = insertion.inventory),
+            normalizePlayerStorage(
+                unequipped.copy(
+                    inventory = insertion.inventory,
+                    quiverInventory = insertion.quiverInventory,
+                    selectedAmmoTemplateId = insertion.selectedAmmoTemplateId
+                ),
+                itemInstances
+            ),
             itemInstances
         )
     }
@@ -623,7 +645,6 @@ class GameCli(private val repo: DataRepository) {
         val resetV2 = talentTreeService.buildResetState(player, repo.talentTreesV2.values)
         return resetV2.copy(
             talentNodeRanks = emptyMap(),
-            legacyTalentIds = emptyList(),
             unlockedTalentTrees = emptyList(),
             unspentSkillPoints = resetV2.unspentSkillPoints.coerceAtLeast(0)
         )
@@ -2794,7 +2815,11 @@ class GameCli(private val repo: DataRepository) {
             itemRegistry = engine.itemRegistry,
             incomingItemIds = addedIds
         )
-        val after = raw.copy(inventory = inserted.inventory)
+        val after = raw.copy(
+            inventory = inserted.inventory,
+            quiverInventory = inserted.quiverInventory,
+            selectedAmmoTemplateId = inserted.selectedAmmoTemplateId
+        )
         val hpDelta = after.currentHp - before.currentHp
         val mpDelta = after.currentMp - before.currentMp
         val goldDelta = after.gold - before.gold
@@ -3093,6 +3118,7 @@ class GameCli(private val repo: DataRepository) {
                                 onHitStatuses = action.skill.onHitStatuses,
                                 selfHealFlat = action.skill.selfHealFlat,
                                 selfHealPctMaxHp = action.skill.selfHealPctMaxHp,
+                                ammoCost = action.skill.ammoCost,
                                 rank = action.skill.rank,
                                 aoeUnlockRank = action.skill.aoeUnlockRank,
                                 aoeBonusDamagePct = action.skill.aoeBonusDamagePct
@@ -3271,6 +3297,8 @@ class GameCli(private val repo: DataRepository) {
                     val healFlatGrowth = combat["selfHealFlatPerRank"] ?: combat["healFlatPerRank"] ?: 0.0
                     val healPctBase = combat["selfHealPctMaxHp"] ?: combat["healPctMaxHp"] ?: 0.0
                     val healPctGrowth = combat["selfHealPctMaxHpPerRank"] ?: combat["healPctMaxHpPerRank"] ?: 0.0
+                    val ammoCostBase = (combat["ammoCost"] ?: 1.0).toInt().coerceAtLeast(1)
+                    val ammoCostGrowth = (combat["ammoCostPerRank"] ?: 0.0).toInt()
 
                     val skillId = node.unlocksSkillId?.takeIf { it.isNotBlank() } ?: node.id
                     val statusChancePerRank = combat["statusChancePerRankPct"] ?: 0.0
@@ -3297,6 +3325,7 @@ class GameCli(private val repo: DataRepository) {
                         onHitStatuses = onHitStatuses,
                         selfHealFlat = (healFlatBase + (rankFactor - 1.0) * healFlatGrowth).coerceAtLeast(0.0),
                         selfHealPctMaxHp = (healPctBase + (rankFactor - 1.0) * healPctGrowth).coerceAtLeast(0.0),
+                        ammoCost = (ammoCostBase + ((rank - 1).coerceAtLeast(0) * ammoCostGrowth)).coerceAtLeast(1),
                         rank = rank,
                         maxRank = node.maxRank.coerceAtLeast(1),
                         aoeUnlockRank = (combat["aoeUnlockRank"] ?: 0.0).toInt().coerceAtLeast(0),
@@ -3399,10 +3428,19 @@ class GameCli(private val repo: DataRepository) {
 
         private fun rangedAmmoStatusLine(snapshot: rpg.combat.CombatSnapshot): String? {
             if (!playerUsesBow(snapshot)) return null
+            val normalizedPlayer = InventorySystem.normalizeAmmoStorage(snapshot.player, snapshot.itemInstances, engine.itemRegistry)
             val quiverName = snapshot.player.equipped[EquipSlot.ALJAVA.name]?.let { quiverId ->
                 engine.itemResolver.resolve(quiverId, snapshot.itemInstances)?.name ?: quiverId
             } ?: "nenhuma"
-            return "Municao: ${countArrows(snapshot)} flecha(s) | Aljava: $quiverName"
+            val quiverCapacity = InventorySystem.quiverCapacity(normalizedPlayer, snapshot.itemInstances, engine.itemRegistry)
+            val reserve = InventorySystem.inventoryArrowReserveCount(normalizedPlayer, snapshot.itemInstances, engine.itemRegistry)
+            val activeAmmo = normalizedPlayer.selectedAmmoTemplateId?.let { templateId ->
+                buildAmmoStacks(normalizedPlayer.quiverInventory, snapshot.itemInstances, normalizedPlayer.selectedAmmoTemplateId)
+                    .firstOrNull { it.templateId == templateId }
+                    ?.item
+                    ?.name
+            } ?: "-"
+            return "Municao: ${countArrows(snapshot)}/$quiverCapacity flecha(s) | Reserva: $reserve | Ativa: $activeAmmo | Aljava: $quiverName"
         }
 
         private fun playerUsesBow(snapshot: rpg.combat.CombatSnapshot): Boolean {
@@ -3415,11 +3453,8 @@ class GameCli(private val repo: DataRepository) {
         }
 
         private fun countArrows(snapshot: rpg.combat.CombatSnapshot): Int {
-            return snapshot.player.inventory.count { itemId ->
-                val resolved = engine.itemResolver.resolve(itemId, snapshot.itemInstances) ?: return@count false
-                val normalizedTags = resolved.tags.mapTo(mutableSetOf()) { it.trim().lowercase() }
-                "arrow" in normalizedTags || resolved.id.lowercase().startsWith("arrow_")
-            }
+            val normalizedPlayer = InventorySystem.normalizeAmmoStorage(snapshot.player, snapshot.itemInstances, engine.itemRegistry)
+            return InventorySystem.quiverAmmoCount(normalizedPlayer, snapshot.itemInstances, engine.itemRegistry)
         }
 
         private fun itemDecisionMenuLines(itemInstances: Map<String, rpg.model.ItemInstance>): List<String> {
@@ -3668,9 +3703,10 @@ class GameCli(private val repo: DataRepository) {
                 lootCollector.add(outcome.itemInstance.id)
                 val canonicalId = outcome.itemInstance.templateId
                 collectedItems[canonicalId] = (collectedItems[canonicalId] ?: 0) + 1
-                println("Drop encontrado: ${outcome.itemInstance.name}")
+                println("Drop encontrado: ${itemDisplayLabel(outcome.itemInstance.name, outcome.itemInstance.rarity)}")
             } else if (outcome.itemId != null) {
-                val name = engine.itemResolver.resolve(outcome.itemId, instances)?.name ?: outcome.itemId
+                val resolved = engine.itemResolver.resolve(outcome.itemId, instances)
+                val name = resolved?.let(::itemDisplayLabel) ?: outcome.itemId
                 val qty = outcome.quantity.coerceAtLeast(1)
                 repeat(qty) { lootCollector.add(outcome.itemId) }
                 collectedItems[outcome.itemId] = (collectedItems[outcome.itemId] ?: 0) + qty
@@ -3985,7 +4021,11 @@ class GameCli(private val repo: DataRepository) {
             )
         }
 
-        var updatedPlayer = player.copy(inventory = insertion.inventory)
+        var updatedPlayer = player.copy(
+            inventory = insertion.inventory,
+            quiverInventory = insertion.quiverInventory,
+            selectedAmmoTemplateId = insertion.selectedAmmoTemplateId
+        )
         updatedPlayer = when (entry.currency) {
             ShopCurrency.GOLD -> updatedPlayer.copy(gold = updatedPlayer.gold - entry.price)
             ShopCurrency.CASH -> updatedPlayer.copy(premiumCash = updatedPlayer.premiumCash - entry.price)
@@ -4003,12 +4043,19 @@ class GameCli(private val repo: DataRepository) {
     private fun openInventory(state: GameState): GameState {
         var player = state.player
         var itemInstances = state.itemInstances
+        var inventoryFilter = InventoryFilter()
 
         while (true) {
-            val stacks = buildInventoryStacks(player, itemInstances)
+            player = normalizePlayerStorage(player, itemInstances)
+            val allStacks = buildInventoryStacks(player, itemInstances)
+            val stacks = applyInventoryFilter(allStacks, inventoryFilter)
             val slotUsed = InventorySystem.slotsUsed(player, itemInstances, engine.itemRegistry)
             val slotLimit = InventorySystem.inventoryLimit(player, itemInstances, engine.itemRegistry)
-            if (stacks.isEmpty()) {
+            val quiverCapacity = InventorySystem.quiverCapacity(player, itemInstances, engine.itemRegistry)
+            val quiverAmmo = InventorySystem.quiverAmmoCount(player, itemInstances, engine.itemRegistry)
+            val reserveAmmo = InventorySystem.inventoryArrowReserveCount(player, itemInstances, engine.itemRegistry)
+            val hasQuiverMenu = quiverCapacity > 0 || quiverAmmo > 0 || reserveAmmo > 0
+            if (allStacks.isEmpty() && !hasQuiverMenu) {
                 println("Inventario vazio.")
                 val updated = state.copy(player = player, itemInstances = itemInstances)
                 autoSave(updated)
@@ -4017,20 +4064,58 @@ class GameCli(private val repo: DataRepository) {
 
             println("\n=== Inventario ===")
             println("Slots: $slotUsed/$slotLimit")
+            println("Filtros: ${inventoryFilterSummary(inventoryFilter)}")
+            var nextOption = 1
+            val quiverOption = if (hasQuiverMenu) nextOption++ else null
+            val filterOption = if (allStacks.isNotEmpty()) nextOption++ else null
+            if (hasQuiverMenu) {
+                val activeAmmoName = player.selectedAmmoTemplateId?.let { templateId ->
+                    buildAmmoStacks(player.quiverInventory, itemInstances, player.selectedAmmoTemplateId)
+                        .firstOrNull { it.templateId == templateId }
+                        ?.item
+                        ?.name
+                } ?: "-"
+                println("Aljava: $quiverAmmo/$quiverCapacity | Reserva: $reserveAmmo | Municao ativa: $activeAmmoName")
+                println("${quiverOption}. Gerenciar aljava")
+            }
+            if (filterOption != null) {
+                println("${filterOption}. Filtrar inventario")
+            }
+            if (allStacks.isNotEmpty() && stacks.isEmpty()) {
+                println("Nenhum item corresponde aos filtros atuais.")
+            }
             stacks.forEachIndexed { index, stack ->
                 val qtyLabel = if (stack.quantity > 1) " x${stack.quantity}" else ""
-                println("${index + 1}. ${stack.item.name}$qtyLabel")
+                println("${nextOption + index}. ${itemDisplayLabel(stack.item)}$qtyLabel")
             }
             println("x. Voltar")
 
-            val choice = readMenuChoice("Escolha: ", 1, stacks.size)
+            val maxOption = nextOption + stacks.size - 1
+            val choice = readMenuChoice("Escolha: ", 1, maxOption.coerceAtLeast(1))
             if (choice == null) {
                 val updated = state.copy(player = player, itemInstances = itemInstances)
                 autoSave(updated)
                 return updated
             }
 
-            val selected = stacks[choice - 1]
+            if (quiverOption != null && choice == quiverOption) {
+                val result = openQuiverMenu(player, itemInstances)
+                player = result.player
+                itemInstances = result.itemInstances
+                autoSave(state.copy(player = player, itemInstances = itemInstances))
+                continue
+            }
+
+            if (filterOption != null && choice == filterOption) {
+                inventoryFilter = openInventoryFilterMenu(inventoryFilter)
+                continue
+            }
+
+            val selectedIndex = choice - nextOption
+            if (selectedIndex !in stacks.indices) {
+                continue
+            }
+            val selected = stacks[selectedIndex]
             val result = handleInventoryAction(player, itemInstances, selected)
             player = result.player
             itemInstances = result.itemInstances
@@ -4057,7 +4142,296 @@ class GameCli(private val repo: DataRepository) {
                 itemIds = ids.toList(),
                 item = resolved
             )
-        }.sortedBy { it.item.name.lowercase() }
+        }.sortedWith(
+            compareByDescending<InventoryStack> { it.item.rarity.ordinal }
+                .thenByDescending { it.item.powerScore }
+                .thenBy { it.item.name.lowercase() }
+        )
+    }
+
+    private fun applyInventoryFilter(
+        stacks: List<InventoryStack>,
+        filter: InventoryFilter
+    ): List<InventoryStack> {
+        return stacks.filter { stack ->
+            val typeOk = filter.type == null || stack.item.type == filter.type
+            val rarityOk = filter.minimumRarity == null || stack.item.rarity.ordinal >= filter.minimumRarity.ordinal
+            typeOk && rarityOk
+        }
+    }
+
+    private fun inventoryFilterSummary(filter: InventoryFilter): String {
+        val typeLabel = when (filter.type) {
+            null -> "todos"
+            ItemType.EQUIPMENT -> "equipamentos"
+            ItemType.CONSUMABLE -> "consumiveis"
+            ItemType.MATERIAL -> "materiais"
+        }
+        val rarityLabel = filter.minimumRarity?.colorLabel ?: "qualquer raridade"
+        return "tipo=$typeLabel | raridade min=$rarityLabel"
+    }
+
+    private fun openInventoryFilterMenu(current: InventoryFilter): InventoryFilter {
+        var filter = current
+        while (true) {
+            println("\n=== Filtros do Inventario ===")
+            println("Atual: ${inventoryFilterSummary(filter)}")
+            println("1. Tipo")
+            println("2. Raridade minima")
+            println("3. Limpar filtros")
+            println("x. Voltar")
+            when (readMenuChoice("Escolha: ", 1, 3)) {
+                1 -> {
+                    println("\nTipo:")
+                    println("1. Todos")
+                    println("2. Equipamentos")
+                    println("3. Consumiveis")
+                    println("4. Materiais")
+                    println("x. Voltar")
+                    when (readMenuChoice("Escolha: ", 1, 4)) {
+                        1 -> filter = filter.copy(type = null)
+                        2 -> filter = filter.copy(type = ItemType.EQUIPMENT)
+                        3 -> filter = filter.copy(type = ItemType.CONSUMABLE)
+                        4 -> filter = filter.copy(type = ItemType.MATERIAL)
+                        null -> {}
+                    }
+                }
+                2 -> {
+                    println("\nRaridade minima:")
+                    println("1. Qualquer")
+                    ItemRarity.entries.forEachIndexed { index, rarity ->
+                        println("${index + 2}. ${rarity.colorLabel}")
+                    }
+                    println("x. Voltar")
+                    when (val choice = readMenuChoice("Escolha: ", 1, ItemRarity.entries.size + 1)) {
+                        1 -> filter = filter.copy(minimumRarity = null)
+                        null -> {}
+                        else -> {
+                            val rarity = ItemRarity.entries.getOrNull(choice - 2)
+                            if (rarity != null) {
+                                filter = filter.copy(minimumRarity = rarity)
+                            }
+                        }
+                    }
+                }
+                3 -> filter = InventoryFilter()
+                null -> return filter
+            }
+        }
+    }
+
+    private fun buildAmmoStacks(
+        itemIds: List<String>,
+        itemInstances: Map<String, rpg.model.ItemInstance>,
+        selectedTemplateId: String?
+    ): List<AmmoStack> {
+        val grouped = linkedMapOf<String, MutableList<String>>()
+        for (itemId in itemIds) {
+            if (!InventorySystem.isArrowAmmo(itemId, itemInstances, engine.itemRegistry)) continue
+            val templateId = InventorySystem.ammoTemplateId(itemId, itemInstances, engine.itemRegistry)
+            grouped.getOrPut(templateId) { mutableListOf() }.add(itemId)
+        }
+
+        return grouped.mapNotNull { (templateId, ids) ->
+            val sampleId = ids.firstOrNull() ?: return@mapNotNull null
+            val resolved = engine.itemResolver.resolve(sampleId, itemInstances) ?: return@mapNotNull null
+            AmmoStack(
+                templateId = templateId,
+                sampleItemId = sampleId,
+                quantity = ids.size,
+                itemIds = ids.toList(),
+                item = resolved
+            )
+        }.sortedWith(
+            compareByDescending<AmmoStack> { it.templateId == selectedTemplateId?.trim()?.lowercase() }
+                .thenBy { it.item.name.lowercase() }
+        )
+    }
+
+    private fun openQuiverMenu(
+        player: PlayerState,
+        itemInstances: Map<String, rpg.model.ItemInstance>
+    ): UseItemResult {
+        var updatedPlayer = normalizePlayerStorage(player, itemInstances)
+        var updatedInstances = itemInstances
+
+        while (true) {
+            updatedPlayer = normalizePlayerStorage(updatedPlayer, updatedInstances)
+            val quiverName = updatedPlayer.equipped[EquipSlot.ALJAVA.name]?.let { quiverId ->
+                engine.itemResolver.resolve(quiverId, updatedInstances)?.name ?: quiverId
+            } ?: "Nenhuma"
+            val quiverCapacity = InventorySystem.quiverCapacity(updatedPlayer, updatedInstances, engine.itemRegistry)
+            val quiverStacks = buildAmmoStacks(
+                updatedPlayer.quiverInventory,
+                updatedInstances,
+                updatedPlayer.selectedAmmoTemplateId
+            )
+            val reserveStacks = buildAmmoStacks(
+                updatedPlayer.inventory,
+                updatedInstances,
+                updatedPlayer.selectedAmmoTemplateId
+            )
+
+            println("\n=== Aljava ===")
+            println("Aljava equipada: $quiverName")
+            println("Capacidade: ${updatedPlayer.quiverInventory.size}/$quiverCapacity")
+            val activeAmmoLabel = quiverStacks
+                .firstOrNull { it.templateId == updatedPlayer.selectedAmmoTemplateId }
+                ?.item
+                ?.name
+                ?: "-"
+            println("Municao ativa: $activeAmmoLabel")
+
+            if (quiverStacks.isNotEmpty()) {
+                println("Carregadas:")
+                quiverStacks.forEachIndexed { index, stack ->
+                    val marker = if (stack.templateId == updatedPlayer.selectedAmmoTemplateId) "[ATIVA] " else ""
+                    println("${index + 1}. $marker${itemDisplayLabel(stack.item)} x${stack.quantity}")
+                }
+            } else {
+                println("Carregadas: -")
+            }
+
+            if (reserveStacks.isNotEmpty()) {
+                println("Reserva:")
+                reserveStacks.forEachIndexed { index, stack ->
+                    println("${index + 1}. ${itemDisplayLabel(stack.item)} x${stack.quantity}")
+                }
+            } else {
+                println("Reserva: -")
+            }
+
+            var option = 1
+            val selectAmmoOption = if (quiverStacks.isNotEmpty()) option++ else null
+            val loadAmmoOption = if (quiverCapacity > updatedPlayer.quiverInventory.size && reserveStacks.isNotEmpty()) option++ else null
+            val unloadAmmoOption = if (quiverStacks.isNotEmpty()) option++ else null
+            val sellReserveOption = if (reserveStacks.isNotEmpty()) option++ else null
+            val sellLoadedOption = if (quiverStacks.isNotEmpty()) option++ else null
+
+            if (selectAmmoOption != null) println("$selectAmmoOption. Selecionar municao ativa")
+            if (loadAmmoOption != null) println("$loadAmmoOption. Carregar da reserva")
+            if (unloadAmmoOption != null) println("$unloadAmmoOption. Retirar da aljava")
+            if (sellReserveOption != null) println("$sellReserveOption. Vender da reserva")
+            if (sellLoadedOption != null) println("$sellLoadedOption. Vender da aljava")
+            println("x. Voltar")
+
+            val choice = readMenuChoice("Escolha: ", 1, (option - 1).coerceAtLeast(1)) ?: return UseItemResult(
+                updatedPlayer,
+                updatedInstances
+            )
+            when (choice) {
+                selectAmmoOption -> {
+                    val stack = chooseAmmoStack(quiverStacks, "Municao ativa")
+                    updatedPlayer = InventorySystem.selectAmmoTemplate(
+                        updatedPlayer,
+                        updatedInstances,
+                        engine.itemRegistry,
+                        stack.templateId
+                    )
+                    println("Municao ativa alterada para ${stack.item.name}.")
+                }
+                loadAmmoOption -> {
+                    val stack = chooseAmmoStack(reserveStacks, "Carregar")
+                    val maxQty = minOf(
+                        stack.quantity,
+                        (quiverCapacity - updatedPlayer.quiverInventory.size).coerceAtLeast(0)
+                    )
+                    if (maxQty <= 0) {
+                        println("A aljava esta cheia.")
+                        continue
+                    }
+                    val qty = chooseTransferQuantity("Quantidade para carregar", maxQty)
+                    val result = InventorySystem.moveAmmoToQuiver(
+                        updatedPlayer,
+                        updatedInstances,
+                        engine.itemRegistry,
+                        stack.itemIds.take(qty)
+                    )
+                    updatedPlayer = updatedPlayer.copy(
+                        inventory = result.inventory,
+                        quiverInventory = result.quiverInventory,
+                        selectedAmmoTemplateId = result.selectedAmmoTemplateId
+                    )
+                    println("Carregou ${stack.item.name} x${result.accepted.size}.")
+                }
+                unloadAmmoOption -> {
+                    val stack = chooseAmmoStack(quiverStacks, "Retirar")
+                    val qty = chooseTransferQuantity("Quantidade para retirar", stack.quantity)
+                    val result = InventorySystem.unloadAmmoFromQuiver(
+                        updatedPlayer,
+                        updatedInstances,
+                        engine.itemRegistry,
+                        stack.itemIds.take(qty)
+                    )
+                    updatedPlayer = updatedPlayer.copy(
+                        inventory = result.inventory,
+                        quiverInventory = result.quiverInventory,
+                        selectedAmmoTemplateId = result.selectedAmmoTemplateId
+                    )
+                    if (result.accepted.isNotEmpty()) {
+                        println("Retirou ${stack.item.name} x${result.accepted.size}.")
+                    }
+                    if (result.rejected.isNotEmpty()) {
+                        println("Inventario sem espaco para ${result.rejected.size} flecha(s).")
+                    }
+                }
+                sellReserveOption -> {
+                    val stack = chooseAmmoStack(reserveStacks, "Vender da reserva")
+                    val qty = chooseSellQuantity(stack.quantity)
+                    val saleValue = engine.economyEngine.sellValue(
+                        itemValue = stack.item.value,
+                        rarity = stack.item.rarity,
+                        type = stack.item.type,
+                        tags = stack.item.tags
+                    )
+                    val result = sellInventoryItem(
+                        updatedPlayer,
+                        updatedInstances,
+                        stack.itemIds,
+                        stack.item.name,
+                        saleValue,
+                        qty
+                    )
+                    updatedPlayer = result.player
+                    updatedInstances = result.itemInstances
+                }
+                sellLoadedOption -> {
+                    val stack = chooseAmmoStack(quiverStacks, "Vender da aljava")
+                    val qty = chooseSellQuantity(stack.quantity)
+                    val saleValue = engine.economyEngine.sellValue(
+                        itemValue = stack.item.value,
+                        rarity = stack.item.rarity,
+                        type = stack.item.type,
+                        tags = stack.item.tags
+                    )
+                    val result = sellQuiverAmmo(
+                        updatedPlayer,
+                        updatedInstances,
+                        stack.itemIds,
+                        stack.item.name,
+                        saleValue,
+                        qty
+                    )
+                    updatedPlayer = result.player
+                    updatedInstances = result.itemInstances
+                }
+            }
+        }
+    }
+
+    private fun chooseAmmoStack(options: List<AmmoStack>, label: String): AmmoStack {
+        if (options.isEmpty()) error("Nenhuma municao disponivel para $label")
+        println("\n$label:")
+        options.forEachIndexed { index, stack ->
+            println("${index + 1}. ${itemDisplayLabel(stack.item)} x${stack.quantity}")
+        }
+        val choice = readInt("Escolha: ", 1, options.size)
+        return options[choice - 1]
+    }
+
+    private fun chooseTransferQuantity(label: String, maxQuantity: Int): Int {
+        if (maxQuantity <= 1) return 1
+        return readInt("$label (1-$maxQuantity): ", 1, maxQuantity)
     }
 
     private fun handleInventoryAction(
@@ -4070,10 +4444,11 @@ class GameCli(private val repo: DataRepository) {
         val forcedSaleValue = ClassQuestTagRules.forcedSellValue(resolved.tags)
         val saleValue = forcedSaleValue ?: engine.economyEngine.sellValue(
             itemValue = resolved.value,
+            rarity = resolved.rarity,
             type = resolved.type,
             tags = resolved.tags
         )
-        println("\nItem: ${resolved.name}")
+        println("\nItem: ${itemDisplayLabel(resolved)}")
         println("Tipo: ${resolved.type.name.lowercase()} | Valor de venda por unidade: $saleValue")
         printInventoryItemDetails(player, itemInstances, stack, resolved)
 
@@ -4172,6 +4547,46 @@ class GameCli(private val repo: DataRepository) {
         return UseItemResult(updatedPlayer, updatedInstances.toMap())
     }
 
+    private fun sellQuiverAmmo(
+        player: PlayerState,
+        itemInstances: Map<String, rpg.model.ItemInstance>,
+        itemIds: List<String>,
+        itemName: String,
+        saleValue: Int,
+        quantity: Int
+    ): UseItemResult {
+        val quiverInventory = player.quiverInventory.toMutableList()
+        val toSell = itemIds.take(quantity.coerceAtLeast(1))
+        if (toSell.isEmpty()) {
+            return UseItemResult(player, itemInstances)
+        }
+
+        var sold = 0
+        val updatedInstances = itemInstances.toMutableMap()
+        for (itemId in toSell) {
+            if (quiverInventory.remove(itemId)) {
+                sold++
+                if (updatedInstances.containsKey(itemId)) {
+                    updatedInstances.remove(itemId)
+                }
+            }
+        }
+        if (sold <= 0) {
+            return UseItemResult(player, itemInstances)
+        }
+
+        var updatedPlayer = player.copy(
+            quiverInventory = quiverInventory,
+            gold = player.gold + saleValue * sold
+        )
+        updatedPlayer = normalizePlayerStorage(updatedPlayer, updatedInstances)
+        updatedPlayer = applyAchievementUpdate(
+            achievementTracker.onGoldEarned(updatedPlayer, (saleValue * sold).toLong())
+        )
+        println("Vendeu $itemName x$sold por ${saleValue * sold} ouro.")
+        return UseItemResult(updatedPlayer, updatedInstances.toMap())
+    }
+
     private fun chooseSellQuantity(maxQuantity: Int): Int {
         if (maxQuantity <= 1) return 1
         return readInt("Quantidade para vender (1-$maxQuantity): ", 1, maxQuantity)
@@ -4183,11 +4598,19 @@ class GameCli(private val repo: DataRepository) {
         stack: InventoryStack,
         item: rpg.item.ResolvedItem
     ) {
+        println("Raridade: ${colorizeUi(item.rarity.colorLabel, item.rarity.ansiColorCode)}")
+        if (item.qualityRollPct != 100 || item.powerScore > 0) {
+            val powerLabel = if (item.powerScore > 0) " | Poder ${item.powerScore}" else ""
+            println("Qualidade: ${item.qualityRollPct}%$powerLabel")
+        }
         if (item.minLevel > 1) {
             println("Nivel requerido: ${item.minLevel}")
         }
         if (item.description.isNotBlank()) {
             println("Descricao: ${item.description}")
+        }
+        if (item.affixes.isNotEmpty()) {
+            println("Afixos: ${item.affixes.joinToString(", ")}")
         }
         when (item.type) {
             ItemType.CONSUMABLE -> {
@@ -4213,6 +4636,17 @@ class GameCli(private val repo: DataRepository) {
             }
             ItemType.MATERIAL -> {
                 val canonical = canonicalItemId(stack.sampleItemId, itemInstances)
+                if (InventorySystem.isArrowAmmo(stack.sampleItemId, itemInstances, engine.itemRegistry)) {
+                    println("Uso: municao para armas de arco; carregue pela aljava.")
+                    val ammoBonusLabel = formatItemBonuses(item)
+                    if (ammoBonusLabel.isNotBlank()) {
+                        println("Bonus da municao: $ammoBonusLabel")
+                    }
+                    val ammoEffectLabel = formatItemEffectsSummary(item)
+                    if (ammoEffectLabel.isNotBlank()) {
+                        println("Efeito da municao: $ammoEffectLabel")
+                    }
+                }
                 val gatherSources = repo.gatherNodes.values
                     .filter { it.resourceItemId == canonical }
                     .take(4)
@@ -4248,17 +4682,21 @@ class GameCli(private val repo: DataRepository) {
                 if (bonusLabel.isNotBlank()) {
                     println("Bonus: $bonusLabel")
                 }
+                val effectLabel = formatItemEffectsSummary(item)
+                if (effectLabel.isNotBlank()) {
+                    println("Efeito: $effectLabel")
+                }
 
                 val preview = previewEquipDelta(player, item, itemInstances)
                 if (preview != null) {
-                    val before = preview.first
-                    val after = preview.second
-                    println(
-                        "Comparacao: DMG ${formatSignedDouble(after.derived.damagePhysical - before.derived.damagePhysical)} | " +
-                            "DEF ${formatSignedDouble(after.derived.defPhysical - before.derived.defPhysical)} | " +
-                            "HP ${formatSignedDouble(after.derived.hpMax - before.derived.hpMax)} | " +
-                            "SPD ${formatSignedDouble(after.derived.attackSpeed - before.derived.attackSpeed)}"
-                    )
+                    val equippedLabel = preview.replacedItem?.let(::itemDisplayLabel) ?: "Vazio"
+                    println("Comparando com (${equippedSlotLabel(preview.slotKey)}): $equippedLabel")
+                    val deltaLabel = formatEquipComparison(preview.before, preview.after)
+                    if (deltaLabel.isNotBlank()) {
+                        println("Delta: $deltaLabel")
+                    } else {
+                        println("Delta: sem alteracoes relevantes nos atributos principais.")
+                    }
                 }
             }
         }
@@ -4268,16 +4706,12 @@ class GameCli(private val repo: DataRepository) {
         player: PlayerState,
         item: rpg.item.ResolvedItem,
         itemInstances: Map<String, rpg.model.ItemInstance>
-    ): Pair<ComputedStats, ComputedStats>? {
+    ): EquipComparisonPreview? {
         if (questEquipRestrictionReason(player, item) != null) return null
-        val slot = item.slot ?: return null
+        val target = resolveEquipPreviewTarget(player, item, itemInstances) ?: return null
         val equipped = player.equipped.toMutableMap()
-        when (slot) {
-            EquipSlot.ACCESSORY -> {
-                val target = accessorySlots.firstOrNull { !equipped.containsKey(it) } ?: accessorySlots.firstOrNull()
-                if (target != null) equipped[target] = item.id
-            }
-            EquipSlot.WEAPON_MAIN -> {
+        when (target.slotKey) {
+            EquipSlot.WEAPON_MAIN.name -> {
                 equipped[EquipSlot.WEAPON_MAIN.name] = item.id
                 if (item.twoHanded) {
                     equipped[EquipSlot.WEAPON_OFF.name] = offhandBlockedId
@@ -4285,18 +4719,87 @@ class GameCli(private val repo: DataRepository) {
                     equipped.remove(EquipSlot.WEAPON_OFF.name)
                 }
             }
-            EquipSlot.WEAPON_OFF -> {
+            EquipSlot.WEAPON_OFF.name -> {
                 if (equipped[EquipSlot.WEAPON_OFF.name] != offhandBlockedId) {
                     equipped[EquipSlot.WEAPON_OFF.name] = item.id
                 } else {
                     return null
                 }
             }
-            else -> equipped[slot.name] = item.id
+            else -> equipped[target.slotKey] = item.id
         }
         val before = computePlayerStats(player, itemInstances)
         val after = computePlayerStats(player.copy(equipped = equipped), itemInstances)
-        return before to after
+        return EquipComparisonPreview(
+            slotKey = target.slotKey,
+            replacedItem = target.currentItemId?.let { currentId ->
+                engine.itemResolver.resolve(currentId, itemInstances)
+            },
+            before = before,
+            after = after
+        )
+    }
+
+    private fun resolveEquipPreviewTarget(
+        player: PlayerState,
+        item: rpg.item.ResolvedItem,
+        itemInstances: Map<String, rpg.model.ItemInstance>
+    ): EquipPreviewTarget? {
+        val slot = item.slot ?: return null
+        val equipped = player.equipped
+        return when (slot) {
+            EquipSlot.ACCESSORY -> {
+                val emptySlot = accessorySlots.firstOrNull { !equipped.containsKey(it) }
+                if (emptySlot != null) {
+                    EquipPreviewTarget(slotKey = emptySlot, currentItemId = null)
+                } else {
+                    val targetSlot = accessorySlots.minByOrNull { slotKey ->
+                        val currentId = equipped[slotKey]
+                        engine.itemResolver.resolve(currentId ?: "", itemInstances)?.powerScore ?: Int.MAX_VALUE
+                    } ?: return null
+                    EquipPreviewTarget(slotKey = targetSlot, currentItemId = equipped[targetSlot])
+                }
+            }
+            EquipSlot.WEAPON_MAIN -> EquipPreviewTarget(
+                slotKey = EquipSlot.WEAPON_MAIN.name,
+                currentItemId = equipped[EquipSlot.WEAPON_MAIN.name]?.takeIf { it != offhandBlockedId }
+            )
+            EquipSlot.WEAPON_OFF -> {
+                if (equipped[EquipSlot.WEAPON_OFF.name] == offhandBlockedId) {
+                    null
+                } else {
+                    EquipPreviewTarget(
+                        slotKey = EquipSlot.WEAPON_OFF.name,
+                        currentItemId = equipped[EquipSlot.WEAPON_OFF.name]
+                    )
+                }
+            }
+            else -> EquipPreviewTarget(
+                slotKey = slot.name,
+                currentItemId = equipped[slot.name]?.takeIf { it != offhandBlockedId }
+            )
+        }
+    }
+
+    private fun formatEquipComparison(before: ComputedStats, after: ComputedStats): String {
+        val deltas = listOf(
+            "DMG" to (after.derived.damagePhysical - before.derived.damagePhysical),
+            "M-DMG" to (after.derived.damageMagic - before.derived.damageMagic),
+            "DEF" to (after.derived.defPhysical - before.derived.defPhysical),
+            "M-DEF" to (after.derived.defMagic - before.derived.defMagic),
+            "HP" to (after.derived.hpMax - before.derived.hpMax),
+            "MP" to (after.derived.mpMax - before.derived.mpMax),
+            "CRIT" to (after.derived.critChancePct - before.derived.critChancePct),
+            "ACC" to (after.derived.accuracy - before.derived.accuracy),
+            "EVA" to (after.derived.evasion - before.derived.evasion),
+            "ASPD" to (after.derived.attackSpeed - before.derived.attackSpeed),
+            "MOVE" to (after.derived.moveSpeed - before.derived.moveSpeed),
+            "CDR" to (after.derived.cdrPct - before.derived.cdrPct),
+            "DR" to (after.derived.damageReductionPct - before.derived.damageReductionPct)
+        ).mapNotNull { (label, delta) ->
+            if (abs(delta) < 0.01) null else "$label ${formatSignedDouble(delta)}"
+        }
+        return deltas.joinToString(" | ")
     }
 
     private fun questEquipRestrictionReason(player: PlayerState, item: rpg.item.ResolvedItem): String? {
@@ -4354,11 +4857,13 @@ class GameCli(private val repo: DataRepository) {
         if (add.hpMax != 0.0) derivedParts += "HP ${formatSignedDouble(add.hpMax)}"
         if (add.mpMax != 0.0) derivedParts += "MP ${formatSignedDouble(add.mpMax)}"
         if (add.attackSpeed != 0.0) derivedParts += "ASPD ${formatSignedDouble(add.attackSpeed)}"
+        if (add.moveSpeed != 0.0) derivedParts += "MOVE ${formatSignedDouble(add.moveSpeed)}"
         if (add.critChancePct != 0.0) derivedParts += "CRIT ${formatSignedDouble(add.critChancePct)}%"
         if (add.critDamagePct != 0.0) derivedParts += "CRIT DMG ${formatSignedDouble(add.critDamagePct)}%"
         if (add.accuracy != 0.0) derivedParts += "ACC ${formatSignedDouble(add.accuracy)}"
         if (add.evasion != 0.0) derivedParts += "EVA ${formatSignedDouble(add.evasion)}"
         if (add.cdrPct != 0.0) derivedParts += "CDR ${formatSignedDouble(add.cdrPct)}%"
+        if (add.dropBonusPct != 0.0) derivedParts += "DROP ${formatSignedDouble(add.dropBonusPct)}%"
         if (add.hpRegen != 0.0) derivedParts += "HP REG ${formatSignedDouble(add.hpRegen)}"
         if (add.mpRegen != 0.0) derivedParts += "MP REG ${formatSignedDouble(add.mpRegen)}"
         if (add.vampirismPct != 0.0) derivedParts += "VAMP ${formatSignedDouble(add.vampirismPct)}%"
@@ -4366,12 +4871,42 @@ class GameCli(private val repo: DataRepository) {
         if (add.tenacityPct != 0.0) derivedParts += "TEN ${formatSignedDouble(add.tenacityPct)}%"
         if (add.penPhysical != 0.0) derivedParts += "P-PEN ${formatSignedDouble(add.penPhysical)}"
         if (add.penMagic != 0.0) derivedParts += "M-PEN ${formatSignedDouble(add.penMagic)}"
+        if (add.xpGainPct != 0.0) derivedParts += "XP ${formatSignedDouble(add.xpGainPct)}%"
         if (mult.attackSpeed != 0.0) derivedParts += "ASPD ${formatSignedDouble(mult.attackSpeed)}%"
+        if (mult.moveSpeed != 0.0) derivedParts += "MOVE ${formatSignedDouble(mult.moveSpeed)}%"
         if (mult.damagePhysical != 0.0) derivedParts += "DMG ${formatSignedDouble(mult.damagePhysical)}%"
         if (mult.damageMagic != 0.0) derivedParts += "M-DMG ${formatSignedDouble(mult.damageMagic)}%"
         if (mult.defPhysical != 0.0) derivedParts += "DEF ${formatSignedDouble(mult.defPhysical)}%"
         if (mult.defMagic != 0.0) derivedParts += "M-DEF ${formatSignedDouble(mult.defMagic)}%"
         return (attrParts + derivedParts).joinToString(", ")
+    }
+
+    private fun formatItemEffectsSummary(item: rpg.item.ResolvedItem): String {
+        val parts = mutableListOf<String>()
+        if (item.effects.statusImmunitySeconds > 0.0) {
+            parts += "Imunidade ${format(item.effects.statusImmunitySeconds)}s"
+        }
+        if (item.effects.runAttributeMultiplierPct != 0.0) {
+            parts += "Buff de run ${format(item.effects.runAttributeMultiplierPct)}%"
+        }
+        for (status in item.effects.applyStatuses) {
+            val chanceLabel = if (status.chancePct > 0.0) "${format(status.chancePct)}%" else "100%"
+            val durationLabel = if (status.durationSeconds > 0.0) " por ${format(status.durationSeconds)}s" else ""
+            parts += "${StatusSystem.displayName(status.type)} $chanceLabel$durationLabel"
+        }
+        return parts.joinToString(", ")
+    }
+
+    private fun itemDisplayLabel(item: rpg.item.ResolvedItem): String {
+        return itemDisplayLabel(item.name, item.rarity)
+    }
+
+    private fun itemDisplayLabel(name: String, rarity: rpg.item.ItemRarity): String {
+        return colorizeUi("[${rarity.colorLabel}] $name", rarity.ansiColorCode)
+    }
+
+    private fun colorizeUi(text: String, colorCode: String): String {
+        return "$colorCode$text$ansiCombatReset"
     }
 
     private fun useItem(
@@ -4460,7 +4995,10 @@ class GameCli(private val repo: DataRepository) {
                 moveEquippedToInventory(equipped, inventory, targetSlot)
                 equipped[targetSlot] = item.id
                 inventory.remove(item.id)
-                val updated = player.copy(equipped = equipped, inventory = inventory)
+                val updated = normalizePlayerStorage(
+                    player.copy(equipped = equipped, inventory = inventory),
+                    itemInstances
+                )
                 println("Equipou ${item.name} no slot $targetSlot.")
                 clampPlayerResources(updated, itemInstances)
             }
@@ -4475,7 +5013,10 @@ class GameCli(private val repo: DataRepository) {
                 moveEquippedToInventory(equipped, inventory, slotKey)
                 equipped[slotKey] = item.id
                 inventory.remove(item.id)
-                val updated = player.copy(equipped = equipped, inventory = inventory)
+                val updated = normalizePlayerStorage(
+                    player.copy(equipped = equipped, inventory = inventory),
+                    itemInstances
+                )
                 println("Equipou ${item.name} no slot ${slot.name}.")
                 clampPlayerResources(updated, itemInstances)
             }
@@ -4501,7 +5042,10 @@ class GameCli(private val repo: DataRepository) {
             equipped[mainKey] = item.id
             equipped[offKey] = offhandBlockedId
             inventory.remove(item.id)
-            val updated = player.copy(equipped = equipped, inventory = inventory)
+            val updated = normalizePlayerStorage(
+                player.copy(equipped = equipped, inventory = inventory),
+                itemInstances
+            )
             println("Equipou ${item.name} (duas maos).")
             return clampPlayerResources(updated, itemInstances)
         }
@@ -4512,7 +5056,10 @@ class GameCli(private val repo: DataRepository) {
         }
         equipped[mainKey] = item.id
         inventory.remove(item.id)
-        val updated = player.copy(equipped = equipped, inventory = inventory)
+        val updated = normalizePlayerStorage(
+            player.copy(equipped = equipped, inventory = inventory),
+            itemInstances
+        )
         println("Equipou ${item.name} na arma primaria.")
         return clampPlayerResources(updated, itemInstances)
     }
@@ -4551,7 +5098,10 @@ class GameCli(private val repo: DataRepository) {
         moveEquippedToInventory(equipped, inventory, offKey)
         equipped[offKey] = item.id
         inventory.remove(item.id)
-        val updated = player.copy(equipped = equipped, inventory = inventory)
+        val updated = normalizePlayerStorage(
+            player.copy(equipped = equipped, inventory = inventory),
+            itemInstances
+        )
         println("Equipou ${item.name} na arma secundaria.")
         return clampPlayerResources(updated, itemInstances)
     }
@@ -4688,7 +5238,11 @@ class GameCli(private val repo: DataRepository) {
         if (withCapacity.rejected.isNotEmpty()) {
             println("Inventario cheio: ${withCapacity.rejected.size} item(ns) da run foram perdidos.")
         }
-        var updatedPlayer = cleared.copy(inventory = withCapacity.inventory)
+        var updatedPlayer = cleared.copy(
+            inventory = withCapacity.inventory,
+            quiverInventory = withCapacity.quiverInventory,
+            selectedAmmoTemplateId = withCapacity.selectedAmmoTemplateId
+        )
         var updatedItemInstances = itemInstances - rejectedGenerated
         if (withCapacity.accepted.isNotEmpty()) {
             val collectedByCanonical = withCapacity.accepted
@@ -4750,6 +5304,8 @@ class GameCli(private val repo: DataRepository) {
 
         var updatedPlayer = cleared.copy(
             inventory = withCapacity.inventory,
+            quiverInventory = withCapacity.quiverInventory,
+            selectedAmmoTemplateId = withCapacity.selectedAmmoTemplateId,
             currentHp = 1.0,
             gold = (cleared.gold - lostGold).coerceAtLeast(0),
             deathDebuffStacks = nextStacks,
@@ -5712,6 +6268,7 @@ class GameCli(private val repo: DataRepository) {
         val onHitStatuses: List<rpg.model.CombatStatusApplyDef>,
         val selfHealFlat: Double,
         val selfHealPctMaxHp: Double,
+        val ammoCost: Int,
         val rank: Int,
         val maxRank: Int,
         val aoeUnlockRank: Int,
@@ -5768,6 +6325,31 @@ class GameCli(private val repo: DataRepository) {
         val quantity: Int,
         val itemIds: List<String>,
         val item: rpg.item.ResolvedItem
+    )
+
+    private data class InventoryFilter(
+        val type: ItemType? = null,
+        val minimumRarity: ItemRarity? = null
+    )
+
+    private data class AmmoStack(
+        val templateId: String,
+        val sampleItemId: String,
+        val quantity: Int,
+        val itemIds: List<String>,
+        val item: rpg.item.ResolvedItem
+    )
+
+    private data class EquipPreviewTarget(
+        val slotKey: String,
+        val currentItemId: String?
+    )
+
+    private data class EquipComparisonPreview(
+        val slotKey: String,
+        val replacedItem: rpg.item.ResolvedItem?,
+        val before: ComputedStats,
+        val after: ComputedStats
     )
 
     private data class DeathPenaltyResult(

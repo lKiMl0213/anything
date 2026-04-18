@@ -1,0 +1,42 @@
+{
+    "id":  "m_arcanist_cleric_legs_template",
+    "name":  "Calcas do Clerigo",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{cleric}",
+                 "class_set",
+                 "set:cleric",
+                 "armor_cloth",
+                 "legs"
+             ],
+    "lootTags":  [
+                     "crypt",
+                     "undead",
+                     "holy",
+                     "cleric",
+                     "mage",
+                     "drop_tier:4"
+                 ],
+    "slot":  "LEGS",
+    "baseScaling":  7,
+    "baseStat":  "HP_MAX",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  40,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "vit",
+                           "hp",
+                           "mp",
+                           "regen",
+                           "recovery",
+                           "warding",
+                           "runeshield",
+                           "insight"
+                       ],
+    "description":  "Equipamento de Clerigo focado em sustain, mana, mitigacao e apoio sagrado."
+}

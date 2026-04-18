@@ -1,0 +1,20 @@
+{
+    "id":  "recovery",
+    "name":  "da Recuperacao",
+    "kind":  "SUFFIX",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "hpRegen":  2,
+                                       "mpRegen":  2,
+                                       "tenacityPct":  4
+                                   }
+                },
+    "cost":  13,
+    "weight":  6,
+    "requiredTagsAny":  [
+                            "cloth",
+                            "leather",
+                            "survival",
+                            "ward"
+                        ]
+}

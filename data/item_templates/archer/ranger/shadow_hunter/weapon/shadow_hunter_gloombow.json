@@ -1,0 +1,40 @@
+{
+    "id":  "shadow_hunter_gloombow",
+    "name":  "Arco do Eclipse",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "LEGENDARY",
+    "tags":  [
+                 "{shadow_hunter}",
+                 "bow",
+                 "two_handed",
+                 "shadow",
+                 "poison",
+                 "ranged"
+             ],
+    "lootTags":  [
+                     "undead",
+                     "shadow",
+                     "archer"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "twoHanded":  true,
+    "baseScaling":  8.1,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  4,
+    "vendorBaseValue":  55,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "crit",
+                           "accuracy",
+                           "precision",
+                           "stalker",
+                           "shadowstep",
+                           "deadeye",
+                           "evasion"
+                       ],
+    "description":  "Arco escuro para cacas furtivas e flechas debilitantes."
+}

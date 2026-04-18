@@ -1,0 +1,41 @@
+{
+    "id":  "hunter_trackers_bow",
+    "name":  "Arco Rastreador",
+    "type":  "EQUIPMENT",
+    "minLevel":  25,
+    "rarity":  "COMMON",
+    "maxRarity":  "EPIC",
+    "tags":  [
+                 "{hunter}",
+                 "bow",
+                 "two_handed",
+                 "hunter",
+                 "ranged"
+             ],
+    "lootTags":  [
+                     "city",
+                     "hunter",
+                     "archer",
+                     "humanoid"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "twoHanded":  true,
+    "baseScaling":  6.4,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  2,
+    "dropWeight":  10,
+    "vendorBaseValue":  28,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "crit",
+                           "atk_speed",
+                           "accuracy",
+                           "precision",
+                           "stalker",
+                           "piercing",
+                           "fervor",
+                           "marksman"
+                       ],
+    "description":  "Arco de rastreio para cacadas longas e preparo de armadilhas."
+}

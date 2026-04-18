@@ -1,0 +1,31 @@
+{
+    "id":  "arrow_frost",
+    "name":  "Flecha Gelida",
+    "tags":  [
+                 "ammo",
+                 "arrow"
+             ],
+    "value":  8,
+    "type":  "MATERIAL",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "damagePhysical":  2,
+                                       "accuracy":  2
+                                   }
+                },
+    "effects":  {
+                    "applyStatuses":  [
+                                          {
+                                              "type":  "SLOW",
+                                              "chancePct":  28,
+                                              "durationSeconds":  4,
+                                              "tickIntervalSeconds":  1,
+                                              "effectValue":  18,
+                                              "stackable":  false,
+                                              "maxStacks":  1,
+                                              "source":  "Flecha Gelida"
+                                          }
+                                      ]
+                },
+    "description":  "Municao fria que desacelera o alvo ao perfurar."
+}

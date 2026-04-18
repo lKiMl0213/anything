@@ -1,0 +1,42 @@
+{
+    "id":  "m_arcanist_cleric_boots_template",
+    "name":  "Sandalias do Clerigo",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{cleric}",
+                 "class_set",
+                 "set:cleric",
+                 "armor_cloth",
+                 "boots"
+             ],
+    "lootTags":  [
+                     "crypt",
+                     "undead",
+                     "holy",
+                     "cleric",
+                     "mage",
+                     "drop_tier:4"
+                 ],
+    "slot":  "BOOTS",
+    "baseScaling":  5.6,
+    "baseStat":  "DEF_MAGIC",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  30,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "vit",
+                           "hp",
+                           "mp",
+                           "regen",
+                           "recovery",
+                           "warding",
+                           "runeshield",
+                           "insight"
+                       ],
+    "description":  "Equipamento de Clerigo focado em sustain, mana, mitigacao e apoio sagrado."
+}

@@ -1,0 +1,30 @@
+{
+    "id":  "arrow_flame",
+    "name":  "Flecha Ignea",
+    "tags":  [
+                 "ammo",
+                 "arrow"
+             ],
+    "value":  8,
+    "type":  "MATERIAL",
+    "bonuses":  {
+                    "derivedAdd":  {
+                                       "damagePhysical":  3
+                                   }
+                },
+    "effects":  {
+                    "applyStatuses":  [
+                                          {
+                                              "type":  "BURNING",
+                                              "chancePct":  30,
+                                              "durationSeconds":  5,
+                                              "tickIntervalSeconds":  1,
+                                              "effectValue":  5,
+                                              "stackable":  false,
+                                              "maxStacks":  1,
+                                              "source":  "Flecha Ignea"
+                                          }
+                                      ]
+                },
+    "description":  "Municao incendiaria para dano extra e queimadura."
+}

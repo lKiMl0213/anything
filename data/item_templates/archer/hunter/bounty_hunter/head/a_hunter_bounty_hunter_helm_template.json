@@ -1,0 +1,43 @@
+{
+    "id":  "a_hunter_bounty_hunter_helm_template",
+    "name":  "Capuz do Cacador de Recompensas",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{bounty_hunter}",
+                 "class_set",
+                 "set:bounty_hunter",
+                 "armor_light",
+                 "hood"
+             ],
+    "lootTags":  [
+                     "city",
+                     "bandit",
+                     "humanoid",
+                     "hunter",
+                     "bounty_hunter",
+                     "archer",
+                     "drop_tier:4"
+                 ],
+    "slot":  "HEAD",
+    "baseScaling":  6.4,
+    "baseStat":  "CRIT_CHANCE",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  34,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "luk",
+                           "hp",
+                           "accuracy",
+                           "crit",
+                           "precision",
+                           "stalker",
+                           "deadeye",
+                           "plunder"
+                       ],
+    "description":  "Equipamento de Cacador de Recompensas focado em alvo marcado, controle e retorno de recompensa."
+}

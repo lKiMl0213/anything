@@ -1,0 +1,43 @@
+{
+    "id":  "a_hunter_bounty_hunter_boots_template",
+    "name":  "Botas do Cacador de Recompensas",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{bounty_hunter}",
+                 "class_set",
+                 "set:bounty_hunter",
+                 "armor_light",
+                 "boots"
+             ],
+    "lootTags":  [
+                     "city",
+                     "bandit",
+                     "humanoid",
+                     "hunter",
+                     "bounty_hunter",
+                     "archer",
+                     "drop_tier:4"
+                 ],
+    "slot":  "BOOTS",
+    "baseScaling":  5.6,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  30,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "luk",
+                           "hp",
+                           "accuracy",
+                           "crit",
+                           "precision",
+                           "stalker",
+                           "deadeye",
+                           "plunder"
+                       ],
+    "description":  "Equipamento de Cacador de Recompensas focado em alvo marcado, controle e retorno de recompensa."
+}

@@ -1,0 +1,41 @@
+{
+    "id":  "a_ranger_shadow_hunter_helm_template",
+    "name":  "Capuz do Cacador Sombrio",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{shadow_hunter}",
+                 "class_set",
+                 "set:shadow_hunter",
+                 "armor_light",
+                 "hood"
+             ],
+    "lootTags":  [
+                     "wilds",
+                     "shadow",
+                     "beast",
+                     "shadow_hunter",
+                     "archer",
+                     "drop_tier:4"
+                 ],
+    "slot":  "HEAD",
+    "baseScaling":  6.4,
+    "baseStat":  "CRIT_CHANCE",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  34,
+    "allowedAffixes":  [
+                           "dex",
+                           "agi",
+                           "crit",
+                           "evasion",
+                           "atk_speed",
+                           "precision",
+                           "stalker",
+                           "shadowstep",
+                           "vampiric"
+                       ],
+    "description":  "Equipamento de Cacador Sombrio focado em toxina, sangramento, mobilidade e debuffs persistentes."
+}

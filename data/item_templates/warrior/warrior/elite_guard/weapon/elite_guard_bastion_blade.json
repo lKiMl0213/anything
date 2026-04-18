@@ -1,0 +1,35 @@
+{
+    "id":  "elite_guard_bastion_blade",
+    "name":  "Lamina Bastiao",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "LEGENDARY",
+    "tags":  [
+                 "{elite_guard}",
+                 "sword",
+                 "blade",
+                 "guard"
+             ],
+    "lootTags":  [
+                     "war",
+                     "elite_guard",
+                     "swordman"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "baseScaling":  8,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  4,
+    "vendorBaseValue":  55,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "def",
+                           "tenacity",
+                           "piercing",
+                           "fervor",
+                           "warcry"
+                       ],
+    "description":  "Espada militar feita para avancos disciplinados e muralhas vivas."
+}

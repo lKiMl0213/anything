@@ -1,0 +1,36 @@
+{
+    "id":  "cleric_sanctified_crozier",
+    "name":  "Crozius Santificado",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "RARE",
+    "maxRarity":  "LEGENDARY",
+    "tags":  [
+                 "{cleric}",
+                 "staff",
+                 "holy",
+                 "support"
+             ],
+    "lootTags":  [
+                     "undead",
+                     "cleric",
+                     "mage"
+                 ],
+    "slot":  "WEAPON_MAIN",
+    "baseScaling":  7.9,
+    "baseStat":  "DAMAGE_MAGIC",
+    "dropTier":  4,
+    "dropWeight":  4,
+    "vendorBaseValue":  54,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "mp",
+                           "regen",
+                           "insight",
+                           "recovery",
+                           "warding",
+                           "runeshield"
+                       ],
+    "description":  "Foco sagrado voltado para cura, resistencia e magia divina."
+}

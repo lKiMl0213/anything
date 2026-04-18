@@ -1,0 +1,45 @@
+{
+  "id": "a_ranger_sharpshooter_weapon",
+  "name": "Arco do Horizonte",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 50,
+  "rarity": "EPIC",
+  "tags": [
+    "{sharpshooter}",
+    "class_set",
+    "set:sharpshooter",
+    "questReward:true",
+    "sellValue:1",
+    "bow",
+    "two_handed"
+  ],
+  "bonuses": {
+    "attributes": {
+      "dex": 4,
+      "agi": 2,
+      "luk": 1
+    },
+    "derivedAdd": {
+      "damagePhysical": 70.0,
+      "accuracy": 20.0,
+      "critChancePct": 6.0,
+      "critDamagePct": 10.0,
+      "penPhysical": 12.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Atirador de Elite focado em alcance, perfuracao, critico e precisao absoluta.",
+  "twoHanded": true,
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "MARKED",
+        "chancePct": 10.0,
+        "durationSeconds": 4.0,
+        "effectValue": 0.0,
+        "source": "Arco do Horizonte"
+      }
+    ]
+  }
+}

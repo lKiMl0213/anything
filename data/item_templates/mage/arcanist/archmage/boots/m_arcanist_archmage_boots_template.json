@@ -1,0 +1,41 @@
+{
+    "id":  "m_arcanist_archmage_boots_template",
+    "name":  "Sandalias do Arquimago",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{archmage}",
+                 "class_set",
+                 "set:archmage",
+                 "armor_cloth",
+                 "boots"
+             ],
+    "lootTags":  [
+                     "necropolis",
+                     "construct",
+                     "arcane",
+                     "archmage",
+                     "mage",
+                     "drop_tier:4"
+                 ],
+    "slot":  "BOOTS",
+    "baseScaling":  5.6,
+    "baseStat":  "DEF_MAGIC",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  30,
+    "allowedAffixes":  [
+                           "int",
+                           "spr",
+                           "mp",
+                           "crit",
+                           "spellflux",
+                           "insight",
+                           "arcane_burst",
+                           "cdr",
+                           "runeshield"
+                       ],
+    "description":  "Equipamento de Arquimago focado em dano magico bruto, alcance de feiticos e sobrecarga arcana."
+}

@@ -1,0 +1,52 @@
+{
+  "id": "a_ranger_shadow_hunter_weapon",
+  "name": "Arco do Crepusculo",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 50,
+  "rarity": "EPIC",
+  "tags": [
+    "{shadow_hunter}",
+    "class_set",
+    "set:shadow_hunter",
+    "questReward:true",
+    "sellValue:1",
+    "bow",
+    "two_handed"
+  ],
+  "bonuses": {
+    "attributes": {
+      "dex": 4,
+      "agi": 2,
+      "luk": 1
+    },
+    "derivedAdd": {
+      "damagePhysical": 67.0,
+      "accuracy": 16.0,
+      "critChancePct": 5.0,
+      "critDamagePct": 16.0,
+      "penPhysical": 7.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Cacador Sombrio focado em toxina, sangramento, mobilidade e debuffs persistentes.",
+  "twoHanded": true,
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "POISONED",
+        "chancePct": 14.0,
+        "durationSeconds": 5.0,
+        "effectValue": 4.0,
+        "source": "Arco do Crepusculo"
+      },
+      {
+        "type": "BLEEDING",
+        "chancePct": 10.0,
+        "durationSeconds": 5.0,
+        "effectValue": 0.015,
+        "source": "Arco do Crepusculo"
+      }
+    ]
+  }
+}

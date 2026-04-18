@@ -1,0 +1,39 @@
+{
+    "id":  "s_barbarian_berserker_helm_template",
+    "name":  "Elmo do Berserker",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{berserker}",
+                 "class_set",
+                 "set:berserker",
+                 "armor_mail",
+                 "helmet"
+             ],
+    "lootTags":  [
+                     "war",
+                     "beast",
+                     "berserker",
+                     "swordman",
+                     "drop_tier:4"
+                 ],
+    "slot":  "HEAD",
+    "baseScaling":  6.4,
+    "baseStat":  "HP_MAX",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  34,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "crit",
+                           "atk_speed",
+                           "hp",
+                           "vampiric",
+                           "fervor",
+                           "warcry"
+                       ],
+    "description":  "Equipamento de Berserker focado em all-in ofensivo, critico, velocidade e sustain agressivo."
+}

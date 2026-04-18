@@ -1,0 +1,42 @@
+{
+    "id":  "s_warrior_paladin_chest_template",
+    "name":  "Armadura do Paladino",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{paladin}",
+                 "class_set",
+                 "set:paladin",
+                 "armor_plate",
+                 "chest"
+             ],
+    "lootTags":  [
+                     "crypt",
+                     "undead",
+                     "paladin",
+                     "holy",
+                     "swordman",
+                     "drop_tier:4"
+                 ],
+    "slot":  "CHEST",
+    "baseScaling":  7.6,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  44,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "spr",
+                           "hp",
+                           "def",
+                           "tenacity",
+                           "guardian",
+                           "bastion",
+                           "recovery",
+                           "warding"
+                       ],
+    "description":  "Equipamento de Paladino focado em mitigacao, resistencia e ofensiva sagrada."
+}

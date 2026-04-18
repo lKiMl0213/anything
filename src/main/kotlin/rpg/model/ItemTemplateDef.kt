@@ -22,12 +22,16 @@ data class ItemTemplateDef(
     val type: ItemType,
     val minLevel: Int = 1,
     val rarity: ItemRarity = ItemRarity.COMMON,
+    val maxRarity: ItemRarity = ItemRarity.MYTHIC,
     val tags: List<String> = emptyList(),
+    val lootTags: List<String> = emptyList(),
     val slot: EquipSlot? = null,
     val twoHanded: Boolean = false,
     val baseScaling: Double = 1.0,
     val baseStat: ItemBaseStat = ItemBaseStat.DAMAGE_PHYSICAL,
     val dropTier: Int = 1,
+    val dropWeight: Int = 10,
     val vendorBaseValue: Int = 10,
-    val allowedAffixes: List<String> = emptyList()
+    val allowedAffixes: List<String> = emptyList(),
+    val description: String = ""
 )

@@ -1,0 +1,43 @@
+{
+  "id": "m_elementalist_elemental_master_weapon",
+  "name": "Nucleo da Tempestade",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 50,
+  "rarity": "EPIC",
+  "tags": [
+    "{elemental_master}",
+    "class_set",
+    "set:elemental_master",
+    "questReward:true",
+    "sellValue:1",
+    "focus",
+    "orb"
+  ],
+  "bonuses": {
+    "attributes": {
+      "int": 5,
+      "spr": 3
+    },
+    "derivedAdd": {
+      "damageMagic": 75.0,
+      "mpMax": 36.0,
+      "penMagic": 8.0,
+      "cdrPct": 4.0,
+      "defMagic": 4.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Mestre Elemental focado em controle, resistencia elemental e combinacao de afinidades.",
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "PARALYZED",
+        "chancePct": 8.0,
+        "durationSeconds": 3.5,
+        "effectValue": 18.0,
+        "source": "Nucleo da Tempestade"
+      }
+    ]
+  }
+}

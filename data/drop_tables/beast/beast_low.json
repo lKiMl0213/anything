@@ -1,0 +1,14 @@
+{
+  "id": "beast_low",
+  "baseChancePct": 35.0,
+  "entries": [
+    { "itemId": "matted_fur", "category": "COMMON_MATERIAL", "chancePct": 18, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "splintered_claw", "category": "COMMON_SELL", "chancePct": 14, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "beast_meat", "category": "CONSUMABLE", "chancePct": 16, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "rough_hide", "category": "COMMON_MATERIAL", "chancePct": 12, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "cracked_bone", "category": "COMMON_MATERIAL", "chancePct": 10, "minQty": 1, "maxQty": 2, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "itemId": "potion_small", "category": "CONSUMABLE", "chancePct": 4, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "COMMON" },
+    { "templateIds": ["ashwood_bow", "field_quiver", "leather_hood", "leather_armor", "softstep_boots"], "category": "EQUIPMENT_DROP", "chancePct": 4, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" },
+    { "templateIds": ["foxbone_charm", "staghide_brooch", "swift_knot"], "category": "EQUIPMENT_DROP", "chancePct": 2, "minQty": 1, "maxQty": 1, "minRarity": "COMMON", "maxRarity": "RARE" }
+  ]
+}

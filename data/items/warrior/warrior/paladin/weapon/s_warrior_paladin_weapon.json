@@ -1,0 +1,44 @@
+{
+  "id": "s_warrior_paladin_weapon",
+  "name": "Martelo Consagrado",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 50,
+  "rarity": "EPIC",
+  "tags": [
+    "{paladin}",
+    "class_set",
+    "set:paladin",
+    "questReward:true",
+    "sellValue:1",
+    "hammer",
+    "one_handed"
+  ],
+  "bonuses": {
+    "attributes": {
+      "str": 4,
+      "dex": 2,
+      "spr": 1
+    },
+    "derivedAdd": {
+      "damagePhysical": 62.0,
+      "accuracy": 8.0,
+      "critChancePct": 4.0,
+      "penPhysical": 6.0,
+      "defMagic": 4.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Paladino focado em mitigacao, resistencia e ofensiva sagrada.",
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "WEAKNESS",
+        "chancePct": 14.0,
+        "durationSeconds": 4.5,
+        "effectValue": 10.0,
+        "source": "Martelo Consagrado"
+      }
+    ]
+  }
+}

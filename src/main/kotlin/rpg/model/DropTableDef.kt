@@ -16,13 +16,24 @@ enum class DropCategory {
 
 @Serializable
 data class DropEntryDef(
-    val itemId: String,
+    val itemId: String = "",
+    val templateIds: List<String> = emptyList(),
     val category: DropCategory = DropCategory.COMMON_MATERIAL,
     val chancePct: Double = 0.0,
     val minQty: Int = 1,
     val maxQty: Int = 1,
     val minRarity: ItemRarity = ItemRarity.COMMON,
-    val maxRarity: ItemRarity = ItemRarity.LEGENDARY
+    val maxRarity: ItemRarity = ItemRarity.MYTHIC,
+    val minMonsterLevel: Int = 1,
+    val maxMonsterLevel: Int = 999,
+    val requiredBiomeIds: List<String> = emptyList(),
+    val blockedBiomeIds: List<String> = emptyList(),
+    val requiredTierIds: List<String> = emptyList(),
+    val blockedTierIds: List<String> = emptyList(),
+    val minMapDropTier: Int = 1,
+    val maxMapDropTier: Int = 999,
+    val requiredMonsterTags: List<String> = emptyList(),
+    val blockedMonsterTags: List<String> = emptyList()
 )
 
 @Serializable

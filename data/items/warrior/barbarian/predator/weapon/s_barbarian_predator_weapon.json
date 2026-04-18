@@ -1,0 +1,43 @@
+{
+  "id": "s_barbarian_predator_weapon",
+  "name": "Gume da Caca",
+  "type": "EQUIPMENT",
+  "slot": "WEAPON_MAIN",
+  "minLevel": 50,
+  "rarity": "EPIC",
+  "tags": [
+    "{predator}",
+    "class_set",
+    "set:predator",
+    "questReward:true",
+    "sellValue:1",
+    "blade",
+    "one_handed"
+  ],
+  "bonuses": {
+    "attributes": {
+      "str": 5,
+      "dex": 2,
+      "agi": 1
+    },
+    "derivedAdd": {
+      "damagePhysical": 73.0,
+      "critChancePct": 6.0,
+      "critDamagePct": 22.0,
+      "penPhysical": 8.0
+    }
+  },
+  "value": 1,
+  "description": "Equipamento de Predador focado em perseguicao, mobilidade, critico e sangramento.",
+  "effects": {
+    "applyStatuses": [
+      {
+        "type": "BLEEDING",
+        "chancePct": 16.0,
+        "durationSeconds": 5.0,
+        "effectValue": 0.018,
+        "source": "Gume da Caca"
+      }
+    ]
+  }
+}

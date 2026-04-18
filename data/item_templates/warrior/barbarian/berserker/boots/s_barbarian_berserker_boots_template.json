@@ -1,0 +1,39 @@
+{
+    "id":  "s_barbarian_berserker_boots_template",
+    "name":  "Botas do Berserker",
+    "type":  "EQUIPMENT",
+    "minLevel":  50,
+    "rarity":  "EPIC",
+    "maxRarity":  "MYTHIC",
+    "tags":  [
+                 "{berserker}",
+                 "class_set",
+                 "set:berserker",
+                 "armor_mail",
+                 "boots"
+             ],
+    "lootTags":  [
+                     "war",
+                     "beast",
+                     "berserker",
+                     "swordman",
+                     "drop_tier:4"
+                 ],
+    "slot":  "BOOTS",
+    "baseScaling":  5.6,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  4,
+    "dropWeight":  3,
+    "vendorBaseValue":  30,
+    "allowedAffixes":  [
+                           "str",
+                           "vit",
+                           "crit",
+                           "atk_speed",
+                           "hp",
+                           "vampiric",
+                           "fervor",
+                           "warcry"
+                       ],
+    "description":  "Equipamento de Berserker focado em all-in ofensivo, critico, velocidade e sustain agressivo."
+}
