@@ -1,92 +1,131 @@
-# ANYTHING
+# ANYTHING RPG
 
-Indice principal de documentacao do projeto.  
-Este arquivo centraliza os modulos, os caminhos de documentacao e um resumo dos sistemas principais.
+Projeto RPG textual em Kotlin, orientado a dados, com arquitetura reorganizada para separar:
+- `core` (regras e logica reaproveitavel),
+- `app-cli` (interface textual atual),
+- `app-android` (base preparada para UI visual futura),
+- `data` (catalogos JSON + saves),
+- `docs` (documentacao e memoria de projeto).
 
-## Visao Geral
+## Estrutura Atual
 
-`ANYTHING` e um RPG textual modular em Kotlin, orientado a dados (`data/*.json`) e com foco em expansao de sistemas (combate, progressao, quests, craft, coleta e geracao procedural).
+```text
+anything/
+|-- app-cli/
+|   `-- src/main/kotlin/rpg/
+|       |-- Main.kt
+|       `-- cli/...
+|-- app-android/
+|   |-- README.md
+|   `-- src/main/kotlin/rpg/android/
+|       |-- AndroidAppBootstrap.kt
+|       |-- navigation/
+|       |-- screens/
+|       |-- components/
+|       `-- theme/
+|-- core/
+|   `-- src/main/kotlin/rpg/
+|       |-- achievement/
+|       |-- application/
+|       |-- classquest/
+|       |-- classsystem/
+|       |-- combat/
+|       |-- crafting/
+|       |-- creation/
+|       |-- dungeon/
+|       |-- economy/
+|       |-- engine/
+|       |-- events/
+|       |-- gathering/
+|       |-- inventory/
+|       |-- io/
+|       |-- item/
+|       |-- model/
+|       |-- monster/
+|       |-- navigation/
+|       |-- presentation/
+|       |-- procedural/
+|       |-- progression/
+|       |-- quest/
+|       |-- registry/
+|       |-- scaling/
+|       |-- session/
+|       |-- skills/
+|       |-- state/
+|       |-- status/
+|       |-- talent/
+|       `-- world/
+|-- data/
+|   |-- ... (classes, itens, drop tables, crafting, etc.)
+|   `-- saves/
+|-- docs/
+|   `-- context/
+|-- build.gradle.kts
+|-- settings.gradle.kts
+|-- gradlew
+`-- gradlew.bat
+```
 
-## Modulos do Projeto
+## Responsabilidades por Camada
 
-| Modulo | Caminho | Descricao |
-|---|---|---|
-| CLI | `src/main/kotlin/rpg/cli` | Interface de terminal, HUD, menus e fluxo do jogador. |
-| Engine Core | `src/main/kotlin/rpg/engine` | Regras base de jogo, stats, progressao de run e calculos centrais. |
-| Combate | `src/main/kotlin/rpg/combat` | Loop de combate, estados de acao, cooldowns e resolucao de acoes. |
-| Status | `src/main/kotlin/rpg/status` | Efeitos de status (DOT, bloqueios, modificadores e expiracao). |
-| Talentos e Classes | `src/main/kotlin/rpg/classsystem` | Arvores de talentos, classes/subclasses e aplicacao de bonus. |
-| Progressao | `src/main/kotlin/rpg/progression` | XP, niveis, pontos de atributo e desbloqueios. |
-| Skills (Profissoes) | `src/main/kotlin/rpg/skills` | XP de profissao, eficiencia e progressao de coleta/craft. |
-| Economia | `src/main/kotlin/rpg/economy` | Gold, venda/compra, drop e balanceamento economico. |
-| Inventario | `src/main/kotlin/rpg/inventory` | Limite de slots, empilhamento e insercao com capacidade. |
-| Itens | `src/main/kotlin/rpg/item` | Resolucao, geracao e nomenclatura de itens. |
-| Crafting | `src/main/kotlin/rpg/crafting` | Receitas, consumo de ingredientes e entrega de outputs. |
-| Gathering | `src/main/kotlin/rpg/gathering` | Coleta de recursos (mining, herbalism, woodcutting, fishing). |
-| Quests | `src/main/kotlin/rpg/quest` | Board, progresso, entrega e recompensas. |
-| Monstros | `src/main/kotlin/rpg/monster` | Geracao, raridade, comportamento e escalonamento. |
-| Procedural Texto/Eventos | `src/main/kotlin/rpg/procedural` e `src/main/kotlin/rpg/events` | Variacao textual e eventos de dungeon. |
-| Mundo/Dungeon | `src/main/kotlin/rpg/world` | Fluxo da dungeon, salas e dificuldade. |
-| Dados e IO | `src/main/kotlin/rpg/io`, `src/main/kotlin/rpg/model`, `src/main/kotlin/rpg/registry` | Carregamento JSON, modelos e registries. |
-| Escalonamento | `src/main/kotlin/rpg/scaling` | Soft caps e ajuste de crescimento de atributos. |
-| Entrada da Aplicacao | `src/main/kotlin/rpg/Main.kt` | Bootstrap da aplicacao. |
+### `core`
+- regras de combate, progressao, inventario, economia, quests, talentos, monstros, classes e estado.
+- carregamento de dados/registries e servicos de dominio.
+- logica que deve ser reaproveitada por CLI e futura UI visual.
 
-## Sistemas Principais
+### `app-cli`
+- fluxo textual atual do jogo.
+- menus, render de texto, input de terminal e runtime legado/modular da CLI.
 
-### Combate
-Sistema em tempo com estados de acao (`IDLE`, `READY`, `CASTING`, `STUNNED`, `DEAD`), cooldowns, uso de itens e integracao com status.  
-Base: `rpg/combat`, `rpg/engine/Combat.kt`, `rpg/status`.
+### `app-android`
+- base minima para iniciar Jetpack Compose no proximo passo.
+- estrutura inicial de navegacao/telas/componentes/theme.
 
-### Talentos
-Arvores por classe/subclasse com prerequisitos, custo e bonus acumulativos para atributos e derivados.  
-Base: `rpg/classsystem`, dados em `data/talents`, `data/classes`, `data/subclasses`.
+### `data`
+- catalogos JSON recursivos do jogo.
+- `data/saves` como destino padrao de save/load/autosave.
 
-### Progressao
-Gerencia XP/nivel, pontos de atributo, curva de crescimento e desbloqueios de poder.  
-Base: `rpg/progression`, `rpg/engine/Progression.kt`.
+### `docs`
+- contexto, changelog e memoria de projeto em `docs/context`.
 
-### Economia
-Controla valor de itens, compra/venda, drops e fluxo de moedas para evitar inflacao no jogo.  
-Base: `rpg/economy`, `data/shop`, `data/drop_tables`, `data/cash_packs`.
+## Build e Execucao
 
-### Procedural
-Componente data-driven para texto, quests, monstros e eventos, aumentando variacao de runs sem hardcode fixo.  
-Base: `rpg/procedural`, `rpg/events`, `rpg/monster`, `data/text_pools`, `data/quest_templates`.
+### Build
+```bash
+./gradlew build
+```
 
-## Indice de READMEs
+### Rodar CLI
+```bash
+./gradlew run
+```
 
-### Raiz
-- [`README.md`](README.md) - Este indice principal.
+### Testes
+```bash
+./gradlew test
+```
 
-### Data Modules (`read.me`)
+## Observacoes Importantes
 
-- [`data/affixes/read.me`](data/affixes/read.me) - Affixes de itens.
-- [`data/biomes/read.me`](data/biomes/read.me) - Configuracao de biomas.
-- [`data/cash_packs/read.me`](data/cash_packs/read.me) - Pacotes de cash.
-- [`data/character/read.me`](data/character/read.me) - Estrutura base de personagem.
-- [`data/classes/read.me`](data/classes/read.me) - Definicoes de classes.
-- [`data/crafting/read.me`](data/crafting/read.me) - Receitas de crafting.
-- [`data/drop_tables/read.me`](data/drop_tables/read.me) - Tabelas de drop.
-- [`data/events/read.me`](data/events/read.me) - Eventos de dungeon.
-- [`data/gathering/read.me`](data/gathering/read.me) - Nos de coleta.
-- [`data/items/read.me`](data/items/read.me) - Itens fixos.
-- [`data/item_templates/read.me`](data/item_templates/read.me) - Templates de itens procedurais.
-- [`data/maps/read.me`](data/maps/read.me) - Definicoes de mapas.
-- [`data/map_tiers/read.me`](data/map_tiers/read.me) - Tiers de mapa/dungeon.
-- [`data/monster_archetypes/read.me`](data/monster_archetypes/read.me) - Arquitetipos de monstros.
-- [`data/monster_behaviors/read.me`](data/monster_behaviors/read.me) - Comportamentos de monstros.
-- [`data/monster_modifiers/read.me`](data/monster_modifiers/read.me) - Modificadores de monstros.
-- [`data/quest_templates/read.me`](data/quest_templates/read.me) - Templates de quest procedural.
-- [`data/races/read.me`](data/races/read.me) - Definicoes de racas.
-- [`data/shop/read.me`](data/shop/read.me) - Entradas de loja.
-- [`data/skills/read.me`](data/skills/read.me) - Definicoes de skills/profissoes.
-- [`data/subclasses/read.me`](data/subclasses/read.me) - Definicoes de subclasses.
-- [`data/talents/read.me`](data/talents/read.me) - Arvores de talentos.
-- [`data/talent_trees/read.me`](data/talent_trees/read.me) - Arvores de talentos V2 (ranks, exclusividade, requisitos).
-- [`data/text_pools/read.me`](data/text_pools/read.me) - Pools textuais procedurais.
+- A reorganizacao foi estrutural/fisica; regras de gameplay foram preservadas.
+- O projeto continua single-module no Gradle por seguranca nesta fase, com `sourceSets` apontando para:
+  - `core/src/main/kotlin`
+  - `app-cli/src/main/kotlin`
+- `app-android` foi preparado como base de trabalho futuro sem acoplar no build agora.
 
-## Navegacao Recomendada
+## Dados e Saves
 
-1. Ler este indice (`README.md`).
-2. Explorar `src/main/kotlin/rpg/*` por modulo de interesse.
-3. Consultar `data/*/read.me` para formato e regras dos JSONs.
+- O jogo continua carregando catalogos a partir de `data/`.
+- Save/load/autosave padrao agora usa:
+  - `data/saves/*.json`
+
+## Limpeza de Scripts
+
+Foram removidos scripts auxiliares legacy/duplicados de compilacao/exportacao:
+- `compilar-pra-exportar.ps1`
+- `compilar-pra-exportar.sh`
+- `compilar_pra_exportar.bat`
+- `scripts/reorganize_data_layout.ps1`
+- `Relatório.md` (removido)
+
+Wrappers do Gradle (`gradlew`/`gradlew.bat`) foram mantidos por serem necessarios para build/execucao multiplataforma.

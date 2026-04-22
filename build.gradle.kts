@@ -12,6 +12,17 @@ kotlin {
     jvmToolchain(21)
 }
 
+sourceSets {
+    named("main") {
+        java.setSrcDirs(listOf("core/src/main/kotlin", "app-cli/src/main/kotlin"))
+        resources.setSrcDirs(listOf("core/src/main/resources", "app-cli/src/main/resources"))
+    }
+    named("test") {
+        java.setSrcDirs(listOf("core/src/test/kotlin", "app-cli/src/test/kotlin"))
+        resources.setSrcDirs(listOf("core/src/test/resources", "app-cli/src/test/resources"))
+    }
+}
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
@@ -47,9 +58,9 @@ tasks.register<Sync>("prepareWindowsPortable") {
         into("data")
     }
     from("README.md")
-    if (file("saves").exists()) {
-        from("saves") {
-            into("saves")
+    if (file("data/saves").exists()) {
+        from("data/saves") {
+            into("data/saves")
         }
     }
     from(launcher.map { it.metadata.installationPath.asFile }) {

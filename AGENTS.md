@@ -2,118 +2,99 @@
 
 ## Setup Commands
 - Install/build: `./gradlew build`
-- Dev/run: `./gradlew run`
-- Test: `./gradlew test` (the repo currently has no test sources configured)
+- Dev/run (CLI atual): `./gradlew run`
+- Test: `./gradlew test` (o repo segue sem testes configurados)
 - Package: `./gradlew packageWindowsPortable`
 
 ## Code Style
-- Keep gameplay content data-driven in `data/*.json` when the domain already supports it.
-- Prefer focused `Engine`, `Service`, or `System` classes instead of pushing more rules into `GameCli`.
-- Use Kotlin data classes for serialized models under `src/main/kotlin/rpg/model`.
-- Preserve the CLI-first UX and PT-BR player-facing copy.
-- Follow documented patterns only when they are relevant to the task.
+- Mantenha conteudo de gameplay data-driven em `data/*.json` quando o dominio ja suportar.
+- Prefira `Engine`, `Service` ou `System` focados em vez de concentrar regras em CLI.
+- Preserve copy PT-BR para o jogador.
+- Em `app-cli`, mantenha `println/readLine` restritos a camada textual.
 
 ## Context Policy
 
 Default behavior:
-- Do not bulk-load `context/`.
-- Treat `context/` as selective memory, not mandatory preload.
-- Prefer reading the code first for local bugs, balance tweaks, and narrow refactors.
+- Nao carregar tudo em `docs/context/`.
+- Tratar `docs/context/` como memoria seletiva, nao preload obrigatorio.
+- Ler codigo primeiro para bugs locais e refactors pequenos.
 
-Load `context/` only when it helps:
-- Broad or cross-session work
-- Architecture or data-structure changes
-- When a prior decision, pattern, or changelog entry is likely to matter
-- When handing work off or resuming after a long gap
+Carregar `docs/context/` apenas quando ajudar:
+- trabalho amplo/cross-session;
+- mudancas de arquitetura/estrutura;
+- quando decisao/padrao/changelog antigo realmente importar;
+- handoff/resumo antes de compactacao.
 
 Preferred load order:
 1. `AGENTS.md`
-2. `@context/intent/project-intent.md` only if the task needs product/project framing
-3. Specific `@context/decisions/*.md`, `@context/knowledge/patterns/*.md`, or `@context/intent/feature-*.md` only for the subsystem being changed
-4. `@context/evolution/working-memory.md` only when resuming, handing off, or compacting context
+2. `@docs/context/intent/project-intent.md` (se precisar framing de produto)
+3. arquivos especificos em `@docs/context/decisions/*`, `@docs/context/knowledge/patterns/*`, `@docs/context/intent/feature-*.md`
+4. `@docs/context/evolution/working-memory.md` apenas para retomada/handoff
 
 Never:
-- Load the whole `context/` tree by default
-- Reload unrelated feature/decision/pattern files "just in case"
-- Treat stale context as more authoritative than the code
+- carregar arvore inteira de `docs/context/` por padrao;
+- recarregar contexto irrelevante "por garantia";
+- tratar contexto antigo como mais forte que o codigo.
 
 ## Before Context Compaction Or Handoff
-- Persist only durable, high-signal information into `context/` before compacting the IDE/context window.
-- Prefer updating the most specific existing file first:
-  - feature file for user-visible behavior
-  - decision file for technical choices
-  - pattern file for reusable implementation guidance
-  - `context/evolution/changelog.md` for milestone-level state
-- Use `context/evolution/working-memory.md` only for concise partial history that matters later and does not fit better elsewhere.
-- Keep notes short, factual, and future-useful to avoid token waste.
+- Persistir apenas informacao duravel e de alto sinal em `docs/context/`.
+- Atualizar primeiro o arquivo mais especifico:
+  - feature (comportamento ao usuario),
+  - decision (escolha tecnica),
+  - pattern (guia reutilizavel),
+  - `docs/context/evolution/changelog.md` (marcos).
+- Usar `docs/context/evolution/working-memory.md` so para historico parcial realmente util.
 
 ## Project Structure
 ```text
 root/
 |-- AGENTS.md
-|-- context/
-|   |-- .context-mesh-framework.md
-|   |-- intent/
-|   |-- decisions/
-|   |-- knowledge/
-|   |-- agents/
-|   `-- evolution/
-|-- src/main/kotlin/rpg/
-|   |-- cli/
-|   |-- engine/
-|   |-- combat/
-|   |-- classquest/
-|   |-- talent/
-|   |-- inventory/
-|   |-- item/
-|   |-- economy/
-|   |-- quest/
-|   |-- crafting/
-|   |-- gathering/
-|   |-- achievement/
-|   `-- ...
-`-- data/
-    |-- classes/
-    |-- subclasses/
-    |-- specializations/
-    |-- talent_trees/
-    |-- items/
-    |-- item_templates/
-    |-- drop_tables/
-    |-- quest_templates/
-    `-- ...
+|-- app-cli/
+|   `-- src/main/kotlin/rpg/cli/...
+|-- app-android/
+|   `-- src/main/kotlin/rpg/android/...
+|-- core/
+|   `-- src/main/kotlin/rpg/{engine,combat,quest,inventory,...}
+|-- data/
+|   |-- classes/
+|   |-- subclasses/
+|   |-- specializations/
+|   |-- talent_trees/
+|   |-- items/
+|   |-- item_templates/
+|   |-- drop_tables/
+|   |-- quest_templates/
+|   `-- saves/
+`-- docs/
+    `-- context/
 ```
 
 Data layout note:
-- JSON registries under `data/` are loaded recursively.
-- Prefer organizing content by domain and gameplay hierarchy instead of keeping large flat folders.
-- Class-line content should mirror `base -> second class -> specialization` where applicable.
+- Registries JSON em `data/` sao carregados recursivamente.
+- Prefira organizacao por dominio e hierarquia gameplay.
+- Conteudo de classe deve refletir `base -> segunda classe -> especializacao`.
 
 ## AI Agent Rules
 
 ### Always
-- Keep feature, decision, and pattern concerns separated.
-- Use `context/` only when it is relevant to the current task.
-- Update `context/` after meaningful changes that future work would benefit from remembering.
+- Separar concerns de feature/decision/pattern.
+- Usar `docs/context/` apenas quando relevante.
+- Atualizar contexto apos mudancas duraveis e futuras.
 
 ### Never
-- Put technical implementation details inside feature files.
-- Ignore a relevant documented decision without updating/superseding it.
-- Create verbose context notes that duplicate the code.
-- Leave stale memory in `context/` after major technical changes.
+- Colocar detalhe tecnico em arquivo de feature.
+- Ignorar decisao relevante sem atualizar/substituir.
+- Criar notas de contexto verbosas que duplicam o codigo.
+- Deixar memoria desatualizada apos mudanca estrutural grande.
 
 ### After Any Meaningful Changes
-- Update the affected context files only if the change is durable and future-relevant.
-- Update `context/evolution/changelog.md` for notable project-state changes.
-- If the work may be resumed later, checkpoint only the important summary into `context/`.
+- Atualizar contexto afetado somente se for duravel/futuro-relevante.
+- Atualizar `docs/context/evolution/changelog.md` em mudancas de estado do projeto.
+- Em trabalho com retomada futura, salvar checkpoint curto e util.
 
 ## Definition Of Done
-- [ ] Code and data are the primary source of truth for the task.
-- [ ] Only relevant context files were loaded.
-- [ ] Durable new knowledge was written back into `context/` if needed.
-- [ ] Validation commands were run when applicable.
-- [ ] Changelog updated when project state materially changed.
-
----
-
-**Note**: This AGENTS.md now enforces selective Context Mesh usage so `context/` works as useful memory without wasting tokens.
+- [ ] Codigo e dados sao a fonte primaria da tarefa.
+- [ ] Apenas contexto relevante foi carregado.
+- [ ] Conhecimento duravel foi escrito em `docs/context/` quando necessario.
+- [ ] Comandos de validacao aplicaveis foram executados.
+- [ ] Changelog atualizado quando o estado do projeto mudou materialmente.

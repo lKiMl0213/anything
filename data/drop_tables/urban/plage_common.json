@@ -57,7 +57,7 @@
                         "maxRarity":  "RARE"
                     },
                     {
-                        "itemId":  "arrow_simple",
+                        "itemId":  "arrow_wood",
                         "category":  "COMMON_MATERIAL",
                         "chancePct":  6,
                         "minQty":  2,

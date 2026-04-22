@@ -1,0 +1,17 @@
+{
+    "id": "arrow_stone",
+    "name": "Flecha de Pedra",
+    "tags": [
+        "ammo",
+        "arrow"
+    ],
+    "value": 3,
+    "type": "MATERIAL",
+    "bonuses": {
+        "derivedAdd": {
+            "damagePhysical": 2,
+            "accuracy": 1
+        }
+    },
+    "description": "Flecha com ponta de pedra, mais impacto que a de madeira."
+}

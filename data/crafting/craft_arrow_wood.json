@@ -1,0 +1,26 @@
+{
+    "skillType": "BLACKSMITH",
+    "id": "craft_arrow_wood",
+    "description": "Municao de madeira para combate a distancia.",
+    "enabled": true,
+    "tier": 1,
+    "baseXp": 19,
+    "tags": [
+        "ammo",
+        "arrow"
+    ],
+    "name": "Criar Flecha de Madeira",
+    "baseDurationSeconds": 7,
+    "difficulty": 1.1,
+    "outputItemId": "arrow_wood",
+    "outputQty": 20,
+    "minPlayerLevel": 1,
+    "minSkillLevel": 1,
+    "discipline": "FORGE",
+    "ingredients": [
+        {
+            "quantity": 2,
+            "itemId": "wood_log"
+        }
+    ]
+}

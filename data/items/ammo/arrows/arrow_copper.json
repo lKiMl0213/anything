@@ -1,0 +1,17 @@
+{
+    "id": "arrow_copper",
+    "name": "Flecha de Cobre",
+    "tags": [
+        "ammo",
+        "arrow"
+    ],
+    "value": 4,
+    "type": "MATERIAL",
+    "bonuses": {
+        "derivedAdd": {
+            "damagePhysical": 3,
+            "accuracy": 2
+        }
+    },
+    "description": "Flecha com ponta de cobre, mais precisa e consistente."
+}

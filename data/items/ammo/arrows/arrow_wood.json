@@ -1,0 +1,16 @@
+{
+    "id": "arrow_wood",
+    "name": "Flecha de Madeira",
+    "tags": [
+        "ammo",
+        "arrow"
+    ],
+    "value": 2,
+    "type": "MATERIAL",
+    "bonuses": {
+        "derivedAdd": {
+            "accuracy": 1
+        }
+    },
+    "description": "Municao de entrada feita com madeira, leve e barata."
+}

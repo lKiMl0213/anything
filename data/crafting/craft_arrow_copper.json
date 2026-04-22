@@ -1,0 +1,30 @@
+{
+    "skillType": "BLACKSMITH",
+    "id": "craft_arrow_copper",
+    "description": "Municao com ponta de cobre para combate a distancia.",
+    "enabled": true,
+    "tier": 1,
+    "baseXp": 22,
+    "tags": [
+        "ammo",
+        "arrow"
+    ],
+    "name": "Criar Flecha de Cobre",
+    "baseDurationSeconds": 7,
+    "difficulty": 1.25,
+    "outputItemId": "arrow_copper",
+    "outputQty": 20,
+    "minPlayerLevel": 2,
+    "minSkillLevel": 1,
+    "discipline": "FORGE",
+    "ingredients": [
+        {
+            "quantity": 1,
+            "itemId": "wood_log"
+        },
+        {
+            "quantity": 1,
+            "itemId": "copper_ore"
+        }
+    ]
+}

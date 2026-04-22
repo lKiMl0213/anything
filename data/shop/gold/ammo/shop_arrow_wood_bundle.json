@@ -1,0 +1,12 @@
+{
+  "id": "shop_arrow_wood_bundle",
+  "name": "Pacote de Flechas de Madeira",
+  "itemId": "arrow_wood",
+  "price": 35,
+  "currency": "GOLD",
+  "quantity": 25,
+  "minPlayerLevel": 1,
+  "description": "Pacote economico de flechas de madeira para arqueiros.",
+  "enabled": true,
+  "tags": ["gold", "archer", "ammo"]
+}
