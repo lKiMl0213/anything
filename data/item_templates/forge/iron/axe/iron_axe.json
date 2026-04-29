@@ -1,0 +1,27 @@
+﻿{
+    "id":  "iron_axe",
+    "name":  "Machado de Ferro",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  4,
+    "rarity":  "COMMON",
+    "maxRarity":  "COMMON",
+    "baseScaling":  6.1,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  1,
+    "vendorBaseValue":  39,
+    "allowedAffixes":  [
+                           "str",
+                           "crit",
+                           "warcry",
+                           "atk_speed"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "axe",
+                 "iron"
+             ],
+    "description":  "Equipamento de forja (Ferro) com modificadores aleatorios por afixos."
+}

@@ -1,3 +1,4 @@
+// TODO-REMOVE-LEGACY: fluxo antigo isolado; remover após substituição modular completa.
 package rpg.cli
 
 import rpg.achievement.AchievementCategory
@@ -151,9 +152,10 @@ internal class LegacyAchievementFlow(
 
     private fun knownMonsterBaseTypes(): Set<String> {
         val fromRepo = repo.monsterArchetypes.values.map { archetype ->
-            archetype.baseType.ifBlank { archetype.id.substringBefore('_') }
+            archetype.monsterTypeId.ifBlank { archetype.baseType.ifBlank { archetype.id.substringBefore('_') } }
         }
-        return (fromRepo + listOf("slime", "wolf", "elemental"))
+        val fromTypes = repo.monsterTypes.keys
+        return (fromRepo + fromTypes + rpg.achievement.MonsterTypeMasteryService.trackedTypes)
             .map { it.trim().lowercase() }
             .filter { it.isNotBlank() }
             .toSet()

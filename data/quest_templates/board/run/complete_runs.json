@@ -19,9 +19,8 @@
     "requiresDungeon": true
   },
   "titleTemplate": "Explorador Persistente",
-  "descriptionTemplate": "Conclua {amount} exploracoes completas da dungeon.",
-  "hintTemplate": "Sair vivo da run conta para esta meta.",
+  "descriptionTemplate": "Conclua {amount} exploracoes completas da dungeon derrotando o boss.",
+  "hintTemplate": "A run so conta quando o boss e derrotado apos as 10 primeiras salas.",
   "enabled": true,
   "weight": 6
 }
-

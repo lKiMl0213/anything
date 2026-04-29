@@ -1,0 +1,35 @@
+{
+  "id": "high_elf",
+  "name": "Alto Elfo",
+  "description": "Mago puro com refinamento arcano, foco em mana e eficiencia.",
+  "bonuses": {
+    "attributes": {
+      "int": 7,
+      "spr": 7,
+      "dex": 2,
+      "agi": 2,
+      "str": -2,
+      "vit": -2
+    },
+    "derivedAdd": {
+      "mpMax": 24,
+      "damageMagic": 8
+    },
+    "derivedMult": {
+      "cdrPct": 6,
+      "mpRegen": 10
+    }
+  },
+  "growth": {
+    "int": 3,
+    "spr": 3,
+    "dex": 1
+  },
+  "professionBonusesPct": {
+    "alchemy": 6,
+    "cooking": 5,
+    "enchanting": 4
+  },
+  "tradeBuyDiscountPct": 0,
+  "tradeSellBonusPct": 0
+}

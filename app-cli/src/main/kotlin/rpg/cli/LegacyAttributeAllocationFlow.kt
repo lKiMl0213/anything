@@ -1,3 +1,4 @@
+// TODO-REMOVE-LEGACY: fluxo antigo isolado; remover após substituição modular completa.
 package rpg.cli
 
 import rpg.cli.model.AttrMeta

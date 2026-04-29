@@ -3,7 +3,7 @@ package rpg.quest.progress
 import rpg.engine.GameEngine
 import rpg.monster.MonsterInstance
 import rpg.monster.MonsterRarity
-import rpg.cli.model.BattleOutcome
+import rpg.application.model.BattleOutcome
 
 internal class CombatQuestProgressService(
     private val engine: GameEngine

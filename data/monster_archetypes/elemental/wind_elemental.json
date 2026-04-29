@@ -1,0 +1,40 @@
+{
+  "id": "wind_elemental",
+  "name": "Elemental de Vento",
+  "archetype": "Elemental",
+  "baseType": "wind_elemental",
+  "monsterTypeId": "elemental",
+  "family": "elemental",
+  "displayName": "Elemental de Vento",
+  "baseAttributes": { "str": 5, "agi": 12, "dex": 10, "vit": 6, "int": 7, "spr": 7 },
+  "growthAttributes": { "agi": 3, "dex": 3, "str": 1, "vit": 1, "int": 2, "spr": 1 },
+  "variancePct": 0.17,
+  "tags": ["elemental", "wind"],
+  "questTags": ["elemental", "wind"],
+  "onHitStatuses": [
+    {
+      "type": "MARKED",
+      "chancePct": 20,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 12,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Rastro de Turbilhao"
+    },
+    {
+      "type": "SLOW",
+      "chancePct": 14,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Cisalhamento de Ar"
+    }
+  ],
+  "dropTableId": "elemental_fire",
+  "lootProfileId": "elemental_fire",
+  "baseXp": 44,
+  "baseGold": 14
+}

@@ -2,7 +2,7 @@
   "id": "shop_arrow_iron_bundle",
   "name": "Pacote de Flechas de Ferro",
   "itemId": "arrow_iron",
-  "price": 70,
+  "price": 54,
   "currency": "GOLD",
   "quantity": 25,
   "minPlayerLevel": 5,

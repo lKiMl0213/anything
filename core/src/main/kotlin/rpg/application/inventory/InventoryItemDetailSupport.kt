@@ -1,9 +1,11 @@
 package rpg.application.inventory
 
 import rpg.classquest.ClassQuestTagRules
+import rpg.classsystem.RaceBonusSupport
 import rpg.engine.GameEngine
 import rpg.io.DataRepository
 import rpg.item.ResolvedItem
+import rpg.model.EquipSlot
 import rpg.model.ItemInstance
 import rpg.model.ItemType
 import rpg.model.PlayerState
@@ -23,12 +25,19 @@ internal class InventoryItemDetailSupport(
     ): InventoryItemDetailView {
         val item = stack.item
         val forcedSaleValue = ClassQuestTagRules.forcedSellValue(item.tags)
-        val saleValue = forcedSaleValue ?: engine.economyEngine.sellValue(
-            itemValue = item.value,
-            rarity = item.rarity,
-            type = item.type,
-            tags = item.tags
-        )
+        val saleValue = if (forcedSaleValue != null) {
+            forcedSaleValue
+        } else {
+            val baseSaleValue = engine.economyEngine.sellValue(
+                itemValue = item.value,
+                rarity = item.rarity,
+                type = item.type,
+                tags = item.tags
+            )
+            val raceDef = runCatching { engine.classSystem.raceDef(player.raceId) }.getOrNull()
+            val raceBonus = RaceBonusSupport.tradeSellBonusPct(raceDef)
+            RaceBonusSupport.applyTradeSellBonus(baseSaleValue, raceBonus)
+        }
         val lines = mutableListOf<String>()
         lines += "Raridade: ${item.rarity.colorLabel}"
         if (item.qualityRollPct != 100 || item.powerScore > 0) {
@@ -126,6 +135,11 @@ internal class InventoryItemDetailSupport(
         val slotLabel = item.slot?.name ?: slotKey
         val handLabel = if (item.twoHanded) " (duas maos)" else ""
         lines += "Slot: $slotLabel$handLabel"
+        if (slotKey == EquipSlot.ALJAVA.name) {
+            val current = rpg.inventory.InventorySystem.quiverAmmoCount(player, itemInstances, engine.itemRegistry)
+            val max = rpg.inventory.InventorySystem.quiverCapacity(player, itemInstances, engine.itemRegistry)
+            lines += "Aljava: $current/$max flechas"
+        }
         val bonusLabel = formatItemBonuses(item)
         if (bonusLabel.isNotBlank()) lines += "Bonus: $bonusLabel"
         val before = engine.computePlayerStats(player, itemInstances)

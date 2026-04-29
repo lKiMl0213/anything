@@ -1,0 +1,26 @@
+﻿{
+    "id":  "silver_armor",
+    "name":  "Armadura de Prata",
+    "type":  "EQUIPMENT",
+    "slot":  "CHEST",
+    "minLevel":  7,
+    "rarity":  "RARE",
+    "maxRarity":  "RARE",
+    "baseScaling":  6.2,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  2,
+    "vendorBaseValue":  42,
+    "allowedAffixes":  [
+                           "vit",
+                           "hp",
+                           "def",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "armor",
+                 "silver"
+             ],
+    "description":  "Equipamento de forja (Prata) com modificadores aleatorios por afixos."
+}

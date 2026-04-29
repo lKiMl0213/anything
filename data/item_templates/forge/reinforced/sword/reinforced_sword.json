@@ -1,0 +1,29 @@
+﻿{
+    "id":  "reinforced_sword",
+    "name":  "Espada de Reforcado",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  15,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  10.49,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  3,
+    "vendorBaseValue":  103,
+    "allowedAffixes":  [
+                           "str",
+                           "crit",
+                           "atk_speed",
+                           "piercing",
+                           "warcry",
+                           "fervor"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "sword",
+                 "reinforced"
+             ],
+    "description":  "Equipamento de forja (Reforcado) com modificadores aleatorios por afixos."
+}

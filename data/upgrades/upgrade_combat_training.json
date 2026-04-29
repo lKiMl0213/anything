@@ -1,0 +1,56 @@
+{
+  "id": "combat_training",
+  "name": "Treinamento de Combate",
+  "description": "Aumenta a XP obtida em batalhas.",
+  "effectType": "COMBAT_XP_BOOST",
+  "valueMode": "PERCENT",
+  "enabled": true,
+  "tags": ["battle", "xp"],
+  "levels": [
+    {
+      "level": 1,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 1200 },
+        { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 50 },
+        { "id": "hybrid", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 800, "requiredItemId": "old_rag", "requiredItemQty": 6 }
+      ]
+    },
+    {
+      "level": 2,
+      "value": 5.0,
+      "costs": [
+        { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 2300 },
+        { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 85 },
+        { "id": "hybrid", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 1500, "requiredItemId": "old_rag", "requiredItemQty": 10 }
+      ]
+    },
+    {
+      "level": 3,
+      "value": 10.0,
+      "costs": [
+        { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 4200 },
+        { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 145 },
+        { "id": "hybrid", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 2800, "requiredItemId": "arcane_fragment", "requiredItemQty": 8 }
+      ]
+    },
+    {
+      "level": 4,
+      "value": 15.0,
+      "costs": [
+        { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 6800 },
+        { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 220 },
+        { "id": "hybrid", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 4700, "requiredItemId": "arcane_fragment", "requiredItemQty": 14 }
+      ]
+    },
+    {
+      "level": 5,
+      "value": 20.0,
+      "costs": [
+        { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 9800 },
+        { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 320 },
+        { "id": "hybrid", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 7000, "requiredItemId": "arcane_fragment", "requiredItemQty": 20 }
+      ]
+    }
+  ]
+}

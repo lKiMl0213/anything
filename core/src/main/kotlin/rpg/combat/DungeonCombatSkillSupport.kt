@@ -1,9 +1,9 @@
 package rpg.combat
 
 import kotlin.math.ceil
-import rpg.cli.model.AmmoStack
-import rpg.cli.model.CombatMenuAction
-import rpg.cli.model.CombatSkillOption
+import rpg.application.model.AmmoStack
+import rpg.application.model.CombatMenuAction
+import rpg.application.model.CombatSkillOption
 import rpg.engine.GameEngine
 import rpg.inventory.InventorySystem
 import rpg.io.DataRepository
@@ -12,7 +12,7 @@ import rpg.model.ItemType
 import rpg.model.TalentNodeType
 import rpg.talent.TalentTreeService
 
-internal data class LegacyAttackDecisionBuild(
+internal data class AttackDecisionBuild(
     val actions: List<CombatMenuAction>,
     val skills: List<CombatSkillOption>
 )
@@ -28,7 +28,7 @@ internal class DungeonCombatSkillSupport(
         selectedTemplateId: String?
     ) -> List<AmmoStack>
 ) {
-    fun buildAttackDecisionActions(snapshot: rpg.combat.CombatSnapshot): LegacyAttackDecisionBuild {
+    fun buildAttackDecisionActions(snapshot: rpg.combat.CombatSnapshot): AttackDecisionBuild {
         val actions = mutableListOf<CombatMenuAction>()
         val ammoRestriction = rangedAmmoRestriction(snapshot)
         actions += CombatMenuAction.BasicAttack(
@@ -40,7 +40,7 @@ internal class DungeonCombatSkillSupport(
         decisionSkills.forEach { skill ->
             actions += CombatMenuAction.SkillAttack(skill)
         }
-        return LegacyAttackDecisionBuild(actions = actions, skills = decisionSkills)
+        return AttackDecisionBuild(actions = actions, skills = decisionSkills)
     }
 
     fun buildCombatSkillOptions(snapshot: rpg.combat.CombatSnapshot): List<CombatSkillOption> {

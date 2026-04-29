@@ -2,7 +2,7 @@
   "id": "shop_arrow_wood_bundle",
   "name": "Pacote de Flechas de Madeira",
   "itemId": "arrow_wood",
-  "price": 35,
+  "price": 24,
   "currency": "GOLD",
   "quantity": 25,
   "minPlayerLevel": 1,

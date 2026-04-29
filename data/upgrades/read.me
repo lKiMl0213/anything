@@ -1,0 +1,33 @@
+PERMANENT UPGRADES
+
+Pasta: data/upgrades
+Cada JSON define um aprimoramento permanente.
+
+Campos principais:
+- effectType: tipo de efeito aplicado na logica do jogo
+- valueMode: PERCENT ou FLAT
+- levels: lista de niveis com valor e custos
+- costs: cada nivel pode ter multiplas formas de compra
+  - gold
+  - cash
+  - gold + item
+
+Observacao:
+- Os niveis comprados ficam salvos em player.permanentUpgradeLevels.
+- O mesmo aprimoramento pode ser comprado por modalidades diferentes.
+
+Lista atual de IDs:
+- profession_mastery
+- quest_item_preservation
+- bulk_crafting_protocol
+- fishermans_instinct
+- herbalists_touch
+- miners_instinct
+- lumberjack_precision
+- forge_efficiency
+- cooking_efficiency
+- alchemy_efficiency
+- tavern_bargaining
+- quiver_expansion
+- combat_training
+- threat_lure

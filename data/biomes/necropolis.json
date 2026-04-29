@@ -4,7 +4,10 @@
   "description": "Ecos de morte e poder antigo.",
   "monsterTagWeights": {
     "undead": 1.5,
-    "ancient": 1.2
+    "ancient": 1.25,
+    "construct": 1.15,
+    "demon": 1.12,
+    "dragon": 1.1
   },
   "summonChanceBonusPct": 8.0,
   "healingMultiplier": 0.9

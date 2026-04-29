@@ -1,0 +1,29 @@
+﻿{
+    "id":  "runic_gloves",
+    "name":  "Luvas de Runica",
+    "type":  "EQUIPMENT",
+    "slot":  "GLOVES",
+    "minLevel":  22,
+    "rarity":  "MYTHIC",
+    "maxRarity":  "MYTHIC",
+    "baseScaling":  8.25,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  5,
+    "vendorBaseValue":  86,
+    "allowedAffixes":  [
+                           "atk_speed",
+                           "precision",
+                           "fervor",
+                           "crit",
+                           "str",
+                           "tenacity",
+                           "vampiric"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "gloves",
+                 "runic"
+             ],
+    "description":  "Equipamento de forja (Runica) com modificadores aleatorios por afixos."
+}

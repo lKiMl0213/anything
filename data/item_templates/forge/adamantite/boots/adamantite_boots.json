@@ -1,0 +1,27 @@
+﻿{
+    "id":  "adamantite_boots",
+    "name":  "Botas de Adamantita",
+    "type":  "EQUIPMENT",
+    "slot":  "BOOTS",
+    "minLevel":  18,
+    "rarity":  "LEGENDARY",
+    "maxRarity":  "LEGENDARY",
+    "baseScaling":  7.84,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  4,
+    "vendorBaseValue":  64,
+    "allowedAffixes":  [
+                           "agi",
+                           "evasion",
+                           "recovery",
+                           "tenacity",
+                           "guardian"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "boots",
+                 "adamantite"
+             ],
+    "description":  "Equipamento de forja (Adamantita) com modificadores aleatorios por afixos."
+}

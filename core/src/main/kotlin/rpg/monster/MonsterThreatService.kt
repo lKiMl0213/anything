@@ -89,9 +89,11 @@ internal class MonsterThreatService(
     fun rollRarity(
         difficulty: Int,
         isBoss: Boolean,
-        rarityPressure: Double
+        rarityPressure: Double,
+        rarityBonusPct: Double = 0.0
     ): MonsterRarity {
-        val pressure = rarityPressure.coerceIn(0.0, 1.0)
+        val bonusPct = rarityBonusPct.coerceIn(0.0, 60.0)
+        val pressure = (rarityPressure + (bonusPct / 100.0) * 0.55).coerceIn(0.0, 1.0)
         val difficultyBonus = (difficulty - 1).coerceAtLeast(0).toDouble()
         val weights = mutableMapOf(
             MonsterRarity.COMMON to (68.0 - pressure * 28.0),
@@ -100,6 +102,15 @@ internal class MonsterThreatService(
             MonsterRarity.EPIC to (4.0 + pressure * 6.0 + difficultyBonus * 0.45),
             MonsterRarity.LEGENDARY to (1.0 + pressure * 4.0 + difficultyBonus * 0.25)
         )
+        if (bonusPct > 0.0) {
+            val bonusScale = 1.0 + bonusPct / 100.0
+            val epicLegendaryScale = 1.0 + bonusPct / 70.0
+            weights[MonsterRarity.COMMON] = (weights[MonsterRarity.COMMON] ?: 1.0) * (1.0 - bonusPct / 120.0).coerceAtLeast(0.5)
+            weights[MonsterRarity.ELITE] = (weights[MonsterRarity.ELITE] ?: 1.0) * bonusScale
+            weights[MonsterRarity.RARE] = (weights[MonsterRarity.RARE] ?: 1.0) * bonusScale
+            weights[MonsterRarity.EPIC] = (weights[MonsterRarity.EPIC] ?: 1.0) * epicLegendaryScale
+            weights[MonsterRarity.LEGENDARY] = (weights[MonsterRarity.LEGENDARY] ?: 1.0) * epicLegendaryScale
+        }
 
         if (!isBoss && pressure < 0.2) {
             weights[MonsterRarity.EPIC] = minOf(weights[MonsterRarity.EPIC] ?: 1.0, 2.0)

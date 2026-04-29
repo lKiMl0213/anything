@@ -1,0 +1,26 @@
+﻿{
+    "id":  "iron_boots",
+    "name":  "Botas de Ferro",
+    "type":  "EQUIPMENT",
+    "slot":  "BOOTS",
+    "minLevel":  4,
+    "rarity":  "COMMON",
+    "maxRarity":  "COMMON",
+    "baseScaling":  3.5,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  1,
+    "vendorBaseValue":  17,
+    "allowedAffixes":  [
+                           "agi",
+                           "evasion",
+                           "recovery",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "boots",
+                 "iron"
+             ],
+    "description":  "Equipamento de forja (Ferro) com modificadores aleatorios por afixos."
+}

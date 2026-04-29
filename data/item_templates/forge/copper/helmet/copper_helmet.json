@@ -1,0 +1,26 @@
+﻿{
+    "id":  "copper_helmet",
+    "name":  "Elmo de Cobre",
+    "type":  "EQUIPMENT",
+    "slot":  "HEAD",
+    "minLevel":  2,
+    "rarity":  "COMMON",
+    "maxRarity":  "COMMON",
+    "baseScaling":  3.02,
+    "baseStat":  "HP_MAX",
+    "dropTier":  1,
+    "vendorBaseValue":  15,
+    "allowedAffixes":  [
+                           "hp",
+                           "def",
+                           "regen",
+                           "warding"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "helmet",
+                 "copper"
+             ],
+    "description":  "Equipamento de forja (Cobre) com modificadores aleatorios por afixos."
+}

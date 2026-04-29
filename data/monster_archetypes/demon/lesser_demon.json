@@ -1,0 +1,40 @@
+{
+  "id": "lesser_demon",
+  "name": "Demonio Menor",
+  "archetype": "Demon",
+  "baseType": "lesser_demon",
+  "monsterTypeId": "demon",
+  "family": "demon",
+  "displayName": "Demonio Menor",
+  "baseAttributes": { "str": 9, "agi": 6, "dex": 6, "vit": 9, "int": 6, "spr": 6 },
+  "growthAttributes": { "str": 2, "agi": 2, "dex": 1, "vit": 3, "int": 1, "spr": 1 },
+  "variancePct": 0.14,
+  "tags": ["demon", "infernal", "brute"],
+  "questTags": ["demon"],
+  "onHitStatuses": [
+    {
+      "type": "BURNING",
+      "chancePct": 20,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 1,
+      "effectValue": 4.1,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Garras Flamejantes"
+    },
+    {
+      "type": "WEAKNESS",
+      "chancePct": 12,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Aura da Ruina"
+    }
+  ],
+  "dropTableId": "elemental_fire",
+  "lootProfileId": "elemental_fire",
+  "baseXp": 44,
+  "baseGold": 14
+}

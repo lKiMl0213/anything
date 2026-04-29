@@ -1,0 +1,30 @@
+{
+  "id": "animated_armor",
+  "name": "Armadura Animada",
+  "archetype": "Construct",
+  "baseType": "animated_armor",
+  "monsterTypeId": "construct",
+  "family": "construct",
+  "displayName": "Armadura Animada",
+  "baseAttributes": { "str": 10, "agi": 4, "dex": 5, "vit": 12, "spr": 6 },
+  "growthAttributes": { "str": 2, "agi": 1, "dex": 2, "vit": 3, "spr": 1 },
+  "variancePct": 0.12,
+  "tags": ["construct", "armored", "arcane"],
+  "questTags": ["construct"],
+  "onHitStatuses": [
+    {
+      "type": "MARKED",
+      "chancePct": 16,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Guardia Arcana"
+    }
+  ],
+  "dropTableId": "construct_arcane",
+  "lootProfileId": "construct_arcane",
+  "baseXp": 42,
+  "baseGold": 14
+}

@@ -1,0 +1,26 @@
+﻿{
+    "id":  "silver_gloves",
+    "name":  "Luvas de Prata",
+    "type":  "EQUIPMENT",
+    "slot":  "GLOVES",
+    "minLevel":  7,
+    "rarity":  "RARE",
+    "maxRarity":  "RARE",
+    "baseScaling":  4.09,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  2,
+    "vendorBaseValue":  26,
+    "allowedAffixes":  [
+                           "atk_speed",
+                           "dex",
+                           "precision",
+                           "str"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "gloves",
+                 "silver"
+             ],
+    "description":  "Equipamento de forja (Prata) com modificadores aleatorios por afixos."
+}

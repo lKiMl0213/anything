@@ -1,0 +1,27 @@
+﻿{
+    "id":  "mithril_gloves",
+    "name":  "Luvas de Mithril",
+    "type":  "EQUIPMENT",
+    "slot":  "GLOVES",
+    "minLevel":  14,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  5.81,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  3,
+    "vendorBaseValue":  45,
+    "allowedAffixes":  [
+                           "atk_speed",
+                           "precision",
+                           "fervor",
+                           "crit",
+                           "str"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "gloves",
+                 "mithril"
+             ],
+    "description":  "Equipamento de forja (Mithril) com modificadores aleatorios por afixos."
+}

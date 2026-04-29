@@ -77,6 +77,10 @@ internal class DungeonRunFlow(
     private val autoSave: (GameState) -> Unit,
     private val emit: (String) -> Unit
 ) {
+    private fun runCountsAsCompleted(run: rpg.model.DungeonRun): Boolean {
+        return run.victoriesInRun >= 10 && run.bossesDefeatedInRun >= 1 && run.depth >= 10
+    }
+
     fun enterDungeon(state: GameState, forceClassDungeon: Boolean = false): GameState {
         val entry = entryFlow.prepareRun(state, forceClassDungeon) ?: return state
         val chosenTier = entry.chosenTier
@@ -126,14 +130,15 @@ internal class DungeonRunFlow(
                     itemInstances = outcome.itemInstances
                     if (!outcome.victory) {
                         return outcomeFlow.handleRunFailure(
-                            state = state,
-                            outcome = outcome,
-                            loot = loot,
-                            itemInstances = itemInstances,
-                            questBoard = questBoard,
-                            worldTimeMinutes = worldTimeMinutes,
-                            lastClockSync = lastClockSync
-                        )
+                                state = state,
+                                outcome = outcome,
+                                loot = loot,
+                                itemInstances = itemInstances,
+                                run = run,
+                                questBoard = questBoard,
+                                worldTimeMinutes = worldTimeMinutes,
+                                lastClockSync = lastClockSync
+                            )
                     }
                     player = outcome.playerAfter
                     questBoard = applyBattleQuestProgress(questBoard, monster, outcome, true)
@@ -175,14 +180,15 @@ internal class DungeonRunFlow(
                     itemInstances = outcome.itemInstances
                     if (!outcome.victory) {
                         return outcomeFlow.handleRunFailure(
-                            state = state,
-                            outcome = outcome,
-                            loot = loot,
-                            itemInstances = itemInstances,
-                            questBoard = questBoard,
-                            worldTimeMinutes = worldTimeMinutes,
-                            lastClockSync = lastClockSync
-                        )
+                                state = state,
+                                outcome = outcome,
+                                loot = loot,
+                                itemInstances = itemInstances,
+                                run = run,
+                                questBoard = questBoard,
+                                worldTimeMinutes = worldTimeMinutes,
+                                lastClockSync = lastClockSync
+                            )
                     }
                     player = outcome.playerAfter
                     questBoard = applyBattleQuestProgress(questBoard, monster, outcome, false)
@@ -223,6 +229,7 @@ internal class DungeonRunFlow(
                                 outcome = outcome,
                                 loot = loot,
                                 itemInstances = itemInstances,
+                                run = run,
                                 questBoard = eventOutcome.questBoard,
                                 worldTimeMinutes = worldTimeMinutes,
                                 lastClockSync = lastClockSync
@@ -253,7 +260,10 @@ internal class DungeonRunFlow(
                 val finalized = finalizeRun(player, loot, itemInstances)
                 val updated = finalized.player
                 itemInstances = finalized.itemInstances
-                questBoard = onRunCompleted(questBoard, 1)
+                val runCompleted = runCountsAsCompleted(run)
+                if (runCompleted) {
+                    questBoard = onRunCompleted(questBoard, 1)
+                }
                 val updatedState = state.copy(
                     player = updated,
                     currentRun = null,
@@ -264,6 +274,9 @@ internal class DungeonRunFlow(
                 )
                 autoSave(updatedState)
                 emit("\nRun encerrada. Loot guardado: ${loot.size} itens.")
+                if (!runCompleted) {
+                    emit("Run nao contou como concluida: elimine o boss da rodada para validar quests de conclusao.")
+                }
                 return updatedState
             }
         }

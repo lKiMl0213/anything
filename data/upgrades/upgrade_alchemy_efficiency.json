@@ -1,0 +1,55 @@
+{
+    "id": "alchemy_efficiency",
+    "name": "Alquimia Economica",
+    "description": "Reduz o custo de materiais dos crafts de Alquimia.",
+    "effectType": "ALCHEMY_COST_REDUCTION",
+    "valueMode": "PERCENT",
+    "enabled": true,
+    "levels": [
+        {
+            "level": 1,
+            "value": 5.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 1000 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 38 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 700, "requiredItemId": "venom", "requiredItemQty": 4 }
+            ]
+        },
+        {
+            "level": 2,
+            "value": 10.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 2000 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 75 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 1400, "requiredItemId": "venom", "requiredItemQty": 7 }
+            ]
+        },
+        {
+            "level": 3,
+            "value": 15.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 3600 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 128 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 2500, "requiredItemId": "arcane_fragment", "requiredItemQty": 8 }
+            ]
+        },
+        {
+            "level": 4,
+            "value": 20.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 5800 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 198 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 4000, "requiredItemId": "arcane_fragment", "requiredItemQty": 12 }
+            ]
+        },
+        {
+            "level": 5,
+            "value": 25.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 9000 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 295 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 6300, "requiredItemId": "runic_stone", "requiredItemQty": 8 }
+            ]
+        }
+    ]
+}

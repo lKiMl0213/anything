@@ -1,0 +1,28 @@
+﻿{
+    "id":  "obsidian_armor",
+    "name":  "Armadura de Obsidiana",
+    "type":  "EQUIPMENT",
+    "slot":  "CHEST",
+    "minLevel":  17,
+    "rarity":  "LEGENDARY",
+    "maxRarity":  "LEGENDARY",
+    "baseScaling":  10.5,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  4,
+    "vendorBaseValue":  96,
+    "allowedAffixes":  [
+                           "guardian",
+                           "bulwark",
+                           "warding",
+                           "hp",
+                           "def",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "armor",
+                 "obsidian"
+             ],
+    "description":  "Equipamento de forja (Obsidiana) com modificadores aleatorios por afixos."
+}

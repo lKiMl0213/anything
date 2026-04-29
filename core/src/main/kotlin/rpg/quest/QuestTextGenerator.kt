@@ -50,7 +50,7 @@ internal class QuestTextGenerator(
             QuestObjectiveType.REACH_FLOOR ->
                 "Alcance pelo menos o andar $amount da dungeon infinita."
             QuestObjectiveType.COMPLETE_RUN ->
-                "Finalize $amount exploracoes da dungeon."
+                "Finalize $amount exploracoes da dungeon derrotando o boss."
         }
     }
 
@@ -71,7 +71,7 @@ internal class QuestTextGenerator(
             QuestObjectiveType.KILL_MONSTER,
             QuestObjectiveType.KILL_TAG -> "Procure inimigos em tiers desbloqueados."
             QuestObjectiveType.REACH_FLOOR -> "Avance de forma consistente; fugir encerra o progresso da run."
-            QuestObjectiveType.COMPLETE_RUN -> "Concluir uma run conta ao sair com sucesso."
+            QuestObjectiveType.COMPLETE_RUN -> "A run so conta ao derrotar o boss apos as 10 salas iniciais."
             else -> ""
         }
     }

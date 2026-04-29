@@ -1,0 +1,26 @@
+﻿{
+    "id":  "gold_gloves",
+    "name":  "Luvas de Ouro",
+    "type":  "EQUIPMENT",
+    "slot":  "GLOVES",
+    "minLevel":  9,
+    "rarity":  "RARE",
+    "maxRarity":  "RARE",
+    "baseScaling":  4.49,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  2,
+    "vendorBaseValue":  30,
+    "allowedAffixes":  [
+                           "atk_speed",
+                           "dex",
+                           "precision",
+                           "str"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "gloves",
+                 "gold"
+             ],
+    "description":  "Equipamento de forja (Ouro) com modificadores aleatorios por afixos."
+}

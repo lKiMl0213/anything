@@ -1,6 +1,8 @@
+// TODO-REMOVE-LEGACY: fluxo antigo isolado; remover após substituição modular completa.
 package rpg.cli
 
 import rpg.cli.model.*
+import rpg.classsystem.RaceBonusSupport
 import rpg.classquest.ClassQuestTagRules
 import rpg.engine.GameEngine
 import rpg.inventory.InventorySystem
@@ -210,12 +212,19 @@ internal class LegacyInventoryFlow(
         val itemId = stack.itemIds.firstOrNull() ?: return UseItemResult(player, itemInstances)
         val resolved = engine.itemResolver.resolve(itemId, itemInstances) ?: return UseItemResult(player, itemInstances)
         val forcedSaleValue = ClassQuestTagRules.forcedSellValue(resolved.tags)
-        val saleValue = forcedSaleValue ?: engine.economyEngine.sellValue(
-            itemValue = resolved.value,
-            rarity = resolved.rarity,
-            type = resolved.type,
-            tags = resolved.tags
-        )
+        val saleValue = if (forcedSaleValue != null) {
+            forcedSaleValue
+        } else {
+            val baseSaleValue = engine.economyEngine.sellValue(
+                itemValue = resolved.value,
+                rarity = resolved.rarity,
+                type = resolved.type,
+                tags = resolved.tags
+            )
+            val raceDef = runCatching { engine.classSystem.raceDef(player.raceId) }.getOrNull()
+            val raceBonusPct = RaceBonusSupport.tradeSellBonusPct(raceDef)
+            RaceBonusSupport.applyTradeSellBonus(baseSaleValue, raceBonusPct)
+        }
         println("\nItem: ${detailSupport.itemDisplayLabel(resolved)}")
         println("Tipo: ${resolved.type.name.lowercase()} | Valor de venda por unidade: $saleValue")
         detailSupport.printInventoryItemDetails(player, itemInstances, stack, resolved)

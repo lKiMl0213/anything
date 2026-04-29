@@ -1,14 +1,18 @@
 package rpg.application
 
 import rpg.application.actions.GameAction
+import rpg.application.creation.CharacterCreationQueryService
 import rpg.application.character.CharacterQueryService
 import rpg.application.city.CityQueryService
 import rpg.application.inventory.InventoryQueryService
+import rpg.application.production.ProductionQueryService
 import rpg.application.progression.AchievementQueryService
 import rpg.application.progression.QuestQueryService
+import rpg.application.shop.ShopQueryService
+import rpg.combat.CombatTelemetry
 import rpg.engine.GameEngine
 import rpg.io.DataRepository
-import rpg.navigation.NavigationState
+import rpg.model.PlayerState
 
 class GameActionHandler(
     repo: DataRepository,
@@ -17,11 +21,14 @@ class GameActionHandler(
     private val runtime = GameActionRuntime(repo, saveGateway)
 
     fun engine(): GameEngine = runtime.engine
+    fun creationQueryService(): CharacterCreationQueryService = runtime.characterCreationQueryService
     fun characterQueryService(): CharacterQueryService = runtime.characterQueryService
     fun inventoryQueryService(): InventoryQueryService = runtime.inventoryQueryService
     fun questQueryService(): QuestQueryService = runtime.questQueryService
     fun achievementQueryService(): AchievementQueryService = runtime.achievementQueryService
     fun cityQueryService(): CityQueryService = runtime.cityQueryService
+    fun productionQueryService(): ProductionQueryService = runtime.productionQueryService
+    fun shopQueryService(): ShopQueryService = runtime.shopQueryService
 
     fun handle(session: GameSession, action: GameAction): GameActionResult {
         return runtime.handle(session, action)
@@ -41,45 +48,31 @@ class GameActionHandler(
         )
     }
 
-    fun applyLegacyReturn(session: GameSession, updatedState: rpg.model.GameState?): GameSession {
-        val normalized = runtime.normalizeLoadedState(updatedState) ?: session.gameState
-        return session.copy(
-            gameState = normalized,
-            navigation = if (normalized != null) NavigationState.Hub else NavigationState.MainMenu,
-            pendingEncounter = null,
-            availableSaves = emptyList(),
-            selectedAttributeCode = null,
-            selectedInventoryItemId = null,
-            selectedEquipmentSlot = null,
-            selectedTalentTreeId = null,
-            selectedTalentNodeId = null,
-            selectedQuestSection = null,
-            selectedQuestId = null,
-            selectedAchievementCategory = null,
-            selectedAchievementId = null,
-            messages = emptyList()
+    fun applyBattleResolvedAchievement(
+        player: PlayerState,
+        telemetry: CombatTelemetry,
+        victory: Boolean,
+        escaped: Boolean,
+        isBoss: Boolean,
+        monsterTypeId: String,
+        monsterStars: Int
+    ): PlayerState {
+        return runtime.applyBattleResolvedAchievement(
+            player = player,
+            telemetry = telemetry,
+            victory = victory,
+            escaped = escaped,
+            isBoss = isBoss,
+            monsterTypeId = monsterTypeId,
+            monsterStars = monsterStars
         )
     }
 
-    fun applyLegacyNewGameReturn(session: GameSession, updatedState: rpg.model.GameState?): GameSession {
-        val normalized = runtime.normalizeLoadedState(updatedState)
-        return session.copy(
-            gameState = normalized,
-            currentSavePath = null,
-            currentSaveName = null,
-            navigation = if (normalized != null) NavigationState.Hub else NavigationState.MainMenu,
-            pendingEncounter = null,
-            availableSaves = emptyList(),
-            selectedAttributeCode = null,
-            selectedInventoryItemId = null,
-            selectedEquipmentSlot = null,
-            selectedTalentTreeId = null,
-            selectedTalentNodeId = null,
-            selectedQuestSection = null,
-            selectedQuestId = null,
-            selectedAchievementCategory = null,
-            selectedAchievementId = null,
-            messages = emptyList()
-        )
+    fun applyGoldEarnedAchievement(player: PlayerState, gold: Long): PlayerState {
+        return runtime.applyGoldEarnedAchievement(player, gold)
+    }
+
+    fun applyDeathAchievement(player: PlayerState): PlayerState {
+        return runtime.applyDeathAchievement(player)
     }
 }

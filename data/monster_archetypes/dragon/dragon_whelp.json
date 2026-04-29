@@ -1,0 +1,40 @@
+{
+  "id": "dragon_whelp",
+  "name": "Filhote de Dragao",
+  "archetype": "Dragon",
+  "baseType": "dragon_whelp",
+  "monsterTypeId": "dragon",
+  "family": "dragon",
+  "displayName": "Filhote de Dragao",
+  "baseAttributes": { "str": 11, "agi": 8, "dex": 7, "vit": 12, "int": 7, "spr": 7, "luk": 3 },
+  "growthAttributes": { "str": 3, "agi": 2, "dex": 2, "vit": 3, "int": 1, "spr": 1 },
+  "variancePct": 0.14,
+  "tags": ["dragon", "fire", "apex"],
+  "questTags": ["dragon"],
+  "onHitStatuses": [
+    {
+      "type": "BURNING",
+      "chancePct": 20,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 4.5,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Bafo Draconico"
+    },
+    {
+      "type": "MARKED",
+      "chancePct": 12,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 12,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Predacao"
+    }
+  ],
+  "dropTableId": "war_scraps",
+  "lootProfileId": "war_scraps",
+  "baseXp": 62,
+  "baseGold": 22
+}

@@ -65,6 +65,14 @@ class CharacterRulesSupport(
         return attributeSupport.allocateAttributePoint(state, attributeCode)
     }
 
+    fun allocateAttributePoints(state: GameState, attributeCode: String, amount: Int): CharacterMutationResult {
+        return attributeSupport.allocateAttributePoints(state, attributeCode, amount)
+    }
+
+    fun applyAttributes(state: GameState, targetValues: Map<String, Int>): CharacterMutationResult {
+        return attributeSupport.applyAttributes(state, targetValues)
+    }
+
     fun rankUpTalentNode(state: GameState, treeId: String, nodeId: String): CharacterMutationResult {
         val trees = activeTalentTrees(state.player)
         val tree = trees.firstOrNull { it.id == treeId }

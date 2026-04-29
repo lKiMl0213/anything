@@ -18,7 +18,8 @@ class MonsterFactory(private val repo: DataRepository, rng: Random) {
         tier: MapTierDef,
         run: DungeonRun,
         playerLevel: Int,
-        isBoss: Boolean
+        isBoss: Boolean,
+        rarityBonusPct: Double = 0.0
     ): MonsterInstance {
         val profile = threatService.buildThreatProfile(tier = tier, run = run, isBoss = isBoss)
         val biome = tier.biomeId?.let { repo.biomes[it] }
@@ -32,7 +33,8 @@ class MonsterFactory(private val repo: DataRepository, rng: Random) {
         val rarity = threatService.rollRarity(
             difficulty = run.difficultyLevel,
             isBoss = isBoss,
-            rarityPressure = profile.rarityPressure
+            rarityPressure = profile.rarityPressure,
+            rarityBonusPct = rarityBonusPct
         )
         val modifierCount = threatService.modifierCount(
             rarity = rarity,

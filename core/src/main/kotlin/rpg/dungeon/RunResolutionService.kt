@@ -2,8 +2,8 @@ package rpg.dungeon
 
 import kotlin.math.ceil
 import rpg.achievement.AchievementUpdate
-import rpg.cli.model.DeathPenaltyResult
-import rpg.cli.model.RunFinalizeResult
+import rpg.application.model.DeathPenaltyResult
+import rpg.application.model.RunFinalizeResult
 import rpg.engine.ComputedStats
 import rpg.engine.GameEngine
 import rpg.inventory.InventorySystem

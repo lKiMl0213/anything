@@ -84,22 +84,73 @@ internal class CharacterAttributeSupport(
     }
 
     fun allocateAttributePoint(state: GameState, attributeCode: String): CharacterMutationResult {
+        return allocateAttributePoints(state, attributeCode, 1)
+    }
+
+    fun allocateAttributePoints(state: GameState, attributeCode: String, amount: Int): CharacterMutationResult {
         val player = state.player
         val meta = attributeMeta.firstOrNull { it.code.equals(attributeCode, ignoreCase = true) }
             ?: return CharacterMutationResult(state, listOf("Atributo invalido."))
+        val requested = amount.coerceAtLeast(0)
+        if (requested <= 0) {
+            return CharacterMutationResult(state, listOf("Quantidade invalida de pontos."))
+        }
         if (player.unspentAttrPoints <= 0) {
             return CharacterMutationResult(state, listOf("Nenhum ponto de atributo disponivel."))
         }
+        if (requested > player.unspentAttrPoints) {
+            return CharacterMutationResult(state, listOf("Pontos insuficientes para essa alocacao."))
+        }
         val updatedPlayer = clampPlayerResources(
             player.copy(
-                baseAttributes = addAttr(player.baseAttributes, meta.code, 1),
-                unspentAttrPoints = (player.unspentAttrPoints - 1).coerceAtLeast(0)
+                baseAttributes = addAttr(player.baseAttributes, meta.code, requested),
+                unspentAttrPoints = (player.unspentAttrPoints - requested).coerceAtLeast(0)
             ),
             state.itemInstances
         )
         return CharacterMutationResult(
             state.copy(player = updatedPlayer),
-            listOf("1 ponto investido em ${meta.label}.")
+            listOf("$requested ponto(s) investido(s) em ${meta.label}.")
+        )
+    }
+
+    fun applyAttributes(state: GameState, targetValues: Map<String, Int>): CharacterMutationResult {
+        val player = state.player
+        val normalizedTargets = targetValues.mapKeys { it.key.uppercase() }
+
+        val deltas = attributeMeta.map { meta ->
+            val current = getAttr(player.baseAttributes, meta.code)
+            val requested = normalizedTargets[meta.code] ?: current
+            if (requested < current) {
+                return CharacterMutationResult(
+                    state,
+                    listOf("Nao e permitido remover pontos ja aplicados em ${meta.label}.")
+                )
+            }
+            meta to (requested - current)
+        }
+
+        val totalToSpend = deltas.sumOf { it.second }
+        if (totalToSpend <= 0) {
+            return CharacterMutationResult(state, listOf("Nenhum ponto de atributo para aplicar."))
+        }
+        if (totalToSpend > player.unspentAttrPoints) {
+            return CharacterMutationResult(state, listOf("Pontos de atributo insuficientes para aplicar essa distribuicao."))
+        }
+
+        val updatedBaseAttributes = deltas.fold(player.baseAttributes) { acc, (meta, delta) ->
+            addAttr(acc, meta.code, delta)
+        }
+        val updatedPlayer = clampPlayerResources(
+            player.copy(
+                baseAttributes = updatedBaseAttributes,
+                unspentAttrPoints = (player.unspentAttrPoints - totalToSpend).coerceAtLeast(0)
+            ),
+            state.itemInstances
+        )
+        return CharacterMutationResult(
+            state.copy(player = updatedPlayer),
+            listOf("Distribuicao aplicada com sucesso: $totalToSpend ponto(s) de atributo.")
         )
     }
 

@@ -18,7 +18,7 @@ internal class CharacterScreenPresenter(
         return MenuScreenViewModel(
             title = "Personagem",
             summary = support.playerSummary(state),
-            bodyLines = listOf("Fatia modular atual: atributos, talentos, equipados, inventario e aljava."),
+            bodyLines = listOf("Gerencie equipamentos, inventario, atributos e talentos."),
             options = listOf(
                 ScreenOptionViewModel("1", "Equipados", GameAction.OpenEquipped),
                 ScreenOptionViewModel("2", "Inventario", GameAction.OpenInventory),
@@ -37,14 +37,9 @@ internal class CharacterScreenPresenter(
         body += "Pontos disponiveis: ${state.player.unspentAttrPoints}"
         body += "Base + equipamento + classe/talento + temporarios = valor final."
         val options = rows.mapIndexed { index, row ->
-            val bonuses = mutableListOf<String>()
-            if (row.equipmentBonus != 0) bonuses += "equip ${support.formatSignedInt(row.equipmentBonus)}"
-            if (row.classTalentBonus != 0) bonuses += "classe/tal ${support.formatSignedInt(row.classTalentBonus)}"
-            if (row.temporaryBonus != 0) bonuses += "temp ${support.formatSignedInt(row.temporaryBonus)}"
-            val bonusLabel = if (bonuses.isEmpty()) "" else " | ${bonuses.joinToString(" | ")}"
             ScreenOptionViewModel(
                 (index + 1).toString(),
-                "${row.code} (${row.label}) -> ${row.finalValue}$bonusLabel",
+                "${row.code} (${row.label}) = ${row.finalValue}",
                 GameAction.InspectAttribute(row.code)
             )
         } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
@@ -71,7 +66,7 @@ internal class CharacterScreenPresenter(
         if (detail.canAllocate) {
             options += ScreenOptionViewModel(
                 "1",
-                "Gastar 1 ponto (${detail.availablePoints} disponivel/is)",
+                "Alocar pontos (${detail.availablePoints} disponiveis)",
                 GameAction.AllocateAttributePoint(detail.code)
             )
         }

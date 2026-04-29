@@ -2,27 +2,40 @@ package rpg.cli
 
 import rpg.application.CombatFlowResult
 import rpg.application.PendingEncounter
-import rpg.application.actions.GameAction
-import rpg.combat.CombatAction
-import rpg.combat.CombatSnapshot
-import rpg.combat.PlayerCombatController
+import rpg.application.model.AmmoStack
+import rpg.cli.combat.DungeonCombatController
+import rpg.cli.renderer.CliAnsiPalette
+import rpg.combat.CombatTelemetry
+import rpg.combat.DungeonCombatSkillSupport
 import rpg.engine.GameEngine
+import rpg.inventory.InventorySystem
+import rpg.io.DataRepository
 import rpg.model.GameState
+import rpg.model.PlayerState
 import rpg.navigation.NavigationState
-import rpg.presentation.GamePresenter
-import rpg.cli.input.CliInputHandler
-import rpg.cli.renderer.TextScreenRenderer
+import rpg.talent.TalentTreeService
 import rpg.world.RunRoomType
 
 class CliCombatFlowController(
     private val engine: GameEngine,
-    private val presenter: GamePresenter,
-    private val renderer: TextScreenRenderer,
-    private val inputHandler: CliInputHandler
+    private val repo: DataRepository,
+    private val applyBattleResolvedAchievement: (
+        player: PlayerState,
+        telemetry: CombatTelemetry,
+        victory: Boolean,
+        escaped: Boolean,
+        isBoss: Boolean,
+        monsterTypeId: String,
+        monsterStars: Int
+    ) -> PlayerState,
+    private val applyGoldEarnedAchievement: (player: PlayerState, gold: Long) -> PlayerState,
+    private val applyDeathAchievement: (player: PlayerState) -> PlayerState
 ) {
     fun run(gameState: GameState, encounter: PendingEncounter): CombatFlowResult {
-        val controller = ModularCombatController(encounter)
+        val combatLog = ArrayDeque<String>()
         val displayName = engine.monsterDisplayName(encounter.monster)
+        val fixedContextLines = buildFixedContextLines(encounter, displayName)
+        val controller = createController(fixedContextLines)
         val result = engine.combatEngine.runBattle(
             playerState = encounter.player,
             itemInstances = encounter.itemInstances,
@@ -30,11 +43,35 @@ class CliCombatFlowController(
             tier = encounter.tier,
             displayName = displayName,
             controller = controller,
-            eventLogger = { message -> controller.onCombatEvent(message) }
+            eventLogger = { message ->
+                controller.onCombatEvent(message)
+                val normalized = message.trim()
+                if (normalized.isNotBlank()) {
+                    combatLog += normalized
+                    while (combatLog.size > 8) {
+                        combatLog.removeFirst()
+                    }
+                }
+            }
         )
+        controller.finalizeDisplay()
+
+        var playerAfterCombat = applyBattleResolvedAchievement(
+            result.playerAfter,
+            result.telemetry,
+            result.victory,
+            result.escaped,
+            encounter.isBoss,
+            encounter.monster.monsterTypeId.ifBlank { encounter.monster.baseType },
+            encounter.monster.stars
+        )
+        if (!result.victory && !result.escaped) {
+            playerAfterCombat = applyDeathAchievement(playerAfterCombat)
+            playerAfterCombat = applyDungeonDeathDebuff(playerAfterCombat)
+        }
 
         var updatedState = gameState.copy(
-            player = result.playerAfter,
+            player = playerAfterCombat,
             itemInstances = result.itemInstances
         )
 
@@ -42,27 +79,25 @@ class CliCombatFlowController(
             result.escaped -> CombatFlowResult(
                 gameState = updatedState.copy(currentRun = null),
                 navigation = NavigationState.Exploration,
-                messages = listOf("Voce fugiu do combate.") + controller.finalLogLines()
+                messages = listOf("Voce fugiu do combate.") + combatLog.toList()
             )
 
             !result.victory -> CombatFlowResult(
                 gameState = updatedState.copy(currentRun = null),
                 navigation = NavigationState.Hub,
-                messages = listOf(
-                    "Voce foi derrotado.",
-                    "O tratamento completo de derrota ainda permanece no fluxo legado nesta etapa."
-                ) + controller.finalLogLines()
+                messages = buildDefeatMessages(combatLog)
             )
 
             else -> {
-                val levelBefore = result.playerAfter.level
+                val levelBefore = playerAfterCombat.level
                 val victory = engine.resolveVictory(
-                    player = result.playerAfter,
+                    player = playerAfterCombat,
                     itemInstances = result.itemInstances,
                     monster = encounter.monster,
                     tier = encounter.tier,
                     collectToLoot = false
                 )
+                val playerWithAchievementGold = applyGoldEarnedAchievement(victory.player, victory.goldGain.toLong())
                 val advancedRun = engine.advanceRun(
                     run = encounter.run,
                     bossDefeated = encounter.isBoss,
@@ -70,7 +105,7 @@ class CliCombatFlowController(
                     victoryInRoom = true
                 )
                 updatedState = updatedState.copy(
-                    player = victory.player,
+                    player = playerWithAchievementGold,
                     itemInstances = victory.itemInstances,
                     currentRun = advancedRun
                 )
@@ -78,8 +113,8 @@ class CliCombatFlowController(
                     "$displayName foi derrotado!",
                     "Ganhou ${victory.xpGain} XP e ${victory.goldGain} ouro."
                 )
-                if (victory.player.level > levelBefore) {
-                    rewardLines += "Level up! Agora voce esta no nivel ${victory.player.level}."
+                if (playerWithAchievementGold.level > levelBefore) {
+                    rewardLines += "Level up! Agora voce esta no nivel ${playerWithAchievementGold.level}."
                 }
                 victory.dropOutcome.itemInstance?.let { rewardLines += "Drop: ${it.name}." }
                 if (victory.dropOutcome.itemInstance == null && victory.dropOutcome.itemId != null) {
@@ -88,43 +123,115 @@ class CliCombatFlowController(
                 CombatFlowResult(
                     gameState = updatedState,
                     navigation = NavigationState.Exploration,
-                    messages = rewardLines + controller.finalLogLines()
+                    messages = rewardLines
                 )
             }
         }
     }
 
-    private inner class ModularCombatController(
-        private val encounter: PendingEncounter
-    ) : PlayerCombatController {
-        private val history = ArrayDeque<String>()
-        private val historyLimit = 8
-
-        fun onCombatEvent(message: String) {
-            if (message.isBlank()) return
-            history += message
-            while (history.size > historyLimit) {
-                history.removeFirst()
-            }
-        }
-
-        fun finalLogLines(): List<String> = history.toList()
-
-        override fun pollAction(snapshot: CombatSnapshot): CombatAction? {
-            val viewModel = presenter.presentCombat(
-                encounter = encounter,
-                logLines = history.toList(),
-                messages = emptyList(),
-                playerHp = snapshot.player.currentHp,
-                playerMp = snapshot.player.currentMp,
-                enemyHp = snapshot.monsterHp
-            )
-            renderer.render(viewModel)
-            return when (inputHandler.readAction(viewModel)) {
-                GameAction.Attack -> CombatAction.Attack()
-                GameAction.EscapeCombat -> CombatAction.Escape
-                else -> CombatAction.Attack()
-            }
-        }
+    private fun createController(fixedContextLines: List<String>): DungeonCombatController {
+        val skillSupport = DungeonCombatSkillSupport(
+            engine = engine,
+            repo = repo,
+            talentTreeService = TalentTreeService(repo.balance.talentPoints),
+            format = ::format,
+            buildAmmoStacks = ::buildAmmoStacks
+        )
+        return DungeonCombatController(
+            engine = engine,
+            skillSupport = skillSupport,
+            readInput = { readLine()?.trim().orEmpty() },
+            format = ::format,
+            fixedContextLines = fixedContextLines,
+            ansiCombatReset = CliAnsiPalette.reset,
+            ansiCombatHeader = CliAnsiPalette.combatHeader,
+            ansiCombatPlayer = CliAnsiPalette.combatPlayer,
+            ansiCombatEnemy = CliAnsiPalette.combatEnemy,
+            ansiCombatLoading = CliAnsiPalette.combatLoading,
+            ansiCombatReady = CliAnsiPalette.combatReady,
+            ansiCombatBlocked = CliAnsiPalette.combatBlocked,
+            ansiCombatCasting = CliAnsiPalette.combatCasting,
+            ansiCombatPause = CliAnsiPalette.combatPause,
+            ansiClearLine = CliAnsiPalette.clearLine,
+            ansiClearToEnd = CliAnsiPalette.clearToEnd
+        )
     }
+
+    private fun buildFixedContextLines(encounter: PendingEncounter, displayName: String): List<String> {
+        val lines = mutableListOf<String>()
+        lines += encounter.introLines.map(String::trim).filter(String::isNotBlank)
+        lines += "$displayName apareceu!"
+        if (encounter.monster.onHitStatuses.isNotEmpty()) {
+            val statusInfo = encounter.monster.onHitStatuses.joinToString(" | ") {
+                "${rpg.status.StatusSystem.displayName(it.type)} ${format(it.chancePct)}%"
+            }
+            lines += "Efeitos no golpe do inimigo: $statusInfo"
+        }
+        return lines
+    }
+
+    private fun buildAmmoStacks(
+        itemIds: List<String>,
+        itemInstances: Map<String, rpg.model.ItemInstance>,
+        selectedTemplateId: String?
+    ): List<AmmoStack> {
+        val grouped = linkedMapOf<String, MutableList<String>>()
+        for (itemId in itemIds) {
+            if (!InventorySystem.isArrowAmmo(itemId, itemInstances, engine.itemRegistry)) continue
+            val templateId = InventorySystem.ammoTemplateId(itemId, itemInstances, engine.itemRegistry)
+            grouped.getOrPut(templateId) { mutableListOf() }.add(itemId)
+        }
+        return grouped.mapNotNull { (templateId, ids) ->
+            val sampleId = ids.firstOrNull() ?: return@mapNotNull null
+            val resolved = engine.itemResolver.resolve(sampleId, itemInstances) ?: return@mapNotNull null
+            AmmoStack(
+                templateId = templateId,
+                sampleItemId = sampleId,
+                quantity = ids.size,
+                itemIds = ids.toList(),
+                item = resolved
+            )
+        }.sortedWith(
+            compareByDescending<AmmoStack> { it.templateId == selectedTemplateId?.trim()?.lowercase() }
+                .thenBy { it.item.name.lowercase() }
+        )
+    }
+
+    private fun applyDungeonDeathDebuff(player: PlayerState): PlayerState {
+        val nextStacks = if (player.deathDebuffMinutes > 0.0) {
+            player.deathDebuffStacks + 1
+        } else {
+            1
+        }
+        val durationMinutes = 10.0 + (nextStacks - 1) * 5.0
+        return player.copy(
+            currentHp = 1.0,
+            deathDebuffStacks = nextStacks,
+            deathDebuffMinutes = durationMinutes,
+            deathXpPenaltyPct = 20.0,
+            deathXpPenaltyMinutes = durationMinutes
+        )
+    }
+
+    private fun buildDefeatMessages(combatLog: ArrayDeque<String>): List<String> {
+        val lastEnemyDamage = combatLog
+            .toList()
+            .asReversed()
+            .firstOrNull { stripAnsi(it).startsWith("O inimigo causou", ignoreCase = true) }
+            ?.let(::stripAnsi)
+
+        val messages = mutableListOf<String>()
+        if (!lastEnemyDamage.isNullOrBlank()) {
+            messages += lastEnemyDamage
+        }
+        messages += "Voce desmaiou."
+        messages += "x. Voltar ao menu principal."
+        return messages
+    }
+
+    private fun stripAnsi(text: String): String {
+        return text.replace(Regex("\\u001B\\[[;\\d]*m"), "")
+    }
+
+    private fun format(value: Double): String = "%.1f".format(value)
 }

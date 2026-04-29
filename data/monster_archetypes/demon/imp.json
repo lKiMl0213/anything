@@ -1,0 +1,30 @@
+{
+  "id": "imp",
+  "name": "Imp",
+  "archetype": "Demon",
+  "baseType": "imp",
+  "monsterTypeId": "demon",
+  "family": "demon",
+  "displayName": "Imp",
+  "baseAttributes": { "str": 5, "agi": 8, "dex": 7, "vit": 5, "int": 6, "spr": 5 },
+  "growthAttributes": { "agi": 2, "dex": 2, "int": 2, "spr": 1, "vit": 1 },
+  "variancePct": 0.17,
+  "tags": ["demon", "fire", "cursed"],
+  "questTags": ["demon"],
+  "onHitStatuses": [
+    {
+      "type": "BURNING",
+      "chancePct": 18,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 3.4,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Brasa Infernal"
+    }
+  ],
+  "dropTableId": "elemental_fire",
+  "lootProfileId": "elemental_fire",
+  "baseXp": 36,
+  "baseGold": 11
+}

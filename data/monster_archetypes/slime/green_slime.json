@@ -1,0 +1,30 @@
+{
+  "id": "green_slime",
+  "name": "Slime Verde",
+  "archetype": "Slime",
+  "baseType": "slime",
+  "monsterTypeId": "slime",
+  "family": "slime",
+  "displayName": "Slime Verde",
+  "baseAttributes": { "str": 3, "agi": 2, "dex": 2, "vit": 5, "spr": 3 },
+  "growthAttributes": { "str": 1, "agi": 1, "dex": 1, "vit": 2 },
+  "variancePct": 0.16,
+  "tags": ["slime", "ooze", "acidic"],
+  "questTags": ["slime"],
+  "onHitStatuses": [
+    {
+      "type": "POISONED",
+      "chancePct": 18,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 2,
+      "effectValue": 3.5,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Limo Corrosivo"
+    }
+  ],
+  "dropTableId": "slime_core",
+  "lootProfileId": "slime_core",
+  "baseXp": 20,
+  "baseGold": 5
+}

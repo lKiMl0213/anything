@@ -1,8 +1,10 @@
+// TODO-REMOVE-LEGACY: fluxo antigo isolado; remover após substituição modular completa.
 package rpg.cli
 
 import rpg.cli.model.InitialAttributeAllocation
 import rpg.creation.CharacterCreationPreviewService
 import rpg.engine.GameEngine
+import rpg.inventory.InventorySystem
 import rpg.io.DataRepository
 import rpg.model.ClassDef
 import rpg.model.GameState
@@ -60,11 +62,21 @@ internal class LegacyCharacterCreationFlow(
             raceId = raceDef.id,
             baseAttributes = initialAttributeAllocation.baseAttributes,
             unspentAttrPoints = initialAttributeAllocation.unspentPoints,
-            inventory = inventory,
             equipped = starterEquipment,
             gold = characterDef.starterGold
         )
-        player = rpg.inventory.InventorySystem.normalizeAmmoStorage(player, emptyMap(), engine.itemRegistry)
+        val starterInsert = InventorySystem.addItemsWithLimit(
+            player = player,
+            itemInstances = emptyMap(),
+            itemRegistry = engine.itemRegistry,
+            incomingItemIds = inventory
+        )
+        player = player.copy(
+            inventory = starterInsert.inventory,
+            quiverInventory = starterInsert.quiverInventory,
+            selectedAmmoTemplateId = starterInsert.selectedAmmoTemplateId
+        )
+        player = InventorySystem.normalizeAmmoStorage(player, emptyMap(), engine.itemRegistry)
         player = ensureSkillProgress(player)
         player = synchronizeAchievements(player)
 
@@ -134,6 +146,28 @@ internal class LegacyCharacterCreationFlow(
             } else {
                 preview.growthAttributes.forEach { line ->
                     println("- ${line.code} (${line.label}): +${line.value}")
+                }
+            }
+
+            println("\nBonus de profissao/tarefa:")
+            if (preview.race.professionBonusesPct.isEmpty()) {
+                println("- Nenhum bonus especifico.")
+            } else {
+                preview.race.professionBonusesPct
+                    .toList()
+                    .sortedByDescending { (_, value) -> value }
+                    .forEach { (key, value) ->
+                        println("- ${professionLabel(key)}: +${format(value)}%")
+                    }
+            }
+
+            if (preview.race.tradeBuyDiscountPct > 0.0 || preview.race.tradeSellBonusPct > 0.0) {
+                println("\nComercio:")
+                if (preview.race.tradeBuyDiscountPct > 0.0) {
+                    println("- Compra na loja: ${format(preview.race.tradeBuyDiscountPct)}% mais barato")
+                }
+                if (preview.race.tradeSellBonusPct > 0.0) {
+                    println("- Venda de itens: ${format(preview.race.tradeSellBonusPct)}% mais caro")
                 }
             }
 
@@ -234,4 +268,20 @@ internal class LegacyCharacterCreationFlow(
     }
 
     private fun formatSigned(value: Int): String = if (value >= 0) "+$value" else value.toString()
+
+    private fun professionLabel(key: String): String {
+        return when (key.trim().lowercase()) {
+            "blacksmith", "forja" -> "Forja"
+            "alchemy", "alquimia", "alchemist" -> "Alquimia"
+            "cooking", "culinaria", "cozinha" -> "Culinaria"
+            "mining", "mineracao" -> "Mineracao"
+            "woodcutting", "lenhador", "madeira" -> "Corte de Madeira"
+            "fishing", "pesca" -> "Pesca"
+            "gathering", "coleta", "herbalism", "herbalismo" -> "Coleta"
+            "commerce", "trade", "comercio" -> "Comercio"
+            "hunting", "caca" -> "Caca (futuro)"
+            "enchanting", "encantamento" -> "Encantamento (futuro)"
+            else -> key
+        }
+    }
 }

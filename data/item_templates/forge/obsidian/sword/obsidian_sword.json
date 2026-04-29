@@ -1,0 +1,30 @@
+﻿{
+    "id":  "obsidian_sword",
+    "name":  "Espada de Obsidiana",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  17,
+    "rarity":  "LEGENDARY",
+    "maxRarity":  "LEGENDARY",
+    "baseScaling":  11.97,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  4,
+    "vendorBaseValue":  127,
+    "allowedAffixes":  [
+                           "str",
+                           "crit",
+                           "atk_speed",
+                           "piercing",
+                           "warcry",
+                           "fervor",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "sword",
+                 "obsidian"
+             ],
+    "description":  "Equipamento de forja (Obsidiana) com modificadores aleatorios por afixos."
+}

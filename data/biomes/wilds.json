@@ -3,7 +3,10 @@
   "name": "Selva",
   "description": "Terras vivas e instaveis.",
   "monsterTagWeights": {
-    "beast": 1.2
+    "beast": 1.25,
+    "slime": 1.2,
+    "plant": 1.18,
+    "insect": 1.15
   },
   "healingMultiplier": 1.0
 }

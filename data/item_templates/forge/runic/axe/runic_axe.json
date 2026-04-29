@@ -1,0 +1,30 @@
+﻿{
+    "id":  "runic_axe",
+    "name":  "Machado de Runica",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  22,
+    "rarity":  "MYTHIC",
+    "maxRarity":  "MYTHIC",
+    "baseScaling":  15.25,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  5,
+    "vendorBaseValue":  190,
+    "allowedAffixes":  [
+                           "str",
+                           "crit",
+                           "warcry",
+                           "piercing",
+                           "vampiric",
+                           "fervor",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "axe",
+                 "runic"
+             ],
+    "description":  "Equipamento de forja (Runica) com modificadores aleatorios por afixos."
+}

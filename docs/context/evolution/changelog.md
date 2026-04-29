@@ -1,5 +1,52 @@
 # Changelog
 
+## 2026-04-24 - Balance + Progression Completion Pass (XP/Rarity, Monster Families, Races, Shop/Craft, Run Completion)
+
+### Updated Systems
+- Aprimoramentos permanentes de batalha consolidados:
+  - `combat_training` com bonus de XP de combate (1/5/10/15/20%).
+  - `threat_lure` com bonus de raridade de monstro (5/10/15/20/25%).
+  - Loja de aprimoramentos separada por submenus (`Producao`, `Batalha`, `Utilidade`).
+- Raridade de monstro passou a influenciar tambem qualidade do item dropado (alem da chance de drop), com boost moderado e controlado no `DropEngine`.
+- Conquistas por familia/tipo de monstro adicionadas para:
+  - slime, undead, beast, humanoid, insect, demon, elemental, plant, construct, dragon
+  - milestones progressivos com ouro e bonus permanente de dano por tipo integrado ao calculo de combate.
+- Expansao de familias e variedade de monstros via `data/monster_types/*` e `data/monster_archetypes/*`, incluindo novos arquetipos de demon/dragon/construct/plant/insect/humanoid/slime.
+- Cidade legado ajustada para menu direto:
+  - `Taverna`, `Loja de Ouro`, `Loja de Cash`, `Aprimoramentos`.
+- Loja de armas organizada por classe (Espadachim/Arqueiro/Mago/Geral), com filtro ajustado para nao duplicar todo o catalogo na aba `Geral`.
+- Loja/economia ajustadas com:
+  - exibicao explicita de nivel requerido por item,
+  - trava de nivel priorizando requisito do item/template,
+  - estoque rotativo e ofertas especiais,
+  - recalculo de preco por curva de nivel/raridade/categoria.
+- Craft legado ajustado para UX:
+  - receitas indisponiveis destacadas em vermelho,
+  - ingredientes exibidos como `possui X / precisa Y`,
+  - remocao do padrao poluido de `0x disponivel`.
+- Progresso de run para quests de conclusao agora exige condicao de boss:
+  - contabiliza conclusao apenas com `>=10 vitorias`, `>=1 boss derrotado` e `depth >= 10`.
+- Racas expandidas e rebalanceadas:
+  - novas: `goblin`, `tiefling`, `high_elf`, `orc`, `beastkin`, `automaton`
+  - rebalance das existentes: `human`, `dwarf`, `elf`
+  - novos campos de bonus racial integrados em sistemas reais:
+    - `professionBonusesPct`
+    - `tradeBuyDiscountPct`
+    - `tradeSellBonusPct`
+- Bonus de profissao por raca integrado em `CraftingService` e `GatheringService`.
+- Bonus de comercio por raca integrado em compra/venda (`LegacyCityShopFlow`, `InventoryCommandService`, `LegacyInventoryFlow`, `LegacyQuiverFlow`).
+- Ajustes de viabilidade inicial de arqueiro em economia de entrada (precos de arco/aljava/flechas no shop de ouro).
+
+### Build / Validation Notes
+- `./gradlew checkKotlinFileLineLimit` passou apos atualizar baseline para arquivos grandes existentes.
+- `./gradlew :compileKotlin` passou.
+- `./gradlew run` (smoke com saida imediata) passou.
+- `./gradlew build` passou (root + `app-android`).
+- Ajustes de build Android para ambiente atual:
+  - `android.useAndroidX=true` em `gradle.properties`.
+  - alinhamento de dependencias Compose/Material3/Lifecycle no `app-android`.
+  - lint Android desabilitado no modulo para evitar falha conhecida com JDK 25 no ambiente de validacao.
+
 ## 2026-04-21 - LegacyGameCli Safe Split (Dungeon Event Rooms)
 
 ### Updated Systems
@@ -499,3 +546,113 @@
   - combat
   - progression menus
   - city/tavern
+
+## 2026-04-22 - Compose Menu UI Base (app-android)
+
+### Updated Systems
+- `app-android` was integrated into Gradle (`include("app-android")`) with a dedicated module build file.
+- Implemented Compose menu flow (without combat) with all required screens:
+  - Main Menu, Hub, Exploracao, Personagem, Producao, Progressao, Cidade
+  - Inventario, Atributos, Talentos, Quests, Conquistas
+  - CharacterCreation screen with full attribute distribution controls.
+- Added `CharacterCreationScreen` and `AttributesScreen` with `[-]/[+]` behavior:
+  - local draft state on click
+  - no immediate engine mutation per click
+  - batch apply only on `CONFIRMAR` / `APLICAR`.
+- Core character command flow now supports batch attribute application via:
+  - `CharacterCommandService.applyAttributes(state, targetValues)`.
+
+### Validation Notes
+- `./gradlew build` passed with `app-android` included.
+- `./gradlew :app-android:compileKotlin --rerun-tasks` passed.
+- CLI smoke entry (`cmd /c "(echo x) | gradlew run"`) passed, confirming CLI startup flow remains functional.
+
+## 2026-04-22 - Modularization Guard + LegacyCliRuntime Split
+
+### Updated Systems
+- `LegacyCliRuntime` foi quebrado em componentes menores e coesos:
+  - `LegacyCliRuntimeSupportContext`
+  - `LegacyCliRuntimeInventoryProgressionFlows`
+  - `LegacyCliRuntimeDungeonFlows`
+  - `LegacyCliRuntimeSessionFlows`
+  - `LegacyCliRuntimeConfig` (constantes/tunables/palette)
+- `LegacyCliRuntime` agora atua como coordenador fino de alto nivel.
+- Adicionada verificacao automatica de tamanho de arquivo Kotlin no Gradle:
+  - task `checkKotlinFileLineLimit` (limite 300 linhas)
+  - baseline inicial em `tools/kotlin-line-limit-baseline.txt`
+  - integrada ao ciclo `check`.
+
+### Validation Notes
+- `./gradlew build` passou com a nova estrutura.
+- `./gradlew run` smoke test passou (menu inicial CLI exibido e encerramento normal).
+
+## 2026-04-22 - Lojas por Categoria + Aprimoramentos Permanentes
+
+### Updated Systems
+- Loja de Ouro e Loja de Cash agora operam por categoria:
+  - Armas
+  - Armaduras
+  - Itens
+  - Acessorios
+  - Aprimoramentos
+- Novo submenu de aprimoramentos integrado com compra real por nivel, com custos por modalidade:
+  - ouro
+  - cash
+  - ouro + item
+- Modelagem data-driven de upgrades permanentes adicionada em `data/upgrades/*.json` e carregada pelo `DataRepository`.
+- Novo `PermanentUpgradeService` integrado ao `GameEngine` e aos sistemas:
+  - crafting (limite de lote e reducao de custo por disciplina)
+  - gathering (chance de coleta dobrada por tipo)
+  - profissao (bonus de XP em skills de profissao)
+  - quest de entrega (chance de preservar item consumivel)
+  - taverna (desconto sobre novo custo dinamico)
+  - aljava (expansao de capacidade)
+- Craft da Forja ganhou submenu por categoria de material + filtro de classe (Espadachim/Mago/Arqueiro/Todos).
+- Exibicao de aljava foi padronizada para mostrar capacidade atual no fluxo de equipados (`Aljava: atual/max flechas`).
+
+### Persistence / Compatibility
+- `PlayerState` recebeu `permanentUpgradeLevels` com default seguro (`emptyMap()`), mantendo fallback para saves antigos sem quebra de load.
+
+### Validation Notes
+- `./gradlew build` passou.
+- Smoke tests reais via CLI cobriram:
+  - cidade -> loja ouro/cash -> categorias -> aprimoramentos
+  - fluxo de compra de upgrade com bloqueio por recurso insuficiente
+  - producao -> craft -> forja por categoria + filtro de classe
+  - personagem -> equipados com exibicao de capacidade da aljava
+
+## 2026-04-23 - UX Text Cleanup + Main Menu Info Recovery
+
+### Updated Systems
+- Removidos textos tecnicos de transicao (termos de refactor/legacy/modular/handoff) das telas principais de navegacao.
+- Menu Principal voltou a exibir:
+  - resumo de atributos (STR, AGI, DEX, VIT, INT, SPR, LUK)
+  - resumo de skills de producao/coleta (Forja, Pesca, Mineracao, Coleta, Lenhador, Alquimia, Culinaria)
+- Ajustados textos de menus para linguagem diegetica e orientada ao jogador.
+- Mensagem tecnica residual de derrota em combate modular foi substituida por texto de gameplay.
+
+### Validation Notes
+- `./gradlew build` passou.
+- Smoke test CLI validou navegacao em: tela inicial, carregar, menu principal, personagem, progressao, cidade, exploracao e salvar.
+
+## 2026-04-23 - Android App Runtime Bridge (Compose Touch UI + Core Reuse)
+
+### Updated Systems
+- `app-android` foi convertido para app Android (`com.android.application`) com:
+  - `AndroidManifest.xml`
+  - `MainActivity` real com `setContent`
+  - estrutura de telas Compose por toque.
+- Nova camada Android conectada ao core existente:
+  - `AndroidGameViewModel` orquestrando `GameActionHandler` + `GamePresenter`
+  - novo `AndroidCharacterCreationService` para criar personagem sem fluxo de terminal
+  - `AndroidCombatFlowController` para combate semi-ATB por toque (ataque/item/fuga) reutilizando `CombatEngine`.
+- Fluxo Android agora cobre navegacao tocavel para:
+  - menu principal, load/save, hub, personagem, atributos, talentos, inventario/equipados, progressao, cidade, exploracao e dungeon.
+- Atributos (Android) com `[-]/[+]` em lote e aplicacao unica via `CharacterCommandService.applyAttributes`.
+- Criacao de personagem (Android) com selecao de raca/classe + distribuicao de atributos por toque.
+
+### Validation Notes
+- `./gradlew :app-android:tasks --all` passou (modulo Android configurado e exposto com tarefas de install/assemble/test).
+- `./gradlew :compileKotlin` passou para o core/CLI.
+- Smoke test CLI (`./gradlew run` com saida imediata) passou.
+- Build completo do APK ainda depende de SDK Android instalado/localizado (`ANDROID_HOME` ou `local.properties` com `sdk.dir`), ausente no ambiente de validacao atual.

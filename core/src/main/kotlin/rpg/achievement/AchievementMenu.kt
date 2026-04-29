@@ -43,7 +43,8 @@ class AchievementMenu(private val service: AchievementService) {
         val bestiaryLines = mergedBaseTypes.map { baseType ->
             val kills = stats.killsByBaseType[baseType] ?: 0L
             val maxStar = stats.highestStarByBaseType[baseType] ?: 0
-            "${baseTypeLabel(baseType)}: $kills mortos | Maior estrela: ${maxStar}*"
+            val bonusPct = MonsterTypeMasteryService.damageBonusPctForKills(kills)
+            "${baseTypeLabel(baseType)}: $kills mortos | Dano bonus: ${formatDouble(bonusPct)}% | Maior estrela: ${maxStar}*"
         }
 
         return AchievementStatisticsView(
@@ -61,8 +62,15 @@ class AchievementMenu(private val service: AchievementService) {
     private fun baseTypeLabel(baseType: String): String {
         return when (normalizeBaseType(baseType)) {
             "slime" -> "Slime"
-            "wolf" -> "Lobo"
+            "undead" -> "Morto-vivo"
+            "beast" -> "Besta"
+            "humanoid" -> "Humanoide"
+            "insect" -> "Inseto"
+            "demon" -> "Demonio"
             "elemental" -> "Elemental"
+            "plant" -> "Planta"
+            "construct" -> "Constructo"
+            "dragon" -> "Dragao"
             else -> {
                 normalizeBaseType(baseType)
                     .replace('-', '_')
@@ -83,4 +91,3 @@ class AchievementMenu(private val service: AchievementService) {
 
     private fun formatDouble(value: Double): String = "%.1f".format(value)
 }
-

@@ -1,3 +1,4 @@
+// TODO-REMOVE-LEGACY: fluxo antigo isolado; remover após substituição modular completa.
 package rpg.cli
 
 import kotlin.math.min
@@ -5,11 +6,13 @@ import rpg.engine.GameEngine
 import rpg.model.GameState
 import rpg.model.GatheringType
 import rpg.model.PlayerState
+import rpg.model.CraftRecipeDef
 
 internal class LegacyProductionFlow(
     private val engine: GameEngine,
     private val readMenuChoice: (prompt: String, min: Int, max: Int) -> Int?,
     private val readInt: (prompt: String, min: Int, max: Int) -> Int,
+    private val clearScreen: () -> Unit,
     private val runProgressBar: (label: String, durationSeconds: Double) -> Unit,
     private val format: (Double) -> String,
     private val itemName: (itemId: String) -> String,
@@ -31,6 +34,7 @@ internal class LegacyProductionFlow(
     fun openProductionMenu(state: GameState): GameState {
         var updated = state
         while (true) {
+            clearScreen()
             println("\n=== Producao ===")
             println("1. Craft")
             println("2. Coleta de ervas")
@@ -58,6 +62,7 @@ internal class LegacyProductionFlow(
         var lastClockSync = state.lastClockSyncEpochMs
 
         while (true) {
+            clearScreen()
             println("\n=== Craft ===")
             println("1. Forja")
             println("2. Alquimia")
@@ -87,14 +92,33 @@ internal class LegacyProductionFlow(
                 println("Nenhuma receita disponivel para ${discipline.name.lowercase()}.")
                 continue
             }
+            val visibleRecipes = if (discipline == rpg.model.CraftDiscipline.FORGE) {
+                chooseForgeRecipeSlice(recipes, player, itemInstances) ?: continue
+            } else {
+                recipes
+            }
+            if (visibleRecipes.isEmpty()) {
+                println("Nenhuma receita encontrada para o filtro escolhido.")
+                continue
+            }
 
             println("\nReceitas de ${discipline.name.lowercase()}:")
-            recipes.forEachIndexed { index, recipe ->
+            visibleRecipes.forEachIndexed { index, recipe ->
                 val skill = engine.craftingService.recipeSkill(recipe)
                 val skillSnapshot = engine.skillSystem.snapshot(player, skill)
-                val ingredients = recipe.ingredients.joinToString(", ") {
-                    "${itemName(it.itemId)} x${it.quantity}"
+                val ingredientLines = recipe.ingredients.map { ingredient ->
+                    val needed = ingredient.quantity.coerceAtLeast(1)
+                    val owned = player.inventory.count { id ->
+                        id == ingredient.itemId || itemInstances[id]?.templateId == ingredient.itemId
+                    }
+                    val ingredientLabel = "${itemName(ingredient.itemId)}: possui $owned / precisa $needed"
+                    if (owned < needed) {
+                        uiColor(ingredientLabel, LegacyCliAnsiPalette.combatEnemy)
+                    } else {
+                        ingredientLabel
+                    }
                 }
+                val ingredients = ingredientLines.joinToString(" | ")
                 val output = "${itemName(recipe.outputItemId)} x${recipe.outputQty}"
                 val maxCraftable = engine.craftingService.maxCraftable(player, itemInstances, recipe)
                 val blockedReasons = mutableListOf<String>()
@@ -104,7 +128,14 @@ internal class LegacyProductionFlow(
                 if (skillSnapshot.level < recipe.minSkillLevel) {
                     blockedReasons += "skill ${skill.name.lowercase()} ${skillSnapshot.level}/${recipe.minSkillLevel}"
                 }
-                val availableLabel = uiColor("(${maxCraftable}x disponivel)", ansiUiHp)
+                if (maxCraftable <= 0) {
+                    blockedReasons += "ingredientes insuficientes"
+                }
+                val availableLabel = if (maxCraftable > 0) {
+                    "Disponivel: ${uiColor("${maxCraftable}x", ansiUiHp)}"
+                } else {
+                    uiColor("Indisponivel", LegacyCliAnsiPalette.combatEnemy)
+                }
                 val blockLabel = if (blockedReasons.isEmpty()) {
                     ""
                 } else {
@@ -112,20 +143,22 @@ internal class LegacyProductionFlow(
                 }
                 println(
                     "${index + 1}. ${recipe.name} -> $output | ingredientes: $ingredients " +
-                        "$availableLabel$blockLabel"
+                        "| $availableLabel$blockLabel"
                 )
             }
             println("x. Voltar")
-            val choice = readMenuChoice("Escolha: ", 1, recipes.size) ?: continue
+            val choice = readMenuChoice("Escolha: ", 1, visibleRecipes.size) ?: continue
 
-            val recipe = recipes[choice - 1]
+            val recipe = visibleRecipes[choice - 1]
             val maxCraftable = engine.craftingService.maxCraftable(player, itemInstances, recipe)
             if (maxCraftable <= 0) {
                 println("Ingredientes ou requisitos insuficientes para ${recipe.name}.")
                 continue
             }
-            val maxAllowed = min(20, maxCraftable)
+            val craftBatchLimit = engine.permanentUpgradeService.craftBatchLimit(player)
+            val maxAllowed = min(craftBatchLimit, maxCraftable)
             println("Quantidade maxima disponivel agora: ${uiColor("${maxCraftable}x", ansiUiHp)}")
+            println("Limite de crafting por rodada: ${uiColor("$craftBatchLimit", ansiUiHp)}")
             val times = readInt("Quantidade de crafts (1-$maxAllowed): ", 1, maxAllowed)
             val skill = engine.craftingService.recipeSkill(recipe)
             val skillSnapshotBefore = engine.skillSystem.snapshot(player, skill)
@@ -207,6 +240,7 @@ internal class LegacyProductionFlow(
             val type = if (forcedType != null) {
                 forcedType
             } else {
+                clearScreen()
                 println("\n=== Gathering ===")
                 println("1. Mineracao")
                 println("2. Coleta de Ervas")
@@ -358,5 +392,139 @@ internal class LegacyProductionFlow(
         GatheringType.MINING -> "Mineracao"
         GatheringType.WOODCUTTING -> "Cortar Madeira"
         GatheringType.FISHING -> "Pesca"
+    }
+
+    private enum class ForgeClassFilter {
+        SWORDMAN,
+        MAGE,
+        ARCHER,
+        ALL
+    }
+
+    private fun chooseForgeRecipeSlice(
+        recipes: List<CraftRecipeDef>,
+        player: PlayerState,
+        itemInstances: Map<String, rpg.model.ItemInstance>
+    ): List<CraftRecipeDef>? {
+        val groupedByMaterial = recipes.groupBy { forgeMaterialCategory(it) }
+        val orderedCategories = buildList {
+            add("geral")
+            addAll(groupedByMaterial.keys.filter { it != "geral" }.sorted())
+        }
+        while (true) {
+            println("\n=== Craft > Forja por Categoria ===")
+            orderedCategories.forEachIndexed { index, category ->
+                println("${index + 1}. ${forgeCategoryLabel(category)} (${groupedByMaterial[category]?.size ?: 0})")
+            }
+            println("x. Voltar")
+            val catChoice = readMenuChoice("Escolha: ", 1, orderedCategories.size) ?: return null
+            val categoryKey = orderedCategories[catChoice - 1]
+            val categoryRecipes = groupedByMaterial[categoryKey].orEmpty()
+            if (categoryRecipes.isEmpty()) {
+                println("Nao ha receitas nesta categoria.")
+                continue
+            }
+            if (categoryKey == "geral") {
+                return categoryRecipes
+            }
+            val classFiltered = chooseForgeClassFilter(categoryRecipes, player, itemInstances) ?: continue
+            if (classFiltered.isNotEmpty()) {
+                return classFiltered
+            }
+            println("Nao ha receitas para esse filtro de classe.")
+        }
+    }
+
+    private fun chooseForgeClassFilter(
+        recipes: List<CraftRecipeDef>,
+        player: PlayerState,
+        itemInstances: Map<String, rpg.model.ItemInstance>
+    ): List<CraftRecipeDef>? {
+        while (true) {
+            println("\nFiltro de classe:")
+            println("1. Espadachim")
+            println("2. Mago")
+            println("3. Arqueiro")
+            println("4. Todos")
+            println("x. Voltar")
+            val filter = when (readMenuChoice("Escolha: ", 1, 4)) {
+                1 -> ForgeClassFilter.SWORDMAN
+                2 -> ForgeClassFilter.MAGE
+                3 -> ForgeClassFilter.ARCHER
+                4 -> ForgeClassFilter.ALL
+                null -> return null
+                else -> continue
+            }
+            return recipes.filter { recipe ->
+                val group = forgeRecipeClassGroup(recipe, itemInstances)
+                when (filter) {
+                    ForgeClassFilter.SWORDMAN -> group == ForgeClassFilter.SWORDMAN
+                    ForgeClassFilter.MAGE -> group == ForgeClassFilter.MAGE
+                    ForgeClassFilter.ARCHER -> group == ForgeClassFilter.ARCHER
+                    ForgeClassFilter.ALL -> true
+                }
+            }
+        }
+    }
+
+    private fun forgeMaterialCategory(recipe: CraftRecipeDef): String {
+        val tokens = (recipe.id + " " + recipe.outputItemId + " " + recipe.name).lowercase()
+        return when {
+            "copper" in tokens || "cobre" in tokens -> "cobre"
+            "iron" in tokens || "ferro" in tokens -> "ferro"
+            "silver" in tokens || "prata" in tokens -> "prata"
+            "gold" in tokens || "ouro" in tokens -> "ouro"
+            "titanium" in tokens || "titanio" in tokens -> "titanio"
+            "mithril" in tokens -> "mithril"
+            "obsidian" in tokens || "obsidiana" in tokens -> "obsidiana"
+            "adamantite" in tokens || "adamantita" in tokens -> "adamantita"
+            "runic" in tokens || "runica" in tokens -> "runica"
+            "reinforced" in tokens || "reforc" in tokens -> "liga reforcada"
+            else -> "geral"
+        }
+    }
+
+    private fun forgeCategoryLabel(key: String): String = when (key) {
+        "geral" -> "Itens Gerais"
+        "cobre" -> "Itens de Cobre"
+        "ferro" -> "Itens de Ferro"
+        "prata" -> "Itens de Prata"
+        "ouro" -> "Itens de Ouro"
+        "titanio" -> "Itens de Titanio"
+        "mithril" -> "Itens de Mithril"
+        "obsidiana" -> "Itens de Obsidiana"
+        "adamantita" -> "Itens de Adamantita"
+        "runica" -> "Itens Runicos"
+        "liga reforcada" -> "Itens de Liga Reforcada"
+        else -> "Itens ${key.replaceFirstChar { it.uppercase() }}"
+    }
+
+    private fun forgeRecipeClassGroup(
+        recipe: CraftRecipeDef,
+        itemInstances: Map<String, rpg.model.ItemInstance>
+    ): ForgeClassFilter {
+        val entry = engine.itemRegistry.entry(recipe.outputItemId)
+        val tags = entry?.tags.orEmpty().map { it.trim().lowercase() }
+        if (tags.any { it.contains("swordman") || it.contains("warrior") || it.contains("{swordman}") }) {
+            return ForgeClassFilter.SWORDMAN
+        }
+        if (tags.any { it.contains("mage") || it.contains("{mage}") }) {
+            return ForgeClassFilter.MAGE
+        }
+        if (tags.any { it.contains("archer") || it.contains("{archer}") }) {
+            return ForgeClassFilter.ARCHER
+        }
+
+        val outputName = itemName(recipe.outputItemId).lowercase()
+        if ("cajado" in outputName || "staff" in outputName || "scepter" in outputName || "rod" in outputName) {
+            return ForgeClassFilter.MAGE
+        }
+        if ("arco" in outputName || "bow" in outputName || "flecha" in outputName || "arrow" in outputName || "quiver" in outputName || "aljava" in outputName) {
+            return ForgeClassFilter.ARCHER
+        }
+        if ("espada" in outputName || "sword" in outputName || "machado" in outputName || "axe" in outputName || "escudo" in outputName || "shield" in outputName) {
+            return ForgeClassFilter.SWORDMAN
+        }
+        return ForgeClassFilter.ALL
     }
 }

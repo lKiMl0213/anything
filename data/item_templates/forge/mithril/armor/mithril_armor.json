@@ -1,0 +1,27 @@
+﻿{
+    "id":  "mithril_armor",
+    "name":  "Armadura de Mithril",
+    "type":  "EQUIPMENT",
+    "slot":  "CHEST",
+    "minLevel":  14,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  8.8,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  3,
+    "vendorBaseValue":  72,
+    "allowedAffixes":  [
+                           "guardian",
+                           "bulwark",
+                           "warding",
+                           "hp",
+                           "def"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "armor",
+                 "mithril"
+             ],
+    "description":  "Equipamento de forja (Mithril) com modificadores aleatorios por afixos."
+}

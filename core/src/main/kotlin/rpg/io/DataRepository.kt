@@ -22,6 +22,7 @@ import rpg.model.AffixDef
 import rpg.model.MonsterBehaviorDef
 import rpg.model.TextPoolDef
 import rpg.model.CharacterDef
+import rpg.model.PermanentUpgradeDef
 import rpg.model.CraftRecipeDef
 import rpg.model.GatherNodeDef
 import rpg.model.QuestTemplateDef
@@ -42,6 +43,7 @@ class DataRepository(private val root: Path) {
     val monsterBehaviors: Map<String, MonsterBehaviorDef> = loadDir<MonsterBehaviorDef>("monster_behaviors").associateBy { it.tag }
     val items: Map<String, ItemDef> = loadDir<ItemDef>("items").associateBy { it.id }
     val itemTemplates: Map<String, ItemTemplateDef> = loadDir<ItemTemplateDef>("item_templates").associateBy { it.id }
+    val permanentUpgrades: Map<String, PermanentUpgradeDef> = loadDir<PermanentUpgradeDef>("upgrades").associateBy { it.id.lowercase() }
     val affixes: Map<String, AffixDef> = loadDir<AffixDef>("affixes").associateBy { it.id }
     val dropTables: Map<String, DropTableDef> = loadDir<DropTableDef>("drop_tables").associateBy { it.id }
     val questTemplates: Map<String, QuestTemplateDef> = loadDir<QuestTemplateDef>("quest_templates").associateBy { it.id }

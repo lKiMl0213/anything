@@ -1,0 +1,27 @@
+﻿{
+    "id":  "reinforced_armor",
+    "name":  "Armadura de Reforcado",
+    "type":  "EQUIPMENT",
+    "slot":  "CHEST",
+    "minLevel":  15,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  9.2,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  3,
+    "vendorBaseValue":  78,
+    "allowedAffixes":  [
+                           "guardian",
+                           "bulwark",
+                           "warding",
+                           "hp",
+                           "def"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "armor",
+                 "reinforced"
+             ],
+    "description":  "Equipamento de forja (Reforcado) com modificadores aleatorios por afixos."
+}

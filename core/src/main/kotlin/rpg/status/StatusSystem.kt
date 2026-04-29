@@ -50,6 +50,18 @@ data class StatusExpireEvent(
     val source: String
 )
 
+data class StatusActionDotEvent(
+    val type: StatusType,
+    val source: String,
+    val stacks: Int,
+    val damage: Double
+)
+
+data class StatusActionDotResult(
+    val totalDamage: Double,
+    val events: List<StatusActionDotEvent>
+)
+
 data class StatusTickResult(
     val statuses: List<StatusEffectInstance>,
     val dotDamage: Double = 0.0,
@@ -192,6 +204,29 @@ object StatusSystem {
         )
     }
 
+    fun actionDot(
+        current: List<StatusEffectInstance>,
+        targetMaxHp: Double
+    ): StatusActionDotResult {
+        if (current.isEmpty()) {
+            return StatusActionDotResult(totalDamage = 0.0, events = emptyList())
+        }
+        val events = mutableListOf<StatusActionDotEvent>()
+        var total = 0.0
+        for (status in current) {
+            val damage = dotDamagePerTick(status, targetMaxHp).coerceAtLeast(0.0)
+            if (damage <= 0.0) continue
+            total += damage
+            events += StatusActionDotEvent(
+                type = status.type,
+                source = status.source,
+                stacks = status.stacks.coerceAtLeast(1),
+                damage = damage
+            )
+        }
+        return StatusActionDotResult(totalDamage = total, events = events)
+    }
+
     fun rollParalyzedFailure(current: List<StatusEffectInstance>, rng: Random): Boolean {
         val paralyze = current.firstOrNull { it.type == StatusType.PARALYZED } ?: return false
         val chance = (paralyze.effectValue * paralyze.stacks).coerceIn(0.0, 90.0)
@@ -204,8 +239,12 @@ object StatusSystem {
         return when (status.type) {
             StatusType.BURNING -> (status.effectValue.coerceAtLeast(0.0) * stacks).coerceAtLeast(0.0)
             StatusType.POISONED -> (status.effectValue.coerceAtLeast(0.0) * stacks).coerceAtLeast(0.0)
-            StatusType.BLEEDING -> (targetMaxHp * status.effectValue.coerceAtLeast(0.0) * stacks)
-                .coerceAtLeast(0.0)
+            StatusType.BLEEDING -> {
+                val raw = status.effectValue.coerceAtLeast(0.0)
+                // Compatibilidade: valores <= 1.0 sao fracao do HP maximo; > 1.0 sao dano plano por tick.
+                val perTick = if (raw <= 1.0) targetMaxHp * raw else raw
+                (perTick * stacks).coerceAtLeast(0.0)
+            }
             else -> 0.0
         }
     }

@@ -97,30 +97,21 @@ internal object AchievementDefinitionCatalog {
             tierTargets = listOf(100, 1000, 5000, 20000, 100000)
         )
 
-        add(
-            id = "mob_slime_hunter",
-            name = "Cacador de Slimes",
-            description = "Abata slimes usando o tipo base do monstro.",
-            category = AchievementCategory.MOBS,
-            trackedStat = AchievementTrackedStat.KillsByBaseType("slime"),
-            tierTargets = listOf(10, 50, 100, 250, 1000)
-        )
-        add(
-            id = "mob_wolf_exterminator",
-            name = "Exterminador de Lobos",
-            description = "Abata lobos usando o tipo base do monstro.",
-            category = AchievementCategory.MOBS,
-            trackedStat = AchievementTrackedStat.KillsByBaseType("wolf"),
-            tierTargets = listOf(10, 50, 100, 250, 1000)
-        )
-        add(
-            id = "mob_elemental_hunter",
-            name = "Cacador de Elementais",
-            description = "Abata elementais usando o tipo base do monstro.",
-            category = AchievementCategory.MOBS,
-            trackedStat = AchievementTrackedStat.KillsByBaseType("elemental"),
-            tierTargets = listOf(10, 50, 100, 250, 1000)
-        )
+        for (typeId in MonsterTypeMasteryService.trackedTypes) {
+            val label = monsterTypeLabel(typeId)
+            add(
+                id = "mob_type_${typeId}_mastery",
+                name = "Caca de $label",
+                description = "Elimine criaturas da familia $label para ganhar ouro e dano permanente contra esse tipo.",
+                category = AchievementCategory.MOBS,
+                trackedStat = AchievementTrackedStat.KillsByBaseType(typeId),
+                tierTargets = MonsterTypeMasteryService.achievementMilestones,
+                rewardScaling = AchievementRewardScaling(
+                    goldByTier = listOf(120, 260, 520, 980, 1750, 2900, 4600),
+                    fallbackGrowthFactor = 1.4
+                )
+            )
+        }
 
         for (star in 0..7) {
             add(
@@ -211,4 +202,21 @@ internal object AchievementDefinitionCatalog {
             else -> listOf(1, 2, 5, 10, 25)
         }
     }
+
+    private fun monsterTypeLabel(typeId: String): String {
+        return when (typeId.lowercase()) {
+            "slime" -> "Slimes"
+            "undead" -> "Mortos-vivos"
+            "beast" -> "Bestas"
+            "humanoid" -> "Humanoides"
+            "insect" -> "Insetos"
+            "demon" -> "Demonios"
+            "elemental" -> "Elementais"
+            "plant" -> "Plantas"
+            "construct" -> "Constructos"
+            "dragon" -> "Dragoes"
+            else -> typeId.replaceFirstChar { it.uppercase() }
+        }
+    }
 }
+

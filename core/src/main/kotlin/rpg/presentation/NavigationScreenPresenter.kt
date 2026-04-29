@@ -2,6 +2,9 @@ package rpg.presentation
 
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
+import rpg.application.character.CharacterQueryService
+import rpg.application.progression.AchievementQueryService
+import rpg.application.progression.QuestQueryService
 import rpg.engine.GameEngine
 import rpg.presentation.model.MenuScreenViewModel
 import rpg.presentation.model.ScreenViewModel
@@ -9,26 +12,26 @@ import rpg.presentation.model.ScreenOptionViewModel
 
 internal class NavigationScreenPresenter(
     private val engine: GameEngine,
-    private val support: PresentationSupport
+    private val support: PresentationSupport,
+    private val characterQueryService: CharacterQueryService,
+    private val questQueryService: QuestQueryService,
+    private val achievementQueryService: AchievementQueryService
 ) {
     fun presentMainMenu(session: GameSession): ScreenViewModel {
         val options = mutableListOf<ScreenOptionViewModel>()
         if (session.gameState != null) {
             options += ScreenOptionViewModel("1", "Continuar sessao", GameAction.ContinueSession)
-            options += ScreenOptionViewModel("2", "Novo jogo (legado)", GameAction.StartNewGame)
+            options += ScreenOptionViewModel("2", "Novo jogo", GameAction.StartNewGame)
             options += ScreenOptionViewModel("3", "Carregar jogo", GameAction.OpenLoadGame)
         } else {
-            options += ScreenOptionViewModel("1", "Novo jogo (legado)", GameAction.StartNewGame)
+            options += ScreenOptionViewModel("1", "Novo jogo", GameAction.StartNewGame)
             options += ScreenOptionViewModel("2", "Carregar jogo", GameAction.OpenLoadGame)
         }
         options += ScreenOptionViewModel("x", "Sair", GameAction.Exit)
         return MenuScreenViewModel(
             title = "RPG TXT",
-            subtitle = "Fluxo modular inicial + legado preservado",
-            bodyLines = listOf(
-                "O fluxo novo isola navegacao, apresentacao e input.",
-                "A criacao de personagem ainda permanece no legado nesta etapa."
-            ),
+            subtitle = "Aventura em texto",
+            bodyLines = listOf("Escolha uma opcao para comecar."),
             summary = session.gameState?.let(support::playerSummary),
             options = options,
             messages = session.messages
@@ -44,7 +47,7 @@ internal class NavigationScreenPresenter(
             bodyLines = if (session.availableSaves.isEmpty()) {
                 listOf("Nenhum save disponivel.")
             } else {
-                listOf("Selecione um save para entrar no fluxo modular.")
+                listOf("Selecione um save para continuar sua aventura.")
             },
             options = options,
             messages = session.messages
@@ -53,31 +56,27 @@ internal class NavigationScreenPresenter(
 
     fun presentHub(session: GameSession): ScreenViewModel {
         val state = session.gameState ?: return support.presentMissingState("Menu Principal")
+        val characterAlert = if (
+            characterQueryService.hasUnspentAttributePoints(state.player) ||
+            characterQueryService.hasTalentPointsAvailable(state.player)
+        ) " (!)" else ""
+        val progressionAlert = if (
+            questQueryService.hasQuestAlert(state) ||
+            achievementQueryService.hasClaimableRewards(state)
+        ) " (!)" else ""
         return MenuScreenViewModel(
             title = "Menu Principal",
             subtitle = session.currentSaveName?.let { "Save atual: $it" },
-            summary = support.playerSummary(state),
-            bodyLines = listOf(
-                "Fluxo modular migrado nesta etapa:",
-                "- Sessao principal, save/load e retorno ao hub",
-                "- Exploracao basica e combate",
-                "- Inventario",
-                "- Equipamentos",
-                "- Atributos e talentos",
-                "- Quests, conquistas e quest de classe",
-                "- Taverna",
-                "",
-                "Producao ainda usa handoff.",
-                "Cidade so delega ao legado onde ainda faltam servicos secundarios."
-            ),
+            summary = null,
+            bodyLines = support.hubOverviewLines(state),
             options = listOf(
-                ScreenOptionViewModel("1", "Personagem", GameAction.OpenCharacterMenu),
-                ScreenOptionViewModel("2", "Explorar", GameAction.OpenExploration),
+                ScreenOptionViewModel("1", "Explorar", GameAction.OpenExploration),
+                ScreenOptionViewModel("2", "Personagem$characterAlert", GameAction.OpenCharacterMenu),
                 ScreenOptionViewModel("3", "Producao", GameAction.OpenProductionMenu),
-                ScreenOptionViewModel("4", "Progressao", GameAction.OpenProgressionMenu),
+                ScreenOptionViewModel("4", "Progressao$progressionAlert", GameAction.OpenProgressionMenu),
                 ScreenOptionViewModel("5", "Cidade", GameAction.OpenCityMenu),
                 ScreenOptionViewModel("6", "Salvar", GameAction.OpenSaveMenu),
-                ScreenOptionViewModel("x", "Voltar", GameAction.Back)
+                ScreenOptionViewModel("x", "Sair para o menu", GameAction.Back)
             ),
             messages = session.messages
         )
@@ -88,12 +87,13 @@ internal class NavigationScreenPresenter(
         return MenuScreenViewModel(
             title = "Producao",
             summary = support.playerSummary(state),
-            bodyLines = listOf(
-                "Craft e gathering ainda usam o fluxo legado.",
-                "O retorno para a sessao modular acontece automaticamente ao sair de la."
-            ),
+            bodyLines = listOf("Crie equipamentos, consumiveis e colete recursos."),
             options = listOf(
-                ScreenOptionViewModel("1", "Abrir producao (legado)", GameAction.OpenLegacyProduction),
+                ScreenOptionViewModel("1", "Craft", GameAction.OpenCraftMenu),
+                ScreenOptionViewModel("2", "Coleta de ervas", GameAction.OpenGatheringType(rpg.model.GatheringType.HERBALISM)),
+                ScreenOptionViewModel("3", "Mineracao", GameAction.OpenGatheringType(rpg.model.GatheringType.MINING)),
+                ScreenOptionViewModel("4", "Cortar madeira", GameAction.OpenGatheringType(rpg.model.GatheringType.WOODCUTTING)),
+                ScreenOptionViewModel("5", "Pesca", GameAction.OpenGatheringType(rpg.model.GatheringType.FISHING)),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)
             ),
             messages = session.messages
@@ -105,15 +105,12 @@ internal class NavigationScreenPresenter(
         return MenuScreenViewModel(
             title = "Cidade",
             summary = support.playerSummary(state),
-            bodyLines = listOf(
-                "Fluxo modular desta area:",
-                "- Taverna",
-                "",
-                "Lojas e servicos restantes ainda usam handoff pontual para o legado."
-            ),
+            bodyLines = listOf("Descanse e acesse os servicos da cidade."),
             options = listOf(
                 ScreenOptionViewModel("1", "Taverna", GameAction.OpenTavern),
-                ScreenOptionViewModel("2", "Outros servicos da cidade (legado)", GameAction.OpenLegacyCity),
+                ScreenOptionViewModel("2", "Loja de Ouro", GameAction.OpenGoldShop),
+                ScreenOptionViewModel("3", "Loja de Cash", GameAction.OpenCashShop),
+                ScreenOptionViewModel("4", "Aprimoramentos", GameAction.OpenUpgradeShop),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)
             ),
             messages = session.messages
@@ -135,7 +132,7 @@ internal class NavigationScreenPresenter(
         } else {
             "Sessao sem slot fixo. Salvar agora usara o autosave."
         }
-        body += "O jogo salva sem a run atual em andamento, mantendo o padrao do projeto."
+        body += "Salve seu progresso para continuar depois."
         return MenuScreenViewModel(
             title = "Salvar",
             summary = support.playerSummary(state),
@@ -147,16 +144,49 @@ internal class NavigationScreenPresenter(
 
     fun presentExploration(session: GameSession): ScreenViewModel {
         val state = session.gameState ?: return support.presentMissingState("Exploracao")
+        val run = state.currentRun
+        if (run != null && run.isActive) {
+            val tierLabel = run.tierId?.takeIf { it.isNotBlank() }
+            val options = mutableListOf<ScreenOptionViewModel>()
+            if (tierLabel != null) {
+                options += ScreenOptionViewModel("1", "Continuar", GameAction.EnterDungeon(tierLabel))
+            }
+            options += ScreenOptionViewModel("2", "Usar item", GameAction.OpenInventory)
+            options += ScreenOptionViewModel("x", "Sair da Dungeon", GameAction.ExitDungeonRun)
+            return MenuScreenViewModel(
+                title = "Exploracao",
+                summary = support.playerSummary(state),
+                bodyLines = listOf(
+                    "Run ativa: tier ${tierLabel ?: "desconhecido"} | profundidade ${run.depth} | vitorias ${run.victoriesInRun} | bosses ${run.bossesDefeatedInRun}",
+                    "O que deseja fazer?"
+                ),
+                options = options,
+                messages = session.messages
+            )
+        }
         return MenuScreenViewModel(
             title = "Exploracao",
             summary = support.playerSummary(state),
-            bodyLines = listOf(
-                "A migracao atual cobre o fluxo de dungeon e combate.",
-                "Eventos especiais e outras rotas de exploracao usam handoff pontual para o legado."
-            ),
+            bodyLines = listOf("Escolha seu proximo destino de aventura."),
             options = listOf(
                 ScreenOptionViewModel("1", "Dungeons", GameAction.OpenDungeonSelection),
-                ScreenOptionViewModel("2", "Exploracao extra (legado)", GameAction.OpenLegacyExploration),
+                ScreenOptionViewModel("x", "Voltar", GameAction.Back)
+            ),
+            messages = session.messages
+        )
+    }
+
+    fun presentExplorationLowHpConfirm(session: GameSession): ScreenViewModel {
+        val state = session.gameState ?: return support.presentMissingState("Exploracao")
+        return MenuScreenViewModel(
+            title = "Explorar com vida baixa",
+            summary = support.playerSummary(state),
+            bodyLines = listOf(
+                "Sua vida esta baixa. Recomendamos descansar.",
+                "Deseja prosseguir?"
+            ),
+            options = listOf(
+                ScreenOptionViewModel("1", "Sim", GameAction.ConfirmLowHpExploration),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)
             ),
             messages = session.messages

@@ -1,0 +1,30 @@
+{
+  "id": "zombie",
+  "name": "Zumbi",
+  "archetype": "Undead",
+  "baseType": "zombie",
+  "monsterTypeId": "undead",
+  "family": "undead",
+  "displayName": "Zumbi",
+  "baseAttributes": { "str": 7, "agi": 2, "dex": 2, "vit": 8, "spr": 3 },
+  "growthAttributes": { "str": 2, "vit": 3, "spr": 1 },
+  "variancePct": 0.14,
+  "tags": ["undead", "rotting"],
+  "questTags": ["undead"],
+  "onHitStatuses": [
+    {
+      "type": "WEAKNESS",
+      "chancePct": 16,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 9,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Mordida Putrida"
+    }
+  ],
+  "dropTableId": "undead_low",
+  "lootProfileId": "undead_low",
+  "baseXp": 28,
+  "baseGold": 6
+}

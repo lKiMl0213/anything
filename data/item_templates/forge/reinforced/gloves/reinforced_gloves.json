@@ -1,0 +1,27 @@
+﻿{
+    "id":  "reinforced_gloves",
+    "name":  "Luvas de Reforcado",
+    "type":  "EQUIPMENT",
+    "slot":  "GLOVES",
+    "minLevel":  15,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  6.07,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  3,
+    "vendorBaseValue":  48,
+    "allowedAffixes":  [
+                           "atk_speed",
+                           "precision",
+                           "fervor",
+                           "crit",
+                           "str"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "gloves",
+                 "reinforced"
+             ],
+    "description":  "Equipamento de forja (Reforcado) com modificadores aleatorios por afixos."
+}

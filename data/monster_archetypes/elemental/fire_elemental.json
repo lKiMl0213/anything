@@ -1,0 +1,30 @@
+{
+  "id": "fire_elemental",
+  "name": "Elemental de Fogo",
+  "archetype": "Elemental",
+  "baseType": "fire_elemental",
+  "monsterTypeId": "elemental",
+  "family": "elemental",
+  "displayName": "Elemental de Fogo",
+  "baseAttributes": { "str": 6, "agi": 6, "dex": 6, "vit": 8, "int": 8, "spr": 7 },
+  "growthAttributes": { "str": 1, "agi": 1, "dex": 1, "vit": 2, "int": 3, "spr": 2 },
+  "variancePct": 0.15,
+  "tags": ["elemental", "fire"],
+  "questTags": ["elemental", "fire"],
+  "onHitStatuses": [
+    {
+      "type": "BURNING",
+      "chancePct": 24,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 1,
+      "effectValue": 4.2,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Chama Viva"
+    }
+  ],
+  "dropTableId": "elemental_fire",
+  "lootProfileId": "elemental_fire",
+  "baseXp": 42,
+  "baseGold": 14
+}

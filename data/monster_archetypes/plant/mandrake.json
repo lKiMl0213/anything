@@ -1,0 +1,30 @@
+{
+  "id": "mandrake",
+  "name": "Mandragora",
+  "archetype": "Plant",
+  "baseType": "mandrake",
+  "monsterTypeId": "plant",
+  "family": "plant",
+  "displayName": "Mandragora",
+  "baseAttributes": { "str": 6, "agi": 5, "dex": 5, "vit": 8, "int": 4, "spr": 6 },
+  "growthAttributes": { "str": 2, "agi": 1, "dex": 1, "vit": 2, "spr": 2 },
+  "variancePct": 0.14,
+  "tags": ["plant", "nature", "toxic"],
+  "questTags": ["plant", "nature"],
+  "onHitStatuses": [
+    {
+      "type": "WEAKNESS",
+      "chancePct": 16,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 8,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Grito Entorpecente"
+    }
+  ],
+  "dropTableId": "beast_low",
+  "lootProfileId": "beast_low",
+  "baseXp": 34,
+  "baseGold": 10
+}

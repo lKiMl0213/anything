@@ -1,0 +1,47 @@
+{
+  "id": "wild_draconid",
+  "name": "Draconato Selvagem",
+  "archetype": "Dragon",
+  "baseType": "wild_draconid",
+  "monsterTypeId": "dragon",
+  "family": "dragon",
+  "displayName": "Draconato Selvagem",
+  "baseAttributes": { "str": 13, "agi": 8, "dex": 7, "vit": 14, "int": 6, "spr": 6, "luk": 3 },
+  "growthAttributes": { "str": 3, "vit": 3, "agi": 2, "dex": 2, "int": 1 },
+  "variancePct": 0.14,
+  "tags": ["dragon", "apex", "predator"],
+  "questTags": ["dragon", "draconid"],
+  "onHitStatuses": [
+    {
+      "type": "BLEEDING",
+      "chancePct": 20,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 1,
+      "effectValue": 0.012,
+      "stackable": true,
+      "maxStacks": 3,
+      "source": "Garras Draconicas"
+    },
+    {
+      "type": "WEAKNESS",
+      "chancePct": 14,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 9,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Rugido Predatorio"
+    }
+  ],
+  "dropTableId": "undead_high",
+  "lootProfileId": "undead_high",
+  "baseXp": 70,
+  "baseGold": 24,
+  "damageAffinities": {
+    "physical": 0.9,
+    "fire": 0.65,
+    "ice": 1.2,
+    "holy": 1.1,
+    "bleed": 0.55
+  }
+}

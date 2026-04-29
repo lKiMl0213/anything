@@ -1,0 +1,26 @@
+﻿{
+    "id":  "gold_armor",
+    "name":  "Armadura de Ouro",
+    "type":  "EQUIPMENT",
+    "slot":  "CHEST",
+    "minLevel":  9,
+    "rarity":  "RARE",
+    "maxRarity":  "RARE",
+    "baseScaling":  6.8,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  2,
+    "vendorBaseValue":  48,
+    "allowedAffixes":  [
+                           "vit",
+                           "hp",
+                           "def",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "armor",
+                 "gold"
+             ],
+    "description":  "Equipamento de forja (Ouro) com modificadores aleatorios por afixos."
+}

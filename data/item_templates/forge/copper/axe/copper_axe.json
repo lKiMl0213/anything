@@ -1,0 +1,27 @@
+﻿{
+    "id":  "copper_axe",
+    "name":  "Machado de Cobre",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  2,
+    "rarity":  "COMMON",
+    "maxRarity":  "COMMON",
+    "baseScaling":  5.12,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  1,
+    "vendorBaseValue":  30,
+    "allowedAffixes":  [
+                           "str",
+                           "crit",
+                           "warcry",
+                           "atk_speed"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "axe",
+                 "copper"
+             ],
+    "description":  "Equipamento de forja (Cobre) com modificadores aleatorios por afixos."
+}

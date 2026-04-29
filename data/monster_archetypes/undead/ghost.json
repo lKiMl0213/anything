@@ -1,0 +1,40 @@
+{
+  "id": "ghost",
+  "name": "Fantasma",
+  "archetype": "Undead",
+  "baseType": "ghost",
+  "monsterTypeId": "undead",
+  "family": "undead",
+  "displayName": "Fantasma",
+  "baseAttributes": { "str": 3, "agi": 7, "dex": 6, "vit": 5, "int": 6, "spr": 7 },
+  "growthAttributes": { "agi": 2, "dex": 2, "int": 2, "spr": 2, "vit": 1 },
+  "variancePct": 0.16,
+  "tags": ["undead", "ethereal", "spirit"],
+  "questTags": ["undead", "spirit"],
+  "onHitStatuses": [
+    {
+      "type": "PARALYZED",
+      "chancePct": 14,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 16,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Toque Espectral"
+    },
+    {
+      "type": "SLOW",
+      "chancePct": 18,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 12,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Frio de Túmulo"
+    }
+  ],
+  "dropTableId": "undead_relics",
+  "lootProfileId": "undead_relics",
+  "baseXp": 36,
+  "baseGold": 9
+}

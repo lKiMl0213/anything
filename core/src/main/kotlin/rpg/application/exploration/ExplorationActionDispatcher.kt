@@ -18,6 +18,7 @@ class ExplorationActionDispatcher(
         return when (action) {
             GameAction.OpenDungeonSelection -> move(session, NavigationState.DungeonSelection)
             is GameAction.EnterDungeon -> enterDungeon(session, action.tierId)
+            GameAction.ExitDungeonRun -> exitDungeonRun(session)
             else -> null
         }
     }
@@ -39,25 +40,35 @@ class ExplorationActionDispatcher(
             ?: return GameActionResult(session.copy(messages = listOf("Nenhum jogo carregado.")))
         val normalized = stateSupport.normalize(state)
         val player = normalized.player
+        val continuedRun = normalized.currentRun?.takeIf { run ->
+            run.isActive && run.tierId?.equals(tierId, ignoreCase = true) == true
+        }
         val tier = engine.tierById(tierId)
         if (!engine.canEnterTier(player, tier)) {
             return GameActionResult(session.copy(messages = listOf("Nivel insuficiente para este tier.")))
         }
 
-        val run = engine.startRun(tierId)
+        val run = continuedRun ?: engine.startRun(tierId)
         val roomType = engine.nextRoomType(run)
         return when (roomType) {
-            RunRoomType.EVENT -> GameActionResult(
-                session = session.copy(
-                    gameState = normalized.copy(currentRun = run),
-                    navigation = NavigationState.Exploration,
-                    messages = listOf(
-                        "Esta run caiu em uma sala de evento.",
-                        "As rotas especiais de exploracao ainda permanecem no legado."
+            RunRoomType.EVENT -> {
+                val advancedRun = engine.advanceRun(
+                    run = run,
+                    bossDefeated = false,
+                    clearedRoomType = RunRoomType.EVENT,
+                    victoryInRoom = false
+                )
+                GameActionResult(
+                    session = session.copy(
+                        gameState = normalized.copy(currentRun = advancedRun),
+                        navigation = NavigationState.Exploration,
+                        messages = listOf(
+                            "Voce encontrou uma sala de evento.",
+                            "Nada de relevante aconteceu e a expedicao seguiu adiante."
+                        )
                     )
-                ),
-                effect = GameEffect.LaunchLegacyExploration(normalized.copy(currentRun = run))
-            )
+                )
+            }
 
             RunRoomType.REST -> {
                 val healed = stateSupport.applyRestRoom(normalized.player, normalized.itemInstances)
@@ -102,5 +113,27 @@ class ExplorationActionDispatcher(
                 )
             }
         }
+    }
+
+    private fun exitDungeonRun(session: GameSession): GameActionResult {
+        val state = session.gameState
+            ?: return GameActionResult(session.copy(messages = listOf("Nenhum jogo carregado.")))
+        val normalized = stateSupport.normalize(state)
+        if (normalized.currentRun == null) {
+            return GameActionResult(
+                session = session.copy(
+                    gameState = normalized,
+                    navigation = NavigationState.Exploration,
+                    messages = listOf("Nenhuma run ativa para encerrar.")
+                )
+            )
+        }
+        return GameActionResult(
+            session = session.copy(
+                gameState = normalized.copy(currentRun = null),
+                navigation = NavigationState.Exploration,
+                messages = listOf("Voce saiu da dungeon atual.")
+            )
+        )
     }
 }

@@ -1,0 +1,31 @@
+﻿{
+    "id":  "runic_sword",
+    "name":  "Espada de Runica",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  22,
+    "rarity":  "MYTHIC",
+    "maxRarity":  "MYTHIC",
+    "baseScaling":  14.25,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  5,
+    "vendorBaseValue":  182,
+    "allowedAffixes":  [
+                           "str",
+                           "crit",
+                           "atk_speed",
+                           "piercing",
+                           "warcry",
+                           "fervor",
+                           "tenacity",
+                           "vampiric"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "sword",
+                 "runic"
+             ],
+    "description":  "Equipamento de forja (Runica) com modificadores aleatorios por afixos."
+}

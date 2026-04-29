@@ -1,0 +1,46 @@
+{
+  "id": "living_vine",
+  "name": "Trepadeira Viva",
+  "archetype": "Plant",
+  "baseType": "living_vine",
+  "monsterTypeId": "plant",
+  "family": "plant",
+  "displayName": "Trepadeira Viva",
+  "baseAttributes": { "str": 6, "agi": 4, "dex": 3, "vit": 10, "spr": 4 },
+  "growthAttributes": { "str": 2, "vit": 2, "spr": 1 },
+  "variancePct": 0.15,
+  "tags": ["plant", "forest", "control"],
+  "questTags": ["plant", "vine"],
+  "onHitStatuses": [
+    {
+      "type": "SLOW",
+      "chancePct": 22,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 12,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Enredar"
+    },
+    {
+      "type": "WEAKNESS",
+      "chancePct": 14,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 8,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Esporos Debilitantes"
+    }
+  ],
+  "dropTableId": "beast_low",
+  "lootProfileId": "beast_low",
+  "baseXp": 36,
+  "baseGold": 10,
+  "damageAffinities": {
+    "fire": 1.35,
+    "water": 0.7,
+    "holy": 0.88,
+    "poison": 0.75
+  }
+}

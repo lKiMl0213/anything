@@ -1,0 +1,55 @@
+{
+    "id": "profession_mastery",
+    "name": "Maos do Artesao",
+    "description": "Aumenta a XP de forja, coleta de ervas, mineracao e pesca.",
+    "effectType": "PROFESSION_XP_BOOST",
+    "valueMode": "PERCENT",
+    "enabled": true,
+    "levels": [
+        {
+            "level": 1,
+            "value": 5.0,
+            "costs": [
+                { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 900 },
+                { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 35 },
+                { "id": "guild", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 600, "requiredItemId": "arcane_fragment", "requiredItemQty": 4 }
+            ]
+        },
+        {
+            "level": 2,
+            "value": 10.0,
+            "costs": [
+                { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 1800 },
+                { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 70 },
+                { "id": "guild", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 1200, "requiredItemId": "arcane_fragment", "requiredItemQty": 8 }
+            ]
+        },
+        {
+            "level": 3,
+            "value": 15.0,
+            "costs": [
+                { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 3200 },
+                { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 120 },
+                { "id": "guild", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 2200, "requiredItemId": "arcane_fragment", "requiredItemQty": 12 }
+            ]
+        },
+        {
+            "level": 4,
+            "value": 20.0,
+            "costs": [
+                { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 5200 },
+                { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 190 },
+                { "id": "guild", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 3600, "requiredItemId": "arcane_fragment", "requiredItemQty": 16 }
+            ]
+        },
+        {
+            "level": 5,
+            "value": 25.0,
+            "costs": [
+                { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 8200 },
+                { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 280 },
+                { "id": "guild", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 5700, "requiredItemId": "arcane_fragment", "requiredItemQty": 24 }
+            ]
+        }
+    ]
+}

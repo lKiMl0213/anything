@@ -3,8 +3,18 @@ package rpg.navigation
 sealed interface NavigationState {
     data object MainMenu : NavigationState
     data object SaveSelection : NavigationState
+    data object CharacterCreation : NavigationState
+    data object CharacterCreationRace : NavigationState
+    data object CharacterCreationRaceDetail : NavigationState
+    data object CharacterCreationClass : NavigationState
+    data object CharacterCreationClassDetail : NavigationState
+    data object CharacterCreationAttributes : NavigationState
+    data object CharacterCreationAttributeDetail : NavigationState
     data object Hub : NavigationState
     data object ProductionMenu : NavigationState
+    data object ProductionCraftMenu : NavigationState
+    data object ProductionRecipeList : NavigationState
+    data object ProductionGatheringList : NavigationState
     data object ProgressionMenu : NavigationState
     data object QuestBoard : NavigationState
     data object QuestList : NavigationState
@@ -17,6 +27,10 @@ sealed interface NavigationState {
     data object AchievementStatistics : NavigationState
     data object CityMenu : NavigationState
     data object Tavern : NavigationState
+    data object CityShopCategories : NavigationState
+    data object CityShopItems : NavigationState
+    data object CityUpgradeCategories : NavigationState
+    data object CityUpgradeList : NavigationState
     data object SaveMenu : NavigationState
     data object CharacterMenu : NavigationState
     data object Attributes : NavigationState
@@ -25,6 +39,7 @@ sealed interface NavigationState {
     data object TalentTreeDetail : NavigationState
     data object TalentNodeDetail : NavigationState
     data object Exploration : NavigationState
+    data object ExplorationLowHpConfirm : NavigationState
     data object DungeonSelection : NavigationState
     data object Inventory : NavigationState
     data object InventoryFilters : NavigationState

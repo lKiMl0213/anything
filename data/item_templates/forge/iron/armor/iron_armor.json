@@ -1,0 +1,26 @@
+﻿{
+    "id":  "iron_armor",
+    "name":  "Armadura de Ferro",
+    "type":  "EQUIPMENT",
+    "slot":  "CHEST",
+    "minLevel":  4,
+    "rarity":  "COMMON",
+    "maxRarity":  "COMMON",
+    "baseScaling":  5,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  1,
+    "vendorBaseValue":  28,
+    "allowedAffixes":  [
+                           "vit",
+                           "hp",
+                           "def",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "armor",
+                 "iron"
+             ],
+    "description":  "Equipamento de forja (Ferro) com modificadores aleatorios por afixos."
+}

@@ -1,3 +1,4 @@
+// TODO-REMOVE-LEGACY: fluxo antigo isolado; remover após substituição modular completa.
 package rpg.cli
 
 import rpg.engine.ComputedStats
@@ -55,7 +56,14 @@ internal class LegacyEquipmentFlow(
                     equippedId == offhandBlockedId -> "Bloqueado por arma de duas maos"
                     else -> engine.itemResolver.resolve(equippedId, itemInstances)?.let(itemDisplayLabel) ?: equippedId
                 }
-                println("${index + 1}. ${equippedSlotLabel(slot)} -> $label")
+                val extra = if (slot == EquipSlot.ALJAVA.name && equippedId != null && equippedId != offhandBlockedId) {
+                    val current = InventorySystem.quiverAmmoCount(player, itemInstances, engine.itemRegistry)
+                    val max = InventorySystem.quiverCapacity(player, itemInstances, engine.itemRegistry)
+                    " | Aljava: $current / $max flechas"
+                } else {
+                    ""
+                }
+                println("${index + 1}. ${equippedSlotLabel(slot)} -> $label$extra")
             }
             val stats = computePlayerStats(player, itemInstances)
             println(
@@ -177,6 +185,11 @@ internal class LegacyEquipmentFlow(
         val slotLabel = item.slot?.name ?: slotKey
         val handLabel = if (item.twoHanded) " (duas maos)" else ""
         println("Slot: $slotLabel$handLabel")
+        if (slotKey == EquipSlot.ALJAVA.name) {
+            val current = InventorySystem.quiverAmmoCount(player, itemInstances, engine.itemRegistry)
+            val max = InventorySystem.quiverCapacity(player, itemInstances, engine.itemRegistry)
+            println("Aljava: $current / $max flechas")
+        }
         val bonusLabel = detailSupport.formatItemBonuses(item)
         if (bonusLabel.isNotBlank()) {
             println("Bonus: $bonusLabel")

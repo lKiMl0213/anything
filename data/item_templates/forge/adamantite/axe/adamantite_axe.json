@@ -1,0 +1,30 @@
+﻿{
+    "id":  "adamantite_axe",
+    "name":  "Machado de Adamantita",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  18,
+    "rarity":  "LEGENDARY",
+    "maxRarity":  "LEGENDARY",
+    "baseScaling":  13.66,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  4,
+    "vendorBaseValue":  144,
+    "allowedAffixes":  [
+                           "str",
+                           "crit",
+                           "warcry",
+                           "piercing",
+                           "vampiric",
+                           "fervor",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "axe",
+                 "adamantite"
+             ],
+    "description":  "Equipamento de forja (Adamantita) com modificadores aleatorios por afixos."
+}

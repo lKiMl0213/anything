@@ -1,0 +1,27 @@
+﻿{
+    "id":  "obsidian_boots",
+    "name":  "Botas de Obsidiana",
+    "type":  "EQUIPMENT",
+    "slot":  "BOOTS",
+    "minLevel":  17,
+    "rarity":  "LEGENDARY",
+    "maxRarity":  "LEGENDARY",
+    "baseScaling":  7.35,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  4,
+    "vendorBaseValue":  60,
+    "allowedAffixes":  [
+                           "agi",
+                           "evasion",
+                           "recovery",
+                           "tenacity",
+                           "guardian"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "boots",
+                 "obsidian"
+             ],
+    "description":  "Equipamento de forja (Obsidiana) com modificadores aleatorios por afixos."
+}

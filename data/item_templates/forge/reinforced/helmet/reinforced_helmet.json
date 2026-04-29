@@ -1,0 +1,27 @@
+﻿{
+    "id":  "reinforced_helmet",
+    "name":  "Elmo de Reforcado",
+    "type":  "EQUIPMENT",
+    "slot":  "HEAD",
+    "minLevel":  15,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  6.62,
+    "baseStat":  "HP_MAX",
+    "dropTier":  3,
+    "vendorBaseValue":  55,
+    "allowedAffixes":  [
+                           "guardian",
+                           "warding",
+                           "hp",
+                           "regen",
+                           "def"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "helmet",
+                 "reinforced"
+             ],
+    "description":  "Equipamento de forja (Reforcado) com modificadores aleatorios por afixos."
+}

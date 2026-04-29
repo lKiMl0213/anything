@@ -1,0 +1,40 @@
+{
+  "id": "panther",
+  "name": "Pantera",
+  "archetype": "Beast",
+  "baseType": "panther",
+  "monsterTypeId": "beast",
+  "family": "beast",
+  "displayName": "Pantera",
+  "baseAttributes": { "str": 8, "agi": 11, "dex": 9, "vit": 7, "luk": 3 },
+  "growthAttributes": { "str": 2, "agi": 3, "dex": 3, "vit": 2 },
+  "variancePct": 0.16,
+  "tags": ["beast", "predator", "ambush"],
+  "questTags": ["beast", "predator"],
+  "onHitStatuses": [
+    {
+      "type": "BLEEDING",
+      "chancePct": 20,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 2,
+      "effectValue": 0.014,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Dilacerar"
+    },
+    {
+      "type": "MARKED",
+      "chancePct": 18,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 12,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Olhar de Caca"
+    }
+  ],
+  "dropTableId": "wolf_beast",
+  "lootProfileId": "wolf_beast",
+  "baseXp": 44,
+  "baseGold": 13
+}

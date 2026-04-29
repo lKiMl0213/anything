@@ -1,0 +1,28 @@
+﻿{
+    "id":  "obsidian_helmet",
+    "name":  "Elmo de Obsidiana",
+    "type":  "EQUIPMENT",
+    "slot":  "HEAD",
+    "minLevel":  17,
+    "rarity":  "LEGENDARY",
+    "maxRarity":  "LEGENDARY",
+    "baseScaling":  7.56,
+    "baseStat":  "HP_MAX",
+    "dropTier":  4,
+    "vendorBaseValue":  67,
+    "allowedAffixes":  [
+                           "guardian",
+                           "warding",
+                           "hp",
+                           "regen",
+                           "def",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "helmet",
+                 "obsidian"
+             ],
+    "description":  "Equipamento de forja (Obsidiana) com modificadores aleatorios por afixos."
+}

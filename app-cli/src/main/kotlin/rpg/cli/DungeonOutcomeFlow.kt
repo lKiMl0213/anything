@@ -21,6 +21,7 @@ internal class DungeonOutcomeFlow(
         board: rpg.quest.QuestBoardState,
         runCount: Int
     ) -> rpg.quest.QuestBoardState,
+    private val shouldCountRunCompletion: (rpg.model.DungeonRun) -> Boolean,
     private val emit: (String) -> Unit
 ) {
     fun handleRunFailure(
@@ -28,6 +29,7 @@ internal class DungeonOutcomeFlow(
         outcome: BattleOutcome,
         loot: MutableList<String>,
         itemInstances: Map<String, rpg.model.ItemInstance>,
+        run: rpg.model.DungeonRun,
         questBoard: rpg.quest.QuestBoardState,
         worldTimeMinutes: Double,
         lastClockSync: Long
@@ -35,7 +37,11 @@ internal class DungeonOutcomeFlow(
         return if (outcome.escaped) {
             val finalized = finalizeRun(outcome.playerAfter, loot, itemInstances)
             val updated = finalized.player
-            val progressedBoard = onRunCompleted(questBoard, 1)
+            val progressedBoard = if (shouldCountRunCompletion(run)) {
+                onRunCompleted(questBoard, 1)
+            } else {
+                questBoard
+            }
             emit("\nVoce saiu da run com ${loot.size} itens.")
             val updatedState = state.copy(
                 player = updated,

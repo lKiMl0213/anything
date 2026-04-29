@@ -1,0 +1,27 @@
+﻿{
+    "id":  "mithril_helmet",
+    "name":  "Elmo de Mithril",
+    "type":  "EQUIPMENT",
+    "slot":  "HEAD",
+    "minLevel":  14,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  6.34,
+    "baseStat":  "HP_MAX",
+    "dropTier":  3,
+    "vendorBaseValue":  50,
+    "allowedAffixes":  [
+                           "guardian",
+                           "warding",
+                           "hp",
+                           "regen",
+                           "def"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "helmet",
+                 "mithril"
+             ],
+    "description":  "Equipamento de forja (Mithril) com modificadores aleatorios por afixos."
+}

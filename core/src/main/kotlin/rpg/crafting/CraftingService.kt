@@ -11,6 +11,7 @@ import rpg.model.PlayerState
 import rpg.model.SkillSnapshot
 import rpg.model.SkillType
 import rpg.skills.SkillSystem
+import rpg.progression.PermanentUpgradeService
 import rpg.registry.ItemRegistry
 
 data class CraftExecutionResult(
@@ -33,7 +34,9 @@ class CraftingService(
     private val itemRegistry: ItemRegistry,
     private val itemEngine: ItemEngine,
     private val skillSystem: SkillSystem,
-    private val rng: Random
+    private val rng: Random,
+    private val permanentUpgradeService: PermanentUpgradeService,
+    private val raceProfessionBonusPct: (PlayerState, SkillType) -> Double = { _, _ -> 0.0 }
 ) {
     fun availableRecipes(playerLevel: Int, discipline: CraftDiscipline? = null): List<CraftRecipeDef> {
         return recipes.values
@@ -101,15 +104,20 @@ class CraftingService(
         var successfulCrafts = 0
 
         for (attempt in 1..batch) {
+            val craftCostReductionPct = permanentUpgradeService.craftingCostReductionPct(preparedPlayer, recipe.discipline)
             val effectiveIngredients = recipe.ingredients.map { ingredient ->
                 val baseRequired = ingredient.quantity.coerceAtLeast(1)
+                val discounted = max(
+                    1,
+                    kotlin.math.ceil(baseRequired * (1.0 - craftCostReductionPct / 100.0)).toInt()
+                )
                 val reduced = if (
-                    baseRequired > 1 &&
+                    discounted > 1 &&
                     rng.nextDouble(0.0, 100.0) <= skillSnapshot.materialReductionChancePct
                 ) {
-                    baseRequired - 1
+                    discounted - 1
                 } else {
-                    baseRequired
+                    discounted
                 }
                 ingredient.itemId to reduced
             }
@@ -194,10 +202,14 @@ class CraftingService(
             selectedAmmoTemplateId = withCapacity.selectedAmmoTemplateId
         )
         val rarityMultiplier = outputRarityMultiplier(recipe.outputItemId)
+        val professionXpMultiplier = permanentUpgradeService.professionXpMultiplier(preparedPlayer, skillType)
+        val raceBonusMultiplier = 1.0 + (
+            raceProfessionBonusPct(preparedPlayer, skillType).coerceIn(-50.0, 250.0) / 100.0
+            )
         val xpResult = skillSystem.gainXp(
             player = updatedPlayer,
             skill = skillType,
-            baseXp = recipe.baseXp * successfulCrafts,
+            baseXp = recipe.baseXp * successfulCrafts * professionXpMultiplier * raceBonusMultiplier,
             rarityMultiplier = rarityMultiplier,
             difficulty = recipe.difficulty,
             tier = recipe.tier

@@ -1,3 +1,4 @@
+// TODO-REMOVE-LEGACY: fluxo antigo isolado; remover após substituição modular completa.
 package rpg.cli
 
 import rpg.cli.model.QuestUiSnapshot
@@ -162,7 +163,7 @@ internal class LegacyQuestFlow(
                 when (readMenuChoice("Escolha: ", 1, 1)) {
                     1 -> {
                         println(
-                            "Tem certeza que deseja cancelar esta missao? TODO o progresso sera perdido e a missao retornara para a etapa 1."
+                            "Tem certeza que deseja cancelar esta missao? Todo o progresso sera perdido e a missao retornara para a etapa 1."
                         )
                         println("1. Confirmar cancelamento")
                         println("2. Manter missao")

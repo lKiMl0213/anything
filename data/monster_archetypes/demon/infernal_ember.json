@@ -1,0 +1,46 @@
+{
+  "id": "infernal_ember",
+  "name": "Brasa Infernal",
+  "archetype": "Demon",
+  "baseType": "infernal_ember",
+  "monsterTypeId": "demon",
+  "family": "demon",
+  "displayName": "Brasa Infernal",
+  "baseAttributes": { "str": 4, "agi": 6, "dex": 5, "vit": 5, "int": 8, "spr": 6 },
+  "growthAttributes": { "int": 2, "agi": 2, "dex": 1, "vit": 1 },
+  "variancePct": 0.16,
+  "tags": ["demon", "fire", "caster"],
+  "questTags": ["demon", "fire"],
+  "onHitStatuses": [
+    {
+      "type": "BURNING",
+      "chancePct": 24,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 2,
+      "effectValue": 5.0,
+      "stackable": true,
+      "maxStacks": 3,
+      "source": "Labareda Profana"
+    },
+    {
+      "type": "MARKED",
+      "chancePct": 16,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Marca Infernal"
+    }
+  ],
+  "dropTableId": "bandit_shadow",
+  "lootProfileId": "bandit_shadow",
+  "baseXp": 44,
+  "baseGold": 14,
+  "damageAffinities": {
+    "fire": 0.55,
+    "shadow": 0.75,
+    "holy": 1.35,
+    "water": 1.2
+  }
+}

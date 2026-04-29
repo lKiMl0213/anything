@@ -1,0 +1,28 @@
+﻿{
+    "id":  "adamantite_helmet",
+    "name":  "Elmo de Adamantita",
+    "type":  "EQUIPMENT",
+    "slot":  "HEAD",
+    "minLevel":  18,
+    "rarity":  "LEGENDARY",
+    "maxRarity":  "LEGENDARY",
+    "baseScaling":  8.06,
+    "baseStat":  "HP_MAX",
+    "dropTier":  4,
+    "vendorBaseValue":  73,
+    "allowedAffixes":  [
+                           "guardian",
+                           "warding",
+                           "hp",
+                           "regen",
+                           "def",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "helmet",
+                 "adamantite"
+             ],
+    "description":  "Equipamento de forja (Adamantita) com modificadores aleatorios por afixos."
+}

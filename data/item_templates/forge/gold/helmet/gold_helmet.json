@@ -1,0 +1,26 @@
+﻿{
+    "id":  "gold_helmet",
+    "name":  "Elmo de Ouro",
+    "type":  "EQUIPMENT",
+    "slot":  "HEAD",
+    "minLevel":  9,
+    "rarity":  "RARE",
+    "maxRarity":  "RARE",
+    "baseScaling":  4.9,
+    "baseStat":  "HP_MAX",
+    "dropTier":  2,
+    "vendorBaseValue":  34,
+    "allowedAffixes":  [
+                           "hp",
+                           "def",
+                           "regen",
+                           "warding"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "helmet",
+                 "gold"
+             ],
+    "description":  "Equipamento de forja (Ouro) com modificadores aleatorios por afixos."
+}

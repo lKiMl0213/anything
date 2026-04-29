@@ -1,0 +1,36 @@
+{
+  "id": "tiefling",
+  "name": "Tiefling",
+  "description": "Conjurador ofensivo de risco, focado em dano magico e maldicoes.",
+  "bonuses": {
+    "attributes": {
+      "int": 7,
+      "spr": 5,
+      "agi": 1,
+      "dex": 1,
+      "vit": -2,
+      "str": -2,
+      "luk": 1
+    },
+    "derivedAdd": {
+      "damageMagic": 10,
+      "penMagic": 4
+    },
+    "derivedMult": {
+      "cdrPct": 5,
+      "mpRegen": 8,
+      "defMagic": 4
+    }
+  },
+  "growth": {
+    "int": 3,
+    "spr": 2,
+    "agi": 1
+  },
+  "professionBonusesPct": {
+    "alchemy": 7,
+    "enchanting": 5
+  },
+  "tradeBuyDiscountPct": 0,
+  "tradeSellBonusPct": 0
+}

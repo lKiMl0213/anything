@@ -58,6 +58,7 @@ data class PlayerState(
     val classQuestProgressByKey: Map<String, ClassQuestProgress> = emptyMap(),
     val lifetimeStats: PlayerLifetimeStats = PlayerLifetimeStats(),
     val achievementProgressById: Map<String, AchievementProgress> = emptyMap(),
+    val permanentUpgradeLevels: Map<String, Int> = emptyMap(),
     val rareDropPity: Int = 0,
     val roomAttrRollRooms: Int = 0,
     val roomAttrRollAmount: Int = 0

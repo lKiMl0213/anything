@@ -1,0 +1,28 @@
+﻿{
+    "id":  "obsidian_gloves",
+    "name":  "Luvas de Obsidiana",
+    "type":  "EQUIPMENT",
+    "slot":  "GLOVES",
+    "minLevel":  17,
+    "rarity":  "LEGENDARY",
+    "maxRarity":  "LEGENDARY",
+    "baseScaling":  6.93,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  4,
+    "vendorBaseValue":  60,
+    "allowedAffixes":  [
+                           "atk_speed",
+                           "precision",
+                           "fervor",
+                           "crit",
+                           "str",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "gloves",
+                 "obsidian"
+             ],
+    "description":  "Equipamento de forja (Obsidiana) com modificadores aleatorios por afixos."
+}

@@ -1,0 +1,25 @@
+# Baseline temporario de arquivos Kotlin acima de 300 linhas.
+# Objetivo: impedir novos arquivos grandes enquanto modularizamos os existentes.
+
+app-cli/src/main/kotlin/rpg/cli/LegacyQuestFlow.kt
+app-cli/src/main/kotlin/rpg/cli/LegacyCityServicesFlow.kt
+core/src/main/kotlin/rpg/combat/CombatBattleRunner.kt
+core/src/main/kotlin/rpg/engine/GameEngine.kt
+core/src/main/kotlin/rpg/combat/CombatActionExecutor.kt
+app-cli/src/main/kotlin/rpg/cli/LegacyProductionFlow.kt
+app-cli/src/main/kotlin/rpg/cli/LegacyInventoryDetailSupport.kt
+core/src/main/kotlin/rpg/talent/TalentEffectSummary.kt
+app-cli/src/main/kotlin/rpg/cli/LegacyEquipmentFlow.kt
+core/src/main/kotlin/rpg/combat/CombatStatusProcessor.kt
+core/src/main/kotlin/rpg/application/inventory/InventoryCommandService.kt
+core/src/main/kotlin/rpg/crafting/CraftingService.kt
+core/src/main/kotlin/rpg/quest/QuestBoardEngine.kt
+core/src/main/kotlin/rpg/events/EventEffects.kt
+core/src/main/kotlin/rpg/application/character/CharacterAttributeSupport.kt
+core/src/main/kotlin/rpg/classquest/ClassQuestProgressionService.kt
+core/src/main/kotlin/rpg/classquest/ClassQuestService.kt
+core/src/main/kotlin/rpg/inventory/InventoryMutationSupport.kt
+core/src/main/kotlin/rpg/item/ItemGenerator.kt
+app-android/src/main/kotlin/rpg/android/AndroidGameViewModel.kt
+core/src/main/kotlin/rpg/economy/DropEngine.kt
+app-cli/src/main/kotlin/rpg/cli/LegacyCityShopFlow.kt

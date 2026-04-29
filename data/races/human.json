@@ -1,20 +1,20 @@
 {
   "id": "human",
   "name": "Humano",
-  "description": "Versatil e equilibrado.",
+  "description": "Generalista versatil: nao domina tudo, mas nunca fica para tras.",
   "bonuses": {
     "attributes": {
-      "str": 2,
-      "agi": 2,
+      "str": 1,
+      "agi": 1,
       "dex": 1,
-      "vit": 2,
-      "int": 2,
+      "vit": 1,
+      "int": 1,
       "spr": 1,
       "luk": 1
     },
     "derivedAdd": {
-      "xpGainPct": 2,
-      "dropBonusPct": 2
+      "xpGainPct": 1,
+      "dropBonusPct": 1
     }
   },
   "growth": {
@@ -25,5 +25,16 @@
     "int": 1,
     "spr": 1,
     "luk": 1
-  }
+  },
+  "professionBonusesPct": {
+    "blacksmith": 2,
+    "alchemy": 2,
+    "cooking": 2,
+    "mining": 2,
+    "woodcutting": 2,
+    "fishing": 2,
+    "gathering": 2
+  },
+  "tradeBuyDiscountPct": 1,
+  "tradeSellBonusPct": 1
 }

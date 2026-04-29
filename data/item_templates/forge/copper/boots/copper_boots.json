@@ -1,0 +1,26 @@
+﻿{
+    "id":  "copper_boots",
+    "name":  "Botas de Cobre",
+    "type":  "EQUIPMENT",
+    "slot":  "BOOTS",
+    "minLevel":  2,
+    "rarity":  "COMMON",
+    "maxRarity":  "COMMON",
+    "baseScaling":  2.94,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  1,
+    "vendorBaseValue":  14,
+    "allowedAffixes":  [
+                           "agi",
+                           "evasion",
+                           "recovery",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "boots",
+                 "copper"
+             ],
+    "description":  "Equipamento de forja (Cobre) com modificadores aleatorios por afixos."
+}

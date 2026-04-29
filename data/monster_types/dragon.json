@@ -1,0 +1,14 @@
+{
+  "id": "dragon",
+  "name": "Dragao",
+  "description": "Predadores lendarios com escalas duras, alto dano e presenca aterradora.",
+  "tags": ["dragon", "ancient", "apex"],
+  "damageAffinities": {
+    "physical": 0.88,
+    "magic": 0.95,
+    "fire": 0.7,
+    "ice": 1.2,
+    "holy": 1.1,
+    "bleed": 0.6
+  }
+}

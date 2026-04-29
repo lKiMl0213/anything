@@ -1,0 +1,27 @@
+﻿{
+    "id":  "gold_sword",
+    "name":  "Espada de Ouro",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  9,
+    "rarity":  "RARE",
+    "maxRarity":  "RARE",
+    "baseScaling":  7.75,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  2,
+    "vendorBaseValue":  63,
+    "allowedAffixes":  [
+                           "str",
+                           "dex",
+                           "crit",
+                           "atk_speed"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "sword",
+                 "gold"
+             ],
+    "description":  "Equipamento de forja (Ouro) com modificadores aleatorios por afixos."
+}

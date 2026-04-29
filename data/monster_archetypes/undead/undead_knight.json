@@ -1,0 +1,40 @@
+{
+  "id": "undead_knight",
+  "name": "Cavaleiro Morto-vivo",
+  "archetype": "Undead",
+  "baseType": "undead_knight",
+  "monsterTypeId": "undead",
+  "family": "undead",
+  "displayName": "Cavaleiro Morto-vivo",
+  "baseAttributes": { "str": 10, "agi": 4, "dex": 5, "vit": 10, "spr": 5 },
+  "growthAttributes": { "str": 3, "dex": 2, "vit": 3, "spr": 1 },
+  "variancePct": 0.12,
+  "tags": ["undead", "armored", "knight"],
+  "questTags": ["undead", "boss"],
+  "onHitStatuses": [
+    {
+      "type": "BLEEDING",
+      "chancePct": 18,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 2,
+      "effectValue": 0.013,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Lamina Maldita"
+    },
+    {
+      "type": "WEAKNESS",
+      "chancePct": 12,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 12,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Juramento Caido"
+    }
+  ],
+  "dropTableId": "undead_high",
+  "lootProfileId": "undead_high",
+  "baseXp": 48,
+  "baseGold": 14
+}

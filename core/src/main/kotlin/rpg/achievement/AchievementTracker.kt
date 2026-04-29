@@ -70,7 +70,7 @@ class AchievementTracker(private val service: AchievementService) {
         victory: Boolean,
         escaped: Boolean,
         isBoss: Boolean,
-        monsterBaseType: String,
+        monsterTypeId: String,
         monsterStars: Int
     ): AchievementUpdate {
         return update(player) { stats ->
@@ -85,7 +85,7 @@ class AchievementTracker(private val service: AchievementService) {
             )
 
             if (victory) {
-                val normalizedBaseType = normalizeBaseType(monsterBaseType)
+                val normalizedBaseType = MonsterTypeMasteryService.normalizeType(monsterTypeId)
                 val starBucket = monsterStars.coerceIn(0, 7)
                 val byBase = incrementStringCounter(next.killsByBaseType, normalizedBaseType, 1L)
                 val byStar = incrementStarCounter(next.killsByStar, starBucket, 1L)
@@ -138,10 +138,6 @@ class AchievementTracker(private val service: AchievementService) {
         return AchievementUpdate(synced.player)
     }
 
-    private fun normalizeBaseType(baseType: String): String {
-        return baseType.trim().lowercase().ifBlank { "unknown" }
-    }
-
     private fun customCounterKey(namespace: String, key: String): String {
         val left = namespace.trim().lowercase().ifBlank { "global" }
         val right = key.trim().lowercase().ifBlank { "counter" }
@@ -170,4 +166,3 @@ class AchievementTracker(private val service: AchievementService) {
         return source + (bucket to next)
     }
 }
-

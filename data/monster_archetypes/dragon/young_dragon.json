@@ -1,0 +1,50 @@
+{
+  "id": "young_dragon",
+  "name": "Dragao Jovem",
+  "archetype": "Dragon",
+  "baseType": "young_dragon",
+  "monsterTypeId": "dragon",
+  "family": "dragon",
+  "displayName": "Dragao Jovem",
+  "baseAttributes": { "str": 18, "agi": 12, "dex": 10, "vit": 20, "int": 10, "spr": 10, "luk": 5 },
+  "growthAttributes": { "str": 4, "agi": 2, "dex": 2, "vit": 4, "int": 2, "spr": 2, "luk": 1 },
+  "variancePct": 0.12,
+  "tags": ["dragon", "ancient", "boss"],
+  "questTags": ["dragon", "boss"],
+  "onHitStatuses": [
+    {
+      "type": "BURNING",
+      "chancePct": 24,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 1,
+      "effectValue": 5.5,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Sopro Calcinante"
+    },
+    {
+      "type": "PARALYZED",
+      "chancePct": 10,
+      "durationSeconds": 3,
+      "tickIntervalSeconds": 1,
+      "effectValue": 14,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Rugido Atordoante"
+    },
+    {
+      "type": "MARKED",
+      "chancePct": 20,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 1,
+      "effectValue": 14,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Olhar Draconico"
+    }
+  ],
+  "dropTableId": "undead_ancient",
+  "lootProfileId": "undead_ancient",
+  "baseXp": 98,
+  "baseGold": 42
+}

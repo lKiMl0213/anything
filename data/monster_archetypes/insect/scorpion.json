@@ -1,0 +1,40 @@
+{
+  "id": "scorpion",
+  "name": "Escorpiao",
+  "archetype": "Insect",
+  "baseType": "scorpion",
+  "monsterTypeId": "insect",
+  "family": "insect",
+  "displayName": "Escorpiao",
+  "baseAttributes": { "str": 7, "agi": 7, "dex": 7, "vit": 8, "spr": 3 },
+  "growthAttributes": { "str": 2, "agi": 2, "dex": 2, "vit": 2 },
+  "variancePct": 0.15,
+  "tags": ["insect", "poison", "stinger"],
+  "questTags": ["insect", "poison"],
+  "onHitStatuses": [
+    {
+      "type": "POISONED",
+      "chancePct": 20,
+      "durationSeconds": 7,
+      "tickIntervalSeconds": 2,
+      "effectValue": 4.5,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Ferrão Nocivo"
+    },
+    {
+      "type": "PARALYZED",
+      "chancePct": 10,
+      "durationSeconds": 3,
+      "tickIntervalSeconds": 1,
+      "effectValue": 12,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Neurotoxina"
+    }
+  ],
+  "dropTableId": "beast_low",
+  "lootProfileId": "beast_low",
+  "baseXp": 38,
+  "baseGold": 10
+}

@@ -1,10 +1,19 @@
 {
   "id": "tier1",
   "minLevel": 1,
-  "recommendedLevel": 3,
-  "baseMonsterLevel": 1,
-  "difficultyMultiplier": 1.0,
-  "allowedMonsterTemplates": ["slime", "skeleton_warrior"],
+  "recommendedLevel": 4,
+  "baseMonsterLevel": 2,
+  "difficultyMultiplier": 1.05,
+  "allowedMonsterTemplates": [
+    "common_slime",
+    "green_slime",
+    "poison_slime",
+    "wolf",
+    "boar",
+    "rat",
+    "skeleton_warrior",
+    "zombie"
+  ],
   "dropTier": 1,
   "dropChanceMultiplier": 1.0,
   "xpMultiplier": 1.0,

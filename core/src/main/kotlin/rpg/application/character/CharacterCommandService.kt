@@ -9,6 +9,14 @@ class CharacterCommandService(
         return support.allocateAttributePoint(state, attributeCode)
     }
 
+    fun allocateAttributePoints(state: GameState, attributeCode: String, amount: Int): CharacterMutationResult {
+        return support.allocateAttributePoints(state, attributeCode, amount)
+    }
+
+    fun applyAttributes(state: GameState, targetValues: Map<String, Int>): CharacterMutationResult {
+        return support.applyAttributes(state, targetValues)
+    }
+
     fun rankUpTalentNode(state: GameState, treeId: String, nodeId: String): CharacterMutationResult {
         return support.rankUpTalentNode(state, treeId, nodeId)
     }

@@ -30,6 +30,7 @@ internal data class CombatActor(
     var pendingAfterResolve: (() -> Unit)? = null,
     var preferMagic: Boolean? = null,
     var speedBonusPct: Double = 0.0,
+    val monsterTypeDamageBonusPct: Map<String, Double> = emptyMap(),
     var onHitStatuses: List<CombatStatusApplyDef> = emptyList(),
     val talentModifiers: TalentCombatModifiers = TalentCombatModifiers()
 )

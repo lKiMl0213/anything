@@ -1,0 +1,30 @@
+{
+  "id": "wolf",
+  "name": "Lobo",
+  "archetype": "Beast",
+  "baseType": "wolf",
+  "monsterTypeId": "beast",
+  "family": "beast",
+  "displayName": "Lobo",
+  "baseAttributes": { "str": 6, "agi": 8, "dex": 7, "vit": 6, "luk": 2 },
+  "growthAttributes": { "str": 2, "agi": 3, "dex": 2, "vit": 1 },
+  "variancePct": 0.16,
+  "tags": ["beast", "predator", "pack"],
+  "questTags": ["beast", "wolf"],
+  "onHitStatuses": [
+    {
+      "type": "BLEEDING",
+      "chancePct": 18,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 0.01,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Mordida Rasgante"
+    }
+  ],
+  "dropTableId": "wolf_beast",
+  "lootProfileId": "wolf_beast",
+  "baseXp": 26,
+  "baseGold": 7
+}

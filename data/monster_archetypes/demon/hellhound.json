@@ -1,0 +1,40 @@
+{
+  "id": "hellhound",
+  "name": "Cao Infernal",
+  "archetype": "Demon",
+  "baseType": "hellhound",
+  "monsterTypeId": "demon",
+  "family": "demon",
+  "displayName": "Cao Infernal",
+  "baseAttributes": { "str": 10, "agi": 9, "dex": 8, "vit": 9, "spr": 5 },
+  "growthAttributes": { "str": 3, "agi": 2, "dex": 2, "vit": 2, "spr": 1 },
+  "variancePct": 0.15,
+  "tags": ["demon", "beast", "fire", "predator"],
+  "questTags": ["demon", "beast"],
+  "onHitStatuses": [
+    {
+      "type": "BURNING",
+      "chancePct": 22,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 4.4,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Mordida de Brasa"
+    },
+    {
+      "type": "BLEEDING",
+      "chancePct": 16,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 0.011,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Garras Infernais"
+    }
+  ],
+  "dropTableId": "elemental_fire",
+  "lootProfileId": "elemental_fire",
+  "baseXp": 50,
+  "baseGold": 17
+}

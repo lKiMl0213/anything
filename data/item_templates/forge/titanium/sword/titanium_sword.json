@@ -1,0 +1,29 @@
+﻿{
+    "id":  "titanium_sword",
+    "name":  "Espada de Titanio",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  12,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  9.12,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  3,
+    "vendorBaseValue":  82,
+    "allowedAffixes":  [
+                           "str",
+                           "crit",
+                           "atk_speed",
+                           "piercing",
+                           "warcry",
+                           "fervor"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "sword",
+                 "titanium"
+             ],
+    "description":  "Equipamento de forja (Titanio) com modificadores aleatorios por afixos."
+}

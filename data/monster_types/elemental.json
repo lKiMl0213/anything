@@ -1,0 +1,16 @@
+{
+  "id": "elemental",
+  "name": "Elemental",
+  "description": "Entidades puras de energia elemental, instaveis e poderosas.",
+  "tags": ["elemental", "arcane", "spirit"],
+  "damageAffinities": {
+    "physical": 0.9,
+    "magic": 1.08,
+    "fire": 0.9,
+    "water": 0.9,
+    "earth": 0.9,
+    "wind": 0.9,
+    "holy": 1.05,
+    "shadow": 1.05
+  }
+}

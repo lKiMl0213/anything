@@ -5,6 +5,7 @@ import rpg.model.EquipSlot
 import rpg.model.ItemInstance
 import rpg.model.ItemType
 import rpg.model.PlayerState
+import rpg.progression.PermanentUpgradeKeys
 import rpg.registry.ItemRegistry
 
 internal object InventoryRuleSupport {
@@ -12,7 +13,9 @@ internal object InventoryRuleSupport {
     private const val slotTagPrefix = "inventory_slots:"
     private const val ammoCapacityPrefix = "ammo_capacity:"
     private const val defaultQuiverCapacity = 30
+    private const val maxQuiverCapacity = 1000
     private const val quiverTag = "quiver"
+    private val quiverUpgradeSteps = listOf(10, 20, 40, 50, 100, 250, 500)
 
     fun inventoryLimit(
         player: PlayerState,
@@ -56,11 +59,14 @@ internal object InventoryRuleSupport {
         if (tags.none { it.trim().equals(quiverTag, ignoreCase = true) }) {
             return 0
         }
-        return tags.firstNotNullOfOrNull { tag ->
+        val baseCapacity = tags.firstNotNullOfOrNull { tag ->
             val normalized = tag.trim().lowercase()
             if (!normalized.startsWith(ammoCapacityPrefix)) return@firstNotNullOfOrNull null
             normalized.removePrefix(ammoCapacityPrefix).toIntOrNull()
         }?.coerceAtLeast(0) ?: defaultQuiverCapacity
+        val upgradeLevel = player.permanentUpgradeLevels[PermanentUpgradeKeys.QUIVER_CAPACITY] ?: 0
+        val upgradeBonus = quiverUpgradeSteps.take(upgradeLevel.coerceAtLeast(0)).sum()
+        return (baseCapacity + upgradeBonus).coerceIn(defaultQuiverCapacity, maxQuiverCapacity)
     }
 
     fun ammoTemplateId(

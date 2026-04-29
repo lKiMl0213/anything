@@ -1,21 +1,32 @@
 {
   "id": "elf",
   "name": "Elfo",
-  "description": "Rapido, tecnico e ofensivo.",
+  "description": "Arqueiro nato, preciso e veloz.",
   "bonuses": {
     "attributes": {
-      "agi": 5,
-      "dex": 3,
-      "int": 2
+      "agi": 7,
+      "dex": 6,
+      "luk": 2,
+      "str": -2,
+      "vit": -2,
+      "int": -1
     },
     "derivedMult": {
-      "accuracy": 5,
-      "moveSpeed": 3
+      "accuracy": 9,
+      "moveSpeed": 6,
+      "critChancePct": 6,
+      "damageMagic": -8
     }
   },
   "growth": {
     "agi": 3,
-    "dex": 2,
-    "int": 1
-  }
+    "dex": 3,
+    "luk": 1
+  },
+  "professionBonusesPct": {
+    "gathering": 7,
+    "fishing": 5
+  },
+  "tradeBuyDiscountPct": 0,
+  "tradeSellBonusPct": 0
 }

@@ -1,0 +1,26 @@
+﻿{
+    "id":  "silver_boots",
+    "name":  "Botas de Prata",
+    "type":  "EQUIPMENT",
+    "slot":  "BOOTS",
+    "minLevel":  7,
+    "rarity":  "RARE",
+    "maxRarity":  "RARE",
+    "baseScaling":  4.34,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  2,
+    "vendorBaseValue":  26,
+    "allowedAffixes":  [
+                           "agi",
+                           "evasion",
+                           "recovery",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "boots",
+                 "silver"
+             ],
+    "description":  "Equipamento de forja (Prata) com modificadores aleatorios por afixos."
+}

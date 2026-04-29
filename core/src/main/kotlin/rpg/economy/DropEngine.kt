@@ -80,8 +80,10 @@ class DropEngine(
         val rare = registryEntry.rarity >= ItemRarity.RARE || rolledRarity >= ItemRarity.RARE
 
         return if (registryEntry.template != null) {
-            val item = itemEngine.generateFromTemplate(registryEntry.template, monster.level, rolledRarity)
-            DropOutcome(itemInstance = item, quantity = 1, rareDropped = rare)
+            val generationLevel = dropGenerationLevel(monster)
+            val generated = itemEngine.generateFromTemplate(registryEntry.template, generationLevel, rolledRarity)
+            val boosted = applyMonsterQualityBoost(generated, monster)
+            DropOutcome(itemInstance = boosted, quantity = 1, rareDropped = rare)
         } else {
             DropOutcome(itemId = registryEntry.id, quantity = qty, rareDropped = rare)
         }
@@ -214,6 +216,48 @@ class DropEngine(
             rarity = ItemRarity.promote(rarity, 1)
         }
         return ItemRarity.clamp(rarity, template.rarity, template.maxRarity)
+    }
+
+    private fun dropGenerationLevel(monster: MonsterInstance): Int {
+        val rarityLevelBonus = (monster.rarity.ordinal + 1) / 2
+        val starLevelBonus = (monster.stars.coerceAtLeast(0)) / 2
+        val totalBonus = (rarityLevelBonus + starLevelBonus).coerceAtMost(8)
+        return (monster.level + totalBonus).coerceAtLeast(1)
+    }
+
+    private fun applyMonsterQualityBoost(
+        item: ItemInstance,
+        monster: MonsterInstance
+    ): ItemInstance {
+        val bonusBudget = (monster.rarity.ordinal * 2 + monster.stars).coerceAtLeast(0)
+        if (bonusBudget <= 0) return item
+        val triggerChance = (18.0 + monster.stars * 4.5 + monster.rarity.ordinal * 7.0).coerceIn(0.0, 85.0)
+        if (rng.nextDouble(0.0, 100.0) > triggerChance) return item
+
+        val qualityBonus = rng.nextInt(1, bonusBudget + 1).coerceAtMost(20)
+        val newQuality = (item.qualityRollPct + qualityBonus).coerceAtMost(150)
+        if (newQuality <= item.qualityRollPct) return item
+
+        val powerBonus = ((newQuality - item.qualityRollPct) * (0.35 + monster.rarity.ordinal * 0.08))
+            .roundToInt()
+            .coerceAtLeast(1)
+        val valueBonus = (
+            item.value * (
+                (newQuality - item.qualityRollPct).coerceAtLeast(1) / 100.0
+            )
+        ).roundToInt().coerceAtLeast(1)
+        val qualityNote = "Qualidade refinada por alvo raro (+$qualityBonus%)."
+        val updatedDescription = if (item.description.isBlank()) {
+            qualityNote
+        } else {
+            "${item.description} | $qualityNote"
+        }
+        return item.copy(
+            qualityRollPct = newQuality,
+            powerScore = (item.powerScore + powerBonus).coerceAtLeast(1),
+            value = (item.value + valueBonus).coerceAtLeast(1),
+            description = updatedDescription
+        )
     }
 
     private fun monsterTagSet(monster: MonsterInstance): Set<String> {

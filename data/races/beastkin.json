@@ -1,0 +1,37 @@
+{
+  "id": "beastkin",
+  "name": "Bestial",
+  "description": "Cacador veloz, com combate fisico agil e alta esquiva.",
+  "bonuses": {
+    "attributes": {
+      "agi": 6,
+      "dex": 4,
+      "str": 3,
+      "vit": 3,
+      "luk": 2,
+      "int": -1
+    },
+    "derivedAdd": {
+      "damagePhysical": 4
+    },
+    "derivedMult": {
+      "attackSpeed": 8,
+      "moveSpeed": 6,
+      "evasion": 7
+    }
+  },
+  "growth": {
+    "agi": 3,
+    "dex": 2,
+    "str": 1,
+    "vit": 1
+  },
+  "professionBonusesPct": {
+    "gathering": 6,
+    "fishing": 4,
+    "hunting": 5
+  },
+  "tradeBuyDiscountPct": 0,
+  "tradeSellBonusPct": 0
+}
+

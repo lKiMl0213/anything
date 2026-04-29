@@ -26,6 +26,28 @@ internal class CombatStatusProcessor(
         return applyMonsterAffinityToStatusTick(actor, rawTick)
     }
 
+    fun applyActionDot(actor: CombatActor): rpg.status.StatusActionDotResult {
+        if (actor.currentHp <= 0.0 || actor.runtime.state == CombatState.DEAD) {
+            return rpg.status.StatusActionDotResult(totalDamage = 0.0, events = emptyList())
+        }
+        val raw = StatusSystem.actionDot(
+            current = actor.runtime.statuses,
+            targetMaxHp = actor.stats.derived.hpMax
+        )
+        val adjusted = applyMonsterAffinityToActionDot(actor, raw)
+        if (adjusted.totalDamage <= 0.0) return adjusted
+
+        actor.currentHp = (actor.currentHp - adjusted.totalDamage).coerceAtLeast(0.0)
+        if (actor.currentHp <= 0.0) {
+            actor.runtime = actor.runtime.copy(
+                state = CombatState.DEAD,
+                readySinceSeconds = null
+            )
+        }
+        emitActionDotMessages(actor, adjusted)
+        return adjusted
+    }
+
     fun directDamageAffinityMultiplier(
         defender: CombatActor,
         type: rpg.engine.DamageType
@@ -253,16 +275,22 @@ internal class CombatStatusProcessor(
         logBuilder.combatLog(logBuilder.colorize("Cast interrompido: $subject.", CombatLogBuilder.ansiYellow))
     }
 
-    fun emitStatusTickMessages(actor: CombatActor, tick: rpg.status.StatusTickResult) {
+    fun emitStatusTickMessages(
+        actor: CombatActor,
+        tick: rpg.status.StatusTickResult,
+        includeDamage: Boolean = true
+    ) {
         val subject = logBuilder.subjectLabel(actor)
-        for (event in tick.damageEvents) {
-            val sourceSuffix = if (event.source.isBlank()) "" else " (${event.source})"
-            logBuilder.combatLog(
-                logBuilder.colorize(
-                    "$subject esta ${StatusSystem.statusAdjective(event.type)}$sourceSuffix. Sofreu ${logBuilder.format(event.damage)} de dano.",
-                    CombatLogBuilder.ansiYellow
+        if (includeDamage) {
+            for (event in tick.damageEvents) {
+                val sourceSuffix = if (event.source.isBlank()) "" else " (${event.source})"
+                logBuilder.combatLog(
+                    logBuilder.colorize(
+                        "$subject esta ${StatusSystem.statusAdjective(event.type)}$sourceSuffix. Sofreu ${logBuilder.format(event.damage)} de dano.",
+                        CombatLogBuilder.ansiYellow
+                    )
                 )
-            )
+            }
         }
         for (event in tick.expiredEvents) {
             logBuilder.combatLog(
@@ -311,6 +339,45 @@ internal class CombatStatusProcessor(
             dotDamage = totalDamage,
             damageEvents = adjustedEvents
         )
+    }
+
+    private fun applyMonsterAffinityToActionDot(
+        actor: CombatActor,
+        dot: rpg.status.StatusActionDotResult
+    ): rpg.status.StatusActionDotResult {
+        if (dot.events.isEmpty()) return dot
+        if (actor.kind != CombatantKind.MONSTER) return dot
+        if (monsterAffinityService == null) return dot
+
+        val adjustedEvents = dot.events.map { event ->
+            val channel = DamageChannel.fromStatusType(event.type)
+            val multiplier = if (channel == null) {
+                1.0
+            } else {
+                resolveMonsterAffinityMultiplier(actor, channel)
+            }
+            event.copy(damage = (event.damage * multiplier).coerceAtLeast(0.0))
+        }
+        val totalDamage = adjustedEvents.sumOf { it.damage }
+        return dot.copy(totalDamage = totalDamage, events = adjustedEvents)
+    }
+
+    private fun emitActionDotMessages(
+        actor: CombatActor,
+        dot: rpg.status.StatusActionDotResult
+    ) {
+        if (dot.events.isEmpty()) return
+        val subject = logBuilder.subjectLabel(actor)
+        for (event in dot.events) {
+            val stackLabel = if (event.stacks == 1) "Stack" else "Stacks"
+            val sourceSuffix = if (event.source.isBlank()) "" else " (${event.source})"
+            logBuilder.combatLog(
+                logBuilder.colorize(
+                    "(${event.stacks} $stackLabel): $subject esta ${StatusSystem.statusAdjective(event.type)}$sourceSuffix! Sofreu ${logBuilder.format(event.damage)} de dano.",
+                    CombatLogBuilder.ansiRed
+                )
+            )
+        }
     }
 
     private fun resolveMonsterAffinityMultiplier(

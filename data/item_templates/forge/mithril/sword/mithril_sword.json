@@ -1,0 +1,29 @@
+﻿{
+    "id":  "mithril_sword",
+    "name":  "Espada de Mithril",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  14,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  10.03,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  3,
+    "vendorBaseValue":  95,
+    "allowedAffixes":  [
+                           "str",
+                           "crit",
+                           "atk_speed",
+                           "piercing",
+                           "warcry",
+                           "fervor"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "sword",
+                 "mithril"
+             ],
+    "description":  "Equipamento de forja (Mithril) com modificadores aleatorios por afixos."
+}

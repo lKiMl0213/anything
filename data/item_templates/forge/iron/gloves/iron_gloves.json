@@ -1,0 +1,26 @@
+﻿{
+    "id":  "iron_gloves",
+    "name":  "Luvas de Ferro",
+    "type":  "EQUIPMENT",
+    "slot":  "GLOVES",
+    "minLevel":  4,
+    "rarity":  "COMMON",
+    "maxRarity":  "COMMON",
+    "baseScaling":  3.3,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  1,
+    "vendorBaseValue":  17,
+    "allowedAffixes":  [
+                           "atk_speed",
+                           "dex",
+                           "precision",
+                           "str"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "gloves",
+                 "iron"
+             ],
+    "description":  "Equipamento de forja (Ferro) com modificadores aleatorios por afixos."
+}

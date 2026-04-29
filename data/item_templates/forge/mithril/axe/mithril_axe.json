@@ -1,0 +1,29 @@
+﻿{
+    "id":  "mithril_axe",
+    "name":  "Machado de Mithril",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  14,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  10.74,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  3,
+    "vendorBaseValue":  99,
+    "allowedAffixes":  [
+                           "str",
+                           "crit",
+                           "warcry",
+                           "piercing",
+                           "vampiric",
+                           "fervor"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "axe",
+                 "mithril"
+             ],
+    "description":  "Equipamento de forja (Mithril) com modificadores aleatorios por afixos."
+}

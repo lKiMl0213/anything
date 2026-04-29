@@ -12,7 +12,7 @@ class InventoryActionDispatcher(
 ) {
     fun handle(session: GameSession, action: GameAction): GameActionResult? {
         return when (action) {
-            GameAction.OpenInventory -> move(session, NavigationState.Inventory)
+            GameAction.OpenInventory -> openInventory(session)
             GameAction.OpenEquipped -> move(session, NavigationState.Equipped)
             GameAction.OpenInventoryFilters -> move(session, NavigationState.InventoryFilters)
             GameAction.OpenQuiver -> move(session, NavigationState.Quiver)
@@ -114,6 +114,27 @@ class InventoryActionDispatcher(
 
             else -> null
         }
+    }
+
+    private fun openInventory(session: GameSession): GameActionResult {
+        val state = session.gameState
+            ?: return GameActionResult(session.copy(messages = listOf("Nenhum jogo carregado.")))
+        val returnNavigation = if (
+            session.navigation == NavigationState.Exploration &&
+            state.currentRun != null
+        ) {
+            NavigationState.Exploration
+        } else {
+            null
+        }
+        return GameActionResult(
+            session = session.copy(
+                gameState = stateSupport.normalize(state),
+                navigation = NavigationState.Inventory,
+                inventoryReturnNavigation = returnNavigation,
+                messages = emptyList()
+            )
+        )
     }
 
     private fun move(session: GameSession, destination: NavigationState): GameActionResult {

@@ -1,0 +1,35 @@
+{
+  "id": "orc",
+  "name": "Orc",
+  "description": "Frontline agressivo com dano fisico bruto e resistencia marcial.",
+  "bonuses": {
+    "attributes": {
+      "str": 8,
+      "vit": 5,
+      "dex": 1,
+      "agi": -2,
+      "int": -3,
+      "spr": -1
+    },
+    "derivedAdd": {
+      "damagePhysical": 10,
+      "hpMax": 28,
+      "defPhysical": 5
+    },
+    "derivedMult": {
+      "critChancePct": 3,
+      "accuracy": -4
+    }
+  },
+  "growth": {
+    "str": 3,
+    "vit": 2,
+    "dex": 1
+  },
+  "professionBonusesPct": {
+    "mining": 6,
+    "blacksmith": 6
+  },
+  "tradeBuyDiscountPct": 0,
+  "tradeSellBonusPct": 0
+}

@@ -1,0 +1,59 @@
+{
+  "id": "ancient_dragon",
+  "name": "Dragao Ancestral",
+  "archetype": "Dragon",
+  "baseType": "ancient_dragon",
+  "monsterTypeId": "dragon",
+  "family": "dragon",
+  "displayName": "Dragao Ancestral",
+  "baseAttributes": { "str": 20, "agi": 10, "dex": 10, "vit": 24, "int": 12, "spr": 10, "luk": 5 },
+  "growthAttributes": { "str": 4, "vit": 4, "agi": 2, "dex": 2, "int": 2, "spr": 2 },
+  "variancePct": 0.1,
+  "tags": ["dragon", "ancient", "boss_like"],
+  "questTags": ["dragon", "ancient"],
+  "onHitStatuses": [
+    {
+      "type": "BURNING",
+      "chancePct": 28,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 2,
+      "effectValue": 7.5,
+      "stackable": true,
+      "maxStacks": 3,
+      "source": "Bafo Ancestral"
+    },
+    {
+      "type": "WEAKNESS",
+      "chancePct": 20,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 12,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Presenca Draconica"
+    },
+    {
+      "type": "MARKED",
+      "chancePct": 16,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 15,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Olhar Soberano"
+    }
+  ],
+  "dropTableId": "undead_ancient",
+  "lootProfileId": "undead_ancient",
+  "baseXp": 120,
+  "baseGold": 40,
+  "damageAffinities": {
+    "physical": 0.82,
+    "magic": 0.9,
+    "fire": 0.5,
+    "ice": 1.35,
+    "holy": 1.2,
+    "bleed": 0.4
+  }
+}
+

@@ -1,0 +1,30 @@
+﻿{
+    "id":  "adamantite_sword",
+    "name":  "Espada de Adamantita",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  18,
+    "rarity":  "LEGENDARY",
+    "maxRarity":  "LEGENDARY",
+    "baseScaling":  12.77,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  4,
+    "vendorBaseValue":  137,
+    "allowedAffixes":  [
+                           "str",
+                           "crit",
+                           "atk_speed",
+                           "piercing",
+                           "warcry",
+                           "fervor",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "sword",
+                 "adamantite"
+             ],
+    "description":  "Equipamento de forja (Adamantita) com modificadores aleatorios por afixos."
+}

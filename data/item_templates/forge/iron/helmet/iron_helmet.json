@@ -1,0 +1,26 @@
+﻿{
+    "id":  "iron_helmet",
+    "name":  "Elmo de Ferro",
+    "type":  "EQUIPMENT",
+    "slot":  "HEAD",
+    "minLevel":  4,
+    "rarity":  "COMMON",
+    "maxRarity":  "COMMON",
+    "baseScaling":  3.6,
+    "baseStat":  "HP_MAX",
+    "dropTier":  1,
+    "vendorBaseValue":  20,
+    "allowedAffixes":  [
+                           "hp",
+                           "def",
+                           "regen",
+                           "warding"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "helmet",
+                 "iron"
+             ],
+    "description":  "Equipamento de forja (Ferro) com modificadores aleatorios por afixos."
+}

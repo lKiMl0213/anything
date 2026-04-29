@@ -1,0 +1,27 @@
+﻿{
+    "id":  "titanium_armor",
+    "name":  "Armadura de Titanio",
+    "type":  "EQUIPMENT",
+    "slot":  "CHEST",
+    "minLevel":  12,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  8,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  3,
+    "vendorBaseValue":  62,
+    "allowedAffixes":  [
+                           "guardian",
+                           "bulwark",
+                           "warding",
+                           "hp",
+                           "def"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "armor",
+                 "titanium"
+             ],
+    "description":  "Equipamento de forja (Titanio) com modificadores aleatorios por afixos."
+}

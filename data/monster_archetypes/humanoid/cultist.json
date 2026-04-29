@@ -1,0 +1,46 @@
+{
+  "id": "cultist",
+  "name": "Cultista",
+  "archetype": "Humanoid",
+  "baseType": "cultist",
+  "monsterTypeId": "humanoid",
+  "family": "humanoid",
+  "displayName": "Cultista",
+  "baseAttributes": { "str": 5, "agi": 5, "dex": 6, "vit": 5, "int": 7, "spr": 6 },
+  "growthAttributes": { "dex": 2, "int": 2, "agi": 1, "vit": 1 },
+  "variancePct": 0.16,
+  "tags": ["humanoid", "cult", "caster"],
+  "questTags": ["humanoid", "cultist"],
+  "onHitStatuses": [
+    {
+      "type": "MARKED",
+      "chancePct": 20,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 12,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Sigilo Profano"
+    },
+    {
+      "type": "WEAKNESS",
+      "chancePct": 14,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 8,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Prece Corrompida"
+    }
+  ],
+  "dropTableId": "bandit_shadow",
+  "lootProfileId": "bandit_shadow",
+  "baseXp": 34,
+  "baseGold": 9,
+  "damageAffinities": {
+    "physical": 1.0,
+    "magic": 0.95,
+    "holy": 1.2,
+    "shadow": 0.85
+  }
+}

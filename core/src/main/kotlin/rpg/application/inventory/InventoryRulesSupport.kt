@@ -138,11 +138,18 @@ class InventoryRulesSupport(
                 equippedId == offhandBlockedId -> "Bloqueado por arma de duas maos"
                 else -> engine.itemResolver.resolve(equippedId, itemInstances)?.let(::itemDisplayLabel) ?: equippedId
             }
+            val slotLabel = if (slotKey == EquipSlot.ALJAVA.name && equippedId != null && equippedId != offhandBlockedId) {
+                val current = rpg.inventory.InventorySystem.quiverAmmoCount(player, itemInstances, engine.itemRegistry)
+                val max = rpg.inventory.InventorySystem.quiverCapacity(player, itemInstances, engine.itemRegistry)
+                "$label | Aljava: $current/$max flechas"
+            } else {
+                label
+            }
             EquippedSlotView(
                 slotKey = slotKey,
                 label = equippedSlotLabel(slotKey),
                 equippedItemId = equippedId?.takeIf { it != offhandBlockedId },
-                displayLabel = label
+                displayLabel = slotLabel
             )
         }
     }

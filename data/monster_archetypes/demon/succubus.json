@@ -1,0 +1,50 @@
+{
+  "id": "succubus",
+  "name": "Sucubo",
+  "archetype": "Demon",
+  "baseType": "succubus",
+  "monsterTypeId": "demon",
+  "family": "demon",
+  "displayName": "Sucubo",
+  "baseAttributes": { "str": 5, "agi": 10, "dex": 9, "vit": 6, "int": 9, "spr": 8, "luk": 4 },
+  "growthAttributes": { "agi": 3, "dex": 2, "int": 3, "spr": 2, "vit": 1 },
+  "variancePct": 0.17,
+  "tags": ["demon", "charm", "caster"],
+  "questTags": ["demon", "caster"],
+  "onHitStatuses": [
+    {
+      "type": "MARKED",
+      "chancePct": 24,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 14,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Encanto Sombrio"
+    },
+    {
+      "type": "WEAKNESS",
+      "chancePct": 18,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Seducao Maldita"
+    },
+    {
+      "type": "PARALYZED",
+      "chancePct": 8,
+      "durationSeconds": 2.5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Transe de Encanto"
+    }
+  ],
+  "dropTableId": "bandit_shadow",
+  "lootProfileId": "bandit_shadow",
+  "baseXp": 52,
+  "baseGold": 18
+}

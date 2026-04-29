@@ -1,0 +1,29 @@
+﻿{
+    "id":  "runic_helmet",
+    "name":  "Elmo de Runica",
+    "type":  "EQUIPMENT",
+    "slot":  "HEAD",
+    "minLevel":  22,
+    "rarity":  "MYTHIC",
+    "maxRarity":  "MYTHIC",
+    "baseScaling":  9,
+    "baseStat":  "HP_MAX",
+    "dropTier":  5,
+    "vendorBaseValue":  97,
+    "allowedAffixes":  [
+                           "guardian",
+                           "warding",
+                           "hp",
+                           "regen",
+                           "def",
+                           "tenacity",
+                           "vampiric"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "helmet",
+                 "runic"
+             ],
+    "description":  "Equipamento de forja (Runica) com modificadores aleatorios por afixos."
+}

@@ -1,0 +1,30 @@
+{
+  "id": "poison_flower",
+  "name": "Flor Venenosa",
+  "archetype": "Plant",
+  "baseType": "poison_flower",
+  "monsterTypeId": "plant",
+  "family": "plant",
+  "displayName": "Flor Venenosa",
+  "baseAttributes": { "str": 5, "agi": 6, "dex": 6, "vit": 7, "int": 5, "spr": 6 },
+  "growthAttributes": { "agi": 2, "dex": 2, "vit": 2, "int": 1, "spr": 1 },
+  "variancePct": 0.15,
+  "tags": ["plant", "poison", "nature"],
+  "questTags": ["plant", "poison"],
+  "onHitStatuses": [
+    {
+      "type": "POISONED",
+      "chancePct": 24,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 2,
+      "effectValue": 4.0,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Pólen Toxico"
+    }
+  ],
+  "dropTableId": "beast_low",
+  "lootProfileId": "beast_low",
+  "baseXp": 35,
+  "baseGold": 10
+}

@@ -1,0 +1,40 @@
+{
+  "id": "wyvern",
+  "name": "Wyvern",
+  "archetype": "Dragon",
+  "baseType": "wyvern",
+  "monsterTypeId": "dragon",
+  "family": "dragon",
+  "displayName": "Wyvern",
+  "baseAttributes": { "str": 14, "agi": 10, "dex": 9, "vit": 14, "int": 7, "spr": 8, "luk": 4 },
+  "growthAttributes": { "str": 3, "agi": 3, "dex": 2, "vit": 3, "int": 1, "spr": 1 },
+  "variancePct": 0.13,
+  "tags": ["dragon", "flying", "venom"],
+  "questTags": ["dragon"],
+  "onHitStatuses": [
+    {
+      "type": "POISONED",
+      "chancePct": 18,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 2,
+      "effectValue": 4.8,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Garra Venenosa"
+    },
+    {
+      "type": "BLEEDING",
+      "chancePct": 16,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 2,
+      "effectValue": 0.013,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Rasgo Alado"
+    }
+  ],
+  "dropTableId": "war_scraps",
+  "lootProfileId": "war_scraps",
+  "baseXp": 76,
+  "baseGold": 30
+}

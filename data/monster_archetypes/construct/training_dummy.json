@@ -1,0 +1,30 @@
+{
+  "id": "training_dummy",
+  "name": "Boneco de Treino",
+  "archetype": "Construct",
+  "baseType": "training_dummy",
+  "monsterTypeId": "construct",
+  "family": "construct",
+  "displayName": "Boneco de Treino",
+  "baseAttributes": { "str": 6, "agi": 3, "dex": 3, "vit": 10, "spr": 3 },
+  "growthAttributes": { "str": 1, "dex": 1, "vit": 3 },
+  "variancePct": 0.12,
+  "tags": ["construct", "training", "wooden"],
+  "questTags": ["construct"],
+  "onHitStatuses": [
+    {
+      "type": "WEAKNESS",
+      "chancePct": 10,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 8,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Impacto Pesado"
+    }
+  ],
+  "dropTableId": "construct_arcane",
+  "lootProfileId": "construct_arcane",
+  "baseXp": 32,
+  "baseGold": 9
+}

@@ -1,0 +1,55 @@
+{
+    "id": "herbalists_touch",
+    "name": "Colheita Abundante",
+    "description": "Chance de coleta de ervas render coleta dobrada.",
+    "effectType": "HERBALISM_DOUBLE_CHANCE",
+    "valueMode": "PERCENT",
+    "enabled": true,
+    "levels": [
+        {
+            "level": 1,
+            "value": 10.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 900 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 35 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 600, "requiredItemId": "medicinal_herb", "requiredItemQty": 6 }
+            ]
+        },
+        {
+            "level": 2,
+            "value": 20.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 1800 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 70 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 1200, "requiredItemId": "medicinal_herb", "requiredItemQty": 10 }
+            ]
+        },
+        {
+            "level": 3,
+            "value": 30.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 3200 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 120 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 2200, "requiredItemId": "medicinal_herb", "requiredItemQty": 14 }
+            ]
+        },
+        {
+            "level": 4,
+            "value": 40.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 5200 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 190 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 3600, "requiredItemId": "golden_flower", "requiredItemQty": 8 }
+            ]
+        },
+        {
+            "level": 5,
+            "value": 50.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 8200 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 280 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 5700, "requiredItemId": "golden_flower", "requiredItemQty": 14 }
+            ]
+        }
+    ]
+}

@@ -2,6 +2,7 @@ package rpg.combat
 
 import kotlin.math.max
 import kotlin.random.Random
+import rpg.achievement.MonsterTypeMasteryService
 import rpg.engine.Combat
 import rpg.engine.ComputedStats
 import rpg.model.Bonuses
@@ -36,13 +37,14 @@ internal class CombatDamageResolver(
                 actionMultiplier *
                 conditionalStatusMultiplier
             ).coerceAtLeast(0.1)
+        val typeCounterMultiplier = monsterTypeDamageMultiplier(attacker, defender)
         val affinityMultiplier = if (result.hit) {
             statusProcessor.directDamageAffinityMultiplier(defender, result.type)
         } else {
             1.0
         }
         val scaledDamage = if (result.hit) {
-            (result.damage * finalMultiplier * affinityMultiplier).coerceAtLeast(1.0)
+            (result.damage * finalMultiplier * affinityMultiplier * typeCounterMultiplier).coerceAtLeast(1.0)
         } else {
             0.0
         }
@@ -68,9 +70,14 @@ internal class CombatDamageResolver(
                     affinityMultiplier <= 0.92 -> " O inimigo resistiu."
                     else -> ""
                 }
+                val typeBonusLabel = if (typeCounterMultiplier > 1.001) {
+                    " Mestre de especie ativo."
+                } else {
+                    ""
+                }
                 logBuilder.combatLog(
                     logBuilder.colorize(
-                        "Voce causou ${logBuilder.format(scaledDamage)} de dano $typeLabel$abilityLabel.$critLabel$affinityLabel",
+                        "Voce causou ${logBuilder.format(scaledDamage)} de dano $typeLabel$abilityLabel.$critLabel$affinityLabel$typeBonusLabel",
                         CombatLogBuilder.ansiCyan
                     )
                 )
@@ -247,5 +254,13 @@ internal class CombatDamageResolver(
         val attributes = stats.attributes + bonuses.attributes
         val derived = (stats.derived + bonuses.derivedAdd).applyMultiplier(bonuses.derivedMult)
         return ComputedStats(attributes = attributes, derived = derived)
+    }
+
+    private fun monsterTypeDamageMultiplier(attacker: CombatActor, defender: CombatActor): Double {
+        if (attacker.kind != CombatantKind.PLAYER || defender.kind != CombatantKind.MONSTER) return 1.0
+        if (attacker.monsterTypeDamageBonusPct.isEmpty()) return 1.0
+        val typeId = MonsterTypeMasteryService.normalizeType(defender.monsterTypeId)
+        val bonusPct = attacker.monsterTypeDamageBonusPct[typeId]?.coerceIn(0.0, 10.0) ?: 0.0
+        return 1.0 + (bonusPct / 100.0)
     }
 }

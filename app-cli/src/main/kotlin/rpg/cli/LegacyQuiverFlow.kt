@@ -1,6 +1,8 @@
+// TODO-REMOVE-LEGACY: fluxo antigo isolado; remover após substituição modular completa.
 package rpg.cli
 
 import rpg.cli.model.*
+import rpg.classsystem.RaceBonusSupport
 import rpg.engine.GameEngine
 import rpg.inventory.InventorySystem
 import rpg.model.EquipSlot
@@ -191,12 +193,15 @@ internal class LegacyQuiverFlow(
                 sellReserveOption -> {
                     val stack = chooseAmmoStack(reserveStacks, "Vender da reserva")
                     val qty = chooseSellQuantity(stack.quantity)
-                    val saleValue = engine.economyEngine.sellValue(
+                    val baseSaleValue = engine.economyEngine.sellValue(
                         itemValue = stack.item.value,
                         rarity = stack.item.rarity,
                         type = stack.item.type,
                         tags = stack.item.tags
                     )
+                    val raceDef = runCatching { engine.classSystem.raceDef(updatedPlayer.raceId) }.getOrNull()
+                    val raceBonusPct = RaceBonusSupport.tradeSellBonusPct(raceDef)
+                    val saleValue = RaceBonusSupport.applyTradeSellBonus(baseSaleValue, raceBonusPct)
                     val result = sellInventoryItem(
                         updatedPlayer,
                         updatedInstances,
@@ -211,12 +216,15 @@ internal class LegacyQuiverFlow(
                 sellLoadedOption -> {
                     val stack = chooseAmmoStack(quiverStacks, "Vender da aljava")
                     val qty = chooseSellQuantity(stack.quantity)
-                    val saleValue = engine.economyEngine.sellValue(
+                    val baseSaleValue = engine.economyEngine.sellValue(
                         itemValue = stack.item.value,
                         rarity = stack.item.rarity,
                         type = stack.item.type,
                         tags = stack.item.tags
                     )
+                    val raceDef = runCatching { engine.classSystem.raceDef(updatedPlayer.raceId) }.getOrNull()
+                    val raceBonusPct = RaceBonusSupport.tradeSellBonusPct(raceDef)
+                    val saleValue = RaceBonusSupport.applyTradeSellBonus(baseSaleValue, raceBonusPct)
                     val result = sellQuiverAmmo(
                         updatedPlayer,
                         updatedInstances,

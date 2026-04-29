@@ -1,14 +1,15 @@
 {
   "id": "humanoid",
   "name": "Humanoid",
-  "description": "Criaturas humanoides com resistencia equilibrada.",
-  "tags": ["humanoid", "thief", "city"],
+  "description": "Criaturas humanoides adaptaveis e taticas, sem resistencia extrema.",
+  "tags": ["humanoid", "tactical", "city"],
   "damageAffinities": {
     "physical": 1.0,
-    "magic": 0.95,
-    "shadow": 0.7,
-    "holy": 1.3,
-    "fire": 0.9
+    "magic": 1.0,
+    "fire": 1.0,
+    "holy": 1.0,
+    "shadow": 1.0,
+    "bleed": 1.05
   }
 }
 

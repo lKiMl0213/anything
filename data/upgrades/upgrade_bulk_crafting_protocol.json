@@ -1,0 +1,55 @@
+{
+    "id": "bulk_crafting_protocol",
+    "name": "Linha de Producao",
+    "description": "Aumenta o limite de itens por rodada de craft. Base inicial: 10.",
+    "effectType": "CRAFT_BATCH_BONUS",
+    "valueMode": "FLAT",
+    "enabled": true,
+    "levels": [
+        {
+            "level": 1,
+            "value": 10.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 1400 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 50 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 950, "requiredItemId": "iron_bar", "requiredItemQty": 4 }
+            ]
+        },
+        {
+            "level": 2,
+            "value": 20.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 3000 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 95 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 2100, "requiredItemId": "iron_bar", "requiredItemQty": 8 }
+            ]
+        },
+        {
+            "level": 3,
+            "value": 30.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 5200 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 160 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 3600, "requiredItemId": "reinforced_alloy", "requiredItemQty": 5 }
+            ]
+        },
+        {
+            "level": 4,
+            "value": 40.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 8400 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 255 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 5900, "requiredItemId": "reinforced_alloy", "requiredItemQty": 8 }
+            ]
+        },
+        {
+            "level": 5,
+            "value": 50.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 12500 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 360 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 9000, "requiredItemId": "reinforced_alloy", "requiredItemQty": 12 }
+            ]
+        }
+    ]
+}

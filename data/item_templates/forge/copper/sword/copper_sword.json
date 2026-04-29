@@ -1,0 +1,27 @@
+﻿{
+    "id":  "copper_sword",
+    "name":  "Espada de Cobre",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  2,
+    "rarity":  "COMMON",
+    "maxRarity":  "COMMON",
+    "baseScaling":  4.79,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  1,
+    "vendorBaseValue":  29,
+    "allowedAffixes":  [
+                           "str",
+                           "dex",
+                           "crit",
+                           "atk_speed"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "sword",
+                 "copper"
+             ],
+    "description":  "Equipamento de forja (Cobre) com modificadores aleatorios por afixos."
+}

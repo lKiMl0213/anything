@@ -1,0 +1,28 @@
+﻿{
+    "id":  "adamantite_armor",
+    "name":  "Armadura de Adamantita",
+    "type":  "EQUIPMENT",
+    "slot":  "CHEST",
+    "minLevel":  18,
+    "rarity":  "LEGENDARY",
+    "maxRarity":  "LEGENDARY",
+    "baseScaling":  11.2,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  4,
+    "vendorBaseValue":  104,
+    "allowedAffixes":  [
+                           "guardian",
+                           "bulwark",
+                           "warding",
+                           "hp",
+                           "def",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "armor",
+                 "adamantite"
+             ],
+    "description":  "Equipamento de forja (Adamantita) com modificadores aleatorios por afixos."
+}

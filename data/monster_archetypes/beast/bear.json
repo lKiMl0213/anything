@@ -1,0 +1,40 @@
+{
+  "id": "bear",
+  "name": "Urso",
+  "archetype": "Beast",
+  "baseType": "bear",
+  "monsterTypeId": "beast",
+  "family": "beast",
+  "displayName": "Urso",
+  "baseAttributes": { "str": 10, "agi": 3, "dex": 4, "vit": 11, "spr": 4 },
+  "growthAttributes": { "str": 3, "vit": 3, "dex": 1, "spr": 1 },
+  "variancePct": 0.12,
+  "tags": ["beast", "apex", "wild"],
+  "questTags": ["beast"],
+  "onHitStatuses": [
+    {
+      "type": "BLEEDING",
+      "chancePct": 16,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 2,
+      "effectValue": 0.012,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Garra Profunda"
+    },
+    {
+      "type": "SLOW",
+      "chancePct": 12,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 9,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Pisao"
+    }
+  ],
+  "dropTableId": "wolf_beast",
+  "lootProfileId": "wolf_beast",
+  "baseXp": 40,
+  "baseGold": 12
+}

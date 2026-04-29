@@ -8,7 +8,7 @@ class CityCommandService(
     private val support: CityRulesSupport
 ) {
     fun rest(state: GameState): CityMutationResult {
-        val pricing = support.tavernPricing(state.player)
+        val pricing = support.tavernPricing(state.player, state.itemInstances)
         if (state.player.gold < pricing.restCost) {
             return CityMutationResult(state, listOf("Ouro insuficiente."))
         }
@@ -22,7 +22,7 @@ class CityCommandService(
     }
 
     fun sleep(state: GameState): CityMutationResult {
-        val pricing = support.tavernPricing(state.player)
+        val pricing = support.tavernPricing(state.player, state.itemInstances)
         if (state.player.gold < pricing.sleepCost) {
             return CityMutationResult(state, listOf("Ouro insuficiente."))
         }
@@ -40,7 +40,7 @@ class CityCommandService(
     }
 
     fun purifyOne(state: GameState): CityMutationResult {
-        val pricing = support.tavernPricing(state.player)
+        val pricing = support.tavernPricing(state.player, state.itemInstances)
         if (state.player.deathDebuffStacks <= 0) {
             return CityMutationResult(state, listOf("Nenhum debuff ativo."))
         }
@@ -57,7 +57,7 @@ class CityCommandService(
     }
 
     fun purifyAll(state: GameState): CityMutationResult {
-        val pricing = support.tavernPricing(state.player)
+        val pricing = support.tavernPricing(state.player, state.itemInstances)
         if (state.player.deathDebuffStacks <= 0) {
             return CityMutationResult(state, listOf("Nenhum debuff ativo."))
         }

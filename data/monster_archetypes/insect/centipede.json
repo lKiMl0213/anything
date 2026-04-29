@@ -1,0 +1,46 @@
+{
+  "id": "centipede",
+  "name": "Lacraia",
+  "archetype": "Insect",
+  "baseType": "centipede",
+  "monsterTypeId": "insect",
+  "family": "insect",
+  "displayName": "Lacraia Gigante",
+  "baseAttributes": { "str": 5, "agi": 7, "dex": 6, "vit": 5, "spr": 3 },
+  "growthAttributes": { "agi": 2, "dex": 2, "str": 1, "vit": 1 },
+  "variancePct": 0.17,
+  "tags": ["insect", "venom", "swift"],
+  "questTags": ["insect", "centipede"],
+  "onHitStatuses": [
+    {
+      "type": "POISONED",
+      "chancePct": 22,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 2,
+      "effectValue": 4.2,
+      "stackable": true,
+      "maxStacks": 3,
+      "source": "Mordida Venenosa"
+    },
+    {
+      "type": "PARALYZED",
+      "chancePct": 7,
+      "durationSeconds": 2,
+      "tickIntervalSeconds": 1,
+      "effectValue": 8,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Espasmo Neurotoxico"
+    }
+  ],
+  "dropTableId": "beast_low",
+  "lootProfileId": "beast_low",
+  "baseXp": 32,
+  "baseGold": 9,
+  "damageAffinities": {
+    "physical": 1.0,
+    "magic": 1.05,
+    "fire": 1.2,
+    "poison": 0.75
+  }
+}

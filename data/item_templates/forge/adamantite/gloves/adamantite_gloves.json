@@ -1,0 +1,28 @@
+﻿{
+    "id":  "adamantite_gloves",
+    "name":  "Luvas de Adamantita",
+    "type":  "EQUIPMENT",
+    "slot":  "GLOVES",
+    "minLevel":  18,
+    "rarity":  "LEGENDARY",
+    "maxRarity":  "LEGENDARY",
+    "baseScaling":  7.39,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  4,
+    "vendorBaseValue":  64,
+    "allowedAffixes":  [
+                           "atk_speed",
+                           "precision",
+                           "fervor",
+                           "crit",
+                           "str",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "gloves",
+                 "adamantite"
+             ],
+    "description":  "Equipamento de forja (Adamantita) com modificadores aleatorios por afixos."
+}

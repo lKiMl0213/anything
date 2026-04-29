@@ -34,15 +34,7 @@ internal class CombatTurnResolver(
             if (actor.runtime.state == CombatState.DEAD) return@forEach
 
             val tick = statusProcessor.tickStatus(actor, deltaTime)
-            if (tick.dotDamage > 0.0) {
-                actor.currentHp = (actor.currentHp - tick.dotDamage).coerceAtLeast(0.0)
-                if (actor.kind == CombatantKind.PLAYER) {
-                    telemetry.playerDamageTaken += tick.dotDamage
-                } else {
-                    telemetry.playerDamageDealt += tick.dotDamage
-                }
-            }
-            statusProcessor.emitStatusTickMessages(actor, tick)
+            statusProcessor.emitStatusTickMessages(actor, tick, includeDamage = false)
 
             if (actor.currentHp <= 0.0) {
                 actor.currentHp = 0.0

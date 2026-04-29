@@ -1,6 +1,7 @@
 package rpg.application.inventory
 
 import rpg.achievement.AchievementTracker
+import rpg.classsystem.RaceBonusSupport
 import rpg.classquest.ClassQuestTagRules
 import rpg.engine.GameEngine
 import rpg.inventory.InventorySystem
@@ -129,12 +130,18 @@ class InventoryCommandService(
     fun sellInventoryItem(state: GameState, itemId: String): InventoryMutationResult {
         val item = engine.itemResolver.resolve(itemId, state.itemInstances)
             ?: return InventoryMutationResult(state, listOf("Item nao encontrado."))
-        val saleValue = ClassQuestTagRules.forcedSellValue(item.tags) ?: engine.economyEngine.sellValue(
-            itemValue = item.value,
-            rarity = item.rarity,
-            type = item.type,
-            tags = item.tags
-        )
+        val forcedSaleValue = ClassQuestTagRules.forcedSellValue(item.tags)
+        val saleValue = if (forcedSaleValue != null) {
+            forcedSaleValue
+        } else {
+            val baseSaleValue = engine.economyEngine.sellValue(
+                itemValue = item.value,
+                rarity = item.rarity,
+                type = item.type,
+                tags = item.tags
+            )
+            applyRaceSellBonus(state.player, baseSaleValue)
+        }
         val inventory = state.player.inventory.toMutableList()
         if (!inventory.remove(itemId)) {
             return InventoryMutationResult(state, listOf("Item nao esta no inventario."))
@@ -223,12 +230,13 @@ class InventoryCommandService(
     fun sellLoadedAmmo(state: GameState, itemId: String): InventoryMutationResult {
         val item = engine.itemResolver.resolve(itemId, state.itemInstances)
             ?: return InventoryMutationResult(state, listOf("Municao nao encontrada."))
-        val saleValue = engine.economyEngine.sellValue(
+        val baseSaleValue = engine.economyEngine.sellValue(
             itemValue = item.value,
             rarity = item.rarity,
             type = item.type,
             tags = item.tags
         )
+        val saleValue = applyRaceSellBonus(state.player, baseSaleValue)
         val quiverInventory = state.player.quiverInventory.toMutableList()
         if (!quiverInventory.remove(itemId)) {
             return InventoryMutationResult(state, listOf("Essa flecha nao esta carregada."))
@@ -335,5 +343,11 @@ class InventoryCommandService(
         equipped[offKey] = item.id
         inventory.remove(item.id)
         return support.normalizePlayerStorage(player.copy(equipped = equipped, inventory = inventory), itemInstances)
+    }
+
+    private fun applyRaceSellBonus(player: PlayerState, baseSaleValue: Int): Int {
+        val raceDef = runCatching { engine.classSystem.raceDef(player.raceId) }.getOrNull()
+        val bonusPct = RaceBonusSupport.tradeSellBonusPct(raceDef)
+        return RaceBonusSupport.applyTradeSellBonus(baseSaleValue, bonusPct)
     }
 }

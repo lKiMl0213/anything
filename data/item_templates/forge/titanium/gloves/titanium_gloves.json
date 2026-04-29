@@ -1,0 +1,27 @@
+﻿{
+    "id":  "titanium_gloves",
+    "name":  "Luvas de Titanio",
+    "type":  "EQUIPMENT",
+    "slot":  "GLOVES",
+    "minLevel":  12,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  5.28,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  3,
+    "vendorBaseValue":  38,
+    "allowedAffixes":  [
+                           "atk_speed",
+                           "precision",
+                           "fervor",
+                           "crit",
+                           "str"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "gloves",
+                 "titanium"
+             ],
+    "description":  "Equipamento de forja (Titanio) com modificadores aleatorios por afixos."
+}

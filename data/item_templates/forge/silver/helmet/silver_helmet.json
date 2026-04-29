@@ -1,0 +1,26 @@
+﻿{
+    "id":  "silver_helmet",
+    "name":  "Elmo de Prata",
+    "type":  "EQUIPMENT",
+    "slot":  "HEAD",
+    "minLevel":  7,
+    "rarity":  "RARE",
+    "maxRarity":  "RARE",
+    "baseScaling":  4.46,
+    "baseStat":  "HP_MAX",
+    "dropTier":  2,
+    "vendorBaseValue":  29,
+    "allowedAffixes":  [
+                           "hp",
+                           "def",
+                           "regen",
+                           "warding"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "helmet",
+                 "silver"
+             ],
+    "description":  "Equipamento de forja (Prata) com modificadores aleatorios por afixos."
+}

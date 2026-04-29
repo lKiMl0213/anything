@@ -7,7 +7,6 @@ import rpg.model.Attributes
 import rpg.model.Bonuses
 import rpg.model.DerivedStats
 import rpg.model.PlayerState
-import rpg.scaling.SoftCapEngine
 import rpg.io.DataRepository
 import rpg.registry.ItemRegistry
 
@@ -41,14 +40,14 @@ class StatsEngine(private val repo: DataRepository, private val itemRegistry: It
         val totalMultiplier = (deathMultiplier * roomMultiplier * player.runAttrMultiplier).coerceAtLeast(0.1)
 
         val totalBonus = bonuses.fold(Bonuses()) { acc, next -> acc + next }
-        val rawAttributes = (player.baseAttributes + totalBonus.attributes).scale(totalMultiplier)
-        val cappedAttributes = SoftCapEngine.apply(rawAttributes, player.level)
+        // Alocacao de atributo permanece linear: 1 ponto investido = +1 atributo efetivo.
+        val effectiveAttributes = (player.baseAttributes + totalBonus.attributes).scale(totalMultiplier)
 
-        val baseDerived = StatsCalculator.baseDerived(cappedAttributes)
+        val baseDerived = StatsCalculator.baseDerived(effectiveAttributes)
         val withAdd = baseDerived + totalBonus.derivedAdd
         val withMult = withAdd.applyMultiplier(totalBonus.derivedMult)
         val capped = withMult.copy(cdrPct = min(withMult.cdrPct, 40.0))
-        return ComputedStats(cappedAttributes, capped)
+        return ComputedStats(effectiveAttributes, capped)
     }
 
     private fun runBonuses(player: PlayerState): Bonuses {

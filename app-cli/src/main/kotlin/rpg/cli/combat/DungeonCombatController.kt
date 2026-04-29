@@ -1,8 +1,8 @@
 package rpg.cli.combat
 
-import rpg.cli.model.CombatMenuAction
-import rpg.cli.model.CombatSkillOption
 import rpg.cli.model.DecisionView
+import rpg.application.model.CombatMenuAction
+import rpg.application.model.CombatSkillOption
 import rpg.combat.DungeonCombatSkillSupport
 import rpg.engine.GameEngine
 import rpg.model.ItemType
@@ -17,6 +17,7 @@ internal class DungeonCombatController(
     private val skillSupport: DungeonCombatSkillSupport,
     private val readInput: () -> String,
     private val format: (Double) -> String,
+    private val fixedContextLines: List<String>,
     ansiCombatReset: String,
     ansiCombatHeader: String,
     ansiCombatPlayer: String,
@@ -37,6 +38,7 @@ internal class DungeonCombatController(
     private val renderer = DungeonCombatRenderer(
         engine = engine,
         format = format,
+        fixedContextLines = fixedContextLines,
         ansiCombatReset = ansiCombatReset,
         ansiCombatHeader = ansiCombatHeader,
         ansiCombatPlayer = ansiCombatPlayer,

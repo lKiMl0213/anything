@@ -1,0 +1,30 @@
+{
+  "id": "crystal_slime",
+  "name": "Slime Cristalino",
+  "archetype": "Slime",
+  "baseType": "slime",
+  "monsterTypeId": "slime",
+  "family": "slime",
+  "displayName": "Slime Cristalino",
+  "baseAttributes": { "str": 5, "agi": 3, "dex": 4, "vit": 8, "spr": 5, "luk": 2 },
+  "growthAttributes": { "str": 2, "dex": 2, "vit": 2, "spr": 1 },
+  "variancePct": 0.13,
+  "tags": ["slime", "ooze", "crystal", "rare"],
+  "questTags": ["slime", "rare"],
+  "onHitStatuses": [
+    {
+      "type": "MARKED",
+      "chancePct": 18,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 1,
+      "effectValue": 12,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Reflexo Prismático"
+    }
+  ],
+  "dropTableId": "slime_core",
+  "lootProfileId": "slime_core",
+  "baseXp": 34,
+  "baseGold": 10
+}

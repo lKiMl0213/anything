@@ -1,0 +1,36 @@
+{
+  "id": "automaton",
+  "name": "Automato",
+  "description": "Tanque tecnico com defesa elevada e maior resistencia a efeitos.",
+  "bonuses": {
+    "attributes": {
+      "vit": 7,
+      "str": 4,
+      "dex": 1,
+      "agi": -3,
+      "spr": -3
+    },
+    "derivedAdd": {
+      "defPhysical": 11,
+      "tenacityPct": 8,
+      "damageReductionPct": 3,
+      "hpMax": 30
+    },
+    "derivedMult": {
+      "evasion": -8,
+      "mpMax": -10
+    }
+  },
+  "growth": {
+    "vit": 3,
+    "str": 2,
+    "dex": 1
+  },
+  "professionBonusesPct": {
+    "blacksmith": 7,
+    "mining": 7,
+    "enchanting": 3
+  },
+  "tradeBuyDiscountPct": 0,
+  "tradeSellBonusPct": 0
+}

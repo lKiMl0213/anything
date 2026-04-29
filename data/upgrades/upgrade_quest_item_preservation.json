@@ -1,0 +1,64 @@
+{
+    "id": "quest_item_preservation",
+    "name": "Contratos Meticulosos",
+    "description": "Chance de manter itens entregues ao concluir quests de entrega.",
+    "effectType": "QUEST_ITEM_KEEP_CHANCE",
+    "valueMode": "PERCENT",
+    "enabled": true,
+    "levels": [
+        {
+            "level": 1,
+            "value": 5.0,
+            "costs": [
+                { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 1200 },
+                { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 45 },
+                { "id": "guild", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 800, "requiredItemId": "old_rag", "requiredItemQty": 4 }
+            ]
+        },
+        {
+            "level": 2,
+            "value": 10.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 2400 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 85 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 1600, "requiredItemId": "old_rag", "requiredItemQty": 8 }
+            ]
+        },
+        {
+            "level": 3,
+            "value": 15.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 4200 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 135 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 3000, "requiredItemId": "old_rag", "requiredItemQty": 12 }
+            ]
+        },
+        {
+            "level": 4,
+            "value": 20.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 6500 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 195 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 4600, "requiredItemId": "old_rag", "requiredItemQty": 16 }
+            ]
+        },
+        {
+            "level": 5,
+            "value": 25.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 9200 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 275 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 6600, "requiredItemId": "old_rag", "requiredItemQty": 22 }
+            ]
+        },
+        {
+            "level": 6,
+            "value": 50.0,
+            "costs": [
+                { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 15000 },
+                { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 430 },
+                { "id": "guild", "shopCurrencies": ["GOLD"], "goldCost": 10800, "requiredItemId": "old_rag", "requiredItemQty": 30 }
+            ]
+        }
+    ]
+}

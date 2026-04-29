@@ -5,6 +5,7 @@ import rpg.engine.GameEngine
 internal class DungeonCombatRenderer(
     private val engine: GameEngine,
     private val format: (Double) -> String,
+    private val fixedContextLines: List<String>,
     private val ansiCombatReset: String,
     private val ansiCombatHeader: String,
     private val ansiCombatPlayer: String,
@@ -23,8 +24,10 @@ internal class DungeonCombatRenderer(
     private val combatHistoryLimit = 6
     private val combatLogHeight = 6
     private val combatMenuHeight = 12
-    private val combatBlockHeight = 6 + 1 + combatLogHeight + combatMenuHeight
-    private var combatBlockInitialized: Boolean = false
+    private val combatDynamicBlockHeight = 2 + 1 + 2 + 1 + 1 + 1 + combatLogHeight + 1 + combatMenuHeight
+    private var fixedAreaRendered: Boolean = false
+    private var fixedAreaHeight: Int = 0
+    private var combatDynamicBlockInitialized: Boolean = false
     private var transientLinesBelowBlock: Int = 0
 
     fun onFrame(
@@ -64,14 +67,17 @@ internal class DungeonCombatRenderer(
     }
 
     fun finalizeDisplay() {
-        if (!combatBlockInitialized) {
+        if (!combatDynamicBlockInitialized) {
             clearCombatHistory()
             return
         }
-        moveCursorUp(combatBlockHeight + transientLinesBelowBlock)
+        val totalHeight = fixedAreaHeight + combatDynamicBlockHeight
+        moveCursorUp(totalHeight + transientLinesBelowBlock)
         print(ansiClearToEnd)
         System.out.flush()
-        combatBlockInitialized = false
+        fixedAreaRendered = false
+        fixedAreaHeight = 0
+        combatDynamicBlockInitialized = false
         transientLinesBelowBlock = 0
         clearCombatHistory()
     }
@@ -95,11 +101,37 @@ internal class DungeonCombatRenderer(
         snapshot: rpg.combat.CombatSnapshot,
         buildDecisionSectionLines: (rpg.combat.CombatSnapshot) -> List<String>
     ) {
+        if (!fixedAreaRendered) {
+            renderFixedArea(snapshot)
+        }
+        redrawDynamicBlock(buildDynamicLines(snapshot, buildDecisionSectionLines))
+    }
+
+    private fun renderFixedArea(snapshot: rpg.combat.CombatSnapshot) {
+        val enemyName = engine.monsterDisplayName(snapshot.monster)
+        val lines = mutableListOf<String>()
+        lines += fixedContextLines.filter { it.isNotBlank() }
+        lines += combatColor("Combate | $enemyName", ansiCombatHeader)
+
+        for (line in lines) {
+            print('\r')
+            print(ansiClearLine)
+            print(line)
+            print('\n')
+        }
+        System.out.flush()
+        fixedAreaHeight = lines.size
+        fixedAreaRendered = true
+    }
+
+    private fun buildDynamicLines(
+        snapshot: rpg.combat.CombatSnapshot,
+        buildDecisionSectionLines: (rpg.combat.CombatSnapshot) -> List<String>
+    ): List<String> {
         val playerBar = combatActionBar(snapshot.playerRuntime)
         val monsterBar = combatActionBar(snapshot.monsterRuntime)
         val playerState = combatStateLabel(snapshot.playerRuntime.state)
         val monsterState = combatStateLabel(snapshot.monsterRuntime.state)
-        val enemyName = engine.monsterDisplayName(snapshot.monster)
         val playerHp = "${format(snapshot.player.currentHp)} / ${format(snapshot.playerStats.derived.hpMax)}"
         val playerMp = "${format(snapshot.player.currentMp)} / ${format(snapshot.playerStats.derived.mpMax)}"
         val monsterHp = "${format(snapshot.monsterHp)} / ${format(snapshot.monsterStats.derived.hpMax)}"
@@ -116,24 +148,26 @@ internal class DungeonCombatRenderer(
             append(combatColor(monsterState, combatStateColor(snapshot.monsterRuntime.state)))
         }
         val lines = mutableListOf<String>()
-        lines += combatColor("Combate | $enemyName", ansiCombatHeader)
-        lines += "Voce    HP ${combatColor(playerHp, ansiCombatPlayer)} | MP ${combatColor(playerMp, ansiCombatCasting)}"
-        lines += "Inimigo HP ${combatColor(monsterHp, ansiCombatEnemy)}"
-        lines += "$lineOne"
-        lines += "$lineTwo"
+        lines += "Voce: HP ${combatColor(playerHp, ansiCombatPlayer)} | MP ${combatColor(playerMp, ansiCombatCasting)}"
+        lines += "Inimigo: HP ${combatColor(monsterHp, ansiCombatEnemy)}"
+        lines += ""
+        lines += lineOne
+        lines += lineTwo
+        lines += ""
         lines += if (snapshot.pausedForDecision) {
             combatColor("Aguardando sua acao.", ansiCombatPause)
         } else {
             ""
         }
-        lines += "Historico:"
+        lines += "Historico de batalha:"
         val recentLog = combatHistory.toList().takeLast(combatLogHeight)
         repeat(combatLogHeight) { index ->
             val line = recentLog.getOrNull(index).orEmpty()
             lines += if (line.isBlank()) "" else "- $line"
         }
+        lines += ""
         lines += normalizeFixedWindow(buildDecisionSectionLines(snapshot), combatMenuHeight)
-        redrawCombatBlock(lines)
+        return normalizeFixedWindow(lines, combatDynamicBlockHeight)
     }
 
     private fun normalizeFixedWindow(lines: List<String>, height: Int): List<String> {
@@ -152,14 +186,14 @@ internal class DungeonCombatRenderer(
         return normalized
     }
 
-    private fun redrawCombatBlock(rawLines: List<String>) {
-        val lines = if (rawLines.size == combatBlockHeight) {
+    private fun redrawDynamicBlock(rawLines: List<String>) {
+        val lines = if (rawLines.size == combatDynamicBlockHeight) {
             rawLines
         } else {
-            normalizeFixedWindow(rawLines, combatBlockHeight)
+            normalizeFixedWindow(rawLines, combatDynamicBlockHeight)
         }
-        if (combatBlockInitialized) {
-            moveCursorUp(combatBlockHeight + transientLinesBelowBlock)
+        if (combatDynamicBlockInitialized) {
+            moveCursorUp(combatDynamicBlockHeight + transientLinesBelowBlock)
         }
         for (line in lines) {
             print('\r')
@@ -170,7 +204,7 @@ internal class DungeonCombatRenderer(
         print('\r')
         print(ansiClearLine)
         System.out.flush()
-        combatBlockInitialized = true
+        combatDynamicBlockInitialized = true
         transientLinesBelowBlock = 0
     }
 

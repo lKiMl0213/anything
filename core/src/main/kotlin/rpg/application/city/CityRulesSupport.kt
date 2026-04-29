@@ -5,6 +5,7 @@ import kotlin.math.min
 import rpg.achievement.AchievementTierUnlockedNotification
 import rpg.engine.GameEngine
 import rpg.model.GameState
+import rpg.model.ItemInstance
 import rpg.model.PlayerState
 
 class CityRulesSupport(
@@ -15,24 +16,50 @@ class CityRulesSupport(
     private val deathXpPenaltyPct: Double = 15.0
 ) {
     data class TavernPricing(
+        val discountPct: Double,
+        val restBaseCost: Int,
+        val sleepBaseCost: Int,
+        val purifyOneBaseCost: Int,
+        val purifyAllBaseCost: Int,
         val restCost: Int,
         val sleepCost: Int,
         val purifyOneCost: Int,
         val purifyAllCost: Int
     )
 
-    fun tavernPricing(player: PlayerState): TavernPricing {
+    fun tavernPricing(player: PlayerState, itemInstances: Map<String, ItemInstance>): TavernPricing {
+        val stats = engine.computePlayerStats(player, itemInstances)
         val stacks = player.deathDebuffStacks
+        val hpFactor = (stats.derived.hpMax / 42.0).toInt().coerceAtLeast(0)
+        val debuffFactor = stacks * 16
+        val restBase = max(12, 16 + player.level * 2 + hpFactor + debuffFactor)
+        val sleepBase = max(28, 26 + player.level * 3 + (stats.derived.hpMax / 28.0).toInt() + debuffFactor)
+        val purifyOneBase = if (stacks > 0) {
+            max(20, 18 + player.level + stacks * 22 + (stats.derived.hpMax / 55.0).toInt())
+        } else {
+            0
+        }
+        val purifyAllBase = if (stacks > 0) {
+            max(55, 40 + player.level * 2 + stacks * 40 + (stats.derived.hpMax / 40.0).toInt())
+        } else {
+            0
+        }
+        val discountPct = engine.permanentUpgradeService.tavernCostReductionPct(player)
         return TavernPricing(
-            restCost = max(10, 12 + player.level * 2),
-            sleepCost = max(25, 30 + player.level * 4),
-            purifyOneCost = if (stacks > 0) 30 + (stacks - 1) * 15 else 0,
-            purifyAllCost = if (stacks > 0) 80 + (stacks - 1) * 40 else 0
+            discountPct = discountPct,
+            restBaseCost = restBase,
+            sleepBaseCost = sleepBase,
+            purifyOneBaseCost = purifyOneBase,
+            purifyAllBaseCost = purifyAllBase,
+            restCost = engine.permanentUpgradeService.discountedCost(restBase, discountPct),
+            sleepCost = engine.permanentUpgradeService.discountedCost(sleepBase, discountPct),
+            purifyOneCost = if (purifyOneBase > 0) engine.permanentUpgradeService.discountedCost(purifyOneBase, discountPct) else 0,
+            purifyAllCost = if (purifyAllBase > 0) engine.permanentUpgradeService.discountedCost(purifyAllBase, discountPct) else 0
         )
     }
 
     fun tavernView(state: GameState): TavernViewData {
-        val pricing = tavernPricing(state.player)
+        val pricing = tavernPricing(state.player, state.itemInstances)
         val stats = engine.computePlayerStats(state.player, state.itemInstances)
         return TavernViewData(
             restCost = pricing.restCost,
@@ -45,6 +72,8 @@ class CityRulesSupport(
                 "Gold atual: ${state.player.gold}",
                 "Descansar recupera 25% de HP/MP.",
                 "Dormir restaura HP/MP por completo.",
+                "Tabela de custo: nivel + HP max + debuffs ativos.",
+                "Reducao ativa da taverna: ${formatValue(pricing.discountPct)}%.",
                 "Debuff atual: ${state.player.deathDebuffStacks} stack(s) | ${formatMinutes(state.player.deathDebuffMinutes)} min restantes",
                 "HP atual: ${formatValue(state.player.currentHp)}/${formatValue(stats.derived.hpMax)}",
                 "MP atual: ${formatValue(state.player.currentMp)}/${formatValue(stats.derived.mpMax)}"
@@ -53,7 +82,7 @@ class CityRulesSupport(
     }
 
     fun applyRest(state: GameState): GameState {
-        val pricing = tavernPricing(state.player)
+        val pricing = tavernPricing(state.player, state.itemInstances)
         val stats = engine.computePlayerStats(state.player, state.itemInstances)
         val player = state.player.copy(
             gold = state.player.gold - pricing.restCost,
@@ -64,7 +93,7 @@ class CityRulesSupport(
     }
 
     fun applySleep(state: GameState): GameState {
-        val pricing = tavernPricing(state.player)
+        val pricing = tavernPricing(state.player, state.itemInstances)
         val stats = engine.computePlayerStats(state.player, state.itemInstances)
         val player = state.player.copy(
             gold = state.player.gold - pricing.sleepCost,
@@ -75,7 +104,7 @@ class CityRulesSupport(
     }
 
     fun applyPurifyOne(state: GameState): GameState {
-        val pricing = tavernPricing(state.player)
+        val pricing = tavernPricing(state.player, state.itemInstances)
         val stacks = state.player.deathDebuffStacks
         val newStacks = max(0, stacks - 1)
         val capMinutes = if (newStacks == 0) 0.0 else deathDebuffBaseMinutes + (newStacks - 1) * deathDebuffExtraMinutes
@@ -91,7 +120,7 @@ class CityRulesSupport(
     }
 
     fun applyPurifyAll(state: GameState): GameState {
-        val pricing = tavernPricing(state.player)
+        val pricing = tavernPricing(state.player, state.itemInstances)
         val player = state.player.copy(
             gold = state.player.gold - pricing.purifyAllCost,
             deathDebuffStacks = 0,

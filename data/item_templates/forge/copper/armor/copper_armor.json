@@ -1,0 +1,26 @@
+﻿{
+    "id":  "copper_armor",
+    "name":  "Armadura de Cobre",
+    "type":  "EQUIPMENT",
+    "slot":  "CHEST",
+    "minLevel":  2,
+    "rarity":  "COMMON",
+    "maxRarity":  "COMMON",
+    "baseScaling":  4.2,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  1,
+    "vendorBaseValue":  22,
+    "allowedAffixes":  [
+                           "vit",
+                           "hp",
+                           "def",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "armor",
+                 "copper"
+             ],
+    "description":  "Equipamento de forja (Cobre) com modificadores aleatorios por afixos."
+}

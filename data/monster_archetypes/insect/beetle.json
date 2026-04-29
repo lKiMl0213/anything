@@ -1,0 +1,37 @@
+{
+  "id": "beetle",
+  "name": "Besouro",
+  "archetype": "Insect",
+  "baseType": "beetle",
+  "monsterTypeId": "insect",
+  "family": "insect",
+  "displayName": "Besouro Couracado",
+  "baseAttributes": { "str": 6, "agi": 3, "dex": 3, "vit": 9, "spr": 2 },
+  "growthAttributes": { "str": 2, "vit": 2, "dex": 1 },
+  "variancePct": 0.14,
+  "tags": ["insect", "armored", "venom"],
+  "questTags": ["insect", "beetle"],
+  "onHitStatuses": [
+    {
+      "type": "WEAKNESS",
+      "chancePct": 15,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 8,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Carapaca Impactante"
+    }
+  ],
+  "dropTableId": "beast_low",
+  "lootProfileId": "beast_low",
+  "baseXp": 30,
+  "baseGold": 8,
+  "damageAffinities": {
+    "physical": 0.9,
+    "magic": 1.1,
+    "fire": 1.2,
+    "poison": 0.7,
+    "bleed": 0.6
+  }
+}

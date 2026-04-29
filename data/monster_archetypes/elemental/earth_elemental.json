@@ -1,0 +1,40 @@
+{
+  "id": "earth_elemental",
+  "name": "Elemental de Terra",
+  "archetype": "Elemental",
+  "baseType": "earth_elemental",
+  "monsterTypeId": "elemental",
+  "family": "elemental",
+  "displayName": "Elemental de Terra",
+  "baseAttributes": { "str": 9, "agi": 4, "dex": 4, "vit": 12, "int": 5, "spr": 7 },
+  "growthAttributes": { "str": 2, "agi": 1, "dex": 1, "vit": 3, "spr": 2 },
+  "variancePct": 0.12,
+  "tags": ["elemental", "earth"],
+  "questTags": ["elemental", "earth"],
+  "onHitStatuses": [
+    {
+      "type": "PARALYZED",
+      "chancePct": 10,
+      "durationSeconds": 3,
+      "tickIntervalSeconds": 1,
+      "effectValue": 12,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Prisão de Rocha"
+    },
+    {
+      "type": "WEAKNESS",
+      "chancePct": 14,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 9,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Pressao Telurica"
+    }
+  ],
+  "dropTableId": "elemental_fire",
+  "lootProfileId": "elemental_fire",
+  "baseXp": 46,
+  "baseGold": 15
+}

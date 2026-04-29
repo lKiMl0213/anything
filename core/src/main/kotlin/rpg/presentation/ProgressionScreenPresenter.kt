@@ -21,10 +21,8 @@ internal class ProgressionScreenPresenter(
             title = "Progressao",
             summary = support.playerSummary(state),
             bodyLines = listOf(
-                "Fluxo modular desta area:",
-                "- Quests ativas, diarias, semanais e mensais",
-                "- Quest de classe",
-                "- Conquistas e estatisticas"
+                "Acompanhe quests, evolucao de classe e conquistas.",
+                "Veja progresso e recompensas disponiveis."
             ),
             options = listOf(
                 ScreenOptionViewModel("1", "Quests$questAlert", GameAction.OpenQuests),
@@ -160,7 +158,7 @@ internal class ProgressionScreenPresenter(
             summary = support.playerSummary(state),
             bodyLines = listOf(
                 "Tem certeza que deseja cancelar esta missao?",
-                "TODO o progresso sera perdido e a missao retornara para a etapa 1."
+                "Todo o progresso sera perdido e a missao retornara para a etapa 1."
             ),
             options = listOf(
                 ScreenOptionViewModel("1", "Confirmar cancelamento", GameAction.ConfirmCancelClassQuest),

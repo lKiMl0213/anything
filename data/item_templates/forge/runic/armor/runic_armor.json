@@ -1,0 +1,29 @@
+﻿{
+    "id":  "runic_armor",
+    "name":  "Armadura de Runica",
+    "type":  "EQUIPMENT",
+    "slot":  "CHEST",
+    "minLevel":  22,
+    "rarity":  "MYTHIC",
+    "maxRarity":  "MYTHIC",
+    "baseScaling":  12.5,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  5,
+    "vendorBaseValue":  138,
+    "allowedAffixes":  [
+                           "guardian",
+                           "bulwark",
+                           "warding",
+                           "hp",
+                           "def",
+                           "tenacity",
+                           "vampiric"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "armor",
+                 "runic"
+             ],
+    "description":  "Equipamento de forja (Runica) com modificadores aleatorios por afixos."
+}

@@ -1,0 +1,40 @@
+{
+  "id": "acid_slime",
+  "name": "Slime Acido",
+  "archetype": "Slime",
+  "baseType": "slime",
+  "monsterTypeId": "slime",
+  "family": "slime",
+  "displayName": "Slime Acido",
+  "baseAttributes": { "str": 5, "agi": 2, "dex": 3, "vit": 7, "spr": 4 },
+  "growthAttributes": { "str": 2, "dex": 1, "vit": 2 },
+  "variancePct": 0.14,
+  "tags": ["slime", "ooze", "acidic"],
+  "questTags": ["slime", "acid"],
+  "onHitStatuses": [
+    {
+      "type": "WEAKNESS",
+      "chancePct": 16,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Corrosao"
+    },
+    {
+      "type": "POISONED",
+      "chancePct": 20,
+      "durationSeconds": 6,
+      "tickIntervalSeconds": 2,
+      "effectValue": 3.6,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Neblina Acida"
+    }
+  ],
+  "dropTableId": "slime_core",
+  "lootProfileId": "slime_core",
+  "baseXp": 30,
+  "baseGold": 7
+}

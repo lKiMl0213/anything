@@ -11,6 +11,7 @@ import rpg.model.PlayerState
 import rpg.model.SkillSnapshot
 import rpg.model.SkillType
 import rpg.skills.SkillSystem
+import rpg.progression.PermanentUpgradeService
 import rpg.registry.ItemRegistry
 
 data class GatherExecutionResult(
@@ -32,7 +33,9 @@ class GatheringService(
     private val itemRegistry: ItemRegistry,
     private val itemEngine: ItemEngine,
     private val skillSystem: SkillSystem,
-    private val rng: Random
+    private val rng: Random,
+    private val permanentUpgradeService: PermanentUpgradeService,
+    private val raceProfessionBonusPct: (PlayerState, SkillType) -> Double = { _, _ -> 0.0 }
 ) {
     fun availableNodes(playerLevel: Int, type: GatheringType? = null): List<GatherNodeDef> {
         return nodes.values
@@ -95,7 +98,11 @@ class GatheringService(
         val minQty = node.minQty.coerceAtLeast(1)
         val maxQty = max(minQty, node.maxQty)
         var quantity = if (maxQty == minQty) minQty else rng.nextInt(minQty, maxQty + 1)
-        if (rng.nextDouble(0.0, 100.0) <= skillSnapshot.doubleDropChancePct) {
+        val upgradedDoubleChance = (
+            skillSnapshot.doubleDropChancePct +
+                permanentUpgradeService.gatherDoubleBonusPct(preparedPlayer, node.type)
+            ).coerceIn(0.0, 95.0)
+        if (rng.nextDouble(0.0, 100.0) <= upgradedDoubleChance) {
             quantity *= 2
         }
         if (quantity <= 0) {
@@ -178,10 +185,14 @@ class GatheringService(
             selectedAmmoTemplateId = withCapacity.selectedAmmoTemplateId
         )
         val rarityMultiplier = resourceRarityMultiplier(resourceId)
+        val professionXpMultiplier = permanentUpgradeService.professionXpMultiplier(preparedPlayer, skillType)
+        val raceBonusMultiplier = 1.0 + (
+            raceProfessionBonusPct(preparedPlayer, skillType).coerceIn(-50.0, 250.0) / 100.0
+            )
         val xpResult = skillSystem.gainXp(
             player = updatedPlayer,
             skill = skillType,
-            baseXp = node.baseXp * acceptedQty,
+            baseXp = node.baseXp * acceptedQty * professionXpMultiplier * raceBonusMultiplier,
             rarityMultiplier = rarityMultiplier,
             difficulty = node.difficulty,
             tier = node.tier

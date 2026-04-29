@@ -1,0 +1,40 @@
+{
+  "id": "stone_golem",
+  "name": "Golem de Pedra",
+  "archetype": "Construct",
+  "baseType": "stone_golem",
+  "monsterTypeId": "construct",
+  "family": "construct",
+  "displayName": "Golem de Pedra",
+  "baseAttributes": { "str": 12, "agi": 2, "dex": 2, "vit": 14, "spr": 6 },
+  "growthAttributes": { "str": 3, "agi": 1, "dex": 1, "vit": 3, "spr": 1 },
+  "variancePct": 0.1,
+  "tags": ["construct", "stone", "guardian"],
+  "questTags": ["construct"],
+  "onHitStatuses": [
+    {
+      "type": "SLOW",
+      "chancePct": 16,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Abalo de Rocha"
+    },
+    {
+      "type": "PARALYZED",
+      "chancePct": 8,
+      "durationSeconds": 2.5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Esmagar"
+    }
+  ],
+  "dropTableId": "construct_arcane",
+  "lootProfileId": "construct_arcane",
+  "baseXp": 46,
+  "baseGold": 15
+}

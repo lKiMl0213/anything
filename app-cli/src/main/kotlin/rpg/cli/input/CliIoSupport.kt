@@ -6,6 +6,10 @@ internal class CliIoSupport(
     private val printInline: (String) -> Unit,
     private val printLine: (String) -> Unit
 ) {
+    fun clearScreen() {
+        printInline("\u001B[H\u001B[2J\u001B[3J")
+    }
+
     fun readNonEmpty(prompt: String): String {
         while (true) {
             printInline(prompt)

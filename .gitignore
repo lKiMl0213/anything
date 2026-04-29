@@ -16,6 +16,9 @@ bin/
 saves/
 *.log
 *.tmp
+*.hprof
+local.properties
+exports/
 
 # OS
 .DS_Store
@@ -35,3 +38,4 @@ context/**/working-memory*.md
 
 # Local packaging helpers
 dist/
+.last_stable_ver/

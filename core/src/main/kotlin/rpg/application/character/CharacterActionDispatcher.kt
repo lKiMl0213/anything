@@ -30,6 +30,14 @@ class CharacterActionDispatcher(
                 null
             ) { commandService.allocateAttributePoint(it, action.code) }
 
+            is GameAction.AllocateAttributePoints -> mutate(
+                session,
+                NavigationState.Attributes,
+                null,
+                null,
+                null
+            ) { commandService.allocateAttributePoints(it, action.code, action.amount) }
+
             GameAction.OpenTalents -> move(session, NavigationState.Talents)
             is GameAction.OpenTalentStage -> openTalentStage(session, action.stage)
             is GameAction.InspectTalentNode -> GameActionResult(

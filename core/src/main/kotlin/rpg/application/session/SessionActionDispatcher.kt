@@ -1,23 +1,21 @@
 package rpg.application.session
 
 import rpg.application.GameActionResult
-import rpg.application.GameEffect
 import rpg.application.GameSession
 import rpg.application.GameStateSupport
 import rpg.application.SaveGameGateway
 import rpg.application.actions.GameAction
+import rpg.application.creation.CharacterCreationQueryService
 import rpg.navigation.NavigationState
 
 class SessionActionDispatcher(
     private val saveGateway: SaveGameGateway,
-    private val stateSupport: GameStateSupport
+    private val stateSupport: GameStateSupport,
+    private val creationQueryService: CharacterCreationQueryService
 ) {
     fun handle(session: GameSession, action: GameAction): GameActionResult? {
         return when (action) {
-            GameAction.StartNewGame -> GameActionResult(
-                session = session.copy(messages = emptyList()),
-                effect = GameEffect.LaunchLegacyNewGame
-            )
+            GameAction.StartNewGame -> startNewGame(session)
 
             GameAction.ContinueSession -> continueSession(session)
             GameAction.OpenLoadGame -> openLoadGame(session)
@@ -41,10 +39,20 @@ class SessionActionDispatcher(
     private fun continueSession(session: GameSession): GameActionResult {
         val state = session.gameState
             ?: return GameActionResult(session.copy(messages = listOf("Nenhuma sessao carregada.")))
+        val normalized = stateSupport.normalize(state)
         return GameActionResult(
             session = session.copy(
-                gameState = stateSupport.normalize(state),
+                gameState = normalized,
+                creationDraft = null,
+                selectedCreationRaceId = null,
+                selectedCreationClassId = null,
                 navigation = NavigationState.Hub,
+                selectedCraftDiscipline = null,
+                selectedGatheringType = null,
+                selectedShopCurrency = null,
+                selectedShopCategory = null,
+                selectedWeaponClassCategory = null,
+                selectedUpgradeCategory = null,
                 selectedAttributeCode = null,
                 selectedInventoryItemId = null,
                 selectedEquipmentSlot = null,
@@ -77,9 +85,18 @@ class SessionActionDispatcher(
                 gameState = loaded,
                 currentSavePath = action.path,
                 currentSaveName = action.path.fileName.toString(),
+                creationDraft = null,
+                selectedCreationRaceId = null,
+                selectedCreationClassId = null,
                 navigation = NavigationState.Hub,
                 pendingEncounter = null,
                 availableSaves = emptyList(),
+                selectedCraftDiscipline = null,
+                selectedGatheringType = null,
+                selectedShopCurrency = null,
+                selectedShopCategory = null,
+                selectedWeaponClassCategory = null,
+                selectedUpgradeCategory = null,
                 selectedAttributeCode = null,
                 selectedInventoryItemId = null,
                 selectedEquipmentSlot = null,
@@ -89,7 +106,7 @@ class SessionActionDispatcher(
                 selectedQuestId = null,
                 selectedAchievementCategory = null,
                 selectedAchievementId = null,
-                messages = listOf("Save carregado: ${action.path.fileName}")
+                messages = emptyList()
             )
         )
     }
@@ -106,7 +123,15 @@ class SessionActionDispatcher(
                     gameState = normalized,
                     currentSavePath = savedPath,
                     currentSaveName = savedPath.fileName.toString(),
+                    selectedCreationRaceId = null,
+                    selectedCreationClassId = null,
                     navigation = NavigationState.Hub,
+                    selectedCraftDiscipline = null,
+                    selectedGatheringType = null,
+                    selectedShopCurrency = null,
+                    selectedShopCategory = null,
+                    selectedWeaponClassCategory = null,
+                    selectedUpgradeCategory = null,
                     selectedAttributeCode = null,
                     selectedInventoryItemId = null,
                     selectedEquipmentSlot = null,
@@ -126,6 +151,8 @@ class SessionActionDispatcher(
                     gameState = normalized,
                     currentSavePath = savedPath,
                     currentSaveName = savedPath.fileName.toString(),
+                    selectedCreationRaceId = null,
+                    selectedCreationClassId = null,
                     navigation = NavigationState.Hub,
                     selectedAttributeCode = null,
                     selectedInventoryItemId = null,
@@ -154,7 +181,15 @@ class SessionActionDispatcher(
                 gameState = normalized,
                 currentSavePath = keepCurrentPath,
                 currentSaveName = keepCurrentName,
+                selectedCreationRaceId = null,
+                selectedCreationClassId = null,
                 navigation = NavigationState.Hub,
+                selectedCraftDiscipline = null,
+                selectedGatheringType = null,
+                selectedShopCurrency = null,
+                selectedShopCategory = null,
+                selectedWeaponClassCategory = null,
+                selectedUpgradeCategory = null,
                 selectedAttributeCode = null,
                 selectedInventoryItemId = null,
                 selectedEquipmentSlot = null,
@@ -170,61 +205,33 @@ class SessionActionDispatcher(
     }
 
     private fun back(session: GameSession): GameActionResult {
-        val target = when (session.navigation) {
-            NavigationState.MainMenu -> NavigationState.MainMenu
-            NavigationState.SaveSelection -> NavigationState.MainMenu
-            NavigationState.Hub -> NavigationState.MainMenu
-            NavigationState.ProductionMenu -> NavigationState.Hub
-            NavigationState.ProgressionMenu -> NavigationState.Hub
-            NavigationState.QuestBoard -> NavigationState.ProgressionMenu
-            NavigationState.QuestList -> NavigationState.QuestBoard
-            NavigationState.QuestDetail -> NavigationState.QuestList
-            NavigationState.ClassQuest -> NavigationState.QuestBoard
-            NavigationState.ClassQuestCancelConfirm -> NavigationState.ClassQuest
-            NavigationState.Achievements -> NavigationState.ProgressionMenu
-            NavigationState.AchievementCategory -> NavigationState.Achievements
-            NavigationState.AchievementDetail -> NavigationState.AchievementCategory
-            NavigationState.AchievementStatistics -> NavigationState.Achievements
-            NavigationState.CityMenu -> NavigationState.Hub
-            NavigationState.Tavern -> NavigationState.CityMenu
-            NavigationState.SaveMenu -> NavigationState.Hub
-            NavigationState.CharacterMenu -> NavigationState.Hub
-            NavigationState.Attributes -> NavigationState.CharacterMenu
-            NavigationState.AttributeDetail -> NavigationState.Attributes
-            NavigationState.Talents -> NavigationState.CharacterMenu
-            NavigationState.TalentTreeDetail -> NavigationState.Talents
-            NavigationState.TalentNodeDetail -> NavigationState.TalentTreeDetail
-            NavigationState.Exploration -> NavigationState.Hub
-            NavigationState.DungeonSelection -> NavigationState.Exploration
-            NavigationState.Inventory -> NavigationState.CharacterMenu
-            NavigationState.InventoryFilters -> NavigationState.Inventory
-            NavigationState.InventoryItemDetail -> NavigationState.Inventory
-            NavigationState.Equipped -> NavigationState.CharacterMenu
-            NavigationState.EquippedItemDetail -> NavigationState.Equipped
-            NavigationState.Quiver -> NavigationState.Inventory
-            NavigationState.Combat -> NavigationState.Exploration
-            NavigationState.Exit -> NavigationState.Exit
-        }
+        return GameActionResult(session = SessionNavigationSupport.buildBackSession(session))
+    }
+
+    private fun startNewGame(session: GameSession): GameActionResult {
+        val draft = creationQueryService.initialDraft()
         return GameActionResult(
             session = session.copy(
-                navigation = target,
+                creationDraft = draft,
+                selectedCreationRaceId = null,
+                selectedCreationClassId = null,
+                navigation = NavigationState.CharacterCreation,
                 pendingEncounter = null,
-                availableSaves = if (target == NavigationState.SaveSelection) session.availableSaves else emptyList(),
-                selectedAttributeCode = if (target == NavigationState.AttributeDetail) session.selectedAttributeCode else null,
-                selectedInventoryItemId = if (target == NavigationState.InventoryItemDetail) session.selectedInventoryItemId else null,
-                selectedEquipmentSlot = if (target == NavigationState.EquippedItemDetail) session.selectedEquipmentSlot else null,
-                selectedTalentTreeId = if (
-                    target == NavigationState.TalentTreeDetail || target == NavigationState.TalentNodeDetail
-                ) session.selectedTalentTreeId else null,
-                selectedTalentNodeId = if (target == NavigationState.TalentNodeDetail) session.selectedTalentNodeId else null,
-                selectedQuestSection = if (
-                    target == NavigationState.QuestList || target == NavigationState.QuestDetail
-                ) session.selectedQuestSection else null,
-                selectedQuestId = if (target == NavigationState.QuestDetail) session.selectedQuestId else null,
-                selectedAchievementCategory = if (
-                    target == NavigationState.AchievementCategory || target == NavigationState.AchievementDetail
-                ) session.selectedAchievementCategory else null,
-                selectedAchievementId = if (target == NavigationState.AchievementDetail) session.selectedAchievementId else null,
+                selectedCraftDiscipline = null,
+                selectedGatheringType = null,
+                selectedShopCurrency = null,
+                selectedShopCategory = null,
+                selectedWeaponClassCategory = null,
+                selectedUpgradeCategory = null,
+                selectedAttributeCode = null,
+                selectedInventoryItemId = null,
+                selectedEquipmentSlot = null,
+                selectedTalentTreeId = null,
+                selectedTalentNodeId = null,
+                selectedQuestSection = null,
+                selectedQuestId = null,
+                selectedAchievementCategory = null,
+                selectedAchievementId = null,
                 messages = emptyList()
             )
         )

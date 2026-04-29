@@ -140,7 +140,7 @@ class QuestRulesSupport(
             QuestObjectiveType.CRAFT_ITEM -> "Criar item"
             QuestObjectiveType.GATHER_RESOURCE -> "Coletar recurso"
             QuestObjectiveType.REACH_FLOOR -> "Alcancar andar"
-            QuestObjectiveType.COMPLETE_RUN -> "Completar run"
+            QuestObjectiveType.COMPLETE_RUN -> "Completar run (boss)"
         }
     }
 

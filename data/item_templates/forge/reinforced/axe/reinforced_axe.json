@@ -1,0 +1,29 @@
+﻿{
+    "id":  "reinforced_axe",
+    "name":  "Machado de Reforcado",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  15,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  11.22,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  3,
+    "vendorBaseValue":  108,
+    "allowedAffixes":  [
+                           "str",
+                           "crit",
+                           "warcry",
+                           "piercing",
+                           "vampiric",
+                           "fervor"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "axe",
+                 "reinforced"
+             ],
+    "description":  "Equipamento de forja (Reforcado) com modificadores aleatorios por afixos."
+}

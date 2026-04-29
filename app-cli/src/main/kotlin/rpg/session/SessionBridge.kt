@@ -1,3 +1,4 @@
+// TODO-REMOVE-LEGACY: fluxo antigo isolado; remover após substituição modular completa.
 package rpg.session
 
 import java.nio.file.Files
@@ -5,7 +6,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import rpg.cli.LegacyAttributeAllocationFlow
 import rpg.cli.LegacyCharacterCreationFlow
-import rpg.cli.model.AttrMeta
+import rpg.application.model.AttrMeta
 import rpg.creation.CharacterCreationPreviewService
 import rpg.engine.GameEngine
 import rpg.io.DataRepository

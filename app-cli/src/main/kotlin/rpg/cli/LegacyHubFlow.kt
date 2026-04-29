@@ -1,3 +1,4 @@
+// TODO-REMOVE-LEGACY: fluxo antigo isolado; remover após substituição modular completa.
 package rpg.cli
 
 import rpg.model.GameState
@@ -6,6 +7,7 @@ import rpg.quest.QuestBoardState
 
 internal class LegacyHubFlow(
     private val readMenuChoice: (prompt: String, min: Int, max: Int) -> Int?,
+    private val clearScreen: () -> Unit,
     private val synchronizeClock: (GameState) -> GameState,
     private val normalizeLoadedState: (GameState) -> GameState,
     private val synchronizeClassQuest: (GameState) -> GameState,
@@ -40,6 +42,7 @@ internal class LegacyHubFlow(
             state = normalizeLoadedState(state)
             state = synchronizeClassQuest(state)
             state = synchronizeAchievements(state)
+            clearScreen()
             println("\n=== Menu Principal ===")
             state = checkSubclassUnlock(state)
             state = checkSpecializationUnlock(state)
@@ -81,6 +84,7 @@ internal class LegacyHubFlow(
         while (true) {
             val attributeAlert = menuAlert(hasUnspentAttributePoints(updated.player))
             val talentAlert = menuAlert(hasTalentPointsAvailable(updated.player))
+            clearScreen()
             println("\n=== Personagem ===")
             println("1. Equipados")
             println("2. Inventario")
@@ -111,6 +115,7 @@ internal class LegacyHubFlow(
             val questsAlert = if (hasReadyToClaim(updated.questBoard)) menuAlert(true) else ""
             val achievementsAlert = if (hasAchievementRewardReady(updated.player)) menuAlert(true) else ""
 
+            clearScreen()
             println("\n=== Progressao ===")
             println(labelWithAlert("1. Quests", questsAlert))
             println(labelWithAlert("2. Conquistas", achievementsAlert))
@@ -124,4 +129,3 @@ internal class LegacyHubFlow(
         }
     }
 }
-

@@ -1,22 +1,36 @@
 {
   "id": "dwarf",
   "name": "Anao",
-  "description": "Extremamente resistente, baixa mobilidade.",
+  "description": "Especialista em linha de frente, mineracao e forja.",
   "bonuses": {
     "attributes": {
-      "str": 5,
-      "vit": 4,
-      "spr": 1
+      "str": 6,
+      "vit": 6,
+      "agi": -2,
+      "dex": -1,
+      "int": -2
     },
     "derivedAdd": {
-      "defPhysical": 5,
-      "damageReductionPct": 3,
-      "tenacityPct": 3
+      "defPhysical": 9,
+      "damageReductionPct": 4,
+      "tenacityPct": 5
+    },
+    "derivedMult": {
+      "accuracy": -6,
+      "damageMagic": -10,
+      "moveSpeed": -6
     }
   },
   "growth": {
     "str": 3,
-    "vit": 2,
+    "vit": 3,
     "spr": 1
-  }
+  },
+  "professionBonusesPct": {
+    "mining": 8,
+    "woodcutting": 6,
+    "blacksmith": 5
+  },
+  "tradeBuyDiscountPct": 0,
+  "tradeSellBonusPct": 0
 }

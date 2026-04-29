@@ -2,6 +2,7 @@ package rpg.combat
 
 import rpg.engine.ComputedStats
 import rpg.engine.StatsEngine
+import rpg.achievement.MonsterTypeMasteryService
 import rpg.model.BiomeDef
 import rpg.model.DerivedStats
 import rpg.model.GameBalanceDef
@@ -65,6 +66,14 @@ internal class CombatBattleRunner(
             player = player,
             trees = talentTrees
         )
+        val monsterTypeDamageBonus = MonsterTypeMasteryService.trackedTypes
+            .associateWith { type ->
+                MonsterTypeMasteryService.damageBonusPctForType(
+                    killsByType = player.lifetimeStats.killsByBaseType,
+                    monsterTypeId = type
+                )
+            }
+            .filterValues { it > 0.0 }
         val summonBonus = tier.biomeId?.let { biomes[it]?.summonChanceBonusPct ?: 0.0 } ?: 0.0
         val playerActor = CombatActor(
             id = "player",
@@ -77,6 +86,7 @@ internal class CombatBattleRunner(
             currentHp = player.currentHp,
             currentMp = player.currentMp,
             runtime = CombatRuntimeState(actionThreshold = balance.combat.actionThreshold),
+            monsterTypeDamageBonusPct = monsterTypeDamageBonus,
             onHitStatuses = statusProcessor.collectPlayerOnHitStatuses(player, instances),
             talentModifiers = playerTalentModifiers
         )
@@ -142,6 +152,17 @@ internal class CombatBattleRunner(
             playerActor.onHitStatuses = statusProcessor.collectPlayerOnHitStatuses(player, instances)
         }
 
+        fun applyActionDot(actor: CombatActor) {
+            if (actor.currentHp <= 0.0 || actor.runtime.state == CombatState.DEAD) return
+            val dot = statusProcessor.applyActionDot(actor)
+            if (dot.totalDamage <= 0.0) return
+            if (actor.kind == CombatantKind.PLAYER) {
+                telemetry.playerDamageTaken += dot.totalDamage
+            } else {
+                telemetry.playerDamageDealt += dot.totalDamage
+            }
+        }
+
         fun snapshot(paused: Boolean): CombatSnapshot {
             return buildSnapshot(
                 player = player,
@@ -182,6 +203,7 @@ internal class CombatBattleRunner(
                                 syncPlayerState(updated, updatedInstances)
                             }
                         )
+                        applyActionDot(caster)
                     },
                     telemetry = telemetry
                 )
@@ -250,6 +272,12 @@ internal class CombatBattleRunner(
                             telemetry = telemetrySnapshot()
                         )
                     }
+                    if (outcome.consumedReady && playerActor.runtime.state != CombatState.CASTING) {
+                        applyActionDot(playerActor)
+                    }
+                    if (playerActor.currentHp <= 0.0 || monsterActor.currentHp <= 0.0) {
+                        break
+                    }
                     if (outcome.consumedReady && playerDecisionOpen) {
                         playerDecisionOpen = false
                         controller.onDecisionEnded()
@@ -301,6 +329,12 @@ internal class CombatBattleRunner(
                             victory = false,
                             telemetry = telemetrySnapshot()
                         )
+                    }
+                    if (monsterActor.runtime.state != CombatState.CASTING) {
+                        applyActionDot(monsterActor)
+                    }
+                    if (playerActor.currentHp <= 0.0 || monsterActor.currentHp <= 0.0) {
+                        break
                     }
                     if (playerDecisionOpen && pendingPlayerAction == null && playerActor.runtime.state == CombatState.READY) {
                         pendingPlayerAction = controller.pollAction(snapshot(paused = true))

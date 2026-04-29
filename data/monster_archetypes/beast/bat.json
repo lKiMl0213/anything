@@ -1,0 +1,30 @@
+{
+  "id": "bat",
+  "name": "Morcego",
+  "archetype": "Beast",
+  "baseType": "bat",
+  "monsterTypeId": "beast",
+  "family": "beast",
+  "displayName": "Morcego",
+  "baseAttributes": { "str": 4, "agi": 10, "dex": 8, "vit": 4, "luk": 3 },
+  "growthAttributes": { "agi": 3, "dex": 2, "str": 1, "vit": 1 },
+  "variancePct": 0.18,
+  "tags": ["beast", "flying", "night"],
+  "questTags": ["beast", "flying"],
+  "onHitStatuses": [
+    {
+      "type": "MARKED",
+      "chancePct": 16,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Rastro Sonar"
+    }
+  ],
+  "dropTableId": "beast_low",
+  "lootProfileId": "beast_low",
+  "baseXp": 22,
+  "baseGold": 6
+}

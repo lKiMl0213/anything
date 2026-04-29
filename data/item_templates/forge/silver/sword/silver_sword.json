@@ -1,0 +1,27 @@
+﻿{
+    "id":  "silver_sword",
+    "name":  "Espada de Prata",
+    "type":  "EQUIPMENT",
+    "slot":  "WEAPON_MAIN",
+    "minLevel":  7,
+    "rarity":  "RARE",
+    "maxRarity":  "RARE",
+    "baseScaling":  7.07,
+    "baseStat":  "DAMAGE_PHYSICAL",
+    "dropTier":  2,
+    "vendorBaseValue":  55,
+    "allowedAffixes":  [
+                           "str",
+                           "dex",
+                           "crit",
+                           "atk_speed"
+                       ],
+    "tags":  [
+                 "{swordman}",
+                 "forge",
+                 "weapon",
+                 "sword",
+                 "silver"
+             ],
+    "description":  "Equipamento de forja (Prata) com modificadores aleatorios por afixos."
+}

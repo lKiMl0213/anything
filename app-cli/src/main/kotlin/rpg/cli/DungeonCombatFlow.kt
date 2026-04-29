@@ -20,7 +20,7 @@ internal class DungeonCombatFlow(
         victory: Boolean,
         escaped: Boolean,
         isBoss: Boolean,
-        monsterBaseType: String,
+        monsterTypeId: String,
         monsterStars: Int
     ) -> PlayerState,
     private val applyGoldEarnedAchievement: (player: PlayerState, gold: Long) -> PlayerState,
@@ -67,7 +67,7 @@ internal class DungeonCombatFlow(
             result.victory,
             result.escaped,
             isBoss,
-            monster.baseType,
+            monster.monsterTypeId.ifBlank { monster.baseType },
             monster.stars
         )
 

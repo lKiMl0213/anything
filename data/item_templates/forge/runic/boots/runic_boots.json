@@ -1,0 +1,28 @@
+﻿{
+    "id":  "runic_boots",
+    "name":  "Botas de Runica",
+    "type":  "EQUIPMENT",
+    "slot":  "BOOTS",
+    "minLevel":  22,
+    "rarity":  "MYTHIC",
+    "maxRarity":  "MYTHIC",
+    "baseScaling":  8.75,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  5,
+    "vendorBaseValue":  86,
+    "allowedAffixes":  [
+                           "agi",
+                           "evasion",
+                           "recovery",
+                           "tenacity",
+                           "guardian",
+                           "vampiric"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "boots",
+                 "runic"
+             ],
+    "description":  "Equipamento de forja (Runica) com modificadores aleatorios por afixos."
+}

@@ -2,7 +2,7 @@
   "id": "shop_field_quiver",
   "name": "Aljava de Campo",
   "itemId": "field_quiver",
-  "price": 70,
+  "price": 62,
   "currency": "GOLD",
   "quantity": 1,
   "minPlayerLevel": 1,

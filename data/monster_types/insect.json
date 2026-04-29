@@ -1,0 +1,13 @@
+{
+  "id": "insect",
+  "name": "Inseto",
+  "description": "Enxames agressivos com alta mobilidade e venenos persistentes.",
+  "tags": ["insect", "vermin", "nature"],
+  "damageAffinities": {
+    "physical": 1.0,
+    "magic": 1.05,
+    "fire": 1.2,
+    "poison": 0.75,
+    "bleed": 1.05
+  }
+}

@@ -1,0 +1,73 @@
+{
+    "id": "quiver_expansion",
+    "name": "Aljava do Mestre Batedor",
+    "description": "Aumenta a capacidade total de flechas da aljava equipada.",
+    "effectType": "QUIVER_CAPACITY_BONUS",
+    "valueMode": "FLAT",
+    "enabled": true,
+    "levels": [
+        {
+            "level": 1,
+            "value": 10.0,
+            "costs": [
+                { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 1200 },
+                { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 45 },
+                { "id": "guild", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 900, "requiredItemId": "arrow_wood", "requiredItemQty": 20 }
+            ]
+        },
+        {
+            "level": 2,
+            "value": 20.0,
+            "costs": [
+                { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 2600 },
+                { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 90 },
+                { "id": "guild", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 1900, "requiredItemId": "arrow_stone", "requiredItemQty": 28 }
+            ]
+        },
+        {
+            "level": 3,
+            "value": 40.0,
+            "costs": [
+                { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 4300 },
+                { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 145 },
+                { "id": "guild", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 3200, "requiredItemId": "arrow_copper", "requiredItemQty": 36 }
+            ]
+        },
+        {
+            "level": 4,
+            "value": 50.0,
+            "costs": [
+                { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 6800 },
+                { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 220 },
+                { "id": "guild", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 5100, "requiredItemId": "arrow_iron", "requiredItemQty": 44 }
+            ]
+        },
+        {
+            "level": 5,
+            "value": 100.0,
+            "costs": [
+                { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 9800 },
+                { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 310 },
+                { "id": "guild", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 7600, "requiredItemId": "arrow_steel", "requiredItemQty": 52 }
+            ]
+        },
+        {
+            "level": 6,
+            "value": 250.0,
+            "costs": [
+                { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 16500 },
+                { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 500 },
+                { "id": "guild", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 12900, "requiredItemId": "arrow_mithril", "requiredItemQty": 60 }
+            ]
+        },
+        {
+            "level": 7,
+            "value": 500.0,
+            "costs": [
+                { "id": "gold", "label": "Ouro", "shopCurrencies": ["GOLD"], "goldCost": 26000 },
+                { "id": "cash", "label": "Cash", "shopCurrencies": ["CASH"], "cashCost": 760 },
+                { "id": "guild", "label": "Ouro + Item", "shopCurrencies": ["GOLD"], "goldCost": 21000, "requiredItemId": "arrow_mithril", "requiredItemQty": 100 }
+            ]
+        }
+    ]
+}

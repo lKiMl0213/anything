@@ -1,0 +1,47 @@
+{
+  "id": "arcane_sentinel",
+  "name": "Sentinela Arcana",
+  "archetype": "Construct",
+  "baseType": "arcane_sentinel",
+  "monsterTypeId": "construct",
+  "family": "construct",
+  "displayName": "Sentinela Arcana",
+  "baseAttributes": { "str": 9, "agi": 2, "dex": 4, "vit": 13, "int": 6, "spr": 5 },
+  "growthAttributes": { "str": 2, "vit": 3, "int": 1, "spr": 1 },
+  "variancePct": 0.13,
+  "tags": ["construct", "arcane", "sentinel"],
+  "questTags": ["construct", "sentinel"],
+  "onHitStatuses": [
+    {
+      "type": "MARKED",
+      "chancePct": 20,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 12,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Alvo Arcano"
+    },
+    {
+      "type": "PARALYZED",
+      "chancePct": 9,
+      "durationSeconds": 2,
+      "tickIntervalSeconds": 1,
+      "effectValue": 10,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Pulso de Contencao"
+    }
+  ],
+  "dropTableId": "construct_arcane",
+  "lootProfileId": "construct_arcane",
+  "baseXp": 54,
+  "baseGold": 18,
+  "damageAffinities": {
+    "physical": 0.85,
+    "magic": 1.12,
+    "bleed": 0.35,
+    "poison": 0.45,
+    "blunt": 1.2
+  }
+}

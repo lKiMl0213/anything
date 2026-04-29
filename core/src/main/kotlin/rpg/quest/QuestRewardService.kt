@@ -8,6 +8,7 @@ import rpg.item.ItemEngine
 import rpg.model.ItemInstance
 import rpg.model.PlayerState
 import rpg.progression.ExperienceEngine
+import rpg.progression.PermanentUpgradeService
 import rpg.registry.ItemRegistry
 
 data class QuestClaimResult(
@@ -23,7 +24,8 @@ class QuestRewardService(
     private val itemRegistry: ItemRegistry,
     private val itemEngine: ItemEngine,
     private val classSystem: ClassSystem,
-    private val rng: Random
+    private val rng: Random,
+    private val permanentUpgradeService: PermanentUpgradeService
 ) {
     fun claimQuest(
         player: PlayerState,
@@ -54,6 +56,7 @@ class QuestRewardService(
         val inventory = updatedPlayer.inventory.toMutableList()
         val updatedInstances = itemInstances.toMutableMap()
 
+        var preservedDeliveryItems = false
         if (quest.consumeTargetOnComplete) {
             val targetId = quest.generatedTargetId
             if (targetId.isNullOrBlank()) {
@@ -65,20 +68,24 @@ class QuestRewardService(
                     board = board
                 )
             }
-            val consumed = consumeTargetItems(
-                inventory = inventory,
-                itemInstances = updatedInstances,
-                targetId = targetId,
-                amount = quest.requiredAmount
-            )
-            if (!consumed) {
-                return QuestClaimResult(
-                    success = false,
-                    message = "Itens insuficientes para concluir a entrega.",
-                    player = player,
-                    itemInstances = itemInstances,
-                    board = board
+            val keepChance = permanentUpgradeService.questItemKeepChancePct(player)
+            preservedDeliveryItems = keepChance > 0.0 && rng.nextDouble(0.0, 100.0) <= keepChance
+            if (!preservedDeliveryItems) {
+                val consumed = consumeTargetItems(
+                    inventory = inventory,
+                    itemInstances = updatedInstances,
+                    targetId = targetId,
+                    amount = quest.requiredAmount
                 )
+                if (!consumed) {
+                    return QuestClaimResult(
+                        success = false,
+                        message = "Itens insuficientes para concluir a entrega.",
+                        player = player,
+                        itemInstances = itemInstances,
+                        board = board
+                    )
+                }
             }
         }
 
@@ -142,7 +149,12 @@ class QuestRewardService(
 
         return QuestClaimResult(
             success = true,
-            message = "Quest concluida: ${quest.title}",
+            message = buildString {
+                append("Quest concluida: ${quest.title}")
+                if (preservedDeliveryItems) {
+                    append(" | Itens de entrega preservados.")
+                }
+            },
             player = updatedPlayer,
             itemInstances = updatedInstances,
             board = updatedBoard,

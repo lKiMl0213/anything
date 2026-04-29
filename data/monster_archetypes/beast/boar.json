@@ -1,0 +1,30 @@
+{
+  "id": "boar",
+  "name": "Javali",
+  "archetype": "Beast",
+  "baseType": "boar",
+  "monsterTypeId": "beast",
+  "family": "beast",
+  "displayName": "Javali",
+  "baseAttributes": { "str": 8, "agi": 4, "dex": 4, "vit": 9, "spr": 3 },
+  "growthAttributes": { "str": 2, "vit": 3, "dex": 1 },
+  "variancePct": 0.13,
+  "tags": ["beast", "brute", "charge"],
+  "questTags": ["beast"],
+  "onHitStatuses": [
+    {
+      "type": "WEAKNESS",
+      "chancePct": 16,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 8,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Investida Brutal"
+    }
+  ],
+  "dropTableId": "beast_low",
+  "lootProfileId": "beast_low",
+  "baseXp": 24,
+  "baseGold": 6
+}

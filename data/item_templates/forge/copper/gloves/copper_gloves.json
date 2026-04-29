@@ -1,0 +1,26 @@
+﻿{
+    "id":  "copper_gloves",
+    "name":  "Luvas de Cobre",
+    "type":  "EQUIPMENT",
+    "slot":  "GLOVES",
+    "minLevel":  2,
+    "rarity":  "COMMON",
+    "maxRarity":  "COMMON",
+    "baseScaling":  2.77,
+    "baseStat":  "ATTACK_SPEED",
+    "dropTier":  1,
+    "vendorBaseValue":  14,
+    "allowedAffixes":  [
+                           "atk_speed",
+                           "dex",
+                           "precision",
+                           "str"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "gloves",
+                 "copper"
+             ],
+    "description":  "Equipamento de forja (Cobre) com modificadores aleatorios por afixos."
+}

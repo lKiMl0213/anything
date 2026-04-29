@@ -1,0 +1,27 @@
+﻿{
+    "id":  "titanium_helmet",
+    "name":  "Elmo de Titanio",
+    "type":  "EQUIPMENT",
+    "slot":  "HEAD",
+    "minLevel":  12,
+    "rarity":  "EPIC",
+    "maxRarity":  "EPIC",
+    "baseScaling":  5.76,
+    "baseStat":  "HP_MAX",
+    "dropTier":  3,
+    "vendorBaseValue":  43,
+    "allowedAffixes":  [
+                           "guardian",
+                           "warding",
+                           "hp",
+                           "regen",
+                           "def"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "helmet",
+                 "titanium"
+             ],
+    "description":  "Equipamento de forja (Titanio) com modificadores aleatorios por afixos."
+}

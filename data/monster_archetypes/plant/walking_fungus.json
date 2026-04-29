@@ -1,0 +1,40 @@
+{
+  "id": "walking_fungus",
+  "name": "Fungo Ambulante",
+  "archetype": "Plant",
+  "baseType": "fungus",
+  "monsterTypeId": "plant",
+  "family": "plant",
+  "displayName": "Fungo Ambulante",
+  "baseAttributes": { "str": 6, "agi": 4, "dex": 4, "vit": 9, "int": 5, "spr": 7 },
+  "growthAttributes": { "str": 1, "agi": 1, "dex": 1, "vit": 3, "int": 1, "spr": 2 },
+  "variancePct": 0.14,
+  "tags": ["plant", "fungus", "spores"],
+  "questTags": ["plant", "poison"],
+  "onHitStatuses": [
+    {
+      "type": "POISONED",
+      "chancePct": 18,
+      "durationSeconds": 7,
+      "tickIntervalSeconds": 2,
+      "effectValue": 3.8,
+      "stackable": true,
+      "maxStacks": 2,
+      "source": "Esporos Nocivos"
+    },
+    {
+      "type": "WEAKNESS",
+      "chancePct": 14,
+      "durationSeconds": 4,
+      "tickIntervalSeconds": 1,
+      "effectValue": 8,
+      "stackable": false,
+      "maxStacks": 1,
+      "source": "Miasma"
+    }
+  ],
+  "dropTableId": "beast_low",
+  "lootProfileId": "beast_low",
+  "baseXp": 37,
+  "baseGold": 11
+}

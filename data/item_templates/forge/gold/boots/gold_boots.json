@@ -1,0 +1,26 @@
+﻿{
+    "id":  "gold_boots",
+    "name":  "Botas de Ouro",
+    "type":  "EQUIPMENT",
+    "slot":  "BOOTS",
+    "minLevel":  9,
+    "rarity":  "RARE",
+    "maxRarity":  "RARE",
+    "baseScaling":  4.76,
+    "baseStat":  "DEF_PHYSICAL",
+    "dropTier":  2,
+    "vendorBaseValue":  30,
+    "allowedAffixes":  [
+                           "agi",
+                           "evasion",
+                           "recovery",
+                           "tenacity"
+                       ],
+    "tags":  [
+                 "{Any.Class}",
+                 "forge",
+                 "boots",
+                 "gold"
+             ],
+    "description":  "Equipamento de forja (Ouro) com modificadores aleatorios por afixos."
+}

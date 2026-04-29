@@ -1,0 +1,30 @@
+{
+  "id": "giant_wasp",
+  "name": "Vespa Gigante",
+  "archetype": "Insect",
+  "baseType": "wasp",
+  "monsterTypeId": "insect",
+  "family": "insect",
+  "displayName": "Vespa Gigante",
+  "baseAttributes": { "str": 5, "agi": 11, "dex": 10, "vit": 5, "luk": 3 },
+  "growthAttributes": { "agi": 3, "dex": 3, "str": 1, "vit": 1 },
+  "variancePct": 0.18,
+  "tags": ["insect", "flying", "poison"],
+  "questTags": ["insect", "flying"],
+  "onHitStatuses": [
+    {
+      "type": "POISONED",
+      "chancePct": 24,
+      "durationSeconds": 5,
+      "tickIntervalSeconds": 1,
+      "effectValue": 3.2,
+      "stackable": true,
+      "maxStacks": 3,
+      "source": "Ferrão Frenetico"
+    }
+  ],
+  "dropTableId": "beast_low",
+  "lootProfileId": "beast_low",
+  "baseXp": 33,
+  "baseGold": 9
+}

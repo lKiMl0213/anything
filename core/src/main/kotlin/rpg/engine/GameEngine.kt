@@ -7,6 +7,7 @@ import rpg.combat.CombatEngine
 import rpg.crafting.CraftingService
 import rpg.classsystem.AttributeEngine
 import rpg.classsystem.ClassSystem
+import rpg.classsystem.RaceBonusSupport
 import rpg.economy.DropEngine
 import rpg.economy.DropOutcome
 import rpg.economy.EconomyEngine
@@ -34,6 +35,7 @@ import rpg.quest.QuestBoardEngine
 import rpg.quest.QuestGenerator
 import rpg.quest.QuestProgressTracker
 import rpg.quest.QuestRewardService
+import rpg.progression.PermanentUpgradeService
 import rpg.skills.SkillSystem
 import rpg.world.DungeonEngine
 import rpg.registry.DropTableRegistry
@@ -69,11 +71,32 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
     val questGenerator = QuestGenerator(repo, rng)
     val questBoardEngine = QuestBoardEngine(questGenerator)
     val questProgressTracker = QuestProgressTracker()
-    val questRewardService = QuestRewardService(itemRegistry, itemEngine, classSystem, rng)
+    val permanentUpgradeService = PermanentUpgradeService(repo.permanentUpgrades, itemRegistry)
+    val questRewardService = QuestRewardService(itemRegistry, itemEngine, classSystem, rng, permanentUpgradeService)
     val classQuestService = ClassQuestService(repo, itemRegistry, classSystem, rng)
     val skillSystem = SkillSystem(repo.skills.values.associateBy { it.id })
-    val craftingService = CraftingService(repo.craftRecipes, itemRegistry, itemEngine, skillSystem, rng)
-    val gatheringService = GatheringService(repo.gatherNodes, itemRegistry, itemEngine, skillSystem, rng)
+    val craftingService = CraftingService(
+        recipes = repo.craftRecipes,
+        itemRegistry = itemRegistry,
+        itemEngine = itemEngine,
+        skillSystem = skillSystem,
+        rng = rng,
+        permanentUpgradeService = permanentUpgradeService,
+        raceProfessionBonusPct = { player, skillType ->
+            RaceBonusSupport.professionBonusPct(resolveRaceDef(player), skillType)
+        }
+    )
+    val gatheringService = GatheringService(
+        nodes = repo.gatherNodes,
+        itemRegistry = itemRegistry,
+        itemEngine = itemEngine,
+        skillSystem = skillSystem,
+        rng = rng,
+        permanentUpgradeService = permanentUpgradeService,
+        raceProfessionBonusPct = { player, skillType ->
+            RaceBonusSupport.professionBonusPct(resolveRaceDef(player), skillType)
+        }
+    )
 
     fun computePlayerStats(player: PlayerState, itemInstances: Map<String, ItemInstance>): ComputedStats {
         return statsEngine.computePlayerStats(player, itemInstances)
@@ -107,7 +130,8 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
     }
 
     fun generateMonster(tier: MapTierDef, run: rpg.model.DungeonRun, player: PlayerState, isBoss: Boolean): MonsterInstance {
-        return monsterFactory.generate(tier, run, player.level, isBoss)
+        val rarityBonusPct = permanentUpgradeService.monsterRarityBonusPct(player)
+        return monsterFactory.generate(tier, run, player.level, isBoss, rarityBonusPct)
     }
 
     fun buildMimicMonster(level: Int): MonsterInstance {
@@ -197,12 +221,13 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
             1.0
         }
         val starXpMultiplier = balance.starRewards.xpMultiplier(monster.stars)
+        val upgradeCombatXpMultiplier = permanentUpgradeService.combatXpMultiplier(player)
         val xpGain = (ExperienceEngine.computeXpGain(
             baseXp = baseXp,
             playerLevel = player.level,
             monsterLevel = monster.level,
             xpBonusPct = stats.derived.xpGainPct
-        ) * tier.xpMultiplier * tierPenalty * difficultyMod * deathXpPenaltyMultiplier * starXpMultiplier)
+        ) * tier.xpMultiplier * tierPenalty * difficultyMod * deathXpPenaltyMultiplier * starXpMultiplier * upgradeCombatXpMultiplier)
             .toInt()
             .coerceAtLeast(1)
 
@@ -372,6 +397,10 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
     fun rollInt(bound: Int): Int = rng.nextInt(bound)
 
     fun rollChance(chancePct: Double): Boolean = rng.nextDouble(0.0, 100.0) <= chancePct
+
+    fun resolveRaceDef(player: PlayerState): rpg.model.RaceDef? {
+        return runCatching { classSystem.raceDef(player.raceId) }.getOrNull()
+    }
 
     fun applyAutoPoints(
         player: PlayerState,

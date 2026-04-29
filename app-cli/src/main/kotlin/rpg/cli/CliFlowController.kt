@@ -10,24 +10,27 @@ import rpg.presentation.GamePresenter
 
 class CliFlowController(
     repo: DataRepository,
-    private val legacyCli: LegacyGameCli = LegacyGameCli(repo),
     private val actionHandler: GameActionHandler = GameActionHandler(repo),
     private val renderer: TextScreenRenderer = TextScreenRenderer(),
     private val inputHandler: CliInputHandler = CliInputHandler()
 ) {
     private val presenter = GamePresenter(
         engine = actionHandler.engine(),
+        creationQueryService = actionHandler.creationQueryService(),
         inventoryQueryService = actionHandler.inventoryQueryService(),
         characterQueryService = actionHandler.characterQueryService(),
         questQueryService = actionHandler.questQueryService(),
         achievementQueryService = actionHandler.achievementQueryService(),
-        cityQueryService = actionHandler.cityQueryService()
+        cityQueryService = actionHandler.cityQueryService(),
+        productionQueryService = actionHandler.productionQueryService(),
+        shopQueryService = actionHandler.shopQueryService()
     )
     private val combatFlowController = CliCombatFlowController(
         engine = actionHandler.engine(),
-        presenter = presenter,
-        renderer = renderer,
-        inputHandler = inputHandler
+        repo = repo,
+        applyBattleResolvedAchievement = actionHandler::applyBattleResolvedAchievement,
+        applyGoldEarnedAchievement = actionHandler::applyGoldEarnedAchievement,
+        applyDeathAchievement = actionHandler::applyDeathAchievement
     )
 
     fun run() {
@@ -48,22 +51,6 @@ class CliFlowController(
     private fun applyEffect(session: GameSession, effect: GameEffect): GameSession {
         return when (effect) {
             GameEffect.None -> session
-            GameEffect.LaunchLegacyNewGame -> {
-                val updatedState = legacyCli.runNewGameFlow()
-                actionHandler.applyLegacyNewGameReturn(session, updatedState)
-            }
-            is GameEffect.LaunchLegacyExploration -> {
-                val updatedState = legacyCli.runExplorationFromState(effect.state)
-                actionHandler.applyLegacyReturn(session, updatedState)
-            }
-            is GameEffect.LaunchLegacyProduction -> {
-                val updatedState = legacyCli.runProductionFromState(effect.state)
-                actionHandler.applyLegacyReturn(session, updatedState)
-            }
-            is GameEffect.LaunchLegacyCity -> {
-                val updatedState = legacyCli.runCityFromState(effect.state)
-                actionHandler.applyLegacyReturn(session, updatedState)
-            }
             is GameEffect.LaunchCombat -> {
                 val state = session.gameState ?: return session
                 val outcome = combatFlowController.run(state, effect.encounter)
