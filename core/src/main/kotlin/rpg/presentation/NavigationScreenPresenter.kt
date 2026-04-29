@@ -1,6 +1,12 @@
 package rpg.presentation
 
 import rpg.application.GameSession
+import rpg.application.PendingDungeonChestEvent
+import rpg.application.PendingDungeonEvent
+import rpg.application.PendingDungeonLiquidEvent
+import rpg.application.PendingDungeonNpcItemEvent
+import rpg.application.PendingDungeonNpcMoneyEvent
+import rpg.application.PendingDungeonNpcSuspiciousEvent
 import rpg.application.actions.GameAction
 import rpg.application.character.CharacterQueryService
 import rpg.application.progression.AchievementQueryService
@@ -208,6 +214,65 @@ internal class NavigationScreenPresenter(
             summary = support.playerSummary(state),
             bodyLines = listOf("Escolha um tier para iniciar a proxima sala da run."),
             options = tierOptions + ScreenOptionViewModel("x", "Voltar", GameAction.Back),
+            messages = session.messages
+        )
+    }
+
+    fun presentDungeonEvent(session: GameSession): ScreenViewModel {
+        val state = session.gameState ?: return support.presentMissingState("Evento")
+        val pending = session.pendingDungeonEvent
+            ?: return MenuScreenViewModel(
+                title = "Evento",
+                summary = support.playerSummary(state),
+                bodyLines = listOf("Nenhum evento pendente."),
+                options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
+                messages = session.messages
+            )
+
+        val body = mutableListOf<String>()
+        body += "Voce encontrou uma sala de evento."
+        body += pending.introLine
+        body += pending.detailLine
+
+        val options = when (pending) {
+            is PendingDungeonNpcMoneyEvent -> listOf(
+                ScreenOptionViewModel("1", "Entregar ouro", GameAction.ResolveDungeonEvent(1)),
+                ScreenOptionViewModel("2", "Recusar", GameAction.ResolveDungeonEvent(2)),
+                ScreenOptionViewModel("x", "Voltar", GameAction.ResolveDungeonEvent(2))
+            )
+
+            is PendingDungeonNpcItemEvent -> listOf(
+                ScreenOptionViewModel("1", "Entregar item", GameAction.ResolveDungeonEvent(1)),
+                ScreenOptionViewModel("2", "Recusar", GameAction.ResolveDungeonEvent(2)),
+                ScreenOptionViewModel("x", "Voltar", GameAction.ResolveDungeonEvent(2))
+            )
+
+            is PendingDungeonNpcSuspiciousEvent -> listOf(
+                ScreenOptionViewModel("1", "Seguir a indicacao", GameAction.ResolveDungeonEvent(1)),
+                ScreenOptionViewModel("2", "Ignorar", GameAction.ResolveDungeonEvent(2)),
+                ScreenOptionViewModel("x", "Voltar", GameAction.ResolveDungeonEvent(2))
+            )
+
+            is PendingDungeonLiquidEvent -> listOf(
+                ScreenOptionViewModel("1", "Provar", GameAction.ResolveDungeonEvent(1)),
+                ScreenOptionViewModel("2", "Testar com cuidado", GameAction.ResolveDungeonEvent(2)),
+                ScreenOptionViewModel("3", "Ignorar", GameAction.ResolveDungeonEvent(3)),
+                ScreenOptionViewModel("x", "Voltar", GameAction.ResolveDungeonEvent(3))
+            )
+
+            is PendingDungeonChestEvent -> listOf(
+                ScreenOptionViewModel("1", "Abrir rapido", GameAction.ResolveDungeonEvent(1)),
+                ScreenOptionViewModel("2", "Inspecionar antes de abrir", GameAction.ResolveDungeonEvent(2)),
+                ScreenOptionViewModel("3", "Ignorar", GameAction.ResolveDungeonEvent(3)),
+                ScreenOptionViewModel("x", "Voltar", GameAction.ResolveDungeonEvent(3))
+            )
+        }
+
+        return MenuScreenViewModel(
+            title = "Evento",
+            summary = support.playerSummary(state),
+            bodyLines = body,
+            options = options,
             messages = session.messages
         )
     }

@@ -12,6 +12,7 @@ import rpg.economy.DropEngine
 import rpg.economy.DropOutcome
 import rpg.economy.EconomyEngine
 import rpg.events.EventContext
+import rpg.events.DungeonEventService
 import rpg.inventory.InventorySystem
 import rpg.io.DataRepository
 import rpg.item.ItemEngine
@@ -55,6 +56,7 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
     val dropEngine = DropEngine(dropTableRegistry, itemRegistry, itemEngine, rng, balance)
     val economyEngine = EconomyEngine(rng, balance)
     val behaviorEngine = MonsterBehaviorEngine(repo, rng)
+    val dungeonEventService = DungeonEventService(repo.dungeonEvents)
     val combatEngine = CombatEngine(
         statsEngine = statsEngine,
         itemResolver = itemResolver,
@@ -397,6 +399,10 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
     fun rollInt(bound: Int): Int = rng.nextInt(bound)
 
     fun rollChance(chancePct: Double): Boolean = rng.nextDouble(0.0, 100.0) <= chancePct
+
+    fun biomeNpcEventBonusPct(biomeId: String?): Int {
+        return biomeId?.let { repo.biomes[it]?.npcEventBonusPct ?: 0 } ?: 0
+    }
 
     fun resolveRaceDef(player: PlayerState): rpg.model.RaceDef? {
         return runCatching { classSystem.raceDef(player.raceId) }.getOrNull()

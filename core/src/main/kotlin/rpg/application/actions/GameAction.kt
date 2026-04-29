@@ -69,6 +69,7 @@ sealed interface GameAction {
     data object ConfirmLowHpExploration : GameAction
     data object OpenDungeonSelection : GameAction
     data class EnterDungeon(val tierId: String) : GameAction
+    data class ResolveDungeonEvent(val choice: Int) : GameAction
     data object ExitDungeonRun : GameAction
     data object OpenInventory : GameAction
     data object OpenEquipped : GameAction

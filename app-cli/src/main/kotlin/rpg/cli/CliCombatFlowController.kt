@@ -100,8 +100,8 @@ class CliCombatFlowController(
                 val playerWithAchievementGold = applyGoldEarnedAchievement(victory.player, victory.goldGain.toLong())
                 val advancedRun = engine.advanceRun(
                     run = encounter.run,
-                    bossDefeated = encounter.isBoss,
-                    clearedRoomType = if (encounter.isBoss) RunRoomType.BOSS else RunRoomType.MONSTER,
+                    bossDefeated = encounter.roomType == RunRoomType.BOSS && encounter.isBoss,
+                    clearedRoomType = encounter.roomType,
                     victoryInRoom = true
                 )
                 updatedState = updatedState.copy(

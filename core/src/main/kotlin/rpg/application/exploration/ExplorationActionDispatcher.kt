@@ -14,11 +14,14 @@ class ExplorationActionDispatcher(
     private val engine: GameEngine,
     private val stateSupport: GameStateSupport
 ) {
+    private val dungeonEventCoordinator = DungeonEventFlowCoordinator(engine, stateSupport)
+
     fun handle(session: GameSession, action: GameAction): GameActionResult? {
         return when (action) {
             GameAction.OpenDungeonSelection -> move(session, NavigationState.DungeonSelection)
             is GameAction.EnterDungeon -> enterDungeon(session, action.tierId)
             GameAction.ExitDungeonRun -> exitDungeonRun(session)
+            is GameAction.ResolveDungeonEvent -> resolveDungeonEvent(session, action.choice)
             else -> null
         }
     }
@@ -52,20 +55,18 @@ class ExplorationActionDispatcher(
         val roomType = engine.nextRoomType(run)
         return when (roomType) {
             RunRoomType.EVENT -> {
-                val advancedRun = engine.advanceRun(
+                val pendingEvent = dungeonEventCoordinator.preparePendingEvent(
+                    state = normalized,
                     run = run,
-                    bossDefeated = false,
-                    clearedRoomType = RunRoomType.EVENT,
-                    victoryInRoom = false
+                    tier = tier
                 )
                 GameActionResult(
                     session = session.copy(
-                        gameState = normalized.copy(currentRun = advancedRun),
-                        navigation = NavigationState.Exploration,
-                        messages = listOf(
-                            "Voce encontrou uma sala de evento.",
-                            "Nada de relevante aconteceu e a expedicao seguiu adiante."
-                        )
+                        gameState = normalized.copy(currentRun = run),
+                        navigation = NavigationState.DungeonEvent,
+                        pendingDungeonEvent = pendingEvent,
+                        pendingEncounter = null,
+                        messages = emptyList()
                     )
                 )
             }
@@ -82,6 +83,8 @@ class ExplorationActionDispatcher(
                     session = session.copy(
                         gameState = normalized.copy(player = healed, currentRun = advancedRun),
                         navigation = NavigationState.Exploration,
+                        pendingDungeonEvent = null,
+                        pendingEncounter = null,
                         messages = listOf("Sala de descanso. HP e MP restaurados parcialmente.")
                     )
                 )
@@ -98,6 +101,7 @@ class ExplorationActionDispatcher(
                     itemInstances = normalized.itemInstances,
                     monster = monster,
                     isBoss = isBoss,
+                    roomType = roomType,
                     introLines = listOf(
                         engine.encounterText(monster, tier, engine.computePlayerStats(player, normalized.itemInstances))
                     )
@@ -106,6 +110,7 @@ class ExplorationActionDispatcher(
                     session = session.copy(
                         gameState = normalized.copy(currentRun = run),
                         navigation = NavigationState.Combat,
+                        pendingDungeonEvent = null,
                         pendingEncounter = encounter,
                         messages = emptyList()
                     ),
@@ -113,6 +118,10 @@ class ExplorationActionDispatcher(
                 )
             }
         }
+    }
+
+    private fun resolveDungeonEvent(session: GameSession, choice: Int): GameActionResult {
+        return dungeonEventCoordinator.resolve(session, choice)
     }
 
     private fun exitDungeonRun(session: GameSession): GameActionResult {
@@ -124,6 +133,8 @@ class ExplorationActionDispatcher(
                 session = session.copy(
                     gameState = normalized,
                     navigation = NavigationState.Exploration,
+                    pendingDungeonEvent = null,
+                    pendingEncounter = null,
                     messages = listOf("Nenhuma run ativa para encerrar.")
                 )
             )
@@ -132,6 +143,8 @@ class ExplorationActionDispatcher(
             session = session.copy(
                 gameState = normalized.copy(currentRun = null),
                 navigation = NavigationState.Exploration,
+                pendingDungeonEvent = null,
+                pendingEncounter = null,
                 messages = listOf("Voce saiu da dungeon atual.")
             )
         )

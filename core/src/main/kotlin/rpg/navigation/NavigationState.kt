@@ -41,6 +41,7 @@ sealed interface NavigationState {
     data object Exploration : NavigationState
     data object ExplorationLowHpConfirm : NavigationState
     data object DungeonSelection : NavigationState
+    data object DungeonEvent : NavigationState
     data object Inventory : NavigationState
     data object InventoryFilters : NavigationState
     data object InventoryItemDetail : NavigationState

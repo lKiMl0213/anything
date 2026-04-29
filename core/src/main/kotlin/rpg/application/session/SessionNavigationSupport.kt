@@ -46,6 +46,7 @@ internal object SessionNavigationSupport {
             NavigationState.Exploration -> NavigationState.Hub
             NavigationState.ExplorationLowHpConfirm -> NavigationState.Hub
             NavigationState.DungeonSelection -> NavigationState.Exploration
+            NavigationState.DungeonEvent -> NavigationState.Exploration
             NavigationState.Inventory -> session.inventoryReturnNavigation ?: NavigationState.CharacterMenu
             NavigationState.InventoryFilters -> NavigationState.Inventory
             NavigationState.InventoryItemDetail -> NavigationState.Inventory
@@ -59,6 +60,7 @@ internal object SessionNavigationSupport {
         return session.copy(
             navigation = target,
             pendingEncounter = null,
+            pendingDungeonEvent = if (target == NavigationState.DungeonEvent) session.pendingDungeonEvent else null,
             availableSaves = if (target == NavigationState.SaveSelection) session.availableSaves else emptyList(),
             creationDraft = when (target) {
                 NavigationState.CharacterCreation,

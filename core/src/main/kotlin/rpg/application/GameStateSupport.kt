@@ -72,4 +72,13 @@ class GameStateSupport(
             currentMp = (player.currentMp + mpRestored).coerceAtMost(stats.derived.mpMax)
         )
     }
+
+    fun applyGoldDeltaAchievements(before: PlayerState, after: PlayerState): PlayerState {
+        val delta = after.gold - before.gold
+        return when {
+            delta > 0 -> achievementTracker.onGoldEarned(after, delta.toLong()).player
+            delta < 0 -> achievementTracker.onGoldSpent(after, (-delta).toLong()).player
+            else -> after
+        }
+    }
 }

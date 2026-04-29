@@ -85,6 +85,7 @@ class GamePresenter(
             NavigationState.Exploration -> navigationPresenter.presentExploration(session)
             NavigationState.ExplorationLowHpConfirm -> navigationPresenter.presentExplorationLowHpConfirm(session)
             NavigationState.DungeonSelection -> navigationPresenter.presentDungeonSelection(session)
+            NavigationState.DungeonEvent -> navigationPresenter.presentDungeonEvent(session)
             NavigationState.Inventory -> inventoryPresenter.presentInventory(session)
             NavigationState.InventoryFilters -> inventoryPresenter.presentInventoryFilters(session)
             NavigationState.InventoryItemDetail -> inventoryPresenter.presentInventoryItemDetail(session)

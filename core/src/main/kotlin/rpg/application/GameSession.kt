@@ -18,6 +18,7 @@ import rpg.model.PlayerState
 import rpg.model.ShopCurrency
 import rpg.monster.MonsterInstance
 import rpg.navigation.NavigationState
+import rpg.world.RunRoomType
 
 data class PendingEncounter(
     val run: DungeonRun,
@@ -26,8 +27,55 @@ data class PendingEncounter(
     val itemInstances: Map<String, ItemInstance>,
     val monster: MonsterInstance,
     val isBoss: Boolean,
+    val roomType: RunRoomType,
     val introLines: List<String>
 )
+
+sealed interface PendingDungeonEvent {
+    val run: DungeonRun
+    val tier: MapTierDef
+    val introLine: String
+    val detailLine: String
+}
+
+data class PendingDungeonNpcMoneyEvent(
+    override val run: DungeonRun,
+    override val tier: MapTierDef,
+    override val introLine: String,
+    override val detailLine: String,
+    val requestedGold: Int
+) : PendingDungeonEvent
+
+data class PendingDungeonNpcItemEvent(
+    override val run: DungeonRun,
+    override val tier: MapTierDef,
+    override val introLine: String,
+    override val detailLine: String,
+    val requestedItemName: String,
+    val requestedItemIds: List<String>,
+    val requestedQty: Int
+) : PendingDungeonEvent
+
+data class PendingDungeonNpcSuspiciousEvent(
+    override val run: DungeonRun,
+    override val tier: MapTierDef,
+    override val introLine: String,
+    override val detailLine: String
+) : PendingDungeonEvent
+
+data class PendingDungeonLiquidEvent(
+    override val run: DungeonRun,
+    override val tier: MapTierDef,
+    override val introLine: String,
+    override val detailLine: String
+) : PendingDungeonEvent
+
+data class PendingDungeonChestEvent(
+    override val run: DungeonRun,
+    override val tier: MapTierDef,
+    override val introLine: String,
+    override val detailLine: String
+) : PendingDungeonEvent
 
 data class GameSession(
     val gameState: GameState? = null,
@@ -37,6 +85,7 @@ data class GameSession(
     val currentSavePath: Path? = null,
     val currentSaveName: String? = null,
     val pendingEncounter: PendingEncounter? = null,
+    val pendingDungeonEvent: PendingDungeonEvent? = null,
     val selectedCreationRaceId: String? = null,
     val selectedCreationClassId: String? = null,
     val inventoryFilter: InventoryFilterState = InventoryFilterState(),
