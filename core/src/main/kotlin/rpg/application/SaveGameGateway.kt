@@ -23,7 +23,7 @@ class SaveGameGateway(
     fun load(path: Path): GameState = JsonStore.load(path)
 
     fun save(path: Path, state: GameState): Path {
-        JsonStore.save(path, state.copy(currentRun = null))
+        JsonStore.save(path, state)
         return path
     }
 

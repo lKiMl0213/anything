@@ -60,6 +60,7 @@ class SessionActionDispatcher(
                 selectedTalentNodeId = null,
                 selectedQuestSection = null,
                 selectedQuestId = null,
+                selectedGlobalBossEventId = null,
                 selectedAchievementCategory = null,
                 selectedAchievementId = null,
                 messages = emptyList()
@@ -104,6 +105,7 @@ class SessionActionDispatcher(
                 selectedTalentNodeId = null,
                 selectedQuestSection = null,
                 selectedQuestId = null,
+                selectedGlobalBossEventId = null,
                 selectedAchievementCategory = null,
                 selectedAchievementId = null,
                 messages = emptyList()
@@ -139,6 +141,7 @@ class SessionActionDispatcher(
                     selectedTalentNodeId = null,
                     selectedQuestSection = null,
                     selectedQuestId = null,
+                    selectedGlobalBossEventId = null,
                     selectedAchievementCategory = null,
                     selectedAchievementId = null,
                     messages = listOf("Save atualizado em ${savedPath.fileName}.")
@@ -161,6 +164,7 @@ class SessionActionDispatcher(
                     selectedTalentNodeId = null,
                     selectedQuestSection = null,
                     selectedQuestId = null,
+                    selectedGlobalBossEventId = null,
                     selectedAchievementCategory = null,
                     selectedAchievementId = null,
                     messages = listOf("Sessao salva em ${savedPath.fileName}.")
@@ -197,6 +201,7 @@ class SessionActionDispatcher(
                 selectedTalentNodeId = null,
                 selectedQuestSection = null,
                 selectedQuestId = null,
+                selectedGlobalBossEventId = null,
                 selectedAchievementCategory = null,
                 selectedAchievementId = null,
                 messages = listOf("Autosave criado em ${savedPath.fileName}.")
@@ -230,6 +235,7 @@ class SessionActionDispatcher(
                 selectedTalentNodeId = null,
                 selectedQuestSection = null,
                 selectedQuestId = null,
+                selectedGlobalBossEventId = null,
                 selectedAchievementCategory = null,
                 selectedAchievementId = null,
                 messages = emptyList()

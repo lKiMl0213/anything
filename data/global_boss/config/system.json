@@ -1,0 +1,16 @@
+{
+  "pointsDamageDivisor": 10.0,
+  "runLimits": {
+    "freeRunsPerDay": 2,
+    "purchasableRunsPerDay": 3,
+    "maxRunsPerDay": 5,
+    "purchasedRunCashCost": 1
+  },
+  "scaling": {
+    "turnStepActions": 3,
+    "turnScalePctPerStep": 1.8,
+    "damageStep": 1200.0,
+    "damageScalePctPerStep": 1.2,
+    "maxScalePct": 500.0
+  }
+}

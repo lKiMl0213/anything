@@ -14,6 +14,7 @@ class HubActionDispatcher(
     fun handle(session: GameSession, action: GameAction): GameActionResult? {
         return when (action) {
             GameAction.OpenCharacterMenu -> move(session, NavigationState.CharacterMenu)
+            GameAction.OpenGlobalBossMenu -> move(session, NavigationState.GlobalBossMenu)
             GameAction.OpenExploration -> openExploration(session)
             GameAction.ConfirmLowHpExploration -> move(session, NavigationState.Exploration)
             GameAction.OpenProductionMenu -> move(session, NavigationState.ProductionMenu)

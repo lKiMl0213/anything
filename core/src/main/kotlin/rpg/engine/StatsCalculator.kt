@@ -18,26 +18,26 @@ object StatsCalculator {
         val spr = attributes.spr.toDouble()
         val luk = attributes.luk.toDouble()
 
-        val damagePhysical = (str * 2.5) + (dex * 1.2)
-        val damageMagic = (intel * 3.0)
-        val hpMax = 100.0 + (vit * 12.0)
-        val mpMax = 50.0 + (spr * 10.0)
-        val defPhysical = (vit * 1.5) + (str * 0.5)
-        val defMagic = (spr * 1.8) + (intel * 0.7)
-        val attackSpeed = 1.0 + (agi * 0.02)
-        val moveSpeed = 5.0 + (agi * 0.05)
-        val critChancePct = 5.0 + (dex * 0.3) + (luk * 0.2)
-        val critDamagePct = 150.0 + (dex * 0.5)
-        val vampirismPct = floor(luk / 10.0)
-        val cdrPct = spr * 0.15
-        val dropBonusPct = luk * 0.2
-        val penPhysical = str * 0.5
-        val penMagic = intel * 0.7
-        val hpRegen = 1.0 + (vit * 0.2)
-        val mpRegen = 1.0 + (spr * 0.3)
-        val accuracy = dex * 1.5
-        val evasion = agi * 0.8
-        val tenacityPct = vit * 0.2
+        val damagePhysical = (str * 0.9) + (dex * 0.8) + (agi * 0.8)
+        val damageMagic = (intel * 1.8) + (spr * 0.8)
+        val hpMax = 100.0 + (vit * 10.0) + (spr * 0.1)
+        val mpMax = 50.0 + (spr * 10.0) + (vit * 0.1)
+        val defPhysical = (vit * 0.9) + (str * 0.8) + (luk * 0.4)
+        val defMagic = (intel * 0.9) + (spr * 1.5) + (luk * 0.2)
+        val attackSpeed = 0.8 + (agi * 0.02) + (dex * 0.02) + (luk * 0.01)
+        val moveSpeed = 5.0 + (agi * 0.05) + (dex * 0.02)
+        val critChancePct = (dex * 0.3) + (luk * 0.5)
+        val critDamagePct = 50 + (luk * 0.5) + (str * 0.1)
+        val vampirismPct = (luk / 10.0) + (spr * 0.01)
+        val cdrPct = (spr * 0.05) + (luk * 0.05)
+        val dropBonusPct = (luk * 0.18)
+        val penPhysical = (str * 0.5) + (dex * 0.02) + (luk * 0.01)
+        val penMagic = (intel * 0.5) + (spr * 0.5) + (luk * 0.2)
+        val hpRegen = 1.0 + (vit * 0.2) + (spr * 0.5)
+        val mpRegen = 1.0 + (spr * 0.5)
+        val accuracy = (dex * 0.8) + (luk * 0.5)
+        val evasion = (agi * 0.8) + (dex * 0.5) + (luk * 0.2)
+        val tenacityPct = (vit * 0.18)  + (luk * 0.2)
 
         return DerivedStats(
             damagePhysical = damagePhysical,

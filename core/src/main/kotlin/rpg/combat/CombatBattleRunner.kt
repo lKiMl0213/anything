@@ -1,5 +1,6 @@
 package rpg.combat
 
+import kotlin.math.floor
 import rpg.engine.ComputedStats
 import rpg.engine.StatsEngine
 import rpg.achievement.MonsterTypeMasteryService
@@ -37,7 +38,8 @@ internal class CombatBattleRunner(
         monster: MonsterInstance,
         tier: MapTierDef,
         displayName: String,
-        controller: PlayerCombatController
+        controller: PlayerCombatController,
+        rules: CombatRules
     ): CombatResult {
         var player = playerState
         var instances = itemInstances
@@ -53,10 +55,19 @@ internal class CombatBattleRunner(
         var evolveMultiplier = DerivedStats()
         var combatElapsedSeconds = 0.0
         val telemetry = MutableCombatTelemetry()
+        var globalBossScalePct = 0.0
+        var resolvedActionCount = 0
+        var trackedPlayerDamage = 0.0
+        var lastObservedMonsterHp = 0.0
 
         fun telemetrySnapshot(): CombatTelemetry {
+            val dealt = if (rules.mode == CombatMode.GLOBAL_BOSS) {
+                kotlin.math.max(telemetry.playerDamageDealt, trackedPlayerDamage)
+            } else {
+                telemetry.playerDamageDealt
+            }
             return CombatTelemetry(
-                playerDamageDealt = telemetry.playerDamageDealt.coerceAtLeast(0.0),
+                playerDamageDealt = dealt.coerceAtLeast(0.0),
                 playerDamageTaken = telemetry.playerDamageTaken.coerceAtLeast(0.0),
                 playerCriticalHits = telemetry.playerCriticalHits.coerceAtLeast(0)
             )
@@ -105,10 +116,14 @@ internal class CombatBattleRunner(
             onHitStatuses = monster.onHitStatuses,
             talentModifiers = TalentCombatModifiers()
         )
+        lastObservedMonsterHp = monsterActor.currentHp
 
         fun refreshMonsterStats(adjustHp: Boolean) {
             val oldMax = currentMonsterStats.derived.hpMax
             var derived = baseMonsterStats.derived
+            if (rules.mode == CombatMode.GLOBAL_BOSS && globalBossScalePct > 0.0) {
+                derived = derived.scale(1.0 + globalBossScalePct / 100.0)
+            }
             if (evolved) {
                 derived = derived.applyMultiplier(evolveMultiplier)
             }
@@ -121,6 +136,48 @@ internal class CombatBattleRunner(
                 val pct = monsterActor.currentHp / oldMax
                 monsterActor.currentHp = (currentMonsterStats.derived.hpMax * pct).coerceAtLeast(1.0)
             }
+        }
+
+        fun keepGlobalBossAlive() {
+            if (rules.mode != CombatMode.GLOBAL_BOSS) return
+            if (monsterActor.currentHp > 0.0) return
+            monsterActor.currentHp = 1.0
+            monsterActor.runtime = monsterActor.runtime.copy(
+                state = CombatState.IDLE,
+                readySinceSeconds = null
+            )
+            lastObservedMonsterHp = monsterActor.currentHp
+        }
+
+        fun applyGlobalBossScalingIfNeeded() {
+            if (rules.mode != CombatMode.GLOBAL_BOSS) return
+            val turnSteps = if (rules.turnStepActions > 0 && rules.turnScalePctPerStep > 0.0) {
+                resolvedActionCount / rules.turnStepActions
+            } else {
+                0
+            }
+            val damageSteps = if (rules.damageStep > 0.0 && rules.damageScalePctPerStep > 0.0) {
+                floor(trackedPlayerDamage / rules.damageStep).toInt()
+            } else {
+                0
+            }
+            var nextScalePct = turnSteps * rules.turnScalePctPerStep + damageSteps * rules.damageScalePctPerStep
+            if (rules.maxScalePct > 0.0) {
+                nextScalePct = nextScalePct.coerceAtMost(rules.maxScalePct)
+            }
+            if (nextScalePct <= globalBossScalePct + 1e-6) return
+            globalBossScalePct = nextScalePct.coerceAtLeast(0.0)
+            refreshMonsterStats(adjustHp = false)
+            combatLog("Boss global se fortalece: +${"%.1f".format(globalBossScalePct)}%.")
+        }
+
+        fun trackMonsterDamageDelta() {
+            if (rules.mode != CombatMode.GLOBAL_BOSS) return
+            val currentHp = monsterActor.currentHp.coerceAtLeast(0.0)
+            if (currentHp < lastObservedMonsterHp) {
+                trackedPlayerDamage += (lastObservedMonsterHp - currentHp)
+            }
+            lastObservedMonsterHp = currentHp
         }
 
         fun handleMonsterBehavior() {
@@ -161,6 +218,9 @@ internal class CombatBattleRunner(
             } else {
                 telemetry.playerDamageDealt += dot.totalDamage
             }
+            trackMonsterDamageDelta()
+            keepGlobalBossAlive()
+            applyGlobalBossScalingIfNeeded()
         }
 
         fun snapshot(paused: Boolean): CombatSnapshot {
@@ -199,15 +259,22 @@ internal class CombatBattleRunner(
                             telemetry = telemetry,
                             playerState = player,
                             itemInstances = instances,
+                            rules = rules,
                             onPlayerUpdate = { updated, updatedInstances ->
                                 syncPlayerState(updated, updatedInstances)
                             }
                         )
                         applyActionDot(caster)
+                        trackMonsterDamageDelta()
+                        keepGlobalBossAlive()
+                        applyGlobalBossScalingIfNeeded()
                     },
                     telemetry = telemetry
                 )
                 combatElapsedSeconds += tickSeconds
+                trackMonsterDamageDelta()
+                keepGlobalBossAlive()
+                applyGlobalBossScalingIfNeeded()
             }
 
             if (playerActor.currentHp <= 0.0 || monsterActor.currentHp <= 0.0) break
@@ -258,6 +325,7 @@ internal class CombatBattleRunner(
                         playerState = player,
                         itemInstances = instances,
                         telemetry = telemetry,
+                        rules = rules,
                         onPlayerUpdate = { updated, updatedInstances ->
                             syncPlayerState(updated, updatedInstances)
                         }
@@ -275,6 +343,12 @@ internal class CombatBattleRunner(
                     if (outcome.consumedReady && playerActor.runtime.state != CombatState.CASTING) {
                         applyActionDot(playerActor)
                     }
+                    if (outcome.consumedReady) {
+                        resolvedActionCount += 1
+                    }
+                    trackMonsterDamageDelta()
+                    keepGlobalBossAlive()
+                    applyGlobalBossScalingIfNeeded()
                     if (playerActor.currentHp <= 0.0 || monsterActor.currentHp <= 0.0) {
                         break
                     }
@@ -315,6 +389,7 @@ internal class CombatBattleRunner(
                         },
                         playerProvider = { player },
                         telemetry = telemetry,
+                        rules = rules,
                         onPlayerUpdate = { updated ->
                             player = updated
                             playerActor.currentHp = player.currentHp
@@ -333,6 +408,10 @@ internal class CombatBattleRunner(
                     if (monsterActor.runtime.state != CombatState.CASTING) {
                         applyActionDot(monsterActor)
                     }
+                    resolvedActionCount += 1
+                    trackMonsterDamageDelta()
+                    keepGlobalBossAlive()
+                    applyGlobalBossScalingIfNeeded()
                     if (playerActor.currentHp <= 0.0 || monsterActor.currentHp <= 0.0) {
                         break
                     }

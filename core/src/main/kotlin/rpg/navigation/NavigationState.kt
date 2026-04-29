@@ -38,6 +38,9 @@ sealed interface NavigationState {
     data object Talents : NavigationState
     data object TalentTreeDetail : NavigationState
     data object TalentNodeDetail : NavigationState
+    data object GlobalBossMenu : NavigationState
+    data object GlobalBossEventDetail : NavigationState
+    data object GlobalBossMilestones : NavigationState
     data object Exploration : NavigationState
     data object ExplorationLowHpConfirm : NavigationState
     data object DungeonSelection : NavigationState

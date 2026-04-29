@@ -1,7 +1,5 @@
 package rpg.application.production
 
-import kotlin.math.max
-import kotlin.math.min
 import rpg.achievement.AchievementTracker
 import rpg.engine.GameEngine
 import rpg.model.CraftDiscipline
@@ -11,37 +9,75 @@ import rpg.model.PlayerState
 
 class ProductionCommandService(
     private val engine: GameEngine,
-    private val achievementTracker: AchievementTracker
+    private val achievementTracker: AchievementTracker,
+    private val durationService: ProductionActionDurationService = ProductionActionDurationService(engine)
 ) {
+    fun prepareCraft(
+        state: GameState,
+        discipline: CraftDiscipline,
+        recipeId: String
+    ): ProductionPrepareResult {
+        val resolution = durationService.resolveCraft(state, discipline, recipeId)
+            ?: return ProductionPrepareResult(
+                ready = false,
+                messages = listOf("Ingredientes ou requisitos insuficientes para esta receita.")
+            )
+        return ProductionPrepareResult(
+            ready = true,
+            messages = emptyList(),
+            timedActionView = ProductionTimedActionView(
+                categoryLabel = "Craft | ${disciplineLabel(discipline)}",
+                actionLabel = "Craftando ${resolution.recipe.name}...",
+                skillLabel = resolution.skillLabel,
+                skillLevel = resolution.skillLevel,
+                durationSeconds = resolution.durationSeconds
+            )
+        )
+    }
+
+    fun prepareGather(
+        state: GameState,
+        type: GatheringType,
+        nodeId: String
+    ): ProductionPrepareResult {
+        val resolution = durationService.resolveGather(state, type, nodeId)
+            ?: return ProductionPrepareResult(
+                ready = false,
+                messages = listOf("Ponto de coleta indisponivel.")
+            )
+        return ProductionPrepareResult(
+            ready = true,
+            messages = emptyList(),
+            timedActionView = ProductionTimedActionView(
+                categoryLabel = "Producao | ${gatheringTypeLabel(type)}",
+                actionLabel = "Coletando ${resolution.node.name}...",
+                skillLabel = resolution.skillLabel,
+                skillLevel = resolution.skillLevel,
+                durationSeconds = resolution.durationSeconds
+            )
+        )
+    }
+
     fun craft(
         state: GameState,
         discipline: CraftDiscipline,
         recipeId: String
     ): ProductionMutationResult {
-        val recipe = engine.craftingService.availableRecipes(state.player.level, discipline)
-            .firstOrNull { it.id == recipeId }
-            ?: return ProductionMutationResult(state, listOf("Receita indisponivel para esta disciplina."))
-        val maxCraftable = engine.craftingService.maxCraftable(state.player, state.itemInstances, recipe)
-        if (maxCraftable <= 0) {
-            return ProductionMutationResult(state, listOf("Ingredientes ou requisitos insuficientes para ${recipe.name}."))
-        }
-
-        val craftBatchLimit = engine.permanentUpgradeService.craftBatchLimit(state.player)
-        val times = min(maxCraftable, max(1, craftBatchLimit))
-        val skill = engine.craftingService.recipeSkill(recipe)
-        val skillSnapshotBefore = engine.skillSystem.snapshot(state.player, skill)
-        val duration = engine.skillSystem.actionDurationSeconds(
-            baseSeconds = recipe.baseDurationSeconds * times.coerceAtLeast(1),
-            skillLevel = skillSnapshotBefore.level
+        val resolution = durationService.resolveCraft(state, discipline, recipeId)
+            ?: return ProductionMutationResult(state, listOf("Ingredientes ou requisitos insuficientes para esta receita."))
+        val result = engine.craftingService.craft(
+            state.player,
+            state.itemInstances,
+            resolution.recipe.id,
+            resolution.times
         )
-        val result = engine.craftingService.craft(state.player, state.itemInstances, recipe.id, times)
         if (!result.success) {
             return ProductionMutationResult(state, listOf(result.message))
         }
 
         var player = result.player
         var itemInstances = result.itemInstances
-        val spentMinutes = (duration / 60.0).coerceAtLeast(0.01)
+        val spentMinutes = (resolution.durationSeconds / 60.0).coerceAtLeast(0.01)
         player = advanceOutOfCombatTime(player, itemInstances, spentMinutes)
         var worldTimeMinutes = state.worldTimeMinutes + spentMinutes
         var board = state.questBoard
@@ -96,22 +132,16 @@ class ProductionCommandService(
         type: GatheringType,
         nodeId: String
     ): ProductionMutationResult {
-        val node = engine.gatheringService.availableNodes(state.player.level, type).firstOrNull { it.id == nodeId }
+        val resolution = durationService.resolveGather(state, type, nodeId)
             ?: return ProductionMutationResult(state, listOf("Ponto de coleta indisponivel."))
-        val skill = engine.gatheringService.nodeSkill(node)
-        val snapshotBefore = engine.skillSystem.snapshot(state.player, skill)
-        val duration = engine.skillSystem.actionDurationSeconds(
-            baseSeconds = node.baseDurationSeconds,
-            skillLevel = snapshotBefore.level
-        )
-        val result = engine.gatheringService.gather(state.player, state.itemInstances, node.id)
+        val result = engine.gatheringService.gather(state.player, state.itemInstances, resolution.node.id)
         if (!result.success || result.node == null || result.resourceItemId == null || result.quantity <= 0) {
             return ProductionMutationResult(state, listOf(result.message))
         }
 
         var player = result.player
         var itemInstances = result.itemInstances
-        val spentMinutes = (duration / 60.0).coerceAtLeast(0.01)
+        val spentMinutes = (resolution.durationSeconds / 60.0).coerceAtLeast(0.01)
         player = advanceOutOfCombatTime(player, itemInstances, spentMinutes)
         var worldTimeMinutes = state.worldTimeMinutes + spentMinutes
         var board = state.questBoard
@@ -206,6 +236,19 @@ class ProductionCommandService(
             }
         }
         return updated
+    }
+
+    private fun disciplineLabel(discipline: CraftDiscipline): String = when (discipline) {
+        CraftDiscipline.FORGE -> "Forja"
+        CraftDiscipline.ALCHEMY -> "Alquimia"
+        CraftDiscipline.COOKING -> "Culinaria"
+    }
+
+    private fun gatheringTypeLabel(type: GatheringType): String = when (type) {
+        GatheringType.HERBALISM -> "Coleta de Ervas"
+        GatheringType.MINING -> "Mineracao"
+        GatheringType.WOODCUTTING -> "Corte de Madeira"
+        GatheringType.FISHING -> "Pesca"
     }
 
     private fun format(value: Double): String = "%.1f".format(value)

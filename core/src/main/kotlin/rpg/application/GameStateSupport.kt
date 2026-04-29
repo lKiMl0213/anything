@@ -3,6 +3,7 @@ package rpg.application
 import rpg.achievement.AchievementTracker
 import rpg.classquest.progress.ClassProgressionSupport
 import rpg.engine.GameEngine
+import rpg.globalboss.services.GlobalBossProgressService
 import rpg.io.DataRepository
 import rpg.model.GameState
 import rpg.model.ItemInstance
@@ -23,6 +24,11 @@ class GameStateSupport(
         achievementTracker = achievementTracker,
         applyAchievementUpdate = { it.player },
         notify = {}
+    )
+    private val globalBossProgressService = GlobalBossProgressService(
+        engine = engine,
+        config = repo.globalBossSystem,
+        eventsById = repo.globalBossEvents
     )
 
     fun normalize(state: GameState): GameState {
@@ -53,11 +59,12 @@ class GameStateSupport(
             inventory = clampedPlayer.inventory,
             itemInstanceTemplateById = { id -> state.itemInstances[id]?.templateId }
         )
-        return state.copy(
+        val normalized = state.copy(
             player = clampedPlayer,
             questBoard = syncedBoard,
             lastClockSyncEpochMs = System.currentTimeMillis()
         )
+        return globalBossProgressService.synchronize(normalized)
     }
 
     fun applyRestRoom(

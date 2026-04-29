@@ -23,15 +23,18 @@ class CliFlowController(
         achievementQueryService = actionHandler.achievementQueryService(),
         cityQueryService = actionHandler.cityQueryService(),
         productionQueryService = actionHandler.productionQueryService(),
-        shopQueryService = actionHandler.shopQueryService()
+        shopQueryService = actionHandler.shopQueryService(),
+        globalBossQueryService = actionHandler.globalBossQueryService()
     )
     private val combatFlowController = CliCombatFlowController(
         engine = actionHandler.engine(),
         repo = repo,
         applyBattleResolvedAchievement = actionHandler::applyBattleResolvedAchievement,
         applyGoldEarnedAchievement = actionHandler::applyGoldEarnedAchievement,
-        applyDeathAchievement = actionHandler::applyDeathAchievement
+        applyDeathAchievement = actionHandler::applyDeathAchievement,
+        resolveGlobalBossCombat = actionHandler::resolveGlobalBossCombat
     )
+    private val productionTimedActionRunner = ProductionTimedActionRunner()
 
     fun run() {
         var session = GameSession()
@@ -55,6 +58,11 @@ class CliFlowController(
                 val state = session.gameState ?: return session
                 val outcome = combatFlowController.run(state, effect.encounter)
                 actionHandler.applyCombatResult(session, outcome)
+            }
+            is GameEffect.LaunchProductionTimedAction -> {
+                productionTimedActionRunner.run(effect.view)
+                val completionResult = actionHandler.handle(session, effect.completionAction)
+                applyEffect(completionResult.session, completionResult.effect)
             }
         }
     }

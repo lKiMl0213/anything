@@ -18,6 +18,7 @@ internal class CombatDamageResolver(
         defender: CombatActor,
         preferMagic: Boolean?,
         telemetry: MutableCombatTelemetry,
+        allowTargetDefeat: Boolean = true,
         actionMultiplier: Double = 1.0,
         actionName: String? = null,
         extraOnHitStatuses: List<CombatStatusApplyDef> = emptyList(),
@@ -113,15 +114,19 @@ internal class CombatDamageResolver(
                     }
                 }
             }
-            if (defender.currentHp < 0.05) {
-                defender.currentHp = 0.0
-            }
-            if (defender.currentHp <= 0.0) {
-                targetDefeated = true
-                defender.runtime = defender.runtime.copy(
-                    state = CombatState.DEAD,
-                    readySinceSeconds = null
-                )
+            if (!allowTargetDefeat && defender.currentHp <= 0.0) {
+                defender.currentHp = 1.0
+            } else {
+                if (defender.currentHp < 0.05) {
+                    defender.currentHp = 0.0
+                }
+                if (defender.currentHp <= 0.0) {
+                    targetDefeated = true
+                    defender.runtime = defender.runtime.copy(
+                        state = CombatState.DEAD,
+                        readySinceSeconds = null
+                    )
+                }
             }
             if (scaledLifesteal > 0.0) {
                 attacker.currentHp = (attacker.currentHp + scaledLifesteal)

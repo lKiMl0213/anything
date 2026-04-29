@@ -27,6 +27,20 @@ data class ProductionGatherNodeView(
     val available: Boolean
 )
 
+data class ProductionTimedActionView(
+    val categoryLabel: String,
+    val actionLabel: String,
+    val skillLabel: String,
+    val skillLevel: Int,
+    val durationSeconds: Double
+)
+
+data class ProductionPrepareResult(
+    val ready: Boolean,
+    val messages: List<String>,
+    val timedActionView: ProductionTimedActionView? = null
+)
+
 data class ProductionMutationResult(
     val state: rpg.model.GameState,
     val messages: List<String>

@@ -8,6 +8,7 @@ import rpg.application.progression.QuestSection
 import rpg.application.shop.ShopCategory
 import rpg.application.shop.UpgradeMenuCategory
 import rpg.application.shop.WeaponClassCategory
+import rpg.combat.CombatMode
 import rpg.model.CraftDiscipline
 import rpg.model.DungeonRun
 import rpg.model.GameState
@@ -28,7 +29,9 @@ data class PendingEncounter(
     val monster: MonsterInstance,
     val isBoss: Boolean,
     val roomType: RunRoomType,
-    val introLines: List<String>
+    val introLines: List<String>,
+    val combatMode: CombatMode = CombatMode.DUNGEON,
+    val globalBossEventId: String? = null
 )
 
 sealed interface PendingDungeonEvent {
@@ -102,6 +105,7 @@ data class GameSession(
     val selectedTalentNodeId: String? = null,
     val selectedQuestSection: QuestSection? = null,
     val selectedQuestId: String? = null,
+    val selectedGlobalBossEventId: String? = null,
     val selectedAchievementCategory: AchievementCategory? = null,
     val selectedAchievementId: String? = null,
     val inventoryReturnNavigation: NavigationState? = null,

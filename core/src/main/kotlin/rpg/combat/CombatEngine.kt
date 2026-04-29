@@ -112,6 +112,7 @@ class CombatEngine(
         tier: MapTierDef,
         displayName: String,
         controller: PlayerCombatController,
+        rules: CombatRules = CombatRules(),
         eventLogger: (String) -> Unit = {}
     ): CombatResult {
         val previousLogger = activeLogger
@@ -123,7 +124,8 @@ class CombatEngine(
                 monster = monster,
                 tier = tier,
                 displayName = displayName,
-                controller = controller
+                controller = controller,
+                rules = rules
             )
         } finally {
             activeLogger = previousLogger
@@ -135,6 +137,7 @@ class CombatEngine(
         defender: CombatActor,
         preferMagic: Boolean?,
         telemetry: MutableCombatTelemetry,
+        allowTargetDefeat: Boolean,
         actionMultiplier: Double,
         actionName: String?,
         extraOnHitStatuses: List<CombatStatusApplyDef>,
@@ -150,6 +153,7 @@ class CombatEngine(
             defender = defender,
             preferMagic = preferMagic,
             telemetry = telemetry,
+            allowTargetDefeat = allowTargetDefeat,
             actionMultiplier = actionMultiplier,
             actionName = actionName,
             extraOnHitStatuses = extraOnHitStatuses,

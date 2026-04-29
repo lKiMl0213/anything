@@ -9,6 +9,7 @@ import rpg.application.PendingDungeonNpcMoneyEvent
 import rpg.application.PendingDungeonNpcSuspiciousEvent
 import rpg.application.actions.GameAction
 import rpg.application.character.CharacterQueryService
+import rpg.application.globalboss.GlobalBossQueryService
 import rpg.application.progression.AchievementQueryService
 import rpg.application.progression.QuestQueryService
 import rpg.engine.GameEngine
@@ -21,7 +22,8 @@ internal class NavigationScreenPresenter(
     private val support: PresentationSupport,
     private val characterQueryService: CharacterQueryService,
     private val questQueryService: QuestQueryService,
-    private val achievementQueryService: AchievementQueryService
+    private val achievementQueryService: AchievementQueryService,
+    private val globalBossQueryService: GlobalBossQueryService
 ) {
     fun presentMainMenu(session: GameSession): ScreenViewModel {
         val options = mutableListOf<ScreenOptionViewModel>()
@@ -70,6 +72,7 @@ internal class NavigationScreenPresenter(
             questQueryService.hasQuestAlert(state) ||
             achievementQueryService.hasClaimableRewards(state)
         ) " (!)" else ""
+        val globalBossAlert = if (globalBossQueryService.hasAlert(state)) " (!)" else ""
         return MenuScreenViewModel(
             title = "Menu Principal",
             subtitle = session.currentSaveName?.let { "Save atual: $it" },
@@ -77,11 +80,12 @@ internal class NavigationScreenPresenter(
             bodyLines = support.hubOverviewLines(state),
             options = listOf(
                 ScreenOptionViewModel("1", "Explorar", GameAction.OpenExploration),
-                ScreenOptionViewModel("2", "Personagem$characterAlert", GameAction.OpenCharacterMenu),
-                ScreenOptionViewModel("3", "Producao", GameAction.OpenProductionMenu),
-                ScreenOptionViewModel("4", "Progressao$progressionAlert", GameAction.OpenProgressionMenu),
-                ScreenOptionViewModel("5", "Cidade", GameAction.OpenCityMenu),
-                ScreenOptionViewModel("6", "Salvar", GameAction.OpenSaveMenu),
+                ScreenOptionViewModel("2", "Eventos$globalBossAlert", GameAction.OpenGlobalBossMenu),
+                ScreenOptionViewModel("3", "Personagem$characterAlert", GameAction.OpenCharacterMenu),
+                ScreenOptionViewModel("4", "Producao", GameAction.OpenProductionMenu),
+                ScreenOptionViewModel("5", "Progressao$progressionAlert", GameAction.OpenProgressionMenu),
+                ScreenOptionViewModel("6", "Cidade", GameAction.OpenCityMenu),
+                ScreenOptionViewModel("7", "Salvar", GameAction.OpenSaveMenu),
                 ScreenOptionViewModel("x", "Sair para o menu", GameAction.Back)
             ),
             messages = session.messages

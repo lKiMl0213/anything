@@ -4,6 +4,8 @@ import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.isRegularFile
 import kotlin.io.path.name
+import rpg.globalboss.config.GlobalBossEventDef
+import rpg.globalboss.config.GlobalBossSystemConfig
 import rpg.model.ClassDef
 import rpg.model.GameBalanceDef
 import rpg.model.ItemDef
@@ -60,6 +62,9 @@ class DataRepository(private val root: Path) {
     val textPools: Map<String, TextPoolDef> = loadDir<TextPoolDef>("text_pools").associateBy { it.id }
     val character: CharacterDef = loadFile("character/character_base.json") ?: CharacterDef()
     val balance: GameBalanceDef = loadFile("balance.json") ?: GameBalanceDef()
+    val globalBossSystem: GlobalBossSystemConfig = loadFile("global_boss/config/system.json") ?: GlobalBossSystemConfig()
+    val globalBossEvents: Map<String, GlobalBossEventDef> = loadDir<GlobalBossEventDef>("global_boss/events")
+        .associateBy { it.id.lowercase() }
 
     fun mapById(id: String): MapDef = maps[id] ?: error("Mapa nao encontrado: $id")
     fun roomById(map: MapDef, id: String) = map.rooms.firstOrNull { it.id == id }

@@ -21,8 +21,10 @@ sealed interface GameAction {
     data object OpenCraftMenu : GameAction
     data class OpenCraftDiscipline(val discipline: CraftDiscipline) : GameAction
     data class CraftRecipe(val recipeId: String) : GameAction
+    data class ExecuteCraftRecipe(val discipline: CraftDiscipline, val recipeId: String) : GameAction
     data class OpenGatheringType(val type: GatheringType) : GameAction
     data class GatherNode(val nodeId: String) : GameAction
+    data class ExecuteGatherNode(val type: GatheringType, val nodeId: String) : GameAction
     data object OpenProgressionMenu : GameAction
     data object OpenCityMenu : GameAction
     data object OpenGoldShop : GameAction
@@ -65,6 +67,14 @@ sealed interface GameAction {
     data class OpenTalentStage(val stage: Int) : GameAction
     data class InspectTalentNode(val nodeId: String) : GameAction
     data class ConfirmTalentRankUp(val nodeId: String) : GameAction
+    data object OpenGlobalBossMenu : GameAction
+    data object OpenGlobalBossWeekly : GameAction
+    data object OpenGlobalBossMonthly : GameAction
+    data class OpenGlobalBossMilestones(val eventId: String) : GameAction
+    data class StartGlobalBossRun(val eventId: String) : GameAction
+    data class AutoClearGlobalBossRun(val eventId: String) : GameAction
+    data class BuyGlobalBossRunAttempt(val eventId: String) : GameAction
+    data class ClaimGlobalBossMilestone(val eventId: String, val milestoneId: String) : GameAction
     data object OpenExploration : GameAction
     data object ConfirmLowHpExploration : GameAction
     data object OpenDungeonSelection : GameAction

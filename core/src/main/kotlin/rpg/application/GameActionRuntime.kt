@@ -16,6 +16,9 @@ import rpg.application.city.CityCommandService
 import rpg.application.city.CityQueryService
 import rpg.application.city.CityRulesSupport
 import rpg.application.exploration.ExplorationActionDispatcher
+import rpg.application.globalboss.GlobalBossActionDispatcher
+import rpg.application.globalboss.GlobalBossCommandService
+import rpg.application.globalboss.GlobalBossQueryService
 import rpg.application.inventory.InventoryActionDispatcher
 import rpg.application.inventory.InventoryCommandService
 import rpg.application.inventory.InventoryQueryService
@@ -35,8 +38,11 @@ import rpg.application.shop.ShopActionDispatcher
 import rpg.application.shop.ShopCommandService
 import rpg.application.shop.ShopQueryService
 import rpg.classquest.ClassQuestMenu
+import rpg.combat.CombatResult
 import rpg.combat.CombatTelemetry
 import rpg.engine.GameEngine
+import rpg.globalboss.services.GlobalBossCatalogService
+import rpg.globalboss.services.GlobalBossProgressService
 import rpg.io.DataRepository
 import rpg.model.PlayerState
 
@@ -110,6 +116,22 @@ internal class GameActionRuntime(
         permanentUpgradeService = engine.permanentUpgradeService,
         achievementTracker = achievementTracker
     )
+    private val globalBossCatalogService = GlobalBossCatalogService(repo, engine)
+    private val globalBossProgressService = GlobalBossProgressService(
+        engine = engine,
+        config = repo.globalBossSystem,
+        eventsById = repo.globalBossEvents
+    )
+    val globalBossQueryService = GlobalBossQueryService(
+        repo = repo,
+        catalogService = globalBossCatalogService,
+        progressService = globalBossProgressService
+    )
+    private val globalBossCommandService = GlobalBossCommandService(
+        engine = engine,
+        catalogService = globalBossCatalogService,
+        progressService = globalBossProgressService
+    )
 
     private val sessionDispatcher = SessionActionDispatcher(saveGateway, stateSupport, characterCreationQueryService)
     private val characterCreationActionDispatcher = CharacterCreationActionDispatcher(
@@ -148,6 +170,12 @@ internal class GameActionRuntime(
         stateSupport = stateSupport
     )
     private val explorationActionDispatcher = ExplorationActionDispatcher(engine, stateSupport)
+    private val globalBossActionDispatcher = GlobalBossActionDispatcher(
+        engine = engine,
+        queryService = globalBossQueryService,
+        commandService = globalBossCommandService,
+        stateSupport = stateSupport
+    )
 
     fun handle(session: GameSession, action: GameAction): GameActionResult? {
         return sessionDispatcher.handle(session, action)
@@ -159,6 +187,7 @@ internal class GameActionRuntime(
             ?: cityActionDispatcher.handle(session, action)
             ?: productionActionDispatcher.handle(session, action)
             ?: shopActionDispatcher.handle(session, action)
+            ?: globalBossActionDispatcher.handle(session, action)
             ?: explorationActionDispatcher.handle(session, action)
     }
 
@@ -196,5 +225,19 @@ internal class GameActionRuntime(
 
     fun applyDeathAchievement(player: PlayerState): PlayerState {
         return achievementTracker.onDeath(player).player
+    }
+
+    fun resolveGlobalBossCombat(
+        state: rpg.model.GameState,
+        encounter: PendingEncounter,
+        combatResult: CombatResult,
+        combatLog: List<String>
+    ): CombatFlowResult {
+        return globalBossCommandService.resolveCombat(
+            state = state,
+            encounter = encounter,
+            combatResult = combatResult,
+            combatLog = combatLog
+        )
     }
 }

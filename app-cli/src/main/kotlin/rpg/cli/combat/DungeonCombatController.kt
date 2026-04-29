@@ -18,6 +18,7 @@ internal class DungeonCombatController(
     private val readInput: () -> String,
     private val format: (Double) -> String,
     private val fixedContextLines: List<String>,
+    private val allowEscape: Boolean = true,
     ansiCombatReset: String,
     ansiCombatHeader: String,
     ansiCombatPlayer: String,
@@ -117,7 +118,12 @@ internal class DungeonCombatController(
                 }
             }
             "3" -> {
-                rpg.combat.CombatAction.Escape
+                if (allowEscape) {
+                    rpg.combat.CombatAction.Escape
+                } else {
+                    renderer.appendCombatHistory("Fuga indisponivel neste combate.")
+                    null
+                }
             }
             else -> {
                 renderer.appendCombatHistory("Opcao invalida.")
@@ -203,13 +209,16 @@ internal class DungeonCombatController(
     }
 
     private fun mainDecisionMenuLines(): List<String> {
-        return listOf(
+        val lines = mutableListOf(
             "Voce esta pronto para agir.",
             "1. Atacar",
             "2. Usar item",
-            "3. Fugir",
-            "Escolha: "
         )
+        if (allowEscape) {
+            lines += "3. Fugir"
+        }
+        lines += "Escolha: "
+        return lines
     }
 
     private fun attackDecisionMenuLines(snapshot: rpg.combat.CombatSnapshot): List<String> {

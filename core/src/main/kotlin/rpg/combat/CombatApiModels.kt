@@ -6,6 +6,22 @@ import rpg.model.ItemInstance
 import rpg.model.PlayerState
 import rpg.monster.MonsterInstance
 
+enum class CombatMode {
+    DUNGEON,
+    GLOBAL_BOSS
+}
+
+data class CombatRules(
+    val mode: CombatMode = CombatMode.DUNGEON,
+    val allowEscape: Boolean = true,
+    val allowMonsterDefeat: Boolean = true,
+    val turnStepActions: Int = 0,
+    val turnScalePctPerStep: Double = 0.0,
+    val damageStep: Double = 0.0,
+    val damageScalePctPerStep: Double = 0.0,
+    val maxScalePct: Double = 0.0
+)
+
 sealed class CombatAction {
     data class Attack(val preferMagic: Boolean? = null) : CombatAction()
     data class Skill(val spec: CombatSkillSpec) : CombatAction()

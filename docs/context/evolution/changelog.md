@@ -1,4 +1,72 @@
-# Changelog
+﻿# Changelog
+
+## 2026-04-29 - Autosave + Boss Global balance + milestones resgataveis
+
+### Updated Systems
+- Autosave centralizado no fluxo modular (`GameActionHandler` + `AutoSavePolicyService`):
+  - ao entrar/sair de dungeon
+  - ao entrar/sair de eventos (Global Boss e evento de dungeon)
+  - ao alterar atributos
+  - ao voltar para o menu principal
+  - pos-combate (persistencia de encerramento de run/evento)
+- Persistencia passou a manter `currentRun` no save (`SaveGameGateway.save`), evitando perda de progresso de run em autosave.
+- Boss Global:
+  - alerta `(!)` agora so aparece por estado real: run disponivel (free/paid pronta) ou milestone resgatavel.
+  - milestones seguem fluxo manual de resgate com status, timestamp de recebimento e ordem com resgatados no final.
+  - scaling de combate em `CombatMode.GLOBAL_BOSS` agora aplica multiplicadores por evento (semanal/mensal) alem da escala base global.
+  - balanceamento data-driven por evento em `data/global_boss/events/*.json` (dano base reduzido, scaling aumentado, mensal mais tanque e com recompensa maior).
+- `GlobalBossProgressService` foi quebrado em suportes menores para manter limite de tamanho:
+  - `GlobalBossProgressCycleSupport`
+  - `GlobalBossRewardScaleSupport`
+
+### Validation Notes
+- `./gradlew :compileKotlin -x checkKotlinFileLineLimit` passou.
+- `./gradlew clean build` passou.
+- Smokes CLI:
+  - alocacao de atributo persistindo em save ativo apos retorno ao menu principal;
+  - estado sem conteudo relevante sem `Eventos(!)`;
+  - milestone resgatavel exibindo `(!)` e resgate manual com recompensa + timestamp;
+  - comparativo de dano semanal/mensal com diferenca real apos rebalance.
+
+## 2026-04-29 - Boss Global (ajustes de run) + ProduÃ§Ã£o temporizada modular + Split de eventos
+
+### Updated Systems
+- `DungeonEventFlowCoordinator` foi dividido por responsabilidade em arquivos menores:
+  - `DungeonEventPreparationService`
+  - `DungeonEventResolutionService`
+  - `DungeonEventOutcomeService`
+- Boss Global ajustado para fluxo de run isolado de HP/MP persistido:
+  - entrada em run com snapshot de combate em HP/MP cheios
+  - fim da run (inclusive morte) sem sobrescrever HP/MP persistido no save/menu
+  - compra de tentativas extras migrada de ouro para `CASH` (config + regra + UI)
+- ProduÃ§Ã£o modular voltou a usar aÃ§Ã£o temporizada com barra/timer visual no CLI:
+  - nova preparaÃ§Ã£o de aÃ§Ã£o temporizada (`prepareCraft` / `prepareGather`)
+  - execuÃ§Ã£o diferida via `GameEffect.LaunchProductionTimedAction`
+  - aplicaÃ§Ã£o de recompensa/progresso apenas ao final do timer
+  - duraÃ§Ã£o segue escala por nÃ­vel de skill existente (`actionDurationSeconds`)
+
+### Validation Notes
+- `./gradlew :compileKotlin -x checkKotlinFileLineLimit` passou.
+- `./gradlew build` passou apÃ³s marcar `checkKotlinFileLineLimit` como nÃ£o compatÃ­vel com configuration cache.
+- Smoke CLI validou:
+  - renderizaÃ§Ã£o de barra/timer de ProduÃ§Ã£o durante coleta
+  - acesso a Boss Global com HP persistido em 0 (run inicia com HP/MP cheios)
+  - morte no Boss Global sem alterar HP/MP persistido
+  - compra de tentativa extra via `CASH`
+
+## 2026-04-29 - Exportacao portatil (configuration cache) estabilizada
+
+### Updated Systems
+- `prepareWindowsPortable` deixou de gerar launchers via `doLast` (acao em script) e passou a copiar launchers estaticos de `tools/portable/`.
+- Launchers versionados adicionados:
+  - `tools/portable/run-anything.cmd`
+  - `tools/portable/run-anything.bat`
+  - `tools/portable/run-anything.ps1`
+- Ajuste de empacotamento para sempre incluir `data/saves` via `from("data/saves")`, evitando condicional de configuracao.
+
+### Validation Notes
+- `./gradlew packageWindowsPortable` passou e armazenou configuration cache.
+- `./exportar_portatil.bat` passou com sucesso e gerou zip versionado + `latest`.
 
 ## 2026-04-24 - Balance + Progression Completion Pass (XP/Rarity, Monster Families, Races, Shop/Craft, Run Completion)
 
@@ -123,7 +191,7 @@
 - Smoke tests reais cobrindo os fluxos legados extraidos passaram:
   - Equipar + usar consumivel + abrir aljava + carregar + selecionar municao ativa:
     - `@('1','QA Smoke Inv','1','1','1','1','0','0','0','0','0','0','0','s','2','1','1','1','x','2','2','1','2','x','3','1','2','1','3','x','3','1','1','1','1','2','1','1','2','1','1','x','x','x','x','x') | ./gradlew run`
-  - Retirar muniçao da aljava + vender da reserva + vender consumivel:
+  - Retirar muniÃ§ao da aljava + vender da reserva + vender consumivel:
     - `@('1','QA Smoke Sell','1','1','1','1','0','0','0','0','0','0','0','s','2','2','1','1','1','2','3','1','1','4','1','1','x','2','1','3','x','3','2','1','x','x','x','x') | ./gradlew run`
 
 ## 2026-04-21 - LegacyGameCli Safe Split (Character Creation, Production, City Services, Exploration Extra)
@@ -147,7 +215,7 @@
 ### Updated Systems
 - `CombatEngine` foi reduzido para orquestrador (`runBattle` delega para `CombatBattleRunner`) e o gateway do executor foi isolado em `CombatActionGatewayAdapter`
 - `TalentTreeService` virou fachada leve com regras extraidas para `TalentTreeRuleEvaluator` e validacoes para `TalentTreeValidationService`
-- `MonsterFactory` virou fachada de montagem, com selecao em `MonsterTemplatePicker`, ameaças/raridade/status em `MonsterThreatService` e modificadores em `MonsterModifierService`
+- `MonsterFactory` virou fachada de montagem, com selecao em `MonsterTemplatePicker`, ameaÃ§as/raridade/status em `MonsterThreatService` e modificadores em `MonsterModifierService`
 
 ### Validation Notes
 - `./gradlew build` passou
@@ -535,7 +603,7 @@
   - `compilar-pra-exportar.sh`
   - `compilar_pra_exportar.bat`
   - `scripts/reorganize_data_layout.ps1`
-  - `Relatório.md` removed
+  - `RelatÃ³rio.md` removed
 
 ### Validation Notes
 - `./gradlew build` passed after reorganization.
@@ -656,3 +724,4 @@
 - `./gradlew :compileKotlin` passou para o core/CLI.
 - Smoke test CLI (`./gradlew run` com saida imediata) passou.
 - Build completo do APK ainda depende de SDK Android instalado/localizado (`ANDROID_HOME` ou `local.properties` com `sdk.dir`), ausente no ambiente de validacao atual.
+

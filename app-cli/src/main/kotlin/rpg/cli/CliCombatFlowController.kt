@@ -5,6 +5,8 @@ import rpg.application.PendingEncounter
 import rpg.application.model.AmmoStack
 import rpg.cli.combat.DungeonCombatController
 import rpg.cli.renderer.CliAnsiPalette
+import rpg.combat.CombatMode
+import rpg.combat.CombatRules
 import rpg.combat.CombatTelemetry
 import rpg.combat.DungeonCombatSkillSupport
 import rpg.engine.GameEngine
@@ -29,13 +31,27 @@ class CliCombatFlowController(
         monsterStars: Int
     ) -> PlayerState,
     private val applyGoldEarnedAchievement: (player: PlayerState, gold: Long) -> PlayerState,
-    private val applyDeathAchievement: (player: PlayerState) -> PlayerState
+    private val applyDeathAchievement: (player: PlayerState) -> PlayerState,
+    private val resolveGlobalBossCombat: (
+        gameState: GameState,
+        encounter: PendingEncounter,
+        combatResult: rpg.combat.CombatResult,
+        combatLog: List<String>
+    ) -> CombatFlowResult
 ) {
     fun run(gameState: GameState, encounter: PendingEncounter): CombatFlowResult {
         val combatLog = ArrayDeque<String>()
         val displayName = engine.monsterDisplayName(encounter.monster)
         val fixedContextLines = buildFixedContextLines(encounter, displayName)
-        val controller = createController(fixedContextLines)
+        val controller = createController(
+            fixedContextLines = fixedContextLines,
+            allowEscape = encounter.combatMode != CombatMode.GLOBAL_BOSS
+        )
+        val combatRules = if (encounter.combatMode == CombatMode.GLOBAL_BOSS) {
+            globalBossCombatRules(encounter)
+        } else {
+            CombatRules()
+        }
         val result = engine.combatEngine.runBattle(
             playerState = encounter.player,
             itemInstances = encounter.itemInstances,
@@ -43,6 +59,7 @@ class CliCombatFlowController(
             tier = encounter.tier,
             displayName = displayName,
             controller = controller,
+            rules = combatRules,
             eventLogger = { message ->
                 controller.onCombatEvent(message)
                 val normalized = message.trim()
@@ -55,6 +72,9 @@ class CliCombatFlowController(
             }
         )
         controller.finalizeDisplay()
+        if (encounter.combatMode == CombatMode.GLOBAL_BOSS) {
+            return resolveGlobalBossCombat(gameState, encounter, result, combatLog.toList())
+        }
 
         var playerAfterCombat = applyBattleResolvedAchievement(
             result.playerAfter,
@@ -129,7 +149,10 @@ class CliCombatFlowController(
         }
     }
 
-    private fun createController(fixedContextLines: List<String>): DungeonCombatController {
+    private fun createController(
+        fixedContextLines: List<String>,
+        allowEscape: Boolean
+    ): DungeonCombatController {
         val skillSupport = DungeonCombatSkillSupport(
             engine = engine,
             repo = repo,
@@ -143,6 +166,7 @@ class CliCombatFlowController(
             readInput = { readLine()?.trim().orEmpty() },
             format = ::format,
             fixedContextLines = fixedContextLines,
+            allowEscape = allowEscape,
             ansiCombatReset = CliAnsiPalette.reset,
             ansiCombatHeader = CliAnsiPalette.combatHeader,
             ansiCombatPlayer = CliAnsiPalette.combatPlayer,
@@ -154,6 +178,26 @@ class CliCombatFlowController(
             ansiCombatPause = CliAnsiPalette.combatPause,
             ansiClearLine = CliAnsiPalette.clearLine,
             ansiClearToEnd = CliAnsiPalette.clearToEnd
+        )
+    }
+
+    private fun globalBossCombatRules(encounter: PendingEncounter): CombatRules {
+        val scaling = repo.globalBossSystem.scaling
+        val event = encounter.globalBossEventId
+            ?.trim()
+            ?.lowercase()
+            ?.let(repo.globalBossEvents::get)
+        val turnMultiplier = ((event?.balance?.turnScaleMultiplierPct ?: 100.0) / 100.0).coerceAtLeast(0.0)
+        val damageMultiplier = ((event?.balance?.damageScaleMultiplierPct ?: 100.0) / 100.0).coerceAtLeast(0.0)
+        return CombatRules(
+            mode = CombatMode.GLOBAL_BOSS,
+            allowEscape = false,
+            allowMonsterDefeat = false,
+            turnStepActions = scaling.turnStepActions,
+            turnScalePctPerStep = scaling.turnScalePctPerStep * turnMultiplier,
+            damageStep = scaling.damageStep,
+            damageScalePctPerStep = scaling.damageScalePctPerStep * damageMultiplier,
+            maxScalePct = scaling.maxScalePct
         )
     }
 

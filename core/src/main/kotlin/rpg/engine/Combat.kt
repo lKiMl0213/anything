@@ -60,7 +60,7 @@ object Combat {
         val totalReduction = min(0.9, reduction + extraReduction)
         var damage = base * (1.0 - totalReduction)
         if (crit) {
-            damage *= attacker.derived.critDamagePct / 100.0
+            damage *= (1.0 + attacker.derived.critDamagePct / 100.0)
         }
         return max(1.0, damage)
     }

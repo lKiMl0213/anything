@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 import rpg.achievement.AchievementProgress
 import rpg.achievement.PlayerLifetimeStats
 import rpg.classquest.ClassQuestProgress
+import rpg.globalboss.models.GlobalBossState
 import rpg.quest.QuestBoardState
 
 @Serializable
@@ -94,6 +95,7 @@ data class GameState(
     val currentRun: DungeonRun? = null,
     val itemInstances: Map<String, ItemInstance> = emptyMap(),
     val questBoard: QuestBoardState = QuestBoardState(),
+    val globalBoss: GlobalBossState = GlobalBossState(),
     val worldTimeMinutes: Double = 0.0,
     val lastClockSyncEpochMs: Long = 0L
 )

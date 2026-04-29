@@ -5,6 +5,7 @@ import rpg.application.creation.CharacterCreationQueryService
 import rpg.application.PendingEncounter
 import rpg.application.character.CharacterQueryService
 import rpg.application.city.CityQueryService
+import rpg.application.globalboss.GlobalBossQueryService
 import rpg.application.inventory.InventoryQueryService
 import rpg.application.production.ProductionQueryService
 import rpg.application.progression.AchievementQueryService
@@ -24,7 +25,8 @@ class GamePresenter(
     achievementQueryService: AchievementQueryService,
     cityQueryService: CityQueryService,
     productionQueryService: ProductionQueryService,
-    shopQueryService: ShopQueryService
+    shopQueryService: ShopQueryService,
+    globalBossQueryService: GlobalBossQueryService
 ) {
     private val support = PresentationSupport(engine)
     private val navigationPresenter = NavigationScreenPresenter(
@@ -32,7 +34,8 @@ class GamePresenter(
         support = support,
         characterQueryService = characterQueryService,
         questQueryService = questQueryService,
-        achievementQueryService = achievementQueryService
+        achievementQueryService = achievementQueryService,
+        globalBossQueryService = globalBossQueryService
     )
     private val characterCreationPresenter = CharacterCreationScreenPresenter(creationQueryService)
     private val progressionPresenter = ProgressionScreenPresenter(questQueryService, achievementQueryService, support)
@@ -41,6 +44,7 @@ class GamePresenter(
     private val cityPresenter = CityScreenPresenter(cityQueryService, support)
     private val productionPresenter = ProductionScreenPresenter(productionQueryService, support)
     private val shopPresenter = ShopScreenPresenter(shopQueryService, support)
+    private val globalBossPresenter = GlobalBossScreenPresenter(globalBossQueryService, support)
     private val combatPresenter = CombatScreenPresenter(engine, support)
 
     fun present(session: GameSession): ScreenViewModel {
@@ -82,6 +86,9 @@ class GamePresenter(
             NavigationState.Talents -> characterPresenter.presentTalents(session)
             NavigationState.TalentTreeDetail -> characterPresenter.presentTalentTreeDetail(session)
             NavigationState.TalentNodeDetail -> characterPresenter.presentTalentNodeDetail(session)
+            NavigationState.GlobalBossMenu -> globalBossPresenter.presentMenu(session)
+            NavigationState.GlobalBossEventDetail -> globalBossPresenter.presentEventDetail(session)
+            NavigationState.GlobalBossMilestones -> globalBossPresenter.presentMilestones(session)
             NavigationState.Exploration -> navigationPresenter.presentExploration(session)
             NavigationState.ExplorationLowHpConfirm -> navigationPresenter.presentExplorationLowHpConfirm(session)
             NavigationState.DungeonSelection -> navigationPresenter.presentDungeonSelection(session)

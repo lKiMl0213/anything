@@ -1,0 +1,63 @@
+{
+  "id": "weekly_world_boss",
+  "cadence": "WEEKLY",
+  "title": "Boss Global Semanal",
+  "description": "Confronte o guardiao semanal e acumule pontos de dano.",
+  "bossArchetypeId": "stone_golem",
+  "tierId": "tier2",
+  "levelOffset": 6,
+  "minBossLevel": 1,
+  "maxBossLevel": 1000,
+  "balance": {
+    "baseDamageMultiplierPct": 60.0,
+    "baseDefenseMultiplierPct": 100.0,
+    "baseHpMultiplierPct": 100.0,
+    "baseDamageReductionPct": 0.0,
+    "turnScaleMultiplierPct": 118.0,
+    "damageScaleMultiplierPct": 118.0,
+    "rewardMultiplierPct": 100.0
+  },
+  "milestones": [
+    { "id": "wk_ms_50", "pointsRequired": 50, "reward": { "xp": 60, "gold": 120 } },
+    { "id": "wk_ms_150", "pointsRequired": 150, "reward": { "xp": 120, "gold": 220 } },
+    { "id": "wk_ms_300", "pointsRequired": 300, "reward": { "xp": 180, "gold": 320 } },
+    { "id": "wk_ms_600", "pointsRequired": 600, "reward": { "xp": 260, "gold": 500 } },
+    { "id": "wk_ms_1000", "pointsRequired": 1000, "reward": { "xp": 360, "gold": 720 } },
+    { "id": "wk_ms_1500", "pointsRequired": 1500, "reward": { "xp": 480, "gold": 900 } },
+    { "id": "wk_ms_2200", "pointsRequired": 2200, "reward": { "xp": 620, "gold": 1180 } },
+    { "id": "wk_ms_3200", "pointsRequired": 3200, "reward": { "xp": 780, "gold": 1460 } },
+    { "id": "wk_ms_4500", "pointsRequired": 4500, "reward": { "xp": 980, "gold": 1860 } },
+    { "id": "wk_ms_6000", "pointsRequired": 6000, "reward": { "xp": 1240, "gold": 2320 } },
+    { "id": "wk_ms_8000", "pointsRequired": 8000, "reward": { "xp": 1580, "gold": 2860 } },
+    { "id": "wk_ms_10500", "pointsRequired": 10500, "reward": { "xp": 1960, "gold": 3520 } },
+    { "id": "wk_ms_13500", "pointsRequired": 13500, "reward": { "xp": 2460, "gold": 4300 } },
+    { "id": "wk_ms_17000", "pointsRequired": 17000, "reward": { "xp": 3020, "gold": 5200 } },
+    { "id": "wk_ms_21000", "pointsRequired": 21000, "reward": { "xp": 3700, "gold": 6240, "questCurrency": 8 } }
+  ],
+  "quests": [
+    {
+      "id": "wk_q_single_80",
+      "title": "Impacto Unico",
+      "description": "Alcance 80 pontos em uma unica run.",
+      "objective": "SINGLE_RUN_POINTS",
+      "targetValue": 80,
+      "reward": { "xp": 200, "gold": 900 }
+    },
+    {
+      "id": "wk_q_total_1200",
+      "title": "Ritmo Semanal",
+      "description": "Acumule 1200 pontos no evento semanal.",
+      "objective": "TOTAL_POINTS",
+      "targetValue": 1200,
+      "reward": { "xp": 420, "gold": 1400, "questCurrency": 4 }
+    },
+    {
+      "id": "wk_q_runs_6",
+      "title": "Persistencia",
+      "description": "Conclua 6 runs no evento semanal.",
+      "objective": "RUNS_COMPLETED",
+      "targetValue": 6,
+      "reward": { "xp": 620, "gold": 1900, "premiumCash": 1 }
+    }
+  ]
+}

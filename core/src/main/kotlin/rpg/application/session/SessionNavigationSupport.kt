@@ -43,6 +43,9 @@ internal object SessionNavigationSupport {
             NavigationState.Talents -> NavigationState.CharacterMenu
             NavigationState.TalentTreeDetail -> NavigationState.Talents
             NavigationState.TalentNodeDetail -> NavigationState.TalentTreeDetail
+            NavigationState.GlobalBossMenu -> NavigationState.Hub
+            NavigationState.GlobalBossEventDetail -> NavigationState.GlobalBossMenu
+            NavigationState.GlobalBossMilestones -> NavigationState.GlobalBossEventDetail
             NavigationState.Exploration -> NavigationState.Hub
             NavigationState.ExplorationLowHpConfirm -> NavigationState.Hub
             NavigationState.DungeonSelection -> NavigationState.Exploration
@@ -121,6 +124,14 @@ internal object SessionNavigationSupport {
                 target == NavigationState.QuestList || target == NavigationState.QuestDetail
             ) session.selectedQuestSection else null,
             selectedQuestId = if (target == NavigationState.QuestDetail) session.selectedQuestId else null,
+            selectedGlobalBossEventId = if (
+                target == NavigationState.GlobalBossEventDetail ||
+                target == NavigationState.GlobalBossMilestones
+            ) {
+                session.selectedGlobalBossEventId
+            } else {
+                null
+            },
             selectedAchievementCategory = if (
                 target == NavigationState.AchievementCategory || target == NavigationState.AchievementDetail
             ) session.selectedAchievementCategory else null,

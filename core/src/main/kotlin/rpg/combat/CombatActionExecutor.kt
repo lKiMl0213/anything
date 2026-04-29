@@ -26,6 +26,7 @@ internal interface CombatActionGateway {
         defender: CombatActor,
         preferMagic: Boolean?,
         telemetry: MutableCombatTelemetry,
+        allowTargetDefeat: Boolean = true,
         actionMultiplier: Double = 1.0,
         actionName: String? = null,
         extraOnHitStatuses: List<CombatStatusApplyDef> = emptyList(),
@@ -71,6 +72,7 @@ internal class CombatActionExecutor(
         playerState: PlayerState,
         itemInstances: Map<String, ItemInstance>,
         telemetry: MutableCombatTelemetry,
+        rules: CombatRules,
         onPlayerUpdate: (PlayerState, Map<String, ItemInstance>) -> Unit
     ): ActionOutcome {
         if (actor.runtime.state != CombatState.READY) {
@@ -108,6 +110,7 @@ internal class CombatActionExecutor(
                         defender = target,
                         preferMagic = action.preferMagic,
                         telemetry = telemetry,
+                        allowTargetDefeat = rules.allowMonsterDefeat || target.kind != CombatantKind.MONSTER,
                         extraBonuses = ammoPayload.bonuses,
                         extraOnHitStatuses = ammoPayload.statuses
                     )
@@ -168,6 +171,7 @@ internal class CombatActionExecutor(
                         defender = target,
                         preferMagic = spec.preferMagic,
                         telemetry = telemetry,
+                        allowTargetDefeat = rules.allowMonsterDefeat || target.kind != CombatantKind.MONSTER,
                         actionMultiplier = spec.damageMultiplier.coerceAtLeast(0.1),
                         actionName = spec.name,
                         extraOnHitStatuses = spec.onHitStatuses + ammoPayload.statuses,
@@ -211,6 +215,10 @@ internal class CombatActionExecutor(
             }
 
             is CombatAction.Escape -> {
+                if (!rules.allowEscape) {
+                    gateway.combatLog(gateway.colorize("Fuga indisponivel neste modo de combate.", gateway.ansiYellow))
+                    return ActionOutcome(consumedReady = false)
+                }
                 val attempt = gateway.rollEscape(actor.stats, target.stats)
                 if (attempt.success) {
                     gateway.combatLog("Voce fugiu! (${gateway.format(attempt.chancePct)}%)")
@@ -233,6 +241,7 @@ internal class CombatActionExecutor(
         onAfterAttack: () -> Unit,
         playerProvider: () -> PlayerState,
         telemetry: MutableCombatTelemetry,
+        rules: CombatRules,
         onPlayerUpdate: (PlayerState) -> Unit
     ): Boolean {
         if (actor.runtime.state != CombatState.READY) return true
@@ -261,7 +270,8 @@ internal class CombatActionExecutor(
             attacker = actor,
             defender = target,
             preferMagic = actor.preferMagic,
-            telemetry = telemetry
+            telemetry = telemetry,
+            allowTargetDefeat = rules.allowMonsterDefeat || target.kind != CombatantKind.MONSTER
         )
         val updated = gateway.applyReviveIfNeeded(gateway.syncPlayerHp(playerProvider(), target), target)
         onPlayerUpdate(updated)
@@ -282,6 +292,7 @@ internal class CombatActionExecutor(
         telemetry: MutableCombatTelemetry,
         playerState: PlayerState,
         itemInstances: Map<String, ItemInstance>,
+        rules: CombatRules,
         onPlayerUpdate: (PlayerState, Map<String, ItemInstance>) -> Unit
     ) {
         val pending = caster.pendingAction ?: return
@@ -311,6 +322,7 @@ internal class CombatActionExecutor(
                     defender = target,
                     preferMagic = pending.preferMagic ?: caster.preferMagic,
                     telemetry = telemetry,
+                    allowTargetDefeat = rules.allowMonsterDefeat || target.kind != CombatantKind.MONSTER,
                     extraBonuses = ammoPayload.bonuses,
                     extraOnHitStatuses = ammoPayload.statuses
                 )
@@ -339,6 +351,7 @@ internal class CombatActionExecutor(
                     defender = target,
                     preferMagic = pending.spec.preferMagic,
                     telemetry = telemetry,
+                    allowTargetDefeat = rules.allowMonsterDefeat || target.kind != CombatantKind.MONSTER,
                     actionMultiplier = pending.spec.damageMultiplier.coerceAtLeast(0.1),
                     actionName = pending.spec.name,
                     extraOnHitStatuses = pending.spec.onHitStatuses + ammoPayload.statuses,
