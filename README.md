@@ -1,131 +1,56 @@
-# ANYTHING RPG
+﻿# ANYTHING RPG
 
-Projeto RPG textual em Kotlin, orientado a dados, com arquitetura reorganizada para separar:
-- `core` (regras e logica reaproveitavel),
-- `app-cli` (interface textual atual),
-- `app-android` (base preparada para UI visual futura),
-- `data` (catalogos JSON + saves),
-- `docs` (documentacao e memoria de projeto).
+RPG textual em Kotlin com gameplay orientada a dados.
 
-## Estrutura Atual
+## Fluxo ativo
 
-```text
-anything/
-|-- app-cli/
-|   `-- src/main/kotlin/rpg/
-|       |-- Main.kt
-|       `-- cli/...
-|-- app-android/
-|   |-- README.md
-|   `-- src/main/kotlin/rpg/android/
-|       |-- AndroidAppBootstrap.kt
-|       |-- navigation/
-|       |-- screens/
-|       |-- components/
-|       `-- theme/
-|-- core/
-|   `-- src/main/kotlin/rpg/
-|       |-- achievement/
-|       |-- application/
-|       |-- classquest/
-|       |-- classsystem/
-|       |-- combat/
-|       |-- crafting/
-|       |-- creation/
-|       |-- dungeon/
-|       |-- economy/
-|       |-- engine/
-|       |-- events/
-|       |-- gathering/
-|       |-- inventory/
-|       |-- io/
-|       |-- item/
-|       |-- model/
-|       |-- monster/
-|       |-- navigation/
-|       |-- presentation/
-|       |-- procedural/
-|       |-- progression/
-|       |-- quest/
-|       |-- registry/
-|       |-- scaling/
-|       |-- session/
-|       |-- skills/
-|       |-- state/
-|       |-- status/
-|       |-- talent/
-|       `-- world/
-|-- data/
-|   |-- ... (classes, itens, drop tables, crafting, etc.)
-|   `-- saves/
-|-- docs/
-|   `-- context/
-|-- build.gradle.kts
-|-- settings.gradle.kts
-|-- gradlew
-`-- gradlew.bat
-```
+Entrada da aplicacao CLI:
 
-## Responsabilidades por Camada
+`app-cli/src/main/kotlin/rpg/Main.kt` -> `GameCli` -> `CliFlowController`
 
-### `core`
-- regras de combate, progressao, inventario, economia, quests, talentos, monstros, classes e estado.
-- carregamento de dados/registries e servicos de dominio.
-- logica que deve ser reaproveitada por CLI e futura UI visual.
+Esse e o fluxo suportado para execucao local.
 
-### `app-cli`
-- fluxo textual atual do jogo.
-- menus, render de texto, input de terminal e runtime legado/modular da CLI.
+## Estrutura principal
 
-### `app-android`
-- base minima para iniciar Jetpack Compose no proximo passo.
-- estrutura inicial de navegacao/telas/componentes/theme.
+- `core/`: regras de dominio, sistemas de combate, inventario, quests, crafting, encantamento, caca e apresentacao de telas.
+- `app-cli/`: interface textual (render, input, controle de fluxo CLI).
+- `app-android/`: app Android integrado ao core.
+- `data/`: conteudo JSON (itens, drops, receitas, classes, quest templates, saves).
+- `docs/context/`: memoria tecnica e changelog de evolucao.
 
-### `data`
-- catalogos JSON recursivos do jogo.
-- `data/saves` como destino padrao de save/load/autosave.
+## Build e execucao
 
-### `docs`
-- contexto, changelog e memoria de projeto em `docs/context`.
+Build completo:
 
-## Build e Execucao
-
-### Build
 ```bash
 ./gradlew build
 ```
 
-### Rodar CLI
+Executar CLI:
+
 ```bash
 ./gradlew run
 ```
 
-### Testes
+Executar testes:
+
 ```bash
 ./gradlew test
 ```
 
-## Observacoes Importantes
+Pacote Windows portatil:
 
-- A reorganizacao foi estrutural/fisica; regras de gameplay foram preservadas.
-- O projeto continua single-module no Gradle por seguranca nesta fase, com `sourceSets` apontando para:
-  - `core/src/main/kotlin`
-  - `app-cli/src/main/kotlin`
-- `app-android` foi preparado como base de trabalho futuro sem acoplar no build agora.
+```bash
+./gradlew packageWindowsPortable
+```
 
-## Dados e Saves
+## Dados e saves
 
-- O jogo continua carregando catalogos a partir de `data/`.
-- Save/load/autosave padrao agora usa:
-  - `data/saves/*.json`
+- Catalogos sao carregados de `data/` de forma recursiva.
+- Saves ficam em `data/saves/`.
 
-## Limpeza de Scripts
+## Diretrizes de manutencao
 
-Foram removidos scripts auxiliares legacy/duplicados de compilacao/exportacao:
-- `compilar-pra-exportar.ps1`
-- `compilar-pra-exportar.sh`
-- `compilar_pra_exportar.bat`
-- `scripts/reorganize_data_layout.ps1`
-- `Relatório.md` (removido)
-
-Wrappers do Gradle (`gradlew`/`gradlew.bat`) foram mantidos por serem necessarios para build/execucao multiplataforma.
+- Priorizar conteudo de gameplay data-driven em JSON.
+- Evitar colocar regra de dominio na camada de CLI.
+- Manter compatibilidade com o fluxo ativo da CLI.
