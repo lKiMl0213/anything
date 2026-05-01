@@ -20,9 +20,8 @@
     "requiresDungeon": true
   },
   "titleTemplate": "Caca aos Elites",
-  "descriptionTemplate": "Derrote {amount} inimigos de elite na dungeon.",
+  "descriptionTemplate": "Derrote {amount} inimigos de elite nas areas de exploracao.",
   "hintTemplate": "Bosses e raridades altas contam como elite.",
   "enabled": true,
   "weight": 4
 }
-

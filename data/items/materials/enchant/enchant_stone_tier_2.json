@@ -1,0 +1,15 @@
+﻿{
+    "id":  "enchant_stone_tier_2",
+    "name":  "Pedra de Encantamento +2",
+    "type":  "MATERIAL",
+    "tier":  "common",
+    "tags":  [
+                 "enchant",
+                 "enchant_stone",
+                 "pedra",
+                 "tier_2"
+             ],
+    "value":  170,
+    "description":  "Pedra que concentra exatamente o encantamento +2.",
+    "rarity":  "COMMON"
+}

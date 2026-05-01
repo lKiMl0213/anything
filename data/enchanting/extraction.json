@@ -1,0 +1,68 @@
+﻿{
+    "enchantStoneTemplateId":  "enchant_stone",
+    "removalScrollItemId":  "extract_scroll_remocao",
+    "protectionScrollItemId":  "extract_scroll_protecao",
+    "minimumItemLevel":  5,
+    "noScrollChanceMultiplier":  0.12,
+    "noScrollChanceCapPct":  8.0,
+    "withScrollChanceMultiplier":  1.9,
+    "withScrollFlatBonusPct":  12.0,
+    "withScrollMinChancePct":  52.0,
+    "withScrollCapPct":  96.0,
+    "goldBaseCost":  180,
+    "goldPerItemLevel":  9.0,
+    "goldPerEnchantLevel":  68.0,
+    "rarityCostMultiplierByName":  {
+                                       "COMMON":  1.0,
+                                       "UNCOMMON":  1.1,
+                                       "RARE":  1.2,
+                                       "EPIC":  1.35,
+                                       "LEGENDARY":  1.6,
+                                       "MYTHIC":  1.9
+                                   },
+    "baseDurationSeconds":  7.0,
+    "minDurationSeconds":  1.5,
+    "stoneValuePerEnchantLevel":  42,
+    "attemptBaseXp":  9.0,
+    "successBonusXp":  16.0,
+    "xpPerEnchantLevelDifficulty":  0.06,
+    "enchantStoneTemplateIdByLevel":  {
+                                          "0":  "enchant_stone",
+                                          "1":  "enchant_stone_tier_1",
+                                          "2":  "enchant_stone_tier_2",
+                                          "3":  "enchant_stone_tier_3",
+                                          "4":  "enchant_stone_tier_4",
+                                          "5":  "enchant_stone_tier_5",
+                                          "6":  "enchant_stone_tier_6",
+                                          "7":  "enchant_stone_tier_7",
+                                          "8":  "enchant_stone_tier_8",
+                                          "9":  "enchant_stone_tier_9",
+                                          "10":  "enchant_stone_tier_10",
+                                          "11":  "enchant_stone_tier_11",
+                                          "12":  "enchant_stone_tier_12",
+                                          "13":  "enchant_stone_tier_13",
+                                          "14":  "enchant_stone_tier_14",
+                                          "15":  "enchant_stone_tier_15"
+                                      },
+    "removalScrollItemIdsByTier":  {
+                                       "common":  "extract_scroll_remocao",
+                                       "uncommon":  "extract_scroll_remocao_uncommon",
+                                       "rare":  "extract_scroll_remocao_rare",
+                                       "epic":  "extract_scroll_remocao_epic",
+                                       "legendary":  "extract_scroll_remocao_legendary"
+                                   },
+    "protectionScrollItemIdsByTier":  {
+                                          "common":  "extract_scroll_protecao",
+                                          "uncommon":  "extract_scroll_protecao_uncommon",
+                                          "rare":  "extract_scroll_protecao_rare",
+                                          "epic":  "extract_scroll_protecao_epic",
+                                          "legendary":  "extract_scroll_protecao_legendary"
+                                      },
+    "removalScrollChanceMultiplierByTier":  {
+                                                "common":  1,
+                                                "uncommon":  1.08,
+                                                "rare":  1.16,
+                                                "epic":  1.24,
+                                                "legendary":  1.32
+                                            }
+}

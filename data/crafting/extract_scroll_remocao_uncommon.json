@@ -1,0 +1,41 @@
+﻿{
+    "id":  "extract_scroll_remocao_uncommon",
+    "name":  "Criar Pergaminho de Remocao (Incomum)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "extract_scroll_remocao_uncommon",
+    "outputQty":  1,
+    "minPlayerLevel":  20,
+    "minSkillLevel":  11,
+    "baseDurationSeconds":  10,
+    "baseXp":  38,
+    "difficulty":  1.56,
+    "tier":  3,
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "wolf_pelt"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "rough_hide"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "arcane_crystal"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "runic_stone"
+                        }
+                    ],
+    "description":  "Pergaminho incomum para extracao consistente.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "extract",
+                 "scroll",
+                 "removal",
+                 "uncommon"
+             ]
+}

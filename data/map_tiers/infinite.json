@@ -1,5 +1,7 @@
 {
   "id": "infinite",
+  "displayName": "Torre infinita",
+  "menuNote": "Progressao sem limite. Recompensas crescem com risco e consistencia.",
   "minLevel": 30,
   "recommendedLevel": 30,
   "baseMonsterLevel": 30,

@@ -1,5 +1,6 @@
 package rpg.cli.renderer
 
+import java.text.Normalizer
 import kotlin.math.roundToInt
 import rpg.presentation.model.CombatScreenViewModel
 import rpg.presentation.model.MenuScreenViewModel
@@ -78,7 +79,7 @@ class TextScreenRenderer {
     }
 
     private fun colorizeMessage(message: String): String {
-        val lower = message.lowercase()
+        val lower = normalizeForMatching(message)
         val color = when {
             lower.contains("insuficiente") ||
                 lower.contains("invalido") ||
@@ -109,7 +110,7 @@ class TextScreenRenderer {
             val needed = ingredientMatch.groupValues[4].toIntOrNull() ?: 0
             return if (owned < needed) colorize(normalized, CliAnsiPalette.danger) else normalized
         }
-        val lower = normalized.lowercase()
+        val lower = normalizeForMatching(normalized)
         return when {
             lower.contains("indisponivel") -> colorize(normalized, CliAnsiPalette.danger)
             lower.startsWith("clock sistema:") -> colorize(normalized, CliAnsiPalette.info)
@@ -133,5 +134,10 @@ class TextScreenRenderer {
     private fun colorize(text: String, color: String): String {
         if (!colorEnabled || text.isBlank()) return text
         return "$color$text${CliAnsiPalette.reset}"
+    }
+
+    private fun normalizeForMatching(text: String): String {
+        val normalized = Normalizer.normalize(text, Normalizer.Form.NFD)
+        return normalized.replace("\\p{M}+".toRegex(), "").lowercase()
     }
 }

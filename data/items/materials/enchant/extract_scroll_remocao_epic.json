@@ -1,0 +1,16 @@
+﻿{
+    "id":  "extract_scroll_remocao_epic",
+    "name":  "Pergaminho de Remocao (Epico)",
+    "type":  "MATERIAL",
+    "tier":  "epic",
+    "tags":  [
+                 "enchant",
+                 "extract",
+                 "scroll",
+                 "removal",
+                 "epic"
+             ],
+    "value":  360,
+    "description":  "Pergaminho epico de extracao avancada.",
+    "rarity":  "EPIC"
+}

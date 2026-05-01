@@ -1,0 +1,16 @@
+﻿{
+    "id":  "enchant_rune_protecao_uncommon",
+    "name":  "Runa de Protecao (Incomum)",
+    "type":  "MATERIAL",
+    "tier":  "uncommon",
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "protecao",
+                 "uncommon",
+                 "crafting"
+             ],
+    "value":  148,
+    "description":  "Runa incomum de seguranca para encantamento.",
+    "rarity":  "UNCOMMON"
+}

@@ -1,0 +1,16 @@
+﻿{
+    "id":  "enchant_rune_aprimoramento_legendary",
+    "name":  "Runa de Aprimoramento (Lendaria)",
+    "type":  "MATERIAL",
+    "tier":  "legendary",
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "upgrade",
+                 "legendary",
+                 "crafting"
+             ],
+    "value":  420,
+    "description":  "Catalisador lendario para encantamentos de alto risco.",
+    "rarity":  "LEGENDARY"
+}

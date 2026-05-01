@@ -1,0 +1,41 @@
+﻿{
+    "id":  "extract_scroll_protecao_rare",
+    "name":  "Criar Pergaminho de Protecao de Extracao (Raro)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "extract_scroll_protecao_rare",
+    "outputQty":  1,
+    "minPlayerLevel":  32,
+    "minSkillLevel":  18,
+    "baseDurationSeconds":  14,
+    "baseXp":  64,
+    "difficulty":  1.88,
+    "tier":  5,
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "predator_eye"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "runic_core"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "arcane_crystal"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "luminous_mushroom"
+                        }
+                    ],
+    "description":  "Pergaminho raro para manter equipamento apos extracao.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "extract",
+                 "scroll",
+                 "protecao",
+                 "rare"
+             ]
+}

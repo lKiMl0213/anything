@@ -1,11 +1,16 @@
 {
   "id": "tier4",
+  "displayName": "Camposanto da Coroa Quebrada",
+  "menuNote": "Area de risco alto com elites mortos-vivos e presenca demoniaca.",
   "minLevel": 20,
   "recommendedLevel": 25,
   "baseMonsterLevel": 24,
   "difficultyMultiplier": 1.34,
   "allowedMonsterTemplates": [
     "lich",
+    "undead_knight",
+    "zombie",
+    "ghost",
     "stone_golem",
     "animated_armor",
     "arcane_sentinel",
@@ -13,14 +18,7 @@
     "infernal_ember",
     "succubus",
     "hellhound",
-    "earth_elemental",
-    "wind_elemental",
-    "shadow_elemental",
-    "awakened_tree",
-    "walking_fungus",
-    "dragon_whelp",
-    "wild_draconid",
-    "wyvern"
+    "shadow_elemental"
   ],
   "dropTier": 4,
   "dropChanceMultiplier": 1.0,

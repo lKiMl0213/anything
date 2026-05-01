@@ -1,0 +1,24 @@
+{
+  "id": "collect_enchant_stone_stockpile",
+  "category": "collection",
+  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"],
+  "objectiveType": "COLLECT_ITEM",
+  "targetType": "ITEM_ID",
+  "targetId": "enchant_stone",
+  "amountRange": { "min": 1, "max": 6 },
+  "rewardProfile": {
+    "xpBase": 26,
+    "goldBase": 24,
+    "effortMultiplier": 1.5
+  },
+  "constraints": {
+    "minPlayerLevel": 8,
+    "maxPlayerLevel": 999,
+    "requiresDungeon": false
+  },
+  "titleTemplate": "Reserva Arcana",
+  "descriptionTemplate": "Obtenha {amount} Pedra(s) de Encantamento em fusao ou extracao.",
+  "hintTemplate": "Use extracao e fusao para alimentar seu estoque de pedras.",
+  "enabled": true,
+  "weight": 5
+}

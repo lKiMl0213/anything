@@ -31,6 +31,7 @@ java {
 
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    testImplementation(kotlin("test"))
 }
 
 val kotlinLineLimit = 300

@@ -1,0 +1,40 @@
+﻿{
+    "id":  "enchant_rune_aprimoramento_epic",
+    "name":  "Sintetizar Runa de Aprimoramento (Epica)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "enchant_rune_aprimoramento_epic",
+    "outputQty":  1,
+    "minPlayerLevel":  30,
+    "minSkillLevel":  17,
+    "baseDurationSeconds":  13,
+    "baseXp":  48,
+    "difficulty":  1.78,
+    "tier":  5,
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "predator_eye"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "luminous_mushroom"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "runic_core"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "arcane_crystal"
+                        }
+                    ],
+    "description":  "Runa epica para tentativas de alto risco.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "upgrade",
+                 "epic"
+             ]
+}

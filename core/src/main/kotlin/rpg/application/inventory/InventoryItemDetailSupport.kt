@@ -51,6 +51,7 @@ internal class InventoryItemDetailSupport(
         when (item.type) {
             ItemType.CONSUMABLE -> {
                 val restores = mutableListOf<String>()
+                val canonical = canonicalItemId(stack.sampleItemId, itemInstances)
                 if (item.effects.hpRestore > 0.0) restores += "HP +${format(item.effects.hpRestore)}"
                 if (item.effects.mpRestore > 0.0) restores += "MP +${format(item.effects.mpRestore)}"
                 if (item.effects.hpRestorePct > 0.0) restores += "HP +${format(item.effects.hpRestorePct)}%"
@@ -58,6 +59,9 @@ internal class InventoryItemDetailSupport(
                 if (item.effects.fullRestore) restores += "Restaura HP/MP total"
                 if (item.effects.clearNegativeStatuses) restores += "Remove status negativos"
                 if (item.effects.statusImmunitySeconds > 0.0) restores += "Imunidade ${format(item.effects.statusImmunitySeconds)}s"
+                if (engine.cookingBuffService.hasBuffForItem(canonical)) {
+                    restores += "Ativa buff culinario temporario (substitui o buff anterior)"
+                }
                 if (restores.isNotEmpty()) lines += "Efeito: ${restores.joinToString(" | ")}"
             }
             ItemType.MATERIAL -> {
@@ -84,6 +88,9 @@ internal class InventoryItemDetailSupport(
                 val slotLabel = item.slot?.name ?: "desconhecido"
                 val handLabel = if (item.twoHanded) " (duas maos)" else ""
                 lines += "Slot: $slotLabel$handLabel"
+                if (item.enchantLevel > 0) {
+                    lines += "Encantamento: +${item.enchantLevel}"
+                }
                 val classTag = ClassQuestTagRules.effectiveClassTag(item.tags)
                 lines += "Tag de classe: ${equipRules.classTagDisplayLabel(classTag)}"
                 val classLock = ClassQuestTagRules.classLocked(item.tags)

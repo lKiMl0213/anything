@@ -1,0 +1,16 @@
+﻿{
+    "id":  "enchant_rune_aprimoramento",
+    "name":  "Runa de Aprimoramento (Comum)",
+    "type":  "MATERIAL",
+    "tier":  "common",
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "upgrade",
+                 "common",
+                 "crafting"
+             ],
+    "value":  42,
+    "description":  "Catalisador comum que aumenta chance base de encantamento em bonus relativo.",
+    "rarity":  "COMMON"
+}

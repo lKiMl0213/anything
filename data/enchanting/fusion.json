@@ -1,0 +1,68 @@
+﻿{
+    "enchantStoneTemplateId":  "enchant_stone",
+    "maxEnchantLevel":  15,
+    "minimumEquipmentLevel":  5,
+    "successMultiplierByMode":  {
+                                    "equipment_equipment":  0.86,
+                                    "stone_stone":  0.92,
+                                    "stone_equipment":  1.0
+                                },
+    "minSuccessChancePct":  8.0,
+    "maxSuccessChancePct":  92.0,
+    "upgradeChanceByBaseLevel":  {
+                                     "0":  70.0,
+                                     "3":  58.0,
+                                     "6":  48.0,
+                                     "9":  36.0,
+                                     "12":  22.0,
+                                     "14":  14.0
+                                 },
+    "failurePenaltyMaxByLevel":  {
+                                     "0":  1,
+                                     "4":  2,
+                                     "8":  3,
+                                     "12":  4
+                                 },
+    "failureStoneLevelFloor":  0,
+    "goldBaseCost":  200,
+    "goldPerItemLevel":  8.0,
+    "goldPerEnchantLevel":  62.0,
+    "rarityCostMultiplierByName":  {
+                                       "COMMON":  1.0,
+                                       "UNCOMMON":  1.1,
+                                       "RARE":  1.22,
+                                       "EPIC":  1.36,
+                                       "LEGENDARY":  1.6,
+                                       "MYTHIC":  1.9
+                                   },
+    "costMultiplierByMode":  {
+                                 "equipment_equipment":  1.15,
+                                 "stone_stone":  0.92,
+                                 "stone_equipment":  1.0
+                             },
+    "baseDurationSeconds":  9.0,
+    "minDurationSeconds":  1.5,
+    "equipmentPowerVariancePct":  0.03,
+    "stoneValuePerEnchantLevel":  38,
+    "attemptBaseXp":  10.0,
+    "successBonusXp":  12.0,
+    "xpPerEnchantLevelDifficulty":  0.06,
+    "enchantStoneTemplateIdByLevel":  {
+                                          "0":  "enchant_stone",
+                                          "1":  "enchant_stone_tier_1",
+                                          "2":  "enchant_stone_tier_2",
+                                          "3":  "enchant_stone_tier_3",
+                                          "4":  "enchant_stone_tier_4",
+                                          "5":  "enchant_stone_tier_5",
+                                          "6":  "enchant_stone_tier_6",
+                                          "7":  "enchant_stone_tier_7",
+                                          "8":  "enchant_stone_tier_8",
+                                          "9":  "enchant_stone_tier_9",
+                                          "10":  "enchant_stone_tier_10",
+                                          "11":  "enchant_stone_tier_11",
+                                          "12":  "enchant_stone_tier_12",
+                                          "13":  "enchant_stone_tier_13",
+                                          "14":  "enchant_stone_tier_14",
+                                          "15":  "enchant_stone_tier_15"
+                                      }
+}

@@ -1,0 +1,44 @@
+﻿{
+    "id":  "enchant_rune_protecao_legendary",
+    "name":  "Sintetizar Runa de Protecao (Lendaria)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "enchant_rune_protecao_legendary",
+    "outputQty":  1,
+    "minPlayerLevel":  44,
+    "minSkillLevel":  24,
+    "baseDurationSeconds":  16,
+    "baseXp":  82,
+    "difficulty":  2.12,
+    "tier":  6,
+    "ingredients":  [
+                        {
+                            "quantity":  3,
+                            "itemId":  "predator_eye"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "golden_flower"
+                        },
+                        {
+                            "quantity":  3,
+                            "itemId":  "runic_core"
+                        },
+                        {
+                            "quantity":  3,
+                            "itemId":  "oil"
+                        },
+                        {
+                            "quantity":  3,
+                            "itemId":  "arcane_crystal"
+                        }
+                    ],
+    "description":  "Runa lendaria para seguranca maxima em encantamento.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "protecao",
+                 "legendary"
+             ]
+}

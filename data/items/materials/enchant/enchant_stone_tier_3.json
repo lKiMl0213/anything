@@ -1,0 +1,15 @@
+﻿{
+    "id":  "enchant_stone_tier_3",
+    "name":  "Pedra de Encantamento +3",
+    "type":  "MATERIAL",
+    "tier":  "common",
+    "tags":  [
+                 "enchant",
+                 "enchant_stone",
+                 "pedra",
+                 "tier_3"
+             ],
+    "value":  215,
+    "description":  "Pedra que concentra exatamente o encantamento +3.",
+    "rarity":  "COMMON"
+}

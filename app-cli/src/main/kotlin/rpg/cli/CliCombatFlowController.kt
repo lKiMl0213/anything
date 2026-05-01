@@ -75,7 +75,6 @@ class CliCombatFlowController(
         if (encounter.combatMode == CombatMode.GLOBAL_BOSS) {
             return resolveGlobalBossCombat(gameState, encounter, result, combatLog.toList())
         }
-
         var playerAfterCombat = applyBattleResolvedAchievement(
             result.playerAfter,
             result.telemetry,
@@ -94,14 +93,12 @@ class CliCombatFlowController(
             player = playerAfterCombat,
             itemInstances = result.itemInstances
         )
-
         return when {
             result.escaped -> CombatFlowResult(
                 gameState = updatedState.copy(currentRun = null),
                 navigation = NavigationState.Exploration,
                 messages = listOf("Voce fugiu do combate.") + combatLog.toList()
             )
-
             !result.victory -> CombatFlowResult(
                 gameState = updatedState.copy(currentRun = null),
                 navigation = NavigationState.Hub,
@@ -124,22 +121,42 @@ class CliCombatFlowController(
                     clearedRoomType = encounter.roomType,
                     victoryInRoom = true
                 )
-                updatedState = updatedState.copy(
+                val classRewards = applyClassDungeonCombatRewards(
+                    engine = engine,
+                    encounter = encounter,
                     player = playerWithAchievementGold,
-                    itemInstances = victory.itemInstances,
+                    itemInstances = victory.itemInstances
+                )
+                val playerWithClassGold = if (classRewards.bonusGold > 0) {
+                    applyGoldEarnedAchievement(classRewards.player, classRewards.bonusGold.toLong())
+                } else {
+                    classRewards.player
+                }
+                val playerWithRunProgress = if (encounter.tier.isInfinite) {
+                    updateInfiniteHighestFloorCounter(playerWithClassGold, advancedRun.depth)
+                } else {
+                    playerWithClassGold
+                }
+                updatedState = updatedState.copy(
+                    player = playerWithRunProgress,
+                    itemInstances = classRewards.itemInstances,
                     currentRun = advancedRun
                 )
                 val rewardLines = mutableListOf(
                     "$displayName foi derrotado!",
                     "Ganhou ${victory.xpGain} XP e ${victory.goldGain} ouro."
                 )
-                if (playerWithAchievementGold.level > levelBefore) {
-                    rewardLines += "Level up! Agora voce esta no nivel ${playerWithAchievementGold.level}."
+                if (playerWithRunProgress.level > levelBefore) {
+                    rewardLines += "Level up! Agora voce esta no nivel ${playerWithRunProgress.level}."
+                }
+                if (encounter.tier.isInfinite) {
+                    rewardLines += "Torre infinita: novo andar alcancado ${advancedRun.depth}."
                 }
                 victory.dropOutcome.itemInstance?.let { rewardLines += "Drop: ${it.name}." }
                 if (victory.dropOutcome.itemInstance == null && victory.dropOutcome.itemId != null) {
                     rewardLines += "Drop: ${victory.dropOutcome.itemId} x${victory.dropOutcome.quantity.coerceAtLeast(1)}."
                 }
+                rewardLines += classRewards.messages
                 CombatFlowResult(
                     gameState = updatedState,
                     navigation = NavigationState.Exploration,

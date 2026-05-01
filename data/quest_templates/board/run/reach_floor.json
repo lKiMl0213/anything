@@ -16,9 +16,8 @@
     "requiresDungeon": true
   },
   "titleTemplate": "Descida Profunda",
-  "descriptionTemplate": "Alcance ao menos o andar {amount} da dungeon infinita.",
+  "descriptionTemplate": "Alcance ao menos o andar {amount} da Torre infinita.",
   "hintTemplate": "Andares mais fundos aumentam risco e recompensa.",
   "enabled": true,
   "weight": 7
 }
-

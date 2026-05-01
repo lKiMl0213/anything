@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "crystal_shard",
     "name":  "Cristal",
     "tags":  [
@@ -7,5 +7,6 @@
              ],
     "value":  8,
     "type":  "MATERIAL",
-    "description":  "Fragmento de cristal para imbuicoes."
+    "description":  "Fragmento de cristal para imbuicoes.",
+    "tier":  "common"
 }

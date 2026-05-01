@@ -1,0 +1,16 @@
+﻿{
+    "id":  "extract_scroll_protecao_rare",
+    "name":  "Pergaminho de Protecao de Extracao (Raro)",
+    "type":  "MATERIAL",
+    "tier":  "rare",
+    "tags":  [
+                 "enchant",
+                 "extract",
+                 "scroll",
+                 "protecao",
+                 "rare"
+             ],
+    "value":  380,
+    "description":  "Protecao rara para extracao de encantamento valioso.",
+    "rarity":  "RARE"
+}

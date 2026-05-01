@@ -1,0 +1,16 @@
+﻿{
+    "id":  "enchant_rune_protecao",
+    "name":  "Runa de Protecao (Comum)",
+    "type":  "MATERIAL",
+    "tier":  "common",
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "protecao",
+                 "common",
+                 "crafting"
+             ],
+    "value":  84,
+    "description":  "Runa consumivel que impede quebra em uma tentativa de encantamento.",
+    "rarity":  "COMMON"
+}

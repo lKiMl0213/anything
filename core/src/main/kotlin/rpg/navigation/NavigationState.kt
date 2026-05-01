@@ -14,7 +14,18 @@ sealed interface NavigationState {
     data object ProductionMenu : NavigationState
     data object ProductionCraftMenu : NavigationState
     data object ProductionRecipeList : NavigationState
+    data object ProductionRecipeDetail : NavigationState
     data object ProductionGatheringList : NavigationState
+    data object ProductionHuntingSpotList : NavigationState
+    data object ProductionHuntingDurationList : NavigationState
+    data object ProductionEnchantMenu : NavigationState
+    data object ProductionEnchantList : NavigationState
+    data object ProductionEnchantDetail : NavigationState
+    data object ProductionFusionSlot1 : NavigationState
+    data object ProductionFusionSlot2 : NavigationState
+    data object ProductionFusionPreview : NavigationState
+    data object ProductionExtractionSlot1 : NavigationState
+    data object ProductionExtractionPreview : NavigationState
     data object ProgressionMenu : NavigationState
     data object QuestBoard : NavigationState
     data object QuestList : NavigationState

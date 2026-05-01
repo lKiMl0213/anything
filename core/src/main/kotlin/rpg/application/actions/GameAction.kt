@@ -19,12 +19,53 @@ sealed interface GameAction {
     data class LoadSave(val path: Path) : GameAction
     data object OpenProductionMenu : GameAction
     data object OpenCraftMenu : GameAction
+    data object OpenEnchantMenu : GameAction
+    data object OpenEnchantItemList : GameAction
+    data object OpenFusionMenu : GameAction
+    data object OpenExtractionMenu : GameAction
+    data object OpenHuntingMenu : GameAction
     data class OpenCraftDiscipline(val discipline: CraftDiscipline) : GameAction
+    data class InspectCraftRecipe(val recipeId: String) : GameAction
+    data class ConfigureCraftRecipeQuantity(val recipeId: String, val maxQuantity: Int) : GameAction
+    data class SetCraftRecipeQuantity(val recipeId: String, val quantity: Int) : GameAction
     data class CraftRecipe(val recipeId: String) : GameAction
-    data class ExecuteCraftRecipe(val discipline: CraftDiscipline, val recipeId: String) : GameAction
+    data class ExecuteCraftRecipe(val discipline: CraftDiscipline, val recipeId: String, val times: Int = 1) : GameAction
     data class OpenGatheringType(val type: GatheringType) : GameAction
     data class GatherNode(val nodeId: String) : GameAction
     data class ExecuteGatherNode(val type: GatheringType, val nodeId: String) : GameAction
+    data class InspectEnchantItem(val itemId: String) : GameAction
+    data class AttemptEnchantItem(
+        val itemId: String,
+        val enhancementRunes: Int,
+        val useProtectionRune: Boolean
+    ) : GameAction
+    data object CycleEnchantEnhancementRunes : GameAction
+    data object ToggleEnchantProtectionRune : GameAction
+    data class ExecuteEnchantItem(
+        val itemId: String,
+        val enhancementRunes: Int,
+        val useProtectionRune: Boolean
+    ) : GameAction
+    data class SelectFusionSlot1(val itemId: String) : GameAction
+    data class SelectFusionSlot2(val itemId: String) : GameAction
+    data class AttemptFusion(val slot1ItemId: String, val slot2ItemId: String) : GameAction
+    data class ExecuteFusion(val slot1ItemId: String, val slot2ItemId: String) : GameAction
+    data class SelectExtractionItem(val itemId: String) : GameAction
+    data class AttemptExtraction(
+        val itemId: String,
+        val useRemovalScroll: Boolean,
+        val useProtectionScroll: Boolean
+    ) : GameAction
+    data object ToggleExtractionRemovalScroll : GameAction
+    data object ToggleExtractionProtectionScroll : GameAction
+    data class ExecuteExtraction(
+        val itemId: String,
+        val useRemovalScroll: Boolean,
+        val useProtectionScroll: Boolean
+    ) : GameAction
+    data class SelectHuntingSpot(val spotId: String) : GameAction
+    data class AttemptHunting(val spotId: String, val durationSeconds: Int) : GameAction
+    data class ExecuteHunting(val spotId: String, val durationSeconds: Int) : GameAction
     data object OpenProgressionMenu : GameAction
     data object OpenCityMenu : GameAction
     data object OpenGoldShop : GameAction
@@ -79,6 +120,7 @@ sealed interface GameAction {
     data object ConfirmLowHpExploration : GameAction
     data object OpenDungeonSelection : GameAction
     data class EnterDungeon(val tierId: String) : GameAction
+    data class EnterClassDungeon(val tierId: String) : GameAction
     data class ResolveDungeonEvent(val choice: Int) : GameAction
     data object ExitDungeonRun : GameAction
     data object OpenInventory : GameAction

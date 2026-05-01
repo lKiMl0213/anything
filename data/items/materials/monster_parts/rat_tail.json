@@ -1,8 +1,13 @@
-{
-  "id": "rat_tail",
-  "name": "Rabo de Rato",
-  "type": "MATERIAL",
-  "tags": ["plage", "sell", "vermin"],
-  "value": 2,
-  "description": "Restos de um rato urbano. Serve para trocas e alquimia barata."
+﻿{
+    "id":  "rat_tail",
+    "name":  "Rabo de Rato",
+    "type":  "MATERIAL",
+    "tags":  [
+                 "plage",
+                 "sell",
+                 "vermin"
+             ],
+    "value":  2,
+    "description":  "Restos de um rato urbano. Serve para trocas e alquimia barata.",
+    "tier":  "common"
 }

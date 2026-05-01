@@ -52,6 +52,12 @@ data class PlayerState(
     val roomRegenHpRooms: Int = 0,
     val roomRegenMpPct: Double = 0.0,
     val roomRegenMpRooms: Int = 0,
+    val foodBuffId: String? = null,
+    val foodBuffName: String = "",
+    val foodBuffRemainingMinutes: Double = 0.0,
+    val foodBuffBonuses: Bonuses = Bonuses(),
+    val foodBuffTaskId: String? = null,
+    val foodBuffTaskEfficiencyPct: Double = 0.0,
     val talentNodeRanks: Map<String, Int> = emptyMap(),
     val unlockedTalentTrees: List<String> = emptyList(),
     val subclassUnlockProgressByClass: Map<String, SubclassUnlockProgress> = emptyMap(),
@@ -85,7 +91,9 @@ data class DungeonRun(
     val isActive: Boolean = true,
     val tierId: String? = null,
     val biomeId: String? = null,
-    val mutationTier: Int = 0
+    val mutationTier: Int = 0,
+    val classDungeonPathId: String? = null,
+    val classDungeonUnlockType: String? = null
 )
 
 @Serializable

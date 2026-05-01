@@ -79,7 +79,7 @@ internal class QuestTargetResolver(
             }
             QuestObjectiveType.REACH_FLOOR -> {
                 TargetResolution(
-                    targetName = "andar da dungeon",
+                    targetName = "andar da Torre infinita",
                     difficultyFactor = 1.0
                 )
             }

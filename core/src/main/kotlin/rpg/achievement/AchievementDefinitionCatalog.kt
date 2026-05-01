@@ -176,15 +176,9 @@ internal object AchievementDefinitionCatalog {
             tierTargets = listOf(1, 2, 3),
             rewardScaling = shortScaling
         )
-        add(
-            id = "hidden_class_reset",
-            name = "Renascimento da Classe",
-            description = "Sobreviva aos resets de caminho e retorne mais forte.",
-            category = AchievementCategory.OCULTA,
-            trackedStat = AchievementTrackedStat.LifetimeKey(AchievementStatKeys.TOTAL_CLASS_RESET_TRIGGERS),
-            tierTargets = listOf(1, 2, 3),
-            rewardScaling = hiddenScaling,
-            isHidden = true
+        definitions += AchievementExtendedProgressionCatalog.build(
+            standardScaling = standardScaling,
+            hiddenScaling = hiddenScaling
         )
 
         return definitions

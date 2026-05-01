@@ -19,7 +19,7 @@
     "requiresDungeon": true
   },
   "titleTemplate": "Explorador Persistente",
-  "descriptionTemplate": "Conclua {amount} exploracoes completas da dungeon derrotando o boss.",
+  "descriptionTemplate": "Conclua {amount} exploracoes completas de area derrotando o boss.",
   "hintTemplate": "A run so conta quando o boss e derrotado apos as 10 primeiras salas.",
   "enabled": true,
   "weight": 6

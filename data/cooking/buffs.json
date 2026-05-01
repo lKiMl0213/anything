@@ -1,0 +1,101 @@
+{
+  "powerScalePerDifficulty": 0.22,
+  "durationScalePerDifficulty": 0.18,
+  "powerScalePerIngredient": 0.06,
+  "durationScalePerIngredient": 0.04,
+  "maxPowerMultiplier": 1.9,
+  "maxDurationMultiplier": 1.8,
+  "defaultDurationMinutes": 8.0,
+  "buffs": [
+    {
+      "id": "food_field_ration_efficiency",
+      "itemId": "field_ration",
+      "name": "Ritmo de Campanha",
+      "type": "TASK_EFFICIENCY",
+      "baseValue": 6.0,
+      "baseDurationMinutes": 10.0,
+      "taskId": "hunting"
+    },
+    {
+      "id": "food_grilled_meat_damage",
+      "itemId": "grilled_meat",
+      "name": "Furia da Brasa",
+      "type": "DAMAGE",
+      "baseValue": 4.5,
+      "baseDurationMinutes": 8.0
+    },
+    {
+      "id": "food_grilled_fish_mp_regen",
+      "itemId": "grilled_fish",
+      "name": "Calma do Rio",
+      "type": "MP_REGEN",
+      "baseValue": 2.0,
+      "baseDurationMinutes": 8.0
+    },
+    {
+      "id": "food_simple_soup_hp_regen",
+      "itemId": "simple_soup",
+      "name": "Conforto da Sopa",
+      "type": "HP_REGEN",
+      "baseValue": 1.8,
+      "baseDurationMinutes": 9.0
+    },
+    {
+      "id": "food_seasoned_fish_efficiency",
+      "itemId": "seasoned_fish",
+      "name": "Mira do Pescador",
+      "type": "TASK_EFFICIENCY",
+      "baseValue": 8.0,
+      "baseDurationMinutes": 12.0,
+      "taskId": "fishing"
+    },
+    {
+      "id": "food_meat_stew_defense",
+      "itemId": "meat_stew",
+      "name": "Escudo do Ensopado",
+      "type": "DEFENSE",
+      "baseValue": 5.0,
+      "baseDurationMinutes": 10.0
+    },
+    {
+      "id": "food_herb_meat_hp_regen",
+      "itemId": "herb_meat",
+      "name": "Pulso Herbal",
+      "type": "HP_REGEN",
+      "baseValue": 2.3,
+      "baseDurationMinutes": 11.0
+    },
+    {
+      "id": "food_nutritious_broth_mp_regen",
+      "itemId": "nutritious_broth",
+      "name": "Concentracao do Caldo",
+      "type": "MP_REGEN",
+      "baseValue": 2.8,
+      "baseDurationMinutes": 12.0
+    },
+    {
+      "id": "food_rice_meat_damage",
+      "itemId": "rice_meat",
+      "name": "Marcha da Fortaleza",
+      "type": "DAMAGE",
+      "baseValue": 6.0,
+      "baseDurationMinutes": 12.0
+    },
+    {
+      "id": "food_smoked_fish_defense",
+      "itemId": "smoked_fish",
+      "name": "Pele Curtida",
+      "type": "DEFENSE",
+      "baseValue": 6.2,
+      "baseDurationMinutes": 12.0
+    },
+    {
+      "id": "food_simple_banquet_hybrid_damage",
+      "itemId": "simple_banquet",
+      "name": "Banquete da Vitoria",
+      "type": "DAMAGE",
+      "baseValue": 8.0,
+      "baseDurationMinutes": 15.0
+    }
+  ]
+}

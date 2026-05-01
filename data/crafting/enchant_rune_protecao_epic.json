@@ -1,0 +1,40 @@
+﻿{
+    "id":  "enchant_rune_protecao_epic",
+    "name":  "Sintetizar Runa de Protecao (Epica)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "enchant_rune_protecao_epic",
+    "outputQty":  1,
+    "minPlayerLevel":  34,
+    "minSkillLevel":  19,
+    "baseDurationSeconds":  14,
+    "baseXp":  60,
+    "difficulty":  1.9,
+    "tier":  5,
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "predator_eye"
+                        },
+                        {
+                            "quantity":  3,
+                            "itemId":  "luminous_mushroom"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "runic_core"
+                        },
+                        {
+                            "quantity":  3,
+                            "itemId":  "enchanted_ash"
+                        }
+                    ],
+    "description":  "Runa epica para proteger itens muito valiosos.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "protecao",
+                 "epic"
+             ]
+}

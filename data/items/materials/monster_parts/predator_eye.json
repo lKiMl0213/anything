@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "predator_eye",
     "name":  "Olho de Predador",
     "type":  "MATERIAL",
@@ -8,5 +8,6 @@
                  "craft"
              ],
     "value":  7,
-    "description":  "Olho preservado de um predador."
+    "description":  "Olho preservado de um predador.",
+    "tier":  "epic"
 }

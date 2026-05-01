@@ -1,0 +1,40 @@
+﻿{
+    "id":  "enchant_rune_protecao_uncommon",
+    "name":  "Sintetizar Runa de Protecao (Incomum)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "enchant_rune_protecao_uncommon",
+    "outputQty":  1,
+    "minPlayerLevel":  18,
+    "minSkillLevel":  10,
+    "baseDurationSeconds":  10,
+    "baseXp":  30,
+    "difficulty":  1.48,
+    "tier":  3,
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "wolf_pelt"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "rough_hide"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "arcane_fragment"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "runic_stone"
+                        }
+                    ],
+    "description":  "Runa incomum para proteger equipamentos em progressao.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "protecao",
+                 "uncommon"
+             ]
+}

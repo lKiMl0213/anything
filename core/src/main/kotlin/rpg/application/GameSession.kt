@@ -2,6 +2,7 @@ package rpg.application
 
 import java.nio.file.Path
 import rpg.achievement.AchievementCategory
+import rpg.classquest.ClassQuestDungeonDefinition
 import rpg.application.creation.CharacterCreationDraft
 import rpg.application.inventory.InventoryFilterState
 import rpg.application.progression.QuestSection
@@ -30,6 +31,7 @@ data class PendingEncounter(
     val isBoss: Boolean,
     val roomType: RunRoomType,
     val introLines: List<String>,
+    val classDungeon: ClassQuestDungeonDefinition? = null,
     val combatMode: CombatMode = CombatMode.DUNGEON,
     val globalBossEventId: String? = null
 )
@@ -93,7 +95,18 @@ data class GameSession(
     val selectedCreationClassId: String? = null,
     val inventoryFilter: InventoryFilterState = InventoryFilterState(),
     val selectedCraftDiscipline: CraftDiscipline? = null,
+    val selectedCraftRecipeId: String? = null,
+    val selectedCraftRecipeQuantity: Int = 1,
     val selectedGatheringType: GatheringType? = null,
+    val selectedHuntingSpotId: String? = null,
+    val selectedEnchantItemId: String? = null,
+    val selectedEnchantEnhancementRunes: Int = 0,
+    val selectedEnchantUseProtectionRune: Boolean = false,
+    val selectedFusionSlot1ItemId: String? = null,
+    val selectedFusionSlot2ItemId: String? = null,
+    val selectedExtractionItemId: String? = null,
+    val selectedExtractionUseRemovalScroll: Boolean = false,
+    val selectedExtractionUseProtectionScroll: Boolean = false,
     val selectedShopCurrency: ShopCurrency? = null,
     val selectedShopCategory: ShopCategory? = null,
     val selectedWeaponClassCategory: WeaponClassCategory? = null,

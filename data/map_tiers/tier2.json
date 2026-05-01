@@ -1,21 +1,20 @@
 {
   "id": "tier2",
+  "displayName": "Gruta do Eco Frio",
+  "menuNote": "Corredores fechados com insetos, toxinas e emboscadas.",
   "minLevel": 5,
   "recommendedLevel": 8,
   "baseMonsterLevel": 6,
   "difficultyMultiplier": 1.14,
   "allowedMonsterTemplates": [
-    "skeleton_warrior",
-    "skeleton_archer",
-    "zombie",
-    "ghost",
-    "wolf",
+    "acid_slime",
+    "poison_slime",
     "bat",
-    "thief",
     "spider",
+    "centipede",
+    "scorpion",
     "giant_wasp",
-    "boar",
-    "acid_slime"
+    "beetle"
   ],
   "dropTier": 2,
   "dropChanceMultiplier": 1.0,

@@ -1,0 +1,40 @@
+﻿{
+    "id":  "enchant_rune_protecao",
+    "name":  "Sintetizar Runa de Protecao (Comum)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "enchant_rune_protecao",
+    "outputQty":  1,
+    "minPlayerLevel":  10,
+    "minSkillLevel":  6,
+    "baseDurationSeconds":  8,
+    "baseXp":  20,
+    "difficulty":  1.28,
+    "tier":  2,
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "wolf_fang"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "rat_tail"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "crystal_shard"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "runic_stone"
+                        }
+                    ],
+    "description":  "Runa comum de seguranca contra quebra.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "protecao",
+                 "common"
+             ]
+}

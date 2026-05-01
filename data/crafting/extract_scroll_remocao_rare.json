@@ -1,0 +1,41 @@
+﻿{
+    "id":  "extract_scroll_remocao_rare",
+    "name":  "Criar Pergaminho de Remocao (Raro)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "extract_scroll_remocao_rare",
+    "outputQty":  1,
+    "minPlayerLevel":  28,
+    "minSkillLevel":  15,
+    "baseDurationSeconds":  12,
+    "baseXp":  52,
+    "difficulty":  1.78,
+    "tier":  4,
+    "ingredients":  [
+                        {
+                            "quantity":  1,
+                            "itemId":  "predator_eye"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "rough_hide"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "runic_core"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "arcane_crystal"
+                        }
+                    ],
+    "description":  "Pergaminho raro para extrair encantamentos de nivel alto.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "extract",
+                 "scroll",
+                 "removal",
+                 "rare"
+             ]
+}

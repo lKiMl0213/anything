@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MapTierDef(
     val id: String,
+    val displayName: String = "",
+    val menuNote: String = "",
     val minLevel: Int,
     val recommendedLevel: Int,
     val baseMonsterLevel: Int,

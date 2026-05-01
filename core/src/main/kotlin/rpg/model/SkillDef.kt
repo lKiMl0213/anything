@@ -9,9 +9,11 @@ enum class SkillType {
     GATHERING,
     WOODCUTTING,
     FISHING,
+    HUNTING,
     BLACKSMITH,
     ALCHEMIST,
-    COOKING
+    COOKING,
+    ENCHANTING
 }
 
 @Serializable

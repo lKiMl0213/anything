@@ -2,6 +2,7 @@ package rpg.combat
 
 import kotlin.math.max
 import kotlin.random.Random
+import rpg.cooking.CookingBuffService
 import rpg.engine.ComputedStats
 import rpg.engine.StatsEngine
 import rpg.item.ItemResolver
@@ -14,7 +15,8 @@ internal class CombatPlayerSupportService(
     private val itemResolver: ItemResolver,
     private val rng: Random,
     private val statusProcessor: CombatStatusProcessor,
-    private val logBuilder: CombatLogBuilder
+    private val logBuilder: CombatLogBuilder,
+    private val cookingBuffService: CookingBuffService
 ) {
     fun useItem(
         selfActor: CombatActor,
@@ -49,6 +51,12 @@ internal class CombatPlayerSupportService(
         if (item.effects.runAttributeMultiplierPct != 0.0) {
             val mult = (1.0 + item.effects.runAttributeMultiplierPct / 100.0).coerceAtLeast(0.1)
             healed = healed.copy(runAttrMultiplier = (healed.runAttrMultiplier * mult).coerceAtLeast(0.1))
+        }
+        val canonicalItemId = itemInstances[itemId]?.templateId ?: item.id
+        val foodBuff = cookingBuffService.applyFromItem(healed, canonicalItemId)
+        healed = foodBuff.player
+        foodBuff.message?.let { message ->
+            logBuilder.combatLog(logBuilder.colorize(message, CombatLogBuilder.ansiGreen))
         }
 
         val inventory = healed.inventory.toMutableList()

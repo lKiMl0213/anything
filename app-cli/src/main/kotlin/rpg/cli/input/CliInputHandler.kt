@@ -38,6 +38,7 @@ class CliInputHandler(
     ): GameAction {
         return when (action) {
             GameAction.CycleCharacterCreationName -> promptCharacterName()
+            is GameAction.ConfigureCraftRecipeQuantity -> promptCraftQuantity(action.recipeId, action.maxQuantity)
             is GameAction.IncreaseCharacterCreationAttribute -> {
                 if (viewModel.title.equals("Distribuicao de Atributos", ignoreCase = true)) {
                     action
@@ -47,6 +48,19 @@ class CliInputHandler(
             }
             is GameAction.AllocateAttributePoint -> promptAttributeAllocation(action.code, optionLabel)
             else -> action
+        }
+    }
+
+    private fun promptCraftQuantity(recipeId: String, maxQuantity: Int): GameAction {
+        val cappedMax = maxQuantity.coerceAtLeast(1)
+        while (true) {
+            val input = reader.readLineOrThrow("Digite a quantidade do lote (1-$cappedMax): ").trim()
+            val amount = input.toIntOrNull()
+            if (amount == null || amount !in 1..cappedMax) {
+                println("Valor invalido. Informe um numero entre 1 e $cappedMax.")
+                continue
+            }
+            return GameAction.SetCraftRecipeQuantity(recipeId, amount)
         }
     }
 

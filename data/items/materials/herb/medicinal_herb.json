@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "medicinal_herb",
     "name":  "Erva Medicinal",
     "tags":  [
@@ -9,5 +9,6 @@
              ],
     "value":  3,
     "type":  "MATERIAL",
-    "description":  "Planta curativa usada em pocoes e culinaria."
+    "description":  "Planta curativa usada em pocoes e culinaria.",
+    "tier":  "common"
 }

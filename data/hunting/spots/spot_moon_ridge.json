@@ -1,0 +1,17 @@
+{
+  "id": "hunting_moon_ridge",
+  "name": "Crista da Lua",
+  "recommendedLevel": 30,
+  "minCycleSeconds": 150,
+  "baseXp": 38.0,
+  "difficulty": 1.72,
+  "description": "Caça de alto risco com troféus raros e matéria-prima valiosa.",
+  "drops": [
+    { "itemId": "beast_meat", "weight": 28, "minQty": 2, "maxQty": 4, "rareChancePct": 0.0, "minPlayerLevel": 22 },
+    { "itemId": "rough_hide", "weight": 22, "minQty": 1, "maxQty": 3, "rareChancePct": 7.0, "minPlayerLevel": 24 },
+    { "itemId": "predator_eye", "weight": 14, "minQty": 1, "maxQty": 2, "rareChancePct": 14.0, "minPlayerLevel": 26 },
+    { "itemId": "luminous_mushroom", "weight": 16, "minQty": 1, "maxQty": 2, "rareChancePct": 9.0, "minPlayerLevel": 24 },
+    { "itemId": "oil", "weight": 10, "minQty": 1, "maxQty": 2, "rareChancePct": 12.0, "minPlayerLevel": 28 },
+    { "itemId": "golden_flower", "weight": 6, "minQty": 1, "maxQty": 1, "rareChancePct": 18.0, "minPlayerLevel": 30 }
+  ]
+}

@@ -1,5 +1,7 @@
 {
   "id": "city_slums",
+  "displayName": "Bairro da Fumaca",
+  "menuNote": "Criminosos e vermes urbanos dominam as vielas e becos.",
   "minLevel": 4,
   "recommendedLevel": 6,
   "baseMonsterLevel": 5,
@@ -10,9 +12,9 @@
     "alley_lookout",
     "street_enforcer",
     "rat",
-    "sewer_rat",
     "carrion_rat",
-    "bloated_rat"
+    "bloated_rat",
+    "sewer_rat"
   ],
   "dropTier": 2,
   "dropChanceMultiplier": 1.05,

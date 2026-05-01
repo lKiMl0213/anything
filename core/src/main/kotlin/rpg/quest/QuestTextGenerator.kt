@@ -38,7 +38,7 @@ internal class QuestTextGenerator(
         }
         return when (template.objectiveType) {
             QuestObjectiveType.KILL_MONSTER ->
-                "Derrote $amount ${target.targetName} nas areas desbloqueadas da dungeon."
+                "Derrote $amount ${target.targetName} nas areas desbloqueadas de exploracao."
             QuestObjectiveType.KILL_TAG ->
                 "Derrote $amount monstros da categoria ${target.targetName}."
             QuestObjectiveType.COLLECT_ITEM ->
@@ -48,9 +48,9 @@ internal class QuestTextGenerator(
             QuestObjectiveType.GATHER_RESOURCE ->
                 "Reuna $amount ${target.targetName} em pontos de coleta disponiveis."
             QuestObjectiveType.REACH_FLOOR ->
-                "Alcance pelo menos o andar $amount da dungeon infinita."
+                "Alcance pelo menos o andar $amount da Torre infinita."
             QuestObjectiveType.COMPLETE_RUN ->
-                "Finalize $amount exploracoes da dungeon derrotando o boss."
+                "Finalize $amount exploracoes de area derrotando o boss."
         }
     }
 
@@ -69,7 +69,7 @@ internal class QuestTextGenerator(
         }
         return when (template.objectiveType) {
             QuestObjectiveType.KILL_MONSTER,
-            QuestObjectiveType.KILL_TAG -> "Procure inimigos em tiers desbloqueados."
+            QuestObjectiveType.KILL_TAG -> "Procure inimigos nas areas desbloqueadas para seu nivel."
             QuestObjectiveType.REACH_FLOOR -> "Avance de forma consistente; fugir encerra o progresso da run."
             QuestObjectiveType.COMPLETE_RUN -> "A run so conta ao derrotar o boss apos as 10 salas iniciais."
             else -> ""

@@ -1,5 +1,4 @@
 package rpg.presentation
-
 import rpg.application.GameSession
 import rpg.application.PendingDungeonChestEvent
 import rpg.application.PendingDungeonEvent
@@ -16,7 +15,6 @@ import rpg.engine.GameEngine
 import rpg.presentation.model.MenuScreenViewModel
 import rpg.presentation.model.ScreenViewModel
 import rpg.presentation.model.ScreenOptionViewModel
-
 internal class NavigationScreenPresenter(
     private val engine: GameEngine,
     private val support: PresentationSupport,
@@ -25,6 +23,7 @@ internal class NavigationScreenPresenter(
     private val achievementQueryService: AchievementQueryService,
     private val globalBossQueryService: GlobalBossQueryService
 ) {
+    private val areaSupport = ExplorationAreaPresentationSupport(engine)
     fun presentMainMenu(session: GameSession): ScreenViewModel {
         val options = mutableListOf<ScreenOptionViewModel>()
         if (session.gameState != null) {
@@ -97,13 +96,15 @@ internal class NavigationScreenPresenter(
         return MenuScreenViewModel(
             title = "Producao",
             summary = support.playerSummary(state),
-            bodyLines = listOf("Crie equipamentos, consumiveis e colete recursos."),
+            bodyLines = listOf("Crie equipamentos, consumíveis, encante itens e realize caças."),
             options = listOf(
                 ScreenOptionViewModel("1", "Craft", GameAction.OpenCraftMenu),
-                ScreenOptionViewModel("2", "Coleta de ervas", GameAction.OpenGatheringType(rpg.model.GatheringType.HERBALISM)),
-                ScreenOptionViewModel("3", "Mineracao", GameAction.OpenGatheringType(rpg.model.GatheringType.MINING)),
-                ScreenOptionViewModel("4", "Cortar madeira", GameAction.OpenGatheringType(rpg.model.GatheringType.WOODCUTTING)),
-                ScreenOptionViewModel("5", "Pesca", GameAction.OpenGatheringType(rpg.model.GatheringType.FISHING)),
+                ScreenOptionViewModel("2", "Encantamento", GameAction.OpenEnchantMenu),
+                ScreenOptionViewModel("3", "Caça", GameAction.OpenHuntingMenu),
+                ScreenOptionViewModel("4", "Coleta de ervas", GameAction.OpenGatheringType(rpg.model.GatheringType.HERBALISM)),
+                ScreenOptionViewModel("5", "Mineração", GameAction.OpenGatheringType(rpg.model.GatheringType.MINING)),
+                ScreenOptionViewModel("6", "Cortar madeira", GameAction.OpenGatheringType(rpg.model.GatheringType.WOODCUTTING)),
+                ScreenOptionViewModel("7", "Pesca", GameAction.OpenGatheringType(rpg.model.GatheringType.FISHING)),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)
             ),
             messages = session.messages
@@ -156,10 +157,11 @@ internal class NavigationScreenPresenter(
         val state = session.gameState ?: return support.presentMissingState("Exploracao")
         val run = state.currentRun
         if (run != null && run.isActive) {
-            val tierLabel = run.tierId?.takeIf { it.isNotBlank() }
+            val runLabel = areaSupport.runLabel(state.player, run)
             val options = mutableListOf<ScreenOptionViewModel>()
-            if (tierLabel != null) {
-                options += ScreenOptionViewModel("1", "Continuar", GameAction.EnterDungeon(tierLabel))
+            val continueAction = areaSupport.continueRunAction(run)
+            if (continueAction != null) {
+                options += ScreenOptionViewModel("1", "Continuar", continueAction)
             }
             options += ScreenOptionViewModel("2", "Usar item", GameAction.OpenInventory)
             options += ScreenOptionViewModel("x", "Sair da Dungeon", GameAction.ExitDungeonRun)
@@ -167,7 +169,7 @@ internal class NavigationScreenPresenter(
                 title = "Exploracao",
                 summary = support.playerSummary(state),
                 bodyLines = listOf(
-                    "Run ativa: tier ${tierLabel ?: "desconhecido"} | profundidade ${run.depth} | vitorias ${run.victoriesInRun} | bosses ${run.bossesDefeatedInRun}",
+                    "Run ativa: $runLabel | profundidade ${run.depth} | vitorias ${run.victoriesInRun} | bosses ${run.bossesDefeatedInRun}",
                     "O que deseja fazer?"
                 ),
                 options = options,
@@ -179,7 +181,7 @@ internal class NavigationScreenPresenter(
             summary = support.playerSummary(state),
             bodyLines = listOf("Escolha seu proximo destino de aventura."),
             options = listOf(
-                ScreenOptionViewModel("1", "Dungeons", GameAction.OpenDungeonSelection),
+                ScreenOptionViewModel("1", "Areas", GameAction.OpenDungeonSelection),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)
             ),
             messages = session.messages
@@ -204,20 +206,25 @@ internal class NavigationScreenPresenter(
     }
 
     fun presentDungeonSelection(session: GameSession): ScreenViewModel {
-        val state = session.gameState ?: return support.presentMissingState("Dungeons")
+        val state = session.gameState ?: return support.presentMissingState("Areas de Exploracao")
         val tiers = engine.availableTiers(state.player)
-        val tierOptions = tiers.mapIndexed { index, tier ->
+        val highestInfiniteFloor = areaSupport.infiniteHighestFloor(state.player)
+        val options = tiers.mapIndexed { index, tier ->
             ScreenOptionViewModel(
                 key = (index + 1).toString(),
-                label = "${tier.id} (nivel minimo ${tier.minLevel})",
+                label = areaSupport.tierSelectionLabel(tier, highestInfiniteFloor),
                 action = GameAction.EnterDungeon(tier.id)
             )
-        }
+        }.toMutableList()
+        areaSupport.classDungeonSelectionOption(state.player, (options.size + 1).toString())?.let(options::add)
         return MenuScreenViewModel(
-            title = "Dungeons",
+            title = "Areas de Exploracao",
             summary = support.playerSummary(state),
-            bodyLines = listOf("Escolha um tier para iniciar a proxima sala da run."),
-            options = tierOptions + ScreenOptionViewModel("x", "Voltar", GameAction.Back),
+            bodyLines = listOf(
+                "Escolha uma area para iniciar a proxima sala da run.",
+                "Cada area possui ecossistema proprio de monstros e risco progressivo."
+            ),
+            options = options + ScreenOptionViewModel("x", "Voltar", GameAction.Back),
             messages = session.messages
         )
     }

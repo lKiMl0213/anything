@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "runic_core",
     "name":  "Nucleo Runico",
     "type":  "MATERIAL",
@@ -8,5 +8,6 @@
                  "arcane"
              ],
     "value":  11,
-    "description":  "Nucleo runico recuperado de sentinelas."
+    "description":  "Nucleo runico recuperado de sentinelas.",
+    "tier":  "epic"
 }

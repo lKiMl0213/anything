@@ -1,0 +1,16 @@
+{
+  "id": "hunting_deep_woods",
+  "name": "Bosque Profundo",
+  "recommendedLevel": 15,
+  "minCycleSeconds": 90,
+  "baseXp": 24.0,
+  "difficulty": 1.36,
+  "description": "Área rica em presas médias e materiais úteis para cozinha e craft.",
+  "drops": [
+    { "itemId": "beast_meat", "weight": 35, "minQty": 1, "maxQty": 3, "rareChancePct": 0.0, "minPlayerLevel": 8 },
+    { "itemId": "wolf_pelt", "weight": 24, "minQty": 1, "maxQty": 2, "rareChancePct": 6.0, "minPlayerLevel": 12 },
+    { "itemId": "wild_mint_leaf", "weight": 21, "minQty": 1, "maxQty": 2, "rareChancePct": 4.0, "minPlayerLevel": 10 },
+    { "itemId": "charcoal", "weight": 14, "minQty": 1, "maxQty": 2, "rareChancePct": 5.0, "minPlayerLevel": 12 },
+    { "itemId": "predator_eye", "weight": 8, "minQty": 1, "maxQty": 1, "rareChancePct": 10.0, "minPlayerLevel": 14 }
+  ]
+}

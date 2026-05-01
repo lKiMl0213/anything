@@ -1,0 +1,15 @@
+﻿{
+    "id":  "enchant_stone_tier_15",
+    "name":  "Pedra de Encantamento +15",
+    "type":  "MATERIAL",
+    "tier":  "legendary",
+    "tags":  [
+                 "enchant",
+                 "enchant_stone",
+                 "pedra",
+                 "tier_15"
+             ],
+    "value":  755,
+    "description":  "Pedra que concentra exatamente o encantamento +15.",
+    "rarity":  "LEGENDARY"
+}

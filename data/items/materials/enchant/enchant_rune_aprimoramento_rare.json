@@ -1,0 +1,16 @@
+﻿{
+    "id":  "enchant_rune_aprimoramento_rare",
+    "name":  "Runa de Aprimoramento (Rara)",
+    "type":  "MATERIAL",
+    "tier":  "rare",
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "upgrade",
+                 "rare",
+                 "crafting"
+             ],
+    "value":  168,
+    "description":  "Catalisador raro para tentativas de encantamento avancado.",
+    "rarity":  "RARE"
+}
