@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "runic_stone",
     "name":  "Pedra Runica",
     "tags":  [
@@ -9,5 +9,6 @@
              ],
     "value":  24,
     "type":  "MATERIAL",
-    "description":  "Pedra encantada para forja runica."
+    "description":  "Pedra encantada para forja runica.",
+    "tier":  "uncommon"
 }

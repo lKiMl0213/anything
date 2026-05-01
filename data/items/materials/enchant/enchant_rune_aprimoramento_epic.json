@@ -1,0 +1,16 @@
+﻿{
+    "id":  "enchant_rune_aprimoramento_epic",
+    "name":  "Runa de Aprimoramento (Epica)",
+    "type":  "MATERIAL",
+    "tier":  "epic",
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "upgrade",
+                 "epic",
+                 "crafting"
+             ],
+    "value":  260,
+    "description":  "Catalisador epico para reforco de chance em niveis altos.",
+    "rarity":  "EPIC"
+}

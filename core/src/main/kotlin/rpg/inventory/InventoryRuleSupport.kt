@@ -109,6 +109,8 @@ internal object InventoryRuleSupport {
         if (instance != null) {
             return if (instance.type == ItemType.EQUIPMENT) {
                 "equip:${instance.id}"
+            } else if (instance.enchantLevel > 0) {
+                "stack:${instance.templateId}:enc:${instance.enchantLevel}"
             } else {
                 "stack:${instance.templateId}"
             }

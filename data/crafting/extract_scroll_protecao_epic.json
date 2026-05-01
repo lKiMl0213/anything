@@ -1,0 +1,45 @@
+﻿{
+    "id":  "extract_scroll_protecao_epic",
+    "name":  "Criar Pergaminho de Protecao de Extracao (Epico)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "extract_scroll_protecao_epic",
+    "outputQty":  1,
+    "minPlayerLevel":  40,
+    "minSkillLevel":  22,
+    "baseDurationSeconds":  16,
+    "baseXp":  86,
+    "difficulty":  2.08,
+    "tier":  6,
+    "ingredients":  [
+                        {
+                            "quantity":  3,
+                            "itemId":  "predator_eye"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "runic_core"
+                        },
+                        {
+                            "quantity":  3,
+                            "itemId":  "arcane_crystal"
+                        },
+                        {
+                            "quantity":  3,
+                            "itemId":  "oil"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "golden_flower"
+                        }
+                    ],
+    "description":  "Pergaminho epico para extracao com protecao reforcada.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "extract",
+                 "scroll",
+                 "protecao",
+                 "epic"
+             ]
+}

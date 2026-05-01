@@ -126,7 +126,12 @@ class AndroidGameViewModel(
                     achievementQueryService = actionHandler.achievementQueryService(),
                     cityQueryService = actionHandler.cityQueryService(),
                     productionQueryService = actionHandler.productionQueryService(),
-                    shopQueryService = actionHandler.shopQueryService()
+                    huntingQueryService = actionHandler.huntingQueryService(),
+                    enchantQueryService = actionHandler.enchantQueryService(),
+                    fusionQueryService = actionHandler.fusionQueryService(),
+                    extractionQueryService = actionHandler.extractionQueryService(),
+                    shopQueryService = actionHandler.shopQueryService(),
+                    globalBossQueryService = actionHandler.globalBossQueryService()
                 )
                 val characterSupport = CharacterRulesSupport(repo, actionHandler.engine())
                 RuntimeDeps(

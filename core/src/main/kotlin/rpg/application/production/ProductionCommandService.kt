@@ -1,6 +1,8 @@
 package rpg.application.production
 
 import rpg.achievement.AchievementTracker
+import rpg.achievement.AchievementCounterKeys
+import rpg.application.support.OutOfCombatTimeService
 import rpg.engine.GameEngine
 import rpg.model.CraftDiscipline
 import rpg.model.GameState
@@ -10,14 +12,16 @@ import rpg.model.PlayerState
 class ProductionCommandService(
     private val engine: GameEngine,
     private val achievementTracker: AchievementTracker,
-    private val durationService: ProductionActionDurationService = ProductionActionDurationService(engine)
+    private val durationService: ProductionActionDurationService = ProductionActionDurationService(engine),
+    private val timeService: OutOfCombatTimeService = OutOfCombatTimeService(engine)
 ) {
     fun prepareCraft(
         state: GameState,
         discipline: CraftDiscipline,
-        recipeId: String
+        recipeId: String,
+        times: Int = 1
     ): ProductionPrepareResult {
-        val resolution = durationService.resolveCraft(state, discipline, recipeId)
+        val resolution = durationService.resolveCraft(state, discipline, recipeId, requestedTimes = times)
             ?: return ProductionPrepareResult(
                 ready = false,
                 messages = listOf("Ingredientes ou requisitos insuficientes para esta receita.")
@@ -61,9 +65,10 @@ class ProductionCommandService(
     fun craft(
         state: GameState,
         discipline: CraftDiscipline,
-        recipeId: String
+        recipeId: String,
+        times: Int = 1
     ): ProductionMutationResult {
-        val resolution = durationService.resolveCraft(state, discipline, recipeId)
+        val resolution = durationService.resolveCraft(state, discipline, recipeId, requestedTimes = times)
             ?: return ProductionMutationResult(state, listOf("Ingredientes ou requisitos insuficientes para esta receita."))
         val result = engine.craftingService.craft(
             state.player,
@@ -78,7 +83,8 @@ class ProductionCommandService(
         var player = result.player
         var itemInstances = result.itemInstances
         val spentMinutes = (resolution.durationSeconds / 60.0).coerceAtLeast(0.01)
-        player = advanceOutOfCombatTime(player, itemInstances, spentMinutes)
+        val advance = timeService.advance(player, itemInstances, spentMinutes)
+        player = advance.player
         var worldTimeMinutes = state.worldTimeMinutes + spentMinutes
         var board = state.questBoard
 
@@ -107,6 +113,22 @@ class ProductionCommandService(
             if (classQuestGold > 0) {
                 player = achievementTracker.onGoldEarned(player, classQuestGold.toLong()).player
             }
+            if (result.recipe.discipline == CraftDiscipline.COOKING) {
+                player = achievementTracker.onCustomCounterIncrement(
+                    player,
+                    AchievementCounterKeys.Cooking.NAMESPACE,
+                    AchievementCounterKeys.Cooking.RECIPES_DONE,
+                    amount = result.successfulCrafts.toLong().coerceAtLeast(1L)
+                ).player
+            }
+            if (outputId in trackedEnchantResourceIds()) {
+                player = achievementTracker.onCustomCounterIncrement(
+                    player,
+                    AchievementCounterKeys.EnchantResources.NAMESPACE,
+                    AchievementCounterKeys.EnchantResources.ACQUIRED,
+                    amount = outputQty.toLong().coerceAtLeast(1L)
+                ).player
+            }
             itemInstances = classQuestUpdate.itemInstances
         }
         board = synchronizeQuestBoard(board, player, itemInstances)
@@ -121,6 +143,7 @@ class ProductionCommandService(
         val lines = mutableListOf<String>()
         lines += result.message
         lines += "Tempo gasto em craft: ${format(spentMinutes)} min."
+        lines += advance.messages
         result.skillSnapshot?.let { snapshot ->
             lines += "Skill ${snapshot.skill.name.lowercase()}: +${format(result.gainedXp)} XP (lvl ${snapshot.level})"
         }
@@ -142,7 +165,8 @@ class ProductionCommandService(
         var player = result.player
         var itemInstances = result.itemInstances
         val spentMinutes = (resolution.durationSeconds / 60.0).coerceAtLeast(0.01)
-        player = advanceOutOfCombatTime(player, itemInstances, spentMinutes)
+        val advance = timeService.advance(player, itemInstances, spentMinutes)
+        player = advance.player
         var worldTimeMinutes = state.worldTimeMinutes + spentMinutes
         var board = state.questBoard
 
@@ -168,6 +192,14 @@ class ProductionCommandService(
         if (classQuestGold > 0) {
             player = achievementTracker.onGoldEarned(player, classQuestGold.toLong()).player
         }
+        if (result.resourceItemId in trackedEnchantResourceIds()) {
+            player = achievementTracker.onCustomCounterIncrement(
+                player,
+                AchievementCounterKeys.EnchantResources.NAMESPACE,
+                AchievementCounterKeys.EnchantResources.ACQUIRED,
+                amount = result.quantity.toLong().coerceAtLeast(1L)
+            ).player
+        }
         itemInstances = classQuestUpdate.itemInstances
         board = synchronizeQuestBoard(board, player, itemInstances)
 
@@ -181,6 +213,7 @@ class ProductionCommandService(
         val lines = mutableListOf<String>()
         lines += result.message
         lines += "Tempo gasto na coleta: ${format(spentMinutes)} min."
+        lines += advance.messages
         result.skillSnapshot?.let { snapshot ->
             lines += "Skill ${snapshot.skill.name.lowercase()}: +${format(result.gainedXp)} XP (lvl ${snapshot.level})"
         }
@@ -200,42 +233,12 @@ class ProductionCommandService(
         )
     }
 
-    private fun advanceOutOfCombatTime(
-        player: PlayerState,
-        itemInstances: Map<String, rpg.model.ItemInstance>,
-        minutes: Double
-    ): PlayerState {
-        if (minutes <= 0.0) return player
-        val stats = engine.computePlayerStats(player, itemInstances)
-        val newHp = (player.currentHp + stats.derived.hpRegen * minutes).coerceAtMost(stats.derived.hpMax)
-        val newMp = (player.currentMp + stats.derived.mpRegen * minutes).coerceAtMost(stats.derived.mpMax)
-        var updated = player.copy(currentHp = newHp, currentMp = newMp)
-
-        if (updated.deathDebuffMinutes > 0.0) {
-            val remaining = (updated.deathDebuffMinutes - minutes).coerceAtLeast(0.0)
-            updated = if (remaining <= 0.0) {
-                updated.copy(
-                    deathDebuffMinutes = 0.0,
-                    deathDebuffStacks = 0,
-                    deathXpPenaltyMinutes = 0.0,
-                    deathXpPenaltyPct = 0.0
-                )
-            } else {
-                updated.copy(
-                    deathDebuffMinutes = remaining,
-                    deathXpPenaltyMinutes = remaining
-                )
-            }
-        }
-        if (updated.deathDebuffMinutes <= 0.0 && updated.deathXpPenaltyMinutes > 0.0) {
-            val remainingXpPenalty = (updated.deathXpPenaltyMinutes - minutes).coerceAtLeast(0.0)
-            updated = if (remainingXpPenalty <= 0.0) {
-                updated.copy(deathXpPenaltyMinutes = 0.0, deathXpPenaltyPct = 0.0)
-            } else {
-                updated.copy(deathXpPenaltyMinutes = remainingXpPenalty)
-            }
-        }
-        return updated
+    private fun trackedEnchantResourceIds(): Set<String> = linkedSetOf<String>().apply {
+        addAll(engine.enchantService.enhancementRuneItemIds())
+        addAll(engine.enchantService.protectionRuneItemIds())
+        addAll(engine.extractionService.enchantStoneTemplateIds())
+        addAll(engine.extractionService.removalScrollItemIds())
+        addAll(engine.extractionService.protectionScrollItemIds())
     }
 
     private fun disciplineLabel(discipline: CraftDiscipline): String = when (discipline) {

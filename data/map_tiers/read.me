@@ -5,6 +5,8 @@ Cada arquivo JSON segue o modelo MapTierDef.
 
 Campos:
 - id: string
+- displayName: string (opcional, nome amigavel para menu)
+- menuNote: string (opcional, nota curta exibida no menu)
 - minLevel: int
 - recommendedLevel: int
 - baseMonsterLevel: int
@@ -20,6 +22,8 @@ Campos:
 Exemplo:
 {
   "id": "tier1",
+  "displayName": "Campos de Brisa Clara",
+  "menuNote": "Entrada ideal para iniciantes.",
   "minLevel": 1,
   "recommendedLevel": 3,
   "baseMonsterLevel": 1,

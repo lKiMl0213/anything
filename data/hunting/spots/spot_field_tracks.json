@@ -1,0 +1,15 @@
+{
+  "id": "hunting_field_tracks",
+  "name": "Rastros dos Campos",
+  "recommendedLevel": 5,
+  "minCycleSeconds": 30,
+  "baseXp": 12.0,
+  "difficulty": 1.08,
+  "description": "Trilhas de pequenas feras com coleta rápida.",
+  "drops": [
+    { "itemId": "beast_meat", "weight": 42, "minQty": 1, "maxQty": 2, "rareChancePct": 0.0, "minPlayerLevel": 1 },
+    { "itemId": "rat_tail", "weight": 32, "minQty": 1, "maxQty": 3, "rareChancePct": 2.0, "minPlayerLevel": 1 },
+    { "itemId": "wolf_fang", "weight": 18, "minQty": 1, "maxQty": 2, "rareChancePct": 5.0, "minPlayerLevel": 3 },
+    { "itemId": "medicinal_herb", "weight": 14, "minQty": 1, "maxQty": 2, "rareChancePct": 3.0, "minPlayerLevel": 1 }
+  ]
+}

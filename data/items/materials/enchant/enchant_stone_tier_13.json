@@ -1,0 +1,15 @@
+﻿{
+    "id":  "enchant_stone_tier_13",
+    "name":  "Pedra de Encantamento +13",
+    "type":  "MATERIAL",
+    "tier":  "legendary",
+    "tags":  [
+                 "enchant",
+                 "enchant_stone",
+                 "pedra",
+                 "tier_13"
+             ],
+    "value":  665,
+    "description":  "Pedra que concentra exatamente o encantamento +13.",
+    "rarity":  "LEGENDARY"
+}

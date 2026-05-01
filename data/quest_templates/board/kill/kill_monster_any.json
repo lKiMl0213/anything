@@ -19,9 +19,8 @@
     "requiresDungeon": true
   },
   "titleTemplate": "Elimine {amount} {target}",
-  "descriptionTemplate": "Derrote {amount} {target} nas areas desbloqueadas da dungeon.",
-  "hintTemplate": "Monstros aparecem nos tiers que seu nivel permite.",
+  "descriptionTemplate": "Derrote {amount} {target} nas areas desbloqueadas de exploracao.",
+  "hintTemplate": "Monstros aparecem nas areas liberadas para o seu nivel.",
   "enabled": true,
   "weight": 12
 }
-

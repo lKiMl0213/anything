@@ -13,12 +13,12 @@ internal class CharacterAttributeSupport(
     private val engine: GameEngine
 ) {
     private val attributeMeta = listOf(
-        AttrMeta("STR", "Forca"),
+        AttrMeta("STR", "Força"),
         AttrMeta("AGI", "Agilidade"),
         AttrMeta("DEX", "Destreza"),
         AttrMeta("VIT", "Vitalidade"),
-        AttrMeta("INT", "Inteligencia"),
-        AttrMeta("SPR", "Espirito"),
+        AttrMeta("INT", "Inteligência"),
+        AttrMeta("SPR", "Espírito"),
         AttrMeta("LUK", "Sorte")
     )
 
@@ -53,21 +53,21 @@ internal class CharacterAttributeSupport(
 
         val lines = mutableListOf<String>()
         lines += "Base: ${getAttr(player.baseAttributes, meta.code)}"
-        lines += "Bonus de equipamento: ${formatSigned(getAttr(equipmentBonus, meta.code))}"
-        lines += "Bonus de classe/raca/talento: ${formatSigned(getAttr(classTalentBonus, meta.code))}"
-        lines += "Bonus temporario: ${formatSigned(getAttr(temporaryBonus, meta.code))}"
+        lines += "Bônus de equipamento: ${formatSigned(getAttr(equipmentBonus, meta.code))}"
+        lines += "Bônus de classe/raça/talento: ${formatSigned(getAttr(classTalentBonus, meta.code))}"
+        lines += "Bônus temporário: ${formatSigned(getAttr(temporaryBonus, meta.code))}"
         lines += "Valor final: ${getAttr(computed.attributes, meta.code)}"
         lines += "Afeta diretamente:"
-        lines += generateAttributeDescription(meta).map { "- $it" }
+        lines += AttributeDescriptionCatalog.directEffects(meta.code).map { "- $it" }
         lines += "Impacto na gameplay:"
-        lines += generateGameplayImpact(meta).map { "- $it" }
+        lines += AttributeDescriptionCatalog.gameplayImpact(meta.code).map { "- $it" }
         if (player.unspentAttrPoints > 0) {
             lines += "Investindo 1 ponto agora:"
             lines += previewAttributeSpend(player, state.itemInstances, meta.code).map { "- $it" }
         }
         val notes = buildAttributeMultiplierNotes(player)
         if (notes.isNotEmpty()) {
-            lines += "Observacoes:"
+            lines += "Observações:"
             lines += notes.map { "- $it" }
         }
         return AttributeDetailView(
@@ -90,16 +90,16 @@ internal class CharacterAttributeSupport(
     fun allocateAttributePoints(state: GameState, attributeCode: String, amount: Int): CharacterMutationResult {
         val player = state.player
         val meta = attributeMeta.firstOrNull { it.code.equals(attributeCode, ignoreCase = true) }
-            ?: return CharacterMutationResult(state, listOf("Atributo invalido."))
+            ?: return CharacterMutationResult(state, listOf("Atributo inválido."))
         val requested = amount.coerceAtLeast(0)
         if (requested <= 0) {
-            return CharacterMutationResult(state, listOf("Quantidade invalida de pontos."))
+            return CharacterMutationResult(state, listOf("Quantidade inválida de pontos."))
         }
         if (player.unspentAttrPoints <= 0) {
-            return CharacterMutationResult(state, listOf("Nenhum ponto de atributo disponivel."))
+            return CharacterMutationResult(state, listOf("Nenhum ponto de atributo disponível."))
         }
         if (requested > player.unspentAttrPoints) {
-            return CharacterMutationResult(state, listOf("Pontos insuficientes para essa alocacao."))
+            return CharacterMutationResult(state, listOf("Pontos insuficientes para essa alocação."))
         }
         val updatedPlayer = clampPlayerResources(
             player.copy(
@@ -124,7 +124,7 @@ internal class CharacterAttributeSupport(
             if (requested < current) {
                 return CharacterMutationResult(
                     state,
-                    listOf("Nao e permitido remover pontos ja aplicados em ${meta.label}.")
+                    listOf("Não é permitido remover pontos já aplicados em ${meta.label}.")
                 )
             }
             meta to (requested - current)
@@ -135,7 +135,7 @@ internal class CharacterAttributeSupport(
             return CharacterMutationResult(state, listOf("Nenhum ponto de atributo para aplicar."))
         }
         if (totalToSpend > player.unspentAttrPoints) {
-            return CharacterMutationResult(state, listOf("Pontos de atributo insuficientes para aplicar essa distribuicao."))
+            return CharacterMutationResult(state, listOf("Pontos de atributo insuficientes para aplicar essa distribuição."))
         }
 
         val updatedBaseAttributes = deltas.fold(player.baseAttributes) { acc, (meta, delta) ->
@@ -150,7 +150,7 @@ internal class CharacterAttributeSupport(
         )
         return CharacterMutationResult(
             state.copy(player = updatedPlayer),
-            listOf("Distribuicao aplicada com sucesso: $totalToSpend ponto(s) de atributo.")
+            listOf("Distribuição aplicada com sucesso: $totalToSpend ponto(s) de atributo.")
         )
     }
 
@@ -173,24 +173,25 @@ internal class CharacterAttributeSupport(
             itemInstances
         )
         val deltas = listOf(
-            "Atributo final ${attributeCode.uppercase()}" to (getAttr(after.attributes, attributeCode) - getAttr(before.attributes, attributeCode)).toDouble(),
-            "Dano fisico" to (after.derived.damagePhysical - before.derived.damagePhysical),
-            "Dano magico" to (after.derived.damageMagic - before.derived.damageMagic),
-            "HP maximo" to (after.derived.hpMax - before.derived.hpMax),
-            "MP maximo" to (after.derived.mpMax - before.derived.mpMax),
-            "Defesa fisica" to (after.derived.defPhysical - before.derived.defPhysical),
-            "Defesa magica" to (after.derived.defMagic - before.derived.defMagic),
+            "Atributo final ${attributeCode.uppercase()}" to
+                (getAttr(after.attributes, attributeCode) - getAttr(before.attributes, attributeCode)).toDouble(),
+            "Dano físico" to (after.derived.damagePhysical - before.derived.damagePhysical),
+            "Dano mágico" to (after.derived.damageMagic - before.derived.damageMagic),
+            "HP máximo" to (after.derived.hpMax - before.derived.hpMax),
+            "MP máximo" to (after.derived.mpMax - before.derived.mpMax),
+            "Defesa física" to (after.derived.defPhysical - before.derived.defPhysical),
+            "Defesa mágica" to (after.derived.defMagic - before.derived.defMagic),
             "Velocidade de ataque" to (after.derived.attackSpeed - before.derived.attackSpeed),
             "Velocidade de movimento" to (after.derived.moveSpeed - before.derived.moveSpeed),
-            "Critico" to (after.derived.critChancePct - before.derived.critChancePct),
-            "Precisao" to (after.derived.accuracy - before.derived.accuracy),
+            "Crítico" to (after.derived.critChancePct - before.derived.critChancePct),
+            "Precisão" to (after.derived.accuracy - before.derived.accuracy),
             "Esquiva" to (after.derived.evasion - before.derived.evasion),
-            "Regeneracao HP" to (after.derived.hpRegen - before.derived.hpRegen),
-            "Regeneracao MP" to (after.derived.mpRegen - before.derived.mpRegen),
-            "Drop bonus" to (after.derived.dropBonusPct - before.derived.dropBonusPct),
+            "Regeneração HP" to (after.derived.hpRegen - before.derived.hpRegen),
+            "Regeneração MP" to (after.derived.mpRegen - before.derived.mpRegen),
+            "Bônus de drop" to (after.derived.dropBonusPct - before.derived.dropBonusPct),
             "Tenacidade" to (after.derived.tenacityPct - before.derived.tenacityPct),
-            "Penetracao fisica" to (after.derived.penPhysical - before.derived.penPhysical),
-            "Penetracao magica" to (after.derived.penMagic - before.derived.penMagic),
+            "Penetração física" to (after.derived.penPhysical - before.derived.penPhysical),
+            "Penetração mágica" to (after.derived.penMagic - before.derived.penMagic),
             "Recarga" to (after.derived.cdrPct - before.derived.cdrPct)
         )
         return deltas
@@ -202,7 +203,7 @@ internal class CharacterAttributeSupport(
         val notes = mutableListOf<String>()
         if (player.roomEffectRooms > 0 && player.roomEffectMultiplier != 1.0) {
             val percent = (player.roomEffectMultiplier - 1.0) * 100.0
-            notes += "Multiplicador temporario de sala em atributos: ${formatSignedDouble(percent)}%"
+            notes += "Multiplicador temporário de sala em atributos: ${formatSignedDouble(percent)}%"
         }
         if (player.runAttrMultiplier != 1.0) {
             val percent = (player.runAttrMultiplier - 1.0) * 100.0
@@ -211,6 +212,9 @@ internal class CharacterAttributeSupport(
         if (player.deathDebuffStacks > 0) {
             val percent = -20.0 * player.deathDebuffStacks
             notes += "Debuff de morte ativo: ${formatSignedDouble(percent)}% em atributos"
+        }
+        if (player.foodBuffRemainingMinutes > 0.0 && player.foodBuffName.isNotBlank()) {
+            notes += "Buff culinário ativo: ${player.foodBuffName} (${format(player.foodBuffRemainingMinutes)} min restantes)"
         }
         return notes
     }
@@ -228,77 +232,6 @@ internal class CharacterAttributeSupport(
     private fun temporaryAttributeBonuses(player: PlayerState): Attributes {
         val room = if (player.roomAttrRooms > 0) player.roomAttrBonus else Attributes()
         return player.runAttrBonus + room
-    }
-
-    private fun generateAttributeDescription(attribute: AttrMeta): List<String> = when (attribute.code) {
-        "STR" -> listOf(
-            "Contribui para dano fisico base (+2.5 por ponto).",
-            "Aumenta penetracao fisica (+0.5 por ponto).",
-            "Contribui para defesa fisica (+0.5 por ponto)."
-        )
-        "AGI" -> listOf(
-            "Aumenta velocidade de ataque base (+0.02 por ponto).",
-            "Aumenta esquiva/evasao (+0.8 por ponto).",
-            "Aumenta velocidade de movimento (+0.05 por ponto)."
-        )
-        "DEX" -> listOf(
-            "Contribui para dano fisico base (+1.2 por ponto).",
-            "Aumenta precisao/acerto (+1.5 por ponto).",
-            "Aumenta chance de critico (+0.3) e dano critico (+0.5)."
-        )
-        "VIT" -> listOf(
-            "Aumenta HP maximo (+12 por ponto).",
-            "Aumenta defesa fisica (+1.5 por ponto).",
-            "Aumenta regeneracao de HP (+0.2 por ponto)."
-        )
-        "INT" -> listOf(
-            "Aumenta dano magico base (+3.0 por ponto).",
-            "Aumenta penetracao magica (+0.7 por ponto).",
-            "Contribui para defesa magica (+0.7 por ponto)."
-        )
-        "SPR" -> listOf(
-            "Aumenta MP maximo (+10 por ponto).",
-            "Aumenta defesa magica (+1.8 por ponto).",
-            "Aumenta regeneracao de MP (+0.3) e reducao de cooldown (+0.15%)."
-        )
-        "LUK" -> listOf(
-            "Aumenta chance de critico (+0.2 por ponto).",
-            "Aumenta vampirismo (1% a cada 10 pontos).",
-            "Aumenta bonus de drop (+0.2% por ponto)."
-        )
-        else -> listOf("Sem descricao configurada.")
-    }
-
-    private fun generateGameplayImpact(attribute: AttrMeta): List<String> = when (attribute.code) {
-        "STR" -> listOf(
-            "Mais STR aumenta o dano de ataques fisicos e melhora a consistencia contra defesa fisica.",
-            "Builds corpo a corpo sentem ganho direto no burst."
-        )
-        "AGI" -> listOf(
-            "Mais AGI acelera o ritmo do combate e ajuda a evitar golpes.",
-            "Classes moveis aproveitam melhor esse atributo."
-        )
-        "DEX" -> listOf(
-            "Mais DEX melhora acerto, critico e dano de ataques de precisao.",
-            "Arqueiros e builds criticas escalam muito bem aqui."
-        )
-        "VIT" -> listOf(
-            "Mais VIT aumenta margem de erro, sustain e resistencia fisica.",
-            "Excelente para frontliners e setups defensivos."
-        )
-        "INT" -> listOf(
-            "Mais INT aumenta dano magico e perfuracao magica.",
-            "Magos ofensivos dependem fortemente deste atributo."
-        )
-        "SPR" -> listOf(
-            "Mais SPR aumenta mana, sustain magico e defesa contra magia.",
-            "Tambem acelera cooldowns de forma gradual."
-        )
-        "LUK" -> listOf(
-            "Mais LUK melhora critico, drop e vampirismo.",
-            "Bom atributo complementar para builds oportunistas."
-        )
-        else -> listOf("Sem impacto configurado.")
     }
 
     private fun getAttr(attributes: Attributes, code: String): Int = when (code.uppercase()) {

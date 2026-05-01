@@ -5,7 +5,11 @@ import rpg.application.creation.CharacterCreationQueryService
 import rpg.application.PendingEncounter
 import rpg.application.character.CharacterQueryService
 import rpg.application.city.CityQueryService
+import rpg.application.enchant.EnchantQueryService
+import rpg.application.enchant.ExtractionQueryService
+import rpg.application.enchant.FusionQueryService
 import rpg.application.globalboss.GlobalBossQueryService
+import rpg.application.hunting.HuntingQueryService
 import rpg.application.inventory.InventoryQueryService
 import rpg.application.production.ProductionQueryService
 import rpg.application.progression.AchievementQueryService
@@ -25,6 +29,10 @@ class GamePresenter(
     achievementQueryService: AchievementQueryService,
     cityQueryService: CityQueryService,
     productionQueryService: ProductionQueryService,
+    huntingQueryService: HuntingQueryService,
+    enchantQueryService: EnchantQueryService,
+    fusionQueryService: FusionQueryService,
+    extractionQueryService: ExtractionQueryService,
     shopQueryService: ShopQueryService,
     globalBossQueryService: GlobalBossQueryService
 ) {
@@ -43,6 +51,10 @@ class GamePresenter(
     private val inventoryPresenter = InventoryScreenPresenter(inventoryQueryService, support)
     private val cityPresenter = CityScreenPresenter(cityQueryService, support)
     private val productionPresenter = ProductionScreenPresenter(productionQueryService, support)
+    private val huntingPresenter = HuntingScreenPresenter(huntingQueryService, support)
+    private val enchantPresenter = EnchantScreenPresenter(enchantQueryService, support)
+    private val fusionPresenter = FusionScreenPresenter(fusionQueryService, support)
+    private val extractionPresenter = ExtractionScreenPresenter(extractionQueryService, support)
     private val shopPresenter = ShopScreenPresenter(shopQueryService, support)
     private val globalBossPresenter = GlobalBossScreenPresenter(globalBossQueryService, support)
     private val combatPresenter = CombatScreenPresenter(engine, support)
@@ -62,7 +74,18 @@ class GamePresenter(
             NavigationState.ProductionMenu -> navigationPresenter.presentProductionMenu(session)
             NavigationState.ProductionCraftMenu -> productionPresenter.presentCraftMenu(session)
             NavigationState.ProductionRecipeList -> productionPresenter.presentRecipeList(session)
+            NavigationState.ProductionRecipeDetail -> productionPresenter.presentRecipeDetail(session)
             NavigationState.ProductionGatheringList -> productionPresenter.presentGatheringList(session)
+            NavigationState.ProductionHuntingSpotList -> huntingPresenter.presentSpotList(session)
+            NavigationState.ProductionHuntingDurationList -> huntingPresenter.presentDurationList(session)
+            NavigationState.ProductionEnchantMenu -> enchantPresenter.presentEnchantMenu(session)
+            NavigationState.ProductionEnchantList -> enchantPresenter.presentEnchantList(session)
+            NavigationState.ProductionEnchantDetail -> enchantPresenter.presentEnchantDetail(session)
+            NavigationState.ProductionFusionSlot1 -> fusionPresenter.presentSlot1(session)
+            NavigationState.ProductionFusionSlot2 -> fusionPresenter.presentSlot2(session)
+            NavigationState.ProductionFusionPreview -> fusionPresenter.presentPreview(session)
+            NavigationState.ProductionExtractionSlot1 -> extractionPresenter.presentItemList(session)
+            NavigationState.ProductionExtractionPreview -> extractionPresenter.presentPreview(session)
             NavigationState.ProgressionMenu -> progressionPresenter.presentProgressionMenu(session)
             NavigationState.QuestBoard -> progressionPresenter.presentQuestBoard(session)
             NavigationState.QuestList -> progressionPresenter.presentQuestList(session)

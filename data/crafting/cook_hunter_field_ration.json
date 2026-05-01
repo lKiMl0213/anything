@@ -1,0 +1,23 @@
+{
+  "id": "cook_hunter_field_ration",
+  "name": "Cozinhar Racao de Cacador",
+  "discipline": "COOKING",
+  "outputItemId": "field_ration",
+  "outputQty": 2,
+  "minPlayerLevel": 12,
+  "minSkillLevel": 8,
+  "skillType": "COOKING",
+  "baseDurationSeconds": 9,
+  "baseXp": 24,
+  "difficulty": 1.55,
+  "tier": 3,
+  "ingredients": [
+    { "itemId": "beast_meat", "quantity": 2 },
+    { "itemId": "wild_mint_leaf", "quantity": 1 },
+    { "itemId": "medicinal_herb", "quantity": 1 },
+    { "itemId": "charcoal", "quantity": 1 }
+  ],
+  "description": "Receita combinada para longas jornadas de caca.",
+  "enabled": true,
+  "tags": ["food", "cooking", "hunter"]
+}

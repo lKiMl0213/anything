@@ -1,0 +1,15 @@
+﻿{
+    "id":  "enchant_stone_tier_4",
+    "name":  "Pedra de Encantamento +4",
+    "type":  "MATERIAL",
+    "tier":  "uncommon",
+    "tags":  [
+                 "enchant",
+                 "enchant_stone",
+                 "pedra",
+                 "tier_4"
+             ],
+    "value":  260,
+    "description":  "Pedra que concentra exatamente o encantamento +4.",
+    "rarity":  "UNCOMMON"
+}

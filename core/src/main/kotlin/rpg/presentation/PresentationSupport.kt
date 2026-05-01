@@ -101,7 +101,8 @@ internal class PresentationSupport(
         SkillType.GATHERING to "Coleta",
         SkillType.WOODCUTTING to "Lenhador",
         SkillType.ALCHEMIST to "Alquimia",
-        SkillType.COOKING to "Culinaria"
+        SkillType.COOKING to "Culinaria",
+        SkillType.ENCHANTING to "Encantamento"
     )
 
     private fun etaMinutesToFull(current: Double, maxValue: Double, regenPerMinute: Double): Double? {

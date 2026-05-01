@@ -21,5 +21,8 @@ data class ItemInstance(
     val effects: ItemEffects = ItemEffects(),
     val value: Int = 0,
     val description: String = "",
-    val affixes: List<String> = emptyList()
+    val affixes: List<String> = emptyList(),
+    val enchantLevel: Int = 0,
+    val enchantBaseBonuses: Bonuses? = null,
+    val enchantBasePowerScore: Int? = null
 )

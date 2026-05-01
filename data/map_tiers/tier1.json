@@ -1,5 +1,7 @@
 {
   "id": "tier1",
+  "displayName": "Campos de Brisa Clara",
+  "menuNote": "Entrada ideal para iniciantes e farm de materiais basicos.",
   "minLevel": 1,
   "recommendedLevel": 4,
   "baseMonsterLevel": 2,
@@ -7,12 +9,12 @@
   "allowedMonsterTemplates": [
     "common_slime",
     "green_slime",
-    "poison_slime",
     "wolf",
     "boar",
-    "rat",
-    "skeleton_warrior",
-    "zombie"
+    "spider",
+    "bat",
+    "beetle",
+    "rat"
   ],
   "dropTier": 1,
   "dropChanceMultiplier": 1.0,

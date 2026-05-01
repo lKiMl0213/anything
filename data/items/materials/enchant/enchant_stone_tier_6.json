@@ -1,0 +1,15 @@
+﻿{
+    "id":  "enchant_stone_tier_6",
+    "name":  "Pedra de Encantamento +6",
+    "type":  "MATERIAL",
+    "tier":  "uncommon",
+    "tags":  [
+                 "enchant",
+                 "enchant_stone",
+                 "pedra",
+                 "tier_6"
+             ],
+    "value":  350,
+    "description":  "Pedra que concentra exatamente o encantamento +6.",
+    "rarity":  "UNCOMMON"
+}

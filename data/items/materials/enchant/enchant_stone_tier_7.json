@@ -1,0 +1,15 @@
+﻿{
+    "id":  "enchant_stone_tier_7",
+    "name":  "Pedra de Encantamento +7",
+    "type":  "MATERIAL",
+    "tier":  "rare",
+    "tags":  [
+                 "enchant",
+                 "enchant_stone",
+                 "pedra",
+                 "tier_7"
+             ],
+    "value":  395,
+    "description":  "Pedra que concentra exatamente o encantamento +7.",
+    "rarity":  "RARE"
+}

@@ -37,9 +37,11 @@ object RaceBonusSupport {
             SkillType.BLACKSMITH -> listOf("blacksmith", "forja", "craft", "crafting")
             SkillType.ALCHEMIST -> listOf("alchemy", "alquimia", "alchemist")
             SkillType.COOKING -> listOf("cooking", "culinaria", "cozinha")
+            SkillType.ENCHANTING -> listOf("enchanting", "encantamento", "enchant")
             SkillType.MINING -> listOf("mining", "mineracao")
             SkillType.WOODCUTTING -> listOf("woodcutting", "lenhador", "madeira")
             SkillType.FISHING -> listOf("fishing", "pesca")
+            SkillType.HUNTING -> listOf("hunting", "caca", "ca\u00e7a")
             SkillType.GATHERING -> listOf("gathering", "coleta", "herbalism", "herbalismo")
         } + skillType.name.lowercase()
     }

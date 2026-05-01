@@ -204,7 +204,10 @@ class InventoryRulesSupport(
         }
     }
 
-    fun itemDisplayLabel(item: ResolvedItem): String = "[${item.rarity.colorLabel}] ${item.name}"
+    fun itemDisplayLabel(item: ResolvedItem): String {
+        val enchantSuffix = if (item.enchantLevel > 0) " +${item.enchantLevel}" else ""
+        return "[${item.rarity.colorLabel}] ${item.name}$enchantSuffix"
+    }
 
     fun classTagDisplayLabel(tag: String): String {
         return equipRules.classTagDisplayLabel(tag)

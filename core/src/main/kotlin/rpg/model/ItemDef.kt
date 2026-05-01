@@ -53,5 +53,6 @@ data class ItemDef(
     val bonuses: Bonuses = Bonuses(),
     val effects: ItemEffects = ItemEffects(),
     val value: Int = 0,
-    val description: String = ""
+    val description: String = "",
+    val tier: String = "common"
 )

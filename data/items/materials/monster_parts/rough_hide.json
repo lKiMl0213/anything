@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "rough_hide",
     "name":  "Couro Bruto",
     "type":  "MATERIAL",
@@ -8,5 +8,6 @@
                  "craft"
              ],
     "value":  3,
-    "description":  "Couro bruto pronto para curtume."
+    "description":  "Couro bruto pronto para curtume.",
+    "tier":  "rare"
 }

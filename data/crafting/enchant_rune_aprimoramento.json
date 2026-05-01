@@ -1,0 +1,36 @@
+﻿{
+    "id":  "enchant_rune_aprimoramento",
+    "name":  "Sintetizar Runa de Aprimoramento (Comum)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "enchant_rune_aprimoramento",
+    "outputQty":  1,
+    "minPlayerLevel":  8,
+    "minSkillLevel":  5,
+    "baseDurationSeconds":  7,
+    "baseXp":  16,
+    "difficulty":  1.2,
+    "tier":  2,
+    "ingredients":  [
+                        {
+                            "quantity":  3,
+                            "itemId":  "rat_tail"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "arcane_fragment"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "crystal_shard"
+                        }
+                    ],
+    "description":  "Runa de entrada para melhorar chance de encantamento.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "upgrade",
+                 "common"
+             ]
+}

@@ -1,0 +1,41 @@
+﻿{
+    "id":  "extract_scroll_protecao",
+    "name":  "Criar Pergaminho de Protecao de Extracao (Comum)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "extract_scroll_protecao",
+    "outputQty":  1,
+    "minPlayerLevel":  16,
+    "minSkillLevel":  9,
+    "baseDurationSeconds":  10,
+    "baseXp":  34,
+    "difficulty":  1.46,
+    "tier":  3,
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "wolf_pelt"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "runic_stone"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "enchanted_ash"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "oil"
+                        }
+                    ],
+    "description":  "Pergaminho comum que protege item na extracao bem-sucedida.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "extract",
+                 "scroll",
+                 "protecao",
+                 "common"
+             ]
+}

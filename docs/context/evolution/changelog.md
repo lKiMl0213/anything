@@ -926,3 +926,35 @@
 - Buscas em codigo-fonte ativo (`app-cli/src`, `core/src`, `app-android/src`) sem referencias restantes para `LegacyGameCli`, `LegacyCliRuntime`, `SessionBridge` e `TODO-REMOVE-LEGACY`.
 - `./gradlew clean build` passou.
 - Sem breaking change esperado para o CLI atual.
+
+## 2026-05-01 - Class Quest Stage Clarity (Lv 25 / Lv 50)
+
+### Updated Systems
+- Tela de quest de classe agora exibe detalhes concretos por etapa quando o caminho esta escolhido:
+  - local recomendado da instancia do caminho,
+  - mobs alvo por nome (etapas de kill),
+  - bosses alvo por nome (etapas de boss),
+  - boss final alvo por nome (etapa final),
+  - orientacao de coleta para drops da instancia.
+- A melhoria usa os catálogos existentes de dungeon/path da class quest (sem sistema paralelo).
+
+### Validation Notes
+- `./gradlew build` passou.
+- Smoke CLI confirmou exibicao detalhada em `Quest de Classe - Mago` com caminho `Elementalista`.
+- Regra aplicada de forma generica para subclasses (nv 25) e especializacoes (nv 50), cobrindo Mago, Arqueiro e Espadachim.
+
+## 2026-05-01 - Exploracao por Areas + Torre Infinita (UX + Progressao)
+
+### Updated Systems
+- Menu `Explorar` deixou de exibir `tierX` e passou a mostrar nomes de areas data-driven via `displayName` em `data/map_tiers/*`.
+- Pools de monstros por area foram revisados para coerencia tematica e diversidade minima por mapa.
+- Nova area adicionada: `Esgotos de Ferro Velho` (`sewer_depths`) para ampliar progressao entre mid/high level.
+- `Torre infinita` ganhou nota dedicada no menu com:
+  - maior andar historico alcancado,
+  - informacao util de ciclo de boss/nota de risco.
+- Melhor andar da Torre infinita agora persiste em `lifetimeStats.customCounters` usando chave `dungeon:infinite_highest_floor`.
+- Dicas/textos de quest foram alinhados para o novo padrao de "areas" (substituindo referencia direta a "tiers/dungeon infinita" onde aplicavel).
+- Dicas de quest de classe reforcam acesso via fluxo de areas/instancia de classe.
+
+### Validation Notes
+- `./gradlew build` passou.

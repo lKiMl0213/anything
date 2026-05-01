@@ -236,6 +236,31 @@ class ClassQuestService(
         return dungeonCatalog.dungeonDefinition(context.definition.unlockType, chosenPath, context.definition.classId)
     }
 
+    fun resolveDungeonByRunData(
+        player: PlayerState,
+        unlockTypeRaw: String?,
+        pathIdRaw: String?
+    ): ClassQuestDungeonDefinition? {
+        val pathId = pathIdRaw?.trim()?.lowercase()?.takeIf { it.isNotEmpty() } ?: return null
+        val unlockType = parseUnlockType(unlockTypeRaw)
+            ?: currentContext(player)?.definition?.unlockType
+            ?: return null
+        val classId = player.classId.trim().lowercase()
+        return dungeonCatalog.dungeonDefinition(unlockType, pathId, classId)
+    }
+
+    fun resolveDungeonPathNameByRunData(
+        player: PlayerState,
+        unlockTypeRaw: String?,
+        pathIdRaw: String?
+    ): String? {
+        val pathId = pathIdRaw?.trim()?.lowercase()?.takeIf { it.isNotEmpty() } ?: return null
+        val unlockType = parseUnlockType(unlockTypeRaw)
+            ?: currentContext(player)?.definition?.unlockType
+            ?: return null
+        return pathCatalog.pathName(unlockType, pathId)
+    }
+
     fun shouldSpawnFinalBoss(context: ClassQuestContext): Boolean {
         return progressionService.shouldSpawnFinalBoss(context)
     }
@@ -315,5 +340,10 @@ class ClassQuestService(
 
     private fun progressKey(classId: String, unlockType: ClassQuestUnlockType): String {
         return "${classId.lowercase()}:${unlockType.name.lowercase()}"
+    }
+
+    private fun parseUnlockType(value: String?): ClassQuestUnlockType? {
+        val normalized = value?.trim()?.uppercase()?.takeIf { it.isNotEmpty() } ?: return null
+        return runCatching { ClassQuestUnlockType.valueOf(normalized) }.getOrNull()
     }
 }

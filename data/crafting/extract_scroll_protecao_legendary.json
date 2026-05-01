@@ -1,0 +1,45 @@
+﻿{
+    "id":  "extract_scroll_protecao_legendary",
+    "name":  "Criar Pergaminho de Protecao de Extracao (Lendario)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "extract_scroll_protecao_legendary",
+    "outputQty":  1,
+    "minPlayerLevel":  50,
+    "minSkillLevel":  27,
+    "baseDurationSeconds":  18,
+    "baseXp":  112,
+    "difficulty":  2.24,
+    "tier":  7,
+    "ingredients":  [
+                        {
+                            "quantity":  4,
+                            "itemId":  "predator_eye"
+                        },
+                        {
+                            "quantity":  3,
+                            "itemId":  "runic_core"
+                        },
+                        {
+                            "quantity":  4,
+                            "itemId":  "arcane_crystal"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "golden_flower"
+                        },
+                        {
+                            "quantity":  4,
+                            "itemId":  "oil"
+                        }
+                    ],
+    "description":  "Pergaminho lendario de protecao maxima para extracao.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "extract",
+                 "scroll",
+                 "protecao",
+                 "legendary"
+             ]
+}

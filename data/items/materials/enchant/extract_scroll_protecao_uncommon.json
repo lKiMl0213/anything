@@ -1,0 +1,16 @@
+﻿{
+    "id":  "extract_scroll_protecao_uncommon",
+    "name":  "Pergaminho de Protecao de Extracao (Incomum)",
+    "type":  "MATERIAL",
+    "tier":  "uncommon",
+    "tags":  [
+                 "enchant",
+                 "extract",
+                 "scroll",
+                 "protecao",
+                 "uncommon"
+             ],
+    "value":  290,
+    "description":  "Protege o equipamento em extracao com materiais incomuns.",
+    "rarity":  "UNCOMMON"
+}

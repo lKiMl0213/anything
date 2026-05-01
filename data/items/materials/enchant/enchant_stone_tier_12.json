@@ -1,0 +1,15 @@
+﻿{
+    "id":  "enchant_stone_tier_12",
+    "name":  "Pedra de Encantamento +12",
+    "type":  "MATERIAL",
+    "tier":  "epic",
+    "tags":  [
+                 "enchant",
+                 "enchant_stone",
+                 "pedra",
+                 "tier_12"
+             ],
+    "value":  620,
+    "description":  "Pedra que concentra exatamente o encantamento +12.",
+    "rarity":  "EPIC"
+}

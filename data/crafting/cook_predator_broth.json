@@ -1,0 +1,23 @@
+{
+  "id": "cook_predator_broth",
+  "name": "Cozinhar Caldo de Predador",
+  "discipline": "COOKING",
+  "outputItemId": "nutritious_broth",
+  "outputQty": 1,
+  "minPlayerLevel": 22,
+  "minSkillLevel": 16,
+  "skillType": "COOKING",
+  "baseDurationSeconds": 13,
+  "baseXp": 38,
+  "difficulty": 1.92,
+  "tier": 4,
+  "ingredients": [
+    { "itemId": "predator_eye", "quantity": 1 },
+    { "itemId": "beast_meat", "quantity": 2 },
+    { "itemId": "medicinal_herb", "quantity": 2 },
+    { "itemId": "rice", "quantity": 1 }
+  ],
+  "description": "Receita combinada de alto nivel com foco em sustain e concentracao.",
+  "enabled": true,
+  "tags": ["food", "cooking", "combined"]
+}

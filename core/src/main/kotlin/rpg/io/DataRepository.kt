@@ -4,8 +4,14 @@ import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.isRegularFile
 import kotlin.io.path.name
+import rpg.enchant.EnchantConfig
+import rpg.enchant.ExtractionConfig
+import rpg.enchant.FusionConfig
+import rpg.cooking.CookingBuffConfig
 import rpg.globalboss.config.GlobalBossEventDef
 import rpg.globalboss.config.GlobalBossSystemConfig
+import rpg.hunting.HuntingConfig
+import rpg.hunting.HuntingSpot
 import rpg.model.ClassDef
 import rpg.model.GameBalanceDef
 import rpg.model.ItemDef
@@ -51,6 +57,7 @@ class DataRepository(private val root: Path) {
     val questTemplates: Map<String, QuestTemplateDef> = loadDir<QuestTemplateDef>("quest_templates").associateBy { it.id }
     val craftRecipes: Map<String, CraftRecipeDef> = loadDir<CraftRecipeDef>("crafting").associateBy { it.id }
     val gatherNodes: Map<String, GatherNodeDef> = loadDir<GatherNodeDef>("gathering").associateBy { it.id }
+    val huntingSpots: Map<String, HuntingSpot> = loadDir<HuntingSpot>("hunting/spots").associateBy { it.id }
     val skills: Map<String, SkillDef> = loadDir<SkillDef>("skills").associateBy { it.id.name }
     val shopEntries: Map<String, ShopEntryDef> = loadDir<ShopEntryDef>("shop").associateBy { it.id }
     val cashPacks: Map<String, CashPackDef> = loadDir<CashPackDef>("cash_packs").associateBy { it.id }
@@ -62,6 +69,11 @@ class DataRepository(private val root: Path) {
     val textPools: Map<String, TextPoolDef> = loadDir<TextPoolDef>("text_pools").associateBy { it.id }
     val character: CharacterDef = loadFile("character/character_base.json") ?: CharacterDef()
     val balance: GameBalanceDef = loadFile("balance.json") ?: GameBalanceDef()
+    val enchantConfig: EnchantConfig = loadFile("enchanting/system.json") ?: EnchantConfig()
+    val fusionConfig: FusionConfig = loadFile("enchanting/fusion.json") ?: FusionConfig()
+    val extractionConfig: ExtractionConfig = loadFile("enchanting/extraction.json") ?: ExtractionConfig()
+    val huntingConfig: HuntingConfig = loadFile("hunting/system.json") ?: HuntingConfig()
+    val cookingBuffConfig: CookingBuffConfig = loadFile("cooking/buffs.json") ?: CookingBuffConfig()
     val globalBossSystem: GlobalBossSystemConfig = loadFile("global_boss/config/system.json") ?: GlobalBossSystemConfig()
     val globalBossEvents: Map<String, GlobalBossEventDef> = loadDir<GlobalBossEventDef>("global_boss/events")
         .associateBy { it.id.lowercase() }

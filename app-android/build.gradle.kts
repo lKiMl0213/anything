@@ -2,6 +2,7 @@ import com.android.build.api.dsl.ApplicationExtension
 
 plugins {
     id("com.android.application")
+    kotlin("android")
 }
 
 extensions.configure<ApplicationExtension>("android") {
@@ -27,7 +28,7 @@ extensions.configure<ApplicationExtension>("android") {
 
     sourceSets.named("main") {
         manifest.srcFile("src/main/AndroidManifest.xml")
-        java.srcDirs("src/main/kotlin")
+        kotlin.srcDirs("src/main/kotlin")
         assets.srcDir("../data")
     }
 

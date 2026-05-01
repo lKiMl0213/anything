@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "enchanted_ash",
     "name":  "Cinza Encantada",
     "type":  "MATERIAL",
@@ -8,5 +8,6 @@
                  "arcane"
              ],
     "value":  4,
-    "description":  "Cinza que retem energia magica."
+    "description":  "Cinza que retem energia magica.",
+    "tier":  "uncommon"
 }

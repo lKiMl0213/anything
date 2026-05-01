@@ -4,7 +4,11 @@ import rpg.application.actions.GameAction
 import rpg.application.creation.CharacterCreationQueryService
 import rpg.application.character.CharacterQueryService
 import rpg.application.city.CityQueryService
+import rpg.application.enchant.EnchantQueryService
+import rpg.application.enchant.ExtractionQueryService
+import rpg.application.enchant.FusionQueryService
 import rpg.application.globalboss.GlobalBossQueryService
+import rpg.application.hunting.HuntingQueryService
 import rpg.application.inventory.InventoryQueryService
 import rpg.application.production.ProductionQueryService
 import rpg.application.progression.AchievementQueryService
@@ -31,6 +35,10 @@ class GameActionHandler(
     fun achievementQueryService(): AchievementQueryService = runtime.achievementQueryService
     fun cityQueryService(): CityQueryService = runtime.cityQueryService
     fun productionQueryService(): ProductionQueryService = runtime.productionQueryService
+    fun huntingQueryService(): HuntingQueryService = runtime.huntingQueryService
+    fun enchantQueryService(): EnchantQueryService = runtime.enchantQueryService
+    fun fusionQueryService(): FusionQueryService = runtime.fusionQueryService
+    fun extractionQueryService(): ExtractionQueryService = runtime.extractionQueryService
     fun shopQueryService(): ShopQueryService = runtime.shopQueryService
     fun globalBossQueryService(): GlobalBossQueryService = runtime.globalBossQueryService
 

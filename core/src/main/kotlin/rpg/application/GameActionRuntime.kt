@@ -15,10 +15,21 @@ import rpg.application.city.CityActionDispatcher
 import rpg.application.city.CityCommandService
 import rpg.application.city.CityQueryService
 import rpg.application.city.CityRulesSupport
+import rpg.application.enchant.EnchantActionDispatcher
+import rpg.application.enchant.EnchantCommandService
+import rpg.application.enchant.EnchantQueryService
+import rpg.application.enchant.ExtractionCommandService
+import rpg.application.enchant.ExtractionQueryService
+import rpg.application.enchant.FusionExtractionActionDispatcher
+import rpg.application.enchant.FusionCommandService
+import rpg.application.enchant.FusionQueryService
 import rpg.application.exploration.ExplorationActionDispatcher
 import rpg.application.globalboss.GlobalBossActionDispatcher
 import rpg.application.globalboss.GlobalBossCommandService
 import rpg.application.globalboss.GlobalBossQueryService
+import rpg.application.hunting.HuntingActionDispatcher
+import rpg.application.hunting.HuntingCommandService
+import rpg.application.hunting.HuntingQueryService
 import rpg.application.inventory.InventoryActionDispatcher
 import rpg.application.inventory.InventoryCommandService
 import rpg.application.inventory.InventoryQueryService
@@ -38,6 +49,7 @@ import rpg.application.shop.ShopActionDispatcher
 import rpg.application.shop.ShopCommandService
 import rpg.application.shop.ShopQueryService
 import rpg.classquest.ClassQuestMenu
+import rpg.classquest.dungeon.ClassDungeonMonsterService
 import rpg.combat.CombatResult
 import rpg.combat.CombatTelemetry
 import rpg.engine.GameEngine
@@ -108,6 +120,14 @@ internal class GameActionRuntime(
     private val cityCommandService = CityCommandService(achievementTracker, cityRulesSupport)
     val productionQueryService = ProductionQueryService(engine)
     private val productionCommandService = ProductionCommandService(engine, achievementTracker)
+    val huntingQueryService = HuntingQueryService(engine)
+    private val huntingCommandService = HuntingCommandService(engine, achievementTracker)
+    val enchantQueryService = EnchantQueryService(engine)
+    val fusionQueryService = FusionQueryService(engine)
+    val extractionQueryService = ExtractionQueryService(engine)
+    private val enchantCommandService = EnchantCommandService(engine, achievementTracker)
+    private val fusionCommandService = FusionCommandService(engine, achievementTracker)
+    private val extractionCommandService = ExtractionCommandService(engine, achievementTracker)
     val shopQueryService = ShopQueryService(engine, repo, engine.permanentUpgradeService)
     private val shopCommandService = ShopCommandService(
         engine = engine,
@@ -164,17 +184,36 @@ internal class GameActionRuntime(
         commandService = productionCommandService,
         stateSupport = stateSupport
     )
+    private val huntingActionDispatcher = HuntingActionDispatcher(
+        commandService = huntingCommandService,
+        stateSupport = stateSupport
+    )
+    private val enchantActionDispatcher = EnchantActionDispatcher(
+        commandService = enchantCommandService,
+        stateSupport = stateSupport
+    )
+    private val fusionExtractionActionDispatcher = FusionExtractionActionDispatcher(
+        fusionCommandService = fusionCommandService,
+        extractionCommandService = extractionCommandService,
+        stateSupport = stateSupport
+    )
     private val shopActionDispatcher = ShopActionDispatcher(
         queryService = shopQueryService,
         commandService = shopCommandService,
         stateSupport = stateSupport
     )
-    private val explorationActionDispatcher = ExplorationActionDispatcher(engine, stateSupport)
+    private val classDungeonMonsterService = ClassDungeonMonsterService(repo, engine)
     private val globalBossActionDispatcher = GlobalBossActionDispatcher(
         engine = engine,
         queryService = globalBossQueryService,
         commandService = globalBossCommandService,
         stateSupport = stateSupport
+    )
+
+    private val explorationDispatcher = ExplorationActionDispatcher(
+        engine = engine,
+        stateSupport = stateSupport,
+        classDungeonMonsterService = classDungeonMonsterService
     )
 
     fun handle(session: GameSession, action: GameAction): GameActionResult? {
@@ -186,9 +225,12 @@ internal class GameActionRuntime(
             ?: progressionActionDispatcher.handle(session, action)
             ?: cityActionDispatcher.handle(session, action)
             ?: productionActionDispatcher.handle(session, action)
+            ?: huntingActionDispatcher.handle(session, action)
+            ?: enchantActionDispatcher.handle(session, action)
+            ?: fusionExtractionActionDispatcher.handle(session, action)
             ?: shopActionDispatcher.handle(session, action)
             ?: globalBossActionDispatcher.handle(session, action)
-            ?: explorationActionDispatcher.handle(session, action)
+            ?: explorationDispatcher.handle(session, action)
     }
 
     fun normalizeLoadedState(state: rpg.model.GameState?): rpg.model.GameState? {

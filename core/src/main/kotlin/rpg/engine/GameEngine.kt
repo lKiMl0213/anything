@@ -1,13 +1,19 @@
 package rpg.engine
 
 import kotlin.math.ceil
+import kotlin.math.absoluteValue
 import kotlin.random.Random
+import rpg.cooking.CookingBuffService
 import rpg.classquest.ClassQuestService
+import rpg.classquest.ClassQuestUnlockType
 import rpg.combat.CombatEngine
 import rpg.crafting.CraftingService
 import rpg.classsystem.AttributeEngine
 import rpg.classsystem.ClassSystem
 import rpg.classsystem.RaceBonusSupport
+import rpg.enchant.EnchantService
+import rpg.enchant.ExtractionService
+import rpg.enchant.FusionService
 import rpg.economy.DropEngine
 import rpg.economy.DropOutcome
 import rpg.economy.EconomyEngine
@@ -18,6 +24,8 @@ import rpg.io.DataRepository
 import rpg.item.ItemEngine
 import rpg.item.ItemResolver
 import rpg.gathering.GatheringService
+import rpg.hunting.HuntingDropResolver
+import rpg.hunting.HuntingService
 import rpg.model.GameState
 import rpg.model.ItemInstance
 import rpg.model.MapTierDef
@@ -41,15 +49,26 @@ import rpg.skills.SkillSystem
 import rpg.world.DungeonEngine
 import rpg.registry.DropTableRegistry
 import rpg.registry.ItemRegistry
+import rpg.validation.DataIntegrityValidator
 
 class GameEngine(private val repo: DataRepository, private val rng: Random = Random.Default) {
     val balance = repo.balance
     val itemRegistry = ItemRegistry(repo.items, repo.itemTemplates)
+    private val dataIntegrityValidator = DataIntegrityValidator()
+
+    init {
+        dataIntegrityValidator.validateOrThrow(repo, itemRegistry)
+    }
+
     val statsEngine = StatsEngine(repo, itemRegistry)
     val classSystem = ClassSystem(repo)
     val dungeonEngine = DungeonEngine(repo, rng)
     val monsterFactory = MonsterFactory(repo, rng)
     val monsterAffinityService = MonsterAffinityService(repo.monsterTypes, repo.monsterArchetypes)
+    val cookingBuffService = CookingBuffService(
+        recipes = repo.craftRecipes,
+        config = repo.cookingBuffConfig
+    )
     val dropTableRegistry = DropTableRegistry(repo.dropTables)
     val itemEngine = ItemEngine(itemRegistry, repo.affixes, rng)
     val itemResolver = ItemResolver(itemRegistry)
@@ -67,7 +86,8 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
         biomes = repo.biomes,
         archetypes = repo.monsterArchetypes,
         talentTrees = repo.talentTreesV2.values,
-        monsterAffinityService = monsterAffinityService
+        monsterAffinityService = monsterAffinityService,
+        cookingBuffService = cookingBuffService
     )
     val textEngine = TextEngine(repo, rng)
     val questGenerator = QuestGenerator(repo, rng)
@@ -99,6 +119,44 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
             RaceBonusSupport.professionBonusPct(resolveRaceDef(player), skillType)
         }
     )
+    private val huntingDropResolver = HuntingDropResolver(
+        itemRegistry = itemRegistry,
+        config = repo.huntingConfig,
+        rng = rng
+    )
+    val huntingService = HuntingService(
+        spots = repo.huntingSpots,
+        itemRegistry = itemRegistry,
+        itemEngine = itemEngine,
+        skillSystem = skillSystem,
+        permanentUpgradeService = permanentUpgradeService,
+        dropResolver = huntingDropResolver,
+        config = repo.huntingConfig,
+        raceProfessionBonusPct = { player, skillType ->
+            RaceBonusSupport.professionBonusPct(resolveRaceDef(player), skillType)
+        }
+    )
+    val enchantService = EnchantService(
+        itemRegistry = itemRegistry,
+        skillSystem = skillSystem,
+        rng = rng,
+        config = repo.enchantConfig
+    )
+    val fusionService = FusionService(
+        itemRegistry = itemRegistry,
+        skillSystem = skillSystem,
+        rng = rng,
+        enchantConfig = repo.enchantConfig,
+        fusionConfig = repo.fusionConfig,
+        affixes = repo.affixes
+    )
+    val extractionService = ExtractionService(
+        itemRegistry = itemRegistry,
+        skillSystem = skillSystem,
+        rng = rng,
+        enchantConfig = repo.enchantConfig,
+        extractionConfig = repo.extractionConfig
+    )
 
     fun computePlayerStats(player: PlayerState, itemInstances: Map<String, ItemInstance>): ComputedStats {
         return statsEngine.computePlayerStats(player, itemInstances)
@@ -115,6 +173,39 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
     fun tierById(id: String): MapTierDef = dungeonEngine.tierById(id)
 
     fun availableTiers(player: PlayerState): List<MapTierDef> = dungeonEngine.availableTiers(player.level)
+
+    fun classDungeonEntryTier(player: PlayerState, unlockType: ClassQuestUnlockType): MapTierDef? {
+        val unlocked = availableTiers(player)
+        if (unlocked.isEmpty()) return null
+        val nonInfinite = unlocked.filterNot { it.isInfinite }
+        val pool = if (nonInfinite.isEmpty()) unlocked else nonInfinite
+        val ratio = when (unlockType) {
+            ClassQuestUnlockType.SUBCLASS -> 0.5
+            ClassQuestUnlockType.SPECIALIZATION -> 0.65
+        }
+        val targetLevel = (player.level * ratio).coerceAtLeast(1.0)
+        return pool.minWithOrNull(
+            compareBy<MapTierDef> { (it.recommendedLevel - targetLevel).absoluteValue }
+                .thenByDescending { it.recommendedLevel }
+        ) ?: pool.first()
+    }
+
+    fun tierDisplayName(tier: MapTierDef): String {
+        val explicit = tier.displayName.trim()
+        if (explicit.isNotEmpty()) return explicit
+        return humanizeId(tier.id)
+    }
+
+    fun tierDisplayName(tierId: String?): String? {
+        val normalized = tierId?.trim()?.takeIf { it.isNotEmpty() } ?: return null
+        val tier = repo.mapTiers[normalized]
+        return if (tier != null) tierDisplayName(tier) else humanizeId(normalized)
+    }
+
+    fun monsterTemplateDisplayName(templateId: String): String? {
+        val template = repo.monsterArchetypes[templateId] ?: return null
+        return template.displayName.ifBlank { template.name }.ifBlank { humanizeId(template.id) }
+    }
 
     fun startRun(tierId: String): rpg.model.DungeonRun = dungeonEngine.startRun(tierId)
 
@@ -406,6 +497,16 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
 
     fun resolveRaceDef(player: PlayerState): rpg.model.RaceDef? {
         return runCatching { classSystem.raceDef(player.raceId) }.getOrNull()
+    }
+
+    private fun humanizeId(value: String): String {
+        return value
+            .split('_', '-')
+            .filter { it.isNotBlank() }
+            .joinToString(" ") { token ->
+                token.replaceFirstChar { ch -> ch.uppercaseChar() }
+            }
+            .ifBlank { value }
     }
 
     fun applyAutoPoints(

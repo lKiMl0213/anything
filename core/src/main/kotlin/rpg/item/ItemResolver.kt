@@ -24,7 +24,8 @@ data class ResolvedItem(
     val effects: ItemEffects = ItemEffects(),
     val value: Int = 0,
     val description: String = "",
-    val affixes: List<String> = emptyList()
+    val affixes: List<String> = emptyList(),
+    val enchantLevel: Int = 0
 )
 
 class ItemResolver(private val registry: ItemRegistry) {
@@ -48,7 +49,8 @@ class ItemResolver(private val registry: ItemRegistry) {
                 effects = instance.effects,
                 value = instance.value,
                 description = instance.description,
-                affixes = instance.affixes
+                affixes = instance.affixes,
+                enchantLevel = instance.enchantLevel
             )
         }
         val def = registry.item(id)
@@ -70,7 +72,8 @@ class ItemResolver(private val registry: ItemRegistry) {
                 effects = def.effects,
                 value = def.value,
                 description = def.description,
-                affixes = emptyList()
+                affixes = emptyList(),
+                enchantLevel = 0
             )
         }
         val template = registry.template(id) ?: return null
@@ -91,7 +94,8 @@ class ItemResolver(private val registry: ItemRegistry) {
             effects = ItemEffects(),
             value = template.vendorBaseValue,
             description = template.description,
-            affixes = emptyList()
+            affixes = emptyList(),
+            enchantLevel = 0
         )
     }
 }

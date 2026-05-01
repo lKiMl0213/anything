@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "wolf_pelt",
     "name":  "Pele de Lobo",
     "type":  "MATERIAL",
@@ -8,5 +8,6 @@
                  "craft"
              ],
     "value":  4,
-    "description":  "Pele resistente de predador."
+    "description":  "Pele resistente de predador.",
+    "tier":  "uncommon"
 }

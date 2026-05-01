@@ -15,7 +15,11 @@ internal class AutoSavePolicyService {
         if (after.gameState == null) return false
         if (action == GameAction.SaveAutosave || action == GameAction.SaveCurrentGame) return false
 
-        if (action is GameAction.EnterDungeon || action == GameAction.ExitDungeonRun) {
+        if (
+            action is GameAction.EnterDungeon ||
+            action is GameAction.EnterClassDungeon ||
+            action == GameAction.ExitDungeonRun
+        ) {
             return true
         }
         if (action is GameAction.AllocateAttributePoint || action is GameAction.AllocateAttributePoints) {

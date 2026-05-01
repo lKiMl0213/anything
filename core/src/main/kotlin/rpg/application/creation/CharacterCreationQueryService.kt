@@ -2,6 +2,7 @@ package rpg.application.creation
 
 import rpg.creation.CharacterCreationPreviewService
 import rpg.io.DataRepository
+import rpg.application.character.AttributeDescriptionCatalog
 import rpg.model.Attributes
 import rpg.model.ClassDef
 import rpg.model.RaceDef
@@ -72,8 +73,8 @@ class CharacterCreationQueryService(
         return CharacterCreationAttributeDetail(
             code = upper,
             label = label,
-            directEffects = generateAttributeDescription(upper),
-            gameplayImpact = generateGameplayImpact(upper)
+            directEffects = AttributeDescriptionCatalog.directEffects(upper),
+            gameplayImpact = AttributeDescriptionCatalog.gameplayImpact(upper)
         )
     }
 
@@ -141,74 +142,4 @@ class CharacterCreationQueryService(
         else -> 0
     }
 
-    private fun generateAttributeDescription(code: String): List<String> = when (code.uppercase()) {
-        "STR" -> listOf(
-            "Contribui para dano fisico base (+2.5 por ponto).",
-            "Aumenta penetracao fisica (+0.5 por ponto).",
-            "Contribui para defesa fisica (+0.5 por ponto)."
-        )
-        "AGI" -> listOf(
-            "Aumenta velocidade de ataque base (+0.02 por ponto).",
-            "Aumenta esquiva/evasao (+0.8 por ponto).",
-            "Aumenta velocidade de movimento (+0.05 por ponto)."
-        )
-        "DEX" -> listOf(
-            "Contribui para dano fisico base (+1.2 por ponto).",
-            "Aumenta precisao/acerto (+1.5 por ponto).",
-            "Aumenta chance de critico (+0.3) e dano critico (+0.5)."
-        )
-        "VIT" -> listOf(
-            "Aumenta HP maximo (+12 por ponto).",
-            "Aumenta defesa fisica (+1.5 por ponto).",
-            "Aumenta regeneracao de HP (+0.2 por ponto)."
-        )
-        "INT" -> listOf(
-            "Aumenta dano magico base (+3.0 por ponto).",
-            "Aumenta penetracao magica (+0.7 por ponto).",
-            "Contribui para defesa magica (+0.7 por ponto)."
-        )
-        "SPR" -> listOf(
-            "Aumenta MP maximo (+10 por ponto).",
-            "Aumenta defesa magica (+1.8 por ponto).",
-            "Aumenta regeneracao de MP (+0.3) e reducao de cooldown (+0.15%)."
-        )
-        "LUK" -> listOf(
-            "Aumenta chance de critico (+0.2 por ponto).",
-            "Aumenta vampirismo (1% a cada 10 pontos).",
-            "Aumenta bonus de drop (+0.2% por ponto)."
-        )
-        else -> listOf("Sem descricao configurada.")
-    }
-
-    private fun generateGameplayImpact(code: String): List<String> = when (code.uppercase()) {
-        "STR" -> listOf(
-            "Mais STR aumenta o dano de ataques fisicos e melhora a consistencia contra defesa fisica.",
-            "Builds corpo a corpo sentem ganho direto no burst."
-        )
-        "AGI" -> listOf(
-            "Mais AGI acelera o ritmo do combate e ajuda a evitar golpes.",
-            "Classes moveis aproveitam melhor esse atributo."
-        )
-        "DEX" -> listOf(
-            "Mais DEX melhora acerto, critico e dano de ataques de precisao.",
-            "Arqueiros e builds criticas escalam muito bem aqui."
-        )
-        "VIT" -> listOf(
-            "Mais VIT aumenta margem de erro, sustain e resistencia fisica.",
-            "Excelente para frontliners e setups defensivos."
-        )
-        "INT" -> listOf(
-            "Mais INT aumenta dano magico e perfuracao magica.",
-            "Magos ofensivos dependem fortemente deste atributo."
-        )
-        "SPR" -> listOf(
-            "Mais SPR aumenta mana, sustain magico e defesa contra magia.",
-            "Tambem acelera cooldowns de forma gradual."
-        )
-        "LUK" -> listOf(
-            "Mais LUK melhora critico, drop e vampirismo.",
-            "Bom atributo complementar para builds oportunistas."
-        )
-        else -> listOf("Sem impacto configurado.")
-    }
 }

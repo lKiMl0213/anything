@@ -1,6 +1,7 @@
 package rpg.application.inventory
 
 import rpg.achievement.AchievementTracker
+import rpg.achievement.AchievementCounterKeys
 import rpg.classsystem.RaceBonusSupport
 import rpg.classquest.ClassQuestTagRules
 import rpg.engine.GameEngine
@@ -109,6 +110,18 @@ class InventoryCommandService(
             updatedPlayer = updatedPlayer.copy(runAttrMultiplier = (updatedPlayer.runAttrMultiplier * mult).coerceAtLeast(0.1))
         }
 
+        val canonicalItemId = state.itemInstances[itemId]?.templateId ?: item.id
+        val foodBuff = engine.cookingBuffService.applyFromItem(updatedPlayer, canonicalItemId)
+        updatedPlayer = foodBuff.player
+        if (foodBuff.applied) {
+            updatedPlayer = achievementTracker.onCustomCounterIncrement(
+                updatedPlayer,
+                AchievementCounterKeys.Cooking.NAMESPACE,
+                AchievementCounterKeys.Cooking.BUFFS_USED,
+                amount = 1
+            ).player
+        }
+
         val inventory = updatedPlayer.inventory.toMutableList()
         inventory.remove(itemId)
         val updatedInstances = if (state.itemInstances.containsKey(itemId)) {
@@ -118,6 +131,7 @@ class InventoryCommandService(
         }
         updatedPlayer = support.clampPlayerResources(updatedPlayer.copy(inventory = inventory), updatedInstances)
         val messages = mutableListOf("Usou ${item.name}.")
+        foodBuff.message?.let { messages += it }
         if (item.effects.clearNegativeStatuses || item.effects.statusImmunitySeconds > 0.0) {
             messages += "Esse efeito defensivo e aplicado apenas em combate."
         }

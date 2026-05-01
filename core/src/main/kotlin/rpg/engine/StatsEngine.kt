@@ -30,6 +30,7 @@ class StatsEngine(private val repo: DataRepository, private val itemRegistry: It
         bonuses.addAll(equipBonuses)
         bonuses.add(runBonuses(player))
         bonuses.add(roomBonuses(player))
+        bonuses.add(activeFoodBonuses(player))
 
         val deathMultiplier = if (player.deathDebuffStacks > 0) {
             (1.0 - 0.20 * player.deathDebuffStacks).coerceAtLeast(0.1)
@@ -63,5 +64,10 @@ class StatsEngine(private val repo: DataRepository, private val itemRegistry: It
         val derivedAdd = if (player.roomDerivedRooms > 0) player.roomDerivedAdd else DerivedStats()
         val derivedMult = if (player.roomDerivedRooms > 0) player.roomDerivedMult else DerivedStats()
         return Bonuses(attributes = attr, derivedAdd = derivedAdd, derivedMult = derivedMult)
+    }
+
+    private fun activeFoodBonuses(player: PlayerState): Bonuses {
+        if (player.foodBuffRemainingMinutes <= 0.0) return Bonuses()
+        return player.foodBuffBonuses
     }
 }

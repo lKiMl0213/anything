@@ -1,0 +1,24 @@
+{
+  "id": "collect_enchant_rune_bundle",
+  "category": "collection",
+  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY"],
+  "objectiveType": "COLLECT_ITEM",
+  "targetType": "ITEM_ID",
+  "targetId": "enchant_rune_aprimoramento",
+  "amountRange": { "min": 2, "max": 10 },
+  "rewardProfile": {
+    "xpBase": 20,
+    "goldBase": 18,
+    "effortMultiplier": 1.2
+  },
+  "constraints": {
+    "minPlayerLevel": 5,
+    "maxPlayerLevel": 999,
+    "requiresDungeon": false
+  },
+  "titleTemplate": "Kit de Runas",
+  "descriptionTemplate": "Junte {amount} Runa(s) de Aprimoramento para evoluir seus itens.",
+  "hintTemplate": "Produza runas no craft para completar mais rapido.",
+  "enabled": true,
+  "weight": 6
+}

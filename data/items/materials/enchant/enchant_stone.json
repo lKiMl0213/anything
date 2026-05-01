@@ -1,0 +1,15 @@
+﻿{
+    "id":  "enchant_stone",
+    "name":  "Pedra de Encantamento +0",
+    "type":  "MATERIAL",
+    "tier":  "common",
+    "tags":  [
+                 "enchant",
+                 "enchant_stone",
+                 "pedra",
+                 "tier_0"
+             ],
+    "value":  80,
+    "description":  "Pedra base sem nivel de encantamento concentrado.",
+    "rarity":  "COMMON"
+}

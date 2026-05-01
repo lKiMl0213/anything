@@ -19,7 +19,18 @@ internal object SessionNavigationSupport {
             NavigationState.ProductionMenu -> NavigationState.Hub
             NavigationState.ProductionCraftMenu -> NavigationState.ProductionMenu
             NavigationState.ProductionRecipeList -> NavigationState.ProductionCraftMenu
+            NavigationState.ProductionRecipeDetail -> NavigationState.ProductionRecipeList
             NavigationState.ProductionGatheringList -> NavigationState.ProductionMenu
+            NavigationState.ProductionHuntingSpotList -> NavigationState.ProductionMenu
+            NavigationState.ProductionHuntingDurationList -> NavigationState.ProductionHuntingSpotList
+            NavigationState.ProductionEnchantMenu -> NavigationState.ProductionMenu
+            NavigationState.ProductionEnchantList -> NavigationState.ProductionEnchantMenu
+            NavigationState.ProductionEnchantDetail -> NavigationState.ProductionEnchantList
+            NavigationState.ProductionFusionSlot1 -> NavigationState.ProductionEnchantMenu
+            NavigationState.ProductionFusionSlot2 -> NavigationState.ProductionFusionSlot1
+            NavigationState.ProductionFusionPreview -> NavigationState.ProductionFusionSlot2
+            NavigationState.ProductionExtractionSlot1 -> NavigationState.ProductionEnchantMenu
+            NavigationState.ProductionExtractionPreview -> NavigationState.ProductionExtractionSlot1
             NavigationState.ProgressionMenu -> NavigationState.Hub
             NavigationState.QuestBoard -> NavigationState.ProgressionMenu
             NavigationState.QuestList -> NavigationState.QuestBoard
@@ -86,12 +97,76 @@ internal object SessionNavigationSupport {
                 null
             },
             selectedCraftDiscipline = if (
-                target == NavigationState.ProductionRecipeList || target == NavigationState.ProductionCraftMenu
+                target == NavigationState.ProductionRecipeList ||
+                    target == NavigationState.ProductionRecipeDetail ||
+                    target == NavigationState.ProductionCraftMenu
             ) session.selectedCraftDiscipline else null,
+            selectedCraftRecipeId = if (target == NavigationState.ProductionRecipeDetail) {
+                session.selectedCraftRecipeId
+            } else {
+                null
+            },
+            selectedCraftRecipeQuantity = if (target == NavigationState.ProductionRecipeDetail) {
+                session.selectedCraftRecipeQuantity.coerceAtLeast(1)
+            } else {
+                1
+            },
             selectedGatheringType = if (target == NavigationState.ProductionGatheringList) {
                 session.selectedGatheringType
             } else {
                 null
+            },
+            selectedHuntingSpotId = if (target == NavigationState.ProductionHuntingDurationList) {
+                session.selectedHuntingSpotId
+            } else {
+                null
+            },
+            selectedEnchantItemId = if (target == NavigationState.ProductionEnchantDetail) {
+                session.selectedEnchantItemId
+            } else {
+                null
+            },
+            selectedEnchantEnhancementRunes = if (target == NavigationState.ProductionEnchantDetail) {
+                session.selectedEnchantEnhancementRunes
+            } else {
+                0
+            },
+            selectedEnchantUseProtectionRune = if (target == NavigationState.ProductionEnchantDetail) {
+                session.selectedEnchantUseProtectionRune
+            } else {
+                false
+            },
+            selectedFusionSlot1ItemId = if (
+                target == NavigationState.ProductionFusionSlot1 ||
+                target == NavigationState.ProductionFusionSlot2 ||
+                target == NavigationState.ProductionFusionPreview
+            ) {
+                session.selectedFusionSlot1ItemId
+            } else {
+                null
+            },
+            selectedFusionSlot2ItemId = if (target == NavigationState.ProductionFusionPreview) {
+                session.selectedFusionSlot2ItemId
+            } else {
+                null
+            },
+            selectedExtractionItemId = if (
+                target == NavigationState.ProductionExtractionSlot1 ||
+                target == NavigationState.ProductionExtractionPreview
+            ) {
+                session.selectedExtractionItemId
+            } else {
+                null
+            },
+            selectedExtractionUseRemovalScroll = if (target == NavigationState.ProductionExtractionPreview) {
+                session.selectedExtractionUseRemovalScroll
+            } else {
+                false
+            },
+            selectedExtractionUseProtectionScroll = if (target == NavigationState.ProductionExtractionPreview) {
+                session.selectedExtractionUseProtectionScroll
+            } else {
+                false
             },
             selectedShopCurrency = if (
                 target == NavigationState.CityShopCategories ||

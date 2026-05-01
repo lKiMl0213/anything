@@ -32,29 +32,66 @@ internal class ClassQuestProgressionService(
     fun stageProgressLines(context: ClassQuestContext): List<String> {
         val progress = context.progress
         val stage = stageSnapshot(context)
+        val chosenPath = progress.chosenPath
+        val dungeon = chosenPath?.let {
+            dungeonCatalog.dungeonDefinition(
+                context.definition.unlockType,
+                it,
+                context.definition.classId
+            )
+        }
         val lines = mutableListOf<String>()
         lines += "Quest ${pathCatalog.unlockLabel(context.definition.unlockType)} - Etapa ${stage.stage.stage}/4"
-        progress.chosenPath?.let { lines += "Caminho: ${pathCatalog.pathName(context.definition.unlockType, it)}" }
+        chosenPath?.let { lines += "Caminho: ${pathCatalog.pathName(context.definition.unlockType, it)}" }
+        if (dungeon != null) {
+            lines += "Local recomendado: Area de classe (${dungeon.pathName})."
+            lines += "Acesso rapido: Exploracao > Areas > instancia de classe."
+        }
 
         if (stage.stage.killTarget > 0) {
             lines += "Matar mobs especificos: ${progress.killCount}/${stage.stage.killTarget}"
+            val mobTargets = resolveMonsterNames(stage.mobTargets, dungeon?.normalMonsters.orEmpty())
+            if (mobTargets.isNotEmpty()) {
+                lines += "Mobs alvo: ${mobTargets.joinToString(", ")}"
+                if (dungeon != null) {
+                    lines += "Onde encontrar: apenas na area de classe do caminho ${dungeon.pathName}."
+                }
+            } else {
+                val baseTargets = resolveBaseTypeLabels(stage.mobBaseTypes)
+                if (baseTargets.isNotEmpty()) {
+                    lines += "Tipos de mob validos: ${baseTargets.joinToString(", ")}"
+                }
+            }
         }
         if (stage.stage.collectTarget > 0) {
             lines += "Coletar itens: ${progress.collectCount}/${stage.stage.collectTarget}"
-            val path = progress.chosenPath
-            if (path != null) {
-                val dungeon = dungeonCatalog.dungeonDefinition(context.definition.unlockType, path, context.definition.classId)
-                if (dungeon != null) {
-                    lines += "Coletavel da instancia: ${dungeon.collectibleName}"
-                }
+            if (dungeon != null) {
+                lines += "Coletavel da instancia: ${dungeon.collectibleName}"
+                lines += "Onde coletar: drops dos mobs e bosses dessa instancia."
             }
         }
         if (stage.stage.bossKillTarget > 0) {
             lines += "Bosses derrotados: ${progress.bossKillCount}/${stage.stage.bossKillTarget}"
+            val bossTargets = resolveMonsterNames(stage.bossTargets, dungeon?.bossMonsters.orEmpty())
+            if (bossTargets.isNotEmpty()) {
+                lines += "Bosses alvo: ${bossTargets.joinToString(", ")}"
+            } else {
+                val baseTargets = resolveBaseTypeLabels(stage.bossBaseTypes)
+                if (baseTargets.isNotEmpty()) {
+                    lines += "Tipos de boss validos: ${baseTargets.joinToString(", ")}"
+                }
+            }
         }
         if (stage.stage.requiresFinalBoss) {
             val finalBoss = if (progress.finalBossKilled) "concluido" else "pendente"
             lines += "Boss final: $finalBoss"
+            val finalBossTargets = resolveMonsterNames(
+                stage.finalBossTargets,
+                dungeon?.let { listOf(it.finalBoss) }.orEmpty()
+            )
+            if (finalBossTargets.isNotEmpty()) {
+                lines += "Boss final alvo: ${finalBossTargets.joinToString(", ")}"
+            }
         }
         return lines
     }
@@ -317,5 +354,30 @@ internal class ClassQuestProgressionService(
         val path = progress.chosenPath ?: return emptySet()
         val dungeon = dungeonCatalog.dungeonDefinition(definition.unlockType, path, definition.classId) ?: return emptySet()
         return dungeon.finalBossIds()
+    }
+
+    private fun resolveMonsterNames(
+        targetIds: Set<String>,
+        candidates: List<ClassQuestDungeonMonster>
+    ): List<String> {
+        if (candidates.isEmpty()) return emptyList()
+        val selected = if (targetIds.isEmpty()) {
+            candidates
+        } else {
+            candidates.filter { it.monsterId in targetIds }
+        }
+        return selected.map { it.displayName }.distinct()
+    }
+
+    private fun resolveBaseTypeLabels(baseTypes: Set<String>): List<String> {
+        return baseTypes
+            .map { value ->
+                value.split('_')
+                    .filter { it.isNotBlank() }
+                    .joinToString(" ") { token ->
+                        token.replaceFirstChar { ch -> ch.uppercase() }
+                    }
+            }
+            .distinct()
     }
 }

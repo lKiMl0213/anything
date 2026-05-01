@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "arcane_fragment",
     "name":  "Fragmento Arcano",
     "type":  "MATERIAL",
@@ -8,5 +8,6 @@
                  "arcane"
              ],
     "value":  6,
-    "description":  "Fragmento de energia arcana solida."
+    "description":  "Fragmento de energia arcana solida.",
+    "tier":  "common"
 }

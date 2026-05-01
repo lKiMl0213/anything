@@ -15,7 +15,8 @@ class ProductionActionDurationService(
     fun resolveCraft(
         state: GameState,
         discipline: CraftDiscipline,
-        recipeId: String
+        recipeId: String,
+        requestedTimes: Int? = null
     ): CraftDurationResolution? {
         val recipe = engine.craftingService.availableRecipes(state.player.level, discipline)
             .firstOrNull { it.id == recipeId }
@@ -23,13 +24,14 @@ class ProductionActionDurationService(
         val maxCraftable = engine.craftingService.maxCraftable(state.player, state.itemInstances, recipe)
         if (maxCraftable <= 0) return null
         val craftBatchLimit = engine.permanentUpgradeService.craftBatchLimit(state.player)
-        val times = min(maxCraftable, max(1, craftBatchLimit))
+        val maxBatch = min(maxCraftable, max(1, craftBatchLimit))
+        val times = requestedTimes?.coerceAtLeast(1)?.coerceAtMost(maxBatch) ?: maxBatch
         val skill = engine.craftingService.recipeSkill(recipe)
         val snapshot = engine.skillSystem.snapshot(state.player, skill)
         val duration = engine.skillSystem.actionDurationSeconds(
-            baseSeconds = recipe.baseDurationSeconds * times.coerceAtLeast(1),
+            baseSeconds = recipe.baseDurationSeconds * times.coerceAtLeast(1) * craftDurationMultiplier(discipline),
             skillLevel = snapshot.level
-        )
+        ) * taskDurationMultiplier(state.player, discipline.name.lowercase())
         return CraftDurationResolution(
             recipe = recipe,
             times = times,
@@ -52,13 +54,31 @@ class ProductionActionDurationService(
         val duration = engine.skillSystem.actionDurationSeconds(
             baseSeconds = node.baseDurationSeconds,
             skillLevel = snapshot.level
-        )
+        ) * taskDurationMultiplier(state.player, taskIdForGathering(type))
         return GatherDurationResolution(
             node = node,
             skillLabel = skill.name.lowercase(),
             skillLevel = snapshot.level,
             durationSeconds = duration
         )
+    }
+
+    private fun taskDurationMultiplier(player: rpg.model.PlayerState, taskId: String): Double {
+        val efficiencyPct = engine.cookingBuffService.taskEfficiencyPct(player, taskId)
+        return (1.0 - efficiencyPct.coerceIn(0.0, 80.0) / 100.0).coerceIn(0.20, 1.0)
+    }
+
+    private fun craftDurationMultiplier(discipline: CraftDiscipline): Double = when (discipline) {
+        CraftDiscipline.FORGE -> 0.95
+        CraftDiscipline.ALCHEMY -> 1.0
+        CraftDiscipline.COOKING -> 0.82
+    }
+
+    private fun taskIdForGathering(type: GatheringType): String = when (type) {
+        GatheringType.HERBALISM -> "herbalism"
+        GatheringType.MINING -> "mining"
+        GatheringType.WOODCUTTING -> "woodcutting"
+        GatheringType.FISHING -> "fishing"
     }
 }
 

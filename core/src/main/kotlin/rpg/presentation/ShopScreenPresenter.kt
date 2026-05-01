@@ -103,27 +103,26 @@ internal class ShopScreenPresenter(
         val currency = session.selectedShopCurrency ?: ShopCurrency.GOLD
         val categories = queryService.upgradeCategories(currency)
         val options = mutableListOf<ScreenOptionViewModel>()
-        if (currency == ShopCurrency.GOLD) {
-            options += ScreenOptionViewModel("1", "Usar loja Ouro", GameAction.SetShopCurrency(ShopCurrency.GOLD))
-            options += ScreenOptionViewModel("2", "Trocar para loja CASH", GameAction.SetShopCurrency(ShopCurrency.CASH))
-        } else {
-            options += ScreenOptionViewModel("1", "Trocar para loja Ouro", GameAction.SetShopCurrency(ShopCurrency.GOLD))
-            options += ScreenOptionViewModel("2", "Usar loja CASH", GameAction.SetShopCurrency(ShopCurrency.CASH))
-        }
-        var index = 3
-        categories.forEach { summary ->
+        categories.forEachIndexed { index, summary ->
             options += ScreenOptionViewModel(
-                key = index.toString(),
+                key = (index + 1).toString(),
                 label = "${summary.category.label} (${summary.count})",
                 action = GameAction.OpenUpgradeCategory(summary.category)
             )
-            index++
         }
+        val switchedCurrency = if (currency == ShopCurrency.GOLD) ShopCurrency.CASH else ShopCurrency.GOLD
+        options += ScreenOptionViewModel(
+            key = (categories.size + 1).toString(),
+            label = "Trocar moeda (${currencyMenuLabel(switchedCurrency)})",
+            action = GameAction.SetShopCurrency(switchedCurrency)
+        )
         options += ScreenOptionViewModel("x", "Voltar", GameAction.Back)
         return MenuScreenViewModel(
             title = "Aprimoramentos (${currencyLabel(currency)})",
             summary = support.playerSummary(state),
-            bodyLines = listOf("Selecione uma categoria de aprimoramentos permanentes."),
+            bodyLines = listOf(
+                "Selecione uma categoria de aprimoramentos permanentes. (Moeda selecionada: ${currencyMenuLabel(currency)})"
+            ),
             options = options,
             messages = session.messages
         )
@@ -137,14 +136,22 @@ internal class ShopScreenPresenter(
         val options = mutableListOf<ScreenOptionViewModel>()
         var index = 1
         upgrades.forEach { upgrade ->
-            if (upgrade.atMaxLevel) return@forEach
-            val cost = upgrade.costs.firstOrNull() ?: return@forEach
-            val costLabel = renderUpgradeCost(cost)
-            options += ScreenOptionViewModel(
-                key = index.toString(),
-                label = "${upgrade.name} (${upgrade.level}/${upgrade.maxLevel}) -> custo $costLabel",
-                action = GameAction.BuyUpgrade(upgrade.id, cost.id, currency)
-            )
+            if (upgrade.atMaxLevel) {
+                options += ScreenOptionViewModel(
+                    key = index.toString(),
+                    label = "${upgrade.name} (${upgrade.level}/${upgrade.maxLevel}) -> MAX",
+                    action = GameAction.BuyUpgrade(upgrade.id, "__max__", currency)
+                )
+            } else {
+                val cost = upgrade.costs.firstOrNull()
+                val costLabel = cost?.let(::renderUpgradeCost) ?: "indisponível"
+                val costId = cost?.id ?: "__unavailable__"
+                options += ScreenOptionViewModel(
+                    key = index.toString(),
+                    label = "${upgrade.name} (${upgrade.level}/${upgrade.maxLevel}) -> custo $costLabel",
+                    action = GameAction.BuyUpgrade(upgrade.id, costId, currency)
+                )
+            }
             index++
         }
         options += ScreenOptionViewModel("x", "Voltar", GameAction.Back)
@@ -195,4 +202,5 @@ internal class ShopScreenPresenter(
     }
 
     private fun currencyLabel(currency: ShopCurrency): String = if (currency == ShopCurrency.GOLD) "ouro" else "CASH"
+    private fun currencyMenuLabel(currency: ShopCurrency): String = if (currency == ShopCurrency.GOLD) "OURO" else "CASH"
 }

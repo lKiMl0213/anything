@@ -1,6 +1,7 @@
 package rpg.combat
 
 import kotlin.random.Random
+import rpg.cooking.CookingBuffService
 import rpg.engine.ComputedStats
 import rpg.engine.StatsEngine
 import rpg.item.ItemResolver
@@ -33,7 +34,8 @@ class CombatEngine(
     private val talentTrees: Collection<TalentTree> = emptyList(),
     private val talentTreeService: TalentTreeService = TalentTreeService(balance.talentPoints),
     private val talentCombatIntegrationService: TalentCombatIntegrationService = TalentCombatIntegrationService(talentTreeService),
-    private val monsterAffinityService: MonsterAffinityService? = null
+    private val monsterAffinityService: MonsterAffinityService? = null,
+    private val cookingBuffService: CookingBuffService = CookingBuffService(emptyMap())
 ) {
     private var activeLogger: ((String) -> Unit)? = null
     private val logBuilder = CombatLogBuilder { message -> activeLogger?.invoke(message) }
@@ -63,7 +65,8 @@ class CombatEngine(
         itemResolver = itemResolver,
         rng = rng,
         statusProcessor = statusProcessor,
-        logBuilder = logBuilder
+        logBuilder = logBuilder,
+        cookingBuffService = cookingBuffService
     )
     private val ansiYellow = CombatLogBuilder.ansiYellow
     private val ansiBlue = CombatLogBuilder.ansiBlue

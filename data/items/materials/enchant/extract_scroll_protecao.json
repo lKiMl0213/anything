@@ -1,0 +1,16 @@
+﻿{
+    "id":  "extract_scroll_protecao",
+    "name":  "Pergaminho de Protecao de Extracao (Comum)",
+    "type":  "MATERIAL",
+    "tier":  "common",
+    "tags":  [
+                 "enchant",
+                 "extract",
+                 "scroll",
+                 "protecao",
+                 "common"
+             ],
+    "value":  220,
+    "description":  "Preserva o equipamento durante extracao bem-sucedida, resetando para +0.",
+    "rarity":  "COMMON"
+}

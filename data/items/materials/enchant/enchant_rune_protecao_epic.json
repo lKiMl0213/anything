@@ -1,0 +1,16 @@
+﻿{
+    "id":  "enchant_rune_protecao_epic",
+    "name":  "Runa de Protecao (Epica)",
+    "type":  "MATERIAL",
+    "tier":  "epic",
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "protecao",
+                 "epic",
+                 "crafting"
+             ],
+    "value":  345,
+    "description":  "Runa epica para proteger equipamentos valiosos.",
+    "rarity":  "EPIC"
+}

@@ -70,11 +70,11 @@ class PermanentUpgradeService(
     }
 
     fun professionXpMultiplier(player: PlayerState, skillType: SkillType): Double {
-        val applies = when (skillType) {
-            SkillType.GATHERING, SkillType.MINING, SkillType.FISHING, SkillType.BLACKSMITH -> true
-            else -> false
+        // Mantemos o when explicito para futuras extensoes do enum de profissao.
+        when (skillType) {
+            SkillType.GATHERING, SkillType.MINING, SkillType.FISHING, SkillType.HUNTING, SkillType.BLACKSMITH,
+            SkillType.ALCHEMIST, SkillType.COOKING, SkillType.WOODCUTTING, SkillType.ENCHANTING -> Unit
         }
-        if (!applies) return 1.0
         val bonusPct = valueForEffect(player, PermanentUpgradeEffectType.PROFESSION_XP_BOOST)
         return 1.0 + (bonusPct / 100.0)
     }

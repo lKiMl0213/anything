@@ -1,0 +1,16 @@
+﻿{
+    "id":  "extract_scroll_remocao_rare",
+    "name":  "Pergaminho de Remocao (Raro)",
+    "type":  "MATERIAL",
+    "tier":  "rare",
+    "tags":  [
+                 "enchant",
+                 "extract",
+                 "scroll",
+                 "removal",
+                 "rare"
+             ],
+    "value":  260,
+    "description":  "Pergaminho raro para extrair encantamentos altos.",
+    "rarity":  "RARE"
+}

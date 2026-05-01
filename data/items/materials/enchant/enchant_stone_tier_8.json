@@ -1,0 +1,15 @@
+﻿{
+    "id":  "enchant_stone_tier_8",
+    "name":  "Pedra de Encantamento +8",
+    "type":  "MATERIAL",
+    "tier":  "rare",
+    "tags":  [
+                 "enchant",
+                 "enchant_stone",
+                 "pedra",
+                 "tier_8"
+             ],
+    "value":  440,
+    "description":  "Pedra que concentra exatamente o encantamento +8.",
+    "rarity":  "RARE"
+}

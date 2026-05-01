@@ -1,0 +1,16 @@
+﻿{
+    "id":  "enchant_rune_aprimoramento_uncommon",
+    "name":  "Runa de Aprimoramento (Incomum)",
+    "type":  "MATERIAL",
+    "tier":  "uncommon",
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "upgrade",
+                 "uncommon",
+                 "crafting"
+             ],
+    "value":  88,
+    "description":  "Catalisador incomum para melhorar chance de encantamento.",
+    "rarity":  "UNCOMMON"
+}

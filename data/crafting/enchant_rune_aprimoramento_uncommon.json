@@ -1,0 +1,36 @@
+﻿{
+    "id":  "enchant_rune_aprimoramento_uncommon",
+    "name":  "Sintetizar Runa de Aprimoramento (Incomum)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "enchant_rune_aprimoramento_uncommon",
+    "outputQty":  1,
+    "minPlayerLevel":  14,
+    "minSkillLevel":  8,
+    "baseDurationSeconds":  9,
+    "baseXp":  24,
+    "difficulty":  1.36,
+    "tier":  3,
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "wolf_fang"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "arcane_fragment"
+                        },
+                        {
+                            "quantity":  1,
+                            "itemId":  "runic_stone"
+                        }
+                    ],
+    "description":  "Runa incomum para aumentar chance relativa de encantamento.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "upgrade",
+                 "uncommon"
+             ]
+}

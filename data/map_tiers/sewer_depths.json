@@ -1,0 +1,24 @@
+{
+  "id": "sewer_depths",
+  "displayName": "Esgotos de Ferro Velho",
+  "menuNote": "Fluxo toxico, enxames e patrulhas hostis nos tuneis inferiores.",
+  "minLevel": 16,
+  "recommendedLevel": 19,
+  "baseMonsterLevel": 18,
+  "difficultyMultiplier": 1.28,
+  "allowedMonsterTemplates": [
+    "sewer_rat",
+    "carrion_rat",
+    "bloated_rat",
+    "centipede",
+    "giant_wasp",
+    "spider",
+    "cutpurse",
+    "ghost"
+  ],
+  "dropTier": 3,
+  "dropChanceMultiplier": 1.05,
+  "xpMultiplier": 1.22,
+  "goldMultiplier": 1.12,
+  "biomeId": "city"
+}

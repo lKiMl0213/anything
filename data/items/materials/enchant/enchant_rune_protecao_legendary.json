@@ -1,0 +1,16 @@
+﻿{
+    "id":  "enchant_rune_protecao_legendary",
+    "name":  "Runa de Protecao (Lendaria)",
+    "type":  "MATERIAL",
+    "tier":  "legendary",
+    "tags":  [
+                 "enchant",
+                 "runa",
+                 "protecao",
+                 "legendary",
+                 "crafting"
+             ],
+    "value":  520,
+    "description":  "Runa lendaria para seguranca em tentativas extremas.",
+    "rarity":  "LEGENDARY"
+}

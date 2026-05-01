@@ -1,0 +1,41 @@
+﻿{
+    "id":  "extract_scroll_remocao_epic",
+    "name":  "Criar Pergaminho de Remocao (Epico)",
+    "discipline":  "ALCHEMY",
+    "skillType":  "ALCHEMIST",
+    "outputItemId":  "extract_scroll_remocao_epic",
+    "outputQty":  1,
+    "minPlayerLevel":  36,
+    "minSkillLevel":  20,
+    "baseDurationSeconds":  14,
+    "baseXp":  70,
+    "difficulty":  1.98,
+    "tier":  5,
+    "ingredients":  [
+                        {
+                            "quantity":  2,
+                            "itemId":  "predator_eye"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "luminous_mushroom"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "runic_core"
+                        },
+                        {
+                            "quantity":  2,
+                            "itemId":  "oil"
+                        }
+                    ],
+    "description":  "Pergaminho epico para extracao avancada.",
+    "enabled":  true,
+    "tags":  [
+                 "enchant",
+                 "extract",
+                 "scroll",
+                 "removal",
+                 "epic"
+             ]
+}
