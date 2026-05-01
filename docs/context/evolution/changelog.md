@@ -1,5 +1,190 @@
-﻿# Changelog
+# Changelog
+## 2026-04-30 - Craft de Encantamento por Tier (Runas, Pergaminhos, Pedras +1..+15)
 
+### Updated Systems
+- Encantamento agora suporta consumo de runas por tier sem sistema paralelo:
+  - `EnchantConfig` recebeu mapas data-driven de IDs por tier e bonus por tier.
+  - `EnchantService` passou a selecionar runas disponiveis por prioridade de bonus e aplicar formula relativa por soma percentual consumida.
+  - `EnchantValidator` e `EnchantQueryService` passaram a contar runas por conjunto de IDs (common..legendary), mantendo compatibilidade com IDs legados.
+- Extracao/Fusao passaram a mapear pedras por nivel:
+  - `ExtractionConfig` e `FusionConfig` agora mapeiam `+0..+15` para templates de pedra.
+  - `ExtractionService` gera pedra exatamente do template correspondente ao `+X` extraido.
+  - `FusionItemSupport` reconhece e gera pedras tierizadas mantendo a tag `enchant_stone`.
+- Integracao de rastreamento foi ampliada para recursos tierizados:
+  - `ExtractionCommandService`, `FusionCommandService`, `ProductionCommandService`, `HuntingCommandService` agora rastreiam conjuntos de IDs de runas/pergaminhos/pedras.
+- Validacao de dados reforcada:
+  - `DataIntegrityValidator` valida todos os IDs de encantamento por tier e garante existencia de pedra para cada nivel `+1..+15`.
+
+### Data-driven Content
+- Itens de encantamento expandidos em `data/items/materials/enchant/`:
+  - runas de aprimoramento e protecao em tiers `common/uncommon/rare/epic/legendary`
+  - pergaminhos de remocao e protecao em tiers `common/uncommon/rare/epic/legendary`
+  - pedras `enchant_stone_tier_1` ate `enchant_stone_tier_15` (mantendo `enchant_stone` para `+0`)
+- Receitas completas adicionadas em `data/crafting/` para:
+  - todas as runas por tier
+  - todos os pergaminhos por tier
+- Drops de caca anteriormente sem uso agora foram integrados em receitas:
+  - `rat_tail`, `wolf_fang`, `wolf_pelt`, `rough_hide`
+- Materiais chave receberam campo `tier` para progressao de dificuldade nos crafts de encantamento.
+- Configs de encantamento atualizadas:
+  - `data/enchanting/system.json`
+  - `data/enchanting/extraction.json`
+  - `data/enchanting/fusion.json`
+
+### Validation Notes
+- Verificacao de cobertura de drops de caca em crafting retornou `ALL_USED`.
+- `./gradlew build` passou com sucesso apos ajuste de limite de linhas (split de helpers em arquivos dedicados).
+
+## 2026-04-29 - Caca + Buffs de Culinaria + Integracao de Producao/Encantamento
+
+### Updated Systems
+- Novo dominio de caca em `core/src/main/kotlin/rpg/hunting/`:
+  - `HuntingConfig`, `HuntingSpot`, `HuntingDropResolver`, `HuntingService`
+  - preview + execucao com custo em ouro, ganho de XP de skill, controle de rare drop e anti-farm por gap de nivel
+  - duracao e rendimento influenciados por skill, nivel do spot e RNG configuravel
+- Fluxo modular de caca integrado ao app/CLI:
+  - novos estados de navegacao: `ProductionHuntingSpotList`, `ProductionHuntingDurationList`
+  - novas acoes: `OpenHuntingMenu`, `SelectHuntingSpot`, `AttemptHunting`, `ExecuteHunting`
+  - apresentacao via `HuntingScreenPresenter`
+- Culinaria com buffs leves em `core/src/main/kotlin/rpg/cooking/`:
+  - `CookingBuffConfig` e `CookingBuffService`
+  - 1 buff ativo por vez (substituicao), duracao decrescente por tempo fora de combate
+  - tipos: `HP_REGEN`, `MP_REGEN`, `DAMAGE`, `DEFENSE`, `TASK_EFFICIENCY`
+  - escala de poder/duracao por dificuldade da receita e quantidade de ingredientes
+- Integracoes de gameplay:
+  - buffs culinarios aplicados ao usar consumiveis em combate e fora de combate
+  - bonus de `TASK_EFFICIENCY` reduz tempo efetivo em atividades de producao/coleta/caca
+  - novos contadores de conquistas para caca/culinaria/encantamento/fusao/extracao e recursos de encantamento
+  - validacao central de integridade de dados em `DataIntegrityValidator` (IDs de itens, receitas, nodes, drops de caca e buffs)
+- Dados data-driven adicionados:
+  - `data/hunting/system.json`
+  - spots em `data/hunting/spots/*.json`
+  - `data/cooking/buffs.json`
+  - receitas combinadas:
+    - `data/crafting/cook_hunter_field_ration.json`
+    - `data/crafting/cook_predator_broth.json`
+
+### Validation Notes
+- Correcoes de compatibilidade aplicadas:
+  - import ausente em `ProductionCommandService`
+  - split de `AchievementDefinitionCatalog` em arquivo auxiliar para respeitar limite de linhas
+  - ajuste de carregamento de spots: `DataRepository` agora carrega `hunting/spots`, evitando parse indevido de `hunting/system.json` como spot
+- Novos testes de cobertura:
+  - `core/src/test/kotlin/rpg/hunting/HuntingAndCookingSystemsTest.kt`
+    - drop valido + consumo de ouro na caca
+    - buff culinario unico com substituicao e impacto em eficiencia de caca
+    - validacao de integridade de referencias de caca/culinaria
+  - `core/src/test/kotlin/rpg/enchant/EnchantSafetyMechanicsTest.kt`
+    - runa de aprimoramento com formula relativa (`base * (1 + bonus)`)
+    - falha com runa de protecao sem quebra e com consumo da runa
+    - falha sem protecao com quebra do item
+- Comandos executados com sucesso:
+  - `./gradlew :test`
+  - `./gradlew build`
+  - smoke CLI com fluxo real:
+    - `Carregar save -> Producao -> Encantamento (submenu)`
+    - `Carregar save -> Producao -> Caca -> Spot -> Duracao -> execucao`
+
+## 2026-04-29 - Fusao + Extracao de Encantamento e validacao de modificadores
+
+### Updated Systems
+- Novo fluxo modular de `Fusao` (integrado ao encantamento):
+  - estados: `ProductionFusionSlot1`, `ProductionFusionSlot2`, `ProductionFusionPreview`
+  - acoes: `OpenFusionMenu`, `SelectFusionSlot1`, `SelectFusionSlot2`, `AttemptFusion`, `ExecuteFusion`
+  - regras centrais implementadas:
+    - `base = floor((A + B) / 2)`
+    - limite superior por `min(15, max(A, B) + 1)`
+    - sucesso em `base` ou `base+1`
+    - falha gera pedra inferior (sempre gera resultado)
+  - suporte para:
+    - equipamento + equipamento (mesmo template)
+    - pedra + pedra
+    - pedra + equipamento
+- Novo fluxo modular de `Extracao` (integrado ao encantamento):
+  - estados: `ProductionExtractionSlot1`, `ProductionExtractionPreview`
+  - acoes: `OpenExtractionMenu`, `SelectExtractionItem`, `AttemptExtraction`, `ExecuteExtraction`
+  - chance baseada na mesma base do encantamento com multiplicadores por uso de pergaminho
+  - sucesso gera pedra `+X` exata
+  - com protecao: item volta para `+0`
+  - sem protecao: item e consumido
+- Novos servicos/configs data-driven:
+  - `core/src/main/kotlin/rpg/enchant/FusionService.kt`
+  - `core/src/main/kotlin/rpg/enchant/ExtractionService.kt`
+  - `data/enchanting/fusion.json`
+  - `data/enchanting/extraction.json`
+- Itens e receitas de suporte adicionados:
+  - item base de pedra: `enchant_stone`
+  - pergaminhos: `extract_scroll_remocao`, `extract_scroll_protecao`
+  - receitas em `data/crafting/extract_scroll_*.json`
+- Validacao/correcao de modificadores:
+  - suite de testes integrada criada em `core/src/test/kotlin/rpg/enchant/FusionExtractionSystemsTest.kt`
+  - cobertura de:
+    - geracao de modificadores em drop
+    - persistencia em save/load
+    - exibicao no inventario
+    - impacto no calculo de combate
+    - presenca em craft
+    - preservacao/mescla em fusao
+    - extracao com pedra `+X` correta
+- Ajuste de stack para materiais encantados:
+  - `InventoryRuleSupport.stackKey` agora separa `MATERIAL` com `enchantLevel > 0`, evitando mistura de pedras com niveis diferentes na mesma pilha.
+
+### Validation Notes
+- `./gradlew test` passou.
+- `./gradlew build` passou.
+
+## 2026-04-29 - Sistema de Encantamento modular (+0 a +15, runas, risco de quebra)
+
+### Updated Systems
+- Novo modulo de encantamento em `core/src/main/kotlin/rpg/enchant/`:
+  - `EnchantService`
+  - `EnchantChanceCalculator`
+  - `EnchantResult`
+  - `EnchantConfig`
+  - `EnchantValidator`
+  - suporte interno: `EnchantItemSupport`
+- Encantamento agora suporta:
+  - upgrade de equipamento de `+0` ate `+15`
+  - chance progressiva de sucesso por nivel
+  - falha com chance de quebra (protecao opcional)
+  - custo em ouro escalando com nivel do item + nivel do encantamento
+  - ganho de XP de profissao por tentativa/sucesso com anti-exploit para item lixo
+- Formula de runa de aprimoramento aplicada de forma relativa:
+  - `newChance = baseChance * (1 + totalRuneBonus)`
+- Runa de protecao integrada:
+  - maximo de 1 por tentativa
+  - impede quebra
+  - sempre consumida
+- Persistencia de encantamento adicionada em `ItemInstance`:
+  - `enchantLevel`
+  - `enchantBaseBonuses`
+  - `enchantBasePowerScore`
+- Novo skill de profissao:
+  - `SkillType.ENCHANTING`
+  - exibido no resumo de Producao do hub
+- Fluxo modular da CLI atualizado (sem tocar no legado):
+  - menu `Producao -> Encantamento`
+  - lista de equipamentos encantaveis
+  - detalhe com opcoes de tentativa (runas + protecao)
+  - execucao temporizada via `GameEffect.LaunchProductionTimedAction`
+- Novos estados/acoes de navegacao para encantamento:
+  - `NavigationState.ProductionEnchantList`
+  - `NavigationState.ProductionEnchantDetail`
+  - acoes `OpenEnchantMenu`, `InspectEnchantItem`, `AttemptEnchantItem`, `ExecuteEnchantItem`
+- Data-driven de encantamento:
+  - `data/enchanting/system.json` para tabelas de chance/quebra, custos, runas e curvas
+  - novos itens:
+    - `enchant_rune_aprimoramento`
+    - `enchant_rune_protecao`
+  - novas receitas:
+    - `data/crafting/enchant_rune_aprimoramento.json`
+    - `data/crafting/enchant_rune_protecao.json`
+
+### Validation Notes
+- `./gradlew :compileKotlin` passou.
+- `./gradlew build` passou.
+- Smoke CLI modular passou em fluxo real:
+  - `Main Menu -> Carregar -> Hub -> Producao -> Encantamento -> Voltar`
 ## 2026-04-29 - Autosave + Boss Global balance + milestones resgataveis
 
 ### Updated Systems
@@ -28,7 +213,7 @@
   - milestone resgatavel exibindo `(!)` e resgate manual com recompensa + timestamp;
   - comparativo de dano semanal/mensal com diferenca real apos rebalance.
 
-## 2026-04-29 - Boss Global (ajustes de run) + ProduÃ§Ã£o temporizada modular + Split de eventos
+## 2026-04-29 - Boss Global (ajustes de run) + Produção temporizada modular + Split de eventos
 
 ### Updated Systems
 - `DungeonEventFlowCoordinator` foi dividido por responsabilidade em arquivos menores:
@@ -39,17 +224,17 @@
   - entrada em run com snapshot de combate em HP/MP cheios
   - fim da run (inclusive morte) sem sobrescrever HP/MP persistido no save/menu
   - compra de tentativas extras migrada de ouro para `CASH` (config + regra + UI)
-- ProduÃ§Ã£o modular voltou a usar aÃ§Ã£o temporizada com barra/timer visual no CLI:
-  - nova preparaÃ§Ã£o de aÃ§Ã£o temporizada (`prepareCraft` / `prepareGather`)
-  - execuÃ§Ã£o diferida via `GameEffect.LaunchProductionTimedAction`
-  - aplicaÃ§Ã£o de recompensa/progresso apenas ao final do timer
-  - duraÃ§Ã£o segue escala por nÃ­vel de skill existente (`actionDurationSeconds`)
+- Produção modular voltou a usar ação temporizada com barra/timer visual no CLI:
+  - nova preparação de ação temporizada (`prepareCraft` / `prepareGather`)
+  - execução diferida via `GameEffect.LaunchProductionTimedAction`
+  - aplicação de recompensa/progresso apenas ao final do timer
+  - duração segue escala por nível de skill existente (`actionDurationSeconds`)
 
 ### Validation Notes
 - `./gradlew :compileKotlin -x checkKotlinFileLineLimit` passou.
-- `./gradlew build` passou apÃ³s marcar `checkKotlinFileLineLimit` como nÃ£o compatÃ­vel com configuration cache.
+- `./gradlew build` passou após marcar `checkKotlinFileLineLimit` como não compatível com configuration cache.
 - Smoke CLI validou:
-  - renderizaÃ§Ã£o de barra/timer de ProduÃ§Ã£o durante coleta
+  - renderização de barra/timer de Produção durante coleta
   - acesso a Boss Global com HP persistido em 0 (run inicia com HP/MP cheios)
   - morte no Boss Global sem alterar HP/MP persistido
   - compra de tentativa extra via `CASH`
@@ -191,7 +376,7 @@
 - Smoke tests reais cobrindo os fluxos legados extraidos passaram:
   - Equipar + usar consumivel + abrir aljava + carregar + selecionar municao ativa:
     - `@('1','QA Smoke Inv','1','1','1','1','0','0','0','0','0','0','0','s','2','1','1','1','x','2','2','1','2','x','3','1','2','1','3','x','3','1','1','1','1','2','1','1','2','1','1','x','x','x','x','x') | ./gradlew run`
-  - Retirar muniÃ§ao da aljava + vender da reserva + vender consumivel:
+  - Retirar muniçao da aljava + vender da reserva + vender consumivel:
     - `@('1','QA Smoke Sell','1','1','1','1','0','0','0','0','0','0','0','s','2','2','1','1','1','2','3','1','1','4','1','1','x','2','1','3','x','3','2','1','x','x','x','x') | ./gradlew run`
 
 ## 2026-04-21 - LegacyGameCli Safe Split (Character Creation, Production, City Services, Exploration Extra)
@@ -215,7 +400,7 @@
 ### Updated Systems
 - `CombatEngine` foi reduzido para orquestrador (`runBattle` delega para `CombatBattleRunner`) e o gateway do executor foi isolado em `CombatActionGatewayAdapter`
 - `TalentTreeService` virou fachada leve com regras extraidas para `TalentTreeRuleEvaluator` e validacoes para `TalentTreeValidationService`
-- `MonsterFactory` virou fachada de montagem, com selecao em `MonsterTemplatePicker`, ameaÃ§as/raridade/status em `MonsterThreatService` e modificadores em `MonsterModifierService`
+- `MonsterFactory` virou fachada de montagem, com selecao em `MonsterTemplatePicker`, ameaças/raridade/status em `MonsterThreatService` e modificadores em `MonsterModifierService`
 
 ### Validation Notes
 - `./gradlew build` passou
@@ -603,7 +788,7 @@
   - `compilar-pra-exportar.sh`
   - `compilar_pra_exportar.bat`
   - `scripts/reorganize_data_layout.ps1`
-  - `RelatÃ³rio.md` removed
+  - `Relatório.md` removed
 
 ### Validation Notes
 - `./gradlew build` passed after reorganization.
@@ -725,3 +910,19 @@
 - Smoke test CLI (`./gradlew run` com saida imediata) passou.
 - Build completo do APK ainda depende de SDK Android instalado/localizado (`ANDROID_HOME` ou `local.properties` com `sdk.dir`), ausente no ambiente de validacao atual.
 
+
+
+
+
+
+## 2026-05-01 - Remocao Segura do Legacy CLI
+
+### Updated Systems
+- Legacy isolado removido de `app-cli` com exclusao de 25 arquivos (`Legacy*` e `SessionBridge`).
+- Fluxo ativo preservado sem alteracao funcional: `Main.kt -> GameCli -> CliFlowController`.
+- Nenhuma regra de gameplay foi alterada; remocao focada em dead code.
+
+### Validation Notes
+- Buscas em codigo-fonte ativo (`app-cli/src`, `core/src`, `app-android/src`) sem referencias restantes para `LegacyGameCli`, `LegacyCliRuntime`, `SessionBridge` e `TODO-REMOVE-LEGACY`.
+- `./gradlew clean build` passou.
+- Sem breaking change esperado para o CLI atual.
