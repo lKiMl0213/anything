@@ -1,3 +1,28 @@
+import org.gradle.api.DefaultTask
+import org.gradle.api.GradleException
+import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.Optional
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
+import org.gradle.api.tasks.TaskAction
+import java.nio.file.Paths
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Mantem classes AGP visiveis para o Kotlin Gradle plugin em subprojetos Android.
+        classpath("com.android.tools.build:gradle:9.0.1")
+    }
+}
+
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
@@ -34,38 +59,46 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
-val kotlinLineLimit = 300
-val kotlinLineLimitBaselineFile = file("tools/kotlin-line-limit-baseline.txt")
+abstract class CheckKotlinFileLineLimitTask : DefaultTask() {
+    @get:Input
+    abstract val lineLimit: Property<Int>
 
-tasks.register("checkKotlinFileLineLimit") {
-    group = "verification"
-    description = "Falha quando arquivos Kotlin novos passam de 300 linhas (baseline em tools/kotlin-line-limit-baseline.txt)."
-    notCompatibleWithConfigurationCache("Analisa a arvore de arquivos em runtime e depende de estado dinamico do workspace.")
+    @get:Input
+    abstract val projectRootPath: Property<String>
 
-    doLast {
-        val baseline: Set<String> = if (kotlinLineLimitBaselineFile.exists()) {
-            kotlinLineLimitBaselineFile.readLines()
-                .map { it.trim() }
-                .filter { it.isNotEmpty() && !it.startsWith("#") }
-                .toSet()
-        } else {
-            emptySet()
-        }
+    @get:InputFile
+    @get:Optional
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    abstract val baselineFile: RegularFileProperty
 
-        val roots = listOf(
-            file("core/src/main/kotlin"),
-            file("app-cli/src/main/kotlin"),
-            file("app-android/src/main/kotlin")
-        ).filter { it.exists() }
+    @get:InputFiles
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    abstract val sourceRoots: ConfigurableFileCollection
 
-        val oversized = roots
+    @TaskAction
+    fun validateLineLimit() {
+        val baseline: Set<String> = baselineFile.orNull
+            ?.asFile
+            ?.takeIf { it.exists() }
+            ?.readLines()
+            ?.map { it.trim() }
+            ?.filter { it.isNotEmpty() && !it.startsWith("#") }
+            ?.toSet()
+            ?: emptySet()
+
+        val projectRoot = Paths.get(projectRootPath.get())
+        val oversized = sourceRoots.files
             .asSequence()
-            .flatMap { root -> root.walkTopDown().filter { it.isFile && it.extension == "kt" } }
-            .map { file ->
-                val rel = projectDir.toPath().relativize(file.toPath()).toString().replace('\\', '/')
-                Triple(rel, file.readLines().size, baseline.contains(rel))
+            .filter { it.exists() }
+            .flatMap { root ->
+                root.walkTopDown().filter { it.isFile && it.extension == "kt" }
             }
-            .filter { (_, lines, _) -> lines > kotlinLineLimit }
+            .map { file ->
+                val rel = projectRoot.relativize(file.toPath()).toString().replace('\\', '/')
+                val lines = file.useLines { seq -> seq.count() }
+                Triple(rel, lines, baseline.contains(rel))
+            }
+            .filter { (_, lines, _) -> lines > lineLimit.get() }
             .toList()
 
         val violations = oversized.filter { (_, _, inBaseline) -> !inBaseline }
@@ -74,11 +107,25 @@ tasks.register("checkKotlinFileLineLimit") {
                 "- $path ($lines linhas)"
             }
             throw GradleException(
-                "Arquivos Kotlin acima de $kotlinLineLimit linhas sem baseline:\n$report\n" +
+                "Arquivos Kotlin acima de ${lineLimit.get()} linhas sem baseline:\n$report\n" +
                     "Divida o arquivo por responsabilidade ou registre justificativa temporaria no baseline."
             )
         }
     }
+}
+
+val kotlinLineLimit = 300
+tasks.register<CheckKotlinFileLineLimitTask>("checkKotlinFileLineLimit") {
+    group = "verification"
+    description = "Falha quando arquivos Kotlin novos passam de 300 linhas (baseline em tools/kotlin-line-limit-baseline.txt)."
+    lineLimit.set(kotlinLineLimit)
+    projectRootPath.set(layout.projectDirectory.asFile.absolutePath)
+    baselineFile.set(layout.projectDirectory.file("tools/kotlin-line-limit-baseline.txt"))
+    sourceRoots.from(
+        layout.projectDirectory.dir("core/src/main/kotlin"),
+        layout.projectDirectory.dir("app-cli/src/main/kotlin"),
+        layout.projectDirectory.dir("app-android/src/main/kotlin")
+    )
 }
 
 application {

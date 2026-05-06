@@ -4,9 +4,9 @@
   "description": "Arqueiro nato, preciso e veloz.",
   "bonuses": {
     "attributes": {
-      "agi": 7,
-      "dex": 6,
-      "luk": 2,
+      "agi": 6,
+      "dex": 5,
+      "luk": 1,
       "str": -2,
       "vit": -2,
       "int": -1

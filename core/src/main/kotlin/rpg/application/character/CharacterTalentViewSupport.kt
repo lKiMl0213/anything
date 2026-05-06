@@ -86,8 +86,20 @@ internal class CharacterTalentViewSupport(
                     nodeId = node.id,
                     name = node.name,
                     typeLabel = talentNodeTypeLabel(node.nodeType),
+                    currentRank = rank,
+                    maxRank = maxRank,
                     rankLabel = "$rank/$maxRank",
                     stateLabel = talentNodeStateLabel(rank, maxRank, check),
+                    canRankUp = check.allowed,
+                    blockedReason = check.reason,
+                    prerequisites = node.prerequisites.map { req ->
+                        val prerequisiteNode = tree.nodes.firstOrNull { it.id == req.nodeId }
+                        TalentNodePrerequisiteView(
+                            nodeId = req.nodeId,
+                            nodeName = prerequisiteNode?.name ?: req.nodeId,
+                            minRank = req.minRank.coerceAtLeast(1)
+                        )
+                    },
                     prerequisitesLabel = formatTalentPrerequisites(tree, node),
                     exclusiveLabel = formatTalentExclusiveGroup(tree, node),
                     effectLabel = effectFormatter.talentNodeEffectSummary(node)

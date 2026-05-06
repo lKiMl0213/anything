@@ -6,10 +6,27 @@ import rpg.presentation.model.MenuScreenViewModel
 sealed interface AndroidUiState {
     data object Loading : AndroidUiState
     data class Error(val message: String) : AndroidUiState
-    data class Menu(val viewModel: MenuScreenViewModel) : AndroidUiState
-    data class CharacterCreation(val state: CharacterCreationUiState) : AndroidUiState
-    data class Attributes(val state: AttributeAllocationUiState) : AndroidUiState
+    data class StartPage(val state: StartPageUiModel) : AndroidUiState
+    data class NewGame(val state: NewGameUiModel) : AndroidUiState
+    data class RaceClass(val state: RaceClassUiModel) : AndroidUiState
+    data class AttributeDistribution(val state: AttributeDistributionUiModel) : AndroidUiState
+    data class MainHub(val state: MainHubUiModel) : AndroidUiState
+    data class Character(val state: CharacterUiModel) : AndroidUiState
+    data class GenericMenu(
+        val viewModel: MenuScreenViewModel,
+        val section: MainSection,
+        val actionPreviews: Map<String, MenuActionPreviewUiModel> = emptyMap(),
+        val talentTreeGraph: TalentTreeGraphUiModel? = null
+    ) : AndroidUiState
     data class Combat(val state: CombatUiState) : AndroidUiState
+}
+
+enum class MainSection {
+    CHARACTER,
+    PRODUCTION,
+    EXPLORATION,
+    CITY,
+    PROGRESSION
 }
 
 data class SelectOption(

@@ -1,61 +1,222 @@
-package rpg.android
+﻿package rpg.android
 
+import android.app.Activity
 import android.app.Application
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import rpg.android.screens.AppMenuScreen
-import rpg.android.screens.AttributesTouchScreen
+import rpg.android.screens.AttributeDistributionScreen
+import rpg.android.screens.CharacterManagementScreen
 import rpg.android.screens.CombatTouchScreen
+import rpg.android.screens.GenericMenuScreen
+import rpg.android.screens.MainHubScreen
+import rpg.android.screens.NewGameScreen
+import rpg.android.screens.RaceClassScreen
+import rpg.android.screens.StartPageScreen
+import rpg.android.screens.TimedActionOverlay
 import rpg.android.state.AndroidUiState
-import rpg.application.actions.GameAction
+import rpg.android.theme.AnythingRpgTheme
+import rpg.android.ui.components.GamePopupMenu
+import rpg.android.ui.components.GamePrimaryButton
 
 @Composable
 fun AndroidGameApp() {
     val app = LocalContext.current.applicationContext as Application
+    val activity = LocalContext.current as? Activity
     val viewModel: AndroidGameViewModel = viewModel(
         factory = AndroidGameViewModel.factory(app)
     )
     val uiState by viewModel.uiState.collectAsState()
+    val timedAction by viewModel.timedActionState.collectAsState()
+    val popupDetail by viewModel.popupDetail.collectAsState()
+    val hasProgressAlert by viewModel.progressAlert.collectAsState()
+    val darkThemeEnabled by viewModel.darkTheme.collectAsState()
+    val lifecycleOwner = LocalLifecycleOwner.current
 
-    when (val state = uiState) {
-        AndroidUiState.Loading -> SimpleTextScreen("Carregando dados do jogo...")
-        is AndroidUiState.Error -> SimpleTextScreen(state.message)
-        is AndroidUiState.Menu -> AppMenuScreen(
-            model = state.viewModel,
-            onSelectAction = viewModel::onMenuAction
-        )
-        is AndroidUiState.Attributes -> AttributesTouchScreen(
-            state = state.state,
-            onIncrease = viewModel::onAttributesIncrease,
-            onDecrease = viewModel::onAttributesDecrease,
-            onApply = viewModel::onAttributesApply,
-            onBack = { viewModel.onMenuAction(GameAction.Back) }
-        )
-        is AndroidUiState.Combat -> CombatTouchScreen(
-            state = state.state,
-            onAttack = viewModel::onCombatAttack,
-            onEscape = viewModel::onCombatEscape,
-            onUseItem = viewModel::onCombatUseItem
-        )
+    DisposableEffect(lifecycleOwner, viewModel) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_STOP) {
+                viewModel.onAppBackgrounded()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
-}
 
-@Composable
-private fun SimpleTextScreen(message: String) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text(message)
+    AnythingRpgTheme(darkTheme = darkThemeEnabled) {
+        when (val state = uiState) {
+            AndroidUiState.Loading -> StartPageScreen(
+                state = rpg.android.state.StartPageUiModel(
+                    canLoad = false,
+                    message = "Carregando dados do jogo..."
+                ),
+                onNewGame = {},
+                onLoad = {}
+            )
+
+            is AndroidUiState.Error -> StartPageScreen(
+                state = rpg.android.state.StartPageUiModel(
+                    canLoad = true,
+                    message = state.message
+                ),
+                onNewGame = viewModel::startNewGame,
+                onLoad = viewModel::loadGame
+            )
+
+            is AndroidUiState.StartPage -> StartPageScreen(
+                state = state.state,
+                onNewGame = viewModel::startNewGame,
+                onLoad = viewModel::openLoadList,
+                onLoadSelected = viewModel::loadSelectedSave
+            )
+
+            is AndroidUiState.NewGame -> NewGameScreen(
+                state = state.state,
+                onNameChange = viewModel::onCreationNameChanged,
+                onOpenRaceClass = viewModel::openRaceClassSelection,
+                onOpenAttributes = viewModel::openCreationAttributeDistribution,
+                onConfirm = viewModel::confirmCreation,
+                onCancel = viewModel::cancelCreation
+            )
+
+            is AndroidUiState.RaceClass -> RaceClassScreen(
+                state = state.state,
+                onSelectRace = viewModel::onRaceSelected,
+                onSelectClass = viewModel::onClassSelected,
+                onConfirm = viewModel::confirmRaceClassSelection,
+                onCancel = viewModel::cancelRaceClassSelection
+            )
+
+            is AndroidUiState.AttributeDistribution -> AttributeDistributionScreen(
+                state = state.state,
+                onIncrease = viewModel::onAttributeIncrease,
+                onDecrease = viewModel::onAttributeDecrease,
+                onConfirm = viewModel::confirmAttributeDistribution,
+                onCancel = viewModel::cancelAttributeDistribution
+            )
+
+            is AndroidUiState.MainHub -> MainHubScreen(
+                state = state.state,
+                hasProgressAlert = hasProgressAlert,
+                isDarkTheme = darkThemeEnabled,
+                onExplore = viewModel::openExplore,
+                onOpenCharacter = viewModel::openCharacter,
+                onOpenProduction = viewModel::openProduction,
+                onOpenCity = viewModel::openCity,
+                onOpenProgression = viewModel::openProgression,
+                onClearInfo = viewModel::clearHubInfo,
+                onToggleTheme = viewModel::toggleTheme,
+                onExitApp = { activity?.finishAffinity() }
+            )
+
+            is AndroidUiState.Character -> CharacterManagementScreen(
+                state = state.state,
+                hasProgressAlert = hasProgressAlert,
+                onSlotClick = viewModel::onCharacterSlotTapped,
+                onInventoryItemClick = viewModel::onCharacterInventoryItemTapped,
+                onOpenAttributes = viewModel::openCharacterAttributes,
+                onOpenTalents = viewModel::openTalents,
+                onOpenProduction = viewModel::openProduction,
+                onOpenHub = viewModel::openHub,
+                onOpenCity = viewModel::openCity,
+                onOpenProgression = viewModel::openProgression
+            )
+
+            is AndroidUiState.GenericMenu -> GenericMenuScreen(
+                viewModel = state.viewModel,
+                section = state.section,
+                actionPreviews = state.actionPreviews,
+                talentTreeGraph = state.talentTreeGraph,
+                hasProgressAlert = hasProgressAlert,
+                onAction = viewModel::onMenuAction,
+                onOpenCharacter = viewModel::openCharacter,
+                onOpenProduction = viewModel::openProduction,
+                onOpenHub = viewModel::openHub,
+                onOpenCity = viewModel::openCity,
+                onOpenProgression = viewModel::openProgression
+            )
+
+            is AndroidUiState.Combat -> CombatTouchScreen(
+                state = state.state,
+                onAttack = viewModel::onCombatAttack,
+                onEscape = viewModel::onCombatEscape,
+                onUseItem = viewModel::onCombatUseItem
+            )
+        }
+
+        timedAction?.let { timed ->
+            TimedActionOverlay(
+                state = timed,
+                onCancel = viewModel::cancelTimedAction
+            )
+        }
+
+        popupDetail?.let { popup ->
+            GamePopupMenu(
+                title = popup.title,
+                onDismiss = viewModel::clearPopup,
+                showCloseButton = popup.showCloseButton
+            ) {
+                popup.lines.forEach { line ->
+                    androidx.compose.material3.Text(
+                        text = line,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                }
+                popup.quantity?.let { quantity ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        GamePrimaryButton(
+                            label = "-",
+                            onClick = { quantity.onDecrease?.invoke() },
+                            enabled = quantity.value > quantity.minValue,
+                            modifier = Modifier.weight(1f)
+                        )
+                        androidx.compose.material3.Text(
+                            text = "${quantity.value} un. | ${quantity.unitValue} cada | total ${quantity.totalValue}",
+                            modifier = Modifier
+                                .weight(2f)
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                        GamePrimaryButton(
+                            label = "+",
+                            onClick = { quantity.onIncrease?.invoke() },
+                            enabled = quantity.value < quantity.maxValue,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+                popup.primaryLabel?.let { label ->
+                    GamePrimaryButton(
+                        label = label,
+                        onClick = { popup.onPrimary?.invoke() }
+                    )
+                }
+                popup.secondaryLabel?.let { label ->
+                    GamePrimaryButton(
+                        label = label,
+                        onClick = { popup.onSecondary?.invoke() }
+                    )
+                }
+            }
+        }
     }
 }

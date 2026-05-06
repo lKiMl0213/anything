@@ -958,3 +958,133 @@
 
 ### Validation Notes
 - `./gradlew build` passou.
+
+## 2026-05-01 - Estabilizacao de Build Android (AGP/Kotlin/Compose)
+
+### Updated Systems
+- `app-android` voltou a compilar com plugin explicito:
+  - `id("com.android.application")`
+  - `kotlin("android")`
+  - `id("org.jetbrains.kotlin.plugin.compose")`
+- Alinhamento de toolchain/targets no Android:
+  - `compileOptions` Java 17 mantido
+  - `kotlin.compilerOptions.jvmTarget = JVM_17` no modulo Android
+- Compatibilidade Gradle/Android ajustada:
+  - AGP `9.0.1`
+  - Gradle wrapper `9.3.0`
+  - Kotlin plugins `2.2.10` para build scripts
+- Correcao de classloader do KGP para Android:
+  - adicionado `classpath("com.android.tools.build:gradle:9.0.1")` no `build.gradle.kts` raiz para manter classes AGP visiveis durante aplicacao do plugin Kotlin Android.
+- Ajustes de compilacao no app Android:
+  - `AndroidGameApp` passou a tratar `AndroidUiState.CharacterCreation` no `when` (sem crash por exaustividade).
+  - `AndroidGameViewModel` passou a tratar `GameEffect.LaunchProductionTimedAction`, aplicando a acao de conclusao no fluxo Android.
+
+### Validation Notes
+- `./gradlew clean build --no-daemon` passou com `app-android` compilando Kotlin (`compileDebugKotlin`/`compileReleaseKotlin`) e gerando assemble debug/release.
+
+## 2026-05-05 - Android UI Flow Stabilization (Fullscreen + Compose Screens + Timed Production + Autosave)
+
+### Updated Systems
+- Android app moved to immersive fullscreen with system bars hidden and safe-area aware layout root:
+  - `MainActivity` uses edge-to-edge + hidden status/navigation bars.
+  - Shared `GameScreenRoot` applies `WindowInsets.safeDrawing` + `imePadding`.
+- New reusable Compose component set introduced for consistent UI structure and actions:
+  - `GameScreenRoot`, `GameBackground`, `GamePrimaryButton`, `GameFooterActions`, `GamePopupMenu`, `GameInfoPanel`, `GameStatBar`, `GameTopHud`, `GameSideMenu`, `GameBottomNav`, `AttributeRow`, `EquipmentSlot`, `InventoryPanel`, `StatMiniPanel`.
+- New Android screen flow implemented using existing game state/action systems (no duplicated gameplay rules):
+  - `StartPage`, `NewGame`, `RaceClass`, `AttributeDistribution`, `MainHub`, `Character`, generic section menus, combat touch screen integration.
+- Character creation Android flow now supports live name input, race/class selection using real repository data, and reusable attribute distribution screen with info popup.
+- Production timing behavior fixed in Android flow:
+  - `GameEffect.LaunchProductionTimedAction` now runs with coroutine timer/progress overlay and only applies completion action after duration.
+- Android autosave behavior reinforced:
+  - save requested after game-state mutations,
+  - immediate save on timed production start/end,
+  - lifecycle background save on `ON_STOP`.
+- Placeholder background resources added for future swap without code changes:
+  - `bg_menu`, `bg_new_game`, `bg_attribute_distribution`, `bg_main_hub`, `bg_character`, `bg_inventory`, `bg_production`, `bg_progression`, `bg_city`, `bg_combat`, `bg_loading`.
+
+### Validation Notes
+- `./gradlew clean build --no-daemon` passed.
+- `./gradlew :app-android:assembleDebug --no-daemon` passed.
+- CLI module remains buildable in the same root build (no CLI-specific rule duplication introduced).
+
+## 2026-05-06 - Android UI/UX Polish Pass (Inventory, Shop, Talents, Combat)
+
+### Updated Systems
+- Inventory popup flow on Android now supports selling by quantity using existing core `SellInventoryItem` action:
+  - quantity stepper (+/-),
+  - unit value + total value shown,
+  - multi-sell execution in Android ViewModel without changing core sell rules.
+- Generic menu flow gained contextual action previews (Android-only) for:
+  - shop buys (`BuyShopEntry`) with usage/equip slot, attributes, class tag and value,
+  - permanent upgrades (`BuyUpgrade`) with description/level/cost confirmation,
+  - talent nodes (`InspectTalentNode`) with quick rank-up confirmation when available.
+- Production menu bug fix:
+  - `ConfigureCraftRecipeQuantity` is now handled in `ProductionActionDispatcher` (no fallback message "Acao ainda nao suportada no fluxo modular").
+- Combat UI readability improvements:
+  - separated player/enemy resource visuals,
+  - status lines rendered with compact effect icons,
+  - combat log sanitization strips ANSI/control remnants (`[31m`, `[0m`, etc.) before display.
+- Character/inventory visual compacting on Android:
+  - reduced panel/button density tokens,
+  - compact slot labels with icons,
+  - item emoji labels where applicable.
+- Popup behavior polish:
+  - centered popup text rendering,
+  - timed production overlay popup hides close `X` and keeps explicit cancel action.
+
+### Validation Notes
+- `./gradlew clean build --no-daemon` passed.
+- `./gradlew :app-android:assembleDebug --no-daemon` passed.
+- `./gradlew :app-android:installDebug --no-daemon` passed (installed on emulator).
+
+## 2026-05-06 - Android Final UI/UX Stabilization (Theme/Tree/Production/Tavern)
+
+### Updated Systems
+- Build stability:
+  - split `AndroidUiModelBuilders` into smaller files to satisfy `checkKotlinFileLineLimit` without baseline expansion.
+- Theme and readability:
+  - unified component colors with `MaterialTheme` for dark/light contrast in buttons, panels, popup, bottom nav and slots.
+  - rounded corners standardized via shared UI tokens.
+- Talent tree:
+  - Android now consumes real prerequisite metadata from core character query data.
+  - talent nodes remain clickable when blocked and display explicit prerequisite requirements in the tree cards.
+- Character/inventory:
+  - equipment layout kept compact/body-oriented.
+  - inventory sell-by-quantity fixed to sell real stack item IDs, ensuring correct gold gain on multi-sell.
+- Production:
+  - production summary compacting adjusted to avoid hiding recipe context.
+  - production preview popup flow now removes close `X` and keeps explicit `Cancelar` button.
+  - added inventory-capacity gate in production prepare flow for craft/gather when output cannot fit (without changing CLI structure).
+- Tavern and hub:
+  - tavern rest/sleep keeps cost-free behavior when already full and still shows HP/MP/Ouro + debuff status.
+  - hub HUD keeps compact debuff indicator (`☠`) and inventory capacity.
+- Combat:
+  - fixed-size effects panel to avoid layout jumps.
+  - dedicated "acao pronta" indicator panel above action buttons.
+  - log rendering kept sanitized and bounded.
+
+### Validation Notes
+- `./gradlew clean build --no-daemon` passed.
+- `./gradlew :app-android:assembleDebug --no-daemon` passed.
+- `./gradlew :app-android:installDebug --no-daemon` passed (emulator install successful).
+- App launch command succeeded on emulator (`am start -n rpg.android/.MainActivity`), process remained active (`pidof rpg.android` returned PID).
+
+## 2026-05-06 - Balanceamento de Atributos (Racas/Classes/Nivel)
+
+### Updated Systems
+- Rebalanceamento data-driven de racas em `data/races/*.json` para total liquido padrao:
+  - `bonuses.attributes` padronizado para soma liquida `7` em todas as racas.
+  - `growth` padronizado para soma `7` em todas as racas.
+- Classes base permaneceram consistentes (sem mudanca de regras):
+  - `bonuses.attributes` com soma `14` em todas as classes base.
+  - `growth` com soma `0` em todas as classes base.
+- Validacao automatizada adicionada:
+  - novo teste `AttributeBalanceConsistencyTest` valida:
+    - totais padrao de raca/classe,
+    - pontos de atributo por nivel (`POINTS_PER_LEVEL = 5`),
+    - distribuicao automatica de `2` pontos por nivel via `AttributeEngine.applyAutoPoints`,
+    - aplicacao correta de bonus de raca+classe no `ClassSystem.totalBonuses`.
+
+### Validation Notes
+- `./gradlew clean build --no-daemon` passed.
+- `./gradlew :app-android:assembleDebug --no-daemon` passed.

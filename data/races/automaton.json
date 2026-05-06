@@ -4,7 +4,7 @@
   "description": "Tanque tecnico com defesa elevada e maior resistencia a efeitos.",
   "bonuses": {
     "attributes": {
-      "vit": 7,
+      "vit": 8,
       "str": 4,
       "dex": 1,
       "agi": -3,
@@ -24,7 +24,8 @@
   "growth": {
     "vit": 3,
     "str": 2,
-    "dex": 1
+    "dex": 1,
+    "spr": 1
   },
   "professionBonusesPct": {
     "blacksmith": 7,

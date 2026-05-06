@@ -4,6 +4,7 @@ import kotlin.math.ceil
 import rpg.achievement.AchievementUpdate
 import rpg.application.model.DeathPenaltyResult
 import rpg.application.model.RunFinalizeResult
+import rpg.classsystem.RaceBonusSupport
 import rpg.engine.ComputedStats
 import rpg.engine.GameEngine
 import rpg.inventory.InventorySystem
@@ -91,10 +92,21 @@ internal class RunResolutionService(
             incomingItemIds = loot
         )
         val rejectedGenerated = withCapacity.rejected.filter { itemInstances.containsKey(it) }.toSet()
+        var updatedPlayer = cleared
         if (withCapacity.rejected.isNotEmpty()) {
-            notify("Inventario cheio: ${withCapacity.rejected.size} item(ns) da run foram perdidos.")
+            val autoSellGold = withCapacity.rejected.sumOf { rejectedId ->
+                autoSellValue(cleared, rejectedId, itemInstances)
+            }
+            if (autoSellGold > 0) {
+                updatedPlayer = applyAchievementUpdate(
+                    onGoldEarned(updatedPlayer.copy(gold = updatedPlayer.gold + autoSellGold), autoSellGold.toLong())
+                )
+                notify("Inventario cheio: ${withCapacity.rejected.size} item(ns) auto-vendido(s) por $autoSellGold ouro.")
+            } else {
+                notify("Inventario cheio: ${withCapacity.rejected.size} item(ns) da run foram perdidos.")
+            }
         }
-        var updatedPlayer = cleared.copy(
+        updatedPlayer = updatedPlayer.copy(
             inventory = withCapacity.inventory,
             quiverInventory = withCapacity.quiverInventory,
             selectedAmmoTemplateId = withCapacity.selectedAmmoTemplateId
@@ -191,6 +203,23 @@ internal class RunResolutionService(
             updatedInstances = classQuestUpdate.itemInstances
         }
         return DeathPenaltyResult(updatedPlayer, updatedInstances)
+    }
+
+    private fun autoSellValue(
+        player: PlayerState,
+        itemId: String,
+        itemInstances: Map<String, rpg.model.ItemInstance>
+    ): Int {
+        val item = engine.itemResolver.resolve(itemId, itemInstances) ?: return 0
+        val base = engine.economyEngine.sellValue(
+            itemValue = item.value,
+            rarity = item.rarity,
+            type = item.type,
+            tags = item.tags
+        )
+        val raceDef = runCatching { engine.classSystem.raceDef(player.raceId) }.getOrNull()
+        val bonusPct = RaceBonusSupport.tradeSellBonusPct(raceDef)
+        return RaceBonusSupport.applyTradeSellBonus(base, bonusPct).coerceAtLeast(0)
     }
 
     fun clampPlayerResources(

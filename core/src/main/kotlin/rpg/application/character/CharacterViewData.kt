@@ -36,11 +36,22 @@ data class TalentNodeListItemView(
     val nodeId: String,
     val name: String,
     val typeLabel: String,
+    val currentRank: Int,
+    val maxRank: Int,
     val rankLabel: String,
     val stateLabel: String,
+    val canRankUp: Boolean,
+    val blockedReason: String?,
+    val prerequisites: List<TalentNodePrerequisiteView>,
     val prerequisitesLabel: String,
     val exclusiveLabel: String,
     val effectLabel: String
+)
+
+data class TalentNodePrerequisiteView(
+    val nodeId: String,
+    val nodeName: String,
+    val minRank: Int
 )
 
 data class TalentTreeDetailView(

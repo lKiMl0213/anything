@@ -4,12 +4,13 @@
   "description": "Cacador veloz, com combate fisico agil e alta esquiva.",
   "bonuses": {
     "attributes": {
-      "agi": 6,
-      "dex": 4,
-      "str": 3,
-      "vit": 3,
-      "luk": 2,
-      "int": -1
+      "agi": 4,
+      "dex": 3,
+      "str": 2,
+      "vit": 1,
+      "luk": 1,
+      "int": -2,
+      "spr": -2
     },
     "derivedAdd": {
       "damagePhysical": 4
