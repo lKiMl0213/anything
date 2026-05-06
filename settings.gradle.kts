@@ -2,11 +2,11 @@ import org.gradle.api.initialization.resolve.RepositoriesMode
 
 pluginManagement {
     plugins {
-        id("org.jetbrains.kotlin.jvm") version "2.3.20"
-        id("org.jetbrains.kotlin.plugin.serialization") version "2.3.20"
-        id("org.jetbrains.kotlin.android") version "2.3.20"
-        id("org.jetbrains.kotlin.plugin.compose") version "2.3.20"
-        id("com.android.application") version "9.1.1"
+        id("org.jetbrains.kotlin.jvm") version "2.2.10"
+        id("org.jetbrains.kotlin.android") version "2.2.10"
+        id("org.jetbrains.kotlin.plugin.compose") version "2.2.10"
+        id("org.jetbrains.kotlin.plugin.serialization") version "2.2.10"
+        id("com.android.application") version "9.0.1"
     }
     repositories {
         google()
@@ -29,4 +29,14 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-// include("app-android")  // Desativado temporariamente para gerar ZIP sem erro
+include("app-android")
+
+
+
+
+
+
+
+
+
+

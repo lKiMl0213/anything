@@ -4,7 +4,7 @@
   "description": "Frontline agressivo com dano fisico bruto e resistencia marcial.",
   "bonuses": {
     "attributes": {
-      "str": 8,
+      "str": 7,
       "vit": 5,
       "dex": 1,
       "agi": -2,
@@ -24,7 +24,8 @@
   "growth": {
     "str": 3,
     "vit": 2,
-    "dex": 1
+    "dex": 1,
+    "agi": 1
   },
   "professionBonusesPct": {
     "mining": 6,

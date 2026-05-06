@@ -16,6 +16,7 @@ class ProductionActionDispatcher(
             GameAction.OpenCraftMenu -> move(session, NavigationState.ProductionCraftMenu)
             is GameAction.OpenCraftDiscipline -> openCraftDiscipline(session, action)
             is GameAction.InspectCraftRecipe -> inspectCraftRecipe(session, action)
+            is GameAction.ConfigureCraftRecipeQuantity -> configureCraftRecipeQuantity(session, action)
             is GameAction.SetCraftRecipeQuantity -> setCraftRecipeQuantity(session, action)
             is GameAction.CraftRecipe -> queueCraftRecipe(session, action)
             is GameAction.ExecuteCraftRecipe -> executeCraftRecipe(session, action)
@@ -83,6 +84,23 @@ class ProductionActionDispatcher(
                 selectedCraftRecipeQuantity = action.quantity.coerceAtLeast(1),
                 navigation = NavigationState.ProductionRecipeDetail,
                 messages = listOf("Quantidade do lote definida para ${action.quantity.coerceAtLeast(1)}.")
+            )
+        )
+    }
+
+    private fun configureCraftRecipeQuantity(
+        session: GameSession,
+        action: GameAction.ConfigureCraftRecipeQuantity
+    ): GameActionResult {
+        val state = session.gameState ?: return GameActionResult(session.copy(messages = listOf("Nenhum jogo carregado.")))
+        val selectedQuantity = action.maxQuantity.coerceAtLeast(1)
+        return GameActionResult(
+            session = session.copy(
+                gameState = stateSupport.normalize(state),
+                selectedCraftRecipeId = action.recipeId,
+                selectedCraftRecipeQuantity = selectedQuantity,
+                navigation = NavigationState.ProductionRecipeDetail,
+                messages = listOf("Quantidade ajustada para ${selectedQuantity}x.")
             )
         )
     }

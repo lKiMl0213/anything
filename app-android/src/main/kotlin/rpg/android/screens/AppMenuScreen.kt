@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -38,16 +38,16 @@ fun AppMenuScreen(
         }
 
         if (model.messages.isNotEmpty()) {
-            Divider()
+            HorizontalDivider()
             model.messages.forEach { Text(it) }
         }
 
         if (model.bodyLines.isNotEmpty()) {
-            Divider()
+            HorizontalDivider()
             model.bodyLines.forEach { Text(it) }
         }
 
-        Divider()
+        HorizontalDivider()
         model.options.forEach { option ->
             val isRankUp = option.action is GameAction.ConfirmTalentRankUp
             Button(onClick = { onSelectAction(option.action) }) {

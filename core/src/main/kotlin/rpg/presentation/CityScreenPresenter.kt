@@ -15,8 +15,18 @@ internal class CityScreenPresenter(
         val state = session.gameState ?: return support.presentMissingState("Taverna")
         val tavern = cityQueryService.tavern(state)
         val options = mutableListOf<ScreenOptionViewModel>()
-        options += ScreenOptionViewModel("1", "Descansar - custo ${tavern.restCost}", GameAction.TavernRest)
-        options += ScreenOptionViewModel("2", "Dormir - custo ${tavern.sleepCost}", GameAction.TavernSleep)
+        val restLabel = if (tavern.hasRecoverableResources) {
+            "Descansar (+${tavern.restHealPct}% HP/MP) - custo ${tavern.restCost}"
+        } else {
+            "Descansar (+${tavern.restHealPct}% HP/MP) - sem custo (ja cheio)"
+        }
+        val sleepLabel = if (tavern.hasRecoverableResources) {
+            "Dormir (100% HP/MP) - custo ${tavern.sleepCost}"
+        } else {
+            "Dormir (100% HP/MP) - sem custo (ja cheio)"
+        }
+        options += ScreenOptionViewModel("1", restLabel, GameAction.TavernRest)
+        options += ScreenOptionViewModel("2", sleepLabel, GameAction.TavernSleep)
         options += ScreenOptionViewModel("3", "Purificar 1 stack - custo ${tavern.purifyOneCost}", GameAction.TavernPurifyOne)
         options += ScreenOptionViewModel("4", "Purificar tudo - custo ${tavern.purifyAllCost}", GameAction.TavernPurifyAll)
         options += ScreenOptionViewModel("x", "Voltar", GameAction.Back)

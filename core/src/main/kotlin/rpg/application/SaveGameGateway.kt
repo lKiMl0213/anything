@@ -27,6 +27,10 @@ class SaveGameGateway(
         return path
     }
 
+    fun resolveSaveFile(fileName: String): Path {
+        return saveDir.resolve(fileName)
+    }
+
     fun saveAutosave(state: GameState): Path {
         val path = saveDir.resolve("autosave.json")
         return save(path, state)

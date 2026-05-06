@@ -4,9 +4,9 @@
   "description": "Pequeno, agil e oportunista. Brilha em economia, saque e precisao.",
   "bonuses": {
     "attributes": {
-      "agi": 6,
-      "dex": 5,
-      "luk": 6,
+      "agi": 4,
+      "dex": 3,
+      "luk": 4,
       "vit": -1,
       "str": -2,
       "int": -1

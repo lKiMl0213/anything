@@ -4,8 +4,8 @@
   "description": "Conjurador ofensivo de risco, focado em dano magico e maldicoes.",
   "bonuses": {
     "attributes": {
-      "int": 7,
-      "spr": 5,
+      "int": 5,
+      "spr": 3,
       "agi": 1,
       "dex": 1,
       "vit": -2,
@@ -25,7 +25,8 @@
   "growth": {
     "int": 3,
     "spr": 2,
-    "agi": 1
+    "agi": 1,
+    "dex": 1
   },
   "professionBonusesPct": {
     "alchemy": 7,

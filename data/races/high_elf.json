@@ -4,10 +4,10 @@
   "description": "Mago puro com refinamento arcano, foco em mana e eficiencia.",
   "bonuses": {
     "attributes": {
-      "int": 7,
-      "spr": 7,
-      "dex": 2,
-      "agi": 2,
+      "int": 5,
+      "spr": 4,
+      "dex": 1,
+      "agi": 1,
       "str": -2,
       "vit": -2
     },

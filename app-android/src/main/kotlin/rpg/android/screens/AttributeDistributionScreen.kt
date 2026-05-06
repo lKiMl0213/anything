@@ -1,0 +1,105 @@
+package rpg.android.screens
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import rpg.android.R
+import rpg.android.state.AttributeDistributionUiModel
+import rpg.android.ui.components.AttributeRow
+import rpg.android.ui.components.GameFooterActions
+import rpg.android.ui.components.GameInfoPanel
+import rpg.android.ui.components.GamePopup
+import rpg.android.ui.components.GameScreenRoot
+
+@Composable
+fun AttributeDistributionScreen(
+    state: AttributeDistributionUiModel,
+    onIncrease: (String) -> Unit,
+    onDecrease: (String) -> Unit,
+    onConfirm: () -> Unit,
+    onCancel: () -> Unit
+) {
+    var popupCode by remember { mutableStateOf<String?>(null) }
+    val popupLines = popupCode?.let { code -> state.detailByCode[code] }.orEmpty()
+
+    GameScreenRoot(
+        backgroundRes = R.drawable.bg_attribute_distribution,
+        footer = {
+            GameFooterActions(
+                leftLabel = "Cancelar",
+                rightLabel = "Confirmar",
+                onLeftClick = onCancel,
+                onRightClick = onConfirm,
+                rightEnabled = state.canConfirm
+            )
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            GameInfoPanel(title = state.title) {
+                Text("Pontos restantes: ${state.pointsRemaining}")
+            }
+            GameInfoPanel(title = "Atributos") {
+                state.rows.forEach { row ->
+                    AttributeRow(
+                        code = row.code,
+                        valueLabel = "${row.label}: ${row.previewValue} [alocado ${row.allocated}]",
+                        onInfoClick = { popupCode = row.code },
+                        onDecrease = { onDecrease(row.code) },
+                        onIncrease = { onIncrease(row.code) },
+                        canDecrease = row.allocated > 0,
+                        canIncrease = state.pointsRemaining > 0
+                    )
+                }
+            }
+            if (state.messages.isNotEmpty()) {
+                GameInfoPanel {
+                    state.messages.forEach { Text(it) }
+                }
+            }
+        }
+    }
+
+    popupCode?.let { selectedCode ->
+        GamePopup(
+            title = selectedCode,
+            onDismiss = { popupCode = null }
+        ) {
+            if (popupLines.isEmpty()) {
+                Text(
+                    text = "Sem detalhes adicionais.",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+            } else {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    popupLines.forEach { line ->
+                        Text(
+                            text = line,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+        }
+    }
+}

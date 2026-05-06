@@ -1,8 +1,10 @@
 import com.android.build.api.dsl.ApplicationExtension
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 extensions.configure<ApplicationExtension>("android") {
@@ -28,8 +30,8 @@ extensions.configure<ApplicationExtension>("android") {
 
     sourceSets.named("main") {
         manifest.srcFile("src/main/AndroidManifest.xml")
-        kotlin.srcDirs("src/main/kotlin")
-        assets.srcDir("../data")
+        kotlin.directories.add("src/main/kotlin")
+        assets.directories.add("../data")
     }
 
     packaging {
@@ -44,6 +46,12 @@ extensions.configure<ApplicationExtension>("android") {
     lint {
         checkReleaseBuilds = false
         abortOnError = false
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
@@ -80,3 +88,8 @@ tasks.matching { task ->
 }.configureEach {
     enabled = false
 }
+
+
+
+
+

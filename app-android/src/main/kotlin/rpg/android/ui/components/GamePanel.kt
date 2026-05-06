@@ -1,0 +1,56 @@
+package rpg.android.ui.components
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun GamePanel(
+    modifier: Modifier = Modifier,
+    title: String? = null,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        color = GameUiTokens.panelColor(),
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        shape = RoundedCornerShape(GameUiTokens.panelCorner),
+        border = BorderStroke(1.dp, GameUiTokens.panelBorderColor())
+    ) {
+        Column(
+            modifier = Modifier.padding(GameUiTokens.panelPadding)
+        ) {
+            title?.let {
+                Text(
+                    text = it,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            }
+            content()
+        }
+    }
+}
+
+@Composable
+fun GameInfoPanel(
+    modifier: Modifier = Modifier,
+    title: String? = null,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    GamePanel(
+        modifier = modifier,
+        title = title,
+        content = content
+    )
+}

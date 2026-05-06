@@ -1,4 +1,4 @@
-package rpg.android.combat
+﻿package rpg.android.combat
 
 import java.util.ArrayDeque
 import kotlinx.coroutines.channels.Channel
@@ -9,20 +9,27 @@ import rpg.application.CombatFlowResult
 import rpg.application.PendingEncounter
 import rpg.application.actions.GameAction
 import rpg.combat.CombatAction
+import rpg.combat.CombatResult
 import rpg.combat.CombatSnapshot
+import rpg.combat.CombatMode
 import rpg.combat.PlayerCombatController
 import rpg.engine.GameEngine
 import rpg.model.GameState
 import rpg.model.ItemType
-import rpg.navigation.NavigationState
-import rpg.status.StatusSystem
-import rpg.world.RunRoomType
+import rpg.status.StatusType
 import rpg.android.state.CombatActionButtonUi
 import rpg.android.state.CombatConsumableUi
 import rpg.android.state.CombatUiState
 
-class AndroidCombatFlowController(
-    private val engine: GameEngine
+internal class AndroidCombatFlowController(
+    private val engine: GameEngine,
+    private val outcomeResolver: AndroidCombatOutcomeResolver,
+    private val resolveGlobalBossCombat: (
+        gameState: GameState,
+        encounter: PendingEncounter,
+        combatResult: CombatResult,
+        combatLog: List<String>
+    ) -> CombatFlowResult
 ) {
     private val actionChannel = Channel<CombatAction>(Channel.UNLIMITED)
     private val _uiState = MutableStateFlow(
@@ -75,65 +82,16 @@ class AndroidCombatFlowController(
             controller = controller,
             eventLogger = { message -> controller.onCombatEvent(message) }
         )
-
-        var updatedState = gameState.copy(
-            player = result.playerAfter,
-            itemInstances = result.itemInstances
-        )
-
-        return when {
-            result.escaped -> CombatFlowResult(
-                gameState = updatedState.copy(currentRun = null),
-                navigation = NavigationState.Exploration,
-                messages = listOf("Voce fugiu do combate.") + controller.finalLogLines()
+        val logLines = controller.finalLogLines()
+        return if (encounter.combatMode == CombatMode.GLOBAL_BOSS) {
+            resolveGlobalBossCombat(gameState, encounter, result, logLines)
+        } else {
+            outcomeResolver.resolve(
+                gameState = gameState,
+                encounter = encounter,
+                result = result,
+                combatLog = logLines
             )
-
-            !result.victory -> CombatFlowResult(
-                gameState = updatedState.copy(currentRun = null),
-                navigation = NavigationState.Hub,
-                messages = listOf(
-                    "Voce foi derrotado.",
-                    "A expedicao terminou e voce retornou ao acampamento."
-                ) + controller.finalLogLines()
-            )
-
-            else -> {
-                val levelBefore = result.playerAfter.level
-                val victory = engine.resolveVictory(
-                    player = result.playerAfter,
-                    itemInstances = result.itemInstances,
-                    monster = encounter.monster,
-                    tier = encounter.tier,
-                    collectToLoot = false
-                )
-                val advancedRun = engine.advanceRun(
-                    run = encounter.run,
-                    bossDefeated = encounter.isBoss,
-                    clearedRoomType = if (encounter.isBoss) RunRoomType.BOSS else RunRoomType.MONSTER,
-                    victoryInRoom = true
-                )
-                updatedState = updatedState.copy(
-                    player = victory.player,
-                    itemInstances = victory.itemInstances,
-                    currentRun = advancedRun
-                )
-                val rewardLines = mutableListOf(
-                    "$displayName foi derrotado!",
-                    "Ganhou ${victory.xpGain} XP e ${victory.goldGain} ouro."
-                )
-                if (victory.player.level > levelBefore) {
-                    rewardLines += "Level up! Agora voce esta no nivel ${victory.player.level}."
-                }
-                victory.dropOutcome.itemInstance?.let { rewardLines += "Drop: ${it.name}." }
-                if (victory.dropOutcome.itemInstance == null && victory.dropOutcome.itemId != null) {
-                    rewardLines += "Drop: ${victory.dropOutcome.itemId} x${victory.dropOutcome.quantity.coerceAtLeast(1)}."
-                }
-                CombatFlowResult(
-                    gameState = updatedState,
-                    navigation = NavigationState.Exploration,
-                    messages = rewardLines + controller.finalLogLines()
-                )
-            }
         }
     }
 
@@ -141,11 +99,12 @@ class AndroidCombatFlowController(
         private val encounter: PendingEncounter
     ) : PlayerCombatController {
         private val history = ArrayDeque<String>()
-        private val historyLimit = 10
+        private val historyLimit = 8
 
         fun onCombatEvent(message: String) {
-            if (message.isBlank()) return
-            history += message
+            val normalized = sanitizeLogLine(message)
+            if (normalized.isBlank()) return
+            history += normalized
             while (history.size > historyLimit) {
                 history.removeFirst()
             }
@@ -217,15 +176,35 @@ class AndroidCombatFlowController(
         private fun buildStatusLines(snapshot: CombatSnapshot): List<String> {
             val playerStatuses = snapshot.playerRuntime.statuses
                 .joinToString(" | ") { status ->
-                    "${StatusSystem.displayName(status.type)} ${format(status.remainingSeconds)}s"
+                    "${statusIcon(status.type)} ${format(status.remainingSeconds)}s"
                 }
             val enemyStatuses = snapshot.monsterRuntime.statuses
                 .joinToString(" | ") { status ->
-                    "${StatusSystem.displayName(status.type)} ${format(status.remainingSeconds)}s"
+                    "${statusIcon(status.type)} ${format(status.remainingSeconds)}s"
                 }
             return buildList {
                 if (playerStatuses.isNotBlank()) add("Voce: $playerStatuses")
                 if (enemyStatuses.isNotBlank()) add("Inimigo: $enemyStatuses")
+            }
+        }
+
+        private fun sanitizeLogLine(raw: String): String {
+            return raw
+                .replace(Regex("\\u001B\\[[;\\d]*m"), "")
+                .replace(Regex("\\[(?:\\d{1,3};?)+m"), "")
+                .trim()
+        }
+
+        private fun statusIcon(type: StatusType): String {
+            return when (type) {
+                StatusType.BURNING -> "\uD83D\uDD25"
+                StatusType.FROZEN -> "\u2744\uFE0F"
+                StatusType.POISONED -> "\u2620\uFE0F"
+                StatusType.PARALYZED -> "\u26A1"
+                StatusType.BLEEDING -> "\uD83E\uDE78"
+                StatusType.WEAKNESS -> "\uD83E\uDDE9"
+                StatusType.SLOW -> "\uD83D\uDC22"
+                StatusType.MARKED -> "\uD83C\uDFAF"
             }
         }
 
@@ -251,3 +230,4 @@ class AndroidCombatFlowController(
 
     private fun format(value: Double): String = "%.1f".format(value)
 }
+

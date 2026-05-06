@@ -4,6 +4,7 @@ import rpg.achievement.AchievementTracker
 import rpg.achievement.AchievementCounterKeys
 import rpg.application.support.OutOfCombatTimeService
 import rpg.engine.GameEngine
+import rpg.inventory.InventorySystem
 import rpg.model.CraftDiscipline
 import rpg.model.GameState
 import rpg.model.GatheringType
@@ -26,6 +27,12 @@ class ProductionCommandService(
                 ready = false,
                 messages = listOf("Ingredientes ou requisitos insuficientes para esta receita.")
             )
+        if (!canStoreTemplateOutput(state, resolution.recipe.outputItemId)) {
+            return ProductionPrepareResult(
+                ready = false,
+                messages = listOf("Inventario cheio para esse tipo de item. Libere espaco ou venda itens antes de craftar.")
+            )
+        }
         return ProductionPrepareResult(
             ready = true,
             messages = emptyList(),
@@ -49,6 +56,12 @@ class ProductionCommandService(
                 ready = false,
                 messages = listOf("Ponto de coleta indisponivel.")
             )
+        if (!canStoreTemplateOutput(state, resolution.node.resourceItemId)) {
+            return ProductionPrepareResult(
+                ready = false,
+                messages = listOf("Inventario cheio para esse recurso. Libere espaco ou venda itens antes de coletar.")
+            )
+        }
         return ProductionPrepareResult(
             ready = true,
             messages = emptyList(),
@@ -255,4 +268,14 @@ class ProductionCommandService(
     }
 
     private fun format(value: Double): String = "%.1f".format(value)
+
+    private fun canStoreTemplateOutput(state: GameState, templateId: String): Boolean {
+        val hasTemplateStack = state.player.inventory.any { itemId ->
+            itemId == templateId || state.itemInstances[itemId]?.templateId == templateId
+        }
+        if (hasTemplateStack) return true
+        val usedSlots = InventorySystem.slotsUsed(state.player, state.itemInstances, engine.itemRegistry)
+        val limit = InventorySystem.inventoryLimit(state.player, state.itemInstances, engine.itemRegistry)
+        return usedSlots < limit
+    }
 }
