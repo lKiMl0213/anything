@@ -26,6 +26,12 @@ import rpg.android.state.PopupDetailUiModel
 import rpg.android.state.SaveSlotUi
 import rpg.android.state.StartPageUiModel
 import rpg.android.state.TimedActionUiState
+import rpg.android.tutorial.TutorialAction
+import rpg.android.tutorial.TutorialManager
+import rpg.android.tutorial.TutorialOverlayState
+import rpg.android.tutorial.TutorialScreenContext
+import rpg.android.tutorial.TutorialStep
+import rpg.android.tutorial.toTutorialState
 import rpg.android.ui.scale.GameUiScale
 import rpg.application.GameEffect
 import rpg.application.GameSession
@@ -47,8 +53,14 @@ class AndroidGameViewModel(
     val popupDetail: StateFlow<PopupDetailUiModel?> = _popupDetail.asStateFlow()
     private val _patchNotesPopup = MutableStateFlow<PatchNotesUiModel?>(null)
     val patchNotesPopup: StateFlow<PatchNotesUiModel?> = _patchNotesPopup.asStateFlow()
+    private val _tutorialOverlay = MutableStateFlow<TutorialOverlayState?>(null)
+    val tutorialOverlay: StateFlow<TutorialOverlayState?> = _tutorialOverlay.asStateFlow()
     private val _progressAlert = MutableStateFlow(false)
     val progressAlert: StateFlow<Boolean> = _progressAlert.asStateFlow()
+    private val _hasActiveGame = MutableStateFlow(false)
+    val hasActiveGame: StateFlow<Boolean> = _hasActiveGame.asStateFlow()
+    private val _tutorialCompletedForCurrentGame = MutableStateFlow(true)
+    val tutorialCompletedForCurrentGame: StateFlow<Boolean> = _tutorialCompletedForCurrentGame.asStateFlow()
     private val preferences = application.getSharedPreferences("android_ui", Context.MODE_PRIVATE)
     private val _darkTheme = MutableStateFlow(preferences.getBoolean("dark_theme", true))
     val darkTheme: StateFlow<Boolean> = _darkTheme.asStateFlow()
@@ -58,6 +70,7 @@ class AndroidGameViewModel(
     val uiScale: StateFlow<GameUiScale> = _uiScale.asStateFlow()
 
     private var runtime: RuntimeDeps? = null
+    private val tutorialManager = TutorialManager()
     private var session = GameSession()
     private var startMessage: String? = null
     private var startPageSaves: List<SaveSlotUi> = emptyList()
@@ -112,7 +125,10 @@ class AndroidGameViewModel(
         applyAction(GameAction.LoadSave(selected))
     }
 
-    fun onMenuAction(action: GameAction) = applyAction(action)
+    fun onMenuAction(action: GameAction) {
+        if (!allowTutorialMenuAction(action)) return
+        applyAction(action)
+    }
 
     fun onCreationNameChanged(name: String) = applyAction(GameAction.SetCharacterCreationName(name))
 
@@ -224,10 +240,23 @@ class AndroidGameViewModel(
 
     fun cancelCreation() = applyAction(GameAction.Back)
 
-    fun openCharacter() = applyAction(GameAction.OpenCharacterMenu)
-    fun openProduction() = applyAction(GameAction.OpenProductionMenu)
-    fun openExplore() = applyAction(GameAction.OpenExploration)
+    fun openCharacter() {
+        if (!allowTutorialAction(TutorialAction.OPEN_CHARACTER)) return
+        applyAction(GameAction.OpenCharacterMenu)
+    }
+
+    fun openProduction() {
+        if (!allowTutorialAction(TutorialAction.OPEN_PRODUCTION)) return
+        applyAction(GameAction.OpenProductionMenu)
+    }
+
+    fun openExplore() {
+        if (!allowTutorialAction(TutorialAction.OPEN_EXPLORE)) return
+        applyAction(GameAction.OpenExploration)
+    }
+
     fun openHub() {
+        if (!allowTutorialAction(TutorialAction.OPEN_HUB)) return
         if (session.gameState == null) return
         if (session.navigation == NavigationState.Hub) {
             publishFromSession()
@@ -242,10 +271,20 @@ class AndroidGameViewModel(
         }
         publishFromSession()
     }
-    fun openCity() = applyAction(GameAction.OpenCityMenu)
-    fun openProgression() = applyAction(GameAction.OpenProgressionMenu)
+    fun openCity() {
+        if (!allowTutorialAction(TutorialAction.OPEN_CITY)) return
+        applyAction(GameAction.OpenCityMenu)
+    }
+
+    fun openProgression() {
+        if (!allowTutorialAction(TutorialAction.OPEN_PROGRESSION)) return
+        applyAction(GameAction.OpenProgressionMenu)
+    }
     fun openTalents() = applyAction(GameAction.OpenTalents)
-    fun openGlobalBoss() = applyAction(GameAction.OpenGlobalBossMenu)
+    fun openGlobalBoss() {
+        if (!allowAnyActionDuringTutorial()) return
+        applyAction(GameAction.OpenGlobalBossMenu)
+    }
 
     fun onCharacterSlotTapped(slotKey: String) = applyAction(GameAction.InspectEquippedSlot(slotKey))
     fun onCharacterInventoryItemTapped(itemId: String) {
@@ -266,23 +305,59 @@ class AndroidGameViewModel(
     fun dismissPatchNotesPopup() {
         val currentPopup = _patchNotesPopup.value
         if (currentPopup?.markSeenOnDismiss == true) {
-            preferences.edit().putString(PREF_LAST_SEEN_PATCH_VERSION, currentPopup.versionLabel).apply()
+            val scopeKey = patchNotesSeenPreferenceKey(session.gameState)
+            preferences.edit().putString(scopeKey, currentPopup.versionLabel).apply()
         }
         _patchNotesPopup.value = null
     }
 
     fun openPatchNotesFromSettings() {
+        val state = session.gameState
+        if (state != null && !state.toTutorialState().completed) return
         val deps = runtime ?: return
         val current = deps.patchNotesService.currentEntry() ?: return
-        _patchNotesPopup.value = PatchNotesUiModel(
-            title = "Notas da atualizacao",
-            versionLabel = current.version,
-            dateLabel = current.date.takeIf { it.isNotBlank() },
-            novidades = current.novidades,
-            melhorias = current.melhorias,
-            correcoes = current.correcoes,
-            markSeenOnDismiss = true
-        )
+        _patchNotesPopup.value = toPatchNotesUiModel(current, markSeenOnDismiss = true)
+    }
+
+    fun onSettingsOpened(): Boolean {
+        if (!allowTutorialAction(TutorialAction.OPEN_SETTINGS)) return false
+        publishFromSession()
+        return true
+    }
+
+    fun restartTutorialFromSettings() {
+        val state = session.gameState ?: return
+        if (session.navigation != NavigationState.Hub) {
+            var guard = 0
+            while (session.navigation != NavigationState.Hub && guard < 12) {
+                val before = session.navigation
+                applyAction(GameAction.Back, publishNow = false)
+                guard += 1
+                if (session.navigation == before) break
+            }
+        }
+        val latestState = session.gameState ?: state
+        val restarted = tutorialManager.restart(latestState)
+        updateTutorialState(restarted, publishNow = false)
+        publishFromSession()
+    }
+
+    fun onTutorialContinue() {
+        val state = session.gameState ?: return
+        val currentUi = _uiState.value
+        val context = TutorialScreenContext.fromUiState(session.navigation, currentUi)
+        val updated = tutorialManager.onContinue(state, context) ?: return
+        updateTutorialState(updated)
+    }
+
+    fun onTutorialComplete() {
+        val state = session.gameState ?: return
+        updateTutorialState(tutorialManager.complete(state))
+    }
+
+    fun onTutorialSkip() {
+        val state = session.gameState ?: return
+        updateTutorialState(tutorialManager.complete(state))
     }
 
     fun onCombatAttack() = combatController?.submitAttack()
@@ -344,6 +419,12 @@ class AndroidGameViewModel(
         val beforeState = session.gameState
         val result = deps.actionHandler.handle(session, action)
         session = result.session
+        if (action is GameAction.ConfirmCharacterCreation) {
+            val createdState = session.gameState
+            if (createdState != null) {
+                session = session.copy(gameState = tutorialManager.startForNewCharacter(createdState))
+            }
+        }
         handleEffect(result.effect)
         if (beforeState != session.gameState) {
             requestAutosave()
@@ -423,30 +504,42 @@ class AndroidGameViewModel(
             deps.actionHandler.questQueryService().hasQuestAlert(state) ||
                 deps.actionHandler.achievementQueryService().hasClaimableRewards(state)
         }
+        _hasActiveGame.value = state != null
+        _tutorialCompletedForCurrentGame.value = state?.toTutorialState()?.completed ?: true
         _popupDetail.value = buildPopupDetail()
         refreshPatchNotesPopup(state)
 
+        fun setUiAndRefresh(next: AndroidUiState) {
+            _uiState.value = next
+            refreshTutorialOverlay()
+        }
+
         if (raceClassSelection != null) {
-            _uiState.value = AndroidUiState.RaceClass(
+            setUiAndRefresh(
+                AndroidUiState.RaceClass(
                 AndroidUiModelBuilders.buildRaceClassUi(
                     deps = deps,
                     draft = raceClassSelection
                 )
             )
+            )
             return
         }
         if (attributeContext == AttributeContext.CREATION && creationAttributeDraft != null) {
-            _uiState.value = AndroidUiState.AttributeDistribution(
+            setUiAndRefresh(
+                AndroidUiState.AttributeDistribution(
                 AndroidUiModelBuilders.buildCreationAttributeUi(
                     session = session,
                     deps = deps,
                     creationAttributeDraft = creationAttributeDraft.orEmpty()
                 )
             )
+            )
             return
         }
         if (attributeContext == AttributeContext.CHARACTER && state != null && session.navigation == NavigationState.Attributes) {
-            _uiState.value = AndroidUiState.AttributeDistribution(
+            setUiAndRefresh(
+                AndroidUiState.AttributeDistribution(
                 AndroidUiModelBuilders.buildCharacterAttributeUi(
                     session = session,
                     state = state,
@@ -454,29 +547,30 @@ class AndroidGameViewModel(
                     characterAttributePending = characterAttributePending
                 )
             )
+            )
             return
         }
 
         when (session.navigation) {
-            NavigationState.MainMenu -> _uiState.value = AndroidUiState.StartPage(
+            NavigationState.MainMenu -> setUiAndRefresh(AndroidUiState.StartPage(
                 StartPageUiModel(
                     canLoad = startPageSaves.isNotEmpty(),
                     message = startMessage ?: session.messages.firstOrNull(),
                     saves = startPageSaves
                 )
-            )
+            ))
 
-            NavigationState.CharacterCreation -> _uiState.value = AndroidUiState.NewGame(
+            NavigationState.CharacterCreation -> setUiAndRefresh(AndroidUiState.NewGame(
                 AndroidUiModelBuilders.buildNewGameUi(session = session, deps = deps)
-            )
+            ))
 
-            NavigationState.Hub -> _uiState.value = AndroidUiState.MainHub(
+            NavigationState.Hub -> setUiAndRefresh(AndroidUiState.MainHub(
                 AndroidUiModelBuilders.buildHubUi(
                     state = state,
                     messages = session.messages,
                     deps = deps
                 )
-            )
+            ))
 
             NavigationState.CharacterMenu,
             NavigationState.Inventory,
@@ -484,18 +578,18 @@ class AndroidGameViewModel(
             NavigationState.InventoryItemDetail,
             NavigationState.EquippedItemDetail,
             NavigationState.Quiver -> if (state != null) {
-                _uiState.value = AndroidUiState.Character(
+                setUiAndRefresh(AndroidUiState.Character(
                     AndroidUiModelBuilders.buildCharacterUi(
                         session = session,
                         state = state,
                         deps = deps
                     )
-                )
+                ))
             }
 
             else -> {
                 val view = deps.presenter.present(session)
-                _uiState.value = if (view is MenuScreenViewModel) {
+                val next = if (view is MenuScreenViewModel) {
                     AndroidUiState.GenericMenu(
                         viewModel = view,
                         section = sectionForNavigation(session.navigation),
@@ -513,6 +607,7 @@ class AndroidGameViewModel(
                 } else {
                     AndroidUiState.Error("Tela ainda nao suportada no Android.")
                 }
+                setUiAndRefresh(next)
             }
         }
     }
@@ -559,23 +654,36 @@ class AndroidGameViewModel(
     }
 
     private fun refreshPatchNotesPopup(state: rpg.model.GameState?) {
-        if (state == null) {
-            _patchNotesPopup.value = null
-            return
-        }
-        if (session.navigation != NavigationState.Hub) return
         if (_patchNotesPopup.value != null) return
+        if (state == null) return
+        if (!state.toTutorialState().completed) return
+        if (session.navigation != NavigationState.Hub) return
         val deps = runtime ?: return
-        val lastSeenVersion = preferences.getString(PREF_LAST_SEEN_PATCH_VERSION, null)
+        val scopeKey = patchNotesSeenPreferenceKey(state)
+        val lastSeenVersion = preferences.getString(scopeKey, null)
+            ?: preferences.getString(PREF_LAST_SEEN_PATCH_VERSION_LEGACY, null)
         val pending = deps.patchNotesService.nextEntryToShow(lastSeenVersion) ?: return
-        _patchNotesPopup.value = PatchNotesUiModel(
-            title = "Notas da atualizacao",
-            versionLabel = pending.version,
-            dateLabel = pending.date.takeIf { it.isNotBlank() },
-            novidades = pending.novidades,
-            melhorias = pending.melhorias,
-            correcoes = pending.correcoes,
-            markSeenOnDismiss = true
+        _patchNotesPopup.value = toPatchNotesUiModel(pending, markSeenOnDismiss = true)
+    }
+
+    private fun toPatchNotesUiModel(
+        entry: rpg.android.patchnotes.PatchNotesEntry,
+        markSeenOnDismiss: Boolean
+    ): PatchNotesUiModel {
+        val dateLabel = entry.date.takeIf { it.isNotBlank() }
+        val title = if (dateLabel != null) {
+            "Notas da atualizacao $dateLabel"
+        } else {
+            "Notas da atualizacao"
+        }
+        return PatchNotesUiModel(
+            title = title,
+            versionLabel = entry.version,
+            dateLabel = dateLabel,
+            novidades = entry.novidades,
+            melhorias = entry.melhorias,
+            correcoes = entry.correcoes,
+            markSeenOnDismiss = markSeenOnDismiss
         )
     }
 
@@ -715,6 +823,62 @@ class AndroidGameViewModel(
         }
     }
 
+    private fun refreshTutorialOverlay() {
+        val state = session.gameState ?: run {
+            _tutorialOverlay.value = null
+            return
+        }
+        val context = TutorialScreenContext.fromUiState(session.navigation, _uiState.value)
+        _tutorialOverlay.value = tutorialManager.overlay(state, context)
+    }
+
+    private fun allowTutorialMenuAction(action: GameAction): Boolean {
+        val mapped = when (action) {
+            GameAction.Back -> TutorialAction.BACK_FROM_EXPLORATION_AREAS
+            GameAction.OpenCharacterMenu -> TutorialAction.OPEN_CHARACTER
+            GameAction.OpenProductionMenu -> TutorialAction.OPEN_PRODUCTION
+            GameAction.OpenExploration -> TutorialAction.OPEN_EXPLORE
+            GameAction.OpenCityMenu -> TutorialAction.OPEN_CITY
+            GameAction.OpenProgressionMenu -> TutorialAction.OPEN_PROGRESSION
+            else -> null
+        }
+        return if (mapped != null) {
+            allowTutorialAction(mapped)
+        } else {
+            allowAnyActionDuringTutorial()
+        }
+    }
+
+    private fun allowAnyActionDuringTutorial(): Boolean {
+        val state = session.gameState ?: return true
+        return state.toTutorialState().completed
+    }
+
+    private fun allowTutorialAction(action: TutorialAction): Boolean {
+        val state = session.gameState ?: return true
+        val context = TutorialScreenContext.fromUiState(session.navigation, _uiState.value)
+        val decision = tutorialManager.onAction(state, context, action)
+        if (!decision.allowed) return false
+        val updated = tutorialManager.applyDecision(state, decision)
+        if (updated != state) {
+            updateTutorialState(updated, publishNow = false)
+        }
+        return true
+    }
+
+    private fun updateTutorialState(
+        updatedState: rpg.model.GameState,
+        publishNow: Boolean = true
+    ) {
+        val current = session.gameState ?: return
+        if (current == updatedState) return
+        session = session.copy(gameState = updatedState)
+        requestAutosave(immediate = true)
+        if (publishNow) {
+            publishFromSession()
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         passiveTickJob?.cancel()
@@ -762,6 +926,21 @@ class AndroidGameViewModel(
         return normalized == "autosave.json" || normalized.startsWith("autosave_")
     }
 
+    private fun patchNotesSeenPreferenceKey(state: rpg.model.GameState?): String {
+        val rawScope = session.currentSaveName
+            ?.takeIf { it.isNotBlank() }
+            ?.removeSuffix(".json")
+            ?: state?.player?.name
+            ?: "global"
+        val normalized = rawScope
+            .trim()
+            .lowercase()
+            .replace(Regex("[^a-z0-9]+"), "_")
+            .trim('_')
+            .ifBlank { "global" }
+        return "$PREF_LAST_SEEN_PATCH_VERSION_PREFIX$normalized"
+    }
+
     private fun querySaveSlots(deps: RuntimeDeps): List<SaveSlotUi> {
         return deps.saveGateway.listSaves()
             .filterNot { isLegacyAutosaveFile(it.fileName.toString()) }
@@ -776,7 +955,8 @@ class AndroidGameViewModel(
     }
 
     companion object {
-        private const val PREF_LAST_SEEN_PATCH_VERSION = "last_seen_patch_version"
+        private const val PREF_LAST_SEEN_PATCH_VERSION_PREFIX = "last_seen_patch_version_"
+        private const val PREF_LAST_SEEN_PATCH_VERSION_LEGACY = "last_seen_patch_version"
 
         fun factory(application: Application): ViewModelProvider.Factory {
             return object : ViewModelProvider.Factory {

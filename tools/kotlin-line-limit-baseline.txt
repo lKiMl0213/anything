@@ -25,3 +25,6 @@ core/src/main/kotlin/rpg/economy/DropEngine.kt
 app-cli/src/main/kotlin/rpg/cli/LegacyCityShopFlow.kt
 core/src/main/kotlin/rpg/application/session/SessionActionDispatcher.kt
 core/src/main/kotlin/rpg/hunting/HuntingService.kt
+app-android/src/main/kotlin/rpg/android/AndroidGameApp.kt
+app-android/src/main/kotlin/rpg/android/screens/GenericMenuScreen.kt
+app-android/src/main/kotlin/rpg/android/screens/GenericMenuSupport.kt

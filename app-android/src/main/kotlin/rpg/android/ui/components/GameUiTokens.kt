@@ -89,6 +89,9 @@ object GameUiTokens {
     fun defaultButtonColor(): Color = MaterialTheme.colorScheme.primary
 
     @Composable
+    fun successButtonColor(): Color = Color(0xFF2E7D32)
+
+    @Composable
     fun alertButtonColor(): Color = MaterialTheme.colorScheme.error.copy(alpha = 0.78f)
 
     @Composable

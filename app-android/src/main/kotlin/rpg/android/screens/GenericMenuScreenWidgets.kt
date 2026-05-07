@@ -73,7 +73,11 @@ internal fun GenericMenuHeaderPanel(
             Text(
                 text = line,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = if (isExplorationAreasContext) TextAlign.Center else TextAlign.Start
+                textAlign = if (isExplorationAreasContext || section == MainSection.PRODUCTION) {
+                    TextAlign.Center
+                } else {
+                    TextAlign.Start
+                }
             )
         }
         if (section != MainSection.PRODUCTION) {

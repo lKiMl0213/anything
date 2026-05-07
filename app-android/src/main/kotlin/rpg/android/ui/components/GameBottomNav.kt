@@ -21,6 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import rpg.android.tutorial.TutorialTarget
+import rpg.android.tutorial.tutorialAnchor
 
 data class BottomNavItem(
     val key: String,
@@ -56,8 +58,11 @@ fun GameBottomNav(
                 item.hasAlert -> MaterialTheme.colorScheme.error.copy(alpha = 0.72f)
                 else -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.92f)
             }
+            val anchoredModifier = bottomNavTutorialTarget(item.key)?.let { target ->
+                Modifier.tutorialAnchor(target, extraPadding = 6.dp)
+            } ?: Modifier
             Box(
-                modifier = Modifier
+                modifier = anchoredModifier
                     .weight(1f)
                     .fillMaxHeight()
                     .background(background, RoundedCornerShape(GameUiTokens.buttonCorner))
@@ -93,5 +98,16 @@ fun GameBottomNav(
                 }
             }
         }
+    }
+}
+
+private fun bottomNavTutorialTarget(key: String): TutorialTarget? {
+    return when (key.lowercase()) {
+        "character" -> TutorialTarget.BOTTOM_NAV_CHARACTER
+        "production" -> TutorialTarget.BOTTOM_NAV_PRODUCTION
+        "explore" -> TutorialTarget.BOTTOM_NAV_EXPLORE
+        "city" -> TutorialTarget.BOTTOM_NAV_CITY
+        "progress" -> TutorialTarget.BOTTOM_NAV_PROGRESSION
+        else -> null
     }
 }

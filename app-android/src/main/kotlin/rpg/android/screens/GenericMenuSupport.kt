@@ -50,12 +50,16 @@ internal fun formattedOptionLabel(
     option: ScreenOptionViewModel,
     section: MainSection,
     isAchievementContext: Boolean = false,
-    isQuestContext: Boolean = false
+    isQuestContext: Boolean = false,
+    screenTitle: String = ""
 ): String {
     val cleaned = when {
         section == MainSection.PRODUCTION -> compactProductionOptionLabel(option)
         isAchievementContext -> compactAchievementOptionLabel(option.label)
-        isQuestContext -> compactQuestOptionLabel(option.label)
+        isQuestContext -> compactQuestOptionLabel(
+            label = option.label,
+            hideInProgressLabel = screenTitle.contains("pool aceit", ignoreCase = true)
+        )
         else -> stripAlertMarker(option.label)
     }
     val adjusted = if (section == MainSection.CITY) {
@@ -72,6 +76,23 @@ internal fun optionHasAlert(label: String): Boolean {
 
 internal fun optionHasQuestAlert(label: String): Boolean {
     return optionHasAlert(label)
+}
+
+internal fun craftAvailabilityForUi(option: ScreenOptionViewModel): Boolean? {
+    return when (option.action) {
+        is GameAction.InspectCraftRecipe,
+        is GameAction.CraftRecipe -> {
+            val label = option.label
+            when {
+                label.contains("indispon", ignoreCase = true) ||
+                    label.contains("bloqueado", ignoreCase = true) -> false
+                label.contains("dispon", ignoreCase = true) -> true
+                else -> null
+            }
+        }
+
+        else -> null
+    }
 }
 
 internal fun compactProductionSummary(lines: List<String>): List<String> {
@@ -201,6 +222,10 @@ internal fun explorationAreaPreview(label: String): ExplorationAreaPreview {
         .orEmpty()
         .ifBlank { cleaned.substringBefore("|").trim().ifBlank { cleaned } }
     val description = parts.drop(1).firstOrNull()?.trim()
+        ?.takeUnless { it.equals(title, ignoreCase = true) }
+        ?.takeUnless { line ->
+            title.isNotBlank() && line.contains(title, ignoreCase = true)
+        }
     return ExplorationAreaPreview(
         title = title,
         description = description?.takeIf { it.isNotBlank() }
@@ -243,7 +268,7 @@ private fun compactAchievementOptionLabel(label: String): String {
     return if (suffix.isBlank()) title else "$title | $suffix"
 }
 
-private fun compactQuestOptionLabel(label: String): String {
+private fun compactQuestOptionLabel(label: String, hideInProgressLabel: Boolean): String {
     val cleaned = stripAlertMarker(label)
     val parts = cleaned.split("|").map { it.trim() }.filter { it.isNotBlank() }
     if (parts.isEmpty()) return cleaned
@@ -254,7 +279,10 @@ private fun compactQuestOptionLabel(label: String): String {
             it.contains("status", ignoreCase = true) ||
             it.contains("em andamento", ignoreCase = true)
     } ?: parts.getOrNull(1)
-    return listOfNotNull(title, status).joinToString(" | ").ifBlank { title }
+    val normalizedStatus = status?.takeUnless {
+        hideInProgressLabel && it.contains("em andamento", ignoreCase = true)
+    }
+    return listOfNotNull(title, normalizedStatus).joinToString(" | ").ifBlank { title }
 }
 
 private fun cleanupProductionLabel(raw: String): String {
