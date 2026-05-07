@@ -312,11 +312,31 @@ class AndroidGameViewModel(
     }
 
     fun openPatchNotesFromSettings() {
-        val state = session.gameState
-        if (state != null && !state.toTutorialState().completed) return
         val deps = runtime ?: return
-        val current = deps.patchNotesService.currentEntry() ?: return
-        _patchNotesPopup.value = toPatchNotesUiModel(current, markSeenOnDismiss = true)
+        val current = deps.patchNotesService.currentEntry()
+        val state = session.gameState
+        if (current == null) {
+            val reason = deps.patchNotesService.lastError()
+                ?: "Entrada da versao atual nao encontrada no changelog."
+            val sourcePath = deps.patchNotesService.currentPath()
+            _popupDetail.value = PopupDetailUiModel(
+                title = "Patch Notes",
+                lines = listOf(
+                    "Falha ao carregar patch notes.",
+                    reason,
+                    "Arquivo: $sourcePath"
+                )
+            )
+            return
+        }
+        if (state != null && !state.toTutorialState().completed) {
+            _popupDetail.value = PopupDetailUiModel(
+                title = "Patch Notes",
+                lines = listOf("Conclua o tutorial inicial para liberar o patch notes.")
+            )
+            return
+        }
+        _patchNotesPopup.value = toPatchNotesUiModel(current, markSeenOnDismiss = false)
     }
 
     fun onSettingsOpened(): Boolean {
@@ -683,6 +703,7 @@ class AndroidGameViewModel(
             novidades = entry.novidades,
             melhorias = entry.melhorias,
             correcoes = entry.correcoes,
+            sistemas = entry.sistemas,
             markSeenOnDismiss = markSeenOnDismiss
         )
     }

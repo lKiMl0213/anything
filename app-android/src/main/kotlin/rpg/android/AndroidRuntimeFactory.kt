@@ -63,7 +63,7 @@ internal suspend fun createAndroidRuntimeDeps(application: Application): Runtime
             saveGateway = saveGateway,
             patchNotesService = PatchNotesService(
                 dataRoot = paths.dataRoot,
-                fallbackVersion = "0.1"
+                fallbackVersion = BuildConfig.VERSION_NAME
             )
         )
     }

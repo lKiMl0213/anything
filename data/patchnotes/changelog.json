@@ -1,9 +1,9 @@
 ﻿{
-  "currentVersion": "0.1",
+  "currentVersion": "0.1.1",
   "baselineRef": "12ff29ccc4d15ee0edbaff17e6e8cae02131e5a1",
   "entries": [
     {
-      "version": "0.1",
+      "version": "0.1.1",
       "date": "07/05/26",
       "novidades": [
         "Boss global semanal/mensal adicionado.",
@@ -19,6 +19,11 @@
         "Corrigido bug de quests sem destaque correto de recompensas.",
         "Corrigido craft para respeitar limite atual de quantidade.",
         "Corrigidas falhas no popup de patch notes (manual e automatico)."
+      ],
+      "sistemas": [
+        "Boss Global com ciclo semanal/mensal, tentativas e fluxo preparado para ranking online.",
+        "Tutorial guiado em etapas para apresentar Home, Personagem, Producao, Cidade e Progresso.",
+        "Configuracoes com escala de interface, tema claro/escuro e central de feedback beta."
       ]
     }
   ]

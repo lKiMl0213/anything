@@ -163,9 +163,12 @@ private fun SettingsPopup(
                 modifier = Modifier.fillMaxWidth(0.90f)
             )
             GamePrimaryButton(
-                label = "Patch Notes / Changelog",
+                label = if (patchNotesAvailable) {
+                    "Patch Notes / Changelog"
+                } else {
+                    "Patch Notes (apos tutorial)"
+                },
                 onClick = onOpenPatchNotes,
-                enabled = patchNotesAvailable,
                 modifier = Modifier.fillMaxWidth(0.90f)
             )
             if (tutorialAvailable) {

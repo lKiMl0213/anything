@@ -146,6 +146,7 @@ data class PatchNotesUiModel(
     val novidades: List<String>,
     val melhorias: List<String>,
     val correcoes: List<String>,
+    val sistemas: List<String>,
     val markSeenOnDismiss: Boolean = false
 )
 

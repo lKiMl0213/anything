@@ -5,6 +5,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("org.jetbrains.kotlin.plugin.compose")
+    kotlin("plugin.serialization")
 }
 
 extensions.configure<ApplicationExtension>("android") {
@@ -15,8 +16,8 @@ extensions.configure<ApplicationExtension>("android") {
         applicationId = "rpg.android"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "0.1.1"
     }
 
     buildFeatures {
@@ -114,8 +115,6 @@ val validateNoBundledSaves by tasks.registering {
 tasks.matching { it.name == "preBuild" }.configureEach {
     dependsOn(validateNoBundledSaves)
 }
-
-
 
 
 

@@ -164,6 +164,7 @@ $uniqueFiles = $changedFiles | Sort-Object -Unique
 $novidades = New-Object System.Collections.Generic.List[string]
 $melhorias = New-Object System.Collections.Generic.List[string]
 $correcoes = New-Object System.Collections.Generic.List[string]
+$sistemas = New-Object System.Collections.Generic.List[string]
 
 $hasAndroidUi = Test-AnyPath -Files $uniqueFiles -Patterns @("^app-android/", "ui/components", "screens/")
 $hasGlobalBoss = Test-AnyPath -Files $uniqueFiles -Patterns @("globalboss", "global_boss")
@@ -223,6 +224,21 @@ if ($hasCombat) {
 if ($hasSave) {
     Add-LineIfMissing -Lines $correcoes -Line "Corrigido save para manter progresso consistente entre sessoes."
 }
+if ($hasGlobalBoss) {
+    Add-LineIfMissing -Lines $sistemas -Line "Boss Global semanal/mensal com fluxo offline pronto para evolucao online."
+}
+if ($hasProduction) {
+    Add-LineIfMissing -Lines $sistemas -Line "Sistema de producao e craft com interface mais objetiva e controle de quantidade."
+}
+if ($hasQuest) {
+    Add-LineIfMissing -Lines $sistemas -Line "Sistema de progresso com quests e conquistas mais claro para coleta de recompensas."
+}
+if ($hasPatchSystem) {
+    Add-LineIfMissing -Lines $sistemas -Line "Sistema de patch notes integrado ao app com abertura automatica por versao."
+}
+if ($hasAndroidUi) {
+    Add-LineIfMissing -Lines $sistemas -Line "Configuracoes beta com escala da interface, tema e atalhos de suporte ao tester."
+}
 
 if ($novidades.Count -eq 0 -and $melhorias.Count -eq 0 -and $correcoes.Count -eq 0) {
     Add-LineIfMissing -Lines $melhorias -Line "Melhorias gerais de usabilidade e fluidez da interface."
@@ -238,6 +254,9 @@ if ($melhorias.Count -eq 0) {
 if ($correcoes.Count -eq 0) {
     Add-LineIfMissing -Lines $correcoes -Line "Ajustes de estabilidade foram aplicados em menus e fluxo de jogo."
 }
+if ($sistemas.Count -eq 0) {
+    Add-LineIfMissing -Lines $sistemas -Line "Sistemas principais receberam ajustes de estabilidade para o beta fechado."
+}
 
 $today = Get-Date -Format "dd/MM/yy"
 $entry = [ordered]@{
@@ -246,6 +265,7 @@ $entry = [ordered]@{
     novidades = @($novidades)
     melhorias = @($melhorias)
     correcoes = @($correcoes)
+    sistemas  = @($sistemas)
 }
 
 $existingEntries = @($doc.entries)

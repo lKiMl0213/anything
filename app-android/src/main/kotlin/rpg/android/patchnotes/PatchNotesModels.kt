@@ -12,8 +12,9 @@ data class PatchNotesDocument(
 @Serializable
 data class PatchNotesEntry(
     val version: String,
-    val date: String = "",
-    val novidades: List<String> = emptyList(),
-    val melhorias: List<String> = emptyList(),
-    val correcoes: List<String> = emptyList()
+    val date: String,
+    val novidades: List<String>,
+    val melhorias: List<String>,
+    val correcoes: List<String>,
+    val sistemas: List<String> = emptyList()
 )

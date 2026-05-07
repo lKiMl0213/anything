@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -31,6 +28,7 @@ import rpg.android.screens.GameSettingsOverlay
 import rpg.android.screens.GenericMenuScreen
 import rpg.android.screens.MainHubScreen
 import rpg.android.screens.NewGameScreen
+import rpg.android.screens.PatchNotesPopupContent
 import rpg.android.screens.RaceClassScreen
 import rpg.android.screens.StartPageScreen
 import rpg.android.screens.TimedActionOverlay
@@ -269,55 +267,7 @@ fun AndroidGameApp() {
                 showCloseButton = false,
                 modifier = Modifier.fillMaxWidth(0.96f)
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(max = 460.dp)
-                        .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    if (notes.novidades.isNotEmpty()) {
-                        androidx.compose.material3.Text(
-                            text = "Novidades:",
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        notes.novidades.forEach { line ->
-                            androidx.compose.material3.Text(
-                                text = "- $line",
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                    }
-                    if (notes.melhorias.isNotEmpty()) {
-                        androidx.compose.material3.Text(
-                            text = "Melhorias:",
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        notes.melhorias.forEach { line ->
-                            androidx.compose.material3.Text(
-                                text = "- $line",
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                    }
-                    if (notes.correcoes.isNotEmpty()) {
-                        androidx.compose.material3.Text(
-                            text = "Correcoes:",
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        notes.correcoes.forEach { line ->
-                            androidx.compose.material3.Text(
-                                text = "- $line",
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                    }
-                    androidx.compose.material3.Text(
-                        text = "Versao ${notes.versionLabel}",
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.End
-                    )
-                }
+                PatchNotesPopupContent(notes = notes)
             }
         }
             }
