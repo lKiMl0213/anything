@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 
 enum class GameButtonTone {
     DEFAULT,
+    SUCCESS,
     ALERT,
     LOCKED
 }
@@ -49,6 +50,7 @@ fun GamePrimaryButton(
 ) {
     val containerColor = when (tone) {
         GameButtonTone.DEFAULT -> GameUiTokens.defaultButtonColor()
+        GameButtonTone.SUCCESS -> GameUiTokens.successButtonColor()
         GameButtonTone.ALERT -> GameUiTokens.alertButtonColor()
         GameButtonTone.LOCKED -> GameUiTokens.lockedButtonColor()
     }

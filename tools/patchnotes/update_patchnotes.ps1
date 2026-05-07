@@ -2,7 +2,8 @@ param(
     [string]$Version = "",
     [string]$SinceRef = "",
     [string]$PatchFile = "data/patchnotes/changelog.json",
-    [switch]$IncludeWorkingTree
+    [switch]$IncludeWorkingTree,
+    [switch]$OverwriteEntry
 )
 
 $ErrorActionPreference = "Stop"
@@ -31,6 +32,46 @@ function Test-AnyPath {
         }
     }
     return $false
+}
+
+function Convert-SlugToLabel {
+    param([string]$Value)
+    if ([string]::IsNullOrWhiteSpace($Value)) { return "" }
+    $clean = $Value.ToLowerInvariant().Replace(".json", "")
+    $clean = $clean -replace "^(class|subclass|specialization|specializacao|item|monster|mob|npc)_", ""
+    $parts = $clean -split "[^a-z0-9]+"
+    $words = @()
+    foreach ($part in $parts) {
+        if ([string]::IsNullOrWhiteSpace($part)) { continue }
+        $words += ($part.Substring(0, 1).ToUpperInvariant() + $part.Substring(1))
+    }
+    return ($words -join " ").Trim()
+}
+
+function Join-Names {
+    param([string[]]$Names)
+    if ($Names.Count -eq 0) { return "" }
+    if ($Names.Count -eq 1) { return $Names[0] }
+    if ($Names.Count -eq 2) { return "$($Names[0]) e $($Names[1])" }
+    return "$($Names[0]), $($Names[1]) e $($Names[2])"
+}
+
+function Get-ChangedEntityNames {
+    param(
+        [string[]]$Files,
+        [string]$RegexPattern,
+        [int]$Max = 3
+    )
+    $result = New-Object System.Collections.Generic.List[string]
+    foreach ($file in $Files) {
+        if ($file -match $RegexPattern) {
+            $name = Convert-SlugToLabel -Value ([System.IO.Path]::GetFileNameWithoutExtension($file))
+            if (-not [string]::IsNullOrWhiteSpace($name) -and -not $result.Contains($name)) {
+                $result.Add($name) | Out-Null
+            }
+        }
+    }
+    return @($result | Select-Object -First $Max)
 }
 
 function Invoke-GitQuiet {
@@ -131,42 +172,71 @@ $hasQuest = Test-AnyPath -Files $uniqueFiles -Patterns @("quest", "progress")
 $hasCombat = Test-AnyPath -Files $uniqueFiles -Patterns @("combat")
 $hasSave = Test-AnyPath -Files $uniqueFiles -Patterns @("save", "autosave")
 $hasPatchSystem = Test-AnyPath -Files $uniqueFiles -Patterns @("patchnotes", "changelog")
+$hasMilestones = Test-AnyPath -Files $uniqueFiles -Patterns @("milestone")
+$hasClasses = Test-AnyPath -Files $uniqueFiles -Patterns @("^data/classes/", "^data/subclasses/", "^data/specializations/", "^data/talent_trees/")
+$hasItems = Test-AnyPath -Files $uniqueFiles -Patterns @("^data/items/", "^data/item_templates/", "^data/shop/")
+$hasMonsters = Test-AnyPath -Files $uniqueFiles -Patterns @("^data/monster_", "^data/maps/", "^data/drop_tables/", "^data/biomes/")
+
+$classNames = Get-ChangedEntityNames -Files $uniqueFiles -RegexPattern "^data/(classes|subclasses|specializations)/.+\.json$" -Max 3
+$itemNames = Get-ChangedEntityNames -Files $uniqueFiles -RegexPattern "^data/(items|item_templates)/.+\.json$" -Max 3
+$monsterNames = Get-ChangedEntityNames -Files $uniqueFiles -RegexPattern "^data/(monster_types|monster_archetypes|monster_behaviors|monster_modifiers)/.+\.json$" -Max 3
 
 if ($hasGlobalBoss) {
-    Add-LineIfMissing -Lines $novidades -Line "Boss Global semanal/mensal recebeu ajustes de navegacao e leitura no Android."
+    Add-LineIfMissing -Lines $novidades -Line "Boss global semanal/mensal adicionado."
+}
+if ($hasGlobalBoss -or $hasMilestones) {
+    Add-LineIfMissing -Lines $novidades -Line "Milestones com recompensas por pontuacao."
 }
 if ($hasPatchSystem) {
-    Add-LineIfMissing -Lines $novidades -Line "Sistema de patchnotes automatico adicionado com exibicao unica por versao."
+    Add-LineIfMissing -Lines $novidades -Line "Patchnotes agora aparecem automaticamente apos atualizacao."
+}
+if ($hasClasses -and $classNames.Count -gt 0) {
+    Add-LineIfMissing -Lines $novidades -Line "Ajustes em classes/especializacoes: $(Join-Names -Names $classNames)."
+}
+if ($hasItems -and $itemNames.Count -gt 0) {
+    Add-LineIfMissing -Lines $novidades -Line "Novos itens/ajustes de equipamentos: $(Join-Names -Names $itemNames)."
+}
+if ($hasMonsters -and $monsterNames.Count -gt 0) {
+    Add-LineIfMissing -Lines $novidades -Line "Novos monstros/variantes em destaque: $(Join-Names -Names $monsterNames)."
+}
+if ($hasClasses -and $classNames.Count -eq 0) {
+    Add-LineIfMissing -Lines $melhorias -Line "Classes e talentos receberam ajustes de balanceamento."
+}
+if ($hasItems -and $itemNames.Count -eq 0) {
+    Add-LineIfMissing -Lines $melhorias -Line "Itens e recompensas receberam ajustes de progressao."
+}
+if ($hasMonsters -and $monsterNames.Count -eq 0) {
+    Add-LineIfMissing -Lines $melhorias -Line "Monstros e encontros tiveram ajustes de dificuldade."
 }
 if ($hasAndroidUi) {
-    Add-LineIfMissing -Lines $melhorias -Line "Botoes, popups e navegacao mobile foram reorganizados para uso com uma mao."
+    Add-LineIfMissing -Lines $melhorias -Line "Botoes reorganizados em menus principais para leitura mais rapida."
 }
 if ($hasProduction) {
-    Add-LineIfMissing -Lines $melhorias -Line "Fluxos de producao e craft ficaram mais objetivos e com melhor clareza visual."
+    Add-LineIfMissing -Lines $melhorias -Line "Fluxo de producao/craft ficou mais claro e objetivo."
 }
 if ($hasQuest) {
-    Add-LineIfMissing -Lines $correcoes -Line "Sinalizacoes de quests foram ajustadas para destacar apenas conteudo coletavel."
+    Add-LineIfMissing -Lines $correcoes -Line "Corrigido bug de quests sem notificacao correta."
 }
 if ($hasCombat) {
-    Add-LineIfMissing -Lines $correcoes -Line "Leitura do combate foi refinada para reduzir poluicao visual e melhorar consistencia."
+    Add-LineIfMissing -Lines $correcoes -Line "Melhorada leitura do combate e do historico de acoes."
 }
 if ($hasSave) {
-    Add-LineIfMissing -Lines $correcoes -Line "Persistencia de save/autosave recebeu ajustes para manter progresso mais seguro."
+    Add-LineIfMissing -Lines $correcoes -Line "Corrigido save para manter progresso consistente entre sessoes."
 }
 
 if ($novidades.Count -eq 0 -and $melhorias.Count -eq 0 -and $correcoes.Count -eq 0) {
-    Add-LineIfMissing -Lines $melhorias -Line "Ajustes gerais de estabilidade e qualidade de vida."
-    Add-LineIfMissing -Lines $correcoes -Line "Correcao de bugs menores reportados na versao anterior."
+    Add-LineIfMissing -Lines $melhorias -Line "Melhorias gerais de usabilidade e fluidez da interface."
+    Add-LineIfMissing -Lines $correcoes -Line "Correcao de bugs menores reportados pelos testers."
 }
 
 if ($novidades.Count -eq 0) {
-    Add-LineIfMissing -Lines $novidades -Line "Melhorias internas prepararam o jogo para os proximos conteudos."
+    Add-LineIfMissing -Lines $novidades -Line "Novos ajustes de conteudo foram adicionados."
 }
 if ($melhorias.Count -eq 0) {
-    Add-LineIfMissing -Lines $melhorias -Line "Interface recebeu refinamentos de legibilidade e padronizacao."
+    Add-LineIfMissing -Lines $melhorias -Line "Interface recebeu refinamentos de legibilidade."
 }
 if ($correcoes.Count -eq 0) {
-    Add-LineIfMissing -Lines $correcoes -Line "Ajustes de consistencia foram aplicados em fluxos de jogo e menus."
+    Add-LineIfMissing -Lines $correcoes -Line "Ajustes de estabilidade foram aplicados em menus e fluxo de jogo."
 }
 
 $today = Get-Date -Format "dd/MM/yy"
@@ -179,21 +249,30 @@ $entry = [ordered]@{
 }
 
 $existingEntries = @($doc.entries)
-$filteredEntries = @()
-foreach ($item in $existingEntries) {
-    if (($item.version | Out-String).Trim() -ne $resolvedVersion) {
-        $filteredEntries += $item
-    }
-}
+$existingSameVersion = $existingEntries | Where-Object { (($_.version | Out-String).Trim()) -eq $resolvedVersion }
+$keepExistingManual = ($existingSameVersion.Count -gt 0) -and (-not $OverwriteEntry)
 
-$doc.currentVersion = $resolvedVersion
-$doc.entries = @($entry) + $filteredEntries
+if ($keepExistingManual) {
+    $doc.currentVersion = $resolvedVersion
+} else {
+    $filteredEntries = @()
+    foreach ($item in $existingEntries) {
+        if (($item.version | Out-String).Trim() -ne $resolvedVersion) {
+            $filteredEntries += $item
+        }
+    }
+    $doc.currentVersion = $resolvedVersion
+    $doc.entries = @($entry) + $filteredEntries
+}
 $doc.baselineRef = (git rev-parse HEAD).Trim()
 
 $doc | ConvertTo-Json -Depth 20 | Set-Content -Path $PatchFile -Encoding UTF8
 
 Write-Host "Patchnotes atualizadas em $PatchFile"
 Write-Host "Versao: $resolvedVersion"
+if ($keepExistingManual) {
+    Write-Host "Entrada existente mantida (edicao manual preservada). Use -OverwriteEntry para regenerar."
+}
 Write-Host "Arquivos considerados: $($uniqueFiles.Count)"
 if (-not [string]::IsNullOrWhiteSpace($resolvedSince)) {
     Write-Host "Comparado desde: $resolvedSince"

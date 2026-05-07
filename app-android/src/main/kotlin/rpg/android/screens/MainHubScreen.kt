@@ -38,6 +38,8 @@ import rpg.android.ui.components.GamePrimaryButton
 import rpg.android.ui.components.GameScreenRoot
 import rpg.android.ui.components.GameTopHud
 import rpg.android.ui.components.GameUiTokens
+import rpg.android.tutorial.TutorialTarget
+import rpg.android.tutorial.tutorialAnchor
 @Composable
 fun MainHubScreen(
     state: MainHubUiModel,
@@ -102,27 +104,33 @@ fun MainHubScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            GameTopHud(
-                name = state.name,
-                raceClassLabel = state.raceClassLabel,
-                levelXpLabel = state.levelXpLabel,
-                currencyLabel = state.currencyLabel,
-                inventoryLabel = state.inventoryCapacityLabel,
-                debuffLabel = if (state.deathDebuffStacks > 0) {
-                    "☠ x${state.deathDebuffStacks} (${formatMinutes(state.deathDebuffMinutes)}m)"
-                } else {
-                    null
-                },
-                hpCurrent = state.hpCurrent,
-                hpMax = state.hpMax,
-                mpCurrent = state.mpCurrent,
-                mpMax = state.mpMax,
-                hpRegenPerMinute = state.hpRegenPerMinute,
-                mpRegenPerMinute = state.mpRegenPerMinute,
-                hpEtaSeconds = state.hpEtaSeconds,
-                mpEtaSeconds = state.mpEtaSeconds,
-                onRaceClassInfoClick = null
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .tutorialAnchor(TutorialTarget.HUB_INFO_PANEL, extraPadding = 8.dp)
+            ) {
+                GameTopHud(
+                    name = state.name,
+                    raceClassLabel = state.raceClassLabel,
+                    levelXpLabel = state.levelXpLabel,
+                    currencyLabel = state.currencyLabel,
+                    inventoryLabel = state.inventoryCapacityLabel,
+                    debuffLabel = if (state.deathDebuffStacks > 0) {
+                        "☠ x${state.deathDebuffStacks} (${formatMinutes(state.deathDebuffMinutes)}m)"
+                    } else {
+                        null
+                    },
+                    hpCurrent = state.hpCurrent,
+                    hpMax = state.hpMax,
+                    mpCurrent = state.mpCurrent,
+                    mpMax = state.mpMax,
+                    hpRegenPerMinute = state.hpRegenPerMinute,
+                    mpRegenPerMinute = state.mpRegenPerMinute,
+                    hpEtaSeconds = state.hpEtaSeconds,
+                    mpEtaSeconds = state.mpEtaSeconds,
+                    onRaceClassInfoClick = null
+                )
+            }
             GamePanel(title = "Habilidades de producao") {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     state.skills.chunked(3).forEach { rowSkills ->
@@ -182,6 +190,7 @@ fun MainHubScreen(
                 label = "EXPLORAR",
                 onClick = onExplore,
                 modifier = Modifier
+                    .tutorialAnchor(TutorialTarget.HUB_EXPLORE_BUTTON, extraPadding = 8.dp)
                     .fillMaxWidth(0.78f)
                     .align(Alignment.CenterHorizontally)
             )

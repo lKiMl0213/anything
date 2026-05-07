@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
@@ -16,6 +17,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import rpg.android.R
@@ -43,19 +45,14 @@ fun CombatTouchScreen(
         GameUiScale.LARGE -> 90.dp
     }
     val historyMinHeight = when (uiScale) {
-        GameUiScale.SMALL -> 96.dp
-        GameUiScale.MEDIUM -> 120.dp
-        GameUiScale.LARGE -> 150.dp
+        GameUiScale.SMALL -> 84.dp
+        GameUiScale.MEDIUM -> 96.dp
+        GameUiScale.LARGE -> 112.dp
     }
     val historyMaxHeight = when (uiScale) {
-        GameUiScale.SMALL -> 140.dp
-        GameUiScale.MEDIUM -> 170.dp
-        GameUiScale.LARGE -> 210.dp
-    }
-    val logLimit = when (uiScale) {
-        GameUiScale.SMALL -> 12
-        GameUiScale.MEDIUM -> 18
-        GameUiScale.LARGE -> 24
+        GameUiScale.SMALL -> 84.dp
+        GameUiScale.MEDIUM -> 96.dp
+        GameUiScale.LARGE -> 112.dp
     }
     var selectedItemIndex by remember(state.consumables) { mutableIntStateOf(0) }
     if (selectedItemIndex >= state.consumables.size) {
@@ -65,7 +62,7 @@ fun CombatTouchScreen(
     val visibleLogs = state.logLines
         .map(::sanitizeLogLine)
         .filter { it.isNotBlank() }
-        .takeLast(logLimit)
+        .takeLast(40)
 
     GameScreenRoot(backgroundRes = R.drawable.bg_combat) {
         Column(
@@ -182,19 +179,31 @@ fun CombatTouchScreen(
                 }
 
                 if (state.consumables.isNotEmpty()) {
-                    Row(horizontalArrangement = Arrangement.spacedBy(rowSpacing)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         GamePrimaryButton(
                             label = "<",
                             onClick = {
                                 selectedItemIndex = (selectedItemIndex - 1 + state.consumables.size) % state.consumables.size
-                            }
+                            },
+                            modifier = Modifier.widthIn(min = 56.dp, max = 64.dp)
                         )
-                        Text("Item: ${selectedConsumable?.label ?: "-"}")
+                        Text(
+                            text = "Item: ${selectedConsumable?.label ?: "-"}",
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
                         GamePrimaryButton(
                             label = ">",
                             onClick = {
                                 selectedItemIndex = (selectedItemIndex + 1) % state.consumables.size
-                            }
+                            },
+                            modifier = Modifier.widthIn(min = 56.dp, max = 64.dp)
                         )
                     }
                 } else {
@@ -211,4 +220,3 @@ private fun sanitizeLogLine(raw: String): String {
         .replace(Regex("\\[(?:\\d{1,3};?)+m"), "")
         .trim()
 }
-

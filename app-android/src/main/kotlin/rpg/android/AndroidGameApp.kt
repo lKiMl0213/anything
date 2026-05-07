@@ -35,6 +35,7 @@ import rpg.android.screens.RaceClassScreen
 import rpg.android.screens.StartPageScreen
 import rpg.android.screens.TimedActionOverlay
 import rpg.android.state.AndroidUiState
+import rpg.android.tutorial.TutorialOverlay
 import rpg.android.theme.AnythingRpgTheme
 import rpg.android.ui.components.GamePopupMenu
 import rpg.android.ui.components.GamePrimaryButton
@@ -52,7 +53,10 @@ fun AndroidGameApp() {
     val timedAction by viewModel.timedActionState.collectAsState()
     val popupDetail by viewModel.popupDetail.collectAsState()
     val patchNotesPopup by viewModel.patchNotesPopup.collectAsState()
+    val tutorialOverlay by viewModel.tutorialOverlay.collectAsState()
     val hasProgressAlert by viewModel.progressAlert.collectAsState()
+    val hasActiveGame by viewModel.hasActiveGame.collectAsState()
+    val tutorialCompletedForCurrentGame by viewModel.tutorialCompletedForCurrentGame.collectAsState()
     val darkThemeEnabled by viewModel.darkTheme.collectAsState()
     val uiScale by viewModel.uiScale.collectAsState()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -173,12 +177,16 @@ fun AndroidGameApp() {
 
                 GameSettingsOverlay(
                     enabled = uiState !is AndroidUiState.Loading,
+                    tutorialAvailable = hasActiveGame,
+                    patchNotesAvailable = tutorialCompletedForCurrentGame,
                     isDarkTheme = darkThemeEnabled,
                     uiScale = uiScale,
                     buildInfo = buildInfo,
                     onToggleTheme = viewModel::toggleTheme,
                     onUiScaleSelected = viewModel::setUiScale,
+                    onSettingsOpened = viewModel::onSettingsOpened,
                     onOpenPatchNotes = viewModel::openPatchNotesFromSettings,
+                    onRestartTutorial = viewModel::restartTutorialFromSettings,
                     onExitApp = { activity?.finishAffinity() }
                 )
 
@@ -243,6 +251,17 @@ fun AndroidGameApp() {
             }
         }
 
+        if (patchNotesPopup == null) {
+            tutorialOverlay?.let { overlay ->
+                TutorialOverlay(
+                    state = overlay,
+                    onContinue = viewModel::onTutorialContinue,
+                    onComplete = viewModel::onTutorialComplete,
+                    onSkip = viewModel::onTutorialSkip
+                )
+            }
+        }
+
         patchNotesPopup?.let { notes ->
             GamePopup(
                 title = notes.title,
@@ -257,29 +276,47 @@ fun AndroidGameApp() {
                         .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    androidx.compose.material3.Text(
-                        text = "Versao ${notes.versionLabel}" + (notes.dateLabel?.let { " | $it" } ?: ""),
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
                     if (notes.novidades.isNotEmpty()) {
-                        androidx.compose.material3.Text("Novidades:")
+                        androidx.compose.material3.Text(
+                            text = "Novidades:",
+                            modifier = Modifier.fillMaxWidth()
+                        )
                         notes.novidades.forEach { line ->
-                            androidx.compose.material3.Text("- $line")
+                            androidx.compose.material3.Text(
+                                text = "- $line",
+                                modifier = Modifier.fillMaxWidth()
+                            )
                         }
                     }
                     if (notes.melhorias.isNotEmpty()) {
-                        androidx.compose.material3.Text("Melhorias:")
+                        androidx.compose.material3.Text(
+                            text = "Melhorias:",
+                            modifier = Modifier.fillMaxWidth()
+                        )
                         notes.melhorias.forEach { line ->
-                            androidx.compose.material3.Text("- $line")
+                            androidx.compose.material3.Text(
+                                text = "- $line",
+                                modifier = Modifier.fillMaxWidth()
+                            )
                         }
                     }
                     if (notes.correcoes.isNotEmpty()) {
-                        androidx.compose.material3.Text("Correcoes:")
+                        androidx.compose.material3.Text(
+                            text = "Correcoes:",
+                            modifier = Modifier.fillMaxWidth()
+                        )
                         notes.correcoes.forEach { line ->
-                            androidx.compose.material3.Text("- $line")
+                            androidx.compose.material3.Text(
+                                text = "- $line",
+                                modifier = Modifier.fillMaxWidth()
+                            )
                         }
                     }
+                    androidx.compose.material3.Text(
+                        text = "Versao ${notes.versionLabel}",
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.End
+                    )
                 }
             }
         }

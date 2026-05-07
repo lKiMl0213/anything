@@ -13,9 +13,13 @@ class PatchNotesService(
     private var cachedDocument: PatchNotesDocument? = null
 
     fun nextEntryToShow(lastSeenVersion: String?): PatchNotesEntry? {
-        val document = loadDocument() ?: return null
+        val document = loadDocument()
+        if (document == null) {
+            if (fallbackVersion.equals(lastSeenVersion?.trim(), ignoreCase = true)) return null
+            return defaultEntry(fallbackVersion)
+        }
         val currentVersion = document.currentVersion.takeIf { it.isNotBlank() } ?: fallbackVersion
-        if (!isVersionNewer(currentVersion, lastSeenVersion)) {
+        if (currentVersion.equals(lastSeenVersion?.trim(), ignoreCase = true)) {
             return null
         }
         val entry = document.entries.firstOrNull { it.version.equals(currentVersion, ignoreCase = true) }
@@ -25,11 +29,14 @@ class PatchNotesService(
     }
 
     fun currentEntry(): PatchNotesEntry? {
-        val document = loadDocument() ?: return null
+        val document = loadDocument()
+        if (document == null) {
+            return defaultEntry(fallbackVersion)
+        }
         val currentVersion = document.currentVersion.takeIf { it.isNotBlank() } ?: fallbackVersion
         val entry = document.entries.firstOrNull { it.version.equals(currentVersion, ignoreCase = true) }
             ?: document.entries.firstOrNull()
-            ?: return null
+            ?: defaultEntry(currentVersion)
         return entry.copy(version = currentVersion)
     }
 
@@ -41,35 +48,14 @@ class PatchNotesService(
         return loaded
     }
 
-    private fun isVersionNewer(current: String, seen: String?): Boolean {
-        val normalizedCurrent = current.trim()
-        if (normalizedCurrent.isBlank()) return false
-        val normalizedSeen = seen?.trim().orEmpty()
-        if (normalizedSeen.isBlank()) return true
-        if (normalizedCurrent.equals(normalizedSeen, ignoreCase = true)) return false
-        val diff = compareVersionTokens(normalizedCurrent, normalizedSeen)
-        return if (diff == 0) {
-            !normalizedCurrent.equals(normalizedSeen, ignoreCase = true)
-        } else {
-            diff > 0
-        }
+    private fun defaultEntry(version: String): PatchNotesEntry {
+        return PatchNotesEntry(
+            version = version,
+            date = "",
+            novidades = listOf("Atualizacao de conteudo e estabilidade."),
+            melhorias = listOf("Melhorias gerais de interface e usabilidade."),
+            correcoes = listOf("Correcao de bugs reportados por testers.")
+        )
     }
 
-    private fun compareVersionTokens(a: String, b: String): Int {
-        val tokensA = a.split(Regex("[^A-Za-z0-9]+")).filter { it.isNotBlank() }
-        val tokensB = b.split(Regex("[^A-Za-z0-9]+")).filter { it.isNotBlank() }
-        val max = maxOf(tokensA.size, tokensB.size)
-        for (index in 0 until max) {
-            val left = tokensA.getOrNull(index) ?: "0"
-            val right = tokensB.getOrNull(index) ?: "0"
-            val leftNumber = left.toIntOrNull()
-            val rightNumber = right.toIntOrNull()
-            val comparison = when {
-                leftNumber != null && rightNumber != null -> leftNumber.compareTo(rightNumber)
-                else -> left.compareTo(right, ignoreCase = true)
-            }
-            if (comparison != 0) return comparison
-        }
-        return 0
-    }
 }

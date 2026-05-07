@@ -28,16 +28,22 @@ import rpg.android.ui.components.GamePrimaryButton
 import rpg.android.ui.components.GameSelectOption
 import rpg.android.ui.components.GameUiTokens
 import rpg.android.ui.scale.GameUiScale
+import rpg.android.tutorial.TutorialTarget
+import rpg.android.tutorial.tutorialAnchor
 
 @Composable
 fun GameSettingsOverlay(
     enabled: Boolean,
+    tutorialAvailable: Boolean,
+    patchNotesAvailable: Boolean,
     isDarkTheme: Boolean,
     uiScale: GameUiScale,
     buildInfo: AppBuildInfo,
     onToggleTheme: () -> Unit,
     onUiScaleSelected: (GameUiScale) -> Unit,
+    onSettingsOpened: () -> Boolean,
     onOpenPatchNotes: () -> Unit,
+    onRestartTutorial: () -> Unit,
     onExitApp: () -> Unit
 ) {
     if (!enabled) return
@@ -52,13 +58,20 @@ fun GameSettingsOverlay(
     ) {
         GameIconActionButton(
             icon = "\u2699\ufe0f",
-            onClick = { settingsOpen = true },
+            onClick = {
+                if (onSettingsOpened()) {
+                    settingsOpen = true
+                }
+            },
+            modifier = Modifier.tutorialAnchor(TutorialTarget.SETTINGS_BUTTON, extraPadding = 8.dp),
             size = 50.dp
         )
     }
 
     if (settingsOpen) {
         SettingsPopup(
+            tutorialAvailable = tutorialAvailable,
+            patchNotesAvailable = patchNotesAvailable,
             isDarkTheme = isDarkTheme,
             uiScale = uiScale,
             buildInfo = buildInfo,
@@ -68,6 +81,10 @@ fun GameSettingsOverlay(
             onOpenPatchNotes = {
                 settingsOpen = false
                 onOpenPatchNotes()
+            },
+            onRestartTutorial = {
+                settingsOpen = false
+                onRestartTutorial()
             },
             onExitApp = {
                 settingsOpen = false
@@ -79,6 +96,8 @@ fun GameSettingsOverlay(
 
 @Composable
 private fun SettingsPopup(
+    tutorialAvailable: Boolean,
+    patchNotesAvailable: Boolean,
     isDarkTheme: Boolean,
     uiScale: GameUiScale,
     buildInfo: AppBuildInfo,
@@ -86,6 +105,7 @@ private fun SettingsPopup(
     onToggleTheme: () -> Unit,
     onUiScaleSelected: (GameUiScale) -> Unit,
     onOpenPatchNotes: () -> Unit,
+    onRestartTutorial: () -> Unit,
     onExitApp: () -> Unit
 ) {
     var feedbackOpen by remember { mutableStateOf(false) }
@@ -145,8 +165,16 @@ private fun SettingsPopup(
             GamePrimaryButton(
                 label = "Patch Notes / Changelog",
                 onClick = onOpenPatchNotes,
+                enabled = patchNotesAvailable,
                 modifier = Modifier.fillMaxWidth(0.90f)
             )
+            if (tutorialAvailable) {
+                GamePrimaryButton(
+                    label = "Tutorial",
+                    onClick = onRestartTutorial,
+                    modifier = Modifier.fillMaxWidth(0.90f)
+                )
+            }
             GamePrimaryButton(
                 label = "Sair",
                 onClick = onExitApp,

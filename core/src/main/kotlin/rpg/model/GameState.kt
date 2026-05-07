@@ -106,5 +106,7 @@ data class GameState(
     val globalBoss: GlobalBossState = GlobalBossState(),
     val worldTimeMinutes: Double = 0.0,
     val lastClockSyncEpochMs: Long = 0L,
-    val lastSeenPatchNotesVersion: String? = null
+    val lastSeenPatchNotesVersion: String? = null,
+    val tutorialCompleted: Boolean = true,
+    val tutorialStep: Int = 0
 )

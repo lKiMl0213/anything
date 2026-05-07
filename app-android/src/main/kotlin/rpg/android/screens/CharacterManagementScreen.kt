@@ -28,6 +28,8 @@ import rpg.android.ui.components.GamePanel
 import rpg.android.ui.components.GameScreenRoot
 import rpg.android.ui.components.InventoryPanel
 import rpg.android.ui.components.InventoryRowItem
+import rpg.android.tutorial.TutorialTarget
+import rpg.android.tutorial.tutorialAnchor
 import rpg.application.inventory.EquippedSlotView
 @Composable
 fun CharacterManagementScreen(
@@ -97,7 +99,10 @@ fun CharacterManagementScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            GamePanel(title = "Equipados") {
+            GamePanel(
+                title = "Equipados",
+                modifier = Modifier.tutorialAnchor(TutorialTarget.CHARACTER_EQUIPMENT_PANEL, extraPadding = 8.dp)
+            ) {
                 BoxWithConstraints(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
@@ -157,6 +162,7 @@ fun CharacterManagementScreen(
             }
             Row(
                 modifier = Modifier
+                    .tutorialAnchor(TutorialTarget.CHARACTER_ACTION_PANEL, extraPadding = 10.dp)
                     .fillMaxWidth(0.72f)
                     .align(Alignment.CenterHorizontally),
                 horizontalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterHorizontally),
