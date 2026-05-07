@@ -1,5 +1,4 @@
 ﻿package rpg.android.screens
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -24,13 +23,12 @@ import rpg.android.ui.slotEmoji
 import rpg.android.ui.components.BottomNavItem
 import rpg.android.ui.components.EquipmentSlot
 import rpg.android.ui.components.GameBottomNav
+import rpg.android.ui.components.GameIconActionButton
 import rpg.android.ui.components.GamePanel
-import rpg.android.ui.components.GamePrimaryButton
 import rpg.android.ui.components.GameScreenRoot
 import rpg.android.ui.components.InventoryPanel
 import rpg.android.ui.components.InventoryRowItem
 import rpg.application.inventory.EquippedSlotView
-
 @Composable
 fun CharacterManagementScreen(
     state: CharacterUiModel,
@@ -56,30 +54,35 @@ fun CharacterManagementScreen(
                     BottomNavItem(
                         key = "character",
                         label = "Personagem",
+                        icon = "\uD83E\uDDD9",
                         selected = true,
                         onClick = {}
                     ),
                     BottomNavItem(
                         key = "production",
                         label = "Producao",
+                        icon = "\u2692",
                         selected = false,
                         onClick = onOpenProduction
                     ),
                     BottomNavItem(
                         key = "explore",
                         label = "Explorar",
+                        icon = "\uD83E\uDDED",
                         selected = false,
                         onClick = onOpenHub
                     ),
                     BottomNavItem(
                         key = "city",
                         label = "Cidade",
+                        icon = "\uD83C\uDFD9",
                         selected = false,
                         onClick = onOpenCity
                     ),
                     BottomNavItem(
                         key = "progress",
                         label = "Progresso",
+                        icon = "\uD83D\uDCC8",
                         selected = false,
                         hasAlert = hasProgressAlert,
                         onClick = onOpenProgression
@@ -102,7 +105,6 @@ fun CharacterManagementScreen(
                     val slotSize = (maxWidth * 0.20f).coerceIn(52.dp, 74.dp)
                     val accessorySize = (slotSize * 0.80f).coerceIn(42.dp, 58.dp)
                     val spacing = (slotSize * 0.14f).coerceIn(6.dp, 12.dp)
-
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(spacing)
@@ -135,7 +137,6 @@ fun CharacterManagementScreen(
                             slotSize = slotSize,
                             onSlotClick = onSlotClick
                         )
-
                         if (remainingAccessorySlots.isNotEmpty()) {
                             Spacer(modifier = Modifier.height(4.dp))
                             Row(
@@ -154,25 +155,26 @@ fun CharacterManagementScreen(
                     }
                 }
             }
-
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                modifier = Modifier
+                    .fillMaxWidth(0.72f)
+                    .align(Alignment.CenterHorizontally),
+                horizontalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                GamePrimaryButton(
-                    label = "Atributos",
+                GameIconActionButton(
+                    icon = "\uD83D\uDCCA",
                     onClick = onOpenAttributes,
                     enabled = state.canOpenAttributes,
-                    modifier = Modifier.weight(1f)
+                    size = 44.dp
                 )
-                GamePrimaryButton(
-                    label = "Talentos",
+                GameIconActionButton(
+                    icon = "\u2728",
                     onClick = onOpenTalents,
                     enabled = state.canOpenTalents,
-                    modifier = Modifier.weight(1f)
+                    size = 44.dp
                 )
             }
-
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -180,7 +182,6 @@ fun CharacterManagementScreen(
                 color = MaterialTheme.colorScheme.outline.copy(alpha = 0.80f),
                 shape = RoundedCornerShape(6.dp)
             ) {}
-
             InventoryPanel(
                 title = "Inventario ${state.inventoryCapacityLabel}",
                 items = state.inventoryStacks.map { stack ->
@@ -194,7 +195,6 @@ fun CharacterManagementScreen(
         }
     }
 }
-
 @Composable
 private fun BodySlotTripletRow(
     left: BodySlotUi,
@@ -213,7 +213,6 @@ private fun BodySlotTripletRow(
         IconSlotTile(right, slotSize, onSlotClick)
     }
 }
-
 @Composable
 private fun BodySlotPairRow(
     left: BodySlotUi,
@@ -230,7 +229,6 @@ private fun BodySlotPairRow(
         IconSlotTile(right, slotSize, onSlotClick)
     }
 }
-
 @Composable
 private fun BodySingleSlotRow(
     slot: BodySlotUi,
@@ -244,7 +242,6 @@ private fun BodySingleSlotRow(
         IconSlotTile(slot, slotSize, onSlotClick)
     }
 }
-
 @Composable
 private fun IconSlotTile(
     slot: BodySlotUi,
@@ -262,7 +259,6 @@ private fun IconSlotTile(
         onClick = { onSlotClick(slot.slotKey) }
     )
 }
-
 private data class BodySlotUi(
     val slotKey: String,
     val displayLabel: String
@@ -274,7 +270,6 @@ private data class BodySlotUi(
         )
     }
 }
-
 private fun EquippedSlotView?.asBodySlot(slotKeyFallback: String): BodySlotUi {
     return if (this == null) {
         BodySlotUi(slotKey = slotKeyFallback, displayLabel = "-")
@@ -282,7 +277,6 @@ private fun EquippedSlotView?.asBodySlot(slotKeyFallback: String): BodySlotUi {
         BodySlotUi.from(this)
     }
 }
-
 private fun compactEquippedLabel(value: String): String {
     if (value == "-") return "-"
     val base = value
@@ -292,5 +286,3 @@ private fun compactEquippedLabel(value: String): String {
         .trim()
     return if (base.length > 15) "${base.take(12)}..." else base
 }
-
-

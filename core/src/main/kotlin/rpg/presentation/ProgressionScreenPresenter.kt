@@ -68,9 +68,10 @@ internal class ProgressionScreenPresenter(
         val section = session.selectedQuestSection ?: return support.presentMissingState("Quests")
         val view = questQueryService.questList(state, section)
         val options = view.quests.mapIndexed { index, quest ->
+            val alert = if (quest.hasAlert) " (!)" else ""
             ScreenOptionViewModel(
                 (index + 1).toString(),
-                "${quest.title} | ${quest.progressLabel} | ${quest.statusLabel}",
+                "${quest.title}$alert | ${quest.progressLabel} | ${quest.statusLabel}",
                 GameAction.InspectQuest(section, quest.instanceId)
             )
         } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)

@@ -28,7 +28,8 @@ data class QuestListItemView(
     val instanceId: String,
     val title: String,
     val progressLabel: String,
-    val statusLabel: String
+    val statusLabel: String,
+    val hasAlert: Boolean = false
 )
 
 data class QuestListView(

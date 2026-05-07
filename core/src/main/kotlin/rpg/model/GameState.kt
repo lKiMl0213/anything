@@ -105,5 +105,6 @@ data class GameState(
     val questBoard: QuestBoardState = QuestBoardState(),
     val globalBoss: GlobalBossState = GlobalBossState(),
     val worldTimeMinutes: Double = 0.0,
-    val lastClockSyncEpochMs: Long = 0L
+    val lastClockSyncEpochMs: Long = 0L,
+    val lastSeenPatchNotesVersion: String? = null
 )

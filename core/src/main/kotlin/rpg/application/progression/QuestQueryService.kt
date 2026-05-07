@@ -9,7 +9,7 @@ class QuestQueryService(
     private val support: QuestRulesSupport
 ) {
     fun hasQuestAlert(state: GameState): Boolean {
-        return support.classQuestEntry(state.player) != null || support.hasReadyToClaim(state.questBoard)
+        return support.classQuestEntry(state.player) != null || support.hasAnyActionableQuest(state.questBoard)
     }
 
     fun questBoardOverview(state: GameState): QuestBoardOverviewView {
@@ -34,7 +34,8 @@ class QuestQueryService(
                     instanceId = quest.instanceId,
                     title = quest.title,
                     progressLabel = "${quest.currentProgress}/${quest.requiredAmount}",
-                    statusLabel = support.questStatusLabel(quest.status)
+                    statusLabel = support.questStatusLabel(quest.status),
+                    hasAlert = quest.status == QuestStatus.READY_TO_CLAIM
                 )
             }
         )

@@ -11,6 +11,7 @@ data class ProductionRecipeView(
     val discipline: CraftDiscipline,
     val available: Boolean,
     val maxCraftable: Int,
+    val maxSelectableBatch: Int,
     val batchSize: Int,
     val estimatedPerActionSeconds: Double,
     val estimatedBatchSeconds: Double,

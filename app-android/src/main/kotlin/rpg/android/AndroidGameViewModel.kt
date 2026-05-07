@@ -17,13 +17,16 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.nio.file.Path
+import java.nio.file.Files
 import rpg.android.combat.AndroidCombatFlowController
 import rpg.android.combat.AndroidCombatOutcomeResolver
 import rpg.android.state.AndroidUiState
+import rpg.android.state.PatchNotesUiModel
 import rpg.android.state.PopupDetailUiModel
 import rpg.android.state.SaveSlotUi
 import rpg.android.state.StartPageUiModel
 import rpg.android.state.TimedActionUiState
+import rpg.android.ui.scale.GameUiScale
 import rpg.application.GameEffect
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
@@ -42,11 +45,17 @@ class AndroidGameViewModel(
 
     private val _popupDetail = MutableStateFlow<PopupDetailUiModel?>(null)
     val popupDetail: StateFlow<PopupDetailUiModel?> = _popupDetail.asStateFlow()
+    private val _patchNotesPopup = MutableStateFlow<PatchNotesUiModel?>(null)
+    val patchNotesPopup: StateFlow<PatchNotesUiModel?> = _patchNotesPopup.asStateFlow()
     private val _progressAlert = MutableStateFlow(false)
     val progressAlert: StateFlow<Boolean> = _progressAlert.asStateFlow()
     private val preferences = application.getSharedPreferences("android_ui", Context.MODE_PRIVATE)
     private val _darkTheme = MutableStateFlow(preferences.getBoolean("dark_theme", true))
     val darkTheme: StateFlow<Boolean> = _darkTheme.asStateFlow()
+    private val _uiScale = MutableStateFlow(
+        GameUiScale.fromStorageKey(preferences.getString("ui_scale", GameUiScale.default.storageKey))
+    )
+    val uiScale: StateFlow<GameUiScale> = _uiScale.asStateFlow()
 
     private var runtime: RuntimeDeps? = null
     private var session = GameSession()
@@ -236,6 +245,7 @@ class AndroidGameViewModel(
     fun openCity() = applyAction(GameAction.OpenCityMenu)
     fun openProgression() = applyAction(GameAction.OpenProgressionMenu)
     fun openTalents() = applyAction(GameAction.OpenTalents)
+    fun openGlobalBoss() = applyAction(GameAction.OpenGlobalBossMenu)
 
     fun onCharacterSlotTapped(slotKey: String) = applyAction(GameAction.InspectEquippedSlot(slotKey))
     fun onCharacterInventoryItemTapped(itemId: String) {
@@ -253,6 +263,28 @@ class AndroidGameViewModel(
         }
     }
 
+    fun dismissPatchNotesPopup() {
+        val currentPopup = _patchNotesPopup.value
+        if (currentPopup?.markSeenOnDismiss == true) {
+            preferences.edit().putString(PREF_LAST_SEEN_PATCH_VERSION, currentPopup.versionLabel).apply()
+        }
+        _patchNotesPopup.value = null
+    }
+
+    fun openPatchNotesFromSettings() {
+        val deps = runtime ?: return
+        val current = deps.patchNotesService.currentEntry() ?: return
+        _patchNotesPopup.value = PatchNotesUiModel(
+            title = "Notas da atualizacao",
+            versionLabel = current.version,
+            dateLabel = current.date.takeIf { it.isNotBlank() },
+            novidades = current.novidades,
+            melhorias = current.melhorias,
+            correcoes = current.correcoes,
+            markSeenOnDismiss = true
+        )
+    }
+
     fun onCombatAttack() = combatController?.submitAttack()
     fun onCombatEscape() = combatController?.submitEscape()
     fun onCombatUseItem(itemId: String) = combatController?.submitUseItem(itemId)
@@ -264,6 +296,12 @@ class AndroidGameViewModel(
         val next = !_darkTheme.value
         _darkTheme.value = next
         preferences.edit().putBoolean("dark_theme", next).apply()
+    }
+
+    fun setUiScale(scale: GameUiScale) {
+        if (_uiScale.value == scale) return
+        _uiScale.value = scale
+        preferences.edit().putString("ui_scale", scale.storageKey).apply()
     }
 
     fun cancelTimedAction() {
@@ -386,6 +424,7 @@ class AndroidGameViewModel(
                 deps.actionHandler.achievementQueryService().hasClaimableRewards(state)
         }
         _popupDetail.value = buildPopupDetail()
+        refreshPatchNotesPopup(state)
 
         if (raceClassSelection != null) {
             _uiState.value = AndroidUiState.RaceClass(
@@ -516,6 +555,27 @@ class AndroidGameViewModel(
             sellQuantityState = sellQuantityState,
             onDecreaseSellQuantity = ::decreaseSellQuantity,
             onIncreaseSellQuantity = ::increaseSellQuantity
+        )
+    }
+
+    private fun refreshPatchNotesPopup(state: rpg.model.GameState?) {
+        if (state == null) {
+            _patchNotesPopup.value = null
+            return
+        }
+        if (session.navigation != NavigationState.Hub) return
+        if (_patchNotesPopup.value != null) return
+        val deps = runtime ?: return
+        val lastSeenVersion = preferences.getString(PREF_LAST_SEEN_PATCH_VERSION, null)
+        val pending = deps.patchNotesService.nextEntryToShow(lastSeenVersion) ?: return
+        _patchNotesPopup.value = PatchNotesUiModel(
+            title = "Notas da atualizacao",
+            versionLabel = pending.version,
+            dateLabel = pending.date.takeIf { it.isNotBlank() },
+            novidades = pending.novidades,
+            melhorias = pending.melhorias,
+            correcoes = pending.correcoes,
+            markSeenOnDismiss = true
         )
     }
 
@@ -662,13 +722,25 @@ class AndroidGameViewModel(
 
     private fun resolveAutosavePath(characterName: String, deps: RuntimeDeps): Path {
         val current = session.currentSavePath
-        if (current != null && !current.fileName.toString().equals("autosave.json", ignoreCase = true)) {
+        if (current != null && !isLegacyAutosaveFile(current.fileName.toString())) {
             return current
         }
         val base = sanitizeSaveName(characterName)
-        val existing = deps.saveGateway.listSaves().map { it.fileName.toString().lowercase() }.toSet()
-        val candidateFileName = nextAvailableSaveFile(base, existing)
-        val selected = deps.saveGateway.resolveSaveFile(candidateFileName)
+        val preferredFileName = "$base.json"
+        val existing = deps.saveGateway.listSaves()
+        val selected = existing.firstOrNull { path ->
+            val file = path.fileName.toString()
+            if (file.equals(preferredFileName, ignoreCase = true)) {
+                true
+            } else {
+                val stem = file.removeSuffix(".json").lowercase()
+                stem == base || stem.startsWith("${base}_")
+            }
+        } ?: deps.saveGateway.resolveSaveFile(preferredFileName)
+
+        if (current != null && isLegacyAutosaveFile(current.fileName.toString()) && current != selected) {
+            runCatching { Files.deleteIfExists(current) }
+        }
         session = session.copy(
             currentSavePath = selected,
             currentSaveName = selected.fileName.toString()
@@ -685,18 +757,15 @@ class AndroidGameViewModel(
         return normalized.ifBlank { "personagem" }
     }
 
-    private fun nextAvailableSaveFile(base: String, existingLowercase: Set<String>): String {
-        var index = 1
-        var candidate = "$base.json"
-        while (candidate.lowercase() in existingLowercase && !session.currentSaveName.equals(candidate, ignoreCase = true)) {
-            index += 1
-            candidate = "${base}_$index.json"
-        }
-        return candidate
+    private fun isLegacyAutosaveFile(fileName: String): Boolean {
+        val normalized = fileName.lowercase()
+        return normalized == "autosave.json" || normalized.startsWith("autosave_")
     }
 
     private fun querySaveSlots(deps: RuntimeDeps): List<SaveSlotUi> {
-        return deps.saveGateway.listSaves().map { path ->
+        return deps.saveGateway.listSaves()
+            .filterNot { isLegacyAutosaveFile(it.fileName.toString()) }
+            .map { path ->
             val state = runCatching { deps.saveGateway.load(path) }.getOrNull()
             val characterName = state?.player?.name?.takeIf { it.isNotBlank() } ?: path.fileName.toString().removeSuffix(".json")
             SaveSlotUi(
@@ -707,6 +776,8 @@ class AndroidGameViewModel(
     }
 
     companion object {
+        private const val PREF_LAST_SEEN_PATCH_VERSION = "last_seen_patch_version"
+
         fun factory(application: Application): ViewModelProvider.Factory {
             return object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {

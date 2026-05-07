@@ -4,18 +4,70 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.Dp
+import rpg.android.ui.scale.LocalGameUiSettings
 
 object GameUiTokens {
-    val screenPadding = 8.dp
-    val panelPadding = 8.dp
-    val panelSpacing = 6.dp
-    val footerSpacing = 8.dp
-    val buttonMinHeight = 40.dp
-    val bottomNavHeight = 52.dp
-    val panelCorner = 14.dp
-    val buttonCorner = 12.dp
-    val slotCorner = 12.dp
+    val screenPadding: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.screenPadding
+
+    val panelPadding: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.panelPadding
+
+    val panelSpacing: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.panelSpacing
+
+    val footerSpacing: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.footerSpacing
+
+    val buttonMinHeight: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.buttonMinHeight
+
+    val infoButtonHeight: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.infoButtonHeight
+
+    val bottomNavHeight: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.bottomNavHeight
+
+    val panelCorner: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.panelCorner
+
+    val buttonCorner: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.buttonCorner
+
+    val slotCorner: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.slotCorner
+
+    val panelMaxWidth: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.panelMaxWidth
+
+    val buttonMaxWidth: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.buttonMaxWidth
+
+    val compactSelectWidth: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.compactSelectWidth
+
+    val iconButtonTouchSize: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.iconButtonTouchSize
+
+    val backIconTouchSize: Dp
+        @Composable get() = LocalGameUiSettings.current.metrics.backIconTouchSize
+
+    val iconButtonFontSize: TextUnit
+        @Composable get() = LocalGameUiSettings.current.metrics.iconButtonFontSize
+
+    val bottomNavIconSize: TextUnit
+        @Composable get() = LocalGameUiSettings.current.metrics.bottomNavIconSize
+
+    val titleTextSize: TextUnit
+        @Composable get() = LocalGameUiSettings.current.metrics.titleTextSize
+
+    val bodyTextSize: TextUnit
+        @Composable get() = LocalGameUiSettings.current.metrics.bodyTextSize
+
+    val labelTextSize: TextUnit
+        @Composable get() = LocalGameUiSettings.current.metrics.labelTextSize
 
     @Composable
     fun overlayColor(): Color {

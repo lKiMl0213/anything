@@ -24,6 +24,9 @@ import rpg.android.ui.components.GamePanel
 import rpg.android.ui.components.GamePrimaryButton
 import rpg.android.ui.components.GameScreenRoot
 import rpg.android.ui.components.GameStatBar
+import rpg.android.ui.components.GameUiTokens
+import rpg.android.ui.scale.LocalGameUiSettings
+import rpg.android.ui.scale.GameUiScale
 
 @Composable
 fun CombatTouchScreen(
@@ -32,6 +35,28 @@ fun CombatTouchScreen(
     onEscape: () -> Unit,
     onUseItem: (String) -> Unit
 ) {
+    val uiScale = LocalGameUiSettings.current.scale
+    val rowSpacing = GameUiTokens.panelSpacing
+    val effectHeight = when (uiScale) {
+        GameUiScale.SMALL -> 58.dp
+        GameUiScale.MEDIUM -> 72.dp
+        GameUiScale.LARGE -> 90.dp
+    }
+    val historyMinHeight = when (uiScale) {
+        GameUiScale.SMALL -> 96.dp
+        GameUiScale.MEDIUM -> 120.dp
+        GameUiScale.LARGE -> 150.dp
+    }
+    val historyMaxHeight = when (uiScale) {
+        GameUiScale.SMALL -> 140.dp
+        GameUiScale.MEDIUM -> 170.dp
+        GameUiScale.LARGE -> 210.dp
+    }
+    val logLimit = when (uiScale) {
+        GameUiScale.SMALL -> 12
+        GameUiScale.MEDIUM -> 18
+        GameUiScale.LARGE -> 24
+    }
     var selectedItemIndex by remember(state.consumables) { mutableIntStateOf(0) }
     if (selectedItemIndex >= state.consumables.size) {
         selectedItemIndex = 0
@@ -40,14 +65,14 @@ fun CombatTouchScreen(
     val visibleLogs = state.logLines
         .map(::sanitizeLogLine)
         .filter { it.isNotBlank() }
-        .takeLast(18)
+        .takeLast(logLimit)
 
     GameScreenRoot(backgroundRes = R.drawable.bg_combat) {
         Column(
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(rowSpacing)
         ) {
             GamePanel(title = state.title) {
                 state.introLines.take(2).forEach { Text(it) }
@@ -56,7 +81,7 @@ fun CombatTouchScreen(
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(rowSpacing)
             ) {
                 GamePanel(modifier = Modifier.weight(1f), title = state.playerName) {
                     GameStatBar(label = "HP", current = state.playerHp, max = state.playerHpMax)
@@ -83,7 +108,7 @@ fun CombatTouchScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(min = 70.dp, max = 70.dp)
+                        .heightIn(min = effectHeight, max = effectHeight)
                 ) {
                     Column(
                         modifier = Modifier
@@ -106,7 +131,7 @@ fun CombatTouchScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(min = 110.dp, max = 160.dp)
+                        .heightIn(min = historyMinHeight, max = historyMaxHeight)
                 ) {
                     Column(
                         modifier = Modifier
@@ -134,7 +159,7 @@ fun CombatTouchScreen(
             GamePanel(title = "Acoes") {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(rowSpacing)
                 ) {
                     GamePrimaryButton(
                         label = "Atacar",
@@ -157,7 +182,7 @@ fun CombatTouchScreen(
                 }
 
                 if (state.consumables.isNotEmpty()) {
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(rowSpacing)) {
                         GamePrimaryButton(
                             label = "<",
                             onClick = {

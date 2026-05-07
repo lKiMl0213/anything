@@ -1,0 +1,37 @@
+﻿{
+    "currentVersion":  "0.1",
+    "baselineRef":  "12ff29ccc4d15ee0edbaff17e6e8cae02131e5a1",
+    "entries":  [
+                    {
+                        "version":  "0.1",
+                        "date":  "07/05/26",
+                        "novidades":  [
+                                          "Boss Global semanal/mensal recebeu ajustes de navegacao e leitura no Android.",
+                                          "Sistema de patchnotes automatico adicionado com exibicao unica por versao."
+                                      ],
+                        "melhorias":  [
+                                          "Botoes, popups e navegacao mobile foram reorganizados para uso com uma mao.",
+                                          "Fluxos de producao e craft ficaram mais objetivos e com melhor clareza visual."
+                                      ],
+                        "correcoes":  [
+                                          "Sinalizacoes de quests foram ajustadas para destacar apenas conteudo coletavel.",
+                                          "Leitura do combate foi refinada para reduzir poluicao visual e melhorar consistencia."
+                                      ]
+                    },
+                    {
+                        "version":  "1.1.0",
+                        "date":  "06/05/26",
+                        "novidades":  [
+                                          "Boss Global semanal/mensal recebeu ajustes de navegacao e leitura no Android.",
+                                          "Sistema de patchnotes automatico adicionado com exibicao unica por versao."
+                                      ],
+                        "melhorias":  [
+                                          "Botoes, popups e navegacao mobile foram reorganizados para uso com uma mao.",
+                                          "Fluxos de producao e craft ficaram mais objetivos e com melhor clareza visual."
+                                      ],
+                        "correcoes":  [
+                                          "Sinalizacoes de quests foram ajustadas para destacar apenas conteudo coletavel."
+                                      ]
+                    }
+                ]
+}

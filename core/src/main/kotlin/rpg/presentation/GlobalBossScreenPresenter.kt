@@ -18,8 +18,8 @@ internal class GlobalBossScreenPresenter(
         val weekly = view.items.firstOrNull { it.cadence == GlobalBossCadence.WEEKLY }
         val monthly = view.items.firstOrNull { it.cadence == GlobalBossCadence.MONTHLY }
         val body = mutableListOf<String>()
-        weekly?.let { body += "Semanal: ${it.runsLabel}" }
-        monthly?.let { body += "Mensal: ${it.runsLabel}" }
+        weekly?.let { body += "Semanal: ${it.runsLabel} | Tempo: ${it.timeRemainingLabel}" }
+        monthly?.let { body += "Mensal: ${it.runsLabel} | Tempo: ${it.timeRemainingLabel}" }
         if (body.isEmpty()) {
             body += "Nenhum evento global configurado."
         }
@@ -60,16 +60,13 @@ internal class GlobalBossScreenPresenter(
                 messages = session.messages
             )
         val body = mutableListOf<String>()
-        if (detail.description.isNotBlank()) body += detail.description
+        body += "Tempo restante do ciclo: ${detail.cycleRemainingLabel}"
         body += "Boss: ${detail.bossName}"
         body += detail.totalDamageLabel
         body += detail.totalPointsLabel
         body += detail.bestRunLabel
         body += detail.runsLabel
-        body += "Milestones disponiveis: ${detail.claimableMilestonesCount}"
-        body += ""
-        body += "Quests:"
-        body += detail.quests.map { "- ${it.label}" }
+        detail.rankingLabel?.let { body += it }
 
         val startLabel = if (detail.canStartRun) "Iniciar run manual" else "Iniciar run manual [indisponivel]"
         val autoLabel = if (detail.canAutoClear) "Auto clear" else "Auto clear [indisponivel]"
@@ -79,8 +76,9 @@ internal class GlobalBossScreenPresenter(
             "Comprar tentativa [indisponivel]"
         }
         val milestonesLabel = if (detail.claimableMilestonesCount > 0) "Milestones (!)" else "Milestones"
+        val cadenceLabel = if (detail.cadence == GlobalBossCadence.WEEKLY) "Semanal" else "Mensal"
         return MenuScreenViewModel(
-            title = detail.title + if (detail.alert) " (!)" else "",
+            title = "Boss Global $cadenceLabel" + if (detail.alert) " (!)" else "",
             subtitle = if (detail.cadence == GlobalBossCadence.WEEKLY) "Evento semanal" else "Evento mensal",
             summary = support.playerSummary(state),
             bodyLines = body,
