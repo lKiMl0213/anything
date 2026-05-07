@@ -1,5 +1,4 @@
 ﻿package rpg.android.screens
-
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,30 +31,26 @@ import rpg.android.state.HubSkillUi
 import rpg.android.state.MainHubUiModel
 import rpg.android.ui.components.BottomNavItem
 import rpg.android.ui.components.GameBottomNav
+import rpg.android.ui.components.GameIconActionButton
 import rpg.android.ui.components.GamePanel
 import rpg.android.ui.components.GamePopup
 import rpg.android.ui.components.GamePrimaryButton
 import rpg.android.ui.components.GameScreenRoot
 import rpg.android.ui.components.GameTopHud
-
+import rpg.android.ui.components.GameUiTokens
 @Composable
 fun MainHubScreen(
     state: MainHubUiModel,
     hasProgressAlert: Boolean,
-    isDarkTheme: Boolean,
+    versionLabel: String,
     onExplore: () -> Unit,
     onOpenCharacter: () -> Unit,
     onOpenProduction: () -> Unit,
     onOpenCity: () -> Unit,
     onOpenProgression: () -> Unit,
-    onClearInfo: () -> Unit,
-    onToggleTheme: () -> Unit,
-    onExitApp: () -> Unit
+    onOpenGlobalBoss: () -> Unit
 ) {
     var selectedSkill by remember { mutableStateOf<HubSkillUi?>(null) }
-    var infoPopupOpen by remember { mutableStateOf(false) }
-    var settingsPopupOpen by remember { mutableStateOf(false) }
-
     GameScreenRoot(
         backgroundRes = R.drawable.bg_main_hub,
         bottomNav = {
@@ -64,30 +59,35 @@ fun MainHubScreen(
                     BottomNavItem(
                         key = "character",
                         label = "Personagem",
+                        icon = "\uD83E\uDDD9",
                         selected = false,
                         onClick = onOpenCharacter
                     ),
                     BottomNavItem(
                         key = "production",
                         label = "Producao",
+                        icon = "\u2692",
                         selected = false,
                         onClick = onOpenProduction
                     ),
                     BottomNavItem(
                         key = "explore",
                         label = "Explorar",
+                        icon = "\uD83E\uDDED",
                         selected = true,
                         onClick = {}
                     ),
                     BottomNavItem(
                         key = "city",
                         label = "Cidade",
+                        icon = "\uD83C\uDFD9",
                         selected = false,
                         onClick = onOpenCity
                     ),
                     BottomNavItem(
                         key = "progress",
                         label = "Progresso",
+                        icon = "\uD83D\uDCC8",
                         selected = false,
                         hasAlert = hasProgressAlert,
                         onClick = onOpenProgression
@@ -102,16 +102,6 @@ fun MainHubScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                GamePrimaryButton(
-                    label = "⚙️",
-                    onClick = { settingsPopupOpen = true }
-                )
-            }
-
             GameTopHud(
                 name = state.name,
                 raceClassLabel = state.raceClassLabel,
@@ -127,14 +117,12 @@ fun MainHubScreen(
                 hpMax = state.hpMax,
                 mpCurrent = state.mpCurrent,
                 mpMax = state.mpMax,
-                onRaceClassInfoClick = { infoPopupOpen = true }
+                hpRegenPerMinute = state.hpRegenPerMinute,
+                mpRegenPerMinute = state.mpRegenPerMinute,
+                hpEtaSeconds = state.hpEtaSeconds,
+                mpEtaSeconds = state.mpEtaSeconds,
+                onRaceClassInfoClick = null
             )
-
-            GamePanel(title = "Regeneracao") {
-                Text("HP +${formatRegen(state.hpRegenPerMinute)}/min | cheio em ${formatEta(state.hpEtaSeconds)}")
-                Text("MP +${formatRegen(state.mpRegenPerMinute)}/min | cheio em ${formatEta(state.mpEtaSeconds)}")
-            }
-
             GamePanel(title = "Habilidades de producao") {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     state.skills.chunked(3).forEach { rowSkills ->
@@ -166,28 +154,47 @@ fun MainHubScreen(
                     }
                 }
             }
-
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 180.dp)
-                    .height(220.dp),
-                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline)
+            Box(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Text("Placeholder personagem idle")
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 160.dp)
+                        .height(190.dp),
+                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outline)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Text("Placeholder personagem idle")
+                    }
                 }
+                GameIconActionButton(
+                    icon = "\uD83D\uDC79",
+                    onClick = onOpenGlobalBoss,
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 10.dp),
+                    size = 54.dp
+                )
             }
-
             GamePrimaryButton(
                 label = "EXPLORAR",
                 onClick = onExplore,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth(0.78f)
+                    .align(Alignment.CenterHorizontally)
+            )
+            Text(
+                text = versionLabel,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = GameUiTokens.screenPadding),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.labelSmall.copy(fontSize = GameUiTokens.labelTextSize)
             )
         }
     }
-
     selectedSkill?.let { skill ->
         GamePopup(
             title = skill.label,
@@ -205,74 +212,5 @@ fun MainHubScreen(
             )
         }
     }
-
-    if (infoPopupOpen) {
-        GamePopup(
-            title = "Avisos e Logs",
-            onDismiss = { infoPopupOpen = false }
-        ) {
-            if (state.infoLines.isEmpty()) {
-                Text(
-                    text = "Sem avisos no momento.",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
-            } else {
-                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    state.infoLines.forEach { line ->
-                        Text(
-                            text = line,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-            }
-            GamePrimaryButton(
-                label = "Limpar",
-                onClick = {
-                    onClearInfo()
-                    infoPopupOpen = false
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-    }
-
-    if (settingsPopupOpen) {
-        GamePopup(
-            title = "Configuracoes",
-            onDismiss = { settingsPopupOpen = false }
-        ) {
-            Text(
-                text = "Tema atual: ${if (isDarkTheme) "Escuro" else "Claro"}",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-            GamePrimaryButton(
-                label = "Alternar tema",
-                onClick = onToggleTheme,
-                modifier = Modifier.fillMaxWidth()
-            )
-            GamePrimaryButton(
-                label = "Sair",
-                onClick = {
-                    settingsPopupOpen = false
-                    onExitApp()
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-    }
 }
-
-private fun formatRegen(value: Double): String = "%.1f".format(value.coerceAtLeast(0.0))
-
-private fun formatEta(totalSeconds: Int): String {
-    if (totalSeconds <= 0) return "agora"
-    val minutes = totalSeconds / 60
-    val seconds = totalSeconds % 60
-    return "%02d:%02d".format(minutes, seconds)
-}
-
 private fun formatMinutes(value: Double): String = "%.1f".format(value.coerceAtLeast(0.0))

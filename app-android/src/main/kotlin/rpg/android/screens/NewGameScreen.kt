@@ -4,14 +4,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import rpg.android.R
+import rpg.android.ui.components.GameBackIconButton
 import rpg.android.state.NewGameUiModel
 import rpg.android.ui.components.GameFooterActions
 import rpg.android.ui.components.GameInfoPanel
@@ -31,9 +34,7 @@ fun NewGameScreen(
         backgroundRes = R.drawable.bg_new_game,
         footer = {
             GameFooterActions(
-                leftLabel = "Cancelar",
                 rightLabel = "Confirmar Criacao",
-                onLeftClick = onCancel,
                 onRightClick = onConfirm,
                 rightEnabled = state.canConfirm
             )
@@ -45,6 +46,14 @@ fun NewGameScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                GameBackIconButton(onClick = onCancel)
+            }
+
             GameInfoPanel(title = "=== Criacao de Personagem ===") {
                 Text("Nome: ${state.name.ifBlank { "-" }}")
                 Text("Raca: ${state.selectedRaceName}")
@@ -69,12 +78,16 @@ fun NewGameScreen(
             GamePrimaryButton(
                 label = "Racas e Classes",
                 onClick = onOpenRaceClass,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth(0.95f)
+                    .align(Alignment.CenterHorizontally)
             )
             GamePrimaryButton(
                 label = "Distribuir atributos",
                 onClick = onOpenAttributes,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth(0.95f)
+                    .align(Alignment.CenterHorizontally)
             )
 
             state.message?.takeIf { it.isNotBlank() }?.let { message ->

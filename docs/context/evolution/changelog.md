@@ -1,4 +1,30 @@
 # Changelog
+## 2026-05-06 - Patchnotes automatico por versao no Android
+
+### Updated Systems
+- Novo fluxo de patchnotes no Android com exibicao unica por versao e por save:
+  - `GameState` agora persiste `lastSeenPatchNotesVersion`.
+  - `PatchNotesService` compara versao atual do changelog com a ultima versao vista no save.
+  - ao carregar sessao com versao nova, Android abre popup grande/scrollavel de notas e marca como visto.
+- Popup segue padrao visual existente:
+  - sem botao `X`
+  - fecha ao tocar fora
+  - texto resumido por secoes (`Novidades`, `Melhorias`, `Correcoes`).
+- Bootstrap de dados Android agora sincroniza `patchnotes/changelog.json` dos assets em inicializacoes apos update, para garantir que o changelog mais recente chegue ao dispositivo mesmo fora da primeira instalacao.
+
+### Tooling / Automation
+- Adicionada automacao de patchnotes em `tools/patchnotes/update_patchnotes.ps1`:
+  - le changelog atual
+  - compara mudancas por Git (baseline/tag/ref)
+  - gera resumo amigavel por categorias
+  - atualiza `data/patchnotes/changelog.json` sem reescrever historico inteiro.
+- Novo task Gradle:
+  - `./gradlew updatePatchNotes`
+  - suporta propriedades opcionais:
+    - `-PpatchVersion=...`
+    - `-PpatchSinceRef=...`
+    - `-PpatchIncludeWorkingTree=true`
+
 ## 2026-04-30 - Craft de Encantamento por Tier (Runas, Pergaminhos, Pedras +1..+15)
 
 ### Updated Systems
@@ -1084,6 +1110,56 @@
     - pontos de atributo por nivel (`POINTS_PER_LEVEL = 5`),
     - distribuicao automatica de `2` pontos por nivel via `AttributeEngine.applyAutoPoints`,
     - aplicacao correta de bonus de raca+classe no `ClassSystem.totalBonuses`.
+
+### Validation Notes
+- `./gradlew clean build --no-daemon` passed.
+- `./gradlew :app-android:assembleDebug --no-daemon` passed.
+
+## 2026-05-06 - UI Compacta + Boss Global no Android
+
+### Updated Systems
+- UI Android compactada via componentes base:
+  - `GameUiTokens` reduzido para densidade visual menor (painel/botao/nav).
+  - `GamePanel` com largura maxima centralizada (sem ocupar 100% da tela).
+  - `GameBottomNav` migrado para icones e estado visual compacto.
+  - `GameButtons` recebeu `GameBackIconButton` para padronizar retorno por seta no topo esquerdo.
+- Fluxo de navegacao Android ajustado:
+  - telas de criacao/auxiliares (`NewGame`, `Racas/Classes`, `Distribuicao`) agora usam seta de retorno no topo.
+  - `GenericMenuScreen` remove acao textual de voltar da lista e usa seta no topo.
+- Home/Explorar:
+  - botao de configuracoes reduzido.
+  - adicionado atalho de Boss Global no lado direito da area central.
+  - rodape principal (5 botoes) em icones.
+- Integracao Boss Global:
+  - `AndroidGameViewModel` expoe `openGlobalBoss()` chamando `GameAction.OpenGlobalBossMenu`.
+  - `MainHubScreen` conecta o novo atalho diretamente ao fluxo existente.
+- Apresentacao de Boss Global (sem recriar regra):
+  - `GlobalBossQueryService` agora calcula e expõe tempo restante do ciclo semanal/mensal.
+  - `GlobalBossScreenPresenter` mostra tempo restante no menu/detalhe do evento.
+  - texto de ranking online marcado explicitamente como indisponivel no modo offline atual.
+
+### Validation Notes
+- `./gradlew clean build --no-daemon` passed.
+- `./gradlew :app-android:assembleDebug --no-daemon` passed.
+
+## 2026-05-06 - UX de Quantidade no Craft + Alertas de Quests
+
+### Updated Systems
+- Produção (craft) no Android:
+  - fluxo de "Definir quantidade" agora usa popup com controle `[-] [input] [+]`.
+  - input numérico com clamp automático para faixa válida (`1..CAP`).
+  - cap exibido no popup e respeitando limite dinâmico (upgrade de lote + recursos disponíveis).
+  - botão de confirmar da quantidade aplica `SetCraftRecipeQuantity` com valor validado.
+- Produção (core/presenter):
+  - `ProductionRecipeView` passou a expor `maxSelectableBatch`.
+  - `ProductionQueryService` calcula esse limite via `ProductionActionDurationService` (cap real de lote).
+  - `ProductionScreenPresenter` usa cap real na linha de quantidade e na ação de configurar lote.
+- Progresso > Quests:
+  - alerta global de quest agora considera também pool de aceitáveis com conteúdo.
+  - seção `Aceitável` sinaliza alerta quando houver quests disponíveis.
+  - itens individuais da lista de quests recebem estado de alerta quando acionáveis
+    (aceitáveis disponíveis ou status `READY_TO_CLAIM` nas demais seções).
+  - `ProgressionScreenPresenter` adiciona marcador `(!)` nas opções da lista para acionar destaque visual já usado no Android.
 
 ### Validation Notes
 - `./gradlew clean build --no-daemon` passed.

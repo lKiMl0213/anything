@@ -10,6 +10,7 @@ import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.Exec
 import java.nio.file.Paths
 
 buildscript {
@@ -138,6 +139,32 @@ tasks.named<JavaExec>("run") {
 
 tasks.named("check") {
     dependsOn("checkKotlinFileLineLimit")
+}
+
+tasks.register<Exec>("updatePatchNotes") {
+    group = "release"
+    description = "Atualiza data/patchnotes/changelog.json com um resumo amigavel das mudancas recentes."
+    workingDir = projectDir
+    val script = layout.projectDirectory.file("tools/patchnotes/update_patchnotes.ps1").asFile.absolutePath
+    val versionArg = (findProperty("patchVersion") as String?)?.trim().orEmpty()
+    val sinceRefArg = (findProperty("patchSinceRef") as String?)?.trim().orEmpty()
+    val includeWorkingTree = (findProperty("patchIncludeWorkingTree") as String?)?.toBoolean() == true
+
+    if (System.getProperty("os.name").lowercase().contains("windows")) {
+        commandLine("powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", script)
+    } else {
+        commandLine("pwsh", "-NoProfile", "-File", script)
+    }
+
+    if (versionArg.isNotBlank()) {
+        args("-Version", versionArg)
+    }
+    if (sinceRefArg.isNotBlank()) {
+        args("-SinceRef", sinceRefArg)
+    }
+    if (includeWorkingTree) {
+        args("-IncludeWorkingTree")
+    }
 }
 
 val appName = project.name

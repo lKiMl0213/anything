@@ -4,6 +4,7 @@ import android.app.Application
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import rpg.android.application.CharacterCommandBridge
+import rpg.android.patchnotes.PatchNotesService
 import rpg.android.platform.AndroidDataBootstrap
 import rpg.application.GameActionHandler
 import rpg.application.SaveGameGateway
@@ -25,7 +26,8 @@ internal data class RuntimeDeps(
     val characterQueryService: CharacterQueryService,
     val inventoryQueryService: InventoryQueryService,
     val characterCommandBridge: CharacterCommandBridge,
-    val saveGateway: SaveGameGateway
+    val saveGateway: SaveGameGateway,
+    val patchNotesService: PatchNotesService
 )
 
 internal suspend fun createAndroidRuntimeDeps(application: Application): RuntimeDeps {
@@ -58,7 +60,11 @@ internal suspend fun createAndroidRuntimeDeps(application: Application): Runtime
             characterQueryService = actionHandler.characterQueryService(),
             inventoryQueryService = actionHandler.inventoryQueryService(),
             characterCommandBridge = CharacterCommandBridge(CharacterCommandService(characterSupport)),
-            saveGateway = saveGateway
+            saveGateway = saveGateway,
+            patchNotesService = PatchNotesService(
+                dataRoot = paths.dataRoot,
+                fallbackVersion = "0.1"
+            )
         )
     }
 }

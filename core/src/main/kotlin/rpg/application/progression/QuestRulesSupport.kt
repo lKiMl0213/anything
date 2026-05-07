@@ -56,8 +56,19 @@ class QuestRulesSupport(
             section = section,
             label = section.label,
             countLabel = countLabel,
-            hasAlert = hasReadyToClaim(quests)
+            hasAlert = isSectionActionable(section, quests)
         )
+    }
+
+    fun isSectionActionable(section: QuestSection, quests: List<QuestInstance>): Boolean {
+        return when (section) {
+            QuestSection.ACCEPTABLE_POOL -> false
+            QuestSection.ACCEPTED,
+            QuestSection.DAILY,
+            QuestSection.WEEKLY,
+            QuestSection.MONTHLY -> hasReadyToClaim(quests)
+            QuestSection.CLASS_QUEST -> false
+        }
     }
 
     fun sectionQuests(board: QuestBoardState, section: QuestSection): List<QuestInstance> {
@@ -87,6 +98,10 @@ class QuestRulesSupport(
             hasReadyToClaim(board.weeklyQuests) ||
             hasReadyToClaim(board.monthlyQuests) ||
             hasReadyToClaim(board.acceptedQuests)
+    }
+
+    fun hasAnyActionableQuest(board: QuestBoardState): Boolean {
+        return hasReadyToClaim(board)
     }
 
     fun hasReadyToClaim(quests: List<QuestInstance>): Boolean {

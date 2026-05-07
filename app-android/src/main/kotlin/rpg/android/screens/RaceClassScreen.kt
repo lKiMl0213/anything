@@ -1,30 +1,28 @@
 package rpg.android.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import rpg.android.R
 import rpg.android.state.RaceClassUiModel
+import rpg.android.ui.components.GameBackIconButton
+import rpg.android.ui.components.GameDropdownSelect
 import rpg.android.ui.components.GameFooterActions
 import rpg.android.ui.components.GameInfoPanel
+import rpg.android.ui.components.GameSelectOption
 import rpg.android.ui.components.GameScreenRoot
+import rpg.android.ui.components.GameUiTokens
 
 @Composable
 fun RaceClassScreen(
@@ -34,8 +32,6 @@ fun RaceClassScreen(
     onConfirm: () -> Unit,
     onCancel: () -> Unit
 ) {
-    var raceExpanded by remember { mutableStateOf(false) }
-    var classExpanded by remember { mutableStateOf(false) }
     val selectedRaceLabel = state.raceOptions.firstOrNull { it.id == state.selectedRaceId }?.label ?: "-"
     val selectedClassLabel = state.classOptions.firstOrNull { it.id == state.selectedClassId }?.label ?: "-"
 
@@ -43,9 +39,7 @@ fun RaceClassScreen(
         backgroundRes = R.drawable.bg_new_game,
         footer = {
             GameFooterActions(
-                leftLabel = "Cancelar",
                 rightLabel = "Confirmar",
-                onLeftClick = onCancel,
                 onRightClick = onConfirm,
                 rightEnabled = state.selectedRaceId != null && state.selectedClassId != null
             )
@@ -57,88 +51,64 @@ fun RaceClassScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                GameBackIconButton(onClick = onCancel)
+            }
+
             GameInfoPanel(title = selectedRaceLabel) {
-                state.raceSummaryLines.forEach { Text(it) }
+                state.raceSummaryLines.forEach { line ->
+                    Text(
+                        text = line,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.SemiBold,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontSize = GameUiTokens.titleTextSize
+                        )
+                    )
+                }
             }
             GameInfoPanel(title = selectedClassLabel) {
-                state.classSummaryLines.forEach { Text(it) }
-            }
-
-            Box(modifier = Modifier.fillMaxWidth()) {
-                OutlinedTextField(
-                    value = selectedRaceLabel,
-                    onValueChange = {},
-                    readOnly = true,
-                    label = { Text("Raca") },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
-                        focusedBorderColor = MaterialTheme.colorScheme.primary,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.90f),
-                        focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
-                        cursorColor = MaterialTheme.colorScheme.primary
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
-                )
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .clickable { raceExpanded = true }
-                )
-                DropdownMenu(
-                    expanded = raceExpanded,
-                    onDismissRequest = { raceExpanded = false },
-                    containerColor = MaterialTheme.colorScheme.surface
-                ) {
-                    state.raceOptions.forEach { race ->
-                        DropdownMenuItem(
-                            text = { Text(race.label) },
-                            onClick = {
-                                onSelectRace(race.id)
-                                raceExpanded = false
-                            }
+                state.classSummaryLines.forEach { line ->
+                    Text(
+                        text = line,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.SemiBold,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontSize = GameUiTokens.titleTextSize
                         )
-                    }
+                    )
                 }
             }
 
-            Box(modifier = Modifier.fillMaxWidth()) {
-                OutlinedTextField(
-                    value = selectedClassLabel,
-                    onValueChange = {},
-                    readOnly = true,
-                    label = { Text("Classe") },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
-                        focusedBorderColor = MaterialTheme.colorScheme.primary,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.90f),
-                        focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
-                        cursorColor = MaterialTheme.colorScheme.primary
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                GameDropdownSelect(
+                    label = "Racas",
+                    options = state.raceOptions.map { GameSelectOption(it.id, it.label) },
+                    onSelect = { option -> onSelectRace(option.key) }
                 )
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .clickable { classExpanded = true }
+                GameDropdownSelect(
+                    label = "Classes",
+                    options = state.classOptions.map { GameSelectOption(it.id, it.label) },
+                    onSelect = { option -> onSelectClass(option.key) }
                 )
-                DropdownMenu(
-                    expanded = classExpanded,
-                    onDismissRequest = { classExpanded = false },
-                    containerColor = MaterialTheme.colorScheme.surface
-                ) {
-                    state.classOptions.forEach { clazz ->
-                        DropdownMenuItem(
-                            text = { Text(clazz.label) },
-                            onClick = {
-                                onSelectClass(clazz.id)
-                                classExpanded = false
-                            }
-                        )
-                    }
-                }
             }
+
+            Text(
+                text = "Selecionado: $selectedRaceLabel | $selectedClassLabel",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.SemiBold
+            )
         }
     }
 }

@@ -1,6 +1,7 @@
 package rpg.android
 
 import rpg.android.state.MenuActionPreviewUiModel
+import rpg.android.state.MenuQuantityPickerUiModel
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
 import rpg.application.shop.ShopCategory
@@ -108,6 +109,39 @@ internal fun buildMenuActionPreviews(
                         primaryAction = action
                     )
                 }
+            }
+
+            is GameAction.ConfigureCraftRecipeQuantity -> {
+                val minValue = 1
+                val maxValue = action.maxQuantity.coerceAtLeast(minValue)
+                val currentValue = if (session.selectedCraftRecipeId == action.recipeId) {
+                    session.selectedCraftRecipeQuantity.coerceIn(minValue, maxValue)
+                } else {
+                    minValue
+                }
+                previews[option.key] = MenuActionPreviewUiModel(
+                    optionKey = option.key,
+                    title = "Quantidade de Craft",
+                    lines = listOf(
+                        "Defina quantas vezes a receita sera executada.",
+                        "O limite ja considera CAP atual e recursos disponiveis."
+                    ),
+                    primaryLabel = "Aplicar",
+                    primaryAction = GameAction.SetCraftRecipeQuantity(action.recipeId, currentValue),
+                    secondaryLabel = "Cancelar",
+                    secondaryAction = null,
+                    quantityPicker = MenuQuantityPickerUiModel(
+                        minValue = minValue,
+                        maxValue = maxValue,
+                        currentValue = currentValue,
+                        applyAction = { quantity ->
+                            GameAction.SetCraftRecipeQuantity(
+                                recipeId = action.recipeId,
+                                quantity = quantity.coerceIn(minValue, maxValue)
+                            )
+                        }
+                    )
+                )
             }
 
             else -> Unit

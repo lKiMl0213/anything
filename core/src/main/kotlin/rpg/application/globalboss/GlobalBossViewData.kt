@@ -7,6 +7,7 @@ data class GlobalBossMenuItemView(
     val cadence: GlobalBossCadence,
     val title: String,
     val runsLabel: String,
+    val timeRemainingLabel: String = "-",
     val alert: Boolean
 )
 
@@ -40,6 +41,7 @@ data class GlobalBossEventDetailView(
     val totalPointsLabel: String,
     val bestRunLabel: String,
     val runsLabel: String,
+    val cycleRemainingLabel: String = "-",
     val runsRemaining: Int,
     val claimableMilestonesCount: Int,
     val canStartRun: Boolean,
@@ -48,6 +50,7 @@ data class GlobalBossEventDetailView(
     val buyCostCash: Int,
     val milestones: List<GlobalBossMilestoneView>,
     val quests: List<GlobalBossQuestView>,
+    val rankingLabel: String? = null,
     val alert: Boolean
 )
 

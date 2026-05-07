@@ -84,6 +84,12 @@ class ProductionQueryService(
         if (maxCraftable <= 0) {
             blockedReasons += "ingredientes insuficientes"
         }
+        val maxSelectableBatch = durationService.resolveCraft(
+            state = state,
+            discipline = discipline,
+            recipeId = recipe.id,
+            requestedTimes = Int.MAX_VALUE
+        )?.times?.coerceAtLeast(1) ?: 1
         val durationResolution = durationService.resolveCraft(state, discipline, recipe.id, requestedBatchSize)
         val batchSize = durationResolution?.times?.coerceAtLeast(1) ?: 1
         val batchSeconds = durationResolution?.durationSeconds
@@ -99,6 +105,7 @@ class ProductionQueryService(
             discipline = recipe.discipline,
             available = blockedReasons.isEmpty(),
             maxCraftable = maxCraftable,
+            maxSelectableBatch = maxSelectableBatch,
             batchSize = batchSize,
             estimatedPerActionSeconds = perActionSeconds,
             estimatedBatchSeconds = batchSeconds,

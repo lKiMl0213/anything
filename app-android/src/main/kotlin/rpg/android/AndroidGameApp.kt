@@ -2,9 +2,15 @@
 
 import android.app.Activity
 import android.app.Application
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -17,9 +23,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import rpg.android.config.AppBuildInfoProvider
 import rpg.android.screens.AttributeDistributionScreen
 import rpg.android.screens.CharacterManagementScreen
 import rpg.android.screens.CombatTouchScreen
+import rpg.android.screens.GameSettingsOverlay
 import rpg.android.screens.GenericMenuScreen
 import rpg.android.screens.MainHubScreen
 import rpg.android.screens.NewGameScreen
@@ -30,6 +38,8 @@ import rpg.android.state.AndroidUiState
 import rpg.android.theme.AnythingRpgTheme
 import rpg.android.ui.components.GamePopupMenu
 import rpg.android.ui.components.GamePrimaryButton
+import rpg.android.ui.components.GamePopup
+import rpg.android.ui.scale.ProvideGameUiScale
 
 @Composable
 fun AndroidGameApp() {
@@ -41,9 +51,12 @@ fun AndroidGameApp() {
     val uiState by viewModel.uiState.collectAsState()
     val timedAction by viewModel.timedActionState.collectAsState()
     val popupDetail by viewModel.popupDetail.collectAsState()
+    val patchNotesPopup by viewModel.patchNotesPopup.collectAsState()
     val hasProgressAlert by viewModel.progressAlert.collectAsState()
     val darkThemeEnabled by viewModel.darkTheme.collectAsState()
+    val uiScale by viewModel.uiScale.collectAsState()
     val lifecycleOwner = LocalLifecycleOwner.current
+    val buildInfo = AppBuildInfoProvider.current()
 
     DisposableEffect(lifecycleOwner, viewModel) {
         val observer = LifecycleEventObserver { _, event ->
@@ -58,7 +71,9 @@ fun AndroidGameApp() {
     }
 
     AnythingRpgTheme(darkTheme = darkThemeEnabled) {
-        when (val state = uiState) {
+        ProvideGameUiScale(scale = uiScale) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                when (val state = uiState) {
             AndroidUiState.Loading -> StartPageScreen(
                 state = rpg.android.state.StartPageUiModel(
                     canLoad = false,
@@ -112,15 +127,13 @@ fun AndroidGameApp() {
             is AndroidUiState.MainHub -> MainHubScreen(
                 state = state.state,
                 hasProgressAlert = hasProgressAlert,
-                isDarkTheme = darkThemeEnabled,
+                versionLabel = buildInfo.shortLabel,
                 onExplore = viewModel::openExplore,
                 onOpenCharacter = viewModel::openCharacter,
                 onOpenProduction = viewModel::openProduction,
                 onOpenCity = viewModel::openCity,
                 onOpenProgression = viewModel::openProgression,
-                onClearInfo = viewModel::clearHubInfo,
-                onToggleTheme = viewModel::toggleTheme,
-                onExitApp = { activity?.finishAffinity() }
+                onOpenGlobalBoss = viewModel::openGlobalBoss
             )
 
             is AndroidUiState.Character -> CharacterManagementScreen(
@@ -157,6 +170,17 @@ fun AndroidGameApp() {
                 onUseItem = viewModel::onCombatUseItem
             )
         }
+
+                GameSettingsOverlay(
+                    enabled = uiState !is AndroidUiState.Loading,
+                    isDarkTheme = darkThemeEnabled,
+                    uiScale = uiScale,
+                    buildInfo = buildInfo,
+                    onToggleTheme = viewModel::toggleTheme,
+                    onUiScaleSelected = viewModel::setUiScale,
+                    onOpenPatchNotes = viewModel::openPatchNotesFromSettings,
+                    onExitApp = { activity?.finishAffinity() }
+                )
 
         timedAction?.let { timed ->
             TimedActionOverlay(
@@ -216,6 +240,49 @@ fun AndroidGameApp() {
                         onClick = { popup.onSecondary?.invoke() }
                     )
                 }
+            }
+        }
+
+        patchNotesPopup?.let { notes ->
+            GamePopup(
+                title = notes.title,
+                onDismiss = viewModel::dismissPatchNotesPopup,
+                showCloseButton = false,
+                modifier = Modifier.fillMaxWidth(0.96f)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 460.dp)
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    androidx.compose.material3.Text(
+                        text = "Versao ${notes.versionLabel}" + (notes.dateLabel?.let { " | $it" } ?: ""),
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                    if (notes.novidades.isNotEmpty()) {
+                        androidx.compose.material3.Text("Novidades:")
+                        notes.novidades.forEach { line ->
+                            androidx.compose.material3.Text("- $line")
+                        }
+                    }
+                    if (notes.melhorias.isNotEmpty()) {
+                        androidx.compose.material3.Text("Melhorias:")
+                        notes.melhorias.forEach { line ->
+                            androidx.compose.material3.Text("- $line")
+                        }
+                    }
+                    if (notes.correcoes.isNotEmpty()) {
+                        androidx.compose.material3.Text("Correcoes:")
+                        notes.correcoes.forEach { line ->
+                            androidx.compose.material3.Text("- $line")
+                        }
+                    }
+                }
+            }
+        }
             }
         }
     }

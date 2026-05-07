@@ -1,8 +1,12 @@
 package rpg.application.globalboss
 
+import java.time.DayOfWeek
+import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjusters
 import rpg.globalboss.config.GlobalBossCadence
 import rpg.globalboss.config.GlobalBossEventDef
 import rpg.globalboss.config.GlobalBossRewardDef
@@ -32,6 +36,7 @@ class GlobalBossQueryService(
     fun menuView(state: GameState): GlobalBossMenuView {
         val normalized = progressService.synchronize(state)
         val limits = progressService.runLimits()
+        val nowMillis = System.currentTimeMillis()
         val items = catalogService.allEvents().map { event ->
             val progress = eventProgress(normalized, event)
             val runsUsed = progress.runsUsed
@@ -43,6 +48,7 @@ class GlobalBossQueryService(
                 cadence = event.cadence,
                 title = event.title,
                 runsLabel = "Runs hoje: $runsUsed/${limits.maxRunsPerDay} (restam $remaining)",
+                timeRemainingLabel = cycleRemainingLabel(event.cadence, nowMillis),
                 alert = alert
             )
         }
@@ -55,6 +61,7 @@ class GlobalBossQueryService(
     fun eventDetail(state: GameState, eventId: String): GlobalBossEventDetailView? {
         val event = catalogService.eventById(eventId) ?: return null
         val normalized = progressService.synchronize(state)
+        val nowMillis = System.currentTimeMillis()
         val progress = eventProgress(normalized, event)
         val limits = progressService.runLimits()
         val paidBuyRemaining = (limits.purchasableRunsPerDay - progress.dailyPaidRunsBought).coerceAtLeast(0)
@@ -96,8 +103,9 @@ class GlobalBossQueryService(
             bossName = resolveBossName(event),
             totalDamageLabel = "Dano total: ${"%.1f".format(progress.totalDamage)}",
             totalPointsLabel = "Pontos totais: ${progress.totalPoints}",
-            bestRunLabel = "Melhor run: ${progress.bestRun} pontos",
+            bestRunLabel = "Melhor: ${progress.bestRun} pontos",
             runsLabel = runsLabel,
+            cycleRemainingLabel = cycleRemainingLabel(event.cadence, nowMillis),
             runsRemaining = runsRemaining,
             claimableMilestonesCount = claimableCount,
             canStartRun = canStart,
@@ -106,6 +114,7 @@ class GlobalBossQueryService(
             buyCostCash = limits.purchasedRunCashCost,
             milestones = milestoneViews,
             quests = quests,
+            rankingLabel = "Ranking global online: indisponivel offline",
             alert = canStart || claimableCount > 0
         )
     }
@@ -198,5 +207,37 @@ class GlobalBossQueryService(
             ?.takeIf { it.isNotBlank() }
             ?: repo.monsterArchetypes[event.bossArchetypeId]?.name
             ?: event.bossArchetypeId
+    }
+
+    private fun cycleRemainingLabel(cadence: GlobalBossCadence, nowMillis: Long): String {
+        val now = ZonedDateTime.ofInstant(Instant.ofEpochMilli(nowMillis), zoneId)
+        val cycleEnd = when (cadence) {
+            GlobalBossCadence.WEEKLY -> {
+                now.toLocalDate()
+                    .with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+                    .atStartOfDay(zoneId)
+            }
+
+            GlobalBossCadence.MONTHLY -> {
+                now.toLocalDate()
+                    .withDayOfMonth(1)
+                    .plusMonths(1)
+                    .atStartOfDay(zoneId)
+            }
+        }
+        val remainingSeconds = Duration.between(now, cycleEnd).seconds.coerceAtLeast(0L)
+        return formatRemainingTime(remainingSeconds)
+    }
+
+    private fun formatRemainingTime(totalSeconds: Long): String {
+        if (totalSeconds <= 0L) return "agora"
+        val days = totalSeconds / 86_400L
+        val hours = (totalSeconds % 86_400L) / 3_600L
+        val minutes = (totalSeconds % 3_600L) / 60L
+        return if (days > 0L) {
+            "${days}d ${hours}h ${minutes}m"
+        } else {
+            "${hours}h ${minutes}m"
+        }
     }
 }

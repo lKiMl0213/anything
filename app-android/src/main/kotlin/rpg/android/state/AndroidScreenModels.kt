@@ -128,7 +128,25 @@ data class MenuActionPreviewUiModel(
     val primaryLabel: String,
     val primaryAction: GameAction,
     val secondaryLabel: String? = null,
-    val secondaryAction: GameAction? = null
+    val secondaryAction: GameAction? = null,
+    val quantityPicker: MenuQuantityPickerUiModel? = null
+)
+
+data class MenuQuantityPickerUiModel(
+    val minValue: Int,
+    val maxValue: Int,
+    val currentValue: Int,
+    val applyAction: (Int) -> GameAction
+)
+
+data class PatchNotesUiModel(
+    val title: String,
+    val versionLabel: String,
+    val dateLabel: String?,
+    val novidades: List<String>,
+    val melhorias: List<String>,
+    val correcoes: List<String>,
+    val markSeenOnDismiss: Boolean = false
 )
 
 data class TalentTreeGraphUiModel(

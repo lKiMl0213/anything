@@ -21,6 +21,7 @@ extensions.configure<ApplicationExtension>("android") {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     compileOptions {
@@ -87,6 +88,31 @@ tasks.matching { task ->
         task.name.contains("Lint", ignoreCase = true)
 }.configureEach {
     enabled = false
+}
+
+val validateNoBundledSaves by tasks.registering {
+    group = "verification"
+    description = "Impede que saves/autosaves sejam empacotados como assets do APK."
+    val savesDir = file("../data/saves")
+    val rootDir = projectDir
+    doLast {
+        if (!savesDir.exists()) return@doLast
+        val bundledSaveFiles = savesDir
+            .walkTopDown()
+            .filter { it.isFile }
+            .filter { it.extension.equals("json", ignoreCase = true) }
+            .toList()
+        if (bundledSaveFiles.isNotEmpty()) {
+            val details = bundledSaveFiles.joinToString("\n") { "- ${it.relativeTo(rootDir).path}" }
+            throw GradleException(
+                "Remova saves de data/saves antes do build Android.\nArquivos encontrados:\n$details"
+            )
+        }
+    }
+}
+
+tasks.matching { it.name == "preBuild" }.configureEach {
+    dependsOn(validateNoBundledSaves)
 }
 
 
