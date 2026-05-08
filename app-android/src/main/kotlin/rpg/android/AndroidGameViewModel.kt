@@ -10,14 +10,21 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.nio.file.Path
 import java.nio.file.Files
+import rpg.android.audio.AudioEvent
+import rpg.android.audio.AudioSettings
+import rpg.android.audio.MusicTrack
+import rpg.android.audio.SoundEffect
 import rpg.android.combat.AndroidCombatFlowController
 import rpg.android.combat.AndroidCombatOutcomeResolver
 import rpg.android.state.AndroidUiState
@@ -68,6 +75,15 @@ class AndroidGameViewModel(
         GameUiScale.fromStorageKey(preferences.getString("ui_scale", GameUiScale.default.storageKey))
     )
     val uiScale: StateFlow<GameUiScale> = _uiScale.asStateFlow()
+    private val _audioSettings = MutableStateFlow(
+        AudioSettings(
+            musicEnabled = preferences.getBoolean(PREF_MUSIC_ENABLED, true),
+            effectsEnabled = preferences.getBoolean(PREF_EFFECTS_ENABLED, true)
+        )
+    )
+    val audioSettings: StateFlow<AudioSettings> = _audioSettings.asStateFlow()
+    private val _audioEvents = MutableSharedFlow<AudioEvent>(extraBufferCapacity = 48)
+    val audioEvents: SharedFlow<AudioEvent> = _audioEvents.asSharedFlow()
 
     private var runtime: RuntimeDeps? = null
     private val tutorialManager = TutorialManager()
@@ -126,7 +142,11 @@ class AndroidGameViewModel(
     }
 
     fun onMenuAction(action: GameAction) {
-        if (!allowTutorialMenuAction(action)) return
+        if (!allowTutorialMenuAction(action)) {
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
+            return
+        }
+        playActionSound(action)
         applyAction(action)
     }
 
@@ -241,22 +261,34 @@ class AndroidGameViewModel(
     fun cancelCreation() = applyAction(GameAction.Back)
 
     fun openCharacter() {
-        if (!allowTutorialAction(TutorialAction.OPEN_CHARACTER)) return
+        if (!allowTutorialAction(TutorialAction.OPEN_CHARACTER)) {
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
+            return
+        }
         applyAction(GameAction.OpenCharacterMenu)
     }
 
     fun openProduction() {
-        if (!allowTutorialAction(TutorialAction.OPEN_PRODUCTION)) return
+        if (!allowTutorialAction(TutorialAction.OPEN_PRODUCTION)) {
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
+            return
+        }
         applyAction(GameAction.OpenProductionMenu)
     }
 
     fun openExplore() {
-        if (!allowTutorialAction(TutorialAction.OPEN_EXPLORE)) return
+        if (!allowTutorialAction(TutorialAction.OPEN_EXPLORE)) {
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
+            return
+        }
         applyAction(GameAction.OpenExploration)
     }
 
     fun openHub() {
-        if (!allowTutorialAction(TutorialAction.OPEN_HUB)) return
+        if (!allowTutorialAction(TutorialAction.OPEN_HUB)) {
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
+            return
+        }
         if (session.gameState == null) return
         if (session.navigation == NavigationState.Hub) {
             publishFromSession()
@@ -272,12 +304,18 @@ class AndroidGameViewModel(
         publishFromSession()
     }
     fun openCity() {
-        if (!allowTutorialAction(TutorialAction.OPEN_CITY)) return
+        if (!allowTutorialAction(TutorialAction.OPEN_CITY)) {
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
+            return
+        }
         applyAction(GameAction.OpenCityMenu)
     }
 
     fun openProgression() {
-        if (!allowTutorialAction(TutorialAction.OPEN_PROGRESSION)) return
+        if (!allowTutorialAction(TutorialAction.OPEN_PROGRESSION)) {
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
+            return
+        }
         applyAction(GameAction.OpenProgressionMenu)
     }
     fun openTalents() = applyAction(GameAction.OpenTalents)
@@ -316,6 +354,7 @@ class AndroidGameViewModel(
         val current = deps.patchNotesService.currentEntry()
         val state = session.gameState
         if (current == null) {
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
             val reason = deps.patchNotesService.lastError()
                 ?: "Entrada da versao atual nao encontrada no changelog."
             val sourcePath = deps.patchNotesService.currentPath()
@@ -330,6 +369,7 @@ class AndroidGameViewModel(
             return
         }
         if (state != null && !state.toTutorialState().completed) {
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
             _popupDetail.value = PopupDetailUiModel(
                 title = "Patch Notes",
                 lines = listOf("Conclua o tutorial inicial para liberar o patch notes.")
@@ -340,7 +380,10 @@ class AndroidGameViewModel(
     }
 
     fun onSettingsOpened(): Boolean {
-        if (!allowTutorialAction(TutorialAction.OPEN_SETTINGS)) return false
+        if (!allowTutorialAction(TutorialAction.OPEN_SETTINGS)) {
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
+            return false
+        }
         publishFromSession()
         return true
     }
@@ -380,9 +423,20 @@ class AndroidGameViewModel(
         updateTutorialState(tutorialManager.complete(state))
     }
 
-    fun onCombatAttack() = combatController?.submitAttack()
-    fun onCombatEscape() = combatController?.submitEscape()
-    fun onCombatUseItem(itemId: String) = combatController?.submitUseItem(itemId)
+    fun onCombatAttack() {
+        emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ATTACK_PLAYER))
+        combatController?.submitAttack()
+    }
+
+    fun onCombatEscape() {
+        emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.CANCEL))
+        combatController?.submitEscape()
+    }
+
+    fun onCombatUseItem(itemId: String) {
+        emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.POTION))
+        combatController?.submitUseItem(itemId)
+    }
     fun clearHubInfo() {
         session = session.copy(messages = emptyList())
         publishFromSession()
@@ -399,11 +453,32 @@ class AndroidGameViewModel(
         preferences.edit().putString("ui_scale", scale.storageKey).apply()
     }
 
+    fun setMusicEnabled(enabled: Boolean) {
+        val current = _audioSettings.value
+        if (current.musicEnabled == enabled) return
+        val updated = current.copy(musicEnabled = enabled)
+        _audioSettings.value = updated
+        preferences.edit().putBoolean(PREF_MUSIC_ENABLED, enabled).apply()
+    }
+
+    fun setEffectsEnabled(enabled: Boolean) {
+        val current = _audioSettings.value
+        if (current.effectsEnabled == enabled) return
+        val updated = current.copy(effectsEnabled = enabled)
+        _audioSettings.value = updated
+        preferences.edit().putBoolean(PREF_EFFECTS_ENABLED, enabled).apply()
+    }
+
+    fun playUiSound(effect: SoundEffect) {
+        emitAudioEvent(AudioEvent.PlaySfx(effect))
+    }
+
     fun cancelTimedAction() {
         if (timedActionJob?.isActive != true) {
             _timedActionState.value = null
             return
         }
+        emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.CANCEL))
         timedActionJob?.cancel()
         timedActionJob = null
         _timedActionState.value = null
@@ -464,6 +539,7 @@ class AndroidGameViewModel(
 
     private fun startTimedAction(effect: GameEffect.LaunchProductionTimedAction) {
         timedActionJob?.cancel()
+        emitAudioEvent(AudioEvent.PlaySfx(soundForTimedActionStart(effect)))
         requestAutosave(immediate = true)
         timedActionJob = viewModelScope.launch {
             val totalMs = (effect.view.durationSeconds.coerceAtLeast(0.5) * 1000.0).toLong()
@@ -482,6 +558,7 @@ class AndroidGameViewModel(
             }
             _timedActionState.value = null
             applyAction(effect.completionAction)
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.CRAFT_FINISH))
             requestAutosave(immediate = true)
         }
     }
@@ -509,6 +586,7 @@ class AndroidGameViewModel(
             withContext(Dispatchers.Main) {
                 combatUiJob?.cancel(); combatController = null
                 session = deps.actionHandler.applyCombatResult(session, outcome)
+                playCombatResolutionAudio(outcome)
                 requestAutosave(immediate = true)
                 publishFromSession()
             }
@@ -663,10 +741,19 @@ class AndroidGameViewModel(
         return buildAndroidPopupDetail(
             session = session,
             deps = deps,
-            onUseItem = { itemId -> applyAction(GameAction.UseInventoryItem(itemId)) },
-            onEquipItem = { itemId -> applyAction(GameAction.EquipInventoryItem(itemId)) },
+            onUseItem = { itemId ->
+                emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.POTION))
+                applyAction(GameAction.UseInventoryItem(itemId))
+            },
+            onEquipItem = { itemId ->
+                emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.EQUIP))
+                applyAction(GameAction.EquipInventoryItem(itemId))
+            },
             onSell = { itemId, quantity -> sellInventoryQuantity(itemId, quantity) },
-            onUnequip = { slot -> applyAction(GameAction.UnequipSlot(slot)) },
+            onUnequip = { slot ->
+                emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.EQUIP))
+                applyAction(GameAction.UnequipSlot(slot))
+            },
             sellQuantityState = sellQuantityState,
             onDecreaseSellQuantity = ::decreaseSellQuantity,
             onIncreaseSellQuantity = ::increaseSellQuantity
@@ -739,7 +826,10 @@ class AndroidGameViewModel(
         val afterGold = session.gameState?.player?.gold ?: beforeGold
         val gained = (afterGold - beforeGold).coerceAtLeast(0)
         if (gained > 0) {
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.SELL))
             session = session.copy(messages = listOf("Venda concluida: +$gained ouro."))
+        } else {
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
         }
         sellQuantityState = null
         publishFromSession()
@@ -900,6 +990,82 @@ class AndroidGameViewModel(
         }
     }
 
+    private fun emitAudioEvent(event: AudioEvent) {
+        _audioEvents.tryEmit(event)
+    }
+
+    private fun playActionSound(action: GameAction) {
+        val effect = when (action) {
+            is GameAction.ClaimQuest,
+            is GameAction.ClaimAchievementReward,
+            is GameAction.ClaimGlobalBossMilestone -> SoundEffect.REWARD
+
+            is GameAction.BuyShopEntry,
+            is GameAction.BuyUpgrade,
+            is GameAction.BuyGlobalBossRunAttempt -> SoundEffect.BUY
+
+            is GameAction.SellInventoryItem,
+            is GameAction.SellLoadedAmmo -> SoundEffect.SELL
+
+            is GameAction.EquipInventoryItem,
+            is GameAction.UnequipSlot,
+            is GameAction.LoadAmmoToQuiver,
+            is GameAction.UnloadAmmoFromQuiver,
+            is GameAction.SelectActiveAmmo -> SoundEffect.EQUIP
+
+            is GameAction.UseInventoryItem -> SoundEffect.POTION
+
+            GameAction.TavernRest,
+            GameAction.TavernSleep,
+            GameAction.TavernPurifyOne,
+            GameAction.TavernPurifyAll -> SoundEffect.HEAL
+
+            is GameAction.ExecuteEnchantItem -> SoundEffect.ENCHANT
+            else -> null
+        }
+        if (effect != null) {
+            emitAudioEvent(AudioEvent.PlaySfx(effect))
+        }
+    }
+
+    private fun soundForTimedActionStart(effect: GameEffect.LaunchProductionTimedAction): SoundEffect {
+        val detail = listOf(
+            effect.view.categoryLabel,
+            effect.view.actionLabel,
+            effect.view.skillLabel
+        ).joinToString(" ").lowercase()
+        return when {
+            detail.contains("pesca") -> SoundEffect.FISHING
+            detail.contains("miner") -> SoundEffect.MINING
+            detail.contains("lenha") || detail.contains("wood") -> SoundEffect.WOODCUTTING
+            detail.contains("caca") || detail.contains("ca\u00e7") || detail.contains("hunting") -> SoundEffect.HUNTING
+            detail.contains("coleta") || detail.contains("herb") || detail.contains("gather") -> SoundEffect.GATHERING
+            detail.contains("forja") || detail.contains("forge") -> SoundEffect.FORGE
+            detail.contains("encant") || detail.contains("enchant") -> SoundEffect.ENCHANT
+            detail.contains("craft") || detail.contains("alquim") || detail.contains("cozinha") -> SoundEffect.CRAFT_START
+            else -> SoundEffect.CRAFT_START
+        }
+    }
+
+    private fun playCombatResolutionAudio(outcome: rpg.application.CombatFlowResult) {
+        val defeat = outcome.navigation == NavigationState.Hub &&
+            outcome.messages.any { it.contains("voce foi derrotado", ignoreCase = true) }
+        if (defeat) {
+            emitAudioEvent(AudioEvent.PlayMusicStinger(MusicTrack.DEFEAT, durationMs = 2200L))
+            return
+        }
+
+        val escaped = outcome.messages.any { it.contains("voce fugiu", ignoreCase = true) }
+        if (escaped) return
+
+        val victory = outcome.messages.any { it.contains("ganhou", ignoreCase = true) } ||
+            outcome.messages.any { it.contains("foi derrotado!", ignoreCase = true) }
+        if (victory) {
+            emitAudioEvent(AudioEvent.PlayMusicStinger(MusicTrack.VICTORY, durationMs = 2200L))
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.REWARD))
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         passiveTickJob?.cancel()
@@ -976,6 +1142,8 @@ class AndroidGameViewModel(
     }
 
     companion object {
+        private const val PREF_MUSIC_ENABLED = "audio_music_enabled"
+        private const val PREF_EFFECTS_ENABLED = "audio_effects_enabled"
         private const val PREF_LAST_SEEN_PATCH_VERSION_PREFIX = "last_seen_patch_version_"
         private const val PREF_LAST_SEEN_PATCH_VERSION_LEGACY = "last_seen_patch_version"
 

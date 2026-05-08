@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
+import rpg.android.audio.LocalGameAudioController
+import rpg.android.audio.SoundEffect
 
 data class GameSelectOption(
     val key: String,
@@ -31,6 +33,7 @@ fun GameDropdownSelect(
     width: Dp? = null
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val audioController = LocalGameAudioController.current
     val resolvedWidth = width ?: GameUiTokens.compactSelectWidth
 
     Box(
@@ -59,6 +62,7 @@ fun GameDropdownSelect(
                         )
                     },
                     onClick = {
+                        audioController.play(SoundEffect.CONFIRM)
                         expanded = false
                         onSelect(option)
                     }

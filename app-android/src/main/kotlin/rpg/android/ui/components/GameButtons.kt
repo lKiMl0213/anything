@@ -26,6 +26,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import rpg.android.audio.LocalGameAudioController
+import rpg.android.audio.SoundEffect
 
 enum class GameButtonTone {
     DEFAULT,
@@ -48,6 +50,7 @@ fun GamePrimaryButton(
     tone: GameButtonTone = GameButtonTone.DEFAULT,
     density: GameButtonDensity = GameButtonDensity.COMPACT
 ) {
+    val audioController = LocalGameAudioController.current
     val containerColor = when (tone) {
         GameButtonTone.DEFAULT -> GameUiTokens.defaultButtonColor()
         GameButtonTone.SUCCESS -> GameUiTokens.successButtonColor()
@@ -60,7 +63,10 @@ fun GamePrimaryButton(
         GameButtonDensity.INFO -> GameUiTokens.infoButtonHeight
     }
     Button(
-        onClick = onClick,
+        onClick = {
+            audioController.play(soundForLabel(label))
+            onClick()
+        },
         enabled = enabled,
         modifier = modifier
             .defaultMinSize(minHeight = minHeight)
@@ -176,12 +182,24 @@ private fun FlatIconButton(
     enabled: Boolean = true,
     size: androidx.compose.ui.unit.Dp
 ) {
+    val audioController = LocalGameAudioController.current
     Box(
         modifier = modifier
             .size(size)
             .clip(CircleShape)
             .alpha(if (enabled) 1f else 0.45f)
-            .clickable(enabled = enabled, onClick = onClick),
+            .clickable(
+                enabled = enabled,
+                onClick = {
+                    audioController.play(
+                        when (icon) {
+                            "\u2b05\ufe0f" -> SoundEffect.BACK
+                            else -> SoundEffect.CLICK
+                        }
+                    )
+                    onClick()
+                }
+            ),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -190,5 +208,16 @@ private fun FlatIconButton(
             fontSize = GameUiTokens.iconButtonFontSize,
             fontWeight = FontWeight.Black
         )
+    }
+}
+
+private fun soundForLabel(label: String): SoundEffect {
+    val normalized = label.trim().lowercase()
+    return when {
+        normalized == "x" -> SoundEffect.CANCEL
+        normalized.contains("voltar") -> SoundEffect.BACK
+        normalized.contains("cancel") || normalized.contains("fechar") -> SoundEffect.CANCEL
+        normalized.contains("confirm") || normalized.contains("aplicar") || normalized.contains("salvar") -> SoundEffect.CONFIRM
+        else -> SoundEffect.CLICK
     }
 }

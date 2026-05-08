@@ -8,10 +8,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -20,6 +24,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import rpg.android.audio.AndroidAudioManager
+import rpg.android.audio.AudioEvent
+import rpg.android.audio.GameAudioController
+import rpg.android.audio.MusicTrack
+import rpg.android.audio.ProvideGameAudioController
+import rpg.android.audio.SoundEffect
 import rpg.android.config.AppBuildInfoProvider
 import rpg.android.screens.AttributeDistributionScreen
 import rpg.android.screens.CharacterManagementScreen
@@ -32,7 +45,9 @@ import rpg.android.screens.PatchNotesPopupContent
 import rpg.android.screens.RaceClassScreen
 import rpg.android.screens.StartPageScreen
 import rpg.android.screens.TimedActionOverlay
+import rpg.android.screens.isGlobalBossContext
 import rpg.android.state.AndroidUiState
+import rpg.android.state.MainSection
 import rpg.android.tutorial.TutorialOverlay
 import rpg.android.theme.AnythingRpgTheme
 import rpg.android.ui.components.GamePopupMenu
@@ -57,24 +72,100 @@ fun AndroidGameApp() {
     val tutorialCompletedForCurrentGame by viewModel.tutorialCompletedForCurrentGame.collectAsState()
     val darkThemeEnabled by viewModel.darkTheme.collectAsState()
     val uiScale by viewModel.uiScale.collectAsState()
+    val audioSettings by viewModel.audioSettings.collectAsState()
     val lifecycleOwner = LocalLifecycleOwner.current
     val buildInfo = AppBuildInfoProvider.current()
+    val audioManager = remember(app) { AndroidAudioManager(app) }
+    val audioController = remember(viewModel) {
+        GameAudioController { effect ->
+            viewModel.playUiSound(effect)
+        }
+    }
+    val baseMusicTrack = remember(uiState) {
+        resolveMusicTrack(uiState)
+    }
+    var musicOverride by remember { mutableStateOf<MusicTrack?>(null) }
+    var wasPopupVisible by remember { mutableStateOf(false) }
+    var combatSnapshot by remember { mutableStateOf<CombatAudioSnapshot?>(null) }
+    val popupVisible = popupDetail != null || patchNotesPopup != null
 
     DisposableEffect(lifecycleOwner, viewModel) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_STOP) {
                 viewModel.onAppBackgrounded()
+                audioManager.stopMusic()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
+            audioManager.release()
         }
+    }
+
+    LaunchedEffect(audioSettings) {
+        audioManager.updateSettings(audioSettings)
+    }
+
+    LaunchedEffect(baseMusicTrack, musicOverride, audioSettings.musicEnabled) {
+        val selectedTrack = if (audioSettings.musicEnabled) musicOverride ?: baseMusicTrack else null
+        audioManager.playMusic(selectedTrack, loop = musicOverride == null)
+    }
+
+    LaunchedEffect(viewModel) {
+        var stingerJob: Job? = null
+        viewModel.audioEvents.collect { event ->
+            when (event) {
+                is AudioEvent.PlaySfx -> audioManager.playSfx(event.effect)
+                is AudioEvent.PlayMusicStinger -> {
+                    stingerJob?.cancel()
+                    stingerJob = launch {
+                        musicOverride = event.track
+                        delay(event.durationMs.coerceAtLeast(600L))
+                        musicOverride = null
+                    }
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(popupVisible) {
+        if (popupVisible != wasPopupVisible) {
+            val effect = if (popupVisible) SoundEffect.POPUP_OPEN else SoundEffect.POPUP_CLOSE
+            viewModel.playUiSound(effect)
+            wasPopupVisible = popupVisible
+        }
+    }
+
+    LaunchedEffect(uiState) {
+        val state = uiState
+        if (state !is AndroidUiState.Combat) {
+            combatSnapshot = null
+            return@LaunchedEffect
+        }
+        val current = CombatAudioSnapshot(
+            playerHp = state.state.playerHp,
+            enemyHp = state.state.enemyHp
+        )
+        val previous = combatSnapshot
+        if (previous != null) {
+            if (current.enemyHp < previous.enemyHp - 0.001) {
+                viewModel.playUiSound(SoundEffect.HIT)
+            }
+            if (current.playerHp < previous.playerHp - 0.001) {
+                viewModel.playUiSound(SoundEffect.ATTACK_ENEMY)
+                viewModel.playUiSound(SoundEffect.HIT)
+            } else if (current.playerHp > previous.playerHp + 0.001) {
+                viewModel.playUiSound(SoundEffect.HEAL)
+            }
+        }
+        combatSnapshot = current
     }
 
     AnythingRpgTheme(darkTheme = darkThemeEnabled) {
         ProvideGameUiScale(scale = uiScale) {
-            Box(modifier = Modifier.fillMaxSize()) {
+            ProvideGameAudioController(controller = audioController) {
+                Box(modifier = Modifier.fillMaxSize()) {
                 when (val state = uiState) {
             AndroidUiState.Loading -> StartPageScreen(
                 state = rpg.android.state.StartPageUiModel(
@@ -179,9 +270,12 @@ fun AndroidGameApp() {
                     patchNotesAvailable = tutorialCompletedForCurrentGame,
                     isDarkTheme = darkThemeEnabled,
                     uiScale = uiScale,
+                    audioSettings = audioSettings,
                     buildInfo = buildInfo,
                     onToggleTheme = viewModel::toggleTheme,
                     onUiScaleSelected = viewModel::setUiScale,
+                    onMusicEnabledChange = viewModel::setMusicEnabled,
+                    onEffectsEnabledChange = viewModel::setEffectsEnabled,
                     onSettingsOpened = viewModel::onSettingsOpened,
                     onOpenPatchNotes = viewModel::openPatchNotesFromSettings,
                     onRestartTutorial = viewModel::restartTutorialFromSettings,
@@ -274,3 +368,44 @@ fun AndroidGameApp() {
         }
     }
 }
+}
+
+private fun resolveMusicTrack(state: AndroidUiState): MusicTrack {
+    return when (state) {
+        AndroidUiState.Loading -> MusicTrack.MENU
+        is AndroidUiState.Error,
+        is AndroidUiState.StartPage,
+        is AndroidUiState.NewGame,
+        is AndroidUiState.RaceClass,
+        is AndroidUiState.AttributeDistribution -> MusicTrack.MENU
+
+        is AndroidUiState.MainHub -> MusicTrack.HOME
+        is AndroidUiState.Character -> MusicTrack.CHARACTER
+        is AndroidUiState.Combat -> {
+            if (state.state.title.contains("boss", ignoreCase = true)) {
+                MusicTrack.BOSS
+            } else {
+                MusicTrack.BATTLE
+            }
+        }
+
+        is AndroidUiState.GenericMenu -> {
+            if (isGlobalBossContext(state.viewModel.title, state.viewModel.options)) {
+                MusicTrack.BOSS
+            } else {
+                when (state.section) {
+                    MainSection.CHARACTER -> MusicTrack.CHARACTER
+                    MainSection.PRODUCTION -> MusicTrack.PRODUCTION
+                    MainSection.CITY -> MusicTrack.CITY
+                    MainSection.PROGRESSION -> MusicTrack.PROGRESS
+                    MainSection.EXPLORATION -> MusicTrack.HOME
+                }
+            }
+        }
+    }
+}
+
+private data class CombatAudioSnapshot(
+    val playerHp: Double,
+    val enemyHp: Double
+)

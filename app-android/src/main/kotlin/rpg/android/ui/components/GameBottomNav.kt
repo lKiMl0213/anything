@@ -21,6 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import rpg.android.audio.LocalGameAudioController
+import rpg.android.audio.SoundEffect
 import rpg.android.tutorial.TutorialTarget
 import rpg.android.tutorial.tutorialAnchor
 
@@ -38,6 +40,7 @@ fun GameBottomNav(
     items: List<BottomNavItem>,
     modifier: Modifier = Modifier
 ) {
+    val audioController = LocalGameAudioController.current
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -66,7 +69,12 @@ fun GameBottomNav(
                     .weight(1f)
                     .fillMaxHeight()
                     .background(background, RoundedCornerShape(GameUiTokens.buttonCorner))
-                    .clickable(onClick = item.onClick),
+                    .clickable(
+                        onClick = {
+                            audioController.play(SoundEffect.CLICK)
+                            item.onClick()
+                        }
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Text(

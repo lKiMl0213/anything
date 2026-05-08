@@ -29,6 +29,18 @@ docs/local_notes/
 *.bak
 *.orig
 
+# Local AI and graph tooling
+.codex/
+.obsidian/
+**/.obsidian/
+graphify-out/
+**/graphify-out/
+graphify-work/
+**/graphify-work/
+obsidian/
+**/obsidian/
+.graphify_*
+
 # Context scratch and local-only memory
 context/**/*.tmp
 context/**/*.local.md
