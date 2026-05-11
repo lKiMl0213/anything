@@ -16,6 +16,6 @@
     "difficulty":  2.6,
     "maxQty":  1,
     "minPlayerLevel":  21,
-    "minSkillLevel":  11,
+    "minSkillLevel":  25,
     "description":  "Fonte de ervas para alquimia e culinaria."
 }

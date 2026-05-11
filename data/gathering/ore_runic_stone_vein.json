@@ -15,7 +15,7 @@
     "baseDurationSeconds":  11.7,
     "difficulty":  2.98,
     "maxQty":  1,
-    "minPlayerLevel":  23,
-    "minSkillLevel":  12,
+    "minPlayerLevel":  21,
+    "minSkillLevel":  30,
     "description":  "Nodo de mineracao da regiao."
 }

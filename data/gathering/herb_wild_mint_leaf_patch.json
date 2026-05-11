@@ -15,7 +15,7 @@
     "baseDurationSeconds":  5.25,
     "difficulty":  1.48,
     "maxQty":  3,
-    "minPlayerLevel":  7,
-    "minSkillLevel":  4,
+    "minPlayerLevel":  5,
+    "minSkillLevel":  8,
     "description":  "Fonte de ervas para alquimia e culinaria."
 }

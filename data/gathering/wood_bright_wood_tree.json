@@ -15,7 +15,7 @@
     "baseDurationSeconds":  9,
     "difficulty":  2.52,
     "maxQty":  1,
-    "minPlayerLevel":  25,
-    "minSkillLevel":  9,
+    "minPlayerLevel":  17,
+    "minSkillLevel":  23,
     "description":  "Area de corte de madeira."
 }

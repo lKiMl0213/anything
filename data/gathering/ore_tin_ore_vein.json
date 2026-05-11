@@ -16,6 +16,6 @@
     "difficulty":  1.36,
     "maxQty":  3,
     "minPlayerLevel":  5,
-    "minSkillLevel":  3,
+    "minSkillLevel":  5,
     "description":  "Nodo de mineracao da regiao."
 }

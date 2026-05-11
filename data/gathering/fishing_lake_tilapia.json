@@ -11,6 +11,8 @@
   "baseDurationSeconds": 4.3,
   "baseXp": 12.0,
   "difficulty": 1.1,
+  "minPlayerLevel": 1,
+  "minSkillLevel": 3,
   "tier": 1,
   "description": "Lago de agua doce com peixes comuns.",
   "enabled": true,

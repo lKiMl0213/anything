@@ -16,6 +16,6 @@
     "difficulty":  1,
     "maxQty":  3,
     "minPlayerLevel":  1,
-    "minSkillLevel":  1,
+    "minSkillLevel":  3,
     "description":  "Area de corte de madeira."
 }
