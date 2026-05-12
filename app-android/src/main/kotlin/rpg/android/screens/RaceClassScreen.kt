@@ -103,12 +103,14 @@ fun RaceClassScreen(
                 )
             }
 
-            Text(
-                text = "Selecionado: $selectedRaceLabel | $selectedClassLabel",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.SemiBold
-            )
+            GameInfoPanel(title = "Selecao atual") {
+                Text(
+                    text = "Selecionado: $selectedRaceLabel | $selectedClassLabel",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
         }
     }
 }

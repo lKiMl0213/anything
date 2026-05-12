@@ -38,9 +38,11 @@ class GatheringService(
     private val raceProfessionBonusPct: (PlayerState, SkillType) -> Double = { _, _ -> 0.0 }
 ) {
     fun availableNodes(playerLevel: Int, type: GatheringType? = null): List<GatherNodeDef> {
+        @Suppress("UNUSED_VARIABLE")
+        val ignoredPlayerLevel = playerLevel
         return nodes.values
             .asSequence()
-            .filter { it.enabled && playerLevel >= it.minPlayerLevel }
+            .filter { it.enabled }
             .filter { type == null || it.type == type }
             .sortedBy { it.name }
             .toList()
@@ -50,7 +52,7 @@ class GatheringService(
         val prepared = skillSystem.ensureProgress(player)
         return nodes.values
             .asSequence()
-            .filter { it.enabled && prepared.level >= it.minPlayerLevel }
+            .filter { it.enabled }
             .filter { type == null || it.type == type }
             .filter { node ->
                 val skill = nodeSkill(node)
@@ -71,15 +73,6 @@ class GatheringService(
             ?: return GatherExecutionResult(false, "Ponto de coleta nao encontrado.", preparedPlayer, itemInstances)
         if (!node.enabled) {
             return GatherExecutionResult(false, "Ponto de coleta desativado.", preparedPlayer, itemInstances, node = node)
-        }
-        if (preparedPlayer.level < node.minPlayerLevel) {
-            return GatherExecutionResult(
-                false,
-                "Nivel insuficiente para este ponto de coleta.",
-                preparedPlayer,
-                itemInstances,
-                node = node
-            )
         }
         val skillType = nodeSkill(node)
         val skillSnapshot = skillSystem.snapshot(preparedPlayer, skillType)

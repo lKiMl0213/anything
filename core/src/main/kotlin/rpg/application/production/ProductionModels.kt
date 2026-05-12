@@ -9,6 +9,8 @@ data class ProductionRecipeView(
     val name: String,
     val outputLabel: String,
     val discipline: CraftDiscipline,
+    val unlocked: Boolean,
+    val unlockReason: String?,
     val available: Boolean,
     val maxCraftable: Int,
     val maxSelectableBatch: Int,
@@ -27,6 +29,8 @@ data class ProductionGatherNodeView(
     val skillType: SkillType,
     val skillLevel: Int,
     val minSkillLevel: Int,
+    val unlocked: Boolean,
+    val unlockReason: String?,
     val durationSeconds: Double,
     val available: Boolean
 )

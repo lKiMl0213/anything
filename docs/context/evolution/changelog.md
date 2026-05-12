@@ -1,4 +1,38 @@
 # Changelog
+## 2026-05-12 - Android UI consistente (tema/popup) + exclusao de save + bloqueio de producao por skill
+
+### Updated Systems
+- Padrao global de popup no Android consolidado:
+  - removido botao `X` em `GamePopup`/`GamePopupMenu`;
+  - fechamento permanece por clique fora/back;
+  - clique interno nao fecha popup sem acao explicita.
+- Ajustes de contraste em telas de criacao:
+  - campo de nome em criacao migrado para `GameOutlinedTextField` (texto, cursor, borda e placeholder com tokens de tema claro/escuro);
+  - linha de selecao atual de raca/classe movida para `GameInfoPanel` para legibilidade nos dois temas.
+- Talentos (`Ver detalhes`) no Android:
+  - detalhe de node passou a abrir como popup sobreposto em vez de navegar para nova tela;
+  - arvore permanece como contexto de fundo.
+- Carregar saves no Android:
+  - popup sem `X` (padrao global);
+  - adicionada exclusao por save com botao `🗑`;
+  - exclusao exige confirmacao explicita (`Cancelar` / `Excluir`) e atualiza lista apos remover.
+- Feedback de loja para compra sem ouro:
+  - compra continua bloqueada pela regra de dominio;
+  - Android agora mostra toast `Ouro insuficiente`;
+  - linha de ouro no header recebe destaque vermelho temporario + animacao de erro (shake).
+- Producao com desbloqueio por skill (nao por nivel do personagem):
+  - `CraftingService` e `GatheringService` removeram gating por nivel do personagem para disponibilidade/listagem;
+  - `ProductionQueryService` passou a expor `unlocked`/`unlockReason` por receita/no;
+  - lista de producao exibe todos os itens, incluindo bloqueados;
+  - itens bloqueados ficam desabilitados, com motivo `Desbloqueado no nv X de [skill]`.
+- Componente reutilizavel criado:
+  - `LockedContent` para encapsular estado bloqueado (estilo + motivo), reaproveitavel em producao e futuros gates.
+
+### Validation Notes
+- `./gradlew build` falhou por regra preexistente de limite de linhas em arquivos antigos de tutorial (fora do escopo desta entrega).
+- `./gradlew build -x checkKotlinFileLineLimit` passou com sucesso.
+- Grafo do projeto atualizado com `python -m graphify update .` (saida em `graphify-out/`).
+
 ## 2026-05-06 - Patchnotes automatico por versao no Android
 
 ### Updated Systems

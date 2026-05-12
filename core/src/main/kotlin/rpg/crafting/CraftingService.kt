@@ -39,9 +39,11 @@ class CraftingService(
     private val raceProfessionBonusPct: (PlayerState, SkillType) -> Double = { _, _ -> 0.0 }
 ) {
     fun availableRecipes(playerLevel: Int, discipline: CraftDiscipline? = null): List<CraftRecipeDef> {
+        @Suppress("UNUSED_VARIABLE")
+        val ignoredPlayerLevel = playerLevel
         return recipes.values
             .asSequence()
-            .filter { it.enabled && playerLevel >= it.minPlayerLevel }
+            .filter { it.enabled }
             .filter { discipline == null || it.discipline == discipline }
             .sortedBy { it.name }
             .toList()
@@ -51,7 +53,7 @@ class CraftingService(
         val prepared = skillSystem.ensureProgress(player)
         return recipes.values
             .asSequence()
-            .filter { it.enabled && prepared.level >= it.minPlayerLevel }
+            .filter { it.enabled }
             .filter { discipline == null || it.discipline == discipline }
             .filter { recipe ->
                 val skill = recipeSkill(recipe)
@@ -73,16 +75,6 @@ class CraftingService(
         if (!recipe.enabled) {
             return CraftExecutionResult(false, "Receita desativada.", preparedPlayer, itemInstances, recipe = recipe)
         }
-        if (preparedPlayer.level < recipe.minPlayerLevel) {
-            return CraftExecutionResult(
-                false,
-                "Nivel insuficiente para esta receita.",
-                preparedPlayer,
-                itemInstances,
-                recipe = recipe
-            )
-        }
-
         val skillType = recipeSkill(recipe)
         val skillSnapshot = skillSystem.snapshot(preparedPlayer, skillType)
         if (skillSnapshot.level < recipe.minSkillLevel) {
@@ -253,7 +245,6 @@ class CraftingService(
     ): Int {
         val preparedPlayer = skillSystem.ensureProgress(player)
         if (!recipe.enabled) return 0
-        if (preparedPlayer.level < recipe.minPlayerLevel) return 0
         val skillType = recipeSkill(recipe)
         val skillSnapshot = skillSystem.snapshot(preparedPlayer, skillType)
         if (skillSnapshot.level < recipe.minSkillLevel) return 0

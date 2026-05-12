@@ -32,6 +32,7 @@ class ProductionQueryService(
         return nodes.map { node ->
             val skill = engine.gatheringService.nodeSkill(node)
             val snapshot = engine.skillSystem.snapshot(player, skill)
+            val unlocked = snapshot.level >= node.minSkillLevel
             val duration = durationService.resolveGather(state, type, node.id)?.durationSeconds
                 ?: engine.skillSystem.actionDurationSeconds(
                     baseSeconds = node.baseDurationSeconds,
@@ -45,8 +46,10 @@ class ProductionQueryService(
                 skillType = skill,
                 skillLevel = snapshot.level,
                 minSkillLevel = node.minSkillLevel,
+                unlocked = unlocked,
+                unlockReason = if (unlocked) null else unlockMessage(node.minSkillLevel, skill),
                 durationSeconds = duration,
-                available = snapshot.level >= node.minSkillLevel
+                available = unlocked
             )
         }
     }
@@ -74,11 +77,9 @@ class ProductionQueryService(
             "$ingredientName: possui $owned / precisa $needed"
         }
         val maxCraftable = engine.craftingService.maxCraftable(player, itemInstances, recipe)
+        val unlocked = skillSnapshot.level >= recipe.minSkillLevel
         val blockedReasons = mutableListOf<String>()
-        if (player.level < recipe.minPlayerLevel) {
-            blockedReasons += "lvl necessario ${recipe.minPlayerLevel}"
-        }
-        if (skillSnapshot.level < recipe.minSkillLevel) {
+        if (!unlocked) {
             blockedReasons += "skill ${skill.name.lowercase()} ${skillSnapshot.level}/${recipe.minSkillLevel}"
         }
         if (maxCraftable <= 0) {
@@ -103,7 +104,9 @@ class ProductionQueryService(
             name = recipe.name,
             outputLabel = "${itemName(recipe.outputItemId)} x${recipe.outputQty}",
             discipline = recipe.discipline,
-            available = blockedReasons.isEmpty(),
+            unlocked = unlocked,
+            unlockReason = if (unlocked) null else unlockMessage(recipe.minSkillLevel, skill),
+            available = unlocked && maxCraftable > 0,
             maxCraftable = maxCraftable,
             maxSelectableBatch = maxSelectableBatch,
             batchSize = batchSize,
@@ -112,5 +115,21 @@ class ProductionQueryService(
             blockedReasons = blockedReasons,
             ingredientLines = ingredientLines
         )
+    }
+
+    private fun unlockMessage(minSkillLevel: Int, skill: rpg.model.SkillType): String {
+        return "Desbloqueado no nv $minSkillLevel de ${skillLabel(skill)}"
+    }
+
+    private fun skillLabel(skill: rpg.model.SkillType): String = when (skill) {
+        rpg.model.SkillType.MINING -> "mineracao"
+        rpg.model.SkillType.GATHERING -> "coleta"
+        rpg.model.SkillType.WOODCUTTING -> "corte de madeira"
+        rpg.model.SkillType.FISHING -> "pesca"
+        rpg.model.SkillType.HUNTING -> "caca"
+        rpg.model.SkillType.BLACKSMITH -> "forja"
+        rpg.model.SkillType.ALCHEMIST -> "alquimia"
+        rpg.model.SkillType.COOKING -> "culinaria"
+        rpg.model.SkillType.ENCHANTING -> "encantamento"
     }
 }

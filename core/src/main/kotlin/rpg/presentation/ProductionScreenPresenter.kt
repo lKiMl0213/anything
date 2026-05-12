@@ -42,11 +42,17 @@ internal class ProductionScreenPresenter(
 
         val recipes = queryService.recipes(state, discipline)
         val options = recipes.mapIndexed { index, recipe ->
-            val status = if (recipe.available) "Disponivel (${recipe.maxCraftable}x)" else "Indisponivel"
+            val status = when {
+                !recipe.unlocked -> "Bloqueado"
+                recipe.available -> "Disponivel (${recipe.maxCraftable}x)"
+                else -> "Sem ingredientes"
+            }
             ScreenOptionViewModel(
                 (index + 1).toString(),
                 "${recipe.name} -> ${recipe.outputLabel} | $status | acao ${formatSeconds(recipe.estimatedPerActionSeconds)}s | lote ${formatSeconds(recipe.estimatedBatchSeconds)}s",
-                GameAction.InspectCraftRecipe(recipe.id)
+                GameAction.InspectCraftRecipe(recipe.id),
+                enabled = recipe.unlocked,
+                lockedReason = recipe.unlockReason
             )
         } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
 
@@ -105,6 +111,7 @@ internal class ProductionScreenPresenter(
 
         val body = mutableListOf<String>()
         body += "Receita: ${recipe.name} -> ${recipe.outputLabel} | $status | acao ${formatSeconds(recipe.estimatedPerActionSeconds)}s | lote ${formatSeconds(recipe.estimatedBatchSeconds)}s (${recipe.batchSize}x)"
+        recipe.unlockReason?.let { body += it }
         if (recipe.blockedReasons.isNotEmpty()) {
             body += "Bloqueios: ${recipe.blockedReasons.joinToString(" | ")}"
         }
@@ -118,12 +125,15 @@ internal class ProductionScreenPresenter(
             ScreenOptionViewModel(
                 "1",
                 if (recipe.available) "Craftar lote (${currentQty}x)" else "Craftar lote (${currentQty}x) [bloqueado]",
-                GameAction.CraftRecipe(recipe.id)
+                GameAction.CraftRecipe(recipe.id),
+                enabled = recipe.available
             ),
             ScreenOptionViewModel(
                 "2",
                 "Definir quantidade (${currentQty}/${maxSelectableQty})",
-                GameAction.ConfigureCraftRecipeQuantity(recipe.id, maxSelectableQty)
+                GameAction.ConfigureCraftRecipeQuantity(recipe.id, maxSelectableQty),
+                enabled = recipe.unlocked,
+                lockedReason = recipe.unlockReason
             ),
             ScreenOptionViewModel("x", "Voltar", GameAction.Back)
         )
@@ -149,11 +159,13 @@ internal class ProductionScreenPresenter(
             )
         val nodes = queryService.gatherNodes(state, type)
         val options = nodes.mapIndexed { index, node ->
-            val status = if (node.available) "Disponivel" else "Skill ${node.skillLevel}/${node.minSkillLevel}"
+            val status = if (node.unlocked) "Disponivel" else "Bloqueado"
             ScreenOptionViewModel(
                 (index + 1).toString(),
                 "${node.name} -> ${node.resourceLabel} | $status | tempo ${formatSeconds(node.durationSeconds)}s",
-                GameAction.GatherNode(node.id)
+                GameAction.GatherNode(node.id),
+                enabled = node.unlocked,
+                lockedReason = node.unlockReason
             )
         } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
 

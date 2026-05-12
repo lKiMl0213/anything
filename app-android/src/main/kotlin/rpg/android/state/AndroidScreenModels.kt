@@ -129,7 +129,9 @@ data class MenuActionPreviewUiModel(
     val primaryAction: GameAction,
     val secondaryLabel: String? = null,
     val secondaryAction: GameAction? = null,
-    val quantityPicker: MenuQuantityPickerUiModel? = null
+    val quantityPicker: MenuQuantityPickerUiModel? = null,
+    val detailPopupTitle: String? = null,
+    val detailPopupLines: List<String> = emptyList()
 )
 
 data class MenuQuantityPickerUiModel(

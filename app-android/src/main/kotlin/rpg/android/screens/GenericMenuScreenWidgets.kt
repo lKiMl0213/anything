@@ -1,11 +1,22 @@
 package rpg.android.screens
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
+import kotlinx.coroutines.delay
 import rpg.android.state.MainSection
 import rpg.android.ui.components.GamePanel
 import rpg.android.ui.components.BottomNavItem
@@ -28,8 +39,26 @@ internal fun GenericMenuHeaderPanel(
     bodyLines: List<String>,
     isExplorationAreasContext: Boolean,
     section: MainSection,
-    sectionMessages: List<String>
+    sectionMessages: List<String>,
+    goldErrorPulse: Int = 0
 ) {
+    var goldErrorActive by remember { mutableStateOf(false) }
+    val goldShakeOffsetPx = remember { Animatable(0f) }
+    val goldTextColor by animateColorAsState(
+        targetValue = if (goldErrorActive) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
+        label = "goldTextColor"
+    )
+    LaunchedEffect(goldErrorPulse) {
+        if (goldErrorPulse <= 0) return@LaunchedEffect
+        goldErrorActive = true
+        val sequence = listOf(14f, -14f, 11f, -11f, 7f, -7f, 3f, -3f, 0f)
+        sequence.forEach { value ->
+            goldShakeOffsetPx.animateTo(value, animationSpec = tween(durationMillis = 45))
+        }
+        delay(650)
+        goldErrorActive = false
+    }
+
     GamePanel(title = if (isGlobalBossContext) null else title) {
         if (isGlobalBossContext) {
             Text(
@@ -64,7 +93,10 @@ internal fun GenericMenuHeaderPanel(
                 )
                 Text(
                     text = "Ouro ${header.gold}",
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .graphicsLayer { translationX = goldShakeOffsetPx.value },
+                    color = goldTextColor,
                     textAlign = TextAlign.Center
                 )
             }

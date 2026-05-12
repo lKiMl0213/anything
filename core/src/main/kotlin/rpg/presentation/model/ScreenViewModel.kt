@@ -20,7 +20,9 @@ data class PlayerSummaryViewModel(
 data class ScreenOptionViewModel(
     val key: String,
     val label: String,
-    val action: GameAction
+    val action: GameAction,
+    val enabled: Boolean = true,
+    val lockedReason: String? = null
 )
 
 sealed interface ScreenViewModel {

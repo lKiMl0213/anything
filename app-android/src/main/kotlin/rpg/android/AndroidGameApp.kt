@@ -189,7 +189,8 @@ fun AndroidGameApp() {
                 state = state.state,
                 onNewGame = viewModel::startNewGame,
                 onLoad = viewModel::openLoadList,
-                onLoadSelected = viewModel::loadSelectedSave
+                onLoadSelected = viewModel::loadSelectedSave,
+                onDeleteSelected = viewModel::deleteSelectedSave
             )
 
             is AndroidUiState.NewGame -> NewGameScreen(

@@ -31,6 +31,10 @@ class SaveGameGateway(
         return saveDir.resolve(fileName)
     }
 
+    fun delete(path: Path): Boolean {
+        return Files.deleteIfExists(path)
+    }
+
     fun saveAutosave(state: GameState): Path {
         val path = saveDir.resolve("autosave.json")
         return save(path, state)

@@ -90,6 +90,7 @@ internal fun buildMenuActionPreviews(
                 val lines = detail.detailLines
                     .filter { it.isNotBlank() }
                     .take(6)
+                val fullDetailLines = detail.detailLines.filter { it.isNotBlank() }
                 if (detail.canRankUp) {
                     previews[option.key] = MenuActionPreviewUiModel(
                         optionKey = option.key,
@@ -98,7 +99,9 @@ internal fun buildMenuActionPreviews(
                         primaryLabel = "Aumentar nivel (custo ${detail.nextCost})",
                         primaryAction = GameAction.ConfirmTalentRankUp(action.nodeId),
                         secondaryLabel = "Ver detalhes",
-                        secondaryAction = action
+                        secondaryAction = null,
+                        detailPopupTitle = detail.title,
+                        detailPopupLines = fullDetailLines
                     )
                 } else {
                     previews[option.key] = MenuActionPreviewUiModel(
@@ -106,7 +109,9 @@ internal fun buildMenuActionPreviews(
                         title = detail.title,
                         lines = lines,
                         primaryLabel = "Ver detalhes",
-                        primaryAction = action
+                        primaryAction = action,
+                        detailPopupTitle = detail.title,
+                        detailPopupLines = fullDetailLines
                     )
                 }
             }

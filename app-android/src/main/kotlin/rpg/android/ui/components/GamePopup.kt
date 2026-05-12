@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,7 +22,7 @@ fun GamePopup(
     title: String,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
-    showCloseButton: Boolean = true,
+    showCloseButton: Boolean = false,
     content: @Composable () -> Unit
 ) {
     Dialog(
@@ -47,20 +46,13 @@ fun GamePopup(
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
                         text = title,
                         modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Center
                     )
-                    if (showCloseButton) {
-                        GamePrimaryButton(
-                            label = "X",
-                            onClick = onDismiss,
-                            modifier = Modifier.width(42.dp)
-                        )
-                    }
                 }
                 content()
             }
@@ -72,7 +64,7 @@ fun GamePopup(
 fun GamePopupMenu(
     title: String,
     onDismiss: () -> Unit,
-    showCloseButton: Boolean = true,
+    showCloseButton: Boolean = false,
     content: @Composable () -> Unit
 ) {
     GamePopup(

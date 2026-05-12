@@ -2,6 +2,7 @@
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,9 +28,11 @@ fun StartPageScreen(
     state: StartPageUiModel,
     onNewGame: () -> Unit,
     onLoad: () -> Unit,
-    onLoadSelected: (String) -> Unit = {}
+    onLoadSelected: (String) -> Unit = {},
+    onDeleteSelected: (String) -> Unit = {}
 ) {
     var showLoadPopup by remember { mutableStateOf(false) }
+    var pendingDelete by remember { mutableStateOf<String?>(null) }
 
     GameScreenRoot(backgroundRes = R.drawable.bg_menu) {
         Spacer(modifier = Modifier.weight(1f))
@@ -80,15 +83,62 @@ fun StartPageScreen(
             } else {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     state.saves.forEach { save ->
-                        GamePrimaryButton(
-                            label = "${save.characterName} (${save.fileName})",
-                            onClick = {
-                                showLoadPopup = false
-                                onLoadSelected(save.fileName)
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            GamePrimaryButton(
+                                label = "${save.characterName} (${save.fileName})",
+                                onClick = {
+                                    showLoadPopup = false
+                                    onLoadSelected(save.fileName)
+                                },
+                                modifier = Modifier.weight(1f)
+                            )
+                            GamePrimaryButton(
+                                label = "\uD83D\uDDD1",
+                                onClick = { pendingDelete = save.fileName }
+                            )
+                        }
                     }
+                }
+            }
+        }
+    }
+
+    pendingDelete?.let { fileName ->
+        GamePopup(
+            title = "Excluir Save",
+            onDismiss = { pendingDelete = null }
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Tem certeza que deseja excluir esse save?",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    GamePrimaryButton(
+                        label = "Cancelar",
+                        onClick = { pendingDelete = null },
+                        modifier = Modifier.weight(1f)
+                    )
+                    GamePrimaryButton(
+                        label = "Excluir",
+                        onClick = {
+                            onDeleteSelected(fileName)
+                            pendingDelete = null
+                        },
+                        modifier = Modifier.weight(1f)
+                    )
                 }
             }
         }

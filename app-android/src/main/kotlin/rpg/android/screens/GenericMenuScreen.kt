@@ -1,5 +1,6 @@
 ﻿package rpg.android.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,12 +11,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import rpg.android.R
@@ -26,6 +30,7 @@ import rpg.android.ui.components.GameBackIconButton
 import rpg.android.ui.components.GameButtonDensity
 import rpg.android.ui.components.GameBottomNav
 import rpg.android.ui.components.GameButtonTone
+import rpg.android.ui.components.LockedContent
 import rpg.android.ui.components.GamePanel
 import rpg.android.ui.components.GamePrimaryButton
 import rpg.android.ui.components.GameScreenRoot
@@ -49,6 +54,7 @@ fun GenericMenuScreen(
     onOpenProgression: () -> Unit
 ) {
     var pendingPreview by remember { mutableStateOf<MenuActionPreviewUiModel?>(null) }
+    val context = LocalContext.current
     val background = when (section) {
         MainSection.CHARACTER -> R.drawable.bg_character
         MainSection.PRODUCTION -> R.drawable.bg_production
@@ -105,6 +111,18 @@ fun GenericMenuScreen(
         section == MainSection.EXPLORATION -> viewModel.messages.takeLast(4)
         section == MainSection.CITY -> cityRelevantMessages(viewModel.messages)
         else -> viewModel.messages
+    }
+    var goldErrorPulse by remember { mutableIntStateOf(0) }
+    val latestMessage = if (section == MainSection.CITY) {
+        viewModel.messages.lastOrNull()
+    } else {
+        null
+    }
+    LaunchedEffect(section, viewModel.messages.size) {
+        if (section == MainSection.CITY && latestMessage?.contains("Ouro insuficiente", ignoreCase = true) == true) {
+            Toast.makeText(context, "Ouro insuficiente", Toast.LENGTH_SHORT).show()
+            goldErrorPulse += 1
+        }
     }
     val displayTitle = if (section == MainSection.CITY) {
         viewModel.title.replace("Aprimoramentos", "Melhorias", ignoreCase = true)
@@ -163,7 +181,8 @@ fun GenericMenuScreen(
                 bodyLines = bodyLines,
                 isExplorationAreasContext = isExplorationAreasContext,
                 section = section,
-                sectionMessages = sectionMessages
+                sectionMessages = sectionMessages,
+                goldErrorPulse = goldErrorPulse
             )
 
             if (shopFilterOptions.isNotEmpty()) {
@@ -230,24 +249,43 @@ fun GenericMenuScreen(
                                             screenTitle = viewModel.title
                                         )
                                         val tone = when {
+                                            section == MainSection.PRODUCTION && !option.enabled -> GameButtonTone.LOCKED
                                             section == MainSection.PRODUCTION && craftAvailabilityForUi(option) == true -> GameButtonTone.SUCCESS
                                             section == MainSection.PRODUCTION && craftAvailabilityForUi(option) == false -> GameButtonTone.ALERT
                                             optionShouldAlert(option, isQuestContext) -> GameButtonTone.ALERT
                                             else -> GameButtonTone.DEFAULT
                                         }
-                                        GamePrimaryButton(
-                                            label = toInfoButtonLabel(rawLabel),
-                                            onClick = {
-                                                if (preview != null) {
-                                                    pendingPreview = preview
-                                                } else {
-                                                    onAction(option.action)
-                                                }
-                                            },
-                                            modifier = Modifier.weight(1f),
-                                            tone = tone,
-                                            density = GameButtonDensity.INFO
-                                        )
+                                        if (section == MainSection.PRODUCTION && !option.enabled) {
+                                            LockedContent(
+                                                unlocked = false,
+                                                reason = option.lockedReason.orEmpty(),
+                                                modifier = Modifier.weight(1f)
+                                            ) {
+                                                GamePrimaryButton(
+                                                    label = toInfoButtonLabel(rawLabel),
+                                                    onClick = {},
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    enabled = false,
+                                                    tone = tone,
+                                                    density = GameButtonDensity.INFO
+                                                )
+                                            }
+                                        } else {
+                                            GamePrimaryButton(
+                                                label = toInfoButtonLabel(rawLabel),
+                                                onClick = {
+                                                    if (preview != null) {
+                                                        pendingPreview = preview
+                                                    } else {
+                                                        onAction(option.action)
+                                                    }
+                                                },
+                                                modifier = Modifier.weight(1f),
+                                                enabled = option.enabled,
+                                                tone = tone,
+                                                density = GameButtonDensity.INFO
+                                            )
+                                        }
                                     }
                                     if (rowOptions.size == 1) {
                                         Spacer(modifier = Modifier.weight(1f))
@@ -265,26 +303,46 @@ fun GenericMenuScreen(
                                     screenTitle = viewModel.title
                                 )
                                 val tone = when {
+                                    section == MainSection.PRODUCTION && !option.enabled -> GameButtonTone.LOCKED
                                     section == MainSection.PRODUCTION && craftAvailabilityForUi(option) == true -> GameButtonTone.SUCCESS
                                     section == MainSection.PRODUCTION && craftAvailabilityForUi(option) == false -> GameButtonTone.ALERT
                                     optionShouldAlert(option, isQuestContext) -> GameButtonTone.ALERT
                                     else -> GameButtonTone.DEFAULT
                                 }
-                                GamePrimaryButton(
-                                    label = toInfoButtonLabel(rawLabel),
-                                    onClick = {
-                                        if (preview != null) {
-                                            pendingPreview = preview
-                                        } else {
-                                            onAction(option.action)
-                                        }
-                                    },
-                                    modifier = Modifier
-                                        .fillMaxWidth(if (isAchievementContext) 0.70f else 0.78f)
-                                        .align(Alignment.CenterHorizontally),
-                                    tone = tone,
-                                    density = GameButtonDensity.INFO
-                                )
+                                val buttonModifier = Modifier
+                                    .fillMaxWidth(if (isAchievementContext) 0.70f else 0.78f)
+                                    .align(Alignment.CenterHorizontally)
+                                if (section == MainSection.PRODUCTION && !option.enabled) {
+                                    LockedContent(
+                                        unlocked = false,
+                                        reason = option.lockedReason.orEmpty(),
+                                        modifier = buttonModifier
+                                    ) {
+                                        GamePrimaryButton(
+                                            label = toInfoButtonLabel(rawLabel),
+                                            onClick = {},
+                                            modifier = Modifier.fillMaxWidth(),
+                                            enabled = false,
+                                            tone = tone,
+                                            density = GameButtonDensity.INFO
+                                        )
+                                    }
+                                } else {
+                                    GamePrimaryButton(
+                                        label = toInfoButtonLabel(rawLabel),
+                                        onClick = {
+                                            if (preview != null) {
+                                                pendingPreview = preview
+                                            } else {
+                                                onAction(option.action)
+                                            }
+                                        },
+                                        modifier = buttonModifier,
+                                        enabled = option.enabled,
+                                        tone = tone,
+                                        density = GameButtonDensity.INFO
+                                    )
+                                }
                             }
                         }
                     }

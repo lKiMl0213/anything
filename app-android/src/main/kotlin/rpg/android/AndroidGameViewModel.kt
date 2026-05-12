@@ -141,6 +141,26 @@ class AndroidGameViewModel(
         applyAction(GameAction.LoadSave(selected))
     }
 
+    fun deleteSelectedSave(fileName: String) {
+        val deps = runtime ?: return
+        val selected = deps.saveGateway.listSaves()
+            .firstOrNull { it.fileName.toString().equals(fileName, ignoreCase = true) }
+        if (selected == null) {
+            startMessage = "Save nao encontrado: $fileName"
+            startPageSaves = querySaveSlots(deps)
+            publishFromSession()
+            return
+        }
+        val deleted = runCatching { deps.saveGateway.delete(selected) }.getOrDefault(false)
+        startPageSaves = querySaveSlots(deps)
+        startMessage = when {
+            !deleted -> "Nao foi possivel excluir o save."
+            startPageSaves.isEmpty() -> "Nenhum save encontrado."
+            else -> "Save excluido com sucesso."
+        }
+        publishFromSession()
+    }
+
     fun onMenuAction(action: GameAction) {
         if (!allowTutorialMenuAction(action)) {
             emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
