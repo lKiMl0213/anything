@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "gather_herbalism_focus",
     "titleTemplate":  "Rota de Ervas",
     "rewardProfile":  {
@@ -11,7 +11,7 @@
     "objectiveType":  "GATHER_RESOURCE",
     "targetTag":  "gathering",
     "enabled":  true,
-    "hintTemplate":  "Colete plantas e ervas nos biomas disponiveis.",
+    "hintTemplate":  "Colete plantas e ervas nos biomas disponíveis.",
     "constraints":  {
                         "requiresDungeon":  false,
                         "requiresGathering":  true,
@@ -31,3 +31,4 @@
     "descriptionTemplate":  "Obtenha {amount} recursos ligados a gathering.",
     "weight":  6
 }
+

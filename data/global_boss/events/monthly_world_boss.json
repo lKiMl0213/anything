@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "monthly_world_boss",
   "cadence": "MONTHLY",
   "title": "Boss Global Mensal",
@@ -18,31 +18,149 @@
     "rewardMultiplierPct": 150.0
   },
   "milestones": [
-    { "id": "mo_ms_100", "pointsRequired": 100, "reward": { "xp": 120, "gold": 240 } },
-    { "id": "mo_ms_300", "pointsRequired": 300, "reward": { "xp": 220, "gold": 420 } },
-    { "id": "mo_ms_700", "pointsRequired": 700, "reward": { "xp": 360, "gold": 680 } },
-    { "id": "mo_ms_1300", "pointsRequired": 1300, "reward": { "xp": 520, "gold": 980 } },
-    { "id": "mo_ms_2200", "pointsRequired": 2200, "reward": { "xp": 760, "gold": 1380 } },
-    { "id": "mo_ms_3500", "pointsRequired": 3500, "reward": { "xp": 1020, "gold": 1860 } },
-    { "id": "mo_ms_5200", "pointsRequired": 5200, "reward": { "xp": 1360, "gold": 2460 } },
-    { "id": "mo_ms_7300", "pointsRequired": 7300, "reward": { "xp": 1720, "gold": 3060 } },
-    { "id": "mo_ms_9800", "pointsRequired": 9800, "reward": { "xp": 2140, "gold": 3780 } },
-    { "id": "mo_ms_12800", "pointsRequired": 12800, "reward": { "xp": 2660, "gold": 4620 } },
-    { "id": "mo_ms_16500", "pointsRequired": 16500, "reward": { "xp": 3320, "gold": 5660 } },
-    { "id": "mo_ms_21000", "pointsRequired": 21000, "reward": { "xp": 4100, "gold": 6880 } },
-    { "id": "mo_ms_26500", "pointsRequired": 26500, "reward": { "xp": 5000, "gold": 8320 } },
-    { "id": "mo_ms_33000", "pointsRequired": 33000, "reward": { "xp": 6060, "gold": 9980 } },
-    { "id": "mo_ms_41000", "pointsRequired": 41000, "reward": { "xp": 7300, "gold": 11920, "questCurrency": 10 } },
-    { "id": "mo_ms_50000", "pointsRequired": 50000, "reward": { "xp": 8800, "gold": 14200, "questCurrency": 16, "premiumCash": 2 } }
+    {
+      "id": "mo_ms_100",
+      "pointsRequired": 100,
+      "reward": {
+        "xp": 120,
+        "gold": 240
+      }
+    },
+    {
+      "id": "mo_ms_300",
+      "pointsRequired": 300,
+      "reward": {
+        "xp": 220,
+        "gold": 420
+      }
+    },
+    {
+      "id": "mo_ms_700",
+      "pointsRequired": 700,
+      "reward": {
+        "xp": 360,
+        "gold": 680
+      }
+    },
+    {
+      "id": "mo_ms_1300",
+      "pointsRequired": 1300,
+      "reward": {
+        "xp": 520,
+        "gold": 980
+      }
+    },
+    {
+      "id": "mo_ms_2200",
+      "pointsRequired": 2200,
+      "reward": {
+        "xp": 760,
+        "gold": 1380
+      }
+    },
+    {
+      "id": "mo_ms_3500",
+      "pointsRequired": 3500,
+      "reward": {
+        "xp": 1020,
+        "gold": 1860
+      }
+    },
+    {
+      "id": "mo_ms_5200",
+      "pointsRequired": 5200,
+      "reward": {
+        "xp": 1360,
+        "gold": 2460
+      }
+    },
+    {
+      "id": "mo_ms_7300",
+      "pointsRequired": 7300,
+      "reward": {
+        "xp": 1720,
+        "gold": 3060
+      }
+    },
+    {
+      "id": "mo_ms_9800",
+      "pointsRequired": 9800,
+      "reward": {
+        "xp": 2140,
+        "gold": 3780
+      }
+    },
+    {
+      "id": "mo_ms_12800",
+      "pointsRequired": 12800,
+      "reward": {
+        "xp": 2660,
+        "gold": 4620
+      }
+    },
+    {
+      "id": "mo_ms_16500",
+      "pointsRequired": 16500,
+      "reward": {
+        "xp": 3320,
+        "gold": 5660
+      }
+    },
+    {
+      "id": "mo_ms_21000",
+      "pointsRequired": 21000,
+      "reward": {
+        "xp": 4100,
+        "gold": 6880
+      }
+    },
+    {
+      "id": "mo_ms_26500",
+      "pointsRequired": 26500,
+      "reward": {
+        "xp": 5000,
+        "gold": 8320
+      }
+    },
+    {
+      "id": "mo_ms_33000",
+      "pointsRequired": 33000,
+      "reward": {
+        "xp": 6060,
+        "gold": 9980
+      }
+    },
+    {
+      "id": "mo_ms_41000",
+      "pointsRequired": 41000,
+      "reward": {
+        "xp": 7300,
+        "gold": 11920,
+        "questCurrency": 10
+      }
+    },
+    {
+      "id": "mo_ms_50000",
+      "pointsRequired": 50000,
+      "reward": {
+        "xp": 8800,
+        "gold": 14200,
+        "questCurrency": 16,
+        "premiumCash": 2
+      }
+    }
   ],
   "quests": [
     {
       "id": "mo_q_single_220",
-      "title": "Explosao Mensal",
+      "title": "Explosão Mensal",
       "description": "Alcance 220 pontos em uma unica run.",
       "objective": "SINGLE_RUN_POINTS",
       "targetValue": 220,
-      "reward": { "xp": 500, "gold": 1700 }
+      "reward": {
+        "xp": 500,
+        "gold": 1700
+      }
     },
     {
       "id": "mo_q_total_9000",
@@ -50,7 +168,11 @@
       "description": "Acumule 9000 pontos no evento mensal.",
       "objective": "TOTAL_POINTS",
       "targetValue": 9000,
-      "reward": { "xp": 1600, "gold": 3900, "questCurrency": 8 }
+      "reward": {
+        "xp": 1600,
+        "gold": 3900,
+        "questCurrency": 8
+      }
     },
     {
       "id": "mo_q_runs_20",
@@ -58,7 +180,14 @@
       "description": "Conclua 20 runs no evento mensal.",
       "objective": "RUNS_COMPLETED",
       "targetValue": 20,
-      "reward": { "xp": 2400, "gold": 5600, "premiumCash": 2 }
+      "reward": {
+        "xp": 2400,
+        "gold": 5600,
+        "premiumCash": 2
+      }
     }
   ]
 }
+
+
+

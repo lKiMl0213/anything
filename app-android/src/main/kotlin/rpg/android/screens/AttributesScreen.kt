@@ -1,4 +1,4 @@
-package rpg.android.screens
+﻿package rpg.android.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,7 +24,7 @@ fun AttributesScreen(
     }
 
     MenuLayout(title = "Atributos") {
-        androidx.compose.material3.Text("Pontos disponiveis: $localAvailablePoints")
+        androidx.compose.material3.Text("Pontos disponíveis: $localAvailablePoints")
 
         attributeCodes.forEach { code ->
             val baseValue = currentAttributes[code] ?: 0
@@ -63,3 +63,4 @@ fun AttributesScreen(
         MenuButton("VOLTAR", onBack)
     }
 }
+

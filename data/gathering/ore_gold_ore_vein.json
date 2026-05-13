@@ -1,4 +1,4 @@
-{
+﻿{
     "skillType":  "MINING",
     "id":  "ore_gold_ore_vein",
     "minQty":  1,
@@ -17,5 +17,6 @@
     "maxQty":  2,
     "minPlayerLevel":  9,
     "minSkillLevel":  13,
-    "description":  "Nodo de mineracao da regiao."
+    "description":  "Nodo de mineração da região."
 }
+

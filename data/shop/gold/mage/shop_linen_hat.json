@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "shop_linen_hat",
   "name": "Chapeu de Linho",
   "itemId": "linen_hat",
@@ -6,7 +6,12 @@
   "currency": "GOLD",
   "quantity": 1,
   "minPlayerLevel": 1,
-  "description": "Cabeca leve para builds de mana e resistencia magica.",
+  "description": "Cabeca leve para builds de mana e resistência mágica.",
   "enabled": true,
-  "tags": ["gold", "mage", "armor"]
+  "tags": [
+    "gold",
+    "mage",
+    "armor"
+  ]
 }
+

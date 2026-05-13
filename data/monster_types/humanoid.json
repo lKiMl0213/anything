@@ -1,8 +1,12 @@
-{
+﻿{
   "id": "humanoid",
   "name": "Humanoid",
-  "description": "Criaturas humanoides adaptaveis e taticas, sem resistencia extrema.",
-  "tags": ["humanoid", "tactical", "city"],
+  "description": "Criaturas humanoides adaptaveis e taticas, sem resistência extrema.",
+  "tags": [
+    "humanoid",
+    "tactical",
+    "city"
+  ],
   "damageAffinities": {
     "physical": 1.0,
     "magic": 1.0,

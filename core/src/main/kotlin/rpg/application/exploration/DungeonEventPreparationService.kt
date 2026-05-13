@@ -1,4 +1,4 @@
-package rpg.application.exploration
+﻿package rpg.application.exploration
 
 import rpg.application.PendingDungeonChestEvent
 import rpg.application.PendingDungeonEvent
@@ -64,7 +64,7 @@ internal class DungeonEventPreparationService(
                 run = run,
                 tier = tier,
                 introLine = service.chestIntro { bound -> engine.rollInt(bound) },
-                detailLine = "O bau pode conter recompensa... ou armadilha."
+                detailLine = "O baú pode conter recompensa... ou armadilha."
             )
         }
     }
@@ -143,3 +143,4 @@ internal class DungeonEventPreparationService(
         val itemIds: List<String>
     )
 }
+

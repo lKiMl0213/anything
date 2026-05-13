@@ -1,4 +1,4 @@
-package rpg.talent
+﻿package rpg.talent
 
 import rpg.model.Bonuses
 import rpg.model.PlayerState
@@ -62,24 +62,24 @@ class TalentTreeService(
         allTrees: Iterable<TalentTree> = listOf(tree)
     ): TalentRankCheck {
         if (!treeUnlocked(player, tree)) {
-            return TalentRankCheck(false, "Arvore bloqueada.", 0, 0)
+            return TalentRankCheck(false, "Árvore bloqueada.", 0, 0)
         }
-        val node = nodeById(tree, nodeId) ?: return TalentRankCheck(false, "Node nao encontrado.", 0, 0)
+        val node = nodeById(tree, nodeId) ?: return TalentRankCheck(false, "Node não encontrado.", 0, 0)
         val current = nodeCurrentRank(player, node)
         if (current >= node.maxRank.coerceAtLeast(1)) {
-            return TalentRankCheck(false, "Rank maximo atingido.", current, 0)
+            return TalentRankCheck(false, "Rank máximo atingido.", current, 0)
         }
         val nextRank = current + 1
         val nextCost = evaluator.rankCost(node, nextRank)
         if (nextCost <= 0) {
-            return TalentRankCheck(false, "Custo invalido para o proximo rank.", nextRank, nextCost)
+            return TalentRankCheck(false, "Custo inválido para o proximo rank.", nextRank, nextCost)
         }
         val ledger = pointService.ledger(player, allTrees)
         if (!pointService.canSpend(tree.id, nextCost, ledger)) {
             return TalentRankCheck(false, "Pontos de talento insuficientes.", nextRank, nextCost)
         }
         if (!evaluator.prerequisitesMet(player, tree, node)) {
-            return TalentRankCheck(false, "Prerequisitos nao atendidos.", nextRank, nextCost)
+            return TalentRankCheck(false, "Prerequisitos não atendidos.", nextRank, nextCost)
         }
         if (!evaluator.exclusiveGroupAllows(player, tree, node)) {
             return TalentRankCheck(false, "Conflito de exclusividade.", nextRank, nextCost)
@@ -97,11 +97,11 @@ class TalentTreeService(
         if (!check.allowed) {
             return TalentRankUpResult(
                 success = false,
-                message = check.reason ?: "Nao foi possivel evoluir node.",
+                message = check.reason ?: "Não foi possível evoluir node.",
                 player = player
             )
         }
-        val node = nodeById(tree, nodeId) ?: return TalentRankUpResult(false, "Node nao encontrado.", player)
+        val node = nodeById(tree, nodeId) ?: return TalentRankUpResult(false, "Node não encontrado.", player)
         val current = nodeCurrentRank(player, node)
         val next = current + 1
         val updatedRanks = player.talentNodeRanks.toMutableMap()
@@ -198,3 +198,6 @@ class TalentTreeService(
         )
     }
 }
+
+
+

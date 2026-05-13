@@ -1,7 +1,7 @@
-{
+﻿{
   "id": "beastkin",
   "name": "Bestial",
-  "description": "Cacador veloz, com combate fisico agil e alta esquiva.",
+  "description": "Caçador veloz, com combate físico agil e alta esquiva.",
   "bonuses": {
     "attributes": {
       "agi": 4,
@@ -35,4 +35,5 @@
   "tradeBuyDiscountPct": 0,
   "tradeSellBonusPct": 0
 }
+
 

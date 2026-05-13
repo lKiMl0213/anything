@@ -93,8 +93,8 @@ fun GenericMenuScreen(
         isUpgradeContext -> compactUpgradeSummary(viewModel.bodyLines)
         isStatisticsContext -> compactStatisticsSummary(viewModel.bodyLines)
         isExplorationAreasContext -> listOf(
-            "Escolha uma area para iniciar a exploracao!",
-            "Cada area possui um ecossistema proprio!"
+            "Escolha uma área para iniciar a exploração!",
+            "Cada área possui um ecossistema próprio!"
         )
         section == MainSection.PRODUCTION &&
             viewModel.title.contains("Receita", ignoreCase = true) &&
@@ -204,8 +204,8 @@ fun GenericMenuScreen(
                         tutorialPanelModifier
                     },
                     title = when {
-                        isTalentContext -> "Arvore de Talentos"
-                        isExplorationAreasContext -> "Areas de Exploracao"
+                        isTalentContext -> "Árvore de Talentos"
+                        isExplorationAreasContext -> "Áreas de Exploração"
                         else -> null
                     }
                 ) {
@@ -359,7 +359,7 @@ fun GenericMenuScreen(
             }
 
             if (section == MainSection.PRODUCTION) {
-                GamePanel(title = "Log de producao") {
+                GamePanel(title = "Log de produção") {
                     if (productionLogLines.isEmpty()) {
                         Text(
                             text = "Sem eventos recentes.",
@@ -389,3 +389,6 @@ fun GenericMenuScreen(
         )
     }
 }
+
+
+

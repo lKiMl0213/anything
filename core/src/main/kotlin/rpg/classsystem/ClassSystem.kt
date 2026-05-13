@@ -1,4 +1,4 @@
-package rpg.classsystem
+﻿package rpg.classsystem
 
 import rpg.io.DataRepository
 import rpg.model.Bonuses
@@ -14,10 +14,10 @@ class ClassSystem(private val repo: DataRepository) {
 
     fun classDef(id: String): ClassDef {
         val normalizedId = id.trim().lowercase()
-        return repo.classes[normalizedId] ?: error("Classe nao encontrada: $id")
+        return repo.classes[normalizedId] ?: error("Classe não encontrada: $id")
     }
 
-    fun raceDef(id: String): RaceDef = repo.races[id] ?: error("Raca nao encontrada: $id")
+    fun raceDef(id: String): RaceDef = repo.races[id] ?: error("Raca não encontrada: $id")
 
     fun subclassDef(id: String?): SubclassDef? {
         return id
@@ -107,3 +107,6 @@ class ClassSystem(private val repo: DataRepository) {
         return classDef.bonuses + raceDef.bonuses + subclassBonuses + specializationBonuses + v2TalentBonuses
     }
 }
+
+
+

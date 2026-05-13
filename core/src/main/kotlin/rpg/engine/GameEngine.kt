@@ -1,4 +1,4 @@
-package rpg.engine
+﻿package rpg.engine
 
 import kotlin.math.ceil
 import kotlin.math.absoluteValue
@@ -230,12 +230,12 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
     fun buildMimicMonster(level: Int): MonsterInstance {
         val template = repo.monsterArchetypes["mimic"]
             ?: repo.monsterArchetypes.values.firstOrNull()
-            ?: error("Nenhum template de monstro disponivel para mimico.")
+            ?: error("Nenhum template de monstro disponível para mimico.")
         val (attrs, stars) = MonsterGenerator.generateAttributes(template, level, rng)
         val rarity = MonsterRarity.ELITE
         val scaledAttrs = attrs.scale(rarity.statMultiplier)
-        val bonus = rpg.model.Bonuses()
-        val stats = StatsCalculator.compute(scaledAttrs, listOf(bonus))
+        val bônus = rpg.model.Bonuses()
+        val stats = StatsCalculator.compute(scaledAttrs, listOf(bônus))
         val powerScore = PowerScoreEngine.fromStats(stats, balance)
         val baseType = template.baseType.ifBlank { template.id.substringBefore('_').lowercase() }
         val monsterTypeId = template.monsterTypeId.ifBlank {
@@ -262,7 +262,7 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
             level = level,
             rarity = rarity,
             attributes = scaledAttrs,
-            bonuses = bonus,
+            bonuses = bônus,
             tags = tags,
             questTags = questTags,
             modifiers = emptyList(),
@@ -445,7 +445,7 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
         }
         if (monster.stars <= 0) return shortName
         val tag = balance.starTags.sortedByDescending { it.minStars }.firstOrNull { monster.stars >= it.minStars }
-        val starSuffix = "(${monster.stars}*)"
+        val starSuffix = "(${monster.stars}⭐)"
         return if (tag != null && tag.label.isNotBlank()) {
             "$shortName ${tag.label} $starSuffix"
         } else {
@@ -531,3 +531,5 @@ data class VictoryOutcome(
     val goldGain: Int,
     val dropOutcome: DropOutcome
 )
+
+

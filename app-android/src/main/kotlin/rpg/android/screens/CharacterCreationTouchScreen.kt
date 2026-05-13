@@ -1,4 +1,4 @@
-package rpg.android.screens
+﻿package rpg.android.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -82,7 +82,7 @@ fun CharacterCreationTouchScreen(
                 ) { Text("+") }
             }
             Text(
-                "Bonus racial ${signed(row.raceBonus)} | Bonus classe ${signed(row.classBonus)} | Distribuido ${row.allocated}"
+                "Bônus racial ${signed(row.raceBonus)} | Bônus classe ${signed(row.classBonus)} | Distribuido ${row.allocated}"
             )
         }
 
@@ -100,3 +100,4 @@ fun CharacterCreationTouchScreen(
 }
 
 private fun signed(value: Int): String = if (value >= 0) "+$value" else value.toString()
+

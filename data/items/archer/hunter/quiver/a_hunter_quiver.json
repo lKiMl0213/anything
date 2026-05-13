@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "a_hunter_quiver",
   "name": "Aljava do Predador",
   "type": "EQUIPMENT",
@@ -26,5 +26,9 @@
     }
   },
   "value": 1,
-  "description": "Equipamento de Hunter focado em rastreio, marcacao e perseguicao."
+  "description": "Equipamento de Hunter focado em rastreio, marcação e perseguição."
 }
+
+
+
+

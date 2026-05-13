@@ -1,4 +1,4 @@
-package rpg.application.shop
+﻿package rpg.application.shop
 
 import rpg.application.GameActionResult
 import rpg.application.GameSession
@@ -125,7 +125,7 @@ class ShopActionDispatcher(
     private fun setWeaponClass(session: GameSession, category: WeaponClassCategory): GameActionResult {
         val state = session.gameState ?: return missing(session)
         if (session.selectedShopCategory != ShopCategory.WEAPONS) {
-            return GameActionResult(session.copy(messages = listOf("Filtro de classe disponivel apenas para armas.")))
+            return GameActionResult(session.copy(messages = listOf("Filtro de classe disponível apenas para armas.")))
         }
         return GameActionResult(
             session = session.copy(
@@ -220,3 +220,4 @@ class ShopActionDispatcher(
         return GameActionResult(session.copy(messages = listOf("Nenhum jogo carregado.")))
     }
 }
+

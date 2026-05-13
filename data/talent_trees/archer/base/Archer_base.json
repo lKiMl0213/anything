@@ -1,4 +1,4 @@
-{
+﻿{
     "id": "Archer_base",
     "classId": "archer",
     "tier": 1,
@@ -72,8 +72,8 @@
         },
         {
             "id": "Archer_base_quick_draw",
-            "name": "Saque rapido",
-            "description": "Preparo rapido para acelerar a cadencia de disparo.",
+            "name": "Saque rápido",
+            "description": "Preparo rápido para acelerar a cadencia de disparo.",
             "nodeType": "PASSIVE",
             "maxRank": 3,
             "currentRank": 0,
@@ -161,7 +161,7 @@
         {
             "id": "Archer_base_breath_control",
             "name": "Economia de folego",
-            "description": "Controle de respiracao para gastar menos mana nas tecnicas.",
+            "description": "Controle de respiracao para gastar menos mana nas técnicas.",
             "nodeType": "PASSIVE",
             "maxRank": 5,
             "currentRank": 0,
@@ -281,3 +281,4 @@
         }
     ]
 }
+

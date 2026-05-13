@@ -1,4 +1,83 @@
 # Changelog
+
+Nota historica:
+- Entradas antigas que citam CLI (`app-cli`, `GameCli`, `./gradlew run`) representam contexto de epocas anteriores.
+- Estado atual do projeto: caminho ativo `app-android -> core`.
+
+## 2026-05-13 - Main Menu HUD: status premium ao lado do nome
+
+### Updated Systems
+- `MainHubUiModel` ganhou campo `premiumStatusLabel` para exibir estado premium no painel do player.
+- `AndroidUiModelBuilders` passou a montar status premium real sem hardcode de estado:
+  - `Premium: Ativo (Permanente)` quando `premiumPermanent = true`;
+  - `Premium: Ativo (tempo)` com tempo restante formatado quando premium temporal esta ativo;
+  - `Premium: desativado` quando inativo.
+- `GameTopHud` foi ajustado para renderizar na mesma linha:
+  - nome do jogador (lado esquerdo),
+  - status premium (lado oposto),
+  - botao de configuracao preservado na direita (sem alteracao funcional).
+
+### Validation Notes
+- `./gradlew --no-daemon :app-android:compileDebugKotlin -x checkKotlinFileLineLimit` passou.
+- `graphify update .` executado apos as mudancas.
+
+## 2026-05-13 - Fix de compilacao Kotlin (core + android) apos regressao de null-safety
+
+### Updated Systems
+- Corrigidos erros de compilacao em `:core:compileKotlin` causados por regressao em null-safety e tokens corrompidos:
+  - `GameSession.currentSavePath` restaurado para `Path?` (havia sido corrompido para `Pathá`);
+  - autosave em `GameActionHandler` corrigido para `?.let` no caminho de save opcional;
+  - correcoes de chamadas em `ClassQuest*` para `chosenPath` nullable (`?.lowercase()`, `?.let`, `?.takeIf`);
+  - correcao de referencia em combate (`tagsó` -> `tags`) no `DungeonCombatSkillSupport`.
+- Corrigidos erros adicionais no Android:
+  - acessos a `currentSavePath` em `AndroidGameViewModel` ajustados para `?.fileName`;
+  - uso de `TalentTreeGraphUiModel?` ajustado para acesso seguro em `GenericMenuSupport` e `TalentTreeGraphLayout`.
+
+### Validation Notes
+- `./gradlew --no-daemon :core:compileKotlin -x checkKotlinFileLineLimit` passou.
+- `./gradlew --no-daemon :app-android:compileDebugKotlin -x checkKotlinFileLineLimit` passou.
+- `graphify update .` executado apos as correcoes.
+
+## 2026-05-13 - Higiene Historica Pos-CLI (Documentacao)
+
+### Updated Systems
+- `AGENTS.md` alinhado com estado atual (sem `app-cli` ativo; validacao Android como caminho de execucao/checagem).
+- `docs/context/intent/project-intent.md` atualizado para refletir fluxo ativo `app-android -> core`.
+- `docs/context/decisions/003-cli-orchestrator-architecture.md` reforcado como decisao historica/superseded.
+- `docs/context/evolution/changelog.md` recebeu nota de escopo historico para referencias antigas de CLI.
+
+### Validation Notes
+- Nenhum arquivo em `core/src/**` foi alterado.
+- Nenhum arquivo em `app-android/src/**` foi alterado.
+
+## 2026-05-13 - UI/UX batalha + buffs ativos + producao/coleta/caca + economia cash/premium
+
+### Updated Systems
+- Batalha (Android):
+  - painel do player e do inimigo padronizados com mesma altura para alinhamento simetrico;
+  - HP/MP do player centralizados no painel;
+  - efeito ativo (buff de comida/pocao de tarefa) exibido abaixo da barra de MP com contador dinamico em turnos.
+- Home (Android):
+  - HUD principal agora exibe efeito ativo abaixo do MP quando existir buff em andamento.
+- Producao/coleta (core):
+  - ordenacao de nos de coleta fixada por nivel de desbloqueio (`minSkillLevel`) e nome;
+  - cache de ordem e cache de lista de coleta adicionados em `ProductionQueryService` para evitar recomputo pesado ao abrir menus;
+  - resolucao de duracao de coleta otimizada para evitar busca repetitiva de no por item da lista.
+- Caca (core + presenter):
+  - spots agora permanecem visiveis mesmo bloqueados;
+  - bloqueio por nivel de skill de caca (nao por nivel de personagem), com motivo `Desbloqueado no nv X`;
+  - spots listados em ordem fixa por nivel de desbloqueio/recomendado e nome.
+- Logs de bonus (core):
+  - coleta e craft passam a registrar detalhamento `base` e `bonus` nas mensagens de resultado para facilitar debug e clareza ao jogador.
+- Economia (loja):
+  - premium em CASH reajustado para faixa mais cara e proporcional (7/15/30/permanente);
+  - loja de cash passou a exibir opcoes no formato `R$ X` + `Y CASH`, sem depender de nomes tipo pequeno/medio/grande.
+
+### Validation Notes
+- `./gradlew --no-daemon :app-android:compileDebugKotlin -x checkKotlinFileLineLimit` passou.
+- `./gradlew --no-daemon test -x checkKotlinFileLineLimit` passou.
+- `graphify update .` executado apos as mudancas.
+
 ## 2026-05-12 - Patch notes consolidado para 0.1.3
 
 ### Updated Systems
@@ -1103,7 +1182,7 @@
 ### Validation Notes
 - Buscas em codigo-fonte ativo (`app-cli/src`, `core/src`, `app-android/src`) sem referencias restantes para `LegacyGameCli`, `LegacyCliRuntime`, `SessionBridge` e `TODO-REMOVE-LEGACY`.
 - `./gradlew clean build` passou.
-- Sem breaking change esperado para o CLI atual.
+- Sem breaking change esperado para o CLI da epoca.
 
 ## 2026-05-01 - Class Quest Stage Clarity (Lv 25 / Lv 50)
 

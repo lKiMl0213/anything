@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_remocao_epic",
-    "name":  "Criar Pergaminho de Remocao (Epico)",
+    "name":  "Criar Pergaminho de Remoção (Épico)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "extract_scroll_remocao_epic",
@@ -29,7 +29,7 @@
                             "itemId":  "oil"
                         }
                     ],
-    "description":  "Pergaminho epico para extracao avancada.",
+    "description":  "Pergaminho épico para extração avancada.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -39,3 +39,4 @@
                  "epic"
              ]
 }
+

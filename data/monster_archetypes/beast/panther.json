@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "panther",
   "name": "Pantera",
   "archetype": "Beast",
@@ -30,7 +30,7 @@
       "effectValue": 12,
       "stackable": false,
       "maxStacks": 1,
-      "source": "Olhar de Caca"
+      "source": "Olhar de Caça"
     }
   ],
   "dropTableId": "wolf_beast",
@@ -38,3 +38,4 @@
   "baseXp": 44,
   "baseGold": 13
 }
+

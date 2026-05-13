@@ -1,4 +1,4 @@
-package rpg.application.enchant
+﻿package rpg.application.enchant
 
 import rpg.enchant.EnchantAttemptRequest
 import rpg.engine.GameEngine
@@ -157,3 +157,6 @@ class EnchantQueryService(
     private fun formatPct(value: Double): String = "%.1f%%".format(value)
     private fun formatSeconds(value: Double): String = "%.1f".format(value)
 }
+
+
+

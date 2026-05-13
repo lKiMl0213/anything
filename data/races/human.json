@@ -1,7 +1,7 @@
-{
+﻿{
   "id": "human",
   "name": "Humano",
-  "description": "Generalista versatil: nao domina tudo, mas nunca fica para tras.",
+  "description": "Generalista versatil: não domina tudo, mas nunca fica para trás.",
   "bonuses": {
     "attributes": {
       "str": 1,
@@ -38,3 +38,6 @@
   "tradeBuyDiscountPct": 1,
   "tradeSellBonusPct": 1
 }
+
+
+

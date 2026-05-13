@@ -1,4 +1,4 @@
-package rpg.application.hunting
+﻿package rpg.application.hunting
 
 import rpg.achievement.AchievementCounterKeys
 import rpg.achievement.AchievementTracker
@@ -172,3 +172,7 @@ class HuntingCommandService(
         }
     }
 }
+
+
+
+

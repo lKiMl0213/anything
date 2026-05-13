@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "unlock_mage_specialization_lv50",
   "category": "progression_specialization",
   "supportedTiers": ["ACCEPTED"],
@@ -22,3 +22,6 @@
   "enabled": false,
   "weight": 1
 }
+
+
+

@@ -1,7 +1,7 @@
-{
+﻿{
     "id": "profession_mastery",
     "name": "Maos do Artesao",
-    "description": "Aumenta a XP de forja, coleta de ervas, mineracao e pesca.",
+    "description": "Aumenta a XP de forja, coleta de ervas, mineração e pesca.",
     "effectType": "PROFESSION_XP_BOOST",
     "valueMode": "PERCENT",
     "enabled": true,
@@ -53,3 +53,4 @@
         }
     ]
 }
+

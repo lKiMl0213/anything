@@ -1,4 +1,4 @@
-package rpg.events
+﻿package rpg.events
 
 import kotlin.math.max
 import rpg.model.Attributes
@@ -26,11 +26,11 @@ internal fun applyRoomMultiplier(player: PlayerState, multiplier: Double, durati
     return player.copy(roomEffectMultiplier = multiplier, roomEffectRooms = duration)
 }
 
-internal fun applyRoomAttrBonus(player: PlayerState, bonus: Attributes, duration: Int, isDebuff: Boolean): PlayerState {
+internal fun applyRoomAttrBonus(player: PlayerState, bônus: Attributes, duration: Int, isDebuff: Boolean): PlayerState {
     if (isDebuff && player.ignoreNextDebuff) {
         return player.copy(ignoreNextDebuff = false)
     }
-    val combined = if (player.roomAttrRooms > 0) player.roomAttrBonus + bonus else bonus
+    val combined = if (player.roomAttrRooms > 0) player.roomAttrBonus + bônus else bônus
     val rooms = max(player.roomAttrRooms, duration)
     return player.copy(roomAttrBonus = combined, roomAttrRooms = rooms)
 }
@@ -98,3 +98,4 @@ internal fun lowestAttribute(attrs: Attributes): Pair<Attribute, Int> {
     )
     return values.minBy { it.second }
 }
+

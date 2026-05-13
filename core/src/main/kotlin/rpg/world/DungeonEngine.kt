@@ -1,4 +1,4 @@
-package rpg.world
+﻿package rpg.world
 
 import kotlin.random.Random
 import rpg.io.DataRepository
@@ -24,7 +24,7 @@ class DungeonEngine(private val repo: DataRepository, private val rng: Random) {
             .filter { playerLevel >= it.minLevel }
     }
 
-    fun tierById(id: String): MapTierDef = repo.mapTiers[id] ?: error("Tier nao encontrado: $id")
+    fun tierById(id: String): MapTierDef = repo.mapTiers[id] ?: error("Tier não encontrado: $id")
 
     fun startRun(tierId: String): DungeonRun {
         val tier = tierById(tierId)
@@ -98,3 +98,6 @@ class DungeonEngine(private val repo: DataRepository, private val rng: Random) {
         )
     }
 }
+
+
+

@@ -1,24 +1,27 @@
-{
-    "id":  "pyromancer",
-    "name":  "Piromante",
-    "parentClassId":  "mage",
-    "parentSubclassId":  "elementalist",
-    "description":  "Especialista em fogo, explosao e dano continuo.",
-    "bonuses":  {
-                    "attributes":  {
-                                       "int":  2,
-                                       "spr":  1
-                                   },
-                    "derivedAdd":  {
-                                       "damageMagic":  4
-                                   },
-                    "derivedMult":  {
-                                        "damageMagic":  6
-                                    }
-                },
-    "autoPointWeights":  {
-                             "int":  3,
-                             "spr":  1
-                         },
-    "talentTreeId":  "M_elementalist_pyromancer"
+﻿{
+  "id": "pyromancer",
+  "name": "Piromante",
+  "parentClassId": "mage",
+  "parentSubclassId": "elementalist",
+  "description": "Especialista em fogo, explosão e dano continuo.",
+  "bonuses": {
+    "attributes": {
+      "int": 2,
+      "spr": 1
+    },
+    "derivedAdd": {
+      "damageMagic": 4
+    },
+    "derivedMult": {
+      "damageMagic": 6
+    }
+  },
+  "autoPointWeights": {
+    "int": 3,
+    "spr": 1
+  },
+  "talentTreeId": "M_elementalist_pyromancer"
 }
+
+
+

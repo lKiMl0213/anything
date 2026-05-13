@@ -1,4 +1,4 @@
-package rpg.model
+﻿package rpg.model
 
 import kotlinx.serialization.Serializable
 
@@ -15,7 +15,7 @@ data class PowerWeightDef(
 data class StarTagDef(
     val minStars: Int,
     val label: String,
-    val format: String = "{name} {label} ({stars}*)"
+    val format: String = "{name} {label} ({stars}⭐)"
 )
 
 @Serializable
@@ -77,3 +77,4 @@ data class GameBalanceDef(
     val starRewards: StarRewardBalanceDef = StarRewardBalanceDef(),
     val starTags: List<StarTagDef> = emptyList()
 )
+

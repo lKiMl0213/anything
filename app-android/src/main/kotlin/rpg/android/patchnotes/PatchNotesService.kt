@@ -1,4 +1,4 @@
-package rpg.android.patchnotes
+﻿package rpg.android.patchnotes
 
 import android.util.Log
 import java.nio.file.Files
@@ -50,7 +50,7 @@ class PatchNotesService(
         cachedDocument?.let { return it }
         lastLoadError = null
         if (!Files.exists(patchNotesPath)) {
-            val message = "Arquivo de patchnotes nao encontrado em: $patchNotesPath"
+            val message = "Arquivo de patchnotes não encontrado em: $patchNotesPath"
             lastLoadError = message
             Log.e(TAG, message)
             return null
@@ -150,3 +150,6 @@ private fun LegacyPatchNotesDocument.toModernDocument(): PatchNotesDocument {
         entries = normalizedEntries
     )
 }
+
+
+

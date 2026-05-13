@@ -1,4 +1,4 @@
-package rpg.android.ui
+﻿package rpg.android.ui
 
 import rpg.model.ItemType
 
@@ -30,7 +30,7 @@ internal fun itemEmoji(name: String, type: ItemType, tags: List<String>): String
         "ore" in lower || "minerio" in lower -> ICON_PICKAXE
         "wood" in lower || "madeira" in lower -> ICON_WOOD
         "herb" in lower || "erva" in lower -> ICON_HERB
-        "potion" in lower || "pocao" in lower -> ICON_POTION
+        "potion" in lower || "poção" in lower -> ICON_POTION
         "ring" in lower || "anel" in lower -> ICON_GEM
         "amulet" in lower || "amuleto" in lower -> ICON_AMULET
         "bow" in lower || "arco" in lower -> ICON_BOW
@@ -74,3 +74,4 @@ internal fun compactSlotLabel(slotKey: String): String {
         else -> if (slotKey.uppercase().startsWith("ACCESSORY")) "Acc" else slotKey
     }
 }
+

@@ -1,6 +1,6 @@
 ﻿{
     "id":  "enchant_rune_protecao_rare",
-    "name":  "Sintetizar Runa de Protecao (Rara)",
+    "name":  "Sintetizar Runa de Proteção (Rara)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "enchant_rune_protecao_rare",
@@ -38,3 +38,4 @@
                  "rare"
              ]
 }
+

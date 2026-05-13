@@ -1,4 +1,4 @@
-package rpg.application
+﻿package rpg.application
 
 import rpg.application.actions.GameAction
 import rpg.application.creation.CharacterCreationQueryService
@@ -47,7 +47,7 @@ class GameActionHandler(
             ?: when (action) {
                 GameAction.Attack,
                 GameAction.EscapeCombat -> GameActionResult(session)
-                else -> GameActionResult(session.copy(messages = listOf("Acao ainda nao suportada no fluxo modular.")))
+                else -> GameActionResult(session.copy(messages = listOf("Ação ainda não suportada no fluxo modular.")))
             }
         val autosavedSession = applyAutosaveIfNeeded(session, action, result.session)
         return if (autosavedSession == result.session) result else result.copy(session = autosavedSession)
@@ -135,3 +135,8 @@ class GameActionHandler(
         )
     }
 }
+
+
+
+
+

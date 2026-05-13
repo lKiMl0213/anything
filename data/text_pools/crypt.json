@@ -1,13 +1,16 @@
-{
+﻿{
   "id": "crypt",
-  "biomeIds": ["crypt", "necropolis"],
+  "biomeIds": [
+    "crypt",
+    "necropolis"
+  ],
   "intros": [
     "A umidade gelada invade o ar",
     "Velas apagadas tremulam",
     "O eco das tumbas se abre",
     "O cheiro de morte e forte",
     "O silencio e perturbador",
-    "O chao esta coberto de ossos",
+    "O chao está coberto de ossos",
     "A escuridao e quase palpavel",
     "O ar e pesado e opressor",
     "O ambiente e sombrio e claustrofobico",
@@ -22,7 +25,7 @@
     "um espectro vingativo",
     "um morto-vivo faminto",
     "um ser de ossos e carne putrefata",
-    "um inimigo que nao descansa",
+    "um inimigo que não descansa",
     "um adversario que se recusa a morrer"
   ],
   "threats": [
@@ -38,3 +41,6 @@
     "O adversario e implacavel"
   ]
 }
+
+
+

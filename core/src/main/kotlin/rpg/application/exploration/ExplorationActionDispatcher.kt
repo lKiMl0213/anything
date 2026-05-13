@@ -1,4 +1,4 @@
-package rpg.application.exploration
+﻿package rpg.application.exploration
 
 import rpg.application.GameActionResult
 import rpg.application.GameEffect
@@ -53,7 +53,7 @@ internal class ExplorationActionDispatcher(
         val player = normalized.player
         val normalizedTierId = tierId.trim()
         if (normalizedTierId.isEmpty()) {
-            return GameActionResult(session.copy(messages = listOf("Area invalida.")))
+            return GameActionResult(session.copy(messages = listOf("área invalida.")))
         }
         val continuedRun = normalized.currentRun?.takeIf { run ->
             run.isActive && run.tierId?.equals(normalizedTierId, ignoreCase = true) == true
@@ -72,7 +72,7 @@ internal class ExplorationActionDispatcher(
         }
         val tier = engine.tierById(normalizedTierId)
         if (!engine.canEnterTier(player, tier)) {
-            return GameActionResult(session.copy(messages = listOf("Nivel insuficiente para este tier.")))
+            return GameActionResult(session.copy(messages = listOf("Nível insuficiente para este tier.")))
         }
 
         val run = continuedRun ?: engine.startRun(normalizedTierId).copy(
@@ -184,7 +184,7 @@ internal class ExplorationActionDispatcher(
                 navigation = NavigationState.Exploration,
                 pendingDungeonEvent = null,
                 pendingEncounter = null,
-                messages = listOf("Voce saiu da dungeon atual.")
+                messages = listOf("Você saiu da dungeon atual.")
             )
         )
     }
@@ -222,7 +222,8 @@ internal class ExplorationActionDispatcher(
         if (classDungeon == null || continuedRun != null) return emptyList()
         val tierLabel = run.tierId?.takeIf { it.isNotBlank() }?.let { id ->
             runCatching { engine.tierDisplayName(engine.tierById(id)) }.getOrDefault(id)
-        } ?: "area desconhecida"
-        return listOf("Voce entrou na instancia de classe de ${classDungeon.pathName} (base: $tierLabel).")
+        } ?: "área desconhecida"
+        return listOf("Você entrou na instancia de classe de ${classDungeon.pathName} (base: $tierLabel).")
     }
 }
+

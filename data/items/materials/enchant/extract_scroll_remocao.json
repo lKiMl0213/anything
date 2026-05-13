@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_remocao",
-    "name":  "Pergaminho de Remocao (Comum)",
+    "name":  "Pergaminho de Remoção (Comum)",
     "type":  "MATERIAL",
     "tier":  "common",
     "tags":  [
@@ -14,3 +14,4 @@
     "description":  "Aumenta fortemente a chance de extrair encantamento de equipamento.",
     "rarity":  "COMMON"
 }
+

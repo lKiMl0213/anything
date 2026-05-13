@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "collect_enchant_rune_bundle",
   "category": "collection",
   "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY"],
@@ -18,7 +18,8 @@
   },
   "titleTemplate": "Kit de Runas",
   "descriptionTemplate": "Junte {amount} Runa(s) de Aprimoramento para evoluir seus itens.",
-  "hintTemplate": "Produza runas no craft para completar mais rapido.",
+  "hintTemplate": "Produza runas no craft para completar mais rápido.",
   "enabled": true,
   "weight": 6
 }
+

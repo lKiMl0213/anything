@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "unlock_mage_subclass_lv25",
   "category": "progression_subclass",
   "supportedTiers": ["ACCEPTED"],
@@ -18,8 +18,12 @@
   },
 
   "titleTemplate": "Desperte seu verdadeiro poder.",
-  "descriptionTemplate": "Sua conexão com a magia ultrapassa os limites básicos. Agora você deve provar domínio sobre forças mais profundas e instáveis.",
+  "descriptionTemplate": "Sua conexão com a magia ultrapassa os limites bísicos. Agora você deve provar domínio sobre forças mais profundas e instíveis.",
   "hintTemplate": "Enfrente desafios e conclua uma sequência de provas para desbloquear sua subclasse de Mago.",
   "enabled": false,
   "weight": 1
 }
+
+
+
+

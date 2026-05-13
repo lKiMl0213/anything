@@ -79,7 +79,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
 
-    implementation(project(":"))
+    implementation(project(":core"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 }
@@ -115,5 +115,4 @@ val validateNoBundledSaves by tasks.registering {
 tasks.matching { it.name == "preBuild" }.configureEach {
     dependsOn(validateNoBundledSaves)
 }
-
 

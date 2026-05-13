@@ -1,4 +1,4 @@
-package rpg.validation
+﻿package rpg.validation
 
 import rpg.io.DataRepository
 import rpg.registry.ItemRegistry
@@ -18,18 +18,18 @@ class DataIntegrityValidator {
 
         for (recipe in repo.craftRecipes.values) {
             if (!exists(recipe.outputItemId)) {
-                errors += "Recipe ${recipe.id}: outputItemId invalido (${recipe.outputItemId})."
+                errors += "Recipe ${recipe.id}: outputItemId inválido (${recipe.outputItemId})."
             }
             for (ingredient in recipe.ingredients) {
                 if (!exists(ingredient.itemId)) {
-                    errors += "Recipe ${recipe.id}: ingrediente invalido (${ingredient.itemId})."
+                    errors += "Recipe ${recipe.id}: ingrediente inválido (${ingredient.itemId})."
                 }
             }
         }
 
         for (node in repo.gatherNodes.values) {
             if (!exists(node.resourceItemId)) {
-                errors += "Gather node ${node.id}: resourceItemId invalido (${node.resourceItemId})."
+                errors += "Gather node ${node.id}: resourceItemId inválido (${node.resourceItemId})."
             }
         }
 
@@ -42,7 +42,7 @@ class DataIntegrityValidator {
             }
             for (drop in spot.drops) {
                 if (!exists(drop.itemId)) {
-                    errors += "Hunting spot ${spot.id}: drop invalido (${drop.itemId})."
+                    errors += "Hunting spot ${spot.id}: drop inválido (${drop.itemId})."
                 }
                 if (drop.minQty <= 0 || drop.maxQty < drop.minQty) {
                     errors += "Hunting spot ${spot.id}: faixa de quantidade invalida para ${drop.itemId}."
@@ -62,24 +62,24 @@ class DataIntegrityValidator {
         enchantIds += repo.extractionConfig.protectionScrollItemIds()
         for (id in enchantIds) {
             if (!exists(id)) {
-                errors += "Encantamento/Extracao: item referenciado inexistente ($id)."
+                errors += "Encantamento/Extração: item referenciado inexistente ($id)."
             }
         }
 
         for (level in 1..repo.enchantConfig.maxEnchantLevel.coerceAtLeast(1)) {
             val extractionStoneId = repo.extractionConfig.enchantStoneTemplateIdForLevel(level)
             if (!exists(extractionStoneId)) {
-                errors += "Extracao: pedra para nivel +$level inexistente ($extractionStoneId)."
+                errors += "Extração: pedra para nível +$level inexistente ($extractionStoneId)."
             }
             val fusionStoneId = repo.fusionConfig.enchantStoneTemplateIdForLevel(level)
             if (!exists(fusionStoneId)) {
-                errors += "Fusao: pedra para nivel +$level inexistente ($fusionStoneId)."
+                errors += "Fusão: pedra para nível +$level inexistente ($fusionStoneId)."
             }
         }
 
         for (buff in repo.cookingBuffConfig.buffs) {
             if (!exists(buff.itemId)) {
-                errors += "Cooking buff ${buff.id}: itemId invalido (${buff.itemId})."
+                errors += "Cooking buff ${buff.id}: itemId inválido (${buff.itemId})."
             }
             if (buff.baseValue < 0.0) {
                 errors += "Cooking buff ${buff.id}: baseValue deve ser >= 0."
@@ -92,3 +92,6 @@ class DataIntegrityValidator {
         return errors
     }
 }
+
+
+

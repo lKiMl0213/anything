@@ -1,4 +1,4 @@
-package rpg.application.enchant
+﻿package rpg.application.enchant
 
 import rpg.application.GameActionResult
 import rpg.application.GameEffect
@@ -157,7 +157,7 @@ class FusionExtractionActionDispatcher(
                 selectedExtractionItemId = selectedItem,
                 selectedExtractionUseRemovalScroll = next,
                 selectedExtractionUseProtectionScroll = protection,
-                messages = listOf(if (next) "Pergaminho de remoção: SIM" else "Pergaminho de remoção: NÃO")
+                messages = listOf(if (next) "Pergaminho de remoção: SIM" else "Pergaminho de remoção: Não")
             )
         )
     }
@@ -186,7 +186,7 @@ class FusionExtractionActionDispatcher(
                 selectedExtractionItemId = selectedItem,
                 selectedExtractionUseRemovalScroll = true,
                 selectedExtractionUseProtectionScroll = next,
-                messages = listOf(if (next) "Pergaminho de proteção: SIM" else "Pergaminho de proteção: NÃO")
+                messages = listOf(if (next) "Pergaminho de proteção: SIM" else "Pergaminho de proteção: Não")
             )
         )
     }
@@ -263,3 +263,6 @@ class FusionExtractionActionDispatcher(
         return GameActionResult(session.copy(messages = listOf("Nenhum jogo carregado.")))
     }
 }
+
+
+

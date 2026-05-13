@@ -1,6 +1,6 @@
 ﻿{
     "id":  "enchant_rune_protecao_uncommon",
-    "name":  "Sintetizar Runa de Protecao (Incomum)",
+    "name":  "Sintetizar Runa de Proteção (Incomum)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "enchant_rune_protecao_uncommon",
@@ -38,3 +38,4 @@
                  "uncommon"
              ]
 }
+

@@ -1,4 +1,4 @@
-package rpg.android.screens
+﻿package rpg.android.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,7 +24,7 @@ fun CharacterCreationScreen(
     }
 
     MenuLayout(title = "Criacao de Personagem") {
-        androidx.compose.material3.Text("Pontos disponiveis: $availablePoints")
+        androidx.compose.material3.Text("Pontos disponíveis: $availablePoints")
 
         attributeCodes.forEach { code ->
             val baseValue = initialAttributes[code] ?: 0
@@ -62,3 +62,4 @@ fun CharacterCreationScreen(
         MenuButton("VOLTAR", onBack)
     }
 }
+

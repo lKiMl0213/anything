@@ -1,4 +1,4 @@
-package rpg.android
+﻿package rpg.android
 
 import android.app.Application
 import android.content.Context
@@ -136,7 +136,7 @@ class AndroidGameViewModel(
         val selected = deps.saveGateway.listSaves()
             .firstOrNull { it.fileName.toString().equals(fileName, ignoreCase = true) }
         if (selected == null) {
-            startMessage = "Save nao encontrado: $fileName"
+            startMessage = "Save não encontrado: $fileName"
             startPageSaves = querySaveSlots(deps)
             publishFromSession()
             return
@@ -149,7 +149,7 @@ class AndroidGameViewModel(
         val selected = deps.saveGateway.listSaves()
             .firstOrNull { it.fileName.toString().equals(fileName, ignoreCase = true) }
         if (selected == null) {
-            startMessage = "Save nao encontrado: $fileName"
+            startMessage = "Save não encontrado: $fileName"
             startPageSaves = querySaveSlots(deps)
             publishFromSession()
             return
@@ -157,7 +157,7 @@ class AndroidGameViewModel(
         val deleted = runCatching { deps.saveGateway.delete(selected) }.getOrDefault(false)
         startPageSaves = querySaveSlots(deps)
         startMessage = when {
-            !deleted -> "Nao foi possivel excluir o save."
+            !deleted -> "Não foi possível excluir o save."
             startPageSaves.isEmpty() -> "Nenhum save encontrado."
             else -> "Save excluido com sucesso."
         }
@@ -379,7 +379,7 @@ class AndroidGameViewModel(
         if (current == null) {
             emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
             val reason = deps.patchNotesService.lastError()
-                ?: "Entrada da versao atual nao encontrada no changelog."
+                ?: "Entrada da versão atual n?o encontrada no changelog."
             val sourcePath = deps.patchNotesService.currentPath()
             _popupDetail.value = PopupDetailUiModel(
                 title = "Patch Notes",
@@ -507,7 +507,7 @@ class AndroidGameViewModel(
         timedActionJob = null
         _timedActionState.value = null
         clearPersistedTimedAction()
-        session = session.copy(messages = listOf("Acao cancelada."))
+        session = session.copy(messages = listOf("Ação cancelada."))
         publishFromSession()
     }
 
@@ -685,7 +685,7 @@ class AndroidGameViewModel(
         }
 
         val title = preferences.getString(PREF_TIMED_ACTION_TITLE, null) ?: "Producao"
-        val detail = preferences.getString(PREF_TIMED_ACTION_DETAIL, null) ?: "Acao em andamento"
+        val detail = preferences.getString(PREF_TIMED_ACTION_DETAIL, null) ?: "Ação em andamento"
         val totalDurationMs = preferences.getLong(PREF_TIMED_ACTION_TOTAL_MS, 0L).coerceAtLeast(500L)
         val endsAtEpochMs = preferences.getLong(PREF_TIMED_ACTION_END_EPOCH_MS, 0L)
         if (endsAtEpochMs <= 0L) {
@@ -936,7 +936,7 @@ class AndroidGameViewModel(
                         }
                     )
                 } else {
-                    AndroidUiState.Error("Tela ainda nao suportada no Android.")
+                    AndroidUiState.Error("Tela ainda não suportada no Android.")
                 }
                 setUiAndRefresh(next)
             }
@@ -1012,9 +1012,9 @@ class AndroidGameViewModel(
     ): PatchNotesUiModel {
         val dateLabel = entry.date.takeIf { it.isNotBlank() }
         val title = if (dateLabel != null) {
-            "Notas da atualizacao $dateLabel"
+            "Notas da atualização $dateLabel"
         } else {
-            "Notas da atualizacao"
+            "Notas da atualização"
         }
         return PatchNotesUiModel(
             title = title,
@@ -1276,7 +1276,7 @@ class AndroidGameViewModel(
             detail.contains("pesca") -> SoundEffect.FISHING
             detail.contains("miner") -> SoundEffect.MINING
             detail.contains("lenha") || detail.contains("wood") -> SoundEffect.WOODCUTTING
-            detail.contains("caca") || detail.contains("ca\u00e7") || detail.contains("hunting") -> SoundEffect.HUNTING
+            detail.contains("caça") || detail.contains("ca\u00e7") || detail.contains("hunting") -> SoundEffect.HUNTING
             detail.contains("coleta") || detail.contains("herb") || detail.contains("gather") -> SoundEffect.GATHERING
             detail.contains("forja") || detail.contains("forge") -> SoundEffect.FORGE
             detail.contains("encant") || detail.contains("enchant") -> SoundEffect.ENCHANT
@@ -1287,13 +1287,13 @@ class AndroidGameViewModel(
 
     private fun playCombatResolutionAudio(outcome: rpg.application.CombatFlowResult) {
         val defeat = outcome.navigation == NavigationState.Hub &&
-            outcome.messages.any { it.contains("voce foi derrotado", ignoreCase = true) }
+            outcome.messages.any { it.contains("você foi derrotado", ignoreCase = true) }
         if (defeat) {
             emitAudioEvent(AudioEvent.PlayMusicStinger(MusicTrack.DEFEAT, durationMs = 2200L))
             return
         }
 
-        val escaped = outcome.messages.any { it.contains("voce fugiu", ignoreCase = true) }
+        val escaped = outcome.messages.any { it.contains("você fugiu", ignoreCase = true) }
         if (escaped) return
 
         val victory = outcome.messages.any { it.contains("ganhou", ignoreCase = true) } ||
@@ -1398,9 +1398,15 @@ class AndroidGameViewModel(
                         @Suppress("UNCHECKED_CAST")
                         return AndroidGameViewModel(application) as T
                     }
-                    error("ViewModel nao suportado: ${modelClass.name}")
+                    error("ViewModel não suportado: ${modelClass.name}")
                 }
             }
         }
     }
 }
+
+
+
+
+
+

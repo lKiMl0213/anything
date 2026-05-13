@@ -1,4 +1,4 @@
-package rpg.application.character
+﻿package rpg.application.character
 
 import rpg.engine.GameEngine
 import rpg.model.PlayerState
@@ -115,13 +115,13 @@ internal class CharacterTalentViewSupport(
         val check = talentTreeService.canRankUp(player, tree, node.id, trees)
         val currentRank = talentTreeService.nodeCurrentRank(player, node)
         val lines = mutableListOf<String>()
-        lines += "Arvore: ${talentTreeDisplayName(player, tree)}"
+        lines += "Árvore: ${talentTreeDisplayName(player, tree)}"
         lines += "Etapa: ${talentStageLabel(tree.tier)}"
         lines += "Tipo: ${talentNodeTypeLabel(node.nodeType)}"
         lines += "Rank atual: $currentRank/${node.maxRank.coerceAtLeast(1)}"
         lines += "Pre-req: ${formatTalentPrerequisites(tree, node)}"
         lines += "Exclusivo: ${formatTalentExclusiveGroup(tree, node)}"
-        if (node.description.isNotBlank()) lines += "Descricao: ${node.description}"
+        if (node.description.isNotBlank()) lines += "Descrição: ${node.description}"
         node.unlocksSkillId?.takeIf { it.isNotBlank() }?.let { lines += "Skill: $it" }
         lines += "Efeito: ${effectFormatter.talentNodeEffectSummary(node)}"
         if (check.allowed) {
@@ -228,3 +228,6 @@ internal class CharacterTalentViewSupport(
         return if (peers.isEmpty()) "Grupo exclusivo" else peers.joinToString(", ")
     }
 }
+
+
+

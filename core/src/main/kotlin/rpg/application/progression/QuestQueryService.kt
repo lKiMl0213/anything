@@ -1,4 +1,4 @@
-package rpg.application.progression
+﻿package rpg.application.progression
 
 import rpg.engine.GameEngine
 import rpg.model.GameState
@@ -50,7 +50,7 @@ class QuestQueryService(
             title = quest.title,
             detailLines = buildList {
                 add("Tipo: ${support.objectiveTypeLabel(quest.objectiveType)}")
-                add("Descricao: ${quest.description}")
+                add("Descrição: ${quest.description}")
                 if (quest.hint.isNotBlank()) add("Dica: ${quest.hint}")
                 add("Progresso: ${quest.currentProgress}/${quest.requiredAmount}")
                 add("Status: ${support.questStatusLabel(quest.status)}")
@@ -87,3 +87,6 @@ class QuestQueryService(
         return engine.itemResolver.resolve(itemId, emptyMap())?.name ?: itemId
     }
 }
+
+
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "powerWeights": {
     "hp": 0.25,
     "damage": 1.0,
@@ -44,8 +44,9 @@
     "maxDropBonusPct": 40.0
   },
   "starTags": [
-    { "minStars": 7, "label": "Impecavel", "format": "{name} Impecavel ({stars}*)" },
-    { "minStars": 5, "label": "Excepcional", "format": "{name} Excepcional ({stars}*)" },
-    { "minStars": 3, "label": "Notavel", "format": "{name} Notavel ({stars}*)" }
+    { "minStars": 7, "label": "Impecável", "format": "{name} Impecável ({stars}⭐)" },
+    { "minStars": 5, "label": "Excepcional", "format": "{name} Excepcional ({stars}⭐)" },
+    { "minStars": 3, "label": "Notável", "format": "{name} Notável ({stars}⭐)" }
   ]
 }
+

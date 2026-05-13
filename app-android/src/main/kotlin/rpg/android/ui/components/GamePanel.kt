@@ -45,7 +45,7 @@ fun GamePanel(
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 8.dp)
+                        .padding(bottom = 2.dp)
                 )
             }
             content()

@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "hunting_deep_woods",
   "name": "Bosque Profundo",
   "recommendedLevel": 15,
@@ -14,3 +14,4 @@
     { "itemId": "predator_eye", "weight": 8, "minQty": 1, "maxQty": 1, "rareChancePct": 10.0, "minPlayerLevel": 14 }
   ]
 }
+

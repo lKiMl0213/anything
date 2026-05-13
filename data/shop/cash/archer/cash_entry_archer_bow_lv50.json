@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "cash_entry_archer_bow_lv50",
   "name": "Tempest Bow Mk-V",
   "itemId": "cash_archer_bow_lv50",
@@ -6,7 +6,12 @@
   "currency": "CASH",
   "quantity": 1,
   "minPlayerLevel": 50,
-  "description": "Bow premium de alto nivel para arqueiros.",
+  "description": "Bow premium de alto nível para arqueiros.",
   "enabled": true,
-  "tags": ["cash", "archer", "weapon"]
+  "tags": [
+    "cash",
+    "archer",
+    "weapon"
+  ]
 }
+

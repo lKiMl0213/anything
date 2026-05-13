@@ -1,4 +1,4 @@
-package rpg.android.ui.components
+﻿package rpg.android.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,13 +12,18 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
+import kotlin.math.ceil
 
 @Composable
 fun StatMiniPanel(
@@ -44,23 +49,33 @@ fun GameStatBar(
     val progress = (current / clampedMax).coerceIn(0.0, 1.0).toFloat()
     Column(
         modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(1.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
+        if (trailingInfo.isNullOrBlank()) {
             Text(
                 text = "$label ${current.roundToInt()}/${clampedMax.roundToInt()}",
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.fillMaxWidth(),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium.copy(fontSize = GameUiTokens.bodyTextSize),
                 fontWeight = FontWeight.SemiBold
             )
-            trailingInfo?.takeIf { it.isNotBlank() }?.let { info ->
+        } else {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
                 Text(
-                    text = info,
+                    text = "$label ${current.roundToInt()}/${clampedMax.roundToInt()}",
+                    modifier = Modifier.weight(1f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = GameUiTokens.bodyTextSize),
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = trailingInfo,
                     modifier = Modifier.weight(1f),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -82,6 +97,7 @@ fun GameStatBar(
 @Composable
 fun GameTopHud(
     name: String,
+    premiumStatusLabel: String,
     raceClassLabel: String,
     levelXpLabel: String,
     currencyLabel: String,
@@ -91,6 +107,8 @@ fun GameTopHud(
     hpMax: Double,
     mpCurrent: Double,
     mpMax: Double,
+    activeEffectName: String?,
+    activeEffectRemainingSeconds: Int,
     hpRegenPerMinute: Double,
     mpRegenPerMinute: Double,
     hpEtaSeconds: Int,
@@ -110,23 +128,24 @@ fun GameTopHud(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(lineSpacing)
             ) {
-                Text(
-                    text = name,
-                    style = bodyStyle,
-                    modifier = Modifier.fillMaxWidth(),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Text(
-                        text = raceClassLabel,
+                        text = name,
                         style = bodyStyle,
                         modifier = Modifier.weight(1f),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = premiumStatusLabel,
+                        style = bodyStyle,
+                        modifier = Modifier.weight(1f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.End
                     )
                     if (onRaceClassInfoClick != null) {
                         GameIconActionButton(
@@ -140,6 +159,13 @@ fun GameTopHud(
                         )
                     }
                 }
+                Text(
+                    text = raceClassLabel,
+                    style = bodyStyle,
+                    modifier = Modifier.fillMaxWidth(),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
                 if (compact) {
                     Text(
                         text = levelXpLabel,
@@ -156,7 +182,7 @@ fun GameTopHud(
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
-                        text = "Inventario $inventoryLabel",
+                        text = "Inventário $inventoryLabel",
                         style = bodyStyle,
                         modifier = Modifier.fillMaxWidth(),
                         maxLines = 1,
@@ -194,7 +220,7 @@ fun GameTopHud(
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Text(
-                            text = "Inventario $inventoryLabel",
+                            text = "Inventário $inventoryLabel",
                             style = bodyStyle,
                             modifier = Modifier.weight(1f),
                             maxLines = 1,
@@ -233,6 +259,10 @@ fun GameTopHud(
                 etaSeconds = mpEtaSeconds
             )
         )
+        GameActiveEffectLine(
+            effectName = activeEffectName,
+            initialRemainingSeconds = activeEffectRemainingSeconds
+        )
     }
 }
 
@@ -253,3 +283,47 @@ private fun formatEtaMinutes(totalSeconds: Int): String {
     val minutes = totalSeconds.coerceAtLeast(0).toDouble() / 60.0
     return "%.1f".format(minutes)
 }
+
+@Composable
+fun GameActiveEffectLine(
+    effectName: String?,
+    initialRemainingSeconds: Int
+) {
+    val normalizedName = effectName?.trim().orEmpty()
+    if (normalizedName.isBlank()) {
+        return
+    }
+    if (initialRemainingSeconds <= 0) {
+        Text(
+            text = "Efeito ativo: $normalizedName",
+            modifier = Modifier.fillMaxWidth(),
+            style = MaterialTheme.typography.bodySmall.copy(fontSize = GameUiTokens.labelTextSize),
+            textAlign = TextAlign.Center
+        )
+        return
+    }
+    val startMillis = remember(normalizedName, initialRemainingSeconds) { System.currentTimeMillis() }
+    val nowMillis by produceState(
+        initialValue = System.currentTimeMillis(),
+        normalizedName,
+        initialRemainingSeconds
+    ) {
+        while (true) {
+            delay(1000)
+            value = System.currentTimeMillis()
+        }
+    }
+    val elapsedSeconds = ((nowMillis - startMillis) / 1000L).toInt().coerceAtLeast(0)
+    val remainingSeconds = (initialRemainingSeconds - elapsedSeconds).coerceAtLeast(0)
+    if (remainingSeconds <= 0) {
+        return
+    }
+    val remainingTurns = ceil(remainingSeconds / 5.0).toInt().coerceAtLeast(1)
+    Text(
+        text = "Efeito ativo: $normalizedName ($remainingTurns turnos)",
+        modifier = Modifier.fillMaxWidth(),
+        style = MaterialTheme.typography.bodySmall.copy(fontSize = GameUiTokens.labelTextSize),
+        textAlign = TextAlign.Center
+    )
+}
+

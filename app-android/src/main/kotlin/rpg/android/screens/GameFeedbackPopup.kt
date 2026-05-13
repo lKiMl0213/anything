@@ -1,4 +1,4 @@
-package rpg.android.screens
+﻿package rpg.android.screens
 
 import android.content.ActivityNotFoundException
 import android.content.ClipData
@@ -70,12 +70,12 @@ internal fun FeedbackPopup(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Este jogo esta em beta. Sistemas, interface, balanceamento, imagens e textos ainda podem mudar.",
+                text = "Este jogo está em beta. Sistemas, interface, balanceamento, imagens e textos ainda podem mudar.",
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
             Text(
-                text = "Ao enviar feedback inclua: versao, modelo, Android, o que voce estava fazendo e o que aconteceu.",
+                text = "Ao enviar feedback inclua: versão, modelo, Android, o que você estava fazendo e o que aconteceu.",
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
@@ -85,7 +85,7 @@ internal fun FeedbackPopup(
                 textAlign = TextAlign.Center
             )
             GamePrimaryButton(
-                label = "Copiar infos tecnicas",
+                label = "Copiar infos técnicas",
                 onClick = {
                     scope.launch {
                         clipboard.setClipEntry(
@@ -93,7 +93,7 @@ internal fun FeedbackPopup(
                                 .newPlainText("anything_rpg_feedback_info", baseInfo)
                                 .toClipEntry()
                         )
-                        Toast.makeText(context, "Informacoes copiadas.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Informações copiadas.", Toast.LENGTH_SHORT).show()
                     }
                 },
                 modifier = Modifier.fillMaxWidth(0.88f)
@@ -144,7 +144,7 @@ internal fun FeedbackPopup(
                                     ?: "Downloads"
                                 Toast.makeText(context, "ZIP salvo: $message", Toast.LENGTH_LONG).show()
                             } else {
-                                Toast.makeText(context, "Nao foi possivel gerar o ZIP automaticamente.", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, "Não foi possível gerar o ZIP automaticamente.", Toast.LENGTH_LONG).show()
                             }
                             openFeedbackEmail(context, buildInfo, baseInfo, latestReport)
                         }
@@ -180,7 +180,7 @@ private fun feedbackInfoText(
     val metrics = context.resources.displayMetrics
     val config = context.resources.configuration
     return buildString {
-        appendLine("versao=${buildInfo.versionName}")
+        appendLine("versão=${buildInfo.versionName}")
         appendLine("build=${buildInfo.versionCode}")
         appendLine("android=${Build.VERSION.RELEASE} (${Build.VERSION.SDK_INT})")
         appendLine("modelo=${Build.MANUFACTURER} ${Build.MODEL}")
@@ -200,14 +200,14 @@ private fun openFeedbackEmail(
         "\nZIP gerado: ${it.fileName}\nLocal: ${it.savedUri ?: it.localPath ?: "-"}\n"
     } ?: ""
     val body = buildString {
-        appendLine("Este jogo esta em beta. Segue meu feedback:")
+        appendLine("Este jogo está em beta. Segue meu feedback:")
         appendLine()
         appendLine("- O que eu estava fazendo:")
         appendLine("- O que aconteceu:")
         appendLine("- O que eu esperava:")
         append(reportHint)
         appendLine()
-        appendLine("Informacoes tecnicas:")
+        appendLine("Informações técnicas:")
         append(baseInfo)
     }
     val intent = Intent(Intent.ACTION_SENDTO).apply {
@@ -221,3 +221,8 @@ private fun openFeedbackEmail(
         Toast.makeText(context, "Nenhum app de e-mail encontrado.", Toast.LENGTH_LONG).show()
     }
 }
+
+
+
+
+

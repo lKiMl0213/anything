@@ -1,4 +1,4 @@
-package rpg.classquest
+﻿package rpg.classquest
 
 internal object ClassQuestDungeonCatalogArcher {
     fun definitionFor(
@@ -36,7 +36,7 @@ internal object ClassQuestDungeonCatalogArcher {
                     dungeonMonster("cq_assassin_stealth_bandit", "Bandido Furtivo", "skeleton_archer", "bandit", "humanoid", "bandit_shadow", setOf("shadow")),
                     dungeonMonster("cq_assassin_shadow_blade", "Lamina Sombria", "skeleton_warrior", "shadow_blade", "humanoid", "bandit_shadow", setOf("assassin")),
                     dungeonMonster("cq_assassin_mist_stalker", "Espreitador da Nevoa", "slime", "mist_stalker", "humanoid", "bandit_shadow", setOf("shadow")),
-                    dungeonMonster("cq_assassin_night_hunter", "Cacador Noturno", "mimic", "night_hunter", "humanoid", "bandit_shadow", setOf("assassin")),
+                    dungeonMonster("cq_assassin_night_hunter", "Caçador Noturno", "mimic", "night_hunter", "humanoid", "bandit_shadow", setOf("assassin")),
                     dungeonMonster("cq_assassin_silent_mercenary", "Mercenario Silencioso", "skeleton_warrior", "mercenary", "humanoid", "bandit_shadow", setOf("mercenary"))
                 ),
                 bossMonsters = listOf(
@@ -87,7 +87,7 @@ internal object ClassQuestDungeonCatalogArcher {
                 ),
                 finalBoss = dungeonMonster("cq_sharpshooter_final_line_judge", "Juiz da Linha de Tiro", "lich", "line_judge", "humanoid", "war_scraps", setOf("boss_final")),
                 collectibleTemplateId = "cq_collect_sharpshooter",
-                collectibleName = "Nucleo de Precisao"
+                collectibleName = "Nucleo de Precisão"
             )
 
             "shadow_hunter" -> ClassQuestDungeonDefinition(
@@ -136,3 +136,6 @@ internal object ClassQuestDungeonCatalogArcher {
         }
     }
 }
+
+
+

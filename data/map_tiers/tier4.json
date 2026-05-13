@@ -1,7 +1,7 @@
-{
+﻿{
   "id": "tier4",
   "displayName": "Camposanto da Coroa Quebrada",
-  "menuNote": "Area de risco alto com elites mortos-vivos e presenca demoniaca.",
+  "menuNote": "área de risco alto com elites mortos-vivos e presenca demoniaca.",
   "minLevel": 20,
   "recommendedLevel": 25,
   "baseMonsterLevel": 24,
@@ -26,3 +26,4 @@
   "goldMultiplier": 1.2,
   "biomeId": "necropolis"
 }
+

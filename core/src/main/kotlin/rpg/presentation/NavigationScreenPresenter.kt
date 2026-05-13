@@ -1,4 +1,4 @@
-package rpg.presentation
+﻿package rpg.presentation
 import rpg.application.GameSession
 import rpg.application.PendingDungeonChestEvent
 import rpg.application.PendingDungeonEvent
@@ -38,7 +38,7 @@ internal class NavigationScreenPresenter(
         return MenuScreenViewModel(
             title = "RPG TXT",
             subtitle = "Aventura em texto",
-            bodyLines = listOf("Escolha uma opcao para comecar."),
+            bodyLines = listOf("Escolha uma opção para começar."),
             summary = session.gameState?.let(support::playerSummary),
             options = options,
             messages = session.messages
@@ -52,7 +52,7 @@ internal class NavigationScreenPresenter(
         return MenuScreenViewModel(
             title = "Carregar jogo",
             bodyLines = if (session.availableSaves.isEmpty()) {
-                listOf("Nenhum save disponivel.")
+                listOf("Nenhum save disponível.")
             } else {
                 listOf("Selecione um save para continuar sua aventura.")
             },
@@ -182,7 +182,7 @@ internal class NavigationScreenPresenter(
             summary = support.playerSummary(state),
             bodyLines = listOf("Escolha seu proximo destino de aventura."),
             options = listOf(
-                ScreenOptionViewModel("1", "Areas", GameAction.OpenDungeonSelection),
+                ScreenOptionViewModel("1", "áreas", GameAction.OpenDungeonSelection),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)
             ),
             messages = session.messages
@@ -195,7 +195,7 @@ internal class NavigationScreenPresenter(
             title = "Explorar com vida baixa",
             summary = support.playerSummary(state),
             bodyLines = listOf(
-                "Sua vida esta baixa. Recomendamos descansar.",
+                "Sua vida está baixa. Recomendamos descansar.",
                 "Deseja prosseguir?"
             ),
             options = listOf(
@@ -207,7 +207,7 @@ internal class NavigationScreenPresenter(
     }
 
     fun presentDungeonSelection(session: GameSession): ScreenViewModel {
-        val state = session.gameState ?: return support.presentMissingState("Areas de Exploracao")
+        val state = session.gameState ?: return support.presentMissingState("Áreas de Exploração")
         val tiers = engine.availableTiers(state.player)
         val highestInfiniteFloor = areaSupport.infiniteHighestFloor(state.player)
         val options = tiers.mapIndexed { index, tier ->
@@ -219,11 +219,11 @@ internal class NavigationScreenPresenter(
         }.toMutableList()
         areaSupport.classDungeonSelectionOption(state.player, (options.size + 1).toString())?.let(options::add)
         return MenuScreenViewModel(
-            title = "Areas de Exploracao",
+            title = "Áreas de Exploração",
             summary = support.playerSummary(state),
             bodyLines = listOf(
-                "Escolha uma area para iniciar a proxima sala da run.",
-                "Cada area possui ecossistema proprio de monstros e risco progressivo."
+                "Escolha uma área para iniciar a proxima sala da run.",
+                "Cada área possui ecossistema próprio de monstros e risco progressivo."
             ),
             options = options + ScreenOptionViewModel("x", "Voltar", GameAction.Back),
             messages = session.messages
@@ -242,7 +242,7 @@ internal class NavigationScreenPresenter(
             )
 
         val body = mutableListOf<String>()
-        body += "Voce encontrou uma sala de evento."
+        body += "Você encontrou uma sala de evento."
         body += pending.introLine
         body += pending.detailLine
 
@@ -260,7 +260,7 @@ internal class NavigationScreenPresenter(
             )
 
             is PendingDungeonNpcSuspiciousEvent -> listOf(
-                ScreenOptionViewModel("1", "Seguir a indicacao", GameAction.ResolveDungeonEvent(1)),
+                ScreenOptionViewModel("1", "Seguir a indicação", GameAction.ResolveDungeonEvent(1)),
                 ScreenOptionViewModel("2", "Ignorar", GameAction.ResolveDungeonEvent(2)),
                 ScreenOptionViewModel("x", "Voltar", GameAction.ResolveDungeonEvent(2))
             )
@@ -273,7 +273,7 @@ internal class NavigationScreenPresenter(
             )
 
             is PendingDungeonChestEvent -> listOf(
-                ScreenOptionViewModel("1", "Abrir rapido", GameAction.ResolveDungeonEvent(1)),
+                ScreenOptionViewModel("1", "Abrir rápido", GameAction.ResolveDungeonEvent(1)),
                 ScreenOptionViewModel("2", "Inspecionar antes de abrir", GameAction.ResolveDungeonEvent(2)),
                 ScreenOptionViewModel("3", "Ignorar", GameAction.ResolveDungeonEvent(3)),
                 ScreenOptionViewModel("x", "Voltar", GameAction.ResolveDungeonEvent(3))
@@ -298,3 +298,8 @@ internal class NavigationScreenPresenter(
         )
     }
 }
+
+
+
+
+

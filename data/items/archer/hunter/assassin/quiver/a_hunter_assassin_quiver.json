@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "a_hunter_assassin_quiver",
   "name": "Aljava Silenciosa",
   "type": "EQUIPMENT",
@@ -27,5 +27,9 @@
     }
   },
   "value": 1,
-  "description": "Equipamento de Assassino focado em burst, veneno, evasao e finalizacao rapida."
+  "description": "Equipamento de Assassino focado em burst, veneno, evasao e finalização rápida."
 }
+
+
+
+

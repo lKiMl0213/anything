@@ -1,4 +1,4 @@
-package rpg.enchant
+﻿package rpg.enchant
 
 import java.util.UUID
 import kotlin.math.ceil
@@ -33,12 +33,12 @@ class ExtractionService(
         val item = target?.item
         val reasons = mutableListOf<String>()
         if (item == null) {
-            reasons += "Item alvo nao encontrado no inventario."
+            reasons += "Item alvo não encontrado no inventário."
         }
         if (item != null) {
-            if (item.type != ItemType.EQUIPMENT) reasons += "Apenas equipamentos podem passar por extracao."
+            if (item.type != ItemType.EQUIPMENT) reasons += "Apenas equipamentos podem passar por extração."
             if (item.level < extractionConfig.minimumItemLevel) {
-                reasons += "Item precisa de nivel ${extractionConfig.minimumItemLevel}+."
+                reasons += "Item precisa de nível ${extractionConfig.minimumItemLevel}+."
             }
             if (item.enchantLevel <= 0) reasons += "O item precisa estar encantado (+1 ou mais)."
         }
@@ -64,11 +64,11 @@ class ExtractionService(
 
         if (request.useRemovalScroll) {
             val owned = resourceSelector.ownedCount(prepared.inventory, itemInstances, extractionConfig.removalScrollItemIds())
-            if (owned <= 0) reasons += "Pergaminho de remocao indisponivel."
+            if (owned <= 0) reasons += "Pergaminho de remoção indisponivel."
         }
         if (request.useProtectionScroll) {
             val owned = resourceSelector.ownedCount(prepared.inventory, itemInstances, extractionConfig.protectionScrollItemIds())
-            if (owned <= 0) reasons += "Pergaminho de protecao indisponivel."
+            if (owned <= 0) reasons += "Pergaminho de proteção indisponivel."
         }
 
         val baseCost = item?.let { goldCostFor(it) } ?: 0
@@ -103,7 +103,7 @@ class ExtractionService(
         if (!initialPreview.available) {
             return ExtractionExecutionResult(
                 success = false,
-                message = initialPreview.blockedReasons.joinToString(" ").ifBlank { "Extracao indisponivel." },
+                message = initialPreview.blockedReasons.joinToString(" ").ifBlank { "Extração indisponivel." },
                 player = prepared,
                 itemInstances = itemInstances,
                 preview = initialPreview
@@ -113,7 +113,7 @@ class ExtractionService(
         val materialized = itemSupport.materializeTarget(prepared, itemInstances, request.itemId)
             ?: return ExtractionExecutionResult(
                 success = false,
-                message = "Item alvo nao encontrado.",
+                message = "Item alvo não encontrado.",
                 player = prepared,
                 itemInstances = itemInstances,
                 preview = initialPreview
@@ -123,7 +123,7 @@ class ExtractionService(
         if (!preview.available) {
             return ExtractionExecutionResult(
                 success = false,
-                message = preview.blockedReasons.joinToString(" ").ifBlank { "Extracao indisponivel." },
+                message = preview.blockedReasons.joinToString(" ").ifBlank { "Extração indisponivel." },
                 player = materialized.player,
                 itemInstances = materialized.itemInstances,
                 preview = preview
@@ -154,7 +154,7 @@ class ExtractionService(
             if (removed < 1) {
                 return ExtractionExecutionResult(
                     success = false,
-                    message = "Pergaminho de remocao indisponivel.",
+                    message = "Pergaminho de remoção indisponivel.",
                     player = materialized.player,
                     itemInstances = materialized.itemInstances,
                     preview = preview
@@ -171,7 +171,7 @@ class ExtractionService(
             if (removed < 1) {
                 return ExtractionExecutionResult(
                     success = false,
-                    message = "Pergaminho de protecao indisponivel.",
+                    message = "Pergaminho de proteção indisponivel.",
                     player = materialized.player,
                     itemInstances = materialized.itemInstances,
                     preview = preview
@@ -221,10 +221,10 @@ class ExtractionService(
         mutablePlayer = xp.player
 
         val message = when {
-            success && itemReset -> "Extracao bem-sucedida: pedra +${preview.stoneEnchantLevel} criada e item resetado para +0."
-            success && itemDestroyed -> "Extracao bem-sucedida: pedra +${preview.stoneEnchantLevel} criada e item consumido."
-            success -> "Extracao bem-sucedida: pedra +${preview.stoneEnchantLevel} criada."
-            else -> "Extracao falhou. O encantamento permaneceu no item."
+            success && itemReset -> "Extração bem-sucedida: pedra +${preview.stoneEnchantLevel} criada e item resetado para +0."
+            success && itemDestroyed -> "Extração bem-sucedida: pedra +${preview.stoneEnchantLevel} criada e item consumido."
+            success -> "Extração bem-sucedida: pedra +${preview.stoneEnchantLevel} criada."
+            else -> "Extração falhou. O encantamento permaneceu no item."
         }
 
         return ExtractionExecutionResult(
@@ -282,7 +282,7 @@ class ExtractionService(
             type = ItemType.MATERIAL,
             tags = tags,
             value = value,
-            description = stoneDef?.description ?: "Pedra que conserva um nivel de encantamento extraido.",
+            description = stoneDef?.description ?: "Pedra que conserva um nível de encantamento extraido.",
             enchantLevel = level
         )
     }
@@ -300,3 +300,7 @@ class ExtractionService(
         return ceil(baseCost * multiplier).toInt().coerceAtLeast(1)
     }
 }
+
+
+
+

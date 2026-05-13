@@ -9,10 +9,8 @@ Use this file only for concise, durable partial history that matters after conte
 - Context Mesh in this repository should be loaded selectively; code and data remain the primary source of truth for narrow tasks.
 - JSON content registries under `data/` are loaded recursively, so future folder cleanups should preserve ids and hierarchy instead of keeping flat directories.
 - Class-line filesystem organization now mirrors `base -> second class -> specialization` for classes, specializations, talent trees, class rewards, and class-oriented item templates.
-- UI strategy for the next major frontend step is documented in `Relatório.md`: prefer Android-first with Jetpack Compose, keep gameplay semi-ATB, extract reusable core away from `GameCli`, and only evaluate Web after the Android UI is stable.
-- `GameCli` is now only an entrypoint; the old full CLI lives in `LegacyGameCli`, and the new modular vertical slice lives across `application`, `navigation`, `presentation`, `cli/input`, and `cli/renderer`.
-- The migrated CLI slice currently covers main menu, continue session, load/save, hub, production/progression/city shell menus, exploration, dungeon tier selection, combat attack flow, character menu, inventory, equipped slots, item detail actions, quiver management, attributes, and talent inspection/rank-up; unsupported paths still hand off to targeted legacy submenus to preserve functionality.
-- Inventory/equipment rules stay in reusable services under `application/inventory`; presentation only consumes prepared view data and the CLI adapters remain the only place for text rendering and raw input.
+- UI strategy for the current frontend is Android-first with Jetpack Compose, keeping gameplay systems in reusable core services.
+- Nota: o CLI foi removido; o caminho ativo do projeto e `app-android -> core`.
 - Character attribute/talent rules stay in reusable services under `application/character`; presenter/view models only format already-prepared data and mutations return explicit feedback messages.
 - Quest, achievement, and tavern rules now live under `application/progression` and `application/city`; progression no longer needs a legacy handoff, while city still keeps a narrow legacy bridge only for non-tavern services.
 - `GameActionHandler` is now a coordinator over smaller action dispatchers (`session`, `navigation`, `character`, `inventory`, `progression`, `city`, `exploration`) and should stay that way instead of absorbing domain logic again.

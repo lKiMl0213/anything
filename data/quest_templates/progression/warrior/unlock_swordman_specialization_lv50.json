@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "unlock_swordman_specialization_lv50",
   "category": "progression_specialization",
   "supportedTiers": ["ACCEPTED"],
@@ -17,8 +17,12 @@
     "requiresDungeon": true
   },
   "titleTemplate": "Trace seu caminho na lâmina.",
-  "descriptionTemplate": "Sua habilidade com a espada alcançou um nível excepcional. Suas escolhas definirão permanentemente seu estilo de combate.",
+  "descriptionTemplate": "Sua habilidade com a espada alcanãou um nível excepcional. Suas escolhas definirão permanentemente seu estilo de combate.",
   "hintTemplate": "Enfrente desafios extremos e tome uma decisão definitiva para desbloquear a especialização do Espadachim.",
   "enabled": false,
   "weight": 1
 }
+
+
+
+

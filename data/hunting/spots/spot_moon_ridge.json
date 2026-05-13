@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "hunting_moon_ridge",
   "name": "Crista da Lua",
   "recommendedLevel": 30,
@@ -15,3 +15,4 @@
     { "itemId": "golden_flower", "weight": 6, "minQty": 1, "maxQty": 1, "rareChancePct": 18.0, "minPlayerLevel": 30 }
   ]
 }
+

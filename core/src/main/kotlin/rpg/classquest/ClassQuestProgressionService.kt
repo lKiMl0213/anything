@@ -1,4 +1,4 @@
-package rpg.classquest
+﻿package rpg.classquest
 
 import java.util.UUID
 import kotlin.math.min
@@ -44,8 +44,8 @@ internal class ClassQuestProgressionService(
         lines += "Quest ${pathCatalog.unlockLabel(context.definition.unlockType)} - Etapa ${stage.stage.stage}/4"
         chosenPath?.let { lines += "Caminho: ${pathCatalog.pathName(context.definition.unlockType, it)}" }
         if (dungeon != null) {
-            lines += "Local recomendado: Area de classe (${dungeon.pathName})."
-            lines += "Acesso rapido: Exploracao > Areas > instancia de classe."
+            lines += "Local recomendado: área de classe (${dungeon.pathName})."
+            lines += "Acesso rápido: Exploração > áreas > instância de classe."
         }
 
         if (stage.stage.killTarget > 0) {
@@ -54,7 +54,7 @@ internal class ClassQuestProgressionService(
             if (mobTargets.isNotEmpty()) {
                 lines += "Mobs alvo: ${mobTargets.joinToString(", ")}"
                 if (dungeon != null) {
-                    lines += "Onde encontrar: apenas na area de classe do caminho ${dungeon.pathName}."
+                    lines += "Onde encontrar: apenas na área de classe do caminho ${dungeon.pathName}."
                 }
             } else {
                 val baseTargets = resolveBaseTypeLabels(stage.mobBaseTypes)
@@ -381,3 +381,10 @@ internal class ClassQuestProgressionService(
             .distinct()
     }
 }
+
+
+
+
+
+
+

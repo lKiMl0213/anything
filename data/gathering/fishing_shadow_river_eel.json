@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "fishing_shadow_river_eel",
   "name": "Rio Sombrio",
   "type": "FISHING",
@@ -12,7 +12,8 @@
   "baseXp": 29.0,
   "difficulty": 2.2,
   "tier": 3,
-  "description": "Enguias agressivas em agua escura.",
+  "description": "Enguias agressivas em água escura.",
   "enabled": true,
   "tags": ["fishing", "river", "rare"]
 }
+

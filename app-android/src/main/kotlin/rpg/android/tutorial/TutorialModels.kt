@@ -1,4 +1,4 @@
-package rpg.android.tutorial
+﻿package rpg.android.tutorial
 
 import rpg.android.state.AndroidUiState
 import rpg.android.state.MainSection
@@ -96,7 +96,7 @@ internal data class TutorialScreenContext(
                 (generic?.section == MainSection.CHARACTER)
             val isProductionScreen = generic?.section == MainSection.PRODUCTION
             val isExplorationAreasScreen = generic?.section == MainSection.EXPLORATION &&
-                generic.viewModel.title.contains("areas de exploracao", ignoreCase = true)
+                generic.viewModel.title.contains("Áreas de exploração", ignoreCase = true)
             val isCityScreen = generic?.section == MainSection.CITY
             val isProgressionScreen = generic?.section == MainSection.PROGRESSION
             return TutorialScreenContext(
@@ -118,3 +118,7 @@ internal fun GameState.toTutorialState(): TutorialState {
         step = TutorialStep.fromPersisted(tutorialStep)
     )
 }
+
+
+
+

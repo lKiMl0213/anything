@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_remocao",
-    "name":  "Criar Pergaminho de Remocao (Comum)",
+    "name":  "Criar Pergaminho de Remoção (Comum)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "extract_scroll_remocao",
@@ -29,7 +29,7 @@
                             "itemId":  "oil"
                         }
                     ],
-    "description":  "Pergaminho comum para extracao de encantamento.",
+    "description":  "Pergaminho comum para extração de encantamento.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -39,3 +39,4 @@
                  "common"
              ]
 }
+

@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "tilapia",
     "name":  "Tilapia",
     "tags":  [
@@ -8,5 +8,6 @@
              ],
     "value":  3,
     "type":  "MATERIAL",
-    "description":  "Peixe de agua doce muito usado em pratos."
+    "description":  "Peixe de água doce muito usado em pratos."
 }
+

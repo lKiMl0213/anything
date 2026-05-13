@@ -1,4 +1,4 @@
-package rpg.application.progression
+﻿package rpg.application.progression
 
 import java.time.Instant
 import java.time.ZoneId
@@ -63,7 +63,7 @@ class QuestRulesSupport(
             else -> sectionQuests(board, section)
         }
         val countLabel = when (section) {
-            QuestSection.ACCEPTABLE_POOL -> "${quests.size}/${poolLimitProvider(player).coerceAtLeast(1)} disponiveis"
+            QuestSection.ACCEPTABLE_POOL -> "${quests.size}/${poolLimitProvider(player).coerceAtLeast(1)} disponíveis"
             QuestSection.ACCEPTED -> "${quests.size}/${acceptedLimitProvider(player).coerceAtLeast(1)}"
             QuestSection.CLASS_QUEST -> "-"
             else -> "${quests.size} ativa(s)"
@@ -192,8 +192,10 @@ class QuestRulesSupport(
                 "(!) Conquista concluida (!)",
                 notification.displayName,
                 notification.displayDescription,
-                "Recompensa disponivel: ${notification.rewardGold} ouro"
+                "Recompensa disponível: ${notification.rewardGold} ouro"
             )
         }
     }
 }
+
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "s_warrior_paladin_weapon",
   "name": "Martelo Consagrado",
   "type": "EQUIPMENT",
@@ -29,7 +29,7 @@
     }
   },
   "value": 1,
-  "description": "Equipamento de Paladino focado em mitigacao, resistencia e ofensiva sagrada.",
+  "description": "Equipamento de Paladino focado em mitigação, resistência e ofensiva sagrada.",
   "effects": {
     "applyStatuses": [
       {
@@ -42,3 +42,6 @@
     ]
   }
 }
+
+
+

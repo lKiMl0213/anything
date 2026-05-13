@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_protecao_rare",
-    "name":  "Criar Pergaminho de Protecao de Extracao (Raro)",
+    "name":  "Criar Pergaminho de Proteção de Extração (Raro)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "extract_scroll_protecao_rare",
@@ -29,7 +29,7 @@
                             "itemId":  "luminous_mushroom"
                         }
                     ],
-    "description":  "Pergaminho raro para manter equipamento apos extracao.",
+    "description":  "Pergaminho raro para manter equipamento após extração.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -39,3 +39,4 @@
                  "rare"
              ]
 }
+

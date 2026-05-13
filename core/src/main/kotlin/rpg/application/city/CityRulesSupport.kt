@@ -1,4 +1,4 @@
-package rpg.application.city
+﻿package rpg.application.city
 
 import kotlin.math.max
 import kotlin.math.min
@@ -87,7 +87,7 @@ class CityRulesSupport(
                 "HP ${formatValue(state.player.currentHp)}/${formatValue(stats.derived.hpMax)} | MP ${formatValue(state.player.currentMp)}/${formatValue(stats.derived.mpMax)} | Ouro ${state.player.gold}",
                 "Descansar recupera ${formatValue(tavernRestHealPct * 100.0)}% de HP/MP.",
                 "Dormir restaura HP/MP por completo.",
-                "Reducao ativa da taverna: ${formatValue(pricing.discountPct)}%.",
+                "Redução ativa da taverna: ${formatValue(pricing.discountPct)}%.",
                 "Debuff atual: ${state.player.deathDebuffStacks} stack(s) | ${formatMinutes(state.player.deathDebuffMinutes)} min restantes"
             )
         )
@@ -152,7 +152,7 @@ class CityRulesSupport(
                 "(!) Conquista concluida (!)",
                 notification.displayName,
                 notification.displayDescription,
-                "Recompensa disponivel: ${notification.rewardGold} ouro"
+                "Recompensa disponível: ${notification.rewardGold} ouro"
             )
         }
     }
@@ -161,3 +161,6 @@ class CityRulesSupport(
 
     private fun formatValue(value: Double): String = "%.0f".format(value)
 }
+
+
+

@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "mimic",
     "name":  "Mimico",
     "archetype":  "Construct",
@@ -37,7 +37,7 @@
                               "effectValue":  12,
                               "stackable":  false,
                               "maxStacks":  1,
-                              "source":  "Maldicao do Bau"
+                              "source":  "Maldicao do Baú"
                           }
                       ],
     "dropTableId":  "construct_arcane",
@@ -62,3 +62,4 @@
                       "arcane"
                   ]
 }
+

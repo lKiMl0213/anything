@@ -1,4 +1,4 @@
-package rpg.quest
+﻿package rpg.quest
 
 import java.time.DayOfWeek
 import java.time.Instant
@@ -139,7 +139,7 @@ class QuestBoardEngine(
             )
         }
         val quest = board.availableAcceptableQuestPool.firstOrNull { it.instanceId == instanceId }
-            ?: return QuestBoardActionResult(board, false, "Quest nao encontrada na pool aceitavel.")
+            ?: return QuestBoardActionResult(board, false, "Quest não encontrada na pool aceitavel.")
         val updatedQuest = quest.copy(
             acceptedAt = acceptedAt,
             status = QuestStatus.ACTIVE,
@@ -158,7 +158,7 @@ class QuestBoardEngine(
 
     fun cancelAcceptedQuest(board: QuestBoardState, instanceId: String): QuestBoardActionResult {
         val quest = board.acceptedQuests.firstOrNull { it.instanceId == instanceId }
-            ?: return QuestBoardActionResult(board, false, "Quest aceita nao encontrada.")
+            ?: return QuestBoardActionResult(board, false, "Quest aceita não encontrada.")
         val updatedAccepted = board.acceptedQuests.filterNot { it.instanceId == instanceId }
         val cancelled = quest.copy(status = QuestStatus.CANCELLED)
         return QuestBoardActionResult(
@@ -179,7 +179,7 @@ class QuestBoardEngine(
         nowMillis: Long = System.currentTimeMillis()
     ): QuestBoardActionResult {
         if (tier == QuestTier.ACCEPTED) {
-            return QuestBoardActionResult(board, false, "Replace nao e permitido para quests aceitas.")
+            return QuestBoardActionResult(board, false, "Replace não e permitido para quests aceitas.")
         }
 
         val context = generator.buildContext(player)
@@ -214,7 +214,7 @@ class QuestBoardEngine(
         }
         val index = quests.indexOfFirst { it.instanceId == instanceId }
         if (index < 0) {
-            return QuestBoardActionResult(board, false, "Quest nao encontrada para replace.")
+            return QuestBoardActionResult(board, false, "Quest não encontrada para replace.")
         }
         val current = quests[index]
         val avoid = quests.mapTo(mutableSetOf()) { it.templateId }
@@ -229,7 +229,7 @@ class QuestBoardEngine(
         ) ?: return QuestBoardActionResult(
             board = board,
             success = false,
-            message = "Nao foi possivel gerar uma nova quest valida para replace."
+            message = "Não foi possível gerar uma nova quest valida para replace."
         )
 
         val updatedList = quests.toMutableList().also { it[index] = replacement }
@@ -346,3 +346,6 @@ class QuestBoardEngine(
         const val ACCEPTABLE_EXPIRATION_MS = 24L * 60L * 60L * 1000L
     }
 }
+
+
+

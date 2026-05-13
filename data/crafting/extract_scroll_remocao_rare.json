@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_remocao_rare",
-    "name":  "Criar Pergaminho de Remocao (Raro)",
+    "name":  "Criar Pergaminho de Remoção (Raro)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "extract_scroll_remocao_rare",
@@ -29,7 +29,7 @@
                             "itemId":  "arcane_crystal"
                         }
                     ],
-    "description":  "Pergaminho raro para extrair encantamentos de nivel alto.",
+    "description":  "Pergaminho raro para extrair encantamentos de nível alto.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -39,3 +39,4 @@
                  "rare"
              ]
 }
+

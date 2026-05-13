@@ -1,4 +1,4 @@
-package rpg.application.enchant
+﻿package rpg.application.enchant
 
 import rpg.enchant.FusionPreview
 import rpg.enchant.FusionRequest
@@ -109,3 +109,4 @@ class FusionQueryService(
         val ids: List<String>
     )
 }
+

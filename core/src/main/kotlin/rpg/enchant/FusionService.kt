@@ -1,4 +1,4 @@
-package rpg.enchant
+﻿package rpg.enchant
 
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -81,7 +81,7 @@ class FusionService(
         if (!initialPreview.available || mode == null) {
             return FusionExecutionResult(
                 success = false,
-                message = initialPreview.blockedReasons.joinToString(" ").ifBlank { "Nao foi possivel realizar a fusao." },
+                message = initialPreview.blockedReasons.joinToString(" ").ifBlank { "Não foi possível realizar a fusão." },
                 player = prepared,
                 itemInstances = itemInstances,
                 preview = initialPreview
@@ -98,7 +98,7 @@ class FusionService(
         if (!consumeSpecificItem(mutableInventory, mutableInstances, request.slot1ItemId) ||
             !consumeSpecificItem(mutableInventory, mutableInstances, request.slot2ItemId)
         ) {
-            return failedResult(prepared, itemInstances, initialPreview, "Itens de fusao indisponiveis no inventario.")
+            return failedResult(prepared, itemInstances, initialPreview, "Itens de fusão indisponiveis no inventário.")
         }
 
         val levels = resolvedEnchantLevels(left.item, right.item)
@@ -131,7 +131,7 @@ class FusionService(
         )
         updatedPlayer = xp.player
 
-        val successLabel = if (success) "Fusao concluida." else "Fusao instavel."
+        val successLabel = if (success) "Fusão concluida." else "Fusão instavel."
         val resultLabel = if (outputItem.type == ItemType.EQUIPMENT) {
             "${outputItem.name} +${outputItem.enchantLevel}"
         } else {
@@ -159,18 +159,18 @@ class FusionService(
         mode: FusionMode?
     ): MutableList<String> {
         val reasons = mutableListOf<String>()
-        if (left == null) reasons += "Slot 1 invalido ou fora do inventario."
-        if (right == null) reasons += "Slot 2 invalido ou fora do inventario."
+        if (left == null) reasons += "Slot 1 inválido ou fora do inventário."
+        if (right == null) reasons += "Slot 2 inválido ou fora do inventário."
         if (mode == null && left != null && right != null) {
-            reasons += "Combinacao invalida. Use equipamento+equipamento (mesmo template), pedra+pedra ou pedra+equipamento."
+            reasons += "Combinação invalida. Use equipamento+equipamento (mesmo template), pedra+pedra ou pedra+equipamento."
         }
         if (request.slot1ItemId == request.slot2ItemId && player.inventory.count { it == request.slot1ItemId } < 2) {
-            reasons += "Voce precisa de 2 unidades para usar o mesmo item nos dois slots."
+            reasons += "Você precisa de 2 unidades para usar o mesmo item nos dois slots."
         }
         val minEquipmentLevel = fusionConfig.minimumEquipmentLevel.coerceAtLeast(1)
         val equipLowLevel = listOfNotNull(left?.item, right?.item)
             .any { it.type == ItemType.EQUIPMENT && it.level < minEquipmentLevel }
-        if (equipLowLevel) reasons += "Equipamentos precisam ser nivel $minEquipmentLevel+ para fusao."
+        if (equipLowLevel) reasons += "Equipamentos precisam ser nível $minEquipmentLevel+ para fusão."
         return reasons
     }
 
@@ -260,3 +260,6 @@ private data class FusionLevelPlan(
     val failureMinLevel: Int,
     val failureMaxLevel: Int
 )
+
+
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "fishing_lake_tilapia",
   "name": "Lago Claro",
   "type": "FISHING",
@@ -14,7 +14,8 @@
   "minPlayerLevel": 1,
   "minSkillLevel": 3,
   "tier": 1,
-  "description": "Lago de agua doce com peixes comuns.",
+  "description": "Lago de água doce com peixes comuns.",
   "enabled": true,
   "tags": ["fishing", "lake"]
 }
+

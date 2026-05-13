@@ -42,6 +42,8 @@ internal class AndroidCombatFlowController(
             playerHpMax = 1.0,
             playerMp = 0.0,
             playerMpMax = 1.0,
+            activeEffectName = null,
+            activeEffectRemainingSeconds = 0,
             enemyHp = 0.0,
             enemyHpMax = 1.0,
             playerAtbProgress = 0f,
@@ -145,6 +147,7 @@ internal class AndroidCombatFlowController(
             val enemyStats = engine.computeMonsterStats(snapshot.monster)
             val consumables = buildConsumables(snapshot)
             val statusLines = buildStatusLines(snapshot)
+            val (activeEffectName, activeEffectRemainingSeconds) = buildActiveEffect(snapshot)
             val actionButtons = listOf(
                 CombatActionButtonUi("Atacar", GameAction.Attack, playerReady),
                 CombatActionButtonUi("Fugir", GameAction.EscapeCombat, playerReady)
@@ -159,6 +162,8 @@ internal class AndroidCombatFlowController(
                 playerHpMax = playerStats.derived.hpMax,
                 playerMp = snapshot.player.currentMp,
                 playerMpMax = playerStats.derived.mpMax,
+                activeEffectName = activeEffectName,
+                activeEffectRemainingSeconds = activeEffectRemainingSeconds,
                 enemyHp = snapshot.monsterHp,
                 enemyHpMax = enemyStats.derived.hpMax,
                 playerAtbProgress = playerProgress,
@@ -183,7 +188,7 @@ internal class AndroidCombatFlowController(
                     "${statusIcon(status.type)} ${format(status.remainingSeconds)}s"
                 }
             return buildList {
-                if (playerStatuses.isNotBlank()) add("Voce: $playerStatuses")
+                if (playerStatuses.isNotBlank()) add("Você: $playerStatuses")
                 if (enemyStatuses.isNotBlank()) add("Inimigo: $enemyStatuses")
             }
         }
@@ -229,5 +234,21 @@ internal class AndroidCombatFlowController(
     }
 
     private fun format(value: Double): String = "%.1f".format(value)
-}
 
+    private fun buildActiveEffect(snapshot: CombatSnapshot): Pair<String?, Int> {
+        val foodBuffName = snapshot.player.foodBuffName.takeIf {
+            snapshot.player.foodBuffRemainingMinutes > 0.0 && it.isNotBlank()
+        }
+        if (foodBuffName != null) {
+            return foodBuffName to (snapshot.player.foodBuffRemainingMinutes * 60.0).toInt().coerceAtLeast(0)
+        }
+
+        val statusImmunitySeconds = snapshot.playerRuntime.statusImmunitySeconds
+        val tempBuffSeconds = snapshot.playerRuntime.tempBuffRemainingSeconds
+        val effectLabels = mutableListOf<String>()
+        if (statusImmunitySeconds > 0.0) effectLabels += "Imunidade a status"
+        if (tempBuffSeconds > 0.0) effectLabels += "Buff temporário"
+        if (effectLabels.isEmpty()) return null to 0
+        return effectLabels.joinToString(" + ") to maxOf(statusImmunitySeconds, tempBuffSeconds).toInt().coerceAtLeast(0)
+    }
+}

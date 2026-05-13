@@ -34,7 +34,7 @@ data class GameUiMetrics(
                 GameUiScale.SMALL -> GameUiMetrics(
                     scale = scale,
                     screenPadding = 4.dp,
-                    panelPadding = 5.dp,
+                    panelPadding = 2.dp,
                     panelSpacing = 4.dp,
                     footerSpacing = 5.dp,
                     buttonMinHeight = 30.dp,
@@ -58,7 +58,7 @@ data class GameUiMetrics(
                 GameUiScale.MEDIUM -> GameUiMetrics(
                     scale = scale,
                     screenPadding = 6.dp,
-                    panelPadding = 6.dp,
+                    panelPadding = 3.dp,
                     panelSpacing = 5.dp,
                     footerSpacing = 6.dp,
                     buttonMinHeight = 34.dp,
@@ -82,7 +82,7 @@ data class GameUiMetrics(
                 GameUiScale.LARGE -> GameUiMetrics(
                     scale = scale,
                     screenPadding = 8.dp,
-                    panelPadding = 8.dp,
+                    panelPadding = 4.dp,
                     panelSpacing = 6.dp,
                     footerSpacing = 8.dp,
                     buttonMinHeight = 38.dp,

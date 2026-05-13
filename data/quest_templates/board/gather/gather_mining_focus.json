@@ -1,6 +1,6 @@
-{
+﻿{
     "id":  "gather_mining_focus",
-    "titleTemplate":  "Expedicao de Mineracao",
+    "titleTemplate":  "Expedicao de Mineração",
     "rewardProfile":  {
                           "effortMultiplier":  1.1,
                           "xpBase":  16,
@@ -11,7 +11,7 @@
     "objectiveType":  "GATHER_RESOURCE",
     "targetTag":  "mining",
     "enabled":  true,
-    "hintTemplate":  "Extraia minerios em veios de mineracao.",
+    "hintTemplate":  "Extraia minérios em veios de mineração.",
     "constraints":  {
                         "requiresDungeon":  false,
                         "requiresGathering":  true,
@@ -31,3 +31,4 @@
     "descriptionTemplate":  "Obtenha {amount} recursos ligados a mining.",
     "weight":  6
 }
+

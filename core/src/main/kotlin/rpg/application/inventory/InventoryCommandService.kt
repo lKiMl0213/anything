@@ -1,4 +1,4 @@
-package rpg.application.inventory
+﻿package rpg.application.inventory
 
 import rpg.achievement.AchievementTracker
 import rpg.achievement.AchievementCounterKeys
@@ -25,9 +25,9 @@ class InventoryCommandService(
     fun equipItem(state: GameState, itemId: String): InventoryMutationResult {
         val player = state.player
         val item = engine.itemResolver.resolve(itemId, state.itemInstances)
-            ?: return InventoryMutationResult(state, listOf("Item nao encontrado."))
+            ?: return InventoryMutationResult(state, listOf("Item não encontrado."))
         if (item.type != ItemType.EQUIPMENT) {
-            return InventoryMutationResult(state, listOf("Esse item nao pode ser equipado."))
+            return InventoryMutationResult(state, listOf("Esse item não pode ser equipado."))
         }
         val updatedPlayer = equipItem(player, item, state.itemInstances)
         return if (updatedPlayer == player) {
@@ -47,7 +47,7 @@ class InventoryCommandService(
             return InventoryMutationResult(state, listOf("Slot bloqueado por arma de duas maos."))
         }
         val item = engine.itemResolver.resolve(equippedId, state.itemInstances)
-            ?: return InventoryMutationResult(state, listOf("Item equipado nao encontrado."))
+            ?: return InventoryMutationResult(state, listOf("Item equipado não encontrado."))
         val unequipped = support.buildUnequippedPreview(player, slotKey)
         val insertion = InventorySystem.addItemsWithLimit(
             player = unequipped,
@@ -56,7 +56,7 @@ class InventoryCommandService(
             incomingItemIds = listOf(item.id)
         )
         if (insertion.rejected.isNotEmpty()) {
-            return InventoryMutationResult(state, listOf("Inventario sem espaco para desequipar ${item.name}."))
+            return InventoryMutationResult(state, listOf("Inventário sem espaco para desequipar ${item.name}."))
         }
         val updatedPlayer = support.clampPlayerResources(
             support.normalizePlayerStorage(
@@ -78,12 +78,12 @@ class InventoryCommandService(
     fun useItem(state: GameState, itemId: String): InventoryMutationResult {
         val player = state.player
         val item = engine.itemResolver.resolve(itemId, state.itemInstances)
-            ?: return InventoryMutationResult(state, listOf("Item nao encontrado."))
+            ?: return InventoryMutationResult(state, listOf("Item não encontrado."))
         if (item.type != ItemType.CONSUMABLE) {
-            return InventoryMutationResult(state, listOf("Esse item nao e consumivel."))
+            return InventoryMutationResult(state, listOf("Esse item não e consumivel."))
         }
         if (player.level < item.minLevel) {
-            return InventoryMutationResult(state, listOf("Nivel insuficiente para usar este item (req ${item.minLevel})."))
+            return InventoryMutationResult(state, listOf("Nível insuficiente para usar este item (req ${item.minLevel})."))
         }
 
         val stats = engine.computePlayerStats(player, state.itemInstances)
@@ -145,7 +145,7 @@ class InventoryCommandService(
 
     fun sellInventoryItem(state: GameState, itemId: String): InventoryMutationResult {
         val item = engine.itemResolver.resolve(itemId, state.itemInstances)
-            ?: return InventoryMutationResult(state, listOf("Item nao encontrado."))
+            ?: return InventoryMutationResult(state, listOf("Item não encontrado."))
         val forcedSaleValue = ClassQuestTagRules.forcedSellValue(item.tags)
         val baseSaleValue = if (forcedSaleValue != null) {
             forcedSaleValue
@@ -161,7 +161,7 @@ class InventoryCommandService(
         val saleValue = (baseSaleValue * PremiumSupport.goldMultiplier(state.player)).roundToInt().coerceAtLeast(0)
         val inventory = state.player.inventory.toMutableList()
         if (!inventory.remove(itemId)) {
-            return InventoryMutationResult(state, listOf("Item nao esta no inventario."))
+            return InventoryMutationResult(state, listOf("Item não está no inventário."))
         }
         var updatedPlayer = state.player.copy(
             inventory = inventory,
@@ -190,7 +190,7 @@ class InventoryCommandService(
         )?.name ?: templateId
         return InventoryMutationResult(
             state.copy(player = updatedPlayer),
-            listOf("Municao ativa alterada para $ammoName.")
+            listOf("Munição ativa alterada para $ammoName.")
         )
     }
 
@@ -202,7 +202,7 @@ class InventoryCommandService(
             listOf(itemId)
         )
         if (result.accepted.isEmpty()) {
-            return InventoryMutationResult(state, listOf("Nao foi possivel carregar essa flecha para a aljava."))
+            return InventoryMutationResult(state, listOf("Não foi possível carregar essa flecha para a aljava."))
         }
         val name = engine.itemResolver.resolve(itemId, state.itemInstances)?.name ?: itemId
         return InventoryMutationResult(
@@ -225,12 +225,12 @@ class InventoryCommandService(
             listOf(itemId)
         )
         if (result.accepted.isEmpty()) {
-            return InventoryMutationResult(state, listOf("Nao foi possivel retirar essa flecha da aljava."))
+            return InventoryMutationResult(state, listOf("Não foi possível retirar essa flecha da aljava."))
         }
         val name = engine.itemResolver.resolve(itemId, state.itemInstances)?.name ?: itemId
         val messages = mutableListOf("Retirou $name x${result.accepted.size}.")
         if (result.rejected.isNotEmpty()) {
-            messages += "Inventario sem espaco para ${result.rejected.size} flecha(s)."
+            messages += "Inventário sem espaco para ${result.rejected.size} flecha(s)."
         }
         return InventoryMutationResult(
             state.copy(
@@ -246,7 +246,7 @@ class InventoryCommandService(
 
     fun sellLoadedAmmo(state: GameState, itemId: String): InventoryMutationResult {
         val item = engine.itemResolver.resolve(itemId, state.itemInstances)
-            ?: return InventoryMutationResult(state, listOf("Municao nao encontrada."))
+            ?: return InventoryMutationResult(state, listOf("Munição não encontrada."))
         val baseSaleValue = engine.economyEngine.sellValue(
             itemValue = item.value,
             rarity = item.rarity,
@@ -257,7 +257,7 @@ class InventoryCommandService(
         val saleValue = (raceSaleValue * PremiumSupport.goldMultiplier(state.player)).roundToInt().coerceAtLeast(0)
         val quiverInventory = state.player.quiverInventory.toMutableList()
         if (!quiverInventory.remove(itemId)) {
-            return InventoryMutationResult(state, listOf("Essa flecha nao esta carregada."))
+            return InventoryMutationResult(state, listOf("Essa flecha não está carregada."))
         }
         val updatedInstances = if (state.itemInstances.containsKey(itemId)) state.itemInstances - itemId else state.itemInstances
         var updatedPlayer = state.player.copy(
@@ -369,3 +369,6 @@ class InventoryCommandService(
         return RaceBonusSupport.applyTradeSellBonus(baseSaleValue, bonusPct)
     }
 }
+
+
+

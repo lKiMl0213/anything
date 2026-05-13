@@ -1,6 +1,6 @@
-{
+﻿{
   "id": "s_barbarian_predator_weapon",
-  "name": "Gume da Caca",
+  "name": "Gume da Caça",
   "type": "EQUIPMENT",
   "slot": "WEAPON_MAIN",
   "minLevel": 50,
@@ -28,7 +28,7 @@
     }
   },
   "value": 1,
-  "description": "Equipamento de Predador focado em perseguicao, mobilidade, critico e sangramento.",
+  "description": "Equipamento de Predador focado em perseguição, mobilidade, crítico e sangramento.",
   "effects": {
     "applyStatuses": [
       {
@@ -36,8 +36,10 @@
         "chancePct": 16.0,
         "durationSeconds": 5.0,
         "effectValue": 0.018,
-        "source": "Gume da Caca"
+        "source": "Gume da Caça"
       }
     ]
   }
 }
+
+

@@ -1,4 +1,4 @@
-package rpg.combat
+﻿package rpg.combat
 
 import kotlin.math.floor
 import rpg.engine.ComputedStats
@@ -365,7 +365,7 @@ internal class CombatBattleRunner(
                         onSummon = {
                             if (behaviorEngine.rollSummon(monster.tags, summonsUsed, summonBonus)) {
                                 summonsUsed++
-                                combatLog("$displayName invoca reforcos! Um ataque extra ocorre.")
+                                combatLog("$displayName invoca reforços! Um ataque extra ocorre.")
                                 damageResolver.resolveSkill(
                                     attacker = monsterActor,
                                     defender = playerActor,
@@ -497,3 +497,4 @@ internal class CombatBattleRunner(
         )
     }
 }
+

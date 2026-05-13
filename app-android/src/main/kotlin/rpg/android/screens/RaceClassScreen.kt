@@ -1,4 +1,4 @@
-package rpg.android.screens
+﻿package rpg.android.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -103,7 +103,7 @@ fun RaceClassScreen(
                 )
             }
 
-            GameInfoPanel(title = "Selecao atual") {
+            GameInfoPanel(title = "Seleção atual") {
                 Text(
                     text = "Selecionado: $selectedRaceLabel | $selectedClassLabel",
                     modifier = Modifier.fillMaxWidth(),
@@ -115,3 +115,4 @@ fun RaceClassScreen(
         }
     }
 }
+

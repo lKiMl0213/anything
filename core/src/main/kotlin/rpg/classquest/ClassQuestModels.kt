@@ -1,4 +1,4 @@
-package rpg.classquest
+﻿package rpg.classquest
 
 import kotlinx.serialization.Serializable
 import rpg.model.EquipSlot
@@ -189,3 +189,6 @@ object ClassQuestTagRules {
         return normalized.takeIf { it.isNotBlank() }
     }
 }
+
+
+

@@ -1,4 +1,4 @@
-package rpg.combat
+﻿package rpg.combat
 
 import kotlin.math.max
 import kotlin.random.Random
@@ -89,7 +89,7 @@ internal class CombatStatusProcessor(
             val subject = logBuilder.subjectLabel(defender)
             logBuilder.combatLog(
                 logBuilder.colorize(
-                    "$subject esta imune a status por ${logBuilder.format(defender.runtime.statusImmunitySeconds)}s.",
+                    "$subject está imune a status por ${logBuilder.format(defender.runtime.statusImmunitySeconds)}s.",
                     CombatLogBuilder.ansiBlue
                 )
             )
@@ -117,7 +117,7 @@ internal class CombatStatusProcessor(
                 val subject = logBuilder.subjectLabel(defender)
                 logBuilder.combatLog(
                     logBuilder.colorize(
-                        "$subject esta ${StatusSystem.statusAdjective(application.type)}$sourceSuffix.",
+                        "$subject está ${StatusSystem.statusAdjective(application.type)}$sourceSuffix.",
                         CombatLogBuilder.ansiYellow
                     )
                 )
@@ -286,7 +286,7 @@ internal class CombatStatusProcessor(
                 val sourceSuffix = if (event.source.isBlank()) "" else " (${event.source})"
                 logBuilder.combatLog(
                     logBuilder.colorize(
-                        "$subject esta ${StatusSystem.statusAdjective(event.type)}$sourceSuffix. Sofreu ${logBuilder.format(event.damage)} de dano.",
+                        "$subject está ${StatusSystem.statusAdjective(event.type)}$sourceSuffix. Sofreu ${logBuilder.format(event.damage)} de dano.",
                         CombatLogBuilder.ansiYellow
                     )
                 )
@@ -295,7 +295,7 @@ internal class CombatStatusProcessor(
         for (event in tick.expiredEvents) {
             logBuilder.combatLog(
                 logBuilder.colorize(
-                    "$subject nao esta mais ${StatusSystem.statusAdjective(event.type)}.",
+                    "$subject não está mais ${StatusSystem.statusAdjective(event.type)}.",
                     CombatLogBuilder.ansiBlue
                 )
             )
@@ -373,7 +373,7 @@ internal class CombatStatusProcessor(
             val sourceSuffix = if (event.source.isBlank()) "" else " (${event.source})"
             logBuilder.combatLog(
                 logBuilder.colorize(
-                    "(${event.stacks} $stackLabel): $subject esta ${StatusSystem.statusAdjective(event.type)}$sourceSuffix! Sofreu ${logBuilder.format(event.damage)} de dano.",
+                    "(${event.stacks} $stackLabel): $subject está ${StatusSystem.statusAdjective(event.type)}$sourceSuffix! Sofreu ${logBuilder.format(event.damage)} de dano.",
                     CombatLogBuilder.ansiRed
                 )
             )
@@ -419,3 +419,6 @@ internal class CombatStatusProcessor(
         return statuses.any { it.type == type }
     }
 }
+
+
+

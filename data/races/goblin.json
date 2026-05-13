@@ -1,7 +1,7 @@
-{
+﻿{
   "id": "goblin",
   "name": "Goblin",
-  "description": "Pequeno, agil e oportunista. Brilha em economia, saque e precisao.",
+  "description": "Pequeno, agil e oportunista. Brilha em economia, saque e precisão.",
   "bonuses": {
     "attributes": {
       "agi": 4,
@@ -32,3 +32,6 @@
   "tradeBuyDiscountPct": 5,
   "tradeSellBonusPct": 5
 }
+
+
+

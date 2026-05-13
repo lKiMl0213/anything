@@ -1,4 +1,4 @@
-package rpg.application.creation
+﻿package rpg.application.creation
 
 import rpg.application.GameActionResult
 import rpg.application.GameSession
@@ -175,7 +175,7 @@ class CharacterCreationActionDispatcher(
         val draft = session.creationDraft ?: queryService.initialDraft()
         val normalizedCode = code.uppercase()
         if (queryService.attributeLabel(normalizedCode) == null) {
-            return GameActionResult(session.copy(messages = listOf("Atributo invalido.")))
+            return GameActionResult(session.copy(messages = listOf("Atributo inválido.")))
         }
         return GameActionResult(
             session = session.copy(
@@ -187,3 +187,4 @@ class CharacterCreationActionDispatcher(
         )
     }
 }
+

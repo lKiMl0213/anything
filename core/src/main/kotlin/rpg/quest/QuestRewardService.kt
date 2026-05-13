@@ -1,4 +1,4 @@
-package rpg.quest
+﻿package rpg.quest
 
 import kotlin.random.Random
 import kotlin.math.roundToInt
@@ -38,7 +38,7 @@ class QuestRewardService(
         val location = locateQuest(board, instanceId)
             ?: return QuestClaimResult(
                 success = false,
-                message = "Quest nao encontrada.",
+                message = "Quest não encontrada.",
                 player = player,
                 itemInstances = itemInstances,
                 board = board
@@ -47,7 +47,7 @@ class QuestRewardService(
         if (quest.status != QuestStatus.READY_TO_CLAIM) {
             return QuestClaimResult(
                 success = false,
-                message = "Quest ainda nao esta pronta para concluir.",
+                message = "Quest ainda não está pronta para concluir.",
                 player = player,
                 itemInstances = itemInstances,
                 board = board
@@ -260,3 +260,6 @@ class QuestRewardService(
         private const val MAX_COMPLETED_HISTORY = 200
     }
 }
+
+
+

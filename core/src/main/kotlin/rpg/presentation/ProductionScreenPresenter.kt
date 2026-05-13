@@ -1,4 +1,4 @@
-package rpg.presentation
+﻿package rpg.presentation
 
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
@@ -61,7 +61,7 @@ internal class ProductionScreenPresenter(
         val body = mutableListOf<String>()
         body += "Disciplina: ${discipline.name.lowercase()}"
         if (recipes.isEmpty()) {
-            body += "Nenhuma receita cadastrada para esta disciplina."
+            body += "Nenhuma receita cadastrada para está disciplina."
         } else {
             body += "Selecione uma receita para ver ingredientes completos e definir quantidade."
         }
@@ -102,7 +102,7 @@ internal class ProductionScreenPresenter(
         ) ?: return MenuScreenViewModel(
             title = "Receita",
             summary = support.playerSummary(state),
-            bodyLines = listOf("Receita selecionada nao esta mais disponivel."),
+            bodyLines = listOf("Receita selecionada não está mais disponível."),
             options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
             messages = session.messages
         )
@@ -112,7 +112,7 @@ internal class ProductionScreenPresenter(
         val status = if (recipe.available) "Disponivel" else "Indisponivel"
 
         val body = mutableListOf<String>()
-        body += "Receita: ${recipe.name} -> ${recipe.outputLabel} | $status | acao ${formatSeconds(recipe.estimatedPerActionSeconds)}s | lote ${formatSeconds(recipe.estimatedBatchSeconds)}s (${recipe.batchSize}x)"
+        body += "Receita: ${recipe.name} -> ${recipe.outputLabel} | $status | ação ${formatSeconds(recipe.estimatedPerActionSeconds)}s | lote ${formatSeconds(recipe.estimatedBatchSeconds)}s (${recipe.batchSize}x)"
         recipe.unlockReason?.let { body += it }
         if (recipe.blockedReasons.isNotEmpty()) {
             body += "Bloqueios: ${recipe.blockedReasons.joinToString(" | ")}"
@@ -155,7 +155,7 @@ internal class ProductionScreenPresenter(
             ?: return MenuScreenViewModel(
                 title = "Coleta",
                 summary = support.playerSummary(state),
-                bodyLines = listOf("Escolha um tipo de coleta no menu de producao."),
+                bodyLines = listOf("Escolha um tipo de coleta no menu de produção."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
             )
@@ -174,12 +174,12 @@ internal class ProductionScreenPresenter(
         val body = mutableListOf<String>()
         body += "Categoria: ${gatheringTypeLabel(type)}"
         if (nodes.isEmpty()) {
-            body += "Nenhum ponto de coleta disponivel."
+            body += "Nenhum ponto de coleta disponível."
         } else {
             nodes.take(6).forEach { node ->
                 body += "- ${node.name}: ${node.resourceLabel} (skill ${node.skillType.name.lowercase()} ${node.skillLevel}/${node.minSkillLevel}) | ${formatSeconds(node.durationSeconds)}s"
             }
-            if (nodes.size > 6) body += "... (${nodes.size - 6} pontos adicionais nas opcoes)."
+            if (nodes.size > 6) body += "... (${nodes.size - 6} pontos adicionais nas opções)."
         }
 
         return MenuScreenViewModel(
@@ -200,3 +200,7 @@ internal class ProductionScreenPresenter(
 
     private fun formatSeconds(value: Double): String = "%.1f".format(value)
 }
+
+
+
+

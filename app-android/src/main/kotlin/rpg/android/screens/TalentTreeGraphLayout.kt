@@ -1,4 +1,4 @@
-package rpg.android.screens
+﻿package rpg.android.screens
 
 import rpg.android.state.MenuActionPreviewUiModel
 import rpg.android.state.TalentTreeGraphUiModel
@@ -69,7 +69,7 @@ internal fun buildTalentNodeCards(
         val reqNames = graphNode?.prerequisites?.joinToString(", ") { "${it.nodeName} nv${it.minRank}" }.orEmpty()
         val blockedReason = when {
             graphNode == null -> null
-            graphNode.currentRank >= graphNode.maxRank -> "No maximo"
+            graphNode.currentRank >= graphNode.maxRank -> "No máximo"
             graphNode.canRankUp -> null
             reqNames.isNotBlank() && graphNode.blockedReason.isNullOrBlank() -> "Req: $reqNames"
             reqNames.isNotBlank() && !graphNode.blockedReason.isNullOrBlank() -> "Req: $reqNames | ${graphNode.blockedReason}"
@@ -212,7 +212,7 @@ private fun inferTalentStateFromPreview(
     return when {
         source.contains("bloque") || source.contains("requisit") || source.contains("indispon") -> TalentNodeVisualState.LOCKED
         source.contains("max") || source.contains("completo") -> TalentNodeVisualState.MAXED
-        source.contains("aumentar nivel") || source.contains("confirmar investir") || source.contains("custo") -> TalentNodeVisualState.AVAILABLE
+        source.contains("aumentar nível") || source.contains("confirmar investir") || source.contains("custo") -> TalentNodeVisualState.AVAILABLE
         else -> TalentNodeVisualState.UNKNOWN
     }
 }
@@ -229,3 +229,7 @@ private fun badgeForState(state: TalentNodeVisualState): String {
 private fun stripAlertMarker(label: String): String {
     return label.replace("(!)", "").replace("( ! )", "").trim()
 }
+
+
+
+

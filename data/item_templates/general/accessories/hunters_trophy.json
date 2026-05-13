@@ -1,6 +1,6 @@
-{
+﻿{
   "id": "hunters_trophy",
-  "name": "Trofeu do Cacador",
+  "name": "Troféu do Caçador",
   "type": "EQUIPMENT",
   "rarity": "RARE",
   "slot": "ACCESSORY",
@@ -8,6 +8,17 @@
   "baseStat": "DAMAGE_PHYSICAL",
   "dropTier": 2,
   "vendorBaseValue": 15,
-  "allowedAffixes": ["dex", "str", "crit", "accuracy", "atk_speed"],
-  "tags": ["{Any.Class}", "accessory", "offense"]
+  "allowedAffixes": [
+    "dex",
+    "str",
+    "crit",
+    "accuracy",
+    "atk_speed"
+  ],
+  "tags": [
+    "{Any.Class}",
+    "accessory",
+    "offense"
+  ]
 }
+

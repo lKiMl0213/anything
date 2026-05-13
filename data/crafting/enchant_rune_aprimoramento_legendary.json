@@ -1,6 +1,6 @@
 ﻿{
     "id":  "enchant_rune_aprimoramento_legendary",
-    "name":  "Sintetizar Runa de Aprimoramento (Lendaria)",
+    "name":  "Sintetizar Runa de Aprimoramento (Lendária)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "enchant_rune_aprimoramento_legendary",
@@ -33,7 +33,7 @@
                             "itemId":  "arcane_crystal"
                         }
                     ],
-    "description":  "Runa lendaria para encantamento extremo.",
+    "description":  "Runa lendária para encantamento extremo.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -42,3 +42,4 @@
                  "legendary"
              ]
 }
+

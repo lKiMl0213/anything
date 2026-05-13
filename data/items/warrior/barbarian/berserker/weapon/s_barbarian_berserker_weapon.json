@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "s_barbarian_berserker_weapon",
   "name": "Machado da Carnificina",
   "type": "EQUIPMENT",
@@ -29,7 +29,7 @@
     }
   },
   "value": 1,
-  "description": "Equipamento de Berserker focado em all-in ofensivo, critico, velocidade e sustain agressivo.",
+  "description": "Equipamento de Berserker focado em all-in ofensivo, crítico, velocidade e sustain agressivo.",
   "twoHanded": true,
   "effects": {
     "applyStatuses": [
@@ -43,3 +43,4 @@
     ]
   }
 }
+

@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_protecao_legendary",
-    "name":  "Pergaminho de Protecao de Extracao (Lendario)",
+    "name":  "Pergaminho de Proteção de Extração (Lendário)",
     "type":  "MATERIAL",
     "tier":  "legendary",
     "tags":  [
@@ -11,6 +11,7 @@
                  "legendary"
              ],
     "value":  680,
-    "description":  "Protecao lendaria para extracoes criticas de encantamento.",
+    "description":  "Proteção lendária para extracoes criticas de encantamento.",
     "rarity":  "LEGENDARY"
 }
+

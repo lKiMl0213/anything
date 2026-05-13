@@ -1,4 +1,4 @@
-package rpg.android.screens
+﻿package rpg.android.screens
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -57,7 +57,7 @@ internal fun TalentTreeGraph(
 ) {
     val layout = remember(cards) { buildTalentTreeLayout(cards) }
     if (layout.nodes.isEmpty()) {
-        Text("Nenhum talento disponivel para esta fase.")
+        Text("Nenhum talento disponível para está fase.")
         return
     }
     var selectedNodeId by remember { mutableStateOf<String?>(null) }
@@ -295,3 +295,4 @@ private fun MenuActionPreviewUiModel.withRequirementHint(blockedReason: String?)
     if (hasReqLine) return this
     return copy(lines = lines + "Requisitos: $blockedReason")
 }
+

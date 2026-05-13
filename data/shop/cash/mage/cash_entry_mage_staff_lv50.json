@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "cash_entry_mage_staff_lv50",
   "name": "Aether Staff Mk-V",
   "itemId": "cash_mage_staff_lv50",
@@ -6,7 +6,12 @@
   "currency": "CASH",
   "quantity": 1,
   "minPlayerLevel": 50,
-  "description": "Cajado premium de alto nivel para magos.",
+  "description": "Cajado premium de alto nível para magos.",
   "enabled": true,
-  "tags": ["cash", "mage", "weapon"]
+  "tags": [
+    "cash",
+    "mage",
+    "weapon"
+  ]
 }
+

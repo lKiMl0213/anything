@@ -1,4 +1,4 @@
-package rpg.application.creation
+﻿package rpg.application.creation
 
 import rpg.creation.CharacterCreationPreviewService
 import rpg.io.DataRepository
@@ -79,14 +79,14 @@ class CharacterCreationQueryService(
     }
 
     fun raceSummaryLines(raceId: String?): List<String> {
-        val race = raceById(raceId) ?: return listOf("Raca nao selecionada.")
+        val race = raceById(raceId) ?: return listOf("Raca não selecionada.")
         val preview = previewService.buildRacePreview(race)
         val lines = mutableListOf<String>()
         if (race.description.isNotBlank()) lines += race.description
         val attributes = preview.initialAttributes.takeIf { it.isNotEmpty() }?.joinToString(" | ") {
             "${it.code} +${it.value}"
-        } ?: "Sem bonus inicial positivo."
-        lines += "Bonus iniciais: $attributes"
+        } ?: "Sem bônus inicial positivo."
+        lines += "Bônus iniciais: $attributes"
         val growth = preview.growthAttributes.takeIf { it.isNotEmpty() }?.joinToString(" | ") {
             "${it.code} +${it.value}"
         } ?: "Sem crescimento positivo."
@@ -98,13 +98,13 @@ class CharacterCreationQueryService(
     }
 
     fun classSummaryLines(classId: String?): List<String> {
-        val clazz = classById(classId) ?: return listOf("Classe nao selecionada.")
+        val clazz = classById(classId) ?: return listOf("Classe não selecionada.")
         val preview = previewService.buildClassPreview(clazz)
         val lines = mutableListOf<String>()
         if (clazz.description.isNotBlank()) lines += clazz.description
         val initial = preview.initialAttributes.takeIf { it.isNotEmpty() }?.joinToString(" | ") {
             "${it.code} ${if (it.value >= 0) "+" else ""}${it.value}"
-        } ?: "Sem bonus inicial."
+        } ?: "Sem bônus inicial."
         lines += "Atributos iniciais: $initial"
         if (preview.suggestedRaces.isNotEmpty()) {
             lines += "Racas sugeridas: " + preview.suggestedRaces.joinToString(" | ") { it.name }
@@ -143,3 +143,6 @@ class CharacterCreationQueryService(
     }
 
 }
+
+
+

@@ -1,7 +1,7 @@
-{
+﻿{
     "id":  "mage",
     "name":  "Mago",
-    "description":  "Alto dano magico, fragil fisicamente.",
+    "description":  "Alto dano mágico, fragil fisicamente.",
     "bonuses":  {
                     "attributes":  {
                                        "int":  10,
@@ -33,3 +33,4 @@
     "specializationUnlockLevel":  50,
     "specializationUnlockQuestTemplateId":  "unlock_mage_specialization_lv50"
 }
+

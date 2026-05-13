@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "mist_runner_charm",
   "name": "Talismã do Corredor de Neblina",
   "type": "EQUIPMENT",
@@ -11,3 +11,6 @@
   "allowedAffixes": ["atk_speed", "evasion", "accuracy", "cdr"],
   "tags": ["{Any.Class}", "accessory", "speed"]
 }
+
+
+

@@ -1,4 +1,4 @@
-package rpg.classquest
+﻿package rpg.classquest
 
 import kotlin.random.Random
 import rpg.classsystem.ClassSystem
@@ -77,7 +77,7 @@ class ClassQuestService(
             ?: return ClassQuestUpdate(
                 player = syncedPlayer,
                 itemInstances = itemInstances,
-                messages = listOf("Nenhuma quest de classe disponivel no momento.")
+                messages = listOf("Nenhuma quest de classe disponível no momento.")
             )
 
         val chosen = pathId.trim().lowercase()
@@ -85,7 +85,7 @@ class ClassQuestService(
             return ClassQuestUpdate(
                 player = syncedPlayer,
                 itemInstances = itemInstances,
-                messages = listOf("Caminho invalido para esta quest.")
+                messages = listOf("Caminho inválido para está quest.")
             )
         }
 
@@ -94,7 +94,7 @@ class ClassQuestService(
             return ClassQuestUpdate(
                 player = syncedPlayer,
                 itemInstances = itemInstances,
-                messages = listOf("Esta quest de classe ja foi concluida.")
+                messages = listOf("Está quest de classe ja foi concluida.")
             )
         }
         if (
@@ -105,7 +105,7 @@ class ClassQuestService(
             return ClassQuestUpdate(
                 player = syncedPlayer,
                 itemInstances = itemInstances,
-                messages = listOf("Voce ja iniciou outro caminho nesta quest.")
+                messages = listOf("Você ja iniciou outro caminho nesta quest.")
             )
         }
 
@@ -143,7 +143,7 @@ class ClassQuestService(
             ?: return ClassQuestUpdate(
                 player = syncedPlayer,
                 itemInstances = itemInstances,
-                messages = listOf("Nenhuma quest de classe disponivel.")
+                messages = listOf("Nenhuma quest de classe disponível.")
             )
         val progress = context.progress
         if (progress.status != ClassQuestStatus.IN_PROGRESS) {
@@ -222,7 +222,7 @@ class ClassQuestService(
     }
 
     fun statusLabel(status: ClassQuestStatus): String = when (status) {
-        ClassQuestStatus.NOT_AVAILABLE -> "Nao disponivel"
+        ClassQuestStatus.NOT_AVAILABLE -> "Não disponível"
         ClassQuestStatus.AVAILABLE -> "Disponivel"
         ClassQuestStatus.IN_PROGRESS -> "Em andamento"
         ClassQuestStatus.COMPLETED -> "Concluida"
@@ -347,3 +347,8 @@ class ClassQuestService(
         return runCatching { ClassQuestUnlockType.valueOf(normalized) }.getOrNull()
     }
 }
+
+
+
+
+

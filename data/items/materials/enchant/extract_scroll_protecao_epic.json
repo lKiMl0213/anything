@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_protecao_epic",
-    "name":  "Pergaminho de Protecao de Extracao (Epico)",
+    "name":  "Pergaminho de Proteção de Extração (Épico)",
     "type":  "MATERIAL",
     "tier":  "epic",
     "tags":  [
@@ -11,6 +11,7 @@
                  "epic"
              ],
     "value":  500,
-    "description":  "Pergaminho epico que protege equipamentos de alto nivel.",
+    "description":  "Pergaminho épico que protege equipamentos de alto nível.",
     "rarity":  "EPIC"
 }
+

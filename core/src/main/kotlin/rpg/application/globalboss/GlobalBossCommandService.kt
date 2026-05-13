@@ -1,4 +1,4 @@
-package rpg.application.globalboss
+﻿package rpg.application.globalboss
 
 import rpg.application.CombatFlowResult
 import rpg.application.PendingEncounter
@@ -25,7 +25,7 @@ class GlobalBossCommandService(
 ) {
     fun startRun(state: GameState, eventId: String, encounterText: (PendingEncounter) -> String): GlobalBossCommandResult {
         val event = catalogService.eventById(eventId)
-            ?: return GlobalBossCommandResult(false, state, listOf("Evento global nao encontrado."))
+            ?: return GlobalBossCommandResult(false, state, listOf("Evento global não encontrado."))
         val attempt = progressService.consumeRunAttempt(state, event.id)
         if (!attempt.success) {
             return GlobalBossCommandResult(false, attempt.state, attempt.messages)
@@ -111,7 +111,7 @@ class GlobalBossCommandService(
         val lastCombatLines = combatLog.takeLast(3)
         messages += lastCombatLines
         if (combatResult.playerAfter.currentHp <= 0.0) {
-            messages += "Run encerrada: voce caiu em combate."
+            messages += "Run encerrada: você caiu em combate."
         } else {
             messages += "Run encerrada."
         }
@@ -123,3 +123,6 @@ class GlobalBossCommandService(
         )
     }
 }
+
+
+

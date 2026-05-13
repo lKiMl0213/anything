@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "giant_wasp",
   "name": "Vespa Gigante",
   "archetype": "Insect",
@@ -28,3 +28,6 @@
   "baseXp": 33,
   "baseGold": 9
 }
+
+
+

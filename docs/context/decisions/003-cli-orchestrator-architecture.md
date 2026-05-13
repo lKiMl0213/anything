@@ -1,10 +1,14 @@
 # Decision: CLI Orchestrator Architecture
 
+Nota historica:
+- Esta decisao descreve a fase em que o CLI era a interface principal.
+- Estado atual: CLI removido; caminho ativo `app-android -> core`.
+
 ## Context
 The game needs a playable interface, persistent game state, and coordination across many systems such as combat, progression, quests, items, achievements, and events. The repository structure shows many focused services rather than one monolithic gameplay file.
 
 ## Decision
-Use a CLI-first architecture where `GameCli` owns user interaction and `GameEngine` composes specialized engines and services for gameplay systems.
+Historical decision (pre-removal): use a CLI-first architecture where `GameCli` owns user interaction and `GameEngine` composes specialized engines and services for gameplay systems.
 
 ## Rationale
 Rationale not explicitly documented in the repository, inferred from implementation:
@@ -32,5 +36,5 @@ Outcomes to be documented as project evolves.
 
 ## Status
 - **Created**: 2026-04-18 (Phase: Intent)
-- **Status**: Accepted
-- **Note**: Documented from existing implementation
+- **Status**: Superseded
+- **Note**: Historico. O CLI foi removido; caminho ativo atual: `app-android -> core`.

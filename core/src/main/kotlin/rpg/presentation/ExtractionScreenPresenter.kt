@@ -1,4 +1,4 @@
-package rpg.presentation
+﻿package rpg.presentation
 
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
@@ -105,3 +105,7 @@ internal class ExtractionScreenPresenter(
         )
     }
 }
+
+
+
+

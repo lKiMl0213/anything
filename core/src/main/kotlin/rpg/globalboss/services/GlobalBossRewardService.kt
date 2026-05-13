@@ -1,4 +1,4 @@
-package rpg.globalboss.services
+﻿package rpg.globalboss.services
 
 import rpg.engine.GameEngine
 import rpg.globalboss.config.GlobalBossRewardDef
@@ -42,9 +42,10 @@ internal class GlobalBossRewardService(
             }
             lines += "Recompensa: XP +${reward.xp}"
             if (updated.level > beforeLevel) {
-                lines += "Level up! Agora no nivel ${updated.level}."
+                lines += "Level up! Agora no nível ${updated.level}."
             }
         }
         return GlobalBossRewardApplyResult(updated, lines)
     }
 }
+

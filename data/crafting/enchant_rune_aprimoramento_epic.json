@@ -1,6 +1,6 @@
 ﻿{
     "id":  "enchant_rune_aprimoramento_epic",
-    "name":  "Sintetizar Runa de Aprimoramento (Epica)",
+    "name":  "Sintetizar Runa de Aprimoramento (Épica)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "enchant_rune_aprimoramento_epic",
@@ -29,7 +29,7 @@
                             "itemId":  "arcane_crystal"
                         }
                     ],
-    "description":  "Runa epica para tentativas de alto risco.",
+    "description":  "Runa épica para tentativas de alto risco.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -38,3 +38,4 @@
                  "epic"
              ]
 }
+

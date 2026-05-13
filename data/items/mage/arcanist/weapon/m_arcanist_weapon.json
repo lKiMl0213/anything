@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "m_arcanist_weapon",
   "name": "Cajado Runico",
   "type": "EQUIPMENT",
@@ -27,7 +27,7 @@
     }
   },
   "value": 1,
-  "description": "Equipamento de Arcanista focado em mana, runas, fluxo arcano e precisao magica.",
+  "description": "Equipamento de Arcanista focado em mana, runas, fluxo arcano e precisão mágica.",
   "effects": {
     "applyStatuses": [
       {
@@ -40,3 +40,7 @@
     ]
   }
 }
+
+
+
+

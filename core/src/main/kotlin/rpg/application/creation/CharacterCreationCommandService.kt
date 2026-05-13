@@ -1,4 +1,4 @@
-package rpg.application.creation
+﻿package rpg.application.creation
 
 import rpg.engine.GameEngine
 import rpg.inventory.InventorySystem
@@ -60,10 +60,10 @@ class CharacterCreationCommandService(
     }
 
     fun createState(draft: CharacterCreationDraft): GameState {
-        val raceId = draft.raceId ?: error("Raca nao selecionada.")
-        val classId = draft.classId ?: error("Classe nao selecionada.")
-        val classDef = repo.classes[classId] ?: error("Classe nao encontrada: $classId")
-        if (!repo.races.containsKey(raceId)) error("Raca nao encontrada: $raceId")
+        val raceId = draft.raceId ?: error("Raca não selecionada.")
+        val classId = draft.classId ?: error("Classe não selecionada.")
+        val classDef = repo.classes[classId] ?: error("Classe não encontrada: $classId")
+        if (!repo.races.containsKey(raceId)) error("Raca não encontrada: $raceId")
 
         val starterEquipment = repo.character.starterEquipmentByClass[classDef.id]
             ?.toMutableMap()
@@ -142,3 +142,6 @@ class CharacterCreationCommandService(
         else -> attrs
     }
 }
+
+
+

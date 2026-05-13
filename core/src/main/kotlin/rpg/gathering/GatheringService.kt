@@ -1,5 +1,6 @@
-package rpg.gathering
+﻿package rpg.gathering
 
+import kotlin.math.floor
 import kotlin.math.max
 import kotlin.random.Random
 import rpg.inventory.InventorySystem
@@ -25,7 +26,9 @@ data class GatherExecutionResult(
     val gainedXp: Double = 0.0,
     val skillType: SkillType? = null,
     val skillSnapshot: SkillSnapshot? = null,
-    val rejectedItems: Int = 0
+    val rejectedItems: Int = 0,
+    val baseQuantity: Int = 0,
+    val bonusQuantity: Int = 0
 )
 
 class GatheringService(
@@ -37,30 +40,38 @@ class GatheringService(
     private val permanentUpgradeService: PermanentUpgradeService,
     private val raceProfessionBonusPct: (PlayerState, SkillType) -> Double = { _, _ -> 0.0 }
 ) {
+    private val nodeComparator = compareBy<GatherNodeDef>({ it.minSkillLevel }, { it.name.lowercase() }, { it.id.lowercase() })
+    private val enabledCatalogAll: List<GatherNodeDef> = nodes.values
+        .asSequence()
+        .filter { it.enabled }
+        .sortedWith(nodeComparator)
+        .toList()
+    private val enabledCatalogByType: Map<GatheringType, List<GatherNodeDef>> =
+        GatheringType.entries.associateWith { type ->
+            enabledCatalogAll.filter { it.type == type }
+        }
+    private val catalogRevision: Int = buildCatalogRevision()
+
+    fun nodeCatalogRevision(): Int = catalogRevision
+
+    fun enabledNodeCatalog(type: GatheringType): List<GatherNodeDef> {
+        return enabledCatalogByType[type].orEmpty()
+    }
+
     fun availableNodes(playerLevel: Int, type: GatheringType? = null): List<GatherNodeDef> {
         @Suppress("UNUSED_VARIABLE")
         val ignoredPlayerLevel = playerLevel
-        return nodes.values
-            .asSequence()
-            .filter { it.enabled }
-            .filter { type == null || it.type == type }
-            .sortedBy { it.name }
-            .toList()
+        return if (type == null) enabledCatalogAll else enabledCatalogByType[type].orEmpty()
     }
 
     fun availableNodes(player: PlayerState, type: GatheringType? = null): List<GatherNodeDef> {
         val prepared = skillSystem.ensureProgress(player)
-        return nodes.values
-            .asSequence()
-            .filter { it.enabled }
-            .filter { type == null || it.type == type }
-            .filter { node ->
+        val nodesToFilter = if (type == null) enabledCatalogAll else enabledCatalogByType[type].orEmpty()
+        return nodesToFilter.filter { node ->
                 val skill = nodeSkill(node)
                 val snapshot = skillSystem.snapshot(prepared, skill)
                 snapshot.level >= node.minSkillLevel
             }
-            .sortedBy { it.name }
-            .toList()
     }
 
     fun gather(
@@ -70,7 +81,7 @@ class GatheringService(
     ): GatherExecutionResult {
         val preparedPlayer = skillSystem.ensureProgress(player)
         val node = nodes[nodeId]
-            ?: return GatherExecutionResult(false, "Ponto de coleta nao encontrado.", preparedPlayer, itemInstances)
+            ?: return GatherExecutionResult(false, "Ponto de coleta não encontrado.", preparedPlayer, itemInstances)
         if (!node.enabled) {
             return GatherExecutionResult(false, "Ponto de coleta desativado.", preparedPlayer, itemInstances, node = node)
         }
@@ -90,13 +101,16 @@ class GatheringService(
 
         val minQty = node.minQty.coerceAtLeast(1)
         val maxQty = max(minQty, node.maxQty)
-        var quantity = if (maxQty == minQty) minQty else rng.nextInt(minQty, maxQty + 1)
+        val baseRolledQuantity = if (maxQty == minQty) minQty else rng.nextInt(minQty, maxQty + 1)
+        var quantity = baseRolledQuantity
+        var bonusGenerated = 0
         val upgradedDoubleChance = (
             skillSnapshot.doubleDropChancePct +
                 permanentUpgradeService.gatherDoubleBonusPct(preparedPlayer, node.type)
             ).coerceIn(0.0, 95.0)
         if (rng.nextDouble(0.0, 100.0) <= upgradedDoubleChance) {
-            quantity *= 2
+            bonusGenerated = quantity
+            quantity += bonusGenerated
         }
         if (quantity <= 0) {
             return GatherExecutionResult(
@@ -117,7 +131,7 @@ class GatheringService(
             val template = itemRegistry.template(resourceId)
                 ?: return GatherExecutionResult(
                     false,
-                    "Template de recurso invalido.",
+                    "Template de recurso inválido.",
                     preparedPlayer,
                     itemInstances,
                     node = node
@@ -135,7 +149,7 @@ class GatheringService(
             if (itemRegistry.item(resourceId) == null) {
                 return GatherExecutionResult(
                     false,
-                    "Recurso invalido.",
+                    "Recurso inválido.",
                     preparedPlayer,
                     itemInstances,
                     node = node
@@ -160,7 +174,7 @@ class GatheringService(
         if (acceptedQty <= 0) {
             return GatherExecutionResult(
                 success = false,
-                message = "Inventario cheio. Nenhum item coletado.",
+                message = "Inventário cheio. Nenhum item coletado.",
                 player = preparedPlayer,
                 itemInstances = itemInstances,
                 node = node,
@@ -168,9 +182,16 @@ class GatheringService(
                 quantity = 0,
                 skillType = skillType,
                 skillSnapshot = skillSnapshot,
-                rejectedItems = withCapacity.rejected.size
+                rejectedItems = withCapacity.rejected.size,
+                baseQuantity = 0,
+                bonusQuantity = 0
             )
         }
+        val (acceptedBase, acceptedBonus) = splitAcceptedQuantity(
+            accepted = acceptedQty,
+            baseGenerated = baseRolledQuantity,
+            bonusGenerated = bonusGenerated
+        )
 
         var updatedPlayer = preparedPlayer.copy(
             inventory = withCapacity.inventory,
@@ -196,7 +217,7 @@ class GatheringService(
             message = buildString {
                 append("Coleta concluida: ${node.name} -> $acceptedQty item(ns).")
                 if (withCapacity.rejected.isNotEmpty()) {
-                    append(" Inventario cheio: ${withCapacity.rejected.size} item(ns) descartado(s).")
+                    append(" Inventário cheio: ${withCapacity.rejected.size} item(ns) descartado(s).")
                 }
             },
             player = updatedPlayer,
@@ -207,7 +228,9 @@ class GatheringService(
             gainedXp = xpResult.gainedXp,
             skillType = skillType,
             skillSnapshot = xpResult.snapshot,
-            rejectedItems = withCapacity.rejected.size
+            rejectedItems = withCapacity.rejected.size,
+            baseQuantity = acceptedBase,
+            bonusQuantity = acceptedBonus
         )
     }
 
@@ -231,4 +254,35 @@ class GatheringService(
             else -> 1.0
         }
     }
+
+    private fun splitAcceptedQuantity(
+        accepted: Int,
+        baseGenerated: Int,
+        bonusGenerated: Int
+    ): Pair<Int, Int> {
+        if (accepted <= 0) return 0 to 0
+        if (bonusGenerated <= 0) return accepted to 0
+        val totalGenerated = (baseGenerated + bonusGenerated).coerceAtLeast(1)
+        val baseAccepted = floor((accepted.toDouble() * baseGenerated.toDouble()) / totalGenerated.toDouble())
+            .toInt()
+            .coerceIn(0, accepted)
+        val bonusAccepted = (accepted - baseAccepted).coerceAtLeast(0)
+        return baseAccepted to bonusAccepted
+    }
+
+    private fun buildCatalogRevision(): Int {
+        var signature = 17
+        enabledCatalogAll.forEach { node ->
+            signature = (signature * 31) + node.id.hashCode()
+            signature = (signature * 31) + node.name.lowercase().hashCode()
+            signature = (signature * 31) + node.type.name.hashCode()
+            signature = (signature * 31) + node.minSkillLevel
+            signature = (signature * 31) + node.resourceItemId.hashCode()
+            signature = (signature * 31) + node.baseDurationSeconds.toString().hashCode()
+        }
+        return signature
+    }
 }
+
+
+

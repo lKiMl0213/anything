@@ -1,11 +1,11 @@
-{
+﻿{
   "id": "awakened_tree",
-  "name": "Arvore Desperta",
+  "name": "Árvore Desperta",
   "archetype": "Plant",
   "baseType": "awakened_tree",
   "monsterTypeId": "plant",
   "family": "plant",
-  "displayName": "Arvore Desperta",
+  "displayName": "Árvore Desperta",
   "baseAttributes": { "str": 11, "agi": 2, "dex": 3, "vit": 14, "int": 4, "spr": 7 },
   "growthAttributes": { "str": 3, "agi": 1, "dex": 1, "vit": 3, "int": 1, "spr": 2 },
   "variancePct": 0.11,
@@ -38,3 +38,4 @@
   "baseXp": 44,
   "baseGold": 14
 }
+

@@ -111,6 +111,7 @@ fun MainHubScreen(
             ) {
                 GameTopHud(
                     name = state.name,
+                    premiumStatusLabel = state.premiumStatusLabel,
                     raceClassLabel = state.raceClassLabel,
                     levelXpLabel = state.levelXpLabel,
                     currencyLabel = state.currencyLabel,
@@ -124,6 +125,8 @@ fun MainHubScreen(
                     hpMax = state.hpMax,
                     mpCurrent = state.mpCurrent,
                     mpMax = state.mpMax,
+                    activeEffectName = state.activeEffectName,
+                    activeEffectRemainingSeconds = state.activeEffectRemainingSeconds,
                     hpRegenPerMinute = state.hpRegenPerMinute,
                     mpRegenPerMinute = state.mpRegenPerMinute,
                     hpEtaSeconds = state.hpEtaSeconds,
@@ -131,7 +134,7 @@ fun MainHubScreen(
                     onRaceClassInfoClick = null
                 )
             }
-            GamePanel(title = "Habilidades de producao") {
+            GamePanel(title = "Habilidades de produção") {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     state.skills.chunked(3).forEach { rowSkills ->
                         Row(
@@ -210,7 +213,7 @@ fun MainHubScreen(
             onDismiss = { selectedSkill = null }
         ) {
             Text(
-                text = "Nivel atual: ${skill.level}",
+                text = "Nível atual: ${skill.level}",
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
@@ -223,3 +226,6 @@ fun MainHubScreen(
     }
 }
 private fun formatMinutes(value: Double): String = "%.1f".format(value.coerceAtLeast(0.0))
+
+
+

@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_remocao_uncommon",
-    "name":  "Criar Pergaminho de Remocao (Incomum)",
+    "name":  "Criar Pergaminho de Remoção (Incomum)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "extract_scroll_remocao_uncommon",
@@ -29,7 +29,7 @@
                             "itemId":  "runic_stone"
                         }
                     ],
-    "description":  "Pergaminho incomum para extracao consistente.",
+    "description":  "Pergaminho incomum para extração consistente.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -39,3 +39,4 @@
                  "uncommon"
              ]
 }
+

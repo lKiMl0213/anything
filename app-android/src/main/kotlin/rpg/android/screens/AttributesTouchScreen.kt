@@ -1,4 +1,4 @@
-package rpg.android.screens
+﻿package rpg.android.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,7 +31,7 @@ fun AttributesTouchScreen(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text("Atributos")
-        Text("Pontos disponiveis: ${state.pointsRemaining}")
+        Text("Pontos disponíveis: ${state.pointsRemaining}")
 
         state.rows.forEach { row ->
             Row(
@@ -65,3 +65,4 @@ fun AttributesTouchScreen(
 }
 
 private fun signed(value: Int): String = if (value >= 0) "+$value" else value.toString()
+

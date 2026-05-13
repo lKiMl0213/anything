@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "a_hunter_bounty_hunter_quiver",
   "name": "Aljava de Contrato",
   "type": "EQUIPMENT",
@@ -27,5 +27,6 @@
     }
   },
   "value": 1,
-  "description": "Equipamento de Cacador de Recompensas focado em alvo marcado, controle e retorno de recompensa."
+  "description": "Equipamento de Caçador de Recompensas focado em alvo marcado, controle e retorno de recompensa."
 }
+

@@ -1,4 +1,4 @@
-package rpg.achievement
+﻿package rpg.achievement
 
 import kotlin.math.max
 
@@ -49,7 +49,7 @@ internal object AchievementDefinitionCatalog {
         add(
             id = "death_stubborn",
             name = "Teimoso",
-            description = "Persistencia alem da derrota.",
+            description = "Persistência além da derrota.",
             category = AchievementCategory.MORTE,
             trackedStat = AchievementTrackedStat.LifetimeKey(AchievementStatKeys.TOTAL_DEATHS),
             tierTargets = listOf(10, 25, 50, 100, 250)
@@ -83,7 +83,7 @@ internal object AchievementDefinitionCatalog {
         add(
             id = "gold_golden_hand",
             name = "Mao de Ouro",
-            description = "Seu fluxo de ouro nao para de crescer.",
+            description = "Seu fluxo de ouro não para de crescer.",
             category = AchievementCategory.OURO,
             trackedStat = AchievementTrackedStat.LifetimeKey(AchievementStatKeys.TOTAL_GOLD_EARNED),
             tierTargets = listOf(500, 5000, 25000, 100000, 500000)
@@ -101,7 +101,7 @@ internal object AchievementDefinitionCatalog {
             val label = monsterTypeLabel(typeId)
             add(
                 id = "mob_type_${typeId}_mastery",
-                name = "Caca de $label",
+                name = "Caça de $label",
                 description = "Elimine criaturas da familia $label para ganhar ouro e dano permanente contra esse tipo.",
                 category = AchievementCategory.MOBS,
                 trackedStat = AchievementTrackedStat.KillsByBaseType(typeId),
@@ -116,7 +116,7 @@ internal object AchievementDefinitionCatalog {
         for (star in 0..7) {
             add(
                 id = "star_${star}_hunter",
-                name = "Cacador de ${star}*",
+                name = "Caçador de ${star}⭐",
                 description = "Derrote monstros com ${star} estrela(s).",
                 category = AchievementCategory.ESTRELAS,
                 trackedStat = AchievementTrackedStat.KillsByStar(star),
@@ -144,7 +144,7 @@ internal object AchievementDefinitionCatalog {
         add(
             id = "combat_precise_strike",
             name = "Golpe Preciso",
-            description = "Acerte golpes criticos com frequencia.",
+            description = "Acerte golpes críticos com frequência.",
             category = AchievementCategory.COMBATE,
             trackedStat = AchievementTrackedStat.LifetimeKey(AchievementStatKeys.TOTAL_CRITICAL_HITS),
             tierTargets = listOf(10, 50, 100, 250, 1000)
@@ -213,4 +213,7 @@ internal object AchievementDefinitionCatalog {
         }
     }
 }
+
+
+
 

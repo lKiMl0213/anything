@@ -65,20 +65,29 @@ class ProductionActionDurationService(
         type: GatheringType,
         nodeId: String
     ): GatherDurationResolution? {
-        val node = engine.gatheringService.availableNodes(state.player.level, type)
+        val node = engine.gatheringService.enabledNodeCatalog(type)
             .firstOrNull { it.id == nodeId }
             ?: return null
+        return resolveGatherFromNode(state, type, node)
+    }
+
+    internal fun resolveGatherFromNode(
+        state: GameState,
+        type: GatheringType,
+        node: GatherNodeDef,
+        skillLevelOverride: Int? = null
+    ): GatherDurationResolution {
         val skill = engine.gatheringService.nodeSkill(node)
-        val snapshot = engine.skillSystem.snapshot(state.player, skill)
+        val skillLevel = skillLevelOverride ?: engine.skillSystem.snapshot(state.player, skill).level
         val duration = engine.skillSystem.actionDurationSeconds(
             baseSeconds = node.baseDurationSeconds,
-            skillLevel = snapshot.level
+            skillLevel = skillLevel
         ) * taskDurationMultiplier(state.player, taskIdForGathering(type)) *
             PremiumSupport.productionDurationMultiplier(state.player)
         return GatherDurationResolution(
             node = node,
             skillLabel = skill.name.lowercase(),
-            skillLevel = snapshot.level,
+            skillLevel = skillLevel,
             durationSeconds = duration
         )
     }

@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "poison_flower",
   "name": "Flor Venenosa",
   "archetype": "Plant",
@@ -28,3 +28,4 @@
   "baseXp": 35,
   "baseGold": 10
 }
+

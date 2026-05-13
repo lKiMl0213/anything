@@ -1,4 +1,4 @@
-package rpg.enchant
+﻿package rpg.enchant
 
 import kotlin.random.Random
 import rpg.model.ItemInstance
@@ -90,7 +90,7 @@ class EnchantService(
         val materialized = itemSupport.materializeTarget(prepared, itemInstances, normalizedRequest.itemId)
             ?: return EnchantExecutionResult(
                 success = false,
-                message = "Item alvo nao encontrado no inventario.",
+                message = "Item alvo não encontrado no inventário.",
                 player = prepared,
                 itemInstances = itemInstances
             )
@@ -149,7 +149,7 @@ class EnchantService(
         if (normalizedRequest.useProtectionRune && !consumedProtection) {
             return EnchantExecutionResult(
                 success = false,
-                message = "Runa de protecao indisponivel.",
+                message = "Runa de proteção indisponivel.",
                 player = materialized.player,
                 itemInstances = materialized.itemInstances,
                 targetItemId = materialized.item.id,
@@ -204,7 +204,7 @@ class EnchantService(
 
         val message = when {
             successRoll -> "Encantamento bem-sucedido: ${materialized.item.name} +${newEnchantLevel}."
-            destroyed -> "Falha critica: ${materialized.item.name} foi destruido."
+            destroyed -> "Falha crítica: ${materialized.item.name} foi destruido."
             else -> "Falha no encantamento: ${materialized.item.name} manteve +${materialized.item.enchantLevel}."
         }
         return EnchantExecutionResult(
@@ -238,3 +238,6 @@ class EnchantService(
         return kotlin.math.ceil(baseCost * multiplier).toInt().coerceAtLeast(1)
     }
 }
+
+
+

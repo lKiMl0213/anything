@@ -1,4 +1,4 @@
-package rpg.dungeon
+﻿package rpg.dungeon
 
 import kotlin.math.ceil
 import rpg.achievement.AchievementUpdate
@@ -101,9 +101,9 @@ internal class RunResolutionService(
                 updatedPlayer = applyAchievementUpdate(
                     onGoldEarned(updatedPlayer.copy(gold = updatedPlayer.gold + autoSellGold), autoSellGold.toLong())
                 )
-                notify("Inventario cheio: ${withCapacity.rejected.size} item(ns) auto-vendido(s) por $autoSellGold ouro.")
+                notify("Inventário cheio: ${withCapacity.rejected.size} item(ns) auto-vendido(s) por $autoSellGold ouro.")
             } else {
-                notify("Inventario cheio: ${withCapacity.rejected.size} item(ns) da run foram perdidos.")
+                notify("Inventário cheio: ${withCapacity.rejected.size} item(ns) da run foram perdidos.")
             }
         }
         updatedPlayer = updatedPlayer.copy(
@@ -232,3 +232,4 @@ internal class RunResolutionService(
         return player.copy(currentHp = hp, currentMp = mp)
     }
 }
+

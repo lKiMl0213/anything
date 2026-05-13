@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "shop_arrow_iron_bundle",
   "name": "Pacote de Flechas de Ferro",
   "itemId": "arrow_iron",
@@ -6,7 +6,14 @@
   "currency": "GOLD",
   "quantity": 25,
   "minPlayerLevel": 5,
-  "description": "Municao mais robusta para manter o estoque do arqueiro.",
+  "description": "Munição mais robusta para manter o estoque do arqueiro.",
   "enabled": true,
-  "tags": ["gold", "archer", "ammo"]
+  "tags": [
+    "gold",
+    "archer",
+    "ammo"
+  ]
 }
+
+
+

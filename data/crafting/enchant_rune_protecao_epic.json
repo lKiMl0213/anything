@@ -1,6 +1,6 @@
 ﻿{
     "id":  "enchant_rune_protecao_epic",
-    "name":  "Sintetizar Runa de Protecao (Epica)",
+    "name":  "Sintetizar Runa de Proteção (Épica)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "enchant_rune_protecao_epic",
@@ -29,7 +29,7 @@
                             "itemId":  "enchanted_ash"
                         }
                     ],
-    "description":  "Runa epica para proteger itens muito valiosos.",
+    "description":  "Runa épica para proteger itens muito valiosos.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -38,3 +38,4 @@
                  "epic"
              ]
 }
+

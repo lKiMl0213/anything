@@ -1,4 +1,4 @@
-package rpg.presentation
+﻿package rpg.presentation
 
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
@@ -46,7 +46,7 @@ internal class CharacterCreationScreenPresenter(
             ScreenOptionViewModel((index + 1).toString(), race.name, GameAction.SelectCharacterCreationRace(race.id))
         } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
         return MenuScreenViewModel(
-            title = "Selecao de Raca",
+            title = "Seleção de Raca",
             bodyLines = listOf("Escolha uma para ver detalhes."),
             options = options,
             messages = session.messages
@@ -59,7 +59,7 @@ internal class CharacterCreationScreenPresenter(
             ScreenOptionViewModel((index + 1).toString(), classDef.name, GameAction.SelectCharacterCreationClass(classDef.id))
         } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
         return MenuScreenViewModel(
-            title = "Selecao de Classe",
+            title = "Seleção de Classe",
             bodyLines = listOf("Escolha uma para ver detalhes."),
             options = options,
             messages = session.messages
@@ -69,14 +69,14 @@ internal class CharacterCreationScreenPresenter(
     fun presentRaceDetail(session: GameSession): ScreenViewModel {
         val raceId = session.selectedCreationRaceId
             ?: return MenuScreenViewModel(
-                title = "Selecao de Raca",
+                title = "Seleção de Raca",
                 bodyLines = listOf("Selecione uma raca para ver detalhes."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
             )
         val race = queryService.raceById(raceId)
             ?: return MenuScreenViewModel(
-                title = "Selecao de Raca",
+                title = "Seleção de Raca",
                 bodyLines = listOf("Raca invalida."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
@@ -85,7 +85,7 @@ internal class CharacterCreationScreenPresenter(
             title = race.name,
             bodyLines = queryService.raceSummaryLines(raceId),
             options = listOf(
-                ScreenOptionViewModel("1", "Confirmar esta raca", GameAction.ConfirmCharacterCreationRace),
+                ScreenOptionViewModel("1", "Confirmar está raca", GameAction.ConfirmCharacterCreationRace),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)
             ),
             messages = session.messages
@@ -95,14 +95,14 @@ internal class CharacterCreationScreenPresenter(
     fun presentClassDetail(session: GameSession): ScreenViewModel {
         val classId = session.selectedCreationClassId
             ?: return MenuScreenViewModel(
-                title = "Selecao de Classe",
+                title = "Seleção de Classe",
                 bodyLines = listOf("Selecione uma classe para ver detalhes."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
             )
         val clazz = queryService.classById(classId)
             ?: return MenuScreenViewModel(
-                title = "Selecao de Classe",
+                title = "Seleção de Classe",
                 bodyLines = listOf("Classe invalida."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
@@ -111,7 +111,7 @@ internal class CharacterCreationScreenPresenter(
             title = clazz.name,
             bodyLines = queryService.classSummaryLines(classId),
             options = listOf(
-                ScreenOptionViewModel("1", "Confirmar esta classe", GameAction.ConfirmCharacterCreationClass),
+                ScreenOptionViewModel("1", "Confirmar está classe", GameAction.ConfirmCharacterCreationClass),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)
             ),
             messages = session.messages
@@ -128,7 +128,7 @@ internal class CharacterCreationScreenPresenter(
             body += "${index + 1}. ${row.code} (${row.label}) -> ${row.finalValue} [alocado ${row.allocated}]"
         }
         body += ""
-        body += "Escolha uma opcao para alocar."
+        body += "Escolha uma opção para alocar."
 
         val options = rows.mapIndexed { index, row ->
             ScreenOptionViewModel((index + 1).toString(), "${row.code} (${row.label})", GameAction.IncreaseCharacterCreationAttribute(row.code))
@@ -147,7 +147,7 @@ internal class CharacterCreationScreenPresenter(
         val detail = queryService.attributeDetail(code.orEmpty())
             ?: return MenuScreenViewModel(
                 title = "Distribuicao de Atributos",
-                bodyLines = listOf("Atributo invalido."),
+                bodyLines = listOf("Atributo inválido."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
             )
@@ -187,3 +187,7 @@ internal class CharacterCreationScreenPresenter(
             navigation == NavigationState.CharacterCreationAttributeDetail
     }
 }
+
+
+
+

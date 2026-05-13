@@ -1,4 +1,4 @@
-package rpg.inventory
+﻿package rpg.inventory
 
 import kotlin.math.max
 import rpg.model.EquipSlot
@@ -27,11 +27,11 @@ internal object InventoryRuleSupport {
         val tags = itemInstances[backpackId]?.tags
             ?: itemRegistry.item(backpackId)?.tags
             ?: emptyList()
-        val bonus = tags.firstNotNullOfOrNull { tag ->
+        val bônus = tags.firstNotNullOfOrNull { tag ->
             if (!tag.startsWith(slotTagPrefix)) return@firstNotNullOfOrNull null
             tag.removePrefix(slotTagPrefix).toIntOrNull()
         } ?: 0
-        return base + max(0, bonus)
+        return base + max(0, bônus)
     }
 
     fun slotsUsed(
@@ -156,3 +156,4 @@ internal object InventoryRuleSupport {
         return selected + others
     }
 }
+

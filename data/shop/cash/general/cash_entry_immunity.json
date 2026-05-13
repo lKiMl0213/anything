@@ -1,15 +1,16 @@
-{
-    "id":  "cash_entry_immunity",
-    "name":  "Pocao de Imunidade",
-    "itemId":  "cash_immunity_potion",
-    "price":  160,
-    "currency":  "CASH",
-    "quantity":  1,
-    "minPlayerLevel":  1,
-    "description":  "Limpa status e ativa imunidade.",
-    "enabled":  true,
-    "tags":  [
-                 "cash",
-                 "potion"
-             ]
+﻿{
+  "id": "cash_entry_immunity",
+  "name": "Poção de Imunidade",
+  "itemId": "cash_immunity_potion",
+  "price": 160,
+  "currency": "CASH",
+  "quantity": 1,
+  "minPlayerLevel": 1,
+  "description": "Limpa status e ativa imunidade.",
+  "enabled": true,
+  "tags": [
+    "cash",
+    "potion"
+  ]
 }
+

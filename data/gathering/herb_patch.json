@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "herb_patch",
   "name": "Mata de Ervas",
   "type": "HERBALISM",
@@ -6,8 +6,11 @@
   "minQty": 1,
   "maxQty": 3,
   "minPlayerLevel": 1,
-  "description": "Fonte de ervas para alquimia e culinaria.",
+  "description": "Fonte de ervas para alquimia e culinária.",
   "enabled": true,
-  "tags": ["herb", "alchemy"]
+  "tags": [
+    "herb",
+    "alchemy"
+  ]
 }
 

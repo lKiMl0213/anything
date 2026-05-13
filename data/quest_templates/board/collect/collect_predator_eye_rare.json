@@ -1,11 +1,18 @@
-{
+﻿{
   "id": "collect_predator_eye_rare",
   "category": "collection",
-  "supportedTiers": ["ACCEPTED", "WEEKLY", "MONTHLY"],
+  "supportedTiers": [
+    "ACCEPTED",
+    "WEEKLY",
+    "MONTHLY"
+  ],
   "objectiveType": "COLLECT_ITEM",
   "targetType": "ITEM_ID",
   "targetId": "predator_eye",
-  "amountRange": { "min": 1, "max": 4 },
+  "amountRange": {
+    "min": 1,
+    "max": 4
+  },
   "rewardProfile": {
     "xpBase": 22,
     "goldBase": 20,
@@ -16,9 +23,10 @@
     "maxPlayerLevel": 999,
     "requiresDungeon": false
   },
-  "titleTemplate": "Trofeu de Predador",
-  "descriptionTemplate": "Garanta {amount} Olho(s) de Predador em caca ou drops.",
-  "hintTemplate": "Spots de caca avancados tem chance maior desse trofeu.",
+  "titleTemplate": "Troféu de Predador",
+  "descriptionTemplate": "Garanta {amount} Olho(s) de Predador em caça ou drops.",
+  "hintTemplate": "Spots de caça avancados tem chance maior desse troféu.",
   "enabled": true,
   "weight": 4
 }
+

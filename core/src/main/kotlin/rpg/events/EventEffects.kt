@@ -1,4 +1,4 @@
-package rpg.events
+﻿package rpg.events
 
 import kotlin.math.ceil
 import kotlin.math.max
@@ -57,14 +57,14 @@ sealed class EventEffect {
         override fun apply(player: PlayerState, context: EventContext): PlayerState {
             val stats = context.statsProvider(player)
             val percent = multiplier - 1.0
-            var bonus = Attributes()
+            var bônus = Attributes()
             for (attr in attributes) {
                 val current = getAttr(stats.attributes, attr)
                 val delta = max(1, ceil(current * kotlin.math.abs(percent)).toInt())
                 val signed = if (percent >= 0) delta else -delta
-                bonus = addAttr(bonus, attr, signed)
+                bônus = addAttr(bônus, attr, signed)
             }
-            return applyRoomAttrBonus(player, bonus, duration, isDebuff = percent < 0)
+            return applyRoomAttrBonus(player, bônus, duration, isDebuff = percent < 0)
         }
     }
 
@@ -79,13 +79,13 @@ sealed class EventEffect {
     }
 
     data class FlatAttributeBonus(
-        val bonus: Attributes,
+        val bônus: Attributes,
         val duration: Int
     ) : EventEffect() {
         override fun apply(player: PlayerState, context: EventContext): PlayerState {
-            val isDebuff = listOf(bonus.str, bonus.agi, bonus.dex, bonus.vit, bonus.`int`, bonus.spr, bonus.luk)
+            val isDebuff = listOf(bônus.str, bônus.agi, bônus.dex, bônus.vit, bônus.`int`, bônus.spr, bônus.luk)
                 .any { it < 0 }
-            return applyRoomAttrBonus(player, bonus, duration, isDebuff)
+            return applyRoomAttrBonus(player, bônus, duration, isDebuff)
         }
     }
 
@@ -96,8 +96,8 @@ sealed class EventEffect {
             val percent = multiplier - 1.0
             val delta = max(1, ceil(value * kotlin.math.abs(percent)).toInt())
             val signed = if (percent >= 0) delta else -delta
-            val bonus = addAttr(Attributes(), attr, signed)
-            return applyRoomAttrBonus(player, bonus, duration, isDebuff = percent < 0)
+            val bônus = addAttr(Attributes(), attr, signed)
+            return applyRoomAttrBonus(player, bônus, duration, isDebuff = percent < 0)
         }
     }
 
@@ -108,8 +108,8 @@ sealed class EventEffect {
             val percent = multiplier - 1.0
             val delta = max(1, ceil(value * kotlin.math.abs(percent)).toInt())
             val signed = if (percent >= 0) delta else -delta
-            val bonus = addAttr(Attributes(), attr, signed)
-            return applyRoomAttrBonus(player, bonus, duration, isDebuff = percent < 0)
+            val bônus = addAttr(Attributes(), attr, signed)
+            return applyRoomAttrBonus(player, bônus, duration, isDebuff = percent < 0)
         }
     }
 
@@ -119,14 +119,14 @@ sealed class EventEffect {
     ) : EventEffect() {
         override fun apply(player: PlayerState, context: EventContext): PlayerState {
             val stats = context.statsProvider(player)
-            var bonus = Attributes()
+            var bônus = Attributes()
             for (attr in attributes) {
                 val current = getAttr(stats.attributes, attr)
                 val delta = max(1, ceil(current * kotlin.math.abs(percent)).toInt())
                 val signed = if (percent >= 0) delta else -delta
-                bonus = addAttr(bonus, attr, signed)
+                bônus = addAttr(bônus, attr, signed)
             }
-            return player.copy(runAttrBonus = player.runAttrBonus + bonus)
+            return player.copy(runAttrBonus = player.runAttrBonus + bônus)
         }
     }
 
@@ -331,3 +331,4 @@ sealed class EventEffect {
         }
     }
 }
+

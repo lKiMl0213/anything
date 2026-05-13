@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_remocao_legendary",
-    "name":  "Criar Pergaminho de Remocao (Lendario)",
+    "name":  "Criar Pergaminho de Remoção (Lendário)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "extract_scroll_remocao_legendary",
@@ -33,7 +33,7 @@
                             "itemId":  "oil"
                         }
                     ],
-    "description":  "Pergaminho lendario para extracao de elite.",
+    "description":  "Pergaminho lendário para extração de elite.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -43,3 +43,4 @@
                  "legendary"
              ]
 }
+

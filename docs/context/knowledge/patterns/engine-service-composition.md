@@ -6,7 +6,7 @@ The runtime composes many focused engines and services into one orchestration la
 ## When to Use
 - When adding a new gameplay subsystem that needs to be coordinated from the main runtime
 - When a feature should stay independently testable or replaceable
-- When the CLI should call a composed facade instead of raw subsystem internals
+- When an interface layer should call a composed facade instead of raw subsystem internals
 
 ## Pattern
 Keep domain logic in focused classes such as `DropEngine`, `CombatEngine`, `QuestRewardService`, or `GatheringService`, then compose them inside `GameEngine`.
@@ -37,9 +37,9 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
 ```
 
 ## Files Using This Pattern
-- [GameEngine.kt](../../../src/main/kotlin/rpg/engine/GameEngine.kt) - Central composition root for gameplay systems
-- [GameCli.kt](../../../src/main/kotlin/rpg/cli/GameCli.kt) - Uses the composed engine rather than owning gameplay rules directly
-- [ClassQuestService.kt](../../../src/main/kotlin/rpg/classquest/ClassQuestService.kt) - Another focused service integrated into the runtime
+- [GameEngine.kt](../../../../core/src/main/kotlin/rpg/engine/GameEngine.kt) - Central composition root for gameplay systems
+- [AndroidGameViewModel.kt](../../../../app-android/src/main/kotlin/rpg/android/AndroidGameViewModel.kt) - Consumes core gameplay orchestration from the Android app
+- [ClassQuestService.kt](../../../../core/src/main/kotlin/rpg/classquest/ClassQuestService.kt) - Another focused service integrated into the runtime
 
 ## Related
 - [Decision: Tech Stack](../../decisions/001-tech-stack.md)
@@ -51,3 +51,4 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
 ## Status
 - **Created**: 2026-04-18
 - **Status**: Active
+- **Note**: Referencias de CLI nesta pagina sao historicas; caminho ativo atual: `app-android -> core`.

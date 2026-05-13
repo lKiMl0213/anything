@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "fishing_river_salmon",
   "name": "Rio Gelado",
   "type": "FISHING",
@@ -12,7 +12,8 @@
   "baseXp": 18.0,
   "difficulty": 1.5,
   "tier": 2,
-  "description": "Salmoes fortes em agua fria.",
+  "description": "Salmões fortes em água fria.",
   "enabled": true,
   "tags": ["fishing", "river"]
 }
+

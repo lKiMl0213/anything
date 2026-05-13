@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "deadwood_tree",
   "name": "Tronco Ressecado",
   "type": "WOODCUTTING",
@@ -6,8 +6,9 @@
   "minQty": 1,
   "maxQty": 2,
   "minPlayerLevel": 1,
-  "description": "Madeira util para cabos, escudos e fogareiros.",
+  "description": "Madeira útil para cabos, escudos e fogareiros.",
   "enabled": true,
   "tags": ["wood", "craft"]
 }
+
 

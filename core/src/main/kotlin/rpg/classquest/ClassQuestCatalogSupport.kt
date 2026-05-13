@@ -1,4 +1,4 @@
-package rpg.classquest
+﻿package rpg.classquest
 
 import rpg.model.EquipSlot
 
@@ -132,13 +132,13 @@ internal object ClassQuestCatalogSupport {
             ClassQuestUnlockType.SUBCLASS -> when (path) {
                 "arcanist" -> "Tomo Arcano"
                 "elementalist" -> "Catalisador Elemental"
-                "hunter" -> "Arco de Caca"
+                "hunter" -> "Arco de Caça"
                 "ranger" -> "Arco do Rastreador"
                 "warrior" -> "Lamina de Vanguarda"
                 "barbarian" -> "Machado Tribal"
                 else -> when (classId.lowercase()) {
                     "mage" -> "Tomo Arcano"
-                    "archer" -> "Arco de Caca"
+                    "archer" -> "Arco de Caça"
                     else -> "Lamina de Vanguarda"
                 }
             }
@@ -259,3 +259,4 @@ internal object ClassQuestCatalogSupport {
         return tokens.any { token -> token in value }
     }
 }
+

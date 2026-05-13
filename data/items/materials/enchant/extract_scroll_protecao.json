@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_protecao",
-    "name":  "Pergaminho de Protecao de Extracao (Comum)",
+    "name":  "Pergaminho de Proteção de Extração (Comum)",
     "type":  "MATERIAL",
     "tier":  "common",
     "tags":  [
@@ -11,6 +11,7 @@
                  "common"
              ],
     "value":  220,
-    "description":  "Preserva o equipamento durante extracao bem-sucedida, resetando para +0.",
+    "description":  "Preserva o equipamento durante extração bem-sucedida, resetando para +0.",
     "rarity":  "COMMON"
 }
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "earth_elemental",
   "name": "Elemental de Terra",
   "archetype": "Elemental",
@@ -38,3 +38,6 @@
   "baseXp": 46,
   "baseGold": 15
 }
+
+
+

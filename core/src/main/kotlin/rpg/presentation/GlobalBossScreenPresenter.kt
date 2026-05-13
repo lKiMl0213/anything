@@ -1,4 +1,4 @@
-package rpg.presentation
+﻿package rpg.presentation
 
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
@@ -55,7 +55,7 @@ internal class GlobalBossScreenPresenter(
             ?: return MenuScreenViewModel(
                 title = "Boss Global",
                 summary = support.playerSummary(state),
-                bodyLines = listOf("Evento nao encontrado."),
+                bodyLines = listOf("Evento não encontrado."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
             )
@@ -107,7 +107,7 @@ internal class GlobalBossScreenPresenter(
             ?: return MenuScreenViewModel(
                 title = "Milestones",
                 summary = support.playerSummary(state),
-                bodyLines = listOf("Evento nao encontrado."),
+                bodyLines = listOf("Evento não encontrado."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
             )
@@ -143,3 +143,6 @@ internal class GlobalBossScreenPresenter(
         )
     }
 }
+
+
+

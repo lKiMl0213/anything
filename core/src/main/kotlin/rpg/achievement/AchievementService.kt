@@ -1,4 +1,4 @@
-package rpg.achievement
+﻿package rpg.achievement
 
 class AchievementService {
     private val definitions: List<AchievementDefinition> = AchievementDefinitionCatalog.buildDefinitions()
@@ -76,7 +76,7 @@ class AchievementService {
         val definition = definitionsById[achievementId]
             ?: return AchievementClaimResult(
                 success = false,
-                message = "Conquista nao encontrada.",
+                message = "Conquista não encontrada.",
                 player = syncedPlayer
             )
 
@@ -92,7 +92,7 @@ class AchievementService {
         if (!currentProgress.rewardAvailable) {
             return AchievementClaimResult(
                 success = false,
-                message = "Nenhuma recompensa disponivel para resgate.",
+                message = "Nenhuma recompensa disponível para resgate.",
                 player = syncedPlayer
             )
         }
@@ -143,3 +143,6 @@ class AchievementService {
         const val TOTAL_MONSTERS_KILLED = AchievementStatKeys.TOTAL_MONSTERS_KILLED
     }
 }
+
+
+

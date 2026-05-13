@@ -1,4 +1,4 @@
-package rpg.presentation
+﻿package rpg.presentation
 
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
@@ -53,7 +53,7 @@ internal class ShopScreenPresenter(
         val options = packs.mapIndexed { index, pack ->
             ScreenOptionViewModel(
                 key = (index + 1).toString(),
-                label = "${pack.name} | ${pack.platformPriceLabel} | +${pack.finalCashAmount} CASH",
+                label = "${pack.platformPriceLabel} | ${pack.finalCashAmount} CASH",
                 action = GameAction.BuyCashPack(pack.id)
             )
         } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
@@ -62,9 +62,9 @@ internal class ShopScreenPresenter(
         body += "Selecione um pacote para adicionar CASH (simulacao local, sem pagamento real)."
         body += "Quanto maior o valor, melhor a taxa de CASH por R$."
         if (packs.isNotEmpty()) {
-            body += "Bonus atual: ${packs.first().bonusLabel}"
+            body += "Bônus atual: ${packs.first().bonusLabel}"
             packs.forEach { pack ->
-                body += "- ${pack.name}: ${pack.description.ifBlank { "Pacote de recarga." }}"
+                body += "- ${pack.platformPriceLabel} -> ${pack.finalCashAmount} CASH: ${pack.description.ifBlank { "Pacote de recarga." }}"
             }
         }
 
@@ -93,7 +93,7 @@ internal class ShopScreenPresenter(
         val statusLine = if (state.player.premiumPermanent) {
             "Status premium: permanente"
         } else if (active) {
-            "Status premium: ativo ate ${java.time.Instant.ofEpochMilli(state.player.premiumExpiresAtEpochMs)}"
+            "Status premium: ativo até ${java.time.Instant.ofEpochMilli(state.player.premiumExpiresAtEpochMs)}"
         } else {
             "Status premium: inativo"
         }
@@ -101,8 +101,8 @@ internal class ShopScreenPresenter(
         val body = listOf(
             statusLine,
             "Beneficios premium:",
-            "Missoes: +10 aceitaveis, +10 diarias, +10 semanais, +10 mensais, +10 rerolls por categoria.",
-            "Producao: -10% custo e +10% velocidade.",
+            "Missões: +10 aceitáveis, +10 diarias, +10 semanais, +10 mensais, +10 rerolls por categoria.",
+            "Produção: -10% custo e +10% velocidade.",
             "Loja: -10% nos precos.",
             "XP: +20% (skills e batalha).",
             "Ouro em quests/vendas: +15%.",
@@ -143,7 +143,7 @@ internal class ShopScreenPresenter(
         entries.forEach { entry ->
             val balance = if (currency == ShopCurrency.GOLD) state.player.gold else state.player.premiumCash
             val status = when {
-                state.player.level < entry.requiredLevel -> "Indisponivel (requer nivel ${entry.requiredLevel})"
+                state.player.level < entry.requiredLevel -> "Indisponivel (requer nível ${entry.requiredLevel})"
                 balance < entry.finalPrice -> "Indisponivel (saldo insuficiente)"
                 else -> "Disponivel"
             }
@@ -160,13 +160,13 @@ internal class ShopScreenPresenter(
         body += "Categoria: ${category.label}"
         body += "Saldo: ${if (currency == ShopCurrency.GOLD) state.player.gold else state.player.premiumCash} ${currencyLabel(currency)}"
         if (entries.isEmpty()) {
-            body += "Nenhum item disponivel nesta categoria."
+            body += "Nenhum item disponível nesta categoria."
         } else {
             body += "Itens em destaque:"
             entries.take(5).forEach { entry ->
-                body += "- ${entry.name}: ${entry.description.ifBlank { "Sem descricao." }}"
+                body += "- ${entry.name}: ${entry.description.ifBlank { "Sem descrição." }}"
             }
-            if (entries.size > 5) body += "... (${entries.size - 5} itens adicionais nas opcoes)."
+            if (entries.size > 5) body += "... (${entries.size - 5} itens adicionais nas opções)."
         }
 
         return MenuScreenViewModel(
@@ -240,7 +240,7 @@ internal class ShopScreenPresenter(
         body += "Categoria: ${category.label}"
         body += "Saldo atual: ${if (currency == ShopCurrency.GOLD) state.player.gold else state.player.premiumCash} ${currencyLabel(currency)}"
         if (upgrades.isEmpty()) {
-            body += "Nenhum aprimoramento disponivel."
+            body += "Nenhum aprimoramento disponível."
         } else {
             upgrades.forEach { upgrade ->
                 val description = upgrade.description.ifBlank {
@@ -276,11 +276,15 @@ internal class ShopScreenPresenter(
     }
 
     private fun fallbackUpgradeDescription(upgradeId: String): String = when (upgradeId.trim().lowercase()) {
-        "profession_mastery" -> "Aumenta a XP de forja, coleta de ervas, mineracao e pesca."
+        "profession_mastery" -> "Aumenta a XP de forja, coleta de ervas, mineração e pesca."
         "fishermans_instinct" -> "Chance de pesca render coleta dobrada."
-        else -> "Sem descricao."
+        else -> "Sem descrição."
     }
 
     private fun currencyLabel(currency: ShopCurrency): String = if (currency == ShopCurrency.GOLD) "ouro" else "CASH"
     private fun currencyMenuLabel(currency: ShopCurrency): String = if (currency == ShopCurrency.GOLD) "OURO" else "CASH"
 }
+
+
+
+

@@ -1,4 +1,4 @@
-package rpg.android.screens
+﻿package rpg.android.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,10 +34,13 @@ fun TimedActionOverlay(
                 modifier = Modifier.fillMaxWidth()
             )
             GamePrimaryButton(
-                label = "Cancelar acao",
+                label = "Cancelar ação",
                 onClick = onCancel,
                 modifier = Modifier.fillMaxWidth()
             )
         }
     }
 }
+
+
+

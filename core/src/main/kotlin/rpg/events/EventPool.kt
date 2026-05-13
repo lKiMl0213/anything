@@ -1,4 +1,4 @@
-package rpg.events
+﻿package rpg.events
 
 import rpg.model.Attributes
 import rpg.model.DerivedStats
@@ -31,7 +31,7 @@ object EventPool {
         EventRecipe(Rarity.COMMON, 5, listOf(EventEffect.BuffAttribute(multiplier = 1.10, duration = 3, attributes = listOf(Attribute.LUK)))),
         EventRecipe(Rarity.COMMON, 6, listOf(EventEffect.HealFlat(mp = 3.0))),
         EventRecipe(Rarity.COMMON, 6, listOf(EventEffect.HealFlat(hp = 7.0))),
-        EventRecipe(Rarity.COMMON, 5, listOf(EventEffect.FlatAttributeBonus(bonus = Attributes(str = 1), duration = 1))),
+        EventRecipe(Rarity.COMMON, 5, listOf(EventEffect.FlatAttributeBonus(bônus = Attributes(str = 1), duration = 1))),
         EventRecipe(Rarity.COMMON, 6, listOf(EventEffect.DerivedAdd(duration = 2, add = DerivedStats(defPhysical = 2.0)))),
         EventRecipe(Rarity.COMMON, 5, listOf(EventEffect.DerivedAdd(duration = 1, add = DerivedStats(defPhysical = 4.0)))),
         EventRecipe(Rarity.COMMON, 5, listOf(EventEffect.BuffAttributePercent(multiplier = 1.03, duration = 2, attributes = listOf(Attribute.INT)))),
@@ -165,3 +165,4 @@ object EventPool {
         return compositeEffects.filter { it.rarity == rarity }
     }
 }
+

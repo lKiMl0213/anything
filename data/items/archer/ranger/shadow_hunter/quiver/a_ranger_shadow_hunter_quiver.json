@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "a_ranger_shadow_hunter_quiver",
   "name": "Aljava do Crepusculo",
   "type": "EQUIPMENT",
@@ -26,5 +26,6 @@
     }
   },
   "value": 1,
-  "description": "Equipamento de Cacador Sombrio focado em toxina, sangramento, mobilidade e debuffs persistentes."
+  "description": "Equipamento de Caçador Sombrio focado em toxina, sangramento, mobilidade e debuffs persistentes."
 }
+

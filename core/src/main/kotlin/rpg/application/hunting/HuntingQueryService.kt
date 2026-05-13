@@ -2,28 +2,46 @@ package rpg.application.hunting
 
 import rpg.engine.GameEngine
 import rpg.model.GameState
+import rpg.model.SkillType
 
 class HuntingQueryService(
     private val engine: GameEngine
 ) {
     fun spots(state: GameState): List<HuntingSpotView> {
         val player = state.player
-        return engine.huntingService.availableSpots(player.level).map { spot ->
-            val baselinePreview = engine.huntingService.preview(
-                player = player,
-                itemInstances = state.itemInstances,
-                spotId = spot.id,
-                selectedDurationSeconds = spot.minCycleSeconds
-            )
+        val huntingSkillLevel = engine.skillSystem.snapshot(player, SkillType.HUNTING).level
+        return engine.huntingService.spotCatalog().map { spot ->
+            val minSkillLevel = spot.recommendedLevel.coerceAtLeast(1)
+            val unlocked = huntingSkillLevel >= minSkillLevel
+            val unlockReason = if (unlocked) null else "Desbloqueado no nv $minSkillLevel"
+            val baselinePreview = if (unlocked) {
+                engine.huntingService.preview(
+                    player = player,
+                    itemInstances = state.itemInstances,
+                    spotId = spot.id,
+                    selectedDurationSeconds = spot.minCycleSeconds
+                )
+            } else {
+                null
+            }
+            val blockedReasons = if (unlocked) {
+                baselinePreview?.blockedReasons.orEmpty()
+            } else {
+                listOfNotNull(unlockReason)
+            }
             HuntingSpotView(
                 id = spot.id,
                 name = spot.name,
                 recommendedLevel = spot.recommendedLevel,
+                minSkillLevel = minSkillLevel,
+                skillLevel = huntingSkillLevel,
+                unlocked = unlocked,
+                unlockReason = unlockReason,
                 minimumCycleSeconds = spot.minCycleSeconds,
                 description = spot.description,
-                previewCostGold = baselinePreview.goldCost,
-                available = baselinePreview.available,
-                blockedReasons = baselinePreview.blockedReasons
+                previewCostGold = baselinePreview?.goldCost ?: 0,
+                available = unlocked && (baselinePreview?.available ?: false),
+                blockedReasons = blockedReasons
             )
         }
     }

@@ -1,4 +1,4 @@
-package rpg.combat
+﻿package rpg.combat
 
 import kotlin.math.max
 import kotlin.random.Random
@@ -63,8 +63,8 @@ internal class CombatDamageResolver(
         }
         if (attacker.kind == CombatantKind.PLAYER) {
             if (result.hit) {
-                val critLabel = if (result.crit) " CRITICO!" else ""
-                val typeLabel = if (result.type == rpg.engine.DamageType.MAGIC) "magico" else "fisico"
+                val critLabel = if (result.crit) " CRÍTICO!" else ""
+                val typeLabel = if (result.type == rpg.engine.DamageType.MAGIC) "mágico" else "físico"
                 val abilityLabel = if (!actionName.isNullOrBlank()) " com $actionName" else ""
                 val affinityLabel = when {
                     affinityMultiplier >= 1.08 -> " Fraqueza explorada!"
@@ -78,21 +78,21 @@ internal class CombatDamageResolver(
                 }
                 logBuilder.combatLog(
                     logBuilder.colorize(
-                        "Voce causou ${logBuilder.format(scaledDamage)} de dano $typeLabel$abilityLabel.$critLabel$affinityLabel$typeBonusLabel",
+                        "Você causou ${logBuilder.format(scaledDamage)} de dano $typeLabel$abilityLabel.$critLabel$affinityLabel$typeBonusLabel",
                         CombatLogBuilder.ansiCyan
                     )
                 )
             } else {
                 if (actionName.isNullOrBlank()) {
-                    logBuilder.combatLog(logBuilder.colorize("Voce errou!", CombatLogBuilder.ansiYellow))
+                    logBuilder.combatLog(logBuilder.colorize("Você errou!", CombatLogBuilder.ansiYellow))
                 } else {
-                    logBuilder.combatLog(logBuilder.colorize("Voce usou $actionName, mas errou!", CombatLogBuilder.ansiYellow))
+                    logBuilder.combatLog(logBuilder.colorize("Você usou $actionName, mas errou!", CombatLogBuilder.ansiYellow))
                 }
             }
         } else {
             if (result.hit) {
-                val critLabel = if (result.crit) " CRITICO!" else ""
-                val typeLabel = if (result.type == rpg.engine.DamageType.MAGIC) "magico" else "fisico"
+                val critLabel = if (result.crit) " CRÍTICO!" else ""
+                val typeLabel = if (result.type == rpg.engine.DamageType.MAGIC) "mágico" else "físico"
                 val abilityLabel = if (!actionName.isNullOrBlank()) " com $actionName" else ""
                 logBuilder.combatLog(logBuilder.colorize("O inimigo causou ${logBuilder.format(scaledDamage)} de dano $typeLabel$abilityLabel.$critLabel", CombatLogBuilder.ansiRed))
             } else {
@@ -110,7 +110,7 @@ internal class CombatDamageResolver(
                 if (splash > 0.0 && defender.currentHp > 0.0) {
                     defender.currentHp = (defender.currentHp - splash).coerceAtLeast(0.0)
                     if (attacker.kind == CombatantKind.PLAYER) {
-                        logBuilder.combatLog(logBuilder.colorize("Impacto em area: ${logBuilder.format(splash)} de dano adicional.", CombatLogBuilder.ansiCyan))
+                        logBuilder.combatLog(logBuilder.colorize("Impacto em área: ${logBuilder.format(splash)} de dano adicional.", CombatLogBuilder.ansiCyan))
                     }
                 }
             }
@@ -170,7 +170,7 @@ internal class CombatDamageResolver(
             attacker.currentHp = (attacker.currentHp + skillHeal).coerceAtMost(attacker.stats.derived.hpMax)
             val healed = attacker.currentHp - before
             if (healed > 0.0) {
-                val subject = if (attacker.kind == CombatantKind.PLAYER) "Voce" else "O inimigo"
+                val subject = if (attacker.kind == CombatantKind.PLAYER) "Você" else "O inimigo"
                 logBuilder.combatLog(logBuilder.colorize("$subject recuperou ${logBuilder.format(healed)} de HP.", CombatLogBuilder.ansiGreen))
             }
         }
@@ -214,7 +214,7 @@ internal class CombatDamageResolver(
         )
         logBuilder.combatLog(
             logBuilder.colorize(
-                "Talento: bonus temporario ativado por aplicacao de status (${logBuilder.format(duration)}s).",
+                "Talento: bônus temporario ativado por aplicacao de status (${logBuilder.format(duration)}s).",
                 CombatLogBuilder.ansiBlue
             )
         )
@@ -269,3 +269,4 @@ internal class CombatDamageResolver(
         return 1.0 + (bonusPct / 100.0)
     }
 }
+

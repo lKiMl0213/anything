@@ -1,4 +1,4 @@
-package rpg.presentation
+﻿package rpg.presentation
 
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
@@ -22,7 +22,7 @@ internal class ProgressionScreenPresenter(
             summary = support.playerSummary(state),
             bodyLines = listOf(
                 "Acompanhe quests, evolucao de classe e conquistas.",
-                "Veja progresso e recompensas disponiveis."
+                "Veja progresso e recompensas disponíveis."
             ),
             options = listOf(
                 ScreenOptionViewModel("1", "Quests$questAlert", GameAction.OpenQuests),
@@ -91,7 +91,7 @@ internal class ProgressionScreenPresenter(
         val detail = questQueryService.questDetail(state, section, instanceId)
             ?: return MenuScreenViewModel(
                 title = "Quest",
-                bodyLines = listOf("Essa quest nao esta mais disponivel."),
+                bodyLines = listOf("Essa quest não está mais disponível."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
             )
@@ -129,7 +129,7 @@ internal class ProgressionScreenPresenter(
             ?: return MenuScreenViewModel(
                 title = "Quest de Classe",
                 summary = support.playerSummary(state),
-                bodyLines = listOf("Nenhuma quest de classe disponivel no momento."),
+                bodyLines = listOf("Nenhuma quest de classe disponível no momento."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
             )
@@ -140,7 +140,7 @@ internal class ProgressionScreenPresenter(
             options += ScreenOptionViewModel(index++.toString(), "Escolher caminho ${view.pathBLabel}", GameAction.ChooseClassQuestPath(view.pathBId))
         }
         if (view.canCancel) {
-            options += ScreenOptionViewModel(index++.toString(), "Cancelar missao", GameAction.RequestCancelClassQuest)
+            options += ScreenOptionViewModel(index++.toString(), "Cancelar missão", GameAction.RequestCancelClassQuest)
         }
         options += ScreenOptionViewModel("x", "Voltar", GameAction.Back)
         return MenuScreenViewModel(
@@ -155,11 +155,11 @@ internal class ProgressionScreenPresenter(
     fun presentClassQuestCancelConfirm(session: GameSession): ScreenViewModel {
         val state = session.gameState ?: return support.presentMissingState("Quest de Classe")
         return MenuScreenViewModel(
-            title = "Cancelar Missao",
+            title = "Cancelar Missão",
             summary = support.playerSummary(state),
             bodyLines = listOf(
-                "Tem certeza que deseja cancelar esta missao?",
-                "Todo o progresso sera perdido e a missao retornara para a etapa 1."
+                "Tem certeza que deseja cancelar está missão?",
+                "Todo o progresso sera perdido e a missão retornara para a etapa 1."
             ),
             options = listOf(
                 ScreenOptionViewModel("1", "Confirmar cancelamento", GameAction.ConfirmCancelClassQuest),
@@ -220,7 +220,7 @@ internal class ProgressionScreenPresenter(
         val detail = achievementQueryService.detail(state, category, achievementId)
             ?: return MenuScreenViewModel(
                 title = "Conquista",
-                bodyLines = listOf("Conquista nao encontrada."),
+                bodyLines = listOf("Conquista não encontrada."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
             )
@@ -247,7 +247,7 @@ internal class ProgressionScreenPresenter(
         body += ""
         body += "MOBS"
         body += "Total de monstros abatidos: ${stats.totalMonstersKilled}"
-        body += "Abates por estrela (0* ate 7*):"
+        body += "Abates por estrela (0⭐ até 7⭐):"
         body += stats.starLines
         body += "Abates por tipo base:"
         body += if (stats.bestiaryLines.isEmpty()) {
@@ -264,3 +264,8 @@ internal class ProgressionScreenPresenter(
         )
     }
 }
+
+
+
+
+

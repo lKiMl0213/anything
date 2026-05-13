@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "kill_tag_beast",
   "category": "combat",
   "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"],
@@ -21,8 +21,10 @@
   },
   "titleTemplate": "Controle da Fauna Hostil",
   "descriptionTemplate": "Elimine {amount} monstros da categoria {target}.",
-  "hintTemplate": "Bestas surgem com frequencia em areas selvagens.",
+  "hintTemplate": "Bestas surgem com frequência em áreas selvagens.",
   "enabled": true,
   "weight": 8
 }
+
+
 

@@ -1,16 +1,29 @@
-{
+﻿{
   "id": "kill_monster_any",
   "category": "combat",
-  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"],
+  "supportedTiers": [
+    "ACCEPTED",
+    "DAILY",
+    "WEEKLY",
+    "MONTHLY"
+  ],
   "objectiveType": "KILL_MONSTER",
   "targetType": "MONSTER_ID",
-  "amountRange": { "min": 3, "max": 8 },
+  "amountRange": {
+    "min": 3,
+    "max": 8
+  },
   "rewardProfile": {
     "xpBase": 14,
     "goldBase": 10,
     "effortMultiplier": 1.0,
     "itemRewards": [
-      { "itemId": "potion_small", "chancePct": 20, "minQty": 1, "maxQty": 2 }
+      {
+        "itemId": "potion_small",
+        "chancePct": 20,
+        "minQty": 1,
+        "maxQty": 2
+      }
     ]
   },
   "constraints": {
@@ -19,8 +32,10 @@
     "requiresDungeon": true
   },
   "titleTemplate": "Elimine {amount} {target}",
-  "descriptionTemplate": "Derrote {amount} {target} nas areas desbloqueadas de exploracao.",
-  "hintTemplate": "Monstros aparecem nas areas liberadas para o seu nivel.",
+  "descriptionTemplate": "Derrote {amount} {target} nas áreas desbloqueadas de exploração.",
+  "hintTemplate": "Monstros aparecem nas áreas liberadas para o seu nível.",
   "enabled": true,
   "weight": 12
 }
+
+

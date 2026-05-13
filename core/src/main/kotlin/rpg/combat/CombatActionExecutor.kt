@@ -1,4 +1,4 @@
-package rpg.combat
+﻿package rpg.combat
 
 import kotlin.random.Random
 import rpg.engine.ComputedStats
@@ -79,7 +79,7 @@ internal class CombatActionExecutor(
             return ActionOutcome(consumedReady = false)
         }
         if (StatusSystem.rollParalyzedFailure(actor.runtime.statuses, gateway.rng)) {
-            gateway.combatLog(gateway.colorize("Voce esta paralisado e falhou na acao!", gateway.ansiYellow))
+            gateway.combatLog(gateway.colorize("Você está paralisado e falhou na ação!", gateway.ansiYellow))
             gateway.endAction(actor, actionBarCarryPct = 0.0)
             return ActionOutcome()
         }
@@ -98,7 +98,7 @@ internal class CombatActionExecutor(
                     val ammoPayload = gateway.previewAmmoPayload(playerState, itemInstances, amount = 1)
                     val ammoConsumed = gateway.consumeArrowAmmo(playerState, itemInstances, amount = 1)
                     if (ammoConsumed == null && gateway.playerUsesBowAmmo(playerState, itemInstances)) {
-                        gateway.combatLog(gateway.colorize("Voce esta sem flechas para atacar.", gateway.ansiYellow))
+                        gateway.combatLog(gateway.colorize("Você está sem flechas para atacar.", gateway.ansiYellow))
                         return ActionOutcome(consumedReady = false)
                     }
                     if (ammoConsumed != null) {
@@ -149,7 +149,7 @@ internal class CombatActionExecutor(
                 if (!freeCast) {
                     actor.currentMp = (actor.currentMp - spec.mpCost).coerceAtLeast(0.0)
                 } else {
-                    gateway.combatLog(gateway.colorize("Proc de talento: ${spec.name} nao consumiu mana.", gateway.ansiBlue))
+                    gateway.combatLog(gateway.colorize("Proc de talento: ${spec.name} não consumiu mana.", gateway.ansiBlue))
                 }
                 gateway.applySkillCooldown(actor, spec)
                 val castTime = gateway.effectiveCastTime(actor, spec.castTimeSeconds)
@@ -159,7 +159,7 @@ internal class CombatActionExecutor(
                     val ammoPayload = gateway.previewAmmoPayload(playerState, itemInstances, amount = spec.ammoCost)
                     val ammoConsumed = gateway.consumeArrowAmmo(playerState, itemInstances, amount = spec.ammoCost)
                     if (ammoConsumed == null && gateway.playerUsesBowAmmo(playerState, itemInstances)) {
-                        gateway.combatLog(gateway.colorize("Voce esta sem flechas para usar ${spec.name}.", gateway.ansiYellow))
+                        gateway.combatLog(gateway.colorize("Você está sem flechas para usar ${spec.name}.", gateway.ansiYellow))
                         return ActionOutcome(consumedReady = false)
                     }
                     if (ammoConsumed != null) {
@@ -221,10 +221,10 @@ internal class CombatActionExecutor(
                 }
                 val attempt = gateway.rollEscape(actor.stats, target.stats)
                 if (attempt.success) {
-                    gateway.combatLog("Voce fugiu! (${gateway.format(attempt.chancePct)}%)")
+                    gateway.combatLog("Você fugiu! (${gateway.format(attempt.chancePct)}%)")
                     ActionOutcome(escaped = true)
                 } else {
-                    gateway.combatLog("Voce tentou fugir, mas falhou. (${gateway.format(attempt.chancePct)}%)")
+                    gateway.combatLog("Você tentou fugir, mas falhou. (${gateway.format(attempt.chancePct)}%)")
                     gateway.endAction(actor, actionBarCarryPct = 0.0)
                     ActionOutcome()
                 }
@@ -307,7 +307,7 @@ internal class CombatActionExecutor(
                 if (caster.kind == CombatantKind.PLAYER) {
                     val ammoConsumed = gateway.consumeArrowAmmo(playerState, itemInstances, amount = 1)
                     if (ammoConsumed == null && gateway.playerUsesBowAmmo(playerState, itemInstances)) {
-                        gateway.combatLog(gateway.colorize("Voce ficou sem flechas antes do disparo.", gateway.ansiYellow))
+                        gateway.combatLog(gateway.colorize("Você ficou sem flechas antes do disparo.", gateway.ansiYellow))
                         caster.pendingAfterResolve?.invoke()
                         gateway.endAction(caster, actionBarCarryPct = 0.0)
                         return
@@ -336,7 +336,7 @@ internal class CombatActionExecutor(
                 if (caster.kind == CombatantKind.PLAYER) {
                     val ammoConsumed = gateway.consumeArrowAmmo(playerState, itemInstances, amount = pending.spec.ammoCost)
                     if (ammoConsumed == null && gateway.playerUsesBowAmmo(playerState, itemInstances)) {
-                        gateway.combatLog(gateway.colorize("Voce ficou sem flechas antes de concluir ${pending.spec.name}.", gateway.ansiYellow))
+                        gateway.combatLog(gateway.colorize("Você ficou sem flechas antes de concluir ${pending.spec.name}.", gateway.ansiYellow))
                         caster.pendingAfterResolve?.invoke()
                         gateway.endAction(caster, actionBarCarryPct = 0.0)
                         return
@@ -382,3 +382,7 @@ internal class CombatActionExecutor(
         gateway.endAction(caster, actionBarCarryPct = carryPct)
     }
 }
+
+
+
+

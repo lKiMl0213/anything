@@ -46,8 +46,8 @@ while (playerActor.currentHp > 0.0 && monsterActor.currentHp > 0.0) {
 ```
 
 ## Files Using This Pattern
-- [CombatEngine.kt](../../../src/main/kotlin/rpg/combat/CombatEngine.kt) - Defines snapshots, controller hooks, and the battle loop
-- [GameCli.kt](../../../src/main/kotlin/rpg/cli/GameCli.kt) - Acts as the player-facing controller during combat
+- [CombatEngine.kt](../../../../core/src/main/kotlin/rpg/combat/CombatEngine.kt) - Defines snapshots, controller hooks, and the battle loop
+- [AndroidGameViewModel.kt](../../../../app-android/src/main/kotlin/rpg/android/AndroidGameViewModel.kt) - Acts as the player-facing controller bridge in the active Android flow
 
 ## Related
 - [Decision: CLI Orchestrator Architecture](../../decisions/003-cli-orchestrator-architecture.md)
@@ -56,3 +56,4 @@ while (playerActor.currentHp > 0.0 && monsterActor.currentHp > 0.0) {
 ## Status
 - **Created**: 2026-04-18
 - **Status**: Active
+- **Note**: Referencias de CLI nesta pagina sao historicas; caminho ativo atual: `app-android -> core`.

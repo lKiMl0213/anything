@@ -1,9 +1,9 @@
-{
+﻿{
     "id":  "assassin",
     "name":  "Assassino",
     "parentClassId":  "archer",
     "parentSubclassId":  "hunter",
-    "description":  "Burst rapido, mobilidade e finalizacao em alvo fragilizado.",
+    "description":  "Burst rápido, mobilidade e finalizacao em alvo fragilizado.",
     "bonuses":  {
                     "attributes":  {
                                        "dex":  1,
@@ -25,3 +25,4 @@
                          },
     "talentTreeId":  "A_hunter_assassin"
 }
+

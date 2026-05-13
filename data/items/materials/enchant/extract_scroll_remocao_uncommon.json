@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_remocao_uncommon",
-    "name":  "Pergaminho de Remocao (Incomum)",
+    "name":  "Pergaminho de Remoção (Incomum)",
     "type":  "MATERIAL",
     "tier":  "uncommon",
     "tags":  [
@@ -11,6 +11,7 @@
                  "uncommon"
              ],
     "value":  180,
-    "description":  "Pergaminho incomum para extracao com chance elevada.",
+    "description":  "Pergaminho incomum para extração com chance elevada.",
     "rarity":  "UNCOMMON"
 }
+

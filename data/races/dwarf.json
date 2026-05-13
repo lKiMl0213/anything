@@ -1,7 +1,7 @@
-{
+﻿{
   "id": "dwarf",
   "name": "Anao",
-  "description": "Especialista em linha de frente, mineracao e forja.",
+  "description": "Especialista em linha de frente, mineração e forja.",
   "bonuses": {
     "attributes": {
       "str": 6,
@@ -34,3 +34,4 @@
   "tradeBuyDiscountPct": 0,
   "tradeSellBonusPct": 0
 }
+

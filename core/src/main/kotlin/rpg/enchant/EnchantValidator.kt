@@ -1,4 +1,4 @@
-package rpg.enchant
+﻿package rpg.enchant
 
 import rpg.model.ItemInstance
 import rpg.model.ItemType
@@ -17,7 +17,7 @@ class EnchantValidator(
         val reasons = mutableListOf<String>()
         val normalizedRunes = request.enhancementRunes.coerceAtLeast(0)
         if (item == null) {
-            reasons += "Item alvo nao encontrado no inventario."
+            reasons += "Item alvo não encontrado no inventário."
             return reasons
         }
 
@@ -25,16 +25,16 @@ class EnchantValidator(
             reasons += "Apenas equipamentos podem ser encantados."
         }
         if (item.enchantLevel >= config.maxEnchantLevel) {
-            reasons += "Item ja esta no limite de +${config.maxEnchantLevel}."
+            reasons += "Item ja está no limite de +${config.maxEnchantLevel}."
         }
         if (item.level < config.minimumEnchantableItemLevel) {
-            reasons += "Item precisa de nivel ${config.minimumEnchantableItemLevel}+ para encantamento."
+            reasons += "Item precisa de nível ${config.minimumEnchantableItemLevel}+ para encantamento."
         }
         if (!player.inventory.contains(item.id)) {
-            reasons += "O item precisa estar no inventario."
+            reasons += "O item precisa estar no inventário."
         }
         if (normalizedRunes > config.maxEnhancementRunesPerAttempt) {
-            reasons += "Maximo de ${config.maxEnhancementRunesPerAttempt} runas de aprimoramento por tentativa."
+            reasons += "Máximo de ${config.maxEnhancementRunesPerAttempt} runas de aprimoramento por tentativa."
         }
         if (goldCost > player.gold) {
             reasons += "Ouro insuficiente (custo: $goldCost)."
@@ -42,12 +42,12 @@ class EnchantValidator(
 
         val enhancementOwned = countOwned(player.inventory, itemInstances, config.enhancementRuneItemIds())
         if (normalizedRunes > enhancementOwned) {
-            reasons += "Runas de aprimoramento insuficientes ($enhancementOwned disponiveis)."
+            reasons += "Runas de aprimoramento insuficientes ($enhancementOwned disponíveis)."
         }
         if (request.useProtectionRune) {
             val protectionOwned = countOwned(player.inventory, itemInstances, config.protectionRuneItemIds())
             if (protectionOwned <= 0) {
-                reasons += "Runa de protecao indisponivel."
+                reasons += "Runa de proteção indisponivel."
             }
         }
         return reasons
@@ -64,3 +64,6 @@ class EnchantValidator(
         }
     }
 }
+
+
+

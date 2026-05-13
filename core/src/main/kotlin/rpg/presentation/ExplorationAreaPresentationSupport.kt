@@ -1,4 +1,4 @@
-package rpg.presentation
+﻿package rpg.presentation
 
 import rpg.achievement.AchievementCounterKeys
 import rpg.application.actions.GameAction
@@ -13,7 +13,7 @@ internal class ExplorationAreaPresentationSupport(
 ) {
     fun tierSelectionLabel(tier: MapTierDef, highestInfiniteFloor: Long): String {
         val areaName = engine.tierDisplayName(tier)
-        val baseLabel = "$areaName (nv minimo ${tier.minLevel})"
+        val baseLabel = "$areaName (nv mínimo ${tier.minLevel})"
         if (tier.isInfinite) {
             val info = if (highestInfiniteFloor > 0L) highestInfiniteFloor else 0L
             val baseNote = tier.menuNote.trim().ifBlank { "Boss a cada 10 vitorias." }
@@ -42,13 +42,13 @@ internal class ExplorationAreaPresentationSupport(
     }
 
     fun runLabel(player: PlayerState, run: DungeonRun): String {
-        val tierLabel = engine.tierDisplayName(run.tierId) ?: "Area desconhecida"
+        val tierLabel = engine.tierDisplayName(run.tierId) ?: "área desconhecida"
         val classPathName = engine.classQuestService.resolveDungeonPathNameByRunData(
             player = player,
             unlockTypeRaw = run.classDungeonUnlockType,
             pathIdRaw = run.classDungeonPathId
         ) ?: return tierLabel
-        return "Instancia de Classe ($classPathName) | Area base: $tierLabel"
+        return "Instancia de Classe ($classPathName) | área base: $tierLabel"
     }
 
     fun continueRunAction(run: DungeonRun): GameAction? {
@@ -65,7 +65,9 @@ internal class ExplorationAreaPresentationSupport(
         val dungeon = engine.classQuestService.activeDungeon(player) ?: return null
         val entryTier = engine.classDungeonEntryTier(player, dungeon.unlockType) ?: return null
         val tierLabel = engine.tierDisplayName(entryTier)
-        val label = "Instancia de Classe (${dungeon.pathName}) | Base: $tierLabel (nv minimo ${entryTier.minLevel})"
+        val label = "Instancia de Classe (${dungeon.pathName}) | Base: $tierLabel (nv mínimo ${entryTier.minLevel})"
         return ScreenOptionViewModel(key, label, GameAction.EnterClassDungeon(entryTier.id))
     }
 }
+
+

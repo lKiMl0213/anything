@@ -1,8 +1,15 @@
-{
+﻿{
   "id": "crit",
-  "name": "da Precisao",
+  "name": "da Precisão",
   "kind": "SUFFIX",
-  "bonuses": { "derivedAdd": { "critChancePct": 4.0 } },
+  "bonuses": {
+    "derivedAdd": {
+      "critChancePct": 4.0
+    }
+  },
   "cost": 20,
   "weight": 7
 }
+
+
+

@@ -1,4 +1,4 @@
-package rpg.quest
+﻿package rpg.quest
 
 import rpg.model.QuestObjectiveType
 import rpg.model.QuestTemplateDef
@@ -38,19 +38,19 @@ internal class QuestTextGenerator(
         }
         return when (template.objectiveType) {
             QuestObjectiveType.KILL_MONSTER ->
-                "Derrote $amount ${target.targetName} nas areas desbloqueadas de exploracao."
+                "Derrote $amount ${target.targetName} nas áreas desbloqueadas de exploração."
             QuestObjectiveType.KILL_TAG ->
                 "Derrote $amount monstros da categoria ${target.targetName}."
             QuestObjectiveType.COLLECT_ITEM ->
-                "Colete $amount ${target.targetName}. A entrega sera validada no inventario."
+                "Colete $amount ${target.targetName}. A entrega sera validada no inventário."
             QuestObjectiveType.CRAFT_ITEM ->
                 "Crie $amount ${target.targetName} em uma disciplina de craft valida."
             QuestObjectiveType.GATHER_RESOURCE ->
-                "Reuna $amount ${target.targetName} em pontos de coleta disponiveis."
+                "Reuna $amount ${target.targetName} em pontos de coleta disponíveis."
             QuestObjectiveType.REACH_FLOOR ->
                 "Alcance pelo menos o andar $amount da Torre infinita."
             QuestObjectiveType.COMPLETE_RUN ->
-                "Finalize $amount exploracoes de area derrotando o boss."
+                "Finalize $amount exploracoes de área derrotando o boss."
         }
     }
 
@@ -69,9 +69,9 @@ internal class QuestTextGenerator(
         }
         return when (template.objectiveType) {
             QuestObjectiveType.KILL_MONSTER,
-            QuestObjectiveType.KILL_TAG -> "Procure inimigos nas areas desbloqueadas para seu nivel."
+            QuestObjectiveType.KILL_TAG -> "Procure inimigos nas áreas desbloqueadas para seu nível."
             QuestObjectiveType.REACH_FLOOR -> "Avance de forma consistente; fugir encerra o progresso da run."
-            QuestObjectiveType.COMPLETE_RUN -> "A run so conta ao derrotar o boss apos as 10 salas iniciais."
+            QuestObjectiveType.COMPLETE_RUN -> "A run só conta ao derrotar o boss após as 10 salas iniciais."
             else -> ""
         }
     }
@@ -90,3 +90,7 @@ internal class QuestTextGenerator(
             .replace("{tier}", tier.name.lowercase())
     }
 }
+
+
+
+

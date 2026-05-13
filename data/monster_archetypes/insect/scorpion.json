@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "scorpion",
   "name": "Escorpiao",
   "archetype": "Insect",
@@ -38,3 +38,6 @@
   "baseXp": 38,
   "baseGold": 10
 }
+
+
+

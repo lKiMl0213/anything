@@ -96,6 +96,8 @@ data class CombatUiState(
     val playerHpMax: Double,
     val playerMp: Double,
     val playerMpMax: Double,
+    val activeEffectName: String?,
+    val activeEffectRemainingSeconds: Int,
     val enemyHp: Double,
     val enemyHpMax: Double,
     val playerAtbProgress: Float,

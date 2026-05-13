@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "unlock_swordman_subclass_lv25",
   "category": "progression_subclass",
   "supportedTiers": ["ACCEPTED"],
@@ -17,8 +17,12 @@
     "requiresDungeon": true
   },
   "titleTemplate": "Domine a arte da lâmina.",
-  "descriptionTemplate": "Sua técnica evoluiu além do básico. Agora você deve provar precisão, controle e disciplina em combate real.",
+  "descriptionTemplate": "Sua técnica evoluiu além do bísico. Agora você deve provar precisão, controle e disciplina em combate real.",
   "hintTemplate": "Supere desafios e conclua provas de combate para desbloquear a subclasse do Espadachim.",
   "enabled": false,
   "weight": 1
 }
+
+
+
+

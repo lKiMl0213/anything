@@ -1,4 +1,4 @@
-package rpg.android.screens
+﻿package rpg.android.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,7 +30,7 @@ fun AppMenuScreen(
         Text(text = model.title)
         model.subtitle?.takeIf { it.isNotBlank() }?.let { Text(it) }
         model.summary?.let { summary ->
-            Text("${summary.name} | Nivel ${summary.level}")
+            Text("${summary.name} | Nível ${summary.level}")
             Text(summary.classLabel)
             Text("HP ${format(summary.hp.current)}/${format(summary.hp.max)}")
             Text("MP ${format(summary.mp.current)}/${format(summary.mp.max)}")
@@ -62,3 +62,4 @@ fun AppMenuScreen(
 }
 
 private fun format(value: Double): String = "%.1f".format(value)
+

@@ -15,6 +15,7 @@ import rpg.android.state.SelectOption
 import rpg.application.GameSession
 import rpg.model.GameState
 import rpg.model.SkillType
+import rpg.premium.PremiumSupport
 import kotlin.math.ceil
 
 internal object AndroidUiModelBuilders {
@@ -136,6 +137,7 @@ internal object AndroidUiModelBuilders {
     ): MainHubUiModel {
         val gameState = state ?: return MainHubUiModel(
             name = "-",
+            premiumStatusLabel = "Premium: desativado",
             raceClassLabel = "-",
             levelXpLabel = "-",
             currencyLabel = "-",
@@ -144,6 +146,8 @@ internal object AndroidUiModelBuilders {
             hpMax = 1.0,
             mpCurrent = 0.0,
             mpMax = 1.0,
+            activeEffectName = null,
+            activeEffectRemainingSeconds = 0,
             deathDebuffStacks = 0,
             deathDebuffMinutes = 0.0,
             hpRegenPerMinute = 0.0,
@@ -162,7 +166,7 @@ internal object AndroidUiModelBuilders {
             Triple(SkillType.MINING, "Mineracao", "⛏"),
             Triple(SkillType.GATHERING, "Coleta", "🌿"),
             Triple(SkillType.WOODCUTTING, "Lenhador", "🪓"),
-            Triple(SkillType.HUNTING, "Caca", "🏹"),
+            Triple(SkillType.HUNTING, "Caça", "🏹"),
             Triple(SkillType.ALCHEMIST, "Alquimia", "🧪"),
             Triple(SkillType.COOKING, "Culinaria", "🍳"),
             Triple(SkillType.ENCHANTING, "Encantamento", "✨")
@@ -182,17 +186,22 @@ internal object AndroidUiModelBuilders {
         val mpRegen = stats.derived.mpRegen.coerceAtLeast(0.0)
         val hpEta = if (hpRegen <= 0.0 || hpGap <= 0.0) 0 else ceil((hpGap / hpRegen) * 60.0).toInt()
         val mpEta = if (mpRegen <= 0.0 || mpGap <= 0.0) 0 else ceil((mpGap / mpRegen) * 60.0).toInt()
+        val (activeEffectName, activeEffectRemainingSeconds) = buildActiveEffect(gameState)
+        val premiumStatusLabel = buildPremiumStatusLabel(gameState)
 
         return MainHubUiModel(
             name = gameState.player.name,
+            premiumStatusLabel = premiumStatusLabel,
             raceClassLabel = "$race | ${clazz?.name ?: gameState.player.classId}",
-            levelXpLabel = "Nivel ${gameState.player.level} | XP ${gameState.player.xp}",
+            levelXpLabel = "Nível ${gameState.player.level} | XP ${gameState.player.xp}",
             currencyLabel = "Ouro ${gameState.player.gold} | Cash ${gameState.player.premiumCash}",
             inventoryCapacityLabel = deps.inventoryQueryService.inventoryCapacityLabel(gameState),
             hpCurrent = gameState.player.currentHp,
             hpMax = stats.derived.hpMax,
             mpCurrent = gameState.player.currentMp,
             mpMax = stats.derived.mpMax,
+            activeEffectName = activeEffectName,
+            activeEffectRemainingSeconds = activeEffectRemainingSeconds,
             deathDebuffStacks = gameState.player.deathDebuffStacks,
             deathDebuffMinutes = gameState.player.deathDebuffMinutes,
             hpRegenPerMinute = hpRegen,
@@ -202,6 +211,61 @@ internal object AndroidUiModelBuilders {
             skills = skills,
             infoLines = messages
         )
+    }
+
+    private fun buildPremiumStatusLabel(gameState: GameState): String {
+        val player = gameState.player
+        if (player.premiumPermanent) {
+            return "Premium: Ativo (Permanente)"
+        }
+        if (!PremiumSupport.isPremiumActive(player)) {
+            return "Premium: desativado"
+        }
+        val remainingMs = (player.premiumExpiresAtEpochMs - System.currentTimeMillis()).coerceAtLeast(0L)
+        return "Premium: Ativo (${formatPremiumRemaining(remainingMs)})"
+    }
+
+    private fun formatPremiumRemaining(remainingMs: Long): String {
+        val totalMinutes = (remainingMs / 60_000L).coerceAtLeast(0L)
+        val days = totalMinutes / (24L * 60L)
+        val hours = (totalMinutes % (24L * 60L)) / 60L
+        val minutes = totalMinutes % 60L
+        return when {
+            days > 0L -> "${days}d ${hours}h"
+            hours > 0L -> "${hours}h ${minutes}m"
+            else -> "${minutes}m"
+        }
+    }
+
+    private fun buildActiveEffect(gameState: GameState): Pair<String?, Int> {
+        val foodBuffName = gameState.player.foodBuffName.takeIf {
+            gameState.player.foodBuffRemainingMinutes > 0.0 && it.isNotBlank()
+        }
+        if (foodBuffName != null) {
+            return foodBuffName to (gameState.player.foodBuffRemainingMinutes * 60.0).toInt().coerceAtLeast(0)
+        }
+
+        val roomEffect = if (gameState.player.roomEffectRooms > 0 && gameState.player.roomEffectMultiplier != 1.0) {
+            val percent = ((gameState.player.roomEffectMultiplier - 1.0) * 100.0).toInt()
+            "Buff de sala +${percent}% por ${gameState.player.roomEffectRooms} salas"
+        } else {
+            null
+        }
+        if (roomEffect != null) {
+            return roomEffect to 0
+        }
+
+        val runEffect = if (gameState.player.runAttrMultiplier != 1.0) {
+            val percent = ((gameState.player.runAttrMultiplier - 1.0) * 100.0).toInt()
+            "Buff de corrida +${percent}%"
+        } else {
+            null
+        }
+        if (runEffect != null) {
+            return runEffect to 0
+        }
+
+        return null to 0
     }
 
     fun buildCharacterUi(

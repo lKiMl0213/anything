@@ -1,4 +1,4 @@
-package rpg.hunting
+﻿package rpg.hunting
 
 import kotlin.math.abs
 import kotlin.math.max
@@ -73,8 +73,8 @@ class HuntingDropResolver(
             }
 
             else -> {
-                val bonus = (gap * config.overLevelBonusPctPerLevel).coerceAtMost(config.maxOverLevelBonusPct)
-                1.0 + (bonus / 100.0)
+                val bônus = (gap * config.overLevelBonusPctPerLevel).coerceAtMost(config.maxOverLevelBonusPct)
+                1.0 + (bônus / 100.0)
             }
         }
         val antiFarm = if (gap >= config.antiFarmLevelGap) config.antiFarmYieldMultiplier.coerceIn(0.1, 1.0) else 1.0
@@ -113,3 +113,4 @@ class HuntingDropResolver(
         }
     }
 }
+

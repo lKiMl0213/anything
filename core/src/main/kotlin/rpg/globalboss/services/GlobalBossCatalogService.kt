@@ -1,4 +1,4 @@
-package rpg.globalboss.services
+﻿package rpg.globalboss.services
 
 import kotlin.random.Random
 import rpg.engine.GameEngine
@@ -38,7 +38,7 @@ class GlobalBossCatalogService(
     fun buildBoss(event: GlobalBossEventDef, playerLevel: Int): MonsterInstance {
         val archetype = repo.monsterArchetypes[event.bossArchetypeId]
             ?: repo.monsterArchetypes.values.firstOrNull()
-            ?: error("Nenhum arquetipo de monstro disponivel para boss global.")
+            ?: error("Nenhum arquetipo de monstro disponível para boss global.")
         val level = (playerLevel + event.levelOffset).coerceIn(
             event.minBossLevel.coerceAtLeast(1),
             event.maxBossLevel.coerceAtLeast(event.minBossLevel.coerceAtLeast(1))
@@ -103,3 +103,4 @@ class GlobalBossCatalogService(
     }
 
 }
+

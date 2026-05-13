@@ -1,7 +1,7 @@
-{
+﻿{
   "id": "quest_accepted_capacity",
-  "name": "Capacidade de Missoes Aceitas",
-  "description": "Aumenta o limite maximo de missoes aceitas ao mesmo tempo.",
+  "name": "Capacidade de Missões Aceitas",
+  "description": "Aumenta o limite máximo de missões aceitas ao mesmo tempo.",
   "effectType": "QUEST_ACCEPTED_LIMIT_BONUS",
   "valueMode": "FLAT",
   "enabled": true,
@@ -48,3 +48,5 @@
     }
   ]
 }
+
+

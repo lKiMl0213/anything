@@ -1,4 +1,4 @@
-package rpg.classquest
+﻿package rpg.classquest
 
 import rpg.model.PlayerState
 
@@ -59,4 +59,7 @@ class ClassQuestMenu(
             progress.chosenPath.isNullOrBlank()
     }
 }
+
+
+
 

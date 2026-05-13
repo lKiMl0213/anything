@@ -1,14 +1,14 @@
-package rpg.events
+﻿package rpg.events
 
 import kotlin.random.Random
 
 object EventTextGenerator {
     private val liquidIntros = listOf(
-        "O liquido vibra ao tocar sua pele.",
-        "Voce hesita antes de beber.",
+        "O líquido vibra ao tocar sua pele.",
+        "Você hesita antes de beber.",
         "Algo antigo desperta no frasco.",
         "O gosto e metalico.",
-        "O liquido evapora e deixa um brilho no ar.",
+        "O líquido evapora e deixa um brilho no ar.",
         "A mistura reage ao calor da sua mao."
     )
 
@@ -16,25 +16,25 @@ object EventTextGenerator {
         "O viajante observa seu equipamento em silencio.",
         "Uma voz cansada pede ajuda na trilha.",
         "Um estranho acena de longe e se aproxima devagar.",
-        "O forasteiro parece nervoso, mas nao hostil.",
-        "Um viajante sujo de poeira pede sua atencao."
+        "O forasteiro parece nervoso, mas não hostil.",
+        "Um viajante sujo de poeira pede sua atenção."
     )
 
     private val chestIntros = listOf(
-        "O bau range quando voce toca a tampa.",
+        "O baú range quando você toca a tampa.",
         "Trancas antigas cobrem o recipiente de madeira.",
-        "O metal frio do bau parece recem-polido.",
-        "Marcas de garra cercam o bau abandonado.",
-        "A fechadura esta torta, como se alguem fugisse com pressa."
+        "O metal frio do baú parece recem-polido.",
+        "Marcas de garra cercam o baú abandonado.",
+        "A fechadura está torta, como se alguem fugisse com pressa."
     )
 
     private val sensations = listOf(
         "Seu coracao acelera.",
         "Sua visao distorce por um instante.",
         "Sua respiracao fica pesada.",
-        "Voce sente o corpo mais leve.",
-        "Uma onda curta de energia passa por voce.",
-        "A sensacao some tao rapido quanto veio."
+        "Você sente o corpo mais leve.",
+        "Uma onda curta de energia passa por você.",
+        "A sensacao some tao rápido quanto veio."
     )
 
     fun generate(source: EventSource, rarity: Rarity, effects: List<EventEffect>, rng: Random): String {
@@ -60,7 +60,7 @@ object EventTextGenerator {
         return when {
             effects.any { it is EventEffect.DamagePercentCurrent } -> "Nem todo ganho vem sem risco."
             effects.any { it is EventEffect.AddGold } -> "Algumas moedas mudaram de dono."
-            effects.any { it is EventEffect.AddItem } -> "Voce encontra algo util para seguir."
+            effects.any { it is EventEffect.AddItem } -> "Você encontra algo ?til para seguir."
             effects.any { it is EventEffect.HealFlat || it is EventEffect.HealPercentCurrent || it is EventEffect.HealPercentMax } ->
                 "Seu corpo responde com alivio imediato."
             effects.any { it is EventEffect.BuffAllAttributes || it is EventEffect.BuffAttribute || it is EventEffect.BuffAttributePercent } ->
@@ -71,3 +71,7 @@ object EventTextGenerator {
         }
     }
 }
+
+
+
+

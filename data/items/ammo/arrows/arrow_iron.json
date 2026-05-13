@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "arrow_iron",
     "name":  "Flecha de Ferro",
     "tags":  [
@@ -13,5 +13,6 @@
                                        "accuracy":  2
                                    }
                 },
-    "description":  "Pontas de ferro para dano fisico mais confiavel."
+    "description":  "Pontas de ferro para dano físico mais confiavel."
 }
+

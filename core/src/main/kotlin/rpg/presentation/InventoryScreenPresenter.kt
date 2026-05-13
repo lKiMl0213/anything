@@ -1,4 +1,4 @@
-package rpg.presentation
+﻿package rpg.presentation
 
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
@@ -14,7 +14,7 @@ internal class InventoryScreenPresenter(
     private val support: PresentationSupport
 ) {
     fun presentInventory(session: GameSession): ScreenViewModel {
-        val state = session.gameState ?: return support.presentMissingState("Inventario")
+        val state = session.gameState ?: return support.presentMissingState("Inventário")
         val allStacks = inventoryQueryService.allInventoryStacks(state)
         val stacks = inventoryQueryService.inventoryStacks(state, session.inventoryFilter)
         val quiverCapacityLabel = inventoryQueryService.quiverCapacityLabel(state)
@@ -29,7 +29,7 @@ internal class InventoryScreenPresenter(
             index++
         }
         if (allStacks.isNotEmpty()) {
-            options += ScreenOptionViewModel(index.toString(), "Filtrar inventario", GameAction.OpenInventoryFilters)
+            options += ScreenOptionViewModel(index.toString(), "Filtrar inventário", GameAction.OpenInventoryFilters)
             index++
         }
         stacks.forEach { stack ->
@@ -48,16 +48,16 @@ internal class InventoryScreenPresenter(
             "Filtros: ${inventoryQueryService.inventoryFilterSummary(session.inventoryFilter)}"
         )
         if (hasQuiverMenu) {
-            body += "Aljava: $quiverCapacityLabel | Reserva: $reserveAmmo | Municao ativa: ${inventoryQueryService.activeAmmoName(state)}"
+            body += "Aljava: $quiverCapacityLabel | Reserva: $reserveAmmo | Munição ativa: ${inventoryQueryService.activeAmmoName(state)}"
         }
         if (allStacks.isNotEmpty() && stacks.isEmpty()) {
             body += "Nenhum item corresponde aos filtros atuais."
         }
         if (allStacks.isEmpty() && !hasQuiverMenu) {
-            body += "Inventario vazio."
+            body += "Inventário vazio."
         }
         return MenuScreenViewModel(
-            title = "Inventario",
+            title = "Inventário",
             summary = support.playerSummary(state),
             bodyLines = body,
             options = options,
@@ -70,7 +70,7 @@ internal class InventoryScreenPresenter(
         var index = 1
         options += ScreenOptionViewModel(index++.toString(), "Tipo: Todos", GameAction.SetInventoryFilterType(null))
         options += ScreenOptionViewModel(index++.toString(), "Tipo: Equipamentos", GameAction.SetInventoryFilterType(ItemType.EQUIPMENT))
-        options += ScreenOptionViewModel(index++.toString(), "Tipo: Consumiveis", GameAction.SetInventoryFilterType(ItemType.CONSUMABLE))
+        options += ScreenOptionViewModel(index++.toString(), "Tipo: Consumíveis", GameAction.SetInventoryFilterType(ItemType.CONSUMABLE))
         options += ScreenOptionViewModel(index++.toString(), "Tipo: Materiais", GameAction.SetInventoryFilterType(ItemType.MATERIAL))
         options += ScreenOptionViewModel(index++.toString(), "Raridade: Qualquer", GameAction.SetInventoryMinimumRarity(null))
         ItemRarity.entries.forEach { rarity ->
@@ -79,7 +79,7 @@ internal class InventoryScreenPresenter(
         options += ScreenOptionViewModel(index++.toString(), "Limpar filtros", GameAction.ClearInventoryFilters)
         options += ScreenOptionViewModel("x", "Voltar", GameAction.Back)
         return MenuScreenViewModel(
-            title = "Filtros do Inventario",
+            title = "Filtros do Inventário",
             bodyLines = listOf("Atual: ${inventoryQueryService.inventoryFilterSummary(session.inventoryFilter)}"),
             options = options,
             messages = session.messages
@@ -92,7 +92,7 @@ internal class InventoryScreenPresenter(
         val detail = inventoryQueryService.inventoryItemDetail(state, itemId)
             ?: return MenuScreenViewModel(
                 title = "Item",
-                bodyLines = listOf("Esse item nao esta mais no inventario."),
+                bodyLines = listOf("Esse item não está mais no inventário."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
             )
@@ -203,7 +203,7 @@ internal class InventoryScreenPresenter(
 
         val body = mutableListOf(
             "Capacidade: ${inventoryQueryService.quiverCapacityLabel(state)}",
-            "Municao ativa: ${inventoryQueryService.activeAmmoName(state)}"
+            "Munição ativa: ${inventoryQueryService.activeAmmoName(state)}"
         )
         body += if (loaded.isEmpty()) {
             listOf("Carregadas: -")
@@ -229,3 +229,7 @@ internal class InventoryScreenPresenter(
         )
     }
 }
+
+
+
+

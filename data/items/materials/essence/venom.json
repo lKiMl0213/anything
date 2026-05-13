@@ -1,11 +1,15 @@
-{
-    "id":  "venom",
-    "name":  "Veneno",
-    "tags":  [
-                 "alchemy",
-                 "poison"
-             ],
-    "value":  7,
-    "type":  "MATERIAL",
-    "description":  "Extrato toxico usado em municao e pocoes."
+﻿{
+  "id": "venom",
+  "name": "Veneno",
+  "tags": [
+    "alchemy",
+    "poison"
+  ],
+  "value": 7,
+  "type": "MATERIAL",
+  "description": "Extrato toxico usado em munição e poções."
 }
+
+
+
+

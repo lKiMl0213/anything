@@ -1,11 +1,11 @@
-{
+﻿{
   "id": "water_elemental",
-  "name": "Elemental de Agua",
+  "name": "Elemental de Água",
   "archetype": "Elemental",
   "baseType": "water_elemental",
   "monsterTypeId": "elemental",
   "family": "elemental",
-  "displayName": "Elemental de Agua",
+  "displayName": "Elemental de Água",
   "baseAttributes": { "str": 5, "agi": 7, "dex": 6, "vit": 9, "int": 7, "spr": 8 },
   "growthAttributes": { "agi": 2, "dex": 1, "vit": 2, "int": 2, "spr": 2 },
   "variancePct": 0.14,
@@ -28,3 +28,4 @@
   "baseXp": 40,
   "baseGold": 13
 }
+

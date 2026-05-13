@@ -1,4 +1,4 @@
-package rpg.application.enchant
+﻿package rpg.application.enchant
 
 import rpg.achievement.AchievementTracker
 import rpg.achievement.AchievementCounterKeys
@@ -23,14 +23,14 @@ class FusionCommandService(
         if (!preview.available || preview.mode == null) {
             return FusionPrepareResult(
                 ready = false,
-                messages = preview.blockedReasons.ifEmpty { listOf("Nao foi possivel preparar a fusao.") }
+                messages = preview.blockedReasons.ifEmpty { listOf("Não foi possível preparar a fusão.") }
             )
         }
         return FusionPrepareResult(
             ready = true,
             messages = emptyList(),
             timedActionView = ProductionTimedActionView(
-                categoryLabel = "Fusao",
+                categoryLabel = "Fusão",
                 actionLabel = "Fundindo ${preview.slot1Label} e ${preview.slot2Label}...",
                 skillLabel = "enchanting",
                 skillLevel = engine.skillSystem.snapshot(state.player, SkillType.ENCHANTING).level,
@@ -94,7 +94,7 @@ class FusionCommandService(
             lastClockSyncEpochMs = System.currentTimeMillis()
         )
         val lines = mutableListOf(result.message)
-        if (spentMinutes > 0.0) lines += "Tempo gasto na fusao: ${format(spentMinutes)} min."
+        if (spentMinutes > 0.0) lines += "Tempo gasto na fusão: ${format(spentMinutes)} min."
         lines += advance.messages
         result.skillSnapshot?.let { snapshot ->
             lines += "Skill ${snapshot.skill.name.lowercase()}: +${format(result.gainedXp)} XP (lvl ${snapshot.level})"
@@ -129,3 +129,6 @@ class FusionCommandService(
 
     private fun format(value: Double): String = "%.1f".format(value)
 }
+
+
+

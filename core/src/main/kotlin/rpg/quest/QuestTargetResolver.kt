@@ -1,4 +1,4 @@
-package rpg.quest
+﻿package rpg.quest
 
 import kotlin.random.Random
 import rpg.io.DataRepository
@@ -85,10 +85,13 @@ internal class QuestTargetResolver(
             }
             QuestObjectiveType.COMPLETE_RUN -> {
                 TargetResolution(
-                    targetName = "exploracao completa",
+                    targetName = "exploração completa",
                     difficultyFactor = 1.0
                 )
             }
         }
     }
 }
+
+
+

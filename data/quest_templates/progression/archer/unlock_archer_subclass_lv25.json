@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "unlock_archer_subclass_lv25",
   "category": "progression_subclass",
   "supportedTiers": ["ACCEPTED"],
@@ -23,3 +23,6 @@
   "enabled": false,
   "weight": 1
 }
+
+
+

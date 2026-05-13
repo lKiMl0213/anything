@@ -1,7 +1,7 @@
-{
+﻿{
     "skillType":  "COOKING",
     "id":  "extract_oil",
-    "description":  "Extrai oleo para receitas culinarias e forge.",
+    "description":  "Extrai óleo para receitas culinarias e forge.",
     "enabled":  true,
     "tier":  2,
     "baseXp":  14,
@@ -9,7 +9,7 @@
                  "cooking",
                  "resource"
              ],
-    "name":  "Extrair Oleo",
+    "name":  "Extrair Óleo",
     "baseDurationSeconds":  6,
     "difficulty":  1.25,
     "outputItemId":  "oil",
@@ -24,3 +24,4 @@
                         }
                     ]
 }
+

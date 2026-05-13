@@ -1,6 +1,6 @@
 ﻿{
     "id":  "enchant_rune_protecao_rare",
-    "name":  "Runa de Protecao (Rara)",
+    "name":  "Runa de Proteção (Rara)",
     "type":  "MATERIAL",
     "tier":  "rare",
     "tags":  [
@@ -11,6 +11,7 @@
                  "crafting"
              ],
     "value":  235,
-    "description":  "Runa rara que garante protecao de quebra na tentativa atual.",
+    "description":  "Runa rara que garante proteção de quebra na tentativa atual.",
     "rarity":  "RARE"
 }
+

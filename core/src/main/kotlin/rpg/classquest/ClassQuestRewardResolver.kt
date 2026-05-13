@@ -1,4 +1,4 @@
-package rpg.classquest
+﻿package rpg.classquest
 
 import kotlin.random.Random
 import kotlin.math.roundToInt
@@ -98,7 +98,7 @@ internal class ClassQuestRewardResolver(
             "$stageName: +${reward.xp} XP, +$premiumGold ouro e recompensas recebidas."
         )
         if (insert.rejected.isNotEmpty()) {
-            messages += "$stageName: inventario cheio, ${insert.rejected.size} item(ns) foram descartados."
+            messages += "$stageName: inventário cheio, ${insert.rejected.size} item(ns) foram descartados."
         }
 
         return ClassQuestUpdate(
@@ -169,3 +169,4 @@ internal class ClassQuestRewardResolver(
             else -> "hp_potion_medium"
         }
 }
+

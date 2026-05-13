@@ -1,4 +1,4 @@
-package rpg.talent
+﻿package rpg.talent
 
 import kotlin.math.round
 import rpg.model.TalentNode
@@ -22,56 +22,56 @@ internal class TalentEffectSummary {
         addEffectSeries(pieces, "Espirito", maxRank, attrs.spr.toDouble())
         addEffectSeries(pieces, "Sorte", maxRank, attrs.luk.toDouble())
 
-        addEffectSeries(pieces, "Dano fisico", maxRank, add.damagePhysical)
-        addEffectSeries(pieces, "Dano magico", maxRank, add.damageMagic)
-        addEffectSeries(pieces, "HP maximo", maxRank, add.hpMax)
-        addEffectSeries(pieces, "MP maximo", maxRank, add.mpMax)
-        addEffectSeries(pieces, "Defesa fisica", maxRank, add.defPhysical)
-        addEffectSeries(pieces, "Defesa magica", maxRank, add.defMagic)
+        addEffectSeries(pieces, "Dano físico", maxRank, add.damagePhysical)
+        addEffectSeries(pieces, "Dano mágico", maxRank, add.damageMagic)
+        addEffectSeries(pieces, "HP máximo", maxRank, add.hpMax)
+        addEffectSeries(pieces, "MP máximo", maxRank, add.mpMax)
+        addEffectSeries(pieces, "Defesa física", maxRank, add.defPhysical)
+        addEffectSeries(pieces, "Defesa mágica", maxRank, add.defMagic)
         addEffectSeries(pieces, "Velocidade de ataque", maxRank, add.attackSpeed)
         addEffectSeries(pieces, "Velocidade de movimento", maxRank, add.moveSpeed)
-        addEffectSeries(pieces, "Chance critica", maxRank, add.critChancePct, suffix = "%")
-        addEffectSeries(pieces, "Dano critico", maxRank, add.critDamagePct, suffix = "%")
+        addEffectSeries(pieces, "Chance crítica", maxRank, add.critChancePct, suffix = "%")
+        addEffectSeries(pieces, "Dano crítico", maxRank, add.critDamagePct, suffix = "%")
         addEffectSeries(pieces, "Vampirismo", maxRank, add.vampirismPct, suffix = "%")
         addEffectSeries(pieces, "Recarga", maxRank, add.cdrPct, suffix = "%")
-        addEffectSeries(pieces, "Penetracao fisica", maxRank, add.penPhysical)
-        addEffectSeries(pieces, "Penetracao magica", maxRank, add.penMagic)
+        addEffectSeries(pieces, "Penetração física", maxRank, add.penPhysical)
+        addEffectSeries(pieces, "Penetração mágica", maxRank, add.penMagic)
         addEffectSeries(pieces, "Regeneracao de HP", maxRank, add.hpRegen)
         addEffectSeries(pieces, "Regeneracao de MP", maxRank, add.mpRegen)
-        addEffectSeries(pieces, "Precisao", maxRank, add.accuracy)
+        addEffectSeries(pieces, "Precisão", maxRank, add.accuracy)
         addEffectSeries(pieces, "Esquiva", maxRank, add.evasion)
         addEffectSeries(pieces, "Tenacidade", maxRank, add.tenacityPct, suffix = "%")
-        addEffectSeries(pieces, "Reducao de dano", maxRank, add.damageReductionPct, suffix = "%")
+        addEffectSeries(pieces, "Redução de dano", maxRank, add.damageReductionPct, suffix = "%")
 
-        addEffectSeries(pieces, "Dano fisico", maxRank, mult.damagePhysical, suffix = "%")
-        addEffectSeries(pieces, "Dano magico", maxRank, mult.damageMagic, suffix = "%")
-        addEffectSeries(pieces, "HP maximo", maxRank, mult.hpMax, suffix = "%")
-        addEffectSeries(pieces, "MP maximo", maxRank, mult.mpMax, suffix = "%")
-        addEffectSeries(pieces, "Defesa fisica", maxRank, mult.defPhysical, suffix = "%")
-        addEffectSeries(pieces, "Defesa magica", maxRank, mult.defMagic, suffix = "%")
+        addEffectSeries(pieces, "Dano físico", maxRank, mult.damagePhysical, suffix = "%")
+        addEffectSeries(pieces, "Dano mágico", maxRank, mult.damageMagic, suffix = "%")
+        addEffectSeries(pieces, "HP máximo", maxRank, mult.hpMax, suffix = "%")
+        addEffectSeries(pieces, "MP máximo", maxRank, mult.mpMax, suffix = "%")
+        addEffectSeries(pieces, "Defesa física", maxRank, mult.defPhysical, suffix = "%")
+        addEffectSeries(pieces, "Defesa mágica", maxRank, mult.defMagic, suffix = "%")
         addEffectSeries(pieces, "Velocidade de ataque", maxRank, mult.attackSpeed, suffix = "%")
         addEffectSeries(pieces, "Velocidade de movimento", maxRank, mult.moveSpeed, suffix = "%")
-        addEffectSeries(pieces, "Chance critica", maxRank, mult.critChancePct, suffix = "%")
-        addEffectSeries(pieces, "Dano critico", maxRank, mult.critDamagePct, suffix = "%")
+        addEffectSeries(pieces, "Chance crítica", maxRank, mult.critChancePct, suffix = "%")
+        addEffectSeries(pieces, "Dano crítico", maxRank, mult.critDamagePct, suffix = "%")
         addEffectSeries(pieces, "Vampirismo", maxRank, mult.vampirismPct, suffix = "%")
         addEffectSeries(pieces, "Recarga", maxRank, mult.cdrPct, suffix = "%")
         addEffectSeries(pieces, "Regeneracao de HP", maxRank, mult.hpRegen, suffix = "%")
         addEffectSeries(pieces, "Regeneracao de MP", maxRank, mult.mpRegen, suffix = "%")
-        addEffectSeries(pieces, "Precisao", maxRank, mult.accuracy, suffix = "%")
+        addEffectSeries(pieces, "Precisão", maxRank, mult.accuracy, suffix = "%")
         addEffectSeries(pieces, "Esquiva", maxRank, mult.evasion, suffix = "%")
         addEffectSeries(pieces, "Tenacidade", maxRank, mult.tenacityPct, suffix = "%")
-        addEffectSeries(pieces, "Reducao de dano", maxRank, mult.damageReductionPct, suffix = "%")
+        addEffectSeries(pieces, "Redução de dano", maxRank, mult.damageReductionPct, suffix = "%")
 
         node.modifiers.atb.forEach { (rawKey, value) ->
             when (rawKey.trim().lowercase()) {
                 "fillratepct" -> addEffectSeries(pieces, "Velocidade da barra", maxRank, value, suffix = "%")
-                "casttimepct" -> addEffectSeries(pieces, "Tempo de conjuracao", maxRank, value, suffix = "%")
+                "casttimepct" -> addEffectSeries(pieces, "Tempo de conjuração", maxRank, value, suffix = "%")
                 "gcdpct" -> addEffectSeries(pieces, "Recarga global", maxRank, value, suffix = "%")
                 "cooldownpct" -> addEffectSeries(pieces, "Cooldown", maxRank, value, suffix = "%")
-                "interruptchancepct" -> addEffectSeries(pieces, "Chance de interrupcao", maxRank, value, suffix = "%")
+                "interruptchancepct" -> addEffectSeries(pieces, "Chance de interrupção", maxRank, value, suffix = "%")
                 "interruptresistpct" -> addEffectSeries(
                     pieces,
-                    "Resistencia a interrupcao",
+                    "Resistência a interrupção",
                     maxRank,
                     value,
                     suffix = "%"
@@ -90,7 +90,7 @@ internal class TalentEffectSummary {
                 "manaonhitpctmax" -> addEffectSeries(pieces, "Mana por acerto", maxRank, value, suffix = "% do MP max")
                 "nomanacostchancepct" -> addEffectSeries(
                     pieces,
-                    "Chance de nao gastar mana",
+                    "Chance de não gastar mana",
                     maxRank,
                     value,
                     suffix = "%",
@@ -98,7 +98,7 @@ internal class TalentEffectSummary {
                 )
                 "cooldownreduceonkillseconds" -> addEffectSeries(
                     pieces,
-                    "Reducao de cooldown ao abater",
+                    "Redução de cooldown ao abater",
                     maxRank,
                     value,
                     suffix = "s"
@@ -133,10 +133,10 @@ internal class TalentEffectSummary {
                     includePlus = false
                 )
                 "hastepct" -> addEffectSeries(pieces, "Aceleracao", maxRank, value, suffix = "%")
-                "slowresistpct" -> addEffectSeries(pieces, "Resistencia a lentidao", maxRank, value, suffix = "%")
+                "slowresistpct" -> addEffectSeries(pieces, "Resistência a lentidão", maxRank, value, suffix = "%")
                 "slowamplifypct" -> addEffectSeries(
                     pieces,
-                    "Potencia de lentidao aplicada",
+                    "Potencia de lentidão aplicada",
                     maxRank,
                     value,
                     suffix = "%"
@@ -202,7 +202,7 @@ internal class TalentEffectSummary {
                     statusNameFromKey(key, "bonusDamageWhileSelf.", ".Pct")?.let { statusName ->
                         addEffectSeries(
                             pieces,
-                            "Dano enquanto voce estiver com $statusName",
+                            "Dano enquanto você estiver com $statusName",
                             maxRank,
                             value,
                             suffix = "%"
@@ -231,22 +231,22 @@ internal class TalentEffectSummary {
             (combat["castTimeSeconds"] ?: combat["cast"])?.let { base ->
                 val growth = combat["castTimePerRank"] ?: 0.0
                 val values = effectSequence(maxRank) { rank -> base + (rank - 1) * growth }
-                pieces += "Conjuracao ${formatSequence(values, "s", includePlus = false)}"
+                pieces += "Conjuração ${formatSequence(values, "s", includePlus = false)}"
             }
             combat["selfHealFlat"]?.let { base ->
                 val growth = combat["selfHealFlatPerRank"] ?: 0.0
                 val values = effectSequence(maxRank) { rank -> base + (rank - 1) * growth }
-                pieces += "Cura propria ${formatSequence(values, "", includePlus = false)}"
+                pieces += "Cura própria ${formatSequence(values, "", includePlus = false)}"
             }
             combat["selfHealPctMaxHp"]?.let { base ->
                 val growth = combat["selfHealPctMaxHpPerRank"] ?: 0.0
                 val values = effectSequence(maxRank) { rank -> base + (rank - 1) * growth }
-                pieces += "Cura propria ${formatSequence(values, "% do HP max", includePlus = false)}"
+                pieces += "Cura própria ${formatSequence(values, "% do HP max", includePlus = false)}"
             }
             val aoeUnlockRank = (combat["aoeUnlockRank"] ?: 0.0).toInt()
             val aoeBonusDamagePct = combat["aoeBonusDamagePct"] ?: 0.0
             if (aoeUnlockRank > 0 && aoeBonusDamagePct > 0.0) {
-                pieces += "No NV$aoeUnlockRank acerta area com ${formatCompact(aoeBonusDamagePct)}% de dano extra"
+                pieces += "No NV$aoeUnlockRank acerta área com ${formatCompact(aoeBonusDamagePct)}% de dano extra"
             }
         }
 
@@ -348,3 +348,8 @@ internal class TalentEffectSummary {
         return StatusSystem.displayName(type)
     }
 }
+
+
+
+
+

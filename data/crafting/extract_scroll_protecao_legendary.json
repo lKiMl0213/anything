@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_protecao_legendary",
-    "name":  "Criar Pergaminho de Protecao de Extracao (Lendario)",
+    "name":  "Criar Pergaminho de Proteção de Extração (Lendário)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "extract_scroll_protecao_legendary",
@@ -33,7 +33,7 @@
                             "itemId":  "oil"
                         }
                     ],
-    "description":  "Pergaminho lendario de protecao maxima para extracao.",
+    "description":  "Pergaminho lendário de proteção maxima para extração.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -43,3 +43,4 @@
                  "legendary"
              ]
 }
+

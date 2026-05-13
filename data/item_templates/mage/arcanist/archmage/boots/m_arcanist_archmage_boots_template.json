@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "m_arcanist_archmage_boots_template",
     "name":  "Sandalias do Arquimago",
     "type":  "EQUIPMENT",
@@ -37,5 +37,6 @@
                            "cdr",
                            "runeshield"
                        ],
-    "description":  "Equipamento de Arquimago focado em dano magico bruto, alcance de feiticos e sobrecarga arcana."
+    "description":  "Equipamento de Arquimago focado em dano mágico bruto, alcance de feiticos e sobrecarga arcana."
 }
+

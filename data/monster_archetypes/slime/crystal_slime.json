@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "crystal_slime",
   "name": "Slime Cristalino",
   "archetype": "Slime",
@@ -28,3 +28,4 @@
   "baseXp": 34,
   "baseGold": 10
 }
+

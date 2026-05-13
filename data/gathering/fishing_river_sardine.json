@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "fishing_river_sardine",
   "name": "Rio Veloz",
   "type": "FISHING",
@@ -12,7 +12,14 @@
   "baseXp": 14.0,
   "difficulty": 1.2,
   "tier": 1,
-  "description": "Correnteza media, exige mais precisao.",
+  "description": "Correnteza média, exige mais precisão.",
   "enabled": true,
-  "tags": ["fishing", "river"]
+  "tags": [
+    "fishing",
+    "river"
+  ]
 }
+
+
+
+

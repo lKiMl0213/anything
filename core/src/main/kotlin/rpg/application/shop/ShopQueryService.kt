@@ -1,4 +1,4 @@
-package rpg.application.shop
+﻿package rpg.application.shop
 
 import kotlin.math.ceil
 import kotlin.math.roundToInt
@@ -47,7 +47,7 @@ class ShopQueryService(
                 durationDays = 7,
                 permanent = false,
                 currency = ShopCurrency.CASH,
-                cost = 350
+                cost = 900
             ),
             PremiumPlanDisplay(
                 id = "premium_cash_15d",
@@ -55,7 +55,7 @@ class ShopQueryService(
                 durationDays = 15,
                 permanent = false,
                 currency = ShopCurrency.CASH,
-                cost = 650
+                cost = 1_700
             ),
             PremiumPlanDisplay(
                 id = "premium_cash_30d",
@@ -63,7 +63,7 @@ class ShopQueryService(
                 durationDays = 30,
                 permanent = false,
                 currency = ShopCurrency.CASH,
-                cost = 1_200
+                cost = 3_200
             ),
             PremiumPlanDisplay(
                 id = "premium_cash_permanent",
@@ -71,7 +71,7 @@ class ShopQueryService(
                 durationDays = null,
                 permanent = true,
                 currency = ShopCurrency.CASH,
-                cost = 2_800
+                cost = 9_200
             )
         )
     }
@@ -174,9 +174,9 @@ class ShopQueryService(
             else -> 0
         }
         val bonusLabel = when {
-            firstBonus -> "Bonus de primeira compra +10%"
-            welcomeBackBonus -> "Bonus de boas-vindas +10%"
-            else -> "Sem bonus adicional"
+            firstBonus -> "Bônus de primeira compra +10%"
+            welcomeBackBonus -> "Bônus de boas-vindas +10%"
+            else -> "Sem bônus adicional"
         }
         return repo.cashPacks.values
             .filter { it.enabled }
@@ -319,3 +319,4 @@ class ShopQueryService(
         }
     }
 }
+

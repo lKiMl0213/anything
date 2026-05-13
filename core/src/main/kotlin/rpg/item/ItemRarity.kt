@@ -1,4 +1,4 @@
-package rpg.item
+﻿package rpg.item
 
 import kotlinx.serialization.Serializable
 
@@ -16,7 +16,7 @@ enum class ItemRarity(
     UNCOMMON(24, 1.08, 1, 1, 1.15, "Incomum", "\u001B[32m"),
     RARE(10, 1.18, 2, 2, 1.45, "Raro", "\u001B[34m"),
     EPIC(5, 1.34, 3, 3, 2.0, "Epico", "\u001B[33m"),
-    LEGENDARY(2, 1.58, 4, 4, 3.0, "Lendario", "\u001B[35m"),
+    LEGENDARY(2, 1.58, 4, 4, 3.0, "Lendário", "\u001B[35m"),
     MYTHIC(1, 1.9, 5, 5, 4.8, "Mitico", "\u001B[31m");
 
     companion object {
@@ -47,3 +47,4 @@ enum class ItemRarity(
         }
     }
 }
+

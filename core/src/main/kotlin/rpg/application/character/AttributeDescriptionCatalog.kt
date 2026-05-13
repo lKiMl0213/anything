@@ -1,4 +1,4 @@
-package rpg.application.character
+﻿package rpg.application.character
 
 internal object AttributeDescriptionCatalog {
     fun directEffects(attributeCode: String): List<String> = when (attributeCode.uppercase()) {
@@ -109,3 +109,7 @@ internal object AttributeDescriptionCatalog {
         else -> listOf("Sem impacto configurado.")
     }
 }
+
+
+
+

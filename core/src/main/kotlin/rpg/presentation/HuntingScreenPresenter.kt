@@ -1,4 +1,4 @@
-package rpg.presentation
+﻿package rpg.presentation
 
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
@@ -15,11 +15,17 @@ internal class HuntingScreenPresenter(
         val state = session.gameState ?: return support.presentMissingState("Caça")
         val spots = queryService.spots(state)
         val options = spots.mapIndexed { index, spot ->
-            val status = if (spot.available) "Disponível" else spot.blockedReasons.joinToString(" | ")
+            val status = when {
+                !spot.unlocked -> spot.unlockReason ?: "Bloqueado"
+                spot.available -> "Disponivel"
+                else -> spot.blockedReasons.joinToString(" | ").ifBlank { "Indisponivel" }
+            }
             ScreenOptionViewModel(
                 key = (index + 1).toString(),
-                label = "${spot.name} | lvl recomendado ${spot.recommendedLevel} | ciclo base ${spot.minimumCycleSeconds}s | $status",
-                action = GameAction.SelectHuntingSpot(spot.id)
+                label = "${spot.name} | nv desbloq ${spot.minSkillLevel} | ciclo base ${spot.minimumCycleSeconds}s | $status",
+                action = GameAction.SelectHuntingSpot(spot.id),
+                enabled = spot.unlocked,
+                lockedReason = spot.unlockReason
             )
         } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
         val body = mutableListOf<String>()
@@ -29,7 +35,17 @@ internal class HuntingScreenPresenter(
             body += "Escolha um spot de caça."
             spots.take(5).forEach { spot ->
                 val description = spot.description.ifBlank { "Sem descrição." }
-                body += "- ${spot.name}: $description (custo base ${spot.previewCostGold} ouro)"
+                val unlockLine = if (spot.unlocked) {
+                    "nv caça ${spot.skillLevel}/${spot.minSkillLevel}"
+                } else {
+                    spot.unlockReason ?: "Bloqueado"
+                }
+                val costLine = if (spot.previewCostGold > 0) {
+                    " (custo base ${spot.previewCostGold} ouro)"
+                } else {
+                    ""
+                }
+                body += "- ${spot.name}: $description [$unlockLine]$costLine"
             }
             if (spots.size > 5) {
                 body += "... (${spots.size - 5} spots adicionais nas opções)."
@@ -79,3 +95,8 @@ internal class HuntingScreenPresenter(
         )
     }
 }
+
+
+
+
+

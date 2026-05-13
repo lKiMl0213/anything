@@ -1,11 +1,19 @@
-{
+﻿{
   "id": "craft_cooking_focus",
   "category": "craft",
-  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY", "MONTHLY"],
+  "supportedTiers": [
+    "ACCEPTED",
+    "DAILY",
+    "WEEKLY",
+    "MONTHLY"
+  ],
   "objectiveType": "CRAFT_ITEM",
   "targetType": "ITEM_ID",
   "targetTag": "cooking",
-  "amountRange": { "min": 2, "max": 8 },
+  "amountRange": {
+    "min": 2,
+    "max": 8
+  },
   "rewardProfile": {
     "xpBase": 20,
     "goldBase": 16,
@@ -18,8 +26,9 @@
     "requiresDungeon": false
   },
   "titleTemplate": "Mise en Place",
-  "descriptionTemplate": "Prepare {amount} refeicoes em receitas de culinaria.",
+  "descriptionTemplate": "Prepare {amount} refeições em receitas de culinária.",
   "hintTemplate": "Receitas combinadas geram buffs melhores e aceleram o progresso.",
   "enabled": true,
   "weight": 7
 }
+

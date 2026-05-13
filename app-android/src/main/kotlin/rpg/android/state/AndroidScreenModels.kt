@@ -66,6 +66,7 @@ data class HubSkillUi(
 
 data class MainHubUiModel(
     val name: String,
+    val premiumStatusLabel: String,
     val raceClassLabel: String,
     val levelXpLabel: String,
     val currencyLabel: String,
@@ -74,6 +75,8 @@ data class MainHubUiModel(
     val hpMax: Double,
     val mpCurrent: Double,
     val mpMax: Double,
+    val activeEffectName: String?,
+    val activeEffectRemainingSeconds: Int,
     val deathDebuffStacks: Int,
     val deathDebuffMinutes: Double,
     val hpRegenPerMinute: Double,

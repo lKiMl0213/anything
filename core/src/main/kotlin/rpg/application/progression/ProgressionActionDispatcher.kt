@@ -1,4 +1,4 @@
-package rpg.application.progression
+﻿package rpg.application.progression
 
 import rpg.application.GameActionResult
 import rpg.application.GameSession
@@ -89,7 +89,7 @@ class ProgressionActionDispatcher(
             ?: return GameActionResult(session.copy(messages = listOf("Nenhum jogo carregado.")))
         val normalized = stateSupport.normalize(state)
         val view = questQueryService.classQuestView(normalized)
-            ?: return GameActionResult(session.copy(messages = listOf("Nenhuma quest de classe disponivel no momento.")))
+            ?: return GameActionResult(session.copy(messages = listOf("Nenhuma quest de classe disponível no momento.")))
         return GameActionResult(
             session = session.copy(
                 gameState = normalized,
@@ -147,3 +147,4 @@ class ProgressionActionDispatcher(
         )
     }
 }
+

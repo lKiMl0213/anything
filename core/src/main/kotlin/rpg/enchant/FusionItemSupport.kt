@@ -1,4 +1,4 @@
-package rpg.enchant
+﻿package rpg.enchant
 
 import java.util.UUID
 import kotlin.math.roundToInt
@@ -64,7 +64,7 @@ internal class FusionItemSupport(
             type = ItemType.MATERIAL,
             tags = tags,
             value = value,
-            description = stoneDef?.description ?: "Pedra que concentra um nivel exato de encantamento.",
+            description = stoneDef?.description ?: "Pedra que concentra um nível exato de encantamento.",
             enchantLevel = level
         )
     }
@@ -155,3 +155,4 @@ internal fun consumeSpecificItem(
     }
     return true
 }
+

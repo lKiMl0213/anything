@@ -1,4 +1,4 @@
-package rpg.application.enchant
+﻿package rpg.application.enchant
 
 import rpg.achievement.AchievementTracker
 import rpg.achievement.AchievementCounterKeys
@@ -32,14 +32,14 @@ class ExtractionCommandService(
         if (!preview.available) {
             return ExtractionPrepareResult(
                 ready = false,
-                messages = preview.blockedReasons.ifEmpty { listOf("Nao foi possivel preparar a extracao.") }
+                messages = preview.blockedReasons.ifEmpty { listOf("Não foi possível preparar a extração.") }
             )
         }
         return ExtractionPrepareResult(
             ready = true,
             messages = emptyList(),
             timedActionView = ProductionTimedActionView(
-                categoryLabel = "Extracao",
+                categoryLabel = "Extração",
                 actionLabel = "Extraindo de ${preview.itemName}...",
                 skillLabel = "enchanting",
                 skillLevel = engine.skillSystem.snapshot(state.player, SkillType.ENCHANTING).level,
@@ -118,7 +118,7 @@ class ExtractionCommandService(
             lastClockSyncEpochMs = System.currentTimeMillis()
         )
         val lines = mutableListOf(result.message)
-        if (spentMinutes > 0.0) lines += "Tempo gasto na extracao: ${format(spentMinutes)} min."
+        if (spentMinutes > 0.0) lines += "Tempo gasto na extração: ${format(spentMinutes)} min."
         lines += advance.messages
         result.skillSnapshot?.let { snapshot ->
             lines += "Skill ${snapshot.skill.name.lowercase()}: +${format(result.gainedXp)} XP (lvl ${snapshot.level})"
@@ -153,3 +153,6 @@ class ExtractionCommandService(
 
     private fun format(value: Double): String = "%.1f".format(value)
 }
+
+
+

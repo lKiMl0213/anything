@@ -1,8 +1,9 @@
-{
+﻿{
   "id": "str",
-  "name": "da Forca",
+  "name": "da Força",
   "kind": "SUFFIX",
   "bonuses": { "attributes": { "str": 3 } },
   "cost": 15,
   "weight": 10
 }
+

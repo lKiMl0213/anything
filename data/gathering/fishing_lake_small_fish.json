@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "fishing_lake_small_fish",
   "name": "Lago Raso",
   "type": "FISHING",
@@ -12,7 +12,11 @@
   "baseXp": 10.0,
   "difficulty": 1.0,
   "tier": 1,
-  "description": "Area calma para pesca inicial.",
+  "description": "área calma para pesca inicial.",
   "enabled": true,
-  "tags": ["fishing", "lake"]
+  "tags": [
+    "fishing",
+    "lake"
+  ]
 }
+

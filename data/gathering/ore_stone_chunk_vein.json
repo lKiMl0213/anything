@@ -1,4 +1,4 @@
-{
+﻿{
     "skillType":  "MINING",
     "id":  "ore_stone_chunk_vein",
     "minQty":  1,
@@ -17,5 +17,6 @@
     "maxQty":  3,
     "minPlayerLevel":  1,
     "minSkillLevel":  1,
-    "description":  "Nodo de mineracao da regiao."
+    "description":  "Nodo de mineração da região."
 }
+

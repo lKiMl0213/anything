@@ -1,4 +1,4 @@
-package rpg.application.inventory
+﻿package rpg.application.inventory
 
 import rpg.classquest.ClassQuestTagRules
 import rpg.classsystem.RaceBonusSupport
@@ -44,8 +44,8 @@ internal class InventoryItemDetailSupport(
             val powerLabel = if (item.powerScore > 0) " | Poder ${item.powerScore}" else ""
             lines += "Qualidade: ${item.qualityRollPct}%$powerLabel"
         }
-        if (item.minLevel > 1) lines += "Nivel requerido: ${item.minLevel}"
-        if (item.description.isNotBlank()) lines += "Descricao: ${item.description}"
+        if (item.minLevel > 1) lines += "Nível requerido: ${item.minLevel}"
+        if (item.description.isNotBlank()) lines += "Descrição: ${item.description}"
         if (item.affixes.isNotEmpty()) lines += "Afixos: ${item.affixes.joinToString(", ")}"
         lines += "Tipo: ${item.type.name.lowercase()} | Valor por unidade: $saleValue"
         when (item.type) {
@@ -66,7 +66,7 @@ internal class InventoryItemDetailSupport(
             }
             ItemType.MATERIAL -> {
                 if (rpg.inventory.InventorySystem.isArrowAmmo(stack.sampleItemId, itemInstances, engine.itemRegistry)) {
-                    lines += "Uso: municao para armas de arco; carregue pela aljava."
+                    lines += "Uso: munição para armas de arco; carregue pela aljava."
                 }
                 val canonical = canonicalItemId(stack.sampleItemId, itemInstances)
                 val gatherSources = repo.gatherNodes.values
@@ -80,7 +80,7 @@ internal class InventoryItemDetailSupport(
                 if (gatherSources.isNotEmpty()) lines += "Origem: ${gatherSources.joinToString(", ")}"
                 if (uses.isNotEmpty()) lines += "Usado em: ${uses.joinToString(", ")}"
                 val ammoBonusLabel = formatItemBonuses(item)
-                if (ammoBonusLabel.isNotBlank()) lines += "Bonus: $ammoBonusLabel"
+                if (ammoBonusLabel.isNotBlank()) lines += "Bônus: $ammoBonusLabel"
                 val ammoEffectLabel = formatItemEffectsSummary(item)
                 if (ammoEffectLabel.isNotBlank()) lines += "Efeito: $ammoEffectLabel"
             }
@@ -102,7 +102,7 @@ internal class InventoryItemDetailSupport(
                     lines += "Item de set de quest (revenda fixa)."
                 }
                 val bonusLabel = formatItemBonuses(item)
-                if (bonusLabel.isNotBlank()) lines += "Bonus: $bonusLabel"
+                if (bonusLabel.isNotBlank()) lines += "Bônus: $bonusLabel"
                 val effectLabel = formatItemEffectsSummary(item)
                 if (effectLabel.isNotBlank()) lines += "Efeito: $effectLabel"
             }
@@ -138,7 +138,7 @@ internal class InventoryItemDetailSupport(
         val lines = mutableListOf(
             "Item: ${itemDisplayLabel(item)}"
         )
-        if (item.description.isNotBlank()) lines += "Descricao: ${item.description}"
+        if (item.description.isNotBlank()) lines += "Descrição: ${item.description}"
         val slotLabel = item.slot?.name ?: slotKey
         val handLabel = if (item.twoHanded) " (duas maos)" else ""
         lines += "Slot: $slotLabel$handLabel"
@@ -148,7 +148,7 @@ internal class InventoryItemDetailSupport(
             lines += "Aljava: $current/$max flechas"
         }
         val bonusLabel = formatItemBonuses(item)
-        if (bonusLabel.isNotBlank()) lines += "Bonus: $bonusLabel"
+        if (bonusLabel.isNotBlank()) lines += "Bônus: $bonusLabel"
         val before = engine.computePlayerStats(player, itemInstances)
         val after = engine.computePlayerStats(equipRules.buildUnequippedPreview(player, slotKey), itemInstances)
         val removal = "Ao desequipar: " +
@@ -229,3 +229,6 @@ internal class InventoryItemDetailSupport(
     private fun formatSignedDouble(value: Double): String = if (value >= 0.0) "+${format(value)}" else format(value)
     private fun format(value: Double): String = "%.1f".format(value)
 }
+
+
+

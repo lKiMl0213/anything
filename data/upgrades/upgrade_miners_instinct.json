@@ -1,7 +1,7 @@
-{
+﻿{
     "id": "miners_instinct",
     "name": "Golpe de Picareta",
-    "description": "Chance de mineracao render coleta dobrada.",
+    "description": "Chance de mineração render coleta dobrada.",
     "effectType": "MINING_DOUBLE_CHANCE",
     "valueMode": "PERCENT",
     "enabled": true,
@@ -53,3 +53,4 @@
         }
     ]
 }
+

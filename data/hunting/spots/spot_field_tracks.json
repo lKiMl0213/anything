@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "hunting_field_tracks",
   "name": "Rastros dos Campos",
   "recommendedLevel": 5,
@@ -13,3 +13,4 @@
     { "itemId": "medicinal_herb", "weight": 14, "minQty": 1, "maxQty": 2, "rareChancePct": 3.0, "minPlayerLevel": 1 }
   ]
 }
+

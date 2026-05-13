@@ -1,4 +1,4 @@
-package rpg.combat
+﻿package rpg.combat
 
 import rpg.inventory.InventorySystem
 import rpg.item.ItemResolver
@@ -20,11 +20,11 @@ internal class CombatAmmoService(
     ): String? {
         if (!playerUsesBowAmmo(player, itemInstances)) return null
         if (player.equipped[EquipSlot.ALJAVA.name].isNullOrBlank()) {
-            return "Voce precisa equipar uma aljava para usar arcos."
+            return "Você precisa equipar uma aljava para usar arcos."
         }
         val normalizedPlayer = InventorySystem.normalizeAmmoStorage(player, itemInstances, itemRegistry)
         if (InventorySystem.quiverAmmoCount(normalizedPlayer, itemInstances, itemRegistry) <= 0) {
-            return "Voce esta sem flechas na aljava."
+            return "Você está sem flechas na aljava."
         }
         return null
     }
@@ -58,7 +58,7 @@ internal class CombatAmmoService(
         } else {
             "${consumed.consumedArrowIds.size} flecha(s)"
         }
-        logBuilder.combatLog(logBuilder.colorize("Municao consumida: $arrowLabel.", CombatLogBuilder.ansiBlue))
+        logBuilder.combatLog(logBuilder.colorize("Munição consumida: $arrowLabel.", CombatLogBuilder.ansiBlue))
         return consumed
     }
 
@@ -90,3 +90,6 @@ internal class CombatAmmoService(
         return AmmoPayload(bonuses = bonuses, statuses = statuses, label = label)
     }
 }
+
+
+

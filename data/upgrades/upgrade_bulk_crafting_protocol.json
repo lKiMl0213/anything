@@ -1,6 +1,6 @@
-{
+﻿{
     "id": "bulk_crafting_protocol",
-    "name": "Linha de Producao",
+    "name": "Linha de Produção",
     "description": "Aumenta o limite de itens por rodada de craft. Base inicial: 10.",
     "effectType": "CRAFT_BATCH_BONUS",
     "valueMode": "FLAT",
@@ -53,3 +53,4 @@
         }
     ]
 }
+

@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "bitter_root",
     "name":  "Raiz Amarga",
     "tags":  [
@@ -9,5 +9,6 @@
              ],
     "value":  6,
     "type":  "MATERIAL",
-    "description":  "Raiz de sabor forte, util em tonicos."
+    "description":  "Raiz de sabor forte, útil em tônicos."
 }
+

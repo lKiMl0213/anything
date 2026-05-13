@@ -38,17 +38,6 @@ kotlin {
     jvmToolchain(17)
 }
 
-sourceSets {
-    named("main") {
-        java.setSrcDirs(listOf("core/src/main/kotlin", "app-cli/src/main/kotlin"))
-        resources.setSrcDirs(listOf("core/src/main/resources", "app-cli/src/main/resources"))
-    }
-    named("test") {
-        java.setSrcDirs(listOf("core/src/test/kotlin", "app-cli/src/test/kotlin"))
-        resources.setSrcDirs(listOf("core/src/test/resources", "app-cli/src/test/resources"))
-    }
-}
-
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
@@ -124,17 +113,8 @@ tasks.register<CheckKotlinFileLineLimitTask>("checkKotlinFileLineLimit") {
     baselineFile.set(layout.projectDirectory.file("tools/kotlin-line-limit-baseline.txt"))
     sourceRoots.from(
         layout.projectDirectory.dir("core/src/main/kotlin"),
-        layout.projectDirectory.dir("app-cli/src/main/kotlin"),
         layout.projectDirectory.dir("app-android/src/main/kotlin")
     )
-}
-
-application {
-    mainClass.set("rpg.MainKt")
-}
-
-tasks.named<JavaExec>("run") {
-    standardInput = System.`in`
 }
 
 tasks.named("check") {

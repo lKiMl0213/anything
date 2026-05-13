@@ -1,4 +1,4 @@
-package rpg.android
+﻿package rpg.android
 
 import rpg.android.state.MenuActionPreviewUiModel
 import rpg.android.state.MenuQuantityPickerUiModel
@@ -67,7 +67,7 @@ internal fun buildMenuActionPreviews(
                 val resolved = deps.actionHandler.engine().itemResolver.resolve(entry.itemId, state.itemInstances)
                 val lines = mutableListOf<String>()
                 lines += "Onde usa/equipa: ${usageLabel(resolved, inventorySupport)}"
-                lines += "Atributos: ${resolved?.let(inventorySupport::formatItemBonuses).orEmpty().ifBlank { "Sem bonus direto." }}"
+                lines += "Atributos: ${resolved?.let(inventorySupport::formatItemBonuses).orEmpty().ifBlank { "Sem bônus direto." }}"
                 lines += "Valor: ${entry.finalPrice} ${currencyLabel(entry.currency)}"
                 lines += "Classe permitida: ${classAllowedLabel(resolved, inventorySupport)}"
                 if (entry.description.isNotBlank()) {
@@ -90,7 +90,7 @@ internal fun buildMenuActionPreviews(
                 if (upgrade.description.isNotBlank()) {
                     lines += upgrade.description
                 }
-                lines += "Nivel atual: ${upgrade.level}/${upgrade.maxLevel}"
+                lines += "Nível atual: ${upgrade.level}/${upgrade.maxLevel}"
                 lines += "Atual: ${upgrade.currentLabel}"
                 lines += "Proximo: ${upgrade.nextLabel}"
                 lines += "Valor: ${selectedCost?.let(::renderUpgradeCost).orEmpty().ifBlank { "Indisponivel" }}"
@@ -115,7 +115,7 @@ internal fun buildMenuActionPreviews(
                         optionKey = option.key,
                         title = detail.title,
                         lines = lines,
-                        primaryLabel = "Aumentar nivel (custo ${detail.nextCost})",
+                        primaryLabel = "Aumentar nível (custo ${detail.nextCost})",
                         primaryAction = GameAction.ConfirmTalentRankUp(action.nodeId),
                         secondaryLabel = "Ver detalhes",
                         secondaryAction = null,
@@ -148,7 +148,7 @@ internal fun buildMenuActionPreviews(
                     title = "Quantidade de Craft",
                     lines = listOf(
                         "Defina quantas vezes a receita sera executada.",
-                        "O limite ja considera CAP atual e recursos disponiveis."
+                        "O limite ja considera CAP atual e recursos disponíveis."
                     ),
                     primaryLabel = "Aplicar",
                     primaryAction = GameAction.SetCraftRecipeQuantity(action.recipeId, currentValue),
@@ -212,3 +212,4 @@ private fun renderUpgradeCost(cost: rpg.model.PermanentUpgradeCostDef): String {
 private fun currencyLabel(currency: ShopCurrency): String {
     return if (currency == ShopCurrency.GOLD) "ouro" else "CASH"
 }
+

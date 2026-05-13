@@ -1,6 +1,6 @@
 ﻿{
     "id":  "enchant_rune_protecao",
-    "name":  "Sintetizar Runa de Protecao (Comum)",
+    "name":  "Sintetizar Runa de Proteção (Comum)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "enchant_rune_protecao",
@@ -29,7 +29,7 @@
                             "itemId":  "runic_stone"
                         }
                     ],
-    "description":  "Runa comum de seguranca contra quebra.",
+    "description":  "Runa comum de segurança contra quebra.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -38,3 +38,4 @@
                  "common"
              ]
 }
+

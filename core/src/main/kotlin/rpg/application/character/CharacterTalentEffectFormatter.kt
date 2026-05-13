@@ -1,4 +1,4 @@
-package rpg.application.character
+﻿package rpg.application.character
 
 import kotlin.math.round
 import rpg.model.TalentNode
@@ -21,68 +21,68 @@ internal class CharacterTalentEffectFormatter {
         addTalentEffectSeries(pieces, "Inteligencia", maxRank, attrs.`int`.toDouble())
         addTalentEffectSeries(pieces, "Espirito", maxRank, attrs.spr.toDouble())
         addTalentEffectSeries(pieces, "Sorte", maxRank, attrs.luk.toDouble())
-        addTalentEffectSeries(pieces, "Dano fisico", maxRank, add.damagePhysical)
-        addTalentEffectSeries(pieces, "Dano magico", maxRank, add.damageMagic)
-        addTalentEffectSeries(pieces, "HP maximo", maxRank, add.hpMax)
-        addTalentEffectSeries(pieces, "MP maximo", maxRank, add.mpMax)
-        addTalentEffectSeries(pieces, "Defesa fisica", maxRank, add.defPhysical)
-        addTalentEffectSeries(pieces, "Defesa magica", maxRank, add.defMagic)
+        addTalentEffectSeries(pieces, "Dano físico", maxRank, add.damagePhysical)
+        addTalentEffectSeries(pieces, "Dano mágico", maxRank, add.damageMagic)
+        addTalentEffectSeries(pieces, "HP máximo", maxRank, add.hpMax)
+        addTalentEffectSeries(pieces, "MP máximo", maxRank, add.mpMax)
+        addTalentEffectSeries(pieces, "Defesa física", maxRank, add.defPhysical)
+        addTalentEffectSeries(pieces, "Defesa mágica", maxRank, add.defMagic)
         addTalentEffectSeries(pieces, "Velocidade de ataque", maxRank, add.attackSpeed)
         addTalentEffectSeries(pieces, "Velocidade de movimento", maxRank, add.moveSpeed)
-        addTalentEffectSeries(pieces, "Chance critica", maxRank, add.critChancePct, suffix = "%")
-        addTalentEffectSeries(pieces, "Dano critico", maxRank, add.critDamagePct, suffix = "%")
+        addTalentEffectSeries(pieces, "Chance crítica", maxRank, add.critChancePct, suffix = "%")
+        addTalentEffectSeries(pieces, "Dano crítico", maxRank, add.critDamagePct, suffix = "%")
         addTalentEffectSeries(pieces, "Vampirismo", maxRank, add.vampirismPct, suffix = "%")
         addTalentEffectSeries(pieces, "Recarga", maxRank, add.cdrPct, suffix = "%")
-        addTalentEffectSeries(pieces, "Penetracao fisica", maxRank, add.penPhysical)
-        addTalentEffectSeries(pieces, "Penetracao magica", maxRank, add.penMagic)
+        addTalentEffectSeries(pieces, "Penetração física", maxRank, add.penPhysical)
+        addTalentEffectSeries(pieces, "Penetração mágica", maxRank, add.penMagic)
         addTalentEffectSeries(pieces, "Regeneracao de HP", maxRank, add.hpRegen)
         addTalentEffectSeries(pieces, "Regeneracao de MP", maxRank, add.mpRegen)
-        addTalentEffectSeries(pieces, "Precisao", maxRank, add.accuracy)
+        addTalentEffectSeries(pieces, "Precisão", maxRank, add.accuracy)
         addTalentEffectSeries(pieces, "Esquiva", maxRank, add.evasion)
         addTalentEffectSeries(pieces, "Tenacidade", maxRank, add.tenacityPct, suffix = "%")
-        addTalentEffectSeries(pieces, "Reducao de dano", maxRank, add.damageReductionPct, suffix = "%")
-        addTalentEffectSeries(pieces, "Dano fisico", maxRank, mult.damagePhysical, suffix = "%")
-        addTalentEffectSeries(pieces, "Dano magico", maxRank, mult.damageMagic, suffix = "%")
-        addTalentEffectSeries(pieces, "HP maximo", maxRank, mult.hpMax, suffix = "%")
-        addTalentEffectSeries(pieces, "MP maximo", maxRank, mult.mpMax, suffix = "%")
-        addTalentEffectSeries(pieces, "Defesa fisica", maxRank, mult.defPhysical, suffix = "%")
-        addTalentEffectSeries(pieces, "Defesa magica", maxRank, mult.defMagic, suffix = "%")
+        addTalentEffectSeries(pieces, "Redução de dano", maxRank, add.damageReductionPct, suffix = "%")
+        addTalentEffectSeries(pieces, "Dano físico", maxRank, mult.damagePhysical, suffix = "%")
+        addTalentEffectSeries(pieces, "Dano mágico", maxRank, mult.damageMagic, suffix = "%")
+        addTalentEffectSeries(pieces, "HP máximo", maxRank, mult.hpMax, suffix = "%")
+        addTalentEffectSeries(pieces, "MP máximo", maxRank, mult.mpMax, suffix = "%")
+        addTalentEffectSeries(pieces, "Defesa física", maxRank, mult.defPhysical, suffix = "%")
+        addTalentEffectSeries(pieces, "Defesa mágica", maxRank, mult.defMagic, suffix = "%")
         addTalentEffectSeries(pieces, "Velocidade de ataque", maxRank, mult.attackSpeed, suffix = "%")
         addTalentEffectSeries(pieces, "Velocidade de movimento", maxRank, mult.moveSpeed, suffix = "%")
-        addTalentEffectSeries(pieces, "Chance critica", maxRank, mult.critChancePct, suffix = "%")
-        addTalentEffectSeries(pieces, "Dano critico", maxRank, mult.critDamagePct, suffix = "%")
+        addTalentEffectSeries(pieces, "Chance crítica", maxRank, mult.critChancePct, suffix = "%")
+        addTalentEffectSeries(pieces, "Dano crítico", maxRank, mult.critDamagePct, suffix = "%")
         addTalentEffectSeries(pieces, "Vampirismo", maxRank, mult.vampirismPct, suffix = "%")
         addTalentEffectSeries(pieces, "Recarga", maxRank, mult.cdrPct, suffix = "%")
         addTalentEffectSeries(pieces, "Regeneracao de HP", maxRank, mult.hpRegen, suffix = "%")
         addTalentEffectSeries(pieces, "Regeneracao de MP", maxRank, mult.mpRegen, suffix = "%")
-        addTalentEffectSeries(pieces, "Precisao", maxRank, mult.accuracy, suffix = "%")
+        addTalentEffectSeries(pieces, "Precisão", maxRank, mult.accuracy, suffix = "%")
         addTalentEffectSeries(pieces, "Esquiva", maxRank, mult.evasion, suffix = "%")
         addTalentEffectSeries(pieces, "Tenacidade", maxRank, mult.tenacityPct, suffix = "%")
-        addTalentEffectSeries(pieces, "Reducao de dano", maxRank, mult.damageReductionPct, suffix = "%")
+        addTalentEffectSeries(pieces, "Redução de dano", maxRank, mult.damageReductionPct, suffix = "%")
 
         node.modifiers.atb.forEach { (rawKey, value) ->
             when (rawKey.trim().lowercase()) {
                 "fillratepct" -> addTalentEffectSeries(pieces, "Velocidade da barra", maxRank, value, suffix = "%")
-                "casttimepct" -> addTalentEffectSeries(pieces, "Tempo de conjuracao", maxRank, value, suffix = "%")
+                "casttimepct" -> addTalentEffectSeries(pieces, "Tempo de conjuração", maxRank, value, suffix = "%")
                 "gcdpct" -> addTalentEffectSeries(pieces, "Recarga global", maxRank, value, suffix = "%")
                 "cooldownpct" -> addTalentEffectSeries(pieces, "Cooldown", maxRank, value, suffix = "%")
-                "interruptchancepct" -> addTalentEffectSeries(pieces, "Chance de interrupcao", maxRank, value, suffix = "%")
-                "interruptresistpct" -> addTalentEffectSeries(pieces, "Resistencia a interrupcao", maxRank, value, suffix = "%")
+                "interruptchancepct" -> addTalentEffectSeries(pieces, "Chance de interrupção", maxRank, value, suffix = "%")
+                "interruptresistpct" -> addTalentEffectSeries(pieces, "Resistência a interrupção", maxRank, value, suffix = "%")
                 "bargainonhitpct" -> addTalentEffectSeries(pieces, "Barra ganha ao acertar", maxRank, value, suffix = "%")
                 "bargainoncritpct" -> addTalentEffectSeries(pieces, "Barra ganha ao critar", maxRank, value, suffix = "%")
                 "bargainondamagedpct" -> addTalentEffectSeries(pieces, "Barra ganha ao sofrer dano", maxRank, value, suffix = "%")
                 "barlossonhitpct" -> addTalentEffectSeries(pieces, "Barra removida do alvo", maxRank, value, suffix = "%")
                 "manaonhit" -> addTalentEffectSeries(pieces, "Mana por acerto", maxRank, value)
                 "manaonhitpctmax" -> addTalentEffectSeries(pieces, "Mana por acerto", maxRank, value, suffix = "% do MP max")
-                "nomanacostchancepct" -> addTalentEffectSeries(pieces, "Chance de nao gastar mana", maxRank, value, suffix = "%", includePlus = false)
-                "cooldownreduceonkillseconds" -> addTalentEffectSeries(pieces, "Reducao de cooldown ao abater", maxRank, value, suffix = "s")
+                "nomanacostchancepct" -> addTalentEffectSeries(pieces, "Chance de não gastar mana", maxRank, value, suffix = "%", includePlus = false)
+                "cooldownreduceonkillseconds" -> addTalentEffectSeries(pieces, "Redução de cooldown ao abater", maxRank, value, suffix = "s")
                 "bargainonstatusapplypct" -> addTalentEffectSeries(pieces, "Barra ganha ao aplicar status", maxRank, value, suffix = "%")
                 "tempdamagebuffonstatusapplypct" -> addTalentEffectSeries(pieces, "Buff temporario de dano ao aplicar status", maxRank, value, suffix = "%")
                 "tempfillratebuffonstatusapplypct" -> addTalentEffectSeries(pieces, "Buff temporario de barra ao aplicar status", maxRank, value, suffix = "%")
                 "tempbuffdurationseconds" -> addTalentEffectSeries(pieces, "Duracao do buff temporario", maxRank, value, suffix = "s", includePlus = false)
                 "hastepct" -> addTalentEffectSeries(pieces, "Aceleracao", maxRank, value, suffix = "%")
-                "slowresistpct" -> addTalentEffectSeries(pieces, "Resistencia a lentidao", maxRank, value, suffix = "%")
-                "slowamplifypct" -> addTalentEffectSeries(pieces, "Potencia de lentidao aplicada", maxRank, value, suffix = "%")
+                "slowresistpct" -> addTalentEffectSeries(pieces, "Resistência a lentidão", maxRank, value, suffix = "%")
+                "slowamplifypct" -> addTalentEffectSeries(pieces, "Potencia de lentidão aplicada", maxRank, value, suffix = "%")
             }
         }
 
@@ -129,7 +129,7 @@ internal class CharacterTalentEffectFormatter {
                     }
                 key.startsWith("bonusDamageWhileSelf.", ignoreCase = true) && key.endsWith(".Pct", ignoreCase = true) ->
                     talentStatusNameFromKey(key, "bonusDamageWhileSelf.", ".Pct")?.let { statusName ->
-                        addTalentEffectSeries(pieces, "Dano enquanto voce estiver com $statusName", maxRank, value, suffix = "%")
+                        addTalentEffectSeries(pieces, "Dano enquanto você estiver com $statusName", maxRank, value, suffix = "%")
                     }
             }
         }
@@ -153,12 +153,12 @@ internal class CharacterTalentEffectFormatter {
             (combat["castTimeSeconds"] ?: combat["cast"])?.let { base ->
                 val growth = combat["castTimePerRank"] ?: 0.0
                 val values = talentEffectSequence(maxRank) { rank -> base + (rank - 1) * growth }
-                pieces += "Conjuracao ${formatTalentSequence(values, "s", includePlus = false)}"
+                pieces += "Conjuração ${formatTalentSequence(values, "s", includePlus = false)}"
             }
             val aoeUnlockRank = (combat["aoeUnlockRank"] ?: 0.0).toInt()
             val aoeBonusDamagePct = combat["aoeBonusDamagePct"] ?: 0.0
             if (aoeUnlockRank > 0 && aoeBonusDamagePct > 0.0) {
-                pieces += "No NV$aoeUnlockRank acerta area com ${formatTalentCompact(aoeBonusDamagePct)}% de dano extra"
+                pieces += "No NV$aoeUnlockRank acerta área com ${formatTalentCompact(aoeBonusDamagePct)}% de dano extra"
             }
         }
 
@@ -242,3 +242,8 @@ internal class CharacterTalentEffectFormatter {
         return StatusSystem.displayName(type)
     }
 }
+
+
+
+
+

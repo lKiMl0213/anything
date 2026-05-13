@@ -1,4 +1,4 @@
-package rpg.achievement
+﻿package rpg.achievement
 
 import java.util.Locale
 import rpg.model.PlayerState
@@ -29,7 +29,7 @@ class AchievementMenu(private val service: AchievementService) {
 
         val starLines = (0..7).map { star ->
             val kills = stats.killsByStar[star] ?: 0L
-            "$star*: $kills"
+            "$star⭐: $kills"
         }
 
         val mergedBaseTypes = (knownBaseTypes.map(::normalizeBaseType) + stats.killsByBaseType.keys)
@@ -44,7 +44,7 @@ class AchievementMenu(private val service: AchievementService) {
             val kills = stats.killsByBaseType[baseType] ?: 0L
             val maxStar = stats.highestStarByBaseType[baseType] ?: 0
             val bonusPct = MonsterTypeMasteryService.damageBonusPctForKills(kills)
-            "${baseTypeLabel(baseType)}: $kills mortos | Dano bonus: ${formatDouble(bonusPct)}% | Maior estrela: ${maxStar}*"
+            "${baseTypeLabel(baseType)}: $kills mortos | Dano bônus: ${formatDouble(bonusPct)}% | Maior estrela: ${maxStar}⭐"
         }
 
         return AchievementStatisticsView(
@@ -91,3 +91,4 @@ class AchievementMenu(private val service: AchievementService) {
 
     private fun formatDouble(value: Double): String = "%.1f".format(value)
 }
+

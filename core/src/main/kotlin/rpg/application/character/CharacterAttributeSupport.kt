@@ -1,4 +1,4 @@
-package rpg.application.character
+﻿package rpg.application.character
 
 import kotlin.math.abs
 import rpg.classquest.ClassQuestTagRules
@@ -265,3 +265,7 @@ internal class CharacterAttributeSupport(
         val label: String
     )
 }
+
+
+
+

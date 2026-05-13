@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "rice",
     "name":  "Arroz",
     "tags":  [
@@ -6,5 +6,6 @@
              ],
     "value":  3,
     "type":  "MATERIAL",
-    "description":  "Base de refeicoes culinarias."
+    "description":  "Base de refeições culinarias."
 }
+

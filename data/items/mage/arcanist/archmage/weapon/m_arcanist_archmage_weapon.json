@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "m_arcanist_archmage_weapon",
   "name": "Cajado Supremo",
   "type": "EQUIPMENT",
@@ -27,7 +27,7 @@
     }
   },
   "value": 1,
-  "description": "Equipamento de Arquimago focado em dano magico bruto, alcance de feiticos e sobrecarga arcana.",
+  "description": "Equipamento de Arquimago focado em dano mágico bruto, alcance de feiticos e sobrecarga arcana.",
   "effects": {
     "applyStatuses": [
       {
@@ -40,3 +40,4 @@
     ]
   }
 }
+

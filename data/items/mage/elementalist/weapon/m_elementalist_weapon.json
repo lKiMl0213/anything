@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "m_elementalist_weapon",
   "name": "Catalisador Elemental",
   "type": "EQUIPMENT",
@@ -27,7 +27,7 @@
     }
   },
   "value": 1,
-  "description": "Equipamento de Elementalista focado em versatilidade elemental, controle e resistencia.",
+  "description": "Equipamento de Elementalista focado em versatilidade elemental, controle e resistência.",
   "effects": {
     "applyStatuses": [
       {
@@ -40,3 +40,4 @@
     ]
   }
 }
+

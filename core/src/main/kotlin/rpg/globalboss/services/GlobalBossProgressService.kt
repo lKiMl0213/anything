@@ -1,4 +1,4 @@
-package rpg.globalboss.services
+﻿package rpg.globalboss.services
 
 import java.time.ZoneId
 import kotlin.math.floor
@@ -74,7 +74,7 @@ class GlobalBossProgressService(
 
     fun consumeRunAttempt(state: GameState, eventId: String): GlobalBossAttemptResult {
         val (normalized, event, progress) = resolveEventAndProgress(state, eventId)
-            ?: return GlobalBossAttemptResult(false, state, listOf("Evento global nao encontrado."))
+            ?: return GlobalBossAttemptResult(false, state, listOf("Evento global não encontrado."))
         val limits = runLimits(normalized.player)
         if (progress.runsUsed >= limits.maxRunsPerDay) {
             return GlobalBossAttemptResult(false, normalized, listOf("Limite diario de ${limits.maxRunsPerDay} runs atingido."))
@@ -111,20 +111,20 @@ class GlobalBossProgressService(
             progress.dailyPaidRunsBought < limits.purchasableRunsPerDay -> GlobalBossAttemptResult(
                 false,
                 normalized,
-                listOf("Sem tentativas disponiveis. Compre mais na opcao de compra.")
+                listOf("Sem tentativas disponíveis. Compre mais na opção de compra.")
             )
 
             else -> GlobalBossAttemptResult(
                 false,
                 normalized,
-                listOf("Sem tentativas disponiveis hoje.")
+                listOf("Sem tentativas disponíveis hoje.")
             )
         }
     }
 
     fun buyPaidAttempt(state: GameState, eventId: String): GlobalBossAttemptResult {
         val (normalized, event, progress) = resolveEventAndProgress(state, eventId)
-            ?: return GlobalBossAttemptResult(false, state, listOf("Evento global nao encontrado."))
+            ?: return GlobalBossAttemptResult(false, state, listOf("Evento global não encontrado."))
         val limits = runLimits(normalized.player)
         if (progress.dailyPaidRunsBought >= limits.purchasableRunsPerDay) {
             return GlobalBossAttemptResult(false, normalized, listOf("Limite diario de compras atingido."))
@@ -160,7 +160,7 @@ class GlobalBossProgressService(
         itemInstances: Map<String, ItemInstance>
     ): GlobalBossProgressResult {
         val (normalized, event, progress) = resolveEventAndProgress(state, eventId)
-            ?: return GlobalBossProgressResult(false, state, listOf("Evento global nao encontrado."))
+            ?: return GlobalBossProgressResult(false, state, listOf("Evento global não encontrado."))
         val points = floor(runDamage.coerceAtLeast(0.0) / pointsDivisor).toLong().coerceAtLeast(0L)
         return applyRunProgress(
             state = normalized.copy(player = playerAfterCombat, itemInstances = itemInstances),
@@ -174,7 +174,7 @@ class GlobalBossProgressService(
 
     fun applyAutoClear(state: GameState, eventId: String): GlobalBossProgressResult {
         val (normalized, event, progress) = resolveEventAndProgress(state, eventId)
-            ?: return GlobalBossProgressResult(false, state, listOf("Evento global nao encontrado."))
+            ?: return GlobalBossProgressResult(false, state, listOf("Evento global não encontrado."))
         if (progress.bestRun <= 0L) {
             return GlobalBossProgressResult(false, normalized, listOf("Auto clear indisponivel: registre uma run primeiro."))
         }
@@ -218,7 +218,7 @@ class GlobalBossProgressService(
         for (milestone in event.milestones.sortedBy { it.pointsRequired }) {
             if (milestone.id in updatedProgress.milestones || updatedProgress.totalPoints < milestone.pointsRequired) continue
             updatedProgress = updatedProgress.copy(milestones = updatedProgress.milestones + milestone.id)
-            lines += "Milestone disponivel para resgate: ${milestone.pointsRequired} pontos."
+            lines += "Milestone disponível para resgate: ${milestone.pointsRequired} pontos."
         }
 
         for (quest in event.quests) {
@@ -247,15 +247,15 @@ class GlobalBossProgressService(
         nowMillis: Long = System.currentTimeMillis()
     ): GlobalBossProgressResult {
         val (normalized, event, progress) = resolveEventAndProgress(state, eventId)
-            ?: return GlobalBossProgressResult(false, state, listOf("Evento global nao encontrado."))
+            ?: return GlobalBossProgressResult(false, state, listOf("Evento global não encontrado."))
         val milestone = event.milestones.firstOrNull { it.id.equals(milestoneId, ignoreCase = true) }
-            ?: return GlobalBossProgressResult(false, normalized, listOf("Milestone nao encontrado."))
+            ?: return GlobalBossProgressResult(false, normalized, listOf("Milestone não encontrado."))
         if (milestone.id in progress.claimedMilestones) {
             return GlobalBossProgressResult(false, normalized, listOf("Milestone ja resgatado."))
         }
         val isReached = milestone.id in progress.milestones || progress.totalPoints >= milestone.pointsRequired
         if (!isReached) {
-            return GlobalBossProgressResult(false, normalized, listOf("Milestone ainda nao concluido."))
+            return GlobalBossProgressResult(false, normalized, listOf("Milestone ainda não concluido."))
         }
         var updatedProgress = progress
         if (milestone.id !in updatedProgress.milestones) {
@@ -298,3 +298,6 @@ class GlobalBossProgressService(
         return state.copy(globalBoss = state.globalBoss.copy(events = state.globalBoss.events + (key to progress)))
     }
 }
+
+
+

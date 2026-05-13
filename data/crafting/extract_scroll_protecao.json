@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_protecao",
-    "name":  "Criar Pergaminho de Protecao de Extracao (Comum)",
+    "name":  "Criar Pergaminho de Proteção de Extração (Comum)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "extract_scroll_protecao",
@@ -29,7 +29,7 @@
                             "itemId":  "oil"
                         }
                     ],
-    "description":  "Pergaminho comum que protege item na extracao bem-sucedida.",
+    "description":  "Pergaminho comum que protege item na extração bem-sucedida.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -39,3 +39,4 @@
                  "common"
              ]
 }
+

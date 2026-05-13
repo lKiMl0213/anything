@@ -1,4 +1,4 @@
-package rpg.application.character
+﻿package rpg.application.character
 
 import rpg.engine.GameEngine
 import rpg.io.DataRepository
@@ -76,7 +76,7 @@ class CharacterRulesSupport(
     fun rankUpTalentNode(state: GameState, treeId: String, nodeId: String): CharacterMutationResult {
         val trees = activeTalentTrees(state.player)
         val tree = trees.firstOrNull { it.id == treeId }
-            ?: return CharacterMutationResult(state, listOf("Essa arvore nao esta disponivel no momento."))
+            ?: return CharacterMutationResult(state, listOf("Essa árvore não está disponível no momento."))
         val result = talentTreeService.rankUp(state.player, tree, nodeId, trees)
         val updatedPlayer = attributeSupport.clampPlayerResources(result.player, state.itemInstances)
         return CharacterMutationResult(
@@ -85,3 +85,6 @@ class CharacterRulesSupport(
         )
     }
 }
+
+
+

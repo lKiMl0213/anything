@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "m_arcanist_cleric_weapon",
   "name": "Cetro da Graca",
   "type": "EQUIPMENT",
@@ -27,7 +27,7 @@
     }
   },
   "value": 1,
-  "description": "Equipamento de Clerigo focado em sustain, mana, mitigacao e apoio sagrado.",
+  "description": "Equipamento de Clerigo focado em sustain, mana, mitigação e apoio sagrado.",
   "effects": {
     "applyStatuses": [
       {
@@ -40,3 +40,6 @@
     ]
   }
 }
+
+
+

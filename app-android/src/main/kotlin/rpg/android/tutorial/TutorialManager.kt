@@ -1,4 +1,4 @@
-package rpg.android.tutorial
+﻿package rpg.android.tutorial
 
 import rpg.model.GameState
 
@@ -32,7 +32,7 @@ internal class TutorialManager {
                 TutorialOverlayState(
                     step = tutorial.step,
                     title = "Tutorial",
-                    message = "Essa e sua tela principal. Aqui voce ve personagem, HP, MP, XP, ouro e acessos rapidos.",
+                    message = "Essa e sua tela principal. Aqui você ve personagem, HP, MP, XP, ouro e acessos rápidos.",
                     target = TutorialTarget.HUB_INFO_PANEL,
                     requiresUserAction = false,
                     primaryButtonLabel = "Continuar"
@@ -45,7 +45,7 @@ internal class TutorialManager {
                 TutorialOverlayState(
                     step = tutorial.step,
                     title = "Tutorial",
-                    message = "Toque em Explorar para escolher uma area e iniciar combates.",
+                    message = "Toque em Explorar para escolher uma área e iniciar combates.",
                     target = TutorialTarget.HUB_EXPLORE_BUTTON,
                     requiresUserAction = true
                 )
@@ -61,7 +61,7 @@ internal class TutorialManager {
                 TutorialOverlayState(
                     step = tutorial.step,
                     title = "Tutorial",
-                    message = "Aqui ficam as areas disponiveis. Cada area tem inimigos e recompensas diferentes.",
+                    message = "Aqui ficam as áreas disponíveis. Cada área tem inimigos e recompensas diferentes.",
                     target = TutorialTarget.EXPLORATION_AREAS_PANEL,
                     requiresUserAction = false,
                     primaryButtonLabel = "Continuar"
@@ -73,7 +73,7 @@ internal class TutorialManager {
             TutorialStep.OPEN_CHARACTER -> TutorialOverlayState(
                 step = tutorial.step,
                 title = "Tutorial",
-                message = "Abra o menu Personagem para ver equipamentos, inventario, atributos e talentos.",
+                message = "Abra o menu Personagem para ver equipamentos, inventário, atributos e talentos.",
                 target = TutorialTarget.BOTTOM_NAV_CHARACTER,
                 requiresUserAction = true
             )
@@ -82,7 +82,7 @@ internal class TutorialManager {
                 TutorialOverlayState(
                     step = tutorial.step,
                     title = "Tutorial",
-                    message = "Aqui voce pode ver e melhorar seus atributos e talentos.",
+                    message = "Aqui você pode ver e melhorar seus atributos e talentos.",
                     target = TutorialTarget.CHARACTER_ACTION_PANEL,
                     requiresUserAction = false,
                     primaryButtonLabel = "Continuar"
@@ -95,7 +95,7 @@ internal class TutorialManager {
                 TutorialOverlayState(
                     step = tutorial.step,
                     title = "Tutorial",
-                    message = "Equipamentos melhoram atributos. O inventario mostra os itens obtidos.",
+                    message = "Equipamentos melhoram atributos. O inventário mostra os itens obtidos.",
                     target = TutorialTarget.CHARACTER_EQUIPMENT_PANEL,
                     requiresUserAction = false,
                     primaryButtonLabel = "Continuar"
@@ -107,7 +107,7 @@ internal class TutorialManager {
             TutorialStep.OPEN_PRODUCTION -> TutorialOverlayState(
                 step = tutorial.step,
                 title = "Tutorial",
-                message = "Agora abra Producao para coleta, caca, mineracao, pesca e craft.",
+                message = "Agora abra Produção para coleta, caça, mineração, pesca e craft.",
                 target = TutorialTarget.BOTTOM_NAV_PRODUCTION,
                 requiresUserAction = true
             )
@@ -116,7 +116,7 @@ internal class TutorialManager {
                 TutorialOverlayState(
                     step = tutorial.step,
                     title = "Tutorial",
-                    message = "Tarefas de producao levam tempo e evoluem suas habilidades.",
+                    message = "Tarefas de produção levam tempo e evoluem suas habilidades.",
                     target = TutorialTarget.PRODUCTION_PANEL,
                     requiresUserAction = false,
                     primaryButtonLabel = "Continuar"
@@ -137,7 +137,7 @@ internal class TutorialManager {
                 TutorialOverlayState(
                     step = tutorial.step,
                     title = "Tutorial",
-                    message = "Neste painel voce encontra Taverna, Loja e Melhorias.",
+                    message = "Neste painel você encontra Taverna, Loja e Melhorias.",
                     target = TutorialTarget.CITY_PANEL,
                     requiresUserAction = false,
                     primaryButtonLabel = "Continuar"
@@ -158,7 +158,7 @@ internal class TutorialManager {
                 TutorialOverlayState(
                     step = tutorial.step,
                     title = "Tutorial",
-                    message = "Aqui voce pode pegar missoes e completar conquistas.",
+                    message = "Aqui você pode pegar missões e completar conquistas.",
                     target = TutorialTarget.PROGRESSION_PANEL,
                     requiresUserAction = false,
                     primaryButtonLabel = "Continuar"
@@ -193,7 +193,7 @@ internal class TutorialManager {
                 message = "Pronto! Explore, evolua, produza itens e complete quests para fortalecer seu personagem.",
                 target = TutorialTarget.NONE,
                 requiresUserAction = false,
-                primaryButtonLabel = "Comecar"
+                primaryButtonLabel = "Começar"
             )
         }
     }
@@ -302,3 +302,8 @@ internal class TutorialManager {
         return state.copy(tutorialStep = next.persistedValue)
     }
 }
+
+
+
+
+

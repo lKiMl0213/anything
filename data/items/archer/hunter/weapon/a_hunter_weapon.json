@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "a_hunter_weapon",
   "name": "Arco do Predador",
   "type": "EQUIPMENT",
@@ -27,7 +27,7 @@
     }
   },
   "value": 1,
-  "description": "Equipamento de Hunter focado em rastreio, marcacao e perseguicao.",
+  "description": "Equipamento de Hunter focado em rastreio, marcação e perseguição.",
   "twoHanded": true,
   "effects": {
     "applyStatuses": [
@@ -41,3 +41,7 @@
     ]
   }
 }
+
+
+
+

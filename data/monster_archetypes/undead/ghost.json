@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "ghost",
   "name": "Fantasma",
   "archetype": "Undead",
@@ -38,3 +38,4 @@
   "baseXp": 36,
   "baseGold": 9
 }
+

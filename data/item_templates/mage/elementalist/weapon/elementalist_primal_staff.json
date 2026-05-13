@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "elementalist_primal_staff",
     "name":  "Cajado Primordial",
     "type":  "EQUIPMENT",
@@ -32,5 +32,6 @@
                            "focus",
                            "regen"
                        ],
-    "description":  "Cajado elementar para alternar fogo, agua, vento e terra com seguranca."
+    "description":  "Cajado elementar para alternar fogo, água, vento e terra com segurança."
 }
+

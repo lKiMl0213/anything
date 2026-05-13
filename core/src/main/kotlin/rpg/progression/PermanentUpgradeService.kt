@@ -1,4 +1,4 @@
-package rpg.progression
+﻿package rpg.progression
 
 import kotlin.math.ceil
 import rpg.model.CraftDiscipline
@@ -122,8 +122,8 @@ class PermanentUpgradeService(
 
     fun acceptedQuestLimit(player: PlayerState): Int {
         val base = 5
-        val bonus = valueForEffect(player, PermanentUpgradeEffectType.QUEST_ACCEPTED_LIMIT_BONUS).toInt()
-        return (base + bonus).coerceIn(base, 20)
+        val bônus = valueForEffect(player, PermanentUpgradeEffectType.QUEST_ACCEPTED_LIMIT_BONUS).toInt()
+        return (base + bônus).coerceIn(base, 20)
     }
 
     fun acceptableQuestPoolLimit(player: PlayerState): Int {
@@ -199,7 +199,7 @@ class PermanentUpgradeService(
     ): PermanentUpgradePurchaseResult {
         val def = definition(upgradeId) ?: return PermanentUpgradePurchaseResult(
             success = false,
-            message = "Aprimoramento nao encontrado.",
+            message = "Aprimoramento não encontrado.",
             player = player,
             itemInstances = itemInstances
         )
@@ -207,17 +207,17 @@ class PermanentUpgradeService(
         if (current >= def.maxLevel) {
             return PermanentUpgradePurchaseResult(
                 success = false,
-                message = "${def.name} ja esta no nivel maximo.",
+                message = "${def.name} ja está no nível máximo.",
                 player = player,
                 itemInstances = itemInstances
             )
         }
         val nextLevel = def.levels.firstOrNull { it.level == current + 1 }
-            ?: return PermanentUpgradePurchaseResult(false, "Dados de nivel invalido.", player, itemInstances)
+            ?: return PermanentUpgradePurchaseResult(false, "Dados de nível inválido.", player, itemInstances)
         val selectedCost = nextLevel.costs.firstOrNull {
             it.id.equals(costId, ignoreCase = true) &&
                 (it.shopCurrencies.isEmpty() || it.shopCurrencies.contains(shopCurrency))
-        } ?: return PermanentUpgradePurchaseResult(false, "Opcao de custo indisponivel.", player, itemInstances)
+        } ?: return PermanentUpgradePurchaseResult(false, "Opção de custo indisponivel.", player, itemInstances)
 
         if (player.gold < selectedCost.goldCost) {
             return PermanentUpgradePurchaseResult(false, "Ouro insuficiente.", player, itemInstances)
@@ -308,3 +308,6 @@ class PermanentUpgradeService(
         return ceil(baseCost * multiplier).toInt().coerceAtLeast(1)
     }
 }
+
+
+

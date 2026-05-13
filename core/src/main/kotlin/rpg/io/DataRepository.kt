@@ -1,4 +1,4 @@
-package rpg.io
+﻿package rpg.io
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -78,9 +78,9 @@ class DataRepository(private val root: Path) {
     val globalBossEvents: Map<String, GlobalBossEventDef> = loadDir<GlobalBossEventDef>("global_boss/events")
         .associateBy { it.id.lowercase() }
 
-    fun mapById(id: String): MapDef = maps[id] ?: error("Mapa nao encontrado: $id")
+    fun mapById(id: String): MapDef = maps[id] ?: error("Mapa não encontrado: $id")
     fun roomById(map: MapDef, id: String) = map.rooms.firstOrNull { it.id == id }
-        ?: error("Sala nao encontrada: $id")
+        ?: error("Sala não encontrada: $id")
 
     private inline fun <reified T> loadDir(dirName: String): List<T> {
         val dir = root.resolve(dirName)
@@ -106,3 +106,6 @@ class DataRepository(private val root: Path) {
         return JsonStore.load(file)
     }
 }
+
+
+

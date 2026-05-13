@@ -1,4 +1,4 @@
-package rpg.application.city
+﻿package rpg.application.city
 
 import rpg.achievement.AchievementTracker
 import rpg.model.GameState
@@ -26,9 +26,9 @@ class CityCommandService(
             state = updatedState,
             messages = listOf(
                 if (shouldCharge) {
-                    "Voce descansou na taverna. Recuperacao parcial aplicada."
+                    "Você descansou na taverna. Recuperacao parcial aplicada."
                 } else {
-                    "Voce descansou, mas ja estava com HP/MP cheios. Sem custo."
+                    "Você descansou, mas ja estava com HP/MP cheios. Sem custo."
                 }
             ) + support.achievementNotificationLines(goldUpdate.unlockedTiers)
         )
@@ -61,9 +61,9 @@ class CityCommandService(
             state = updatedState,
             messages = listOf(
                 if (shouldCharge) {
-                    "Voce dormiu e acordou renovado."
+                    "Você dormiu e acordou renovado."
                 } else {
-                    "Voce dormiu, mas ja estava com HP/MP cheios. Sem custo."
+                    "Você dormiu, mas ja estava com HP/MP cheios. Sem custo."
                 }
             ) +
                 support.achievementNotificationLines(goldUpdate.unlockedTiers) +
@@ -105,3 +105,4 @@ class CityCommandService(
         )
     }
 }
+

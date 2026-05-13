@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "shop_falcon_gloves",
   "name": "Luvas de Falcoeiro",
   "itemId": "falcon_gloves",
@@ -6,7 +6,14 @@
   "currency": "GOLD",
   "quantity": 1,
   "minPlayerLevel": 4,
-  "description": "Luvas focadas em rapidez e precisao.",
+  "description": "Luvas focadas em rapidez e precisão.",
   "enabled": true,
-  "tags": ["gold", "archer", "armor"]
+  "tags": [
+    "gold",
+    "archer",
+    "armor"
+  ]
 }
+
+
+

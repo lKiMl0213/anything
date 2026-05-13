@@ -1,4 +1,4 @@
-package rpg.application.character
+﻿package rpg.application.character
 
 import rpg.application.GameActionResult
 import rpg.application.GameSession
@@ -70,9 +70,9 @@ class CharacterActionDispatcher(
             ?: return GameActionResult(session.copy(messages = listOf("Nenhum jogo carregado.")))
         val normalized = stateSupport.normalize(state)
         val stageView = queryService.talentStage(normalized, stage)
-            ?: return GameActionResult(session.copy(messages = listOf("Essa etapa da classe ainda esta bloqueada.")))
+            ?: return GameActionResult(session.copy(messages = listOf("Essa etapa da classe ainda está bloqueada.")))
         if (stageView.treeId == null) {
-            return GameActionResult(session.copy(messages = listOf("Essa etapa da classe ainda esta bloqueada.")))
+            return GameActionResult(session.copy(messages = listOf("Essa etapa da classe ainda está bloqueada.")))
         }
         return GameActionResult(
             session = session.copy(
@@ -87,7 +87,7 @@ class CharacterActionDispatcher(
 
     private fun confirmTalentRankUp(session: GameSession, nodeId: String): GameActionResult {
         val treeId = session.selectedTalentTreeId
-            ?: return GameActionResult(session.copy(messages = listOf("Nenhuma arvore de talento selecionada.")))
+            ?: return GameActionResult(session.copy(messages = listOf("Nenhuma árvore de talento selecionada.")))
         return mutate(
             session,
             NavigationState.TalentTreeDetail,
@@ -122,3 +122,4 @@ class CharacterActionDispatcher(
         )
     }
 }
+

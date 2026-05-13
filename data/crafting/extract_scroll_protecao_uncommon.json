@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_protecao_uncommon",
-    "name":  "Criar Pergaminho de Protecao de Extracao (Incomum)",
+    "name":  "Criar Pergaminho de Proteção de Extração (Incomum)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "extract_scroll_protecao_uncommon",
@@ -33,7 +33,7 @@
                             "itemId":  "enchanted_ash"
                         }
                     ],
-    "description":  "Pergaminho incomum de protecao para extracao.",
+    "description":  "Pergaminho incomum de proteção para extração.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -43,3 +43,4 @@
                  "uncommon"
              ]
 }
+

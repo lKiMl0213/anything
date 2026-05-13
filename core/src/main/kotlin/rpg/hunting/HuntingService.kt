@@ -1,4 +1,4 @@
-package rpg.hunting
+﻿package rpg.hunting
 
 import kotlin.math.ceil
 import kotlin.math.max
@@ -56,13 +56,22 @@ class HuntingService(
     private val config: HuntingConfig = HuntingConfig(),
     private val raceProfessionBonusPct: (PlayerState, SkillType) -> Double = { _, _ -> 0.0 }
 ) {
+    private val spotComparator = compareBy<HuntingSpot>({ it.recommendedLevel }, { it.name.lowercase() }, { it.id.lowercase() })
+    private val enabledSpotCatalog: List<HuntingSpot> = spots.values
+        .asSequence()
+        .filter { it.drops.isNotEmpty() }
+        .sortedWith(spotComparator)
+        .toList()
+    private val catalogRevision: Int = buildCatalogRevision()
+
+    fun spotCatalogRevision(): Int = catalogRevision
+
+    fun spotCatalog(): List<HuntingSpot> = enabledSpotCatalog
+
     fun availableSpots(playerLevel: Int): List<HuntingSpot> {
-        return spots.values
-            .asSequence()
-            .filter { it.drops.isNotEmpty() }
-            .filter { playerLevel >= (it.recommendedLevel - 15).coerceAtLeast(1) }
-            .sortedWith(compareBy<HuntingSpot> { it.recommendedLevel }.thenBy { it.name.lowercase() })
-            .toList()
+        @Suppress("UNUSED_VARIABLE")
+        val ignoredPlayerLevel = playerLevel
+        return enabledSpotCatalog
     }
 
     fun preview(
@@ -307,4 +316,21 @@ class HuntingService(
         val multiplier = (1.0 - PremiumSupport.productionCostReductionPct(player) / 100.0).coerceIn(0.1, 1.0)
         return ceil(baseCost * multiplier).toInt().coerceAtLeast(1)
     }
+
+    private fun buildCatalogRevision(): Int {
+        var signature = 17
+        enabledSpotCatalog.forEach { spot ->
+            signature = (signature * 31) + spot.id.hashCode()
+            signature = (signature * 31) + spot.name.lowercase().hashCode()
+            signature = (signature * 31) + spot.recommendedLevel
+            signature = (signature * 31) + spot.minCycleSeconds
+            signature = (signature * 31) + spot.baseXp.toString().hashCode()
+            signature = (signature * 31) + spot.drops.size
+        }
+        return signature
+    }
 }
+
+
+
+

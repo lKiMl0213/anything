@@ -1,6 +1,7 @@
-package rpg.crafting
+﻿package rpg.crafting
 
 import kotlin.math.max
+import kotlin.math.floor
 import kotlin.random.Random
 import rpg.inventory.InventorySystem
 import rpg.item.ItemEngine
@@ -27,7 +28,9 @@ data class CraftExecutionResult(
     val skillType: SkillType? = null,
     val skillSnapshot: SkillSnapshot? = null,
     val rejectedOutputs: Int = 0,
-    val successfulCrafts: Int = 0
+    val successfulCrafts: Int = 0,
+    val baseOutputQuantity: Int = 0,
+    val bonusOutputQuantity: Int = 0
 )
 
 class CraftingService(
@@ -87,7 +90,7 @@ class CraftingService(
     ): CraftExecutionResult {
         val preparedPlayer = skillSystem.ensureProgress(player)
         val recipe = recipes[recipeId]
-            ?: return CraftExecutionResult(false, "Receita nao encontrada.", preparedPlayer, itemInstances)
+            ?: return CraftExecutionResult(false, "Receita não encontrada.", preparedPlayer, itemInstances)
         if (!recipe.enabled) {
             return CraftExecutionResult(false, "Receita desativada.", preparedPlayer, itemInstances, recipe = recipe)
         }
@@ -96,7 +99,7 @@ class CraftingService(
         if (skillSnapshot.level < recipe.minSkillLevel) {
             return CraftExecutionResult(
                 false,
-                "Skill insuficiente para esta receita.",
+                "Skill insuficiente para está receita.",
                 preparedPlayer,
                 itemInstances,
                 recipe = recipe,
@@ -110,6 +113,8 @@ class CraftingService(
         val updatedInstances = itemInstances.toMutableMap()
         val generatedOutputIds = mutableListOf<String>()
         var successfulCrafts = 0
+        var baseGeneratedOutput = 0
+        var bonusGeneratedOutput = 0
 
         for (attempt in 1..batch) {
             val craftCostReductionPct = (
@@ -147,7 +152,9 @@ class CraftingService(
             }
 
             val crit = rng.nextDouble(0.0, 100.0) <= skillSnapshot.criticalCraftChancePct
-            val perCraftOutput = recipe.outputQty.coerceAtLeast(1) * if (crit) 2 else 1
+            val basePerCraftOutput = recipe.outputQty.coerceAtLeast(1)
+            val bonusPerCraftOutput = if (crit) basePerCraftOutput else 0
+            val perCraftOutput = basePerCraftOutput + bonusPerCraftOutput
             if (!appendRecipeOutput(
                     recipe = recipe,
                     outputAmount = perCraftOutput,
@@ -158,7 +165,7 @@ class CraftingService(
             ) {
                 return CraftExecutionResult(
                     false,
-                    "Item de saida invalido.",
+                    "Item de saída inválido.",
                     preparedPlayer,
                     itemInstances,
                     recipe = recipe,
@@ -166,6 +173,8 @@ class CraftingService(
                     skillSnapshot = skillSnapshot
                 )
             }
+            baseGeneratedOutput += basePerCraftOutput
+            bonusGeneratedOutput += bonusPerCraftOutput
             successfulCrafts++
         }
 
@@ -196,16 +205,23 @@ class CraftingService(
         if (acceptedOutputs <= 0) {
             return CraftExecutionResult(
                 false,
-                "Inventario cheio. Nenhum item produzido foi armazenado.",
+                "Inventário cheio. Nenhum item produzido foi armazenado.",
                 preparedPlayer,
                 itemInstances,
                 recipe = recipe,
                 skillType = skillType,
                 skillSnapshot = skillSnapshot,
                 rejectedOutputs = withCapacity.rejected.size,
-                successfulCrafts = successfulCrafts
+                successfulCrafts = successfulCrafts,
+                baseOutputQuantity = 0,
+                bonusOutputQuantity = 0
             )
         }
+        val (acceptedBaseOutput, acceptedBonusOutput) = splitAcceptedOutput(
+            accepted = acceptedOutputs,
+            baseGenerated = baseGeneratedOutput,
+            bonusGenerated = bonusGeneratedOutput
+        )
 
         var updatedPlayer = preparedPlayer.copy(
             inventory = withCapacity.inventory,
@@ -232,7 +248,7 @@ class CraftingService(
             message = buildString {
                 append("Craft concluido: ${recipe.name} x$successfulCrafts.")
                 if (withCapacity.rejected.isNotEmpty()) {
-                    append(" Inventario cheio: ${withCapacity.rejected.size} item(ns) nao couberam.")
+                    append(" Inventário cheio: ${withCapacity.rejected.size} item(ns) não couberam.")
                 }
             },
             player = updatedPlayer,
@@ -244,7 +260,9 @@ class CraftingService(
             skillType = skillType,
             skillSnapshot = xpResult.snapshot,
             rejectedOutputs = withCapacity.rejected.size,
-            successfulCrafts = successfulCrafts
+            successfulCrafts = successfulCrafts,
+            baseOutputQuantity = acceptedBaseOutput,
+            bonusOutputQuantity = acceptedBonusOutput
         )
     }
 
@@ -431,4 +449,23 @@ class CraftingService(
             }
         return signature
     }
+
+    private fun splitAcceptedOutput(
+        accepted: Int,
+        baseGenerated: Int,
+        bonusGenerated: Int
+    ): Pair<Int, Int> {
+        if (accepted <= 0) return 0 to 0
+        if (bonusGenerated <= 0) return accepted to 0
+        val totalGenerated = (baseGenerated + bonusGenerated).coerceAtLeast(1)
+        val acceptedBase = floor((accepted.toDouble() * baseGenerated.toDouble()) / totalGenerated.toDouble())
+            .toInt()
+            .coerceIn(0, accepted)
+        val acceptedBonus = (accepted - acceptedBase).coerceAtLeast(0)
+        return acceptedBase to acceptedBonus
+    }
 }
+
+
+
+

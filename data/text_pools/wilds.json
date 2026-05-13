@@ -1,10 +1,12 @@
-{
+﻿{
   "id": "wilds",
-  "biomeIds": ["wilds"],
+  "biomeIds": [
+    "wilds"
+  ],
   "intros": [
     "O vento corta a vegetacao",
     "Galhos se agitam ao redor",
-    "A mata fecha sobre voce",
+    "A mata fecha sobre você",
     "O som de algo se movendo se aproxima",
     "O cheiro de terra molhada invade o ar",
     "O canto de aves silvestres e abafado",
@@ -27,8 +29,8 @@
   ],
   "threats": [
     "O ataque vem do mato",
-    "O perigo se move rapido",
-    "Voce sente o cerco",
+    "O perigo se move rápido",
+    "Você sente o cerco",
     "O inimigo ataca sem aviso",
     "A batalha e inevitavel",
     "O confronto e brutal",
@@ -38,3 +40,4 @@
     "O combate e implacavel"
   ]
 }
+

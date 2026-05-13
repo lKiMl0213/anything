@@ -1,4 +1,4 @@
-package rpg.achievement
+﻿package rpg.achievement
 
 import kotlin.math.max
 
@@ -61,7 +61,7 @@ internal object AchievementExtendedProgressionCatalog {
         )
         add(
             id = "fusion_alchemist",
-            name = "Artesao da Fusao",
+            name = "Artesao da Fusão",
             description = "Funda equipamentos e pedras de encantamento.",
             category = AchievementCategory.PROGRESSAO,
             trackedStat = AchievementTrackedStat.CustomCounter(
@@ -72,7 +72,7 @@ internal object AchievementExtendedProgressionCatalog {
         )
         add(
             id = "extraction_scholar",
-            name = "Erudito da Extracao",
+            name = "Erudito da Extração",
             description = "Extraia encantamentos para criar pedras.",
             category = AchievementCategory.PROGRESSAO,
             trackedStat = AchievementTrackedStat.CustomCounter(
@@ -83,8 +83,8 @@ internal object AchievementExtendedProgressionCatalog {
         )
         add(
             id = "hunter_instinct",
-            name = "Instinto de Cacador",
-            description = "Obtenha recursos em atividades de caca.",
+            name = "Instinto de Caçador",
+            description = "Obtenha recursos em atividades de caça.",
             category = AchievementCategory.PROGRESSAO,
             trackedStat = AchievementTrackedStat.CustomCounter(
                 AchievementCounterKeys.Hunting.NAMESPACE,
@@ -95,7 +95,7 @@ internal object AchievementExtendedProgressionCatalog {
         add(
             id = "hunter_trophy",
             name = "Colecionador de Trofeus",
-            description = "Encontre drops raros durante a caca.",
+            description = "Encontre drops raros durante a caça.",
             category = AchievementCategory.PROGRESSAO,
             trackedStat = AchievementTrackedStat.CustomCounter(
                 AchievementCounterKeys.Hunting.NAMESPACE,
@@ -150,3 +150,6 @@ internal object AchievementExtendedProgressionCatalog {
         return definitions
     }
 }
+
+
+

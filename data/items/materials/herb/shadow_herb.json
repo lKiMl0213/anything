@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "shadow_herb",
     "name":  "Erva Sombria",
     "tags":  [
@@ -9,5 +9,6 @@
              ],
     "value":  18,
     "type":  "MATERIAL",
-    "description":  "Erva de biomas escuros para formulas avancadas."
+    "description":  "Erva de biomas escuros para fórmulas avancadas."
 }
+

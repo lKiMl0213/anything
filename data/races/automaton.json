@@ -1,7 +1,7 @@
-{
+﻿{
   "id": "automaton",
   "name": "Automato",
-  "description": "Tanque tecnico com defesa elevada e maior resistencia a efeitos.",
+  "description": "Tanque tecnico com defesa elevada e maior resistência a efeitos.",
   "bonuses": {
     "attributes": {
       "vit": 8,
@@ -35,3 +35,4 @@
   "tradeBuyDiscountPct": 0,
   "tradeSellBonusPct": 0
 }
+

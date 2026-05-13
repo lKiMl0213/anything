@@ -1,4 +1,4 @@
-package rpg.presentation
+﻿package rpg.presentation
 
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
@@ -18,10 +18,10 @@ internal class CharacterScreenPresenter(
         return MenuScreenViewModel(
             title = "Personagem",
             summary = support.playerSummary(state),
-            bodyLines = listOf("Gerencie equipamentos, inventario, atributos e talentos."),
+            bodyLines = listOf("Gerencie equipamentos, inventário, atributos e talentos."),
             options = listOf(
                 ScreenOptionViewModel("1", "Equipados", GameAction.OpenEquipped),
-                ScreenOptionViewModel("2", "Inventario", GameAction.OpenInventory),
+                ScreenOptionViewModel("2", "Inventário", GameAction.OpenInventory),
                 ScreenOptionViewModel("3", "Atributos$attributeAlert", GameAction.OpenAttributes),
                 ScreenOptionViewModel("4", "Talentos$talentAlert", GameAction.OpenTalents),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)
@@ -34,7 +34,7 @@ internal class CharacterScreenPresenter(
         val state = session.gameState ?: return support.presentMissingState("Atributos")
         val rows = characterQueryService.attributeRows(state)
         val body = mutableListOf<String>()
-        body += "Pontos disponiveis: ${state.player.unspentAttrPoints}"
+        body += "Pontos disponíveis: ${state.player.unspentAttrPoints}"
         body += "Base + equipamento + classe/talento + temporarios = valor final."
         val options = rows.mapIndexed { index, row ->
             ScreenOptionViewModel(
@@ -58,7 +58,7 @@ internal class CharacterScreenPresenter(
         val detail = characterQueryService.attributeDetail(state, code)
             ?: return MenuScreenViewModel(
                 title = "Atributo",
-                bodyLines = listOf("Atributo nao encontrado."),
+                bodyLines = listOf("Atributo não encontrado."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
             )
@@ -66,7 +66,7 @@ internal class CharacterScreenPresenter(
         if (detail.canAllocate) {
             options += ScreenOptionViewModel(
                 "1",
-                "Alocar pontos (${detail.availablePoints} disponiveis)",
+                "Alocar pontos (${detail.availablePoints} disponíveis)",
                 GameAction.AllocateAttributePoint(detail.code)
             )
         }
@@ -96,7 +96,7 @@ internal class CharacterScreenPresenter(
             summary = support.playerSummary(state),
             bodyLines = listOf(
                 "Pontos usados/totais: ${overview.totalSpent}/${overview.totalEarned}",
-                "Voce tem ${overview.totalAvailable} ponto(s) disponivel(is)",
+                "Você tem ${overview.totalAvailable} ponto(s) disponível(is)",
                 "Classe:"
             ),
             options = options,
@@ -110,7 +110,7 @@ internal class CharacterScreenPresenter(
         val detail = characterQueryService.talentTreeDetail(state, treeId)
             ?: return MenuScreenViewModel(
                 title = "Talentos",
-                bodyLines = listOf("Essa arvore nao esta disponivel no momento."),
+                bodyLines = listOf("Essa árvore não está disponível no momento."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
             )
@@ -118,7 +118,7 @@ internal class CharacterScreenPresenter(
             ScreenOptionViewModel((index + 1).toString(), node.name, GameAction.InspectTalentNode(node.nodeId))
         } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
         val body = mutableListOf(
-            "${detail.stageLabel} | pontos disponiveis: ${detail.pointsAvailable}",
+            "${detail.stageLabel} | pontos disponíveis: ${detail.pointsAvailable}",
             "Skills desbloqueadas: ${detail.unlockedSkillsLabel}",
             "Skills bloqueadas: ${detail.blockedSkillsLabel}",
             "Pode evoluir agora: ${detail.availableNodesLabel}",
@@ -145,7 +145,7 @@ internal class CharacterScreenPresenter(
         val detail = characterQueryService.talentNodeDetail(state, treeId, nodeId)
             ?: return MenuScreenViewModel(
                 title = "Talento",
-                bodyLines = listOf("Node nao encontrado ou arvore indisponivel."),
+                bodyLines = listOf("Node não encontrado ou árvore indisponivel."),
                 options = listOf(ScreenOptionViewModel("x", "Voltar", GameAction.Back)),
                 messages = session.messages
             )
@@ -167,3 +167,6 @@ internal class CharacterScreenPresenter(
         )
     }
 }
+
+
+

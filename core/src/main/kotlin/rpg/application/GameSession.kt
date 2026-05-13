@@ -1,4 +1,4 @@
-package rpg.application
+﻿package rpg.application
 
 import java.nio.file.Path
 import rpg.achievement.AchievementCategory
@@ -125,3 +125,4 @@ data class GameSession(
     val messages: List<String> = emptyList(),
     val exitRequested: Boolean = false
 )
+

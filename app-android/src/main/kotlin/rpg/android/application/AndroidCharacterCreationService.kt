@@ -1,4 +1,4 @@
-package rpg.android.application
+﻿package rpg.android.application
 
 import rpg.engine.GameEngine
 import rpg.inventory.InventorySystem
@@ -20,9 +20,9 @@ class AndroidCharacterCreationService(
         unspentPoints: Int
     ): GameState {
         val sanitizedName = name.trim().ifBlank { "Aventureiro" }
-        val classDef = repo.classes[classId] ?: error("Classe nao encontrada: $classId")
+        val classDef = repo.classes[classId] ?: error("Classe não encontrada: $classId")
         if (!repo.races.containsKey(raceId)) {
-            error("Raca nao encontrada: $raceId")
+            error("Raca não encontrada: $raceId")
         }
 
         val starterEquipment = repo.character.starterEquipmentByClass[classDef.id]
@@ -89,3 +89,6 @@ class AndroidCharacterCreationService(
         }
     }
 }
+
+
+

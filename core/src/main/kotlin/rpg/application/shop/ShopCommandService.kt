@@ -1,4 +1,4 @@
-package rpg.application.shop
+﻿package rpg.application.shop
 
 import rpg.achievement.AchievementTracker
 import rpg.engine.GameEngine
@@ -26,7 +26,7 @@ class ShopCommandService(
     ): ShopMutationResult {
         val pack = repo.cashPacks.values.firstOrNull {
             it.enabled && it.id.equals(packId, ignoreCase = true)
-        } ?: return ShopMutationResult(state, listOf("Pacote de cash nao encontrado."))
+        } ?: return ShopMutationResult(state, listOf("Pacote de cash não encontrado."))
         val player = state.player
         val firstBonus = !player.cashFirstPurchaseBonusConsumed
         val welcomeBackBonus = !firstBonus && PremiumSupport.cashWelcomeBackEligible(player, nowMillis)
@@ -46,9 +46,9 @@ class ShopCommandService(
             lastCashPurchaseEpochMs = nowMillis
         )
         val bonusLine = when {
-            firstBonus -> "Bonus aplicado: primeira compra +10%."
-            welcomeBackBonus -> "Bonus aplicado: bem-vindo de volta +10%."
-            else -> "Sem bonus adicional nesta compra."
+            firstBonus -> "Bônus aplicado: primeira compra +10%."
+            welcomeBackBonus -> "Bônus aplicado: bem-vindo de volta +10%."
+            else -> "Sem bônus adicional nesta compra."
         }
         return ShopMutationResult(
             state = state.copy(player = updatedPlayer),
@@ -65,7 +65,7 @@ class ShopCommandService(
         nowMillis: Long = System.currentTimeMillis()
     ): ShopMutationResult {
         val plan = queryService.premiumPlans().firstOrNull { it.id.equals(planId, ignoreCase = true) }
-            ?: return ShopMutationResult(state, listOf("Plano premium nao encontrado."))
+            ?: return ShopMutationResult(state, listOf("Plano premium não encontrado."))
         val player = state.player
         val paidPlayer = when (plan.currency) {
             ShopCurrency.GOLD -> {
@@ -119,15 +119,15 @@ class ShopCommandService(
         val player = state.player
         val display = queryService.entries(player, state.itemInstances, currency, category, weaponClass)
             .firstOrNull { it.id == entryId }
-            ?: return ShopMutationResult(state, listOf("Item nao encontrado nesta categoria."))
+            ?: return ShopMutationResult(state, listOf("Item não encontrado nesta categoria."))
         val sourceEntry = findShopEntryById(entryId, currency)
-            ?: return ShopMutationResult(state, listOf("Item da loja nao encontrado."))
+            ?: return ShopMutationResult(state, listOf("Item da loja não encontrado."))
 
         if (!display.inStock) {
             return ShopMutationResult(state, listOf("Item indisponivel no estoque desta rodada."))
         }
         if (player.level < display.requiredLevel) {
-            return ShopMutationResult(state, listOf("Nivel insuficiente. Requer nivel ${display.requiredLevel}."))
+            return ShopMutationResult(state, listOf("Nível insuficiente. Requer nível ${display.requiredLevel}."))
         }
         if (currency == ShopCurrency.GOLD && player.gold < display.finalPrice) {
             return ShopMutationResult(state, listOf("Ouro insuficiente."))
@@ -142,7 +142,7 @@ class ShopCommandService(
         repeat(qty) {
             if (engine.itemRegistry.isTemplate(sourceEntry.itemId)) {
                 val template = engine.itemRegistry.template(sourceEntry.itemId)
-                    ?: return ShopMutationResult(state, listOf("Template invalido: ${sourceEntry.itemId}."))
+                    ?: return ShopMutationResult(state, listOf("Template inválido: ${sourceEntry.itemId}."))
                 val generated = engine.itemEngine.generateFromTemplate(
                     template = template,
                     level = maxOf(player.level, template.minLevel),
@@ -152,7 +152,7 @@ class ShopCommandService(
                 incoming += generated.id
             } else {
                 if (engine.itemRegistry.item(sourceEntry.itemId) == null) {
-                    return ShopMutationResult(state, listOf("Item invalido: ${sourceEntry.itemId}."))
+                    return ShopMutationResult(state, listOf("Item inválido: ${sourceEntry.itemId}."))
                 }
                 incoming += sourceEntry.itemId
             }
@@ -165,7 +165,7 @@ class ShopCommandService(
             incomingItemIds = incoming
         )
         if (insertion.rejected.isNotEmpty()) {
-            return ShopMutationResult(state, listOf("Inventario sem espaco para essa compra."))
+            return ShopMutationResult(state, listOf("Inventário sem espaco para essa compra."))
         }
 
         var updatedPlayer = when (currency) {
@@ -227,3 +227,6 @@ class ShopCommandService(
 
     private fun currencyLabel(currency: ShopCurrency): String = if (currency == ShopCurrency.GOLD) "ouro" else "CASH"
 }
+
+
+

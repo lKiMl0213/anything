@@ -1,12 +1,17 @@
-{
+﻿{
   "id": "shop_hunter_quiver",
-  "name": "Aljava do Cacador",
+  "name": "Aljava do Caçador",
   "itemId": "hunter_quiver",
   "price": 155,
   "currency": "GOLD",
   "quantity": 1,
   "minPlayerLevel": 6,
-  "description": "Mais mira e chance critica para builds de burst.",
+  "description": "Mais mira e chance crítica para builds de burst.",
   "enabled": true,
-  "tags": ["gold", "archer", "quiver"]
+  "tags": [
+    "gold",
+    "archer",
+    "quiver"
+  ]
 }
+

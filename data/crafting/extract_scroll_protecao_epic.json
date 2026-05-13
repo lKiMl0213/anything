@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_protecao_epic",
-    "name":  "Criar Pergaminho de Protecao de Extracao (Epico)",
+    "name":  "Criar Pergaminho de Proteção de Extração (Épico)",
     "discipline":  "ALCHEMY",
     "skillType":  "ALCHEMIST",
     "outputItemId":  "extract_scroll_protecao_epic",
@@ -33,7 +33,7 @@
                             "itemId":  "golden_flower"
                         }
                     ],
-    "description":  "Pergaminho epico para extracao com protecao reforcada.",
+    "description":  "Pergaminho épico para extração com proteção reforcada.",
     "enabled":  true,
     "tags":  [
                  "enchant",
@@ -43,3 +43,4 @@
                  "epic"
              ]
 }
+

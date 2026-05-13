@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_protecao_uncommon",
-    "name":  "Pergaminho de Protecao de Extracao (Incomum)",
+    "name":  "Pergaminho de Proteção de Extração (Incomum)",
     "type":  "MATERIAL",
     "tier":  "uncommon",
     "tags":  [
@@ -11,6 +11,7 @@
                  "uncommon"
              ],
     "value":  290,
-    "description":  "Protege o equipamento em extracao com materiais incomuns.",
+    "description":  "Protege o equipamento em extração com materiais incomuns.",
     "rarity":  "UNCOMMON"
 }
+

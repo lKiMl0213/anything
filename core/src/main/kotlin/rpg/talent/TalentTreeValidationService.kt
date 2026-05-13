@@ -1,4 +1,4 @@
-package rpg.talent
+﻿package rpg.talent
 
 import rpg.model.PlayerState
 import rpg.model.TalentRequirementType
@@ -22,13 +22,13 @@ internal class TalentTreeValidationService(
             }
             val node = owner.nodes.first { it.id == nodeId }
             if (rank > node.maxRank.coerceAtLeast(1)) {
-                errors += "Node ${node.id}: rank $rank acima do maximo ${node.maxRank}."
+                errors += "Node ${node.id}: rank $rank acima do máximo ${node.maxRank}."
             }
             if (!evaluator.treeUnlocked(player, owner)) {
                 errors += "Tree ${owner.id} bloqueada, mas possui nodes ranqueados."
             }
             if (!evaluator.prerequisitesMet(player, owner, node)) {
-                errors += "Node ${node.id}: prerequisitos nao atendidos."
+                errors += "Node ${node.id}: prerequisitos não atendidos."
             }
         }
 
@@ -108,7 +108,7 @@ internal class TalentTreeValidationService(
                         errors += "Tree ${tree.id} node ${node.id}: prerequisito inexistente ${prereq.nodeId}."
                     }
                     if (prereq.minRank < 1) {
-                        errors += "Tree ${tree.id} node ${node.id}: prerequisito ${prereq.nodeId} minRank invalido."
+                        errors += "Tree ${tree.id} node ${node.id}: prerequisito ${prereq.nodeId} minRank inválido."
                     }
                 }
             }
@@ -153,3 +153,6 @@ internal class TalentTreeValidationService(
         return errors
     }
 }
+
+
+

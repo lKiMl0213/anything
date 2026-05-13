@@ -1,4 +1,4 @@
-{
+﻿{
     "skillType":  "MINING",
     "id":  "ore_adamantite_ore_vein",
     "minQty":  1,
@@ -17,5 +17,6 @@
     "maxQty":  1,
     "minPlayerLevel":  21,
     "minSkillLevel":  25,
-    "description":  "Nodo de mineracao da regiao."
+    "description":  "Nodo de mineração da região."
 }
+

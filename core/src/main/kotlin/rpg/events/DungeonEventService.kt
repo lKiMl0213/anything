@@ -1,4 +1,4 @@
-package rpg.events
+﻿package rpg.events
 
 import kotlin.math.max
 import rpg.model.DungeonEventDef
@@ -36,7 +36,7 @@ class DungeonEventService(private val def: DungeonEventDef) {
     }
 
     fun npcMoneyRefuseLine(rollInt: (Int) -> Int): String = pick(texts.npcMoneyRefuseLines, rollInt, "A recusa termina em emboscada.")
-    fun npcMoneyNoGoldLine(rollInt: (Int) -> Int): String = pick(texts.npcMoneyNoGoldLines, rollInt, "Voce nao tem ouro suficiente.")
+    fun npcMoneyNoGoldLine(rollInt: (Int) -> Int): String = pick(texts.npcMoneyNoGoldLines, rollInt, "Você não tem ouro suficiente.")
     fun npcMoneyScamLine(rollInt: (Int) -> Int): String = pick(texts.npcMoneyScamLines, rollInt, "Era uma armadilha.")
     fun npcMoneyRewardLine(rollInt: (Int) -> Int): String = pick(texts.npcMoneyRewardLines, rollInt, "Ele agradece e ajuda.")
     fun npcMoneyNeutralLine(rollInt: (Int) -> Int): String = pick(texts.npcMoneyNeutralLines, rollInt, "Ele some sem recompensa.")
@@ -46,21 +46,21 @@ class DungeonEventService(private val def: DungeonEventDef) {
         return template.replace("{item}", itemName).replace("{qty}", qty.toString())
     }
 
-    fun npcItemNoItemsLine(rollInt: (Int) -> Int): String = pick(texts.npcItemNoItemsLines, rollInt, "Voce nao tem itens para ajudar.")
+    fun npcItemNoItemsLine(rollInt: (Int) -> Int): String = pick(texts.npcItemNoItemsLines, rollInt, "Você não tem itens para ajudar.")
     fun npcItemRefuseLine(rollInt: (Int) -> Int): String = pick(texts.npcItemRefuseLines, rollInt, "A recusa ativa uma armadilha.")
     fun npcItemScamLine(rollInt: (Int) -> Int): String = pick(texts.npcItemScamLines, rollInt, "A troca era falsa.")
     fun npcItemRewardLine(rollInt: (Int) -> Int): String = pick(texts.npcItemRewardLines, rollInt, "A troca gera uma recompensa.")
     fun npcItemNeutralLine(rollInt: (Int) -> Int): String = pick(texts.npcItemNeutralLines, rollInt, "Ele agradece e vai embora.")
 
     fun npcSuspiciousPitch(rollInt: (Int) -> Int): String = pick(texts.npcSuspiciousPitch, rollInt, "Ele oferece uma rota secreta.")
-    fun npcSuspiciousRefuseLine(rollInt: (Int) -> Int): String = pick(texts.npcSuspiciousRefuseLines, rollInt, "Voce ignora e segue alerta.")
+    fun npcSuspiciousRefuseLine(rollInt: (Int) -> Int): String = pick(texts.npcSuspiciousRefuseLines, rollInt, "Você ignora e segue alerta.")
     fun npcSuspiciousScamLine(rollInt: (Int) -> Int): String = pick(texts.npcSuspiciousScamLines, rollInt, "Era uma armadilha.")
     fun npcSuspiciousRewardLine(rollInt: (Int) -> Int): String = pick(texts.npcSuspiciousRewardLines, rollInt, "O atalho se prova real.")
 
-    fun liquidIntro(rollInt: (Int) -> Int): String = pick(texts.liquidIntro, rollInt, "um liquido estranho brilha sobre a pedra.")
-    fun liquidIgnoreLine(rollInt: (Int) -> Int): String = pick(texts.liquidIgnoreLines, rollInt, "Voce decide nao arriscar.")
-    fun chestIntro(rollInt: (Int) -> Int): String = pick(texts.chestIntro, rollInt, "um bau antigo repousa no canto.")
-    fun chestIgnoreLine(rollInt: (Int) -> Int): String = pick(texts.chestIgnoreLines, rollInt, "Voce deixa o bau para tras.")
+    fun liquidIntro(rollInt: (Int) -> Int): String = pick(texts.liquidIntro, rollInt, "um líquido estranho brilha sobre a pedra.")
+    fun liquidIgnoreLine(rollInt: (Int) -> Int): String = pick(texts.liquidIgnoreLines, rollInt, "Você decide não arriscar.")
+    fun chestIntro(rollInt: (Int) -> Int): String = pick(texts.chestIntro, rollInt, "um baú antigo repousa no canto.")
+    fun chestIgnoreLine(rollInt: (Int) -> Int): String = pick(texts.chestIgnoreLines, rollInt, "Você deixa o baú para trás.")
     fun chestAmbushLine(rollInt: (Int) -> Int): String = pick(texts.chestAmbushLines, rollInt, "Era uma armadilha.")
 
     fun requestedGold(playerLevel: Int, depth: Int, rollInt: (Int) -> Int): Int {
@@ -117,3 +117,8 @@ class DungeonEventService(private val def: DungeonEventDef) {
         return rollInt(100) < chancePct.coerceIn(0, 100)
     }
 }
+
+
+
+
+

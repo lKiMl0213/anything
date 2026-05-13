@@ -1,4 +1,4 @@
-package rpg.android.screens
+﻿package rpg.android.screens
 
 import androidx.compose.runtime.Composable
 import rpg.android.components.MenuButton
@@ -14,9 +14,10 @@ fun CharacterScreen(
 ) {
     MenuLayout(title = "Personagem") {
         MenuButton("EQUIPAMENTOS", onEquipments)
-        MenuButton("INVENTARIO", onInventory)
+        MenuButton("INVENTÁRIO", onInventory)
         MenuButton("ATRIBUTOS", onAttributes)
         MenuButton("TALENTOS", onTalents)
         MenuButton("VOLTAR", onBack)
     }
 }
+

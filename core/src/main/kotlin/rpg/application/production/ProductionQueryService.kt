@@ -1,4 +1,4 @@
-package rpg.application.production
+﻿package rpg.application.production
 
 import rpg.engine.GameEngine
 import rpg.model.CraftDiscipline
@@ -7,6 +7,7 @@ import rpg.model.GameState
 import rpg.model.GatheringType
 import rpg.model.PlayerState
 import rpg.model.SkillType
+import rpg.premium.PremiumSupport
 
 class ProductionQueryService(
     private val engine: GameEngine,
@@ -20,6 +21,8 @@ class ProductionQueryService(
 
     private val recipeOrderCache = mutableMapOf<CraftDiscipline, RecipeOrderCacheEntry>()
     private val recipeListCache = mutableMapOf<CraftDiscipline, RecipeListCacheEntry>()
+    private val gatherOrderCache = mutableMapOf<GatheringType, GatherNodeOrderCacheEntry>()
+    private val gatherListCache = mutableMapOf<GatheringType, GatherNodeListCacheEntry>()
 
     fun warmCraftRecipeCaches(state: GameState) {
         @Suppress("UNUSED_PARAMETER")
@@ -90,24 +93,39 @@ class ProductionQueryService(
     }
 
     fun gatherNodes(state: GameState, type: GatheringType): List<ProductionGatherNodeView> {
+        val orderCache = gatherOrder(type)
         val player = state.player
-        val nodes = engine.gatheringService.availableNodes(player.level, type)
-        return nodes.map { node ->
-            val skill = engine.gatheringService.nodeSkill(node)
-            val snapshot = engine.skillSystem.snapshot(player, skill)
-            val unlocked = snapshot.level >= node.minSkillLevel
-            val duration = durationService.resolveGather(state, type, node.id)?.durationSeconds
-                ?: engine.skillSystem.actionDurationSeconds(
-                    baseSeconds = node.baseDurationSeconds,
-                    skillLevel = snapshot.level
-                )
+        val skillLevelCache = mutableMapOf<SkillType, Int>()
+        val cacheKey = GatherNodeListCacheKey(
+            catalogRevision = orderCache.catalogRevision,
+            skillSignature = gatherSkillSignature(player, orderCache.entries, skillLevelCache),
+            durationSignature = gatherDurationSignature(player, type)
+        )
+        val cached = gatherListCache[type]
+        if (cached != null && cached.key == cacheKey) {
+            return cached.views
+        }
+
+        val views = orderCache.entries.map { entry ->
+            val node = entry.node
+            val skill = entry.skillType
+            val skillLevel = skillLevelCache.getOrPut(skill) {
+                engine.skillSystem.snapshot(player, skill).level
+            }
+            val unlocked = skillLevel >= node.minSkillLevel
+            val duration = durationService.resolveGatherFromNode(
+                state = state,
+                type = type,
+                node = node,
+                skillLevelOverride = skillLevel
+            ).durationSeconds
             ProductionGatherNodeView(
                 id = node.id,
                 name = node.name,
                 type = node.type,
                 resourceLabel = itemName(node.resourceItemId),
                 skillType = skill,
-                skillLevel = snapshot.level,
+                skillLevel = skillLevel,
                 minSkillLevel = node.minSkillLevel,
                 unlocked = unlocked,
                 unlockReason = if (unlocked) null else unlockMessage(node.minSkillLevel, skill),
@@ -115,6 +133,8 @@ class ProductionQueryService(
                 available = unlocked
             )
         }
+        gatherListCache[type] = GatherNodeListCacheEntry(cacheKey, views)
+        return views
     }
 
     private fun itemName(itemId: String): String {
@@ -292,19 +312,78 @@ class ProductionQueryService(
         return rebuilt
     }
 
+    private fun gatherOrder(type: GatheringType): GatherNodeOrderCacheEntry {
+        val revision = engine.gatheringService.nodeCatalogRevision()
+        val cached = gatherOrderCache[type]
+        if (cached != null && cached.catalogRevision == revision) {
+            return cached
+        }
+        val entries = engine.gatheringService.enabledNodeCatalog(type)
+            .asSequence()
+            .sortedWith(compareBy({ it.minSkillLevel }, { it.name.lowercase() }, { it.id.lowercase() }))
+            .map { node -> OrderedGatherNodeEntry(node = node, skillType = engine.gatheringService.nodeSkill(node)) }
+            .toList()
+        val rebuilt = GatherNodeOrderCacheEntry(
+            catalogRevision = revision,
+            entries = entries,
+            byId = entries.associateBy { it.node.id }
+        )
+        gatherOrderCache[type] = rebuilt
+        gatherListCache.remove(type)
+        return rebuilt
+    }
+
+    private fun gatherSkillSignature(
+        player: PlayerState,
+        entries: List<OrderedGatherNodeEntry>,
+        skillLevelCache: MutableMap<SkillType, Int>
+    ): Int {
+        var signature = 17
+        entries.asSequence()
+            .map { it.skillType }
+            .distinct()
+            .sortedBy { it.name }
+            .forEach { skill ->
+                val level = skillLevelCache.getOrPut(skill) { engine.skillSystem.snapshot(player, skill).level }
+                signature = (signature * 31) + skill.name.hashCode()
+                signature = (signature * 31) + level
+            }
+        return signature
+    }
+
+    private fun gatherDurationSignature(player: PlayerState, type: GatheringType): Int {
+        val taskId = when (type) {
+            GatheringType.HERBALISM -> "herbalism"
+            GatheringType.MINING -> "mining"
+            GatheringType.WOODCUTTING -> "woodcutting"
+            GatheringType.FISHING -> "fishing"
+        }
+        val activeTask = player.foodBuffTaskId?.trim()?.lowercase()
+        val buffActiveForTask = player.foodBuffRemainingMinutes > 0.0 && activeTask == taskId
+        var signature = 17
+        signature = (signature * 31) + if (PremiumSupport.isPremiumActive(player)) 1 else 0
+        signature = (signature * 31) + if (buffActiveForTask) 1 else 0
+        if (buffActiveForTask) {
+            signature = (signature * 31) + (player.foodBuffTaskEfficiencyPct * 100.0).toInt()
+            signature = (signature * 31) + player.foodBuffRemainingMinutes.toInt()
+        }
+        return signature
+    }
+
     private fun unlockMessage(minSkillLevel: Int, skill: rpg.model.SkillType): String {
         return "Desbloqueado no nv $minSkillLevel de ${skillLabel(skill)}"
     }
 
     private fun skillLabel(skill: rpg.model.SkillType): String = when (skill) {
-        rpg.model.SkillType.MINING -> "mineracao"
+        rpg.model.SkillType.MINING -> "mineração"
         rpg.model.SkillType.GATHERING -> "coleta"
         rpg.model.SkillType.WOODCUTTING -> "corte de madeira"
         rpg.model.SkillType.FISHING -> "pesca"
-        rpg.model.SkillType.HUNTING -> "caca"
+        rpg.model.SkillType.HUNTING -> "caça"
         rpg.model.SkillType.BLACKSMITH -> "forja"
         rpg.model.SkillType.ALCHEMIST -> "alquimia"
-        rpg.model.SkillType.COOKING -> "culinaria"
+        rpg.model.SkillType.COOKING -> "culinária"
         rpg.model.SkillType.ENCHANTING -> "encantamento"
     }
 }
+

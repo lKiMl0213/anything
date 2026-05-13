@@ -1,4 +1,4 @@
-package rpg.combat
+﻿package rpg.combat
 
 import kotlin.math.ceil
 import rpg.application.model.AmmoStack
@@ -92,7 +92,7 @@ internal class DungeonCombatSkillSupport(
                 ?.item
                 ?.name
         } ?: "-"
-        return "Municao: ${countArrows(snapshot)}/$quiverCapacity flecha(s) | Reserva: $reserve | Ativa: $activeAmmo | Aljava: $quiverName"
+        return "Munição: ${countArrows(snapshot)}/$quiverCapacity flecha(s) | Reserva: $reserve | Ativa: $activeAmmo | Aljava: $quiverName"
     }
 
     private fun collectV2CombatSkillOptions(
@@ -243,7 +243,7 @@ internal class DungeonCombatSkillSupport(
         if (!mainWeaponId.isNullOrBlank()) {
             val weapon = engine.itemResolver.resolve(mainWeaponId, snapshot.itemInstances)
             val source = "${weapon?.id.orEmpty()} ${weapon?.name.orEmpty()} ${weapon?.tags?.joinToString(" ").orEmpty()}".lowercase()
-            if (listOf("staff", "cajado", "scepter", "cetro", "wand", "arcane", "magic", "magico").any { it in source }) {
+            if (listOf("staff", "cajado", "scepter", "cetro", "wand", "arcane", "magic", "magico", "mágico").any { it in source }) {
                 score += 3
             }
             if (listOf("sword", "espada", "axe", "machado", "bow", "arco", "lanca", "spear").any { it in source }) {
@@ -295,3 +295,6 @@ internal class DungeonCombatSkillSupport(
         rpg.combat.CombatState.DEAD -> "Morto"
     }
 }
+
+
+

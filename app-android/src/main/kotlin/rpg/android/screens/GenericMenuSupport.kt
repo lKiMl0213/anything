@@ -27,7 +27,7 @@ internal fun TalentNodeGrid(
     }
 
     if (cards.isEmpty()) {
-        Text("Nenhum talento disponivel neste momento.")
+        Text("Nenhum talento disponível neste momento.")
     } else {
         TalentTreeGraph(
             cards = cards,
@@ -111,7 +111,7 @@ internal fun compactProductionSummary(lines: List<String>): List<String> {
 
     return unique.mapNotNull { line ->
         when {
-            line.contains("Selecione uma receita", ignoreCase = true) -> "Escolha uma opcao abaixo para ver o detalhe."
+            line.contains("Selecione uma receita", ignoreCase = true) -> "Escolha uma opção abaixo para ver o detalhe."
             line.contains("Categoria:", ignoreCase = true) -> line
             line.contains("Disciplina:", ignoreCase = true) -> line
             line.startsWith("- ") -> null
@@ -131,7 +131,7 @@ internal fun compactUpgradeSummary(lines: List<String>): List<String> {
         .map { it.trim() }
         .filter { it.isNotBlank() }
         .filterNot { it.startsWith("- ") }
-        .filterNot { it.contains("Nivel atual", ignoreCase = true) }
+        .filterNot { it.contains("Nível atual", ignoreCase = true) }
         .filterNot { it.contains("Atual:", ignoreCase = true) }
         .filterNot { it.contains("Proximo:", ignoreCase = true) }
         .take(3)
@@ -162,7 +162,7 @@ internal fun toInfoButtonLabel(raw: String): String {
 internal fun cityRelevantMessages(messages: List<String>): List<String> {
     return messages.filterNot { line ->
         line.contains("Conquista concluida", ignoreCase = true) ||
-            line.contains("Recompensa disponivel", ignoreCase = true)
+            line.contains("Recompensa disponível", ignoreCase = true)
     }.takeLast(6)
 }
 
@@ -214,7 +214,7 @@ internal fun isAchievementContext(title: String, options: List<ScreenOptionViewM
 }
 
 internal fun isExplorationAreasContext(title: String, options: List<ScreenOptionViewModel>): Boolean {
-    if (!title.contains("Areas de Exploracao", ignoreCase = true)) {
+    if (!title.contains("Áreas de Exploração", ignoreCase = true)) {
         return false
     }
     return options.any { it.action is GameAction.EnterDungeon || it.action is GameAction.EnterClassDungeon }
@@ -254,7 +254,7 @@ private fun compactProductionOptionLabel(option: ScreenOptionViewModel): String 
             val target = label.substringBefore("->").trim().ifBlank { label.substringBefore("|").trim() }
             val parts = label.split("|").map { it.trim() }.filter { it.isNotBlank() }
             val time = parts.firstOrNull {
-                it.contains("tempo", ignoreCase = true) || it.contains("acao", ignoreCase = true)
+                it.contains("tempo", ignoreCase = true) || it.contains("ação", ignoreCase = true)
             }
             val compact = listOfNotNull(target.ifBlank { null }, time).joinToString(" - ")
             compact.ifBlank { cleanupProductionLabel(label) }
@@ -339,3 +339,7 @@ private fun isGlobalBossAction(action: GameAction): Boolean {
         else -> false
     }
 }
+
+
+
+

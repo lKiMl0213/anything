@@ -1,4 +1,4 @@
-package rpg.application.enchant
+﻿package rpg.application.enchant
 
 import rpg.application.GameActionResult
 import rpg.application.GameEffect
@@ -90,7 +90,7 @@ class EnchantActionDispatcher(
                 navigation = NavigationState.ProductionEnchantDetail,
                 selectedEnchantItemId = selectedItem,
                 selectedEnchantUseProtectionRune = next,
-                messages = listOf(if (next) "Runa de proteção: SIM" else "Runa de proteção: NÃO")
+                messages = listOf(if (next) "Runa de proteção: SIM" else "Runa de proteção: Não")
             )
         )
     }
@@ -162,3 +162,6 @@ class EnchantActionDispatcher(
         )
     }
 }
+
+
+

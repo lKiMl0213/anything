@@ -1,7 +1,7 @@
-{
+﻿{
   "id": "spirit",
   "name": "Spirit",
-  "description": "Entidades etereas que ignoram parte do dano fisico.",
+  "description": "Entidades etereas que ignoram parte do dano físico.",
   "tags": ["spirit", "ethereal"],
   "damageAffinities": {
     "physical": 0.75,
@@ -10,4 +10,5 @@
     "shadow": 0.9
   }
 }
+
 

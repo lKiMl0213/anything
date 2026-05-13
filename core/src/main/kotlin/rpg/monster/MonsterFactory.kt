@@ -1,4 +1,4 @@
-package rpg.monster
+﻿package rpg.monster
 
 import kotlin.random.Random
 import rpg.engine.PowerScoreEngine
@@ -45,7 +45,7 @@ class MonsterFactory(private val repo: DataRepository, rng: Random) {
         val modifiers = modifierService.rollModifiers(modifierCount)
         val rarityScaled = rolledAttributes.scale(rarity.statMultiplier)
         val modifiedAttributes = modifierService.applyModifiersToAttributes(rarityScaled, modifiers)
-        val bonus = modifiers.fold(Bonuses()) { acc, mod -> acc + mod.bonuses }
+        val bônus = modifiers.fold(Bonuses()) { acc, mod -> acc + mod.bonuses }
         val baseType = archetype.baseType.ifBlank {
             templatePicker.normalizeBaseType(archetype.id, archetype.name)
         }
@@ -72,7 +72,7 @@ class MonsterFactory(private val repo: DataRepository, rng: Random) {
         }
         modifiers.flatMapTo(tags) { it.addTags }
         val personality = MonsterPersonality.roll(rng)
-        val stats = StatsCalculator.compute(modifiedAttributes, listOf(bonus))
+        val stats = StatsCalculator.compute(modifiedAttributes, listOf(bônus))
         val powerScore = PowerScoreEngine.fromStats(stats, repo.balance)
 
         val modifierIds = modifiers.map { it.id }
@@ -101,7 +101,7 @@ class MonsterFactory(private val repo: DataRepository, rng: Random) {
             level = level,
             rarity = rarity,
             attributes = modifiedAttributes,
-            bonuses = bonus,
+            bonuses = bônus,
             tags = tags,
             questTags = questTags,
             modifiers = modifierIds,
@@ -119,3 +119,4 @@ class MonsterFactory(private val repo: DataRepository, rng: Random) {
         )
     }
 }
+

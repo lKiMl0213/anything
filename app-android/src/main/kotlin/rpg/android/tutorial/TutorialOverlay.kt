@@ -1,4 +1,4 @@
-package rpg.android.tutorial
+﻿package rpg.android.tutorial
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -341,7 +341,7 @@ private fun decideCardPlacement(
 
 private fun highlightBoostPx(target: TutorialTarget, size: IntSize): Float {
     val base = min(size.width, size.height) * 0.010f
-    val bonus = when (target) {
+    val bônus = when (target) {
         TutorialTarget.HUB_INFO_PANEL,
         TutorialTarget.EXPLORATION_AREAS_PANEL,
         TutorialTarget.CHARACTER_EQUIPMENT_PANEL,
@@ -361,7 +361,7 @@ private fun highlightBoostPx(target: TutorialTarget, size: IntSize): Float {
 
         TutorialTarget.NONE -> 0f
     }
-    return base + bonus
+    return base + bônus
 }
 
 private fun clampRectToRoot(rect: Rect, size: IntSize): Rect {
@@ -388,3 +388,4 @@ private data class TargetRect(
     val widthPct: Float,
     val heightPct: Float
 )
+

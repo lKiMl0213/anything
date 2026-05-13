@@ -1,6 +1,8 @@
-{
+﻿{
   "id": "humanoid",
-  "monsterTags": ["humanoid"],
+  "monsterTags": [
+    "humanoid"
+  ],
   "intros": [
     "Passos humanos se aproximam",
     "Um vulto armado surge",
@@ -21,14 +23,14 @@
     "um inimigo astuto",
     "um combatente habilidoso",
     "um ser humano hostil",
-    "um inimigo que nao pode ser subestimado",
+    "um inimigo que não pode ser subestimado",
     "um adversario que conhece o terreno"
   ],
   "threats": [
     "Ele prepara a investida",
     "Olhares se cruzam em desafio",
     "A batalha e inevitavel",
-    "Ele ataca com precisao",
+    "Ele ataca com precisão",
     "O confronto e intenso",
     "Ele se move com agilidade",
     "A luta e brutal",
@@ -37,3 +39,6 @@
     "Ele se recusa a recuar"
   ]
 }
+
+
+

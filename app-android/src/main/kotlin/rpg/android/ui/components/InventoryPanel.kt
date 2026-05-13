@@ -1,4 +1,4 @@
-package rpg.android.ui.components
+﻿package rpg.android.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,7 +25,7 @@ fun InventoryPanel(
         title = title
     ) {
         if (items.isEmpty()) {
-            Text("Inventario vazio.")
+            Text("Inventário vazio.")
         } else {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -43,3 +43,4 @@ fun InventoryPanel(
         }
     }
 }
+

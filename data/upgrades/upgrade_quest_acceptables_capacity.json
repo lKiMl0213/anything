@@ -1,7 +1,7 @@
-{
+﻿{
   "id": "quest_acceptables_capacity",
-  "name": "Quadro de Missoes Extras",
-  "description": "Aumenta o limite de missoes aceitaveis disponiveis no quadro.",
+  "name": "Quadro de Missões Extras",
+  "description": "Aumenta o limite de missões aceitáveis disponíveis no quadro.",
   "effectType": "QUEST_ACCEPTABLE_POOL_BONUS",
   "valueMode": "FLAT",
   "enabled": true,
@@ -48,3 +48,4 @@
     }
   ]
 }
+

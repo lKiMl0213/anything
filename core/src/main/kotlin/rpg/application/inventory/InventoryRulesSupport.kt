@@ -93,7 +93,7 @@ class InventoryRulesSupport(
         val typeLabel = when (filter.type) {
             null -> "todos"
             ItemType.EQUIPMENT -> "equipamentos"
-            ItemType.CONSUMABLE -> "consumiveis"
+            ItemType.CONSUMABLE -> "consumíveis"
             ItemType.MATERIAL -> "materiais"
         }
         val rarityLabel = filter.minimumRarity?.colorLabel ?: "qualquer raridade"

@@ -1,4 +1,4 @@
-package rpg.combat
+﻿package rpg.combat
 
 import kotlin.math.max
 import kotlin.random.Random
@@ -91,7 +91,7 @@ internal class CombatPlayerSupportService(
                 val sourceSuffix = if (source.isBlank()) "" else " ($source)"
                 logBuilder.combatLog(
                     logBuilder.colorize(
-                        "Voce esta ${rpg.status.StatusSystem.statusAdjective(statusDef.type)}$sourceSuffix.",
+                        "Você está ${rpg.status.StatusSystem.statusAdjective(statusDef.type)}$sourceSuffix.",
                         CombatLogBuilder.ansiGreen
                     )
                 )
@@ -123,7 +123,7 @@ internal class CombatPlayerSupportService(
 
     fun applyReviveIfNeeded(player: PlayerState, actor: CombatActor): PlayerState {
         if (player.currentHp > 0.0 || !player.reviveOnce) return player
-        logBuilder.combatLog("Uma segunda chance silenciosa. Voce resiste com 1 HP.")
+        logBuilder.combatLog("Uma segunda chance silenciosa. Você resiste com 1 HP.")
         actor.currentHp = 1.0
         actor.runtime = actor.runtime.copy(state = CombatState.IDLE)
         return player.copy(currentHp = 1.0, reviveOnce = false)
@@ -159,3 +159,5 @@ internal class CombatPlayerSupportService(
         }
     }
 }
+
+

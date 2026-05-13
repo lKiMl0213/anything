@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "m_elementalist_elemental_master_weapon",
   "name": "Nucleo da Tempestade",
   "type": "EQUIPMENT",
@@ -28,7 +28,7 @@
     }
   },
   "value": 1,
-  "description": "Equipamento de Mestre Elemental focado em controle, resistencia elemental e combinacao de afinidades.",
+  "description": "Equipamento de Mestre Elemental focado em controle, resistência elemental e combinação de afinidades.",
   "effects": {
     "applyStatuses": [
       {
@@ -41,3 +41,6 @@
     ]
   }
 }
+
+
+

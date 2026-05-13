@@ -1,6 +1,6 @@
-{
+﻿{
   "id": "cook_hunter_field_ration",
-  "name": "Cozinhar Racao de Cacador",
+  "name": "Cozinhar Ração de Caçador",
   "discipline": "COOKING",
   "outputItemId": "field_ration",
   "outputQty": 2,
@@ -12,12 +12,32 @@
   "difficulty": 1.55,
   "tier": 3,
   "ingredients": [
-    { "itemId": "beast_meat", "quantity": 2 },
-    { "itemId": "wild_mint_leaf", "quantity": 1 },
-    { "itemId": "medicinal_herb", "quantity": 1 },
-    { "itemId": "charcoal", "quantity": 1 }
+    {
+      "itemId": "beast_meat",
+      "quantity": 2
+    },
+    {
+      "itemId": "wild_mint_leaf",
+      "quantity": 1
+    },
+    {
+      "itemId": "medicinal_herb",
+      "quantity": 1
+    },
+    {
+      "itemId": "charcoal",
+      "quantity": 1
+    }
   ],
-  "description": "Receita combinada para longas jornadas de caca.",
+  "description": "Receita combinada para longas jornadas de caça.",
   "enabled": true,
-  "tags": ["food", "cooking", "hunter"]
+  "tags": [
+    "food",
+    "cooking",
+    "hunter"
+  ]
 }
+
+
+
+

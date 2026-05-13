@@ -1,7 +1,7 @@
-{
+﻿{
   "id": "tier3",
   "displayName": "Vila de Pedra Quebrada",
-  "menuNote": "Ruinas abertas, cultistas e mortos inquietos patrulham a area.",
+  "menuNote": "Ruinas abertas, cultistas e mortos inquietos patrulham a área.",
   "minLevel": 10,
   "recommendedLevel": 13,
   "baseMonsterLevel": 12,
@@ -23,3 +23,4 @@
   "goldMultiplier": 1.1,
   "biomeId": "crypt"
 }
+

@@ -1,4 +1,4 @@
-package rpg.android.combat
+﻿package rpg.android.combat
 
 import rpg.achievement.AchievementCounterKeys
 import rpg.application.CombatFlowResult
@@ -58,15 +58,15 @@ internal class AndroidCombatOutcomeResolver(
             result.escaped -> CombatFlowResult(
                 gameState = updatedState.copy(currentRun = null),
                 navigation = NavigationState.Exploration,
-                messages = listOf("Voce fugiu do combate.") + combatLog
+                messages = listOf("Você fugiu do combate.") + combatLog
             )
 
             !result.victory -> CombatFlowResult(
                 gameState = updatedState.copy(currentRun = null),
                 navigation = NavigationState.Hub,
                 messages = listOf(
-                    "Voce foi derrotado.",
-                    "A expedicao terminou e voce retornou ao acampamento."
+                    "Você foi derrotado.",
+                    "A expedicao terminou e você retornou ao acampamento."
                 ) + combatLog
             )
 
@@ -124,7 +124,7 @@ internal class AndroidCombatOutcomeResolver(
                     "Ganhou ${victory.xpGain} XP e ${victory.goldGain} ouro."
                 )
                 if (playerWithTowerProgress.level > levelBefore) {
-                    rewardLines += "Level up! Agora voce esta no nivel ${playerWithTowerProgress.level}."
+                    rewardLines += "Level up! Agora você está no nível ${playerWithTowerProgress.level}."
                 }
                 if (encounter.tier.isInfinite) {
                     rewardLines += "Torre infinita: novo andar alcancado ${advancedRun.depth}."
@@ -248,7 +248,7 @@ internal class AndroidCombatOutcomeResolver(
             val rejectedGenerated = insert.rejected.filter { workingInstances.containsKey(it) }
             if (rejectedGenerated.isNotEmpty()) {
                 workingInstances = workingInstances - rejectedGenerated.toSet()
-                messages += "Inventario cheio: parte dos drops exclusivos da instancia foi perdida."
+                messages += "Inventário cheio: parte dos drops exclusivos da instancia foi perdida."
             }
             workingPlayer = workingPlayer.copy(
                 inventory = insert.inventory,
@@ -297,3 +297,5 @@ private data class ClassDungeonCombatResult(
     val messages: List<String>,
     val bonusGold: Int
 )
+
+

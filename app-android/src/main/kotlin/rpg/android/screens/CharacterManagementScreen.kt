@@ -189,7 +189,7 @@ fun CharacterManagementScreen(
                 shape = RoundedCornerShape(6.dp)
             ) {}
             InventoryPanel(
-                title = "Inventario ${state.inventoryCapacityLabel}",
+                title = "Inventário ${state.inventoryCapacityLabel}",
                 items = state.inventoryStacks.map { stack ->
                     InventoryRowItem(
                         id = stack.sampleItemId,

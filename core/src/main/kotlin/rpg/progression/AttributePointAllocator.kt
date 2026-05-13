@@ -1,4 +1,4 @@
-package rpg.progression
+﻿package rpg.progression
 
 import rpg.model.Attributes
 import rpg.model.PlayerState
@@ -16,7 +16,7 @@ internal class AttributePointAllocator(
         itemInstances: Map<String, rpg.model.ItemInstance>
     ): PlayerState {
         if (player.unspentAttrPoints <= 0) {
-            notify("Nenhum ponto de atributo disponivel.")
+            notify("Nenhum ponto de atributo disponível.")
             return player
         }
         return allocateAttributePoints(player, itemInstances)
@@ -54,3 +54,4 @@ internal class AttributePointAllocator(
         return clampPlayerResources(updated, itemInstances)
     }
 }
+

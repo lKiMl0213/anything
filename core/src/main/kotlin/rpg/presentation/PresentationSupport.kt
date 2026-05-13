@@ -1,4 +1,4 @@
-package rpg.presentation
+﻿package rpg.presentation
 
 import java.time.Instant
 import java.time.ZoneId
@@ -55,7 +55,7 @@ internal class PresentationSupport(
             val level = engine.skillSystem.snapshot(state.player, type).level
             "$label $level"
         }
-        return "Producao: ${parts.joinToString(" | ")}"
+        return "Produção: ${parts.joinToString(" | ")}"
     }
 
     fun hubOverviewLines(state: GameState): List<String> {
@@ -76,13 +76,13 @@ internal class PresentationSupport(
         return buildList {
             add("Clock sistema: ${Instant.now().atZone(ZoneId.systemDefault()).format(clockFormatter)}")
             add("")
-            add("${player.name} | Nivel ${player.level} | XP: ${player.xp}/${Progression.xpForNext(player.level)}")
+            add("${player.name} | Nível ${player.level} | XP: ${player.xp}/${Progression.xpForNext(player.level)}")
             add("${classDef.name} | 2a: $secondClass | Esp: $specialization")
             add("")
             add("$hpLine | $mpLine | Ouro ${player.gold}")
             add("Regen:$hpRegenLine | $mpRegenLine")
             add("")
-            add("CASH: ${player.premiumCash} | Inventario: $slotUsed/$slotLimit slots")
+            add("CASH: ${player.premiumCash} | Inventário: $slotUsed/$slotLimit slots")
             add("")
             add(productionSkillsSummaryLine(state))
             add(attributeSummaryLine(state))
@@ -134,3 +134,7 @@ internal class PresentationSupport(
 
     private fun format(value: Double): String = "%.1f".format(value)
 }
+
+
+
+

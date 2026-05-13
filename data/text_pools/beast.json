@@ -1,6 +1,8 @@
-{
+﻿{
   "id": "beast",
-  "monsterTags": ["beast"],
+  "monsterTags": [
+    "beast"
+  ],
   "intros": [
     "Um rosnado ecoa nas proximidades",
     "Folhas tremem ao redor",
@@ -17,7 +19,7 @@
     "uma fera faminta",
     "um predador impaciente",
     "um animal territorial",
-    "um cacador solitario",
+    "um caçador solitario",
     "uma criatura selvagem",
     "um monstro feroz",
     "um ser instintivo",
@@ -28,13 +30,15 @@
   "threats": [
     "Ele salta para atacar",
     "Suas garras riscam o ar",
-    "A cacada comeca",
+    "A caçada começa",
     "Ele avanca com ferocidade",
     "O confronto e inevitavel",
-    "Ele investe com forca total",
-    "A batalha comeca",
+    "Ele investe com força total",
+    "A batalha começa",
     "Ele se lanca em sua direcao",
     "O combate e brutal",
     "Ele ataca sem piedade"
   ]
 }
+
+

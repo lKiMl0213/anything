@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "shop_arrow_steel_bundle",
   "name": "Pacote de Flechas de Aco",
   "itemId": "arrow_steel",
@@ -6,7 +6,14 @@
   "currency": "GOLD",
   "quantity": 20,
   "minPlayerLevel": 10,
-  "description": "Municao premium de loja de ouro para tiers mais altos.",
+  "description": "Munição premium de loja de ouro para tiers mais altos.",
   "enabled": true,
-  "tags": ["gold", "archer", "ammo"]
+  "tags": [
+    "gold",
+    "archer",
+    "ammo"
+  ]
 }
+
+
+

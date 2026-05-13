@@ -1,6 +1,6 @@
 ﻿{
     "id":  "extract_scroll_remocao_legendary",
-    "name":  "Pergaminho de Remocao (Lendario)",
+    "name":  "Pergaminho de Remoção (Lendário)",
     "type":  "MATERIAL",
     "tier":  "legendary",
     "tags":  [
@@ -11,6 +11,7 @@
                  "legendary"
              ],
     "value":  520,
-    "description":  "Pergaminho lendario para extracoes de alto valor.",
+    "description":  "Pergaminho lendário para extracoes de alto valor.",
     "rarity":  "LEGENDARY"
 }
+

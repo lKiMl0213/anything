@@ -2,15 +2,15 @@
 
 ## Setup Commands
 - Install/build: `./gradlew build`
-- Dev/run (CLI atual): `./gradlew run`
+- Dev/validacao Android: `./gradlew :app-android:assembleDebug`
 - Test: `./gradlew test` (o repo segue sem testes configurados)
 - Package: `./gradlew packageWindowsPortable`
 
 ## Code Style
 - Mantenha conteudo de gameplay data-driven em `data/*.json` quando o dominio ja suportar.
-- Prefira `Engine`, `Service` ou `System` focados em vez de concentrar regras em CLI.
+- Prefira `Engine`, `Service` ou `System` focados em vez de concentrar regras na camada de interface.
 - Preserve copy PT-BR para o jogador.
-- Em `app-cli`, mantenha `println/readLine` restritos a camada textual.
+- Nota historica: o modulo `app-cli` foi removido; o caminho ativo e `app-android -> core`.
 
 ## Context Policy
 
@@ -49,8 +49,6 @@ Never:
 ```text
 root/
 |-- AGENTS.md
-|-- app-cli/
-|   `-- src/main/kotlin/rpg/cli/...
 |-- app-android/
 |   `-- src/main/kotlin/rpg/android/...
 |-- core/
@@ -68,6 +66,9 @@ root/
 `-- docs/
     `-- context/
 ```
+
+Nota historica:
+- `app-cli/` existiu em fases anteriores e pode aparecer apenas em documentos antigos.
 
 Data layout note:
 - Registries JSON em `data/` sao carregados recursivamente.

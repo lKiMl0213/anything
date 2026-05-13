@@ -1,11 +1,18 @@
-{
+﻿{
   "id": "collect_beast_meat_supply",
   "category": "collection",
-  "supportedTiers": ["ACCEPTED", "DAILY", "WEEKLY"],
+  "supportedTiers": [
+    "ACCEPTED",
+    "DAILY",
+    "WEEKLY"
+  ],
   "objectiveType": "COLLECT_ITEM",
   "targetType": "ITEM_ID",
   "targetId": "beast_meat",
-  "amountRange": { "min": 4, "max": 12 },
+  "amountRange": {
+    "min": 4,
+    "max": 12
+  },
   "rewardProfile": {
     "xpBase": 14,
     "goldBase": 12,
@@ -17,8 +24,9 @@
     "requiresDungeon": false
   },
   "titleTemplate": "Suprimento de Carne",
-  "descriptionTemplate": "Obtenha {amount} carnes de fera em caca, coleta ou combate.",
-  "hintTemplate": "A caca passiva e uma boa fonte para esse recurso.",
+  "descriptionTemplate": "Obtenha {amount} carnes de fera em caça, coleta ou combate.",
+  "hintTemplate": "A caça passiva e uma boa fonte para esse recurso.",
   "enabled": true,
   "weight": 8
 }
+

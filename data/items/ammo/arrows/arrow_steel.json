@@ -1,17 +1,20 @@
-{
-    "id":  "arrow_steel",
-    "name":  "Flecha de Aco",
-    "tags":  [
-                 "ammo",
-                 "arrow"
-             ],
-    "value":  6,
-    "type":  "MATERIAL",
-    "bonuses":  {
-                    "derivedAdd":  {
-                                       "damagePhysical":  5,
-                                       "accuracy":  3
-                                   }
-                },
-    "description":  "Municao reforcada, boa para pressao sustentada."
+﻿{
+  "id": "arrow_steel",
+  "name": "Flecha de Aco",
+  "tags": [
+    "ammo",
+    "arrow"
+  ],
+  "value": 6,
+  "type": "MATERIAL",
+  "bonuses": {
+    "derivedAdd": {
+      "damagePhysical": 5,
+      "accuracy": 3
+    }
+  },
+  "description": "Munição reforcada, boa para pressao sustentada."
 }
+
+
+

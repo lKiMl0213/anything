@@ -1,4 +1,4 @@
-package rpg.application.globalboss
+﻿package rpg.application.globalboss
 
 import java.time.DayOfWeek
 import java.time.Duration
@@ -127,7 +127,7 @@ class GlobalBossQueryService(
         val claimableCount = milestones.count { it.claimable }
         val summary = listOf(
             "Pontos totais: ${progress.totalPoints}",
-            "Milestones disponiveis: $claimableCount"
+            "Milestones disponíveis: $claimableCount"
         )
         return GlobalBossMilestoneMenuView(
             eventId = event.id,
@@ -164,7 +164,7 @@ class GlobalBossQueryService(
             val claimed = milestone.id in progress.claimedMilestones
             val claimable = reached && !claimed
             val status = when {
-                claimable -> "[Disponivel]"
+                claimable -> "[Disponível]"
                 claimed -> "[Resgatado]"
                 else -> "[Pendente]"
             }
@@ -178,7 +178,7 @@ class GlobalBossQueryService(
                 statusLabel = "Status: $status",
                 claimable = claimable,
                 claimed = claimed,
-                claimedAtLabel = claimedAt?.let { "Recebido em: $it" }
+                claimedAtLabel = claimedAt.let { "Recebido em: $it" }
             ) to milestone.pointsRequired
         }
         return rows.sortedWith(
@@ -241,3 +241,7 @@ class GlobalBossQueryService(
         }
     }
 }
+
+
+
+

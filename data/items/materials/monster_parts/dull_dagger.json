@@ -1,4 +1,4 @@
-{
+﻿{
     "id":  "dull_dagger",
     "name":  "Adaga Cega",
     "type":  "MATERIAL",
@@ -8,5 +8,6 @@
                  "weapon_scrap"
              ],
     "value":  2,
-    "description":  "Adaga sem fio util para sucata."
+    "description":  "Adaga sem fio útil para sucata."
 }
+

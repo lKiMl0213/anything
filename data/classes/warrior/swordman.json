@@ -1,7 +1,7 @@
-{
+﻿{
     "id":  "swordman",
     "name":  "Espadachim",
-    "description":  "Especialista em combate marcial e pressao fisica constante.",
+    "description":  "Especialista em combate marcial e pressao física constante.",
     "bonuses":  {
                     "attributes":  {
                                        "str":  8,
@@ -32,3 +32,4 @@
     "specializationUnlockLevel":  50,
     "specializationUnlockQuestTemplateId":  "unlock_swordman_specialization_lv50"
 }
+

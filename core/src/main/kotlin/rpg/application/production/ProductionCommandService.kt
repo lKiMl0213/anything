@@ -1,4 +1,4 @@
-package rpg.application.production
+﻿package rpg.application.production
 
 import rpg.achievement.AchievementTracker
 import rpg.achievement.AchievementCounterKeys
@@ -25,12 +25,12 @@ class ProductionCommandService(
         val resolution = durationService.resolveCraft(state, discipline, recipeId, requestedTimes = times)
             ?: return ProductionPrepareResult(
                 ready = false,
-                messages = listOf("Ingredientes ou requisitos insuficientes para esta receita.")
+                messages = listOf("Ingredientes ou requisitos insuficientes para está receita.")
             )
         if (!canStoreTemplateOutput(state, resolution.recipe.outputItemId)) {
             return ProductionPrepareResult(
                 ready = false,
-                messages = listOf("Inventario cheio para esse tipo de item. Libere espaco ou venda itens antes de craftar.")
+                messages = listOf("Inventário cheio para esse tipo de item. Libere espaco ou venda itens antes de craftar.")
             )
         }
         return ProductionPrepareResult(
@@ -59,14 +59,14 @@ class ProductionCommandService(
         if (!canStoreTemplateOutput(state, resolution.node.resourceItemId)) {
             return ProductionPrepareResult(
                 ready = false,
-                messages = listOf("Inventario cheio para esse recurso. Libere espaco ou venda itens antes de coletar.")
+                messages = listOf("Inventário cheio para esse recurso. Libere espaco ou venda itens antes de coletar.")
             )
         }
         return ProductionPrepareResult(
             ready = true,
             messages = emptyList(),
             timedActionView = ProductionTimedActionView(
-                categoryLabel = "Producao | ${gatheringTypeLabel(type)}",
+                categoryLabel = "Produção | ${gatheringTypeLabel(type)}",
                 actionLabel = "Coletando ${resolution.node.name}...",
                 skillLabel = resolution.skillLabel,
                 skillLevel = resolution.skillLevel,
@@ -82,7 +82,7 @@ class ProductionCommandService(
         times: Int = 1
     ): ProductionMutationResult {
         val resolution = durationService.resolveCraft(state, discipline, recipeId, requestedTimes = times)
-            ?: return ProductionMutationResult(state, listOf("Ingredientes ou requisitos insuficientes para esta receita."))
+            ?: return ProductionMutationResult(state, listOf("Ingredientes ou requisitos insuficientes para está receita."))
         val result = engine.craftingService.craft(
             state.player,
             state.itemInstances,
@@ -155,6 +155,12 @@ class ProductionCommandService(
         )
         val lines = mutableListOf<String>()
         lines += result.message
+        if (outputId != null && outputQty > 0) {
+            val outputName = outputItemName(outputId)
+            lines += "Produzido: ${outputQty}x $outputName"
+            lines += "- ${result.baseOutputQuantity} base"
+            lines += "- ${result.bonusOutputQuantity} bônus"
+        }
         lines += "Tempo gasto em craft: ${format(spentMinutes)} min."
         lines += advance.messages
         result.skillSnapshot?.let { snapshot ->
@@ -225,6 +231,10 @@ class ProductionCommandService(
         )
         val lines = mutableListOf<String>()
         lines += result.message
+        val gatheredItemName = outputItemName(result.resourceItemId)
+        lines += "Coletado: ${result.quantity}x $gatheredItemName"
+        lines += "- ${result.baseQuantity} base"
+        lines += "- ${result.bonusQuantity} bônus"
         lines += "Tempo gasto na coleta: ${format(spentMinutes)} min."
         lines += advance.messages
         result.skillSnapshot?.let { snapshot ->
@@ -269,6 +279,11 @@ class ProductionCommandService(
 
     private fun format(value: Double): String = "%.1f".format(value)
 
+    private fun outputItemName(itemId: String?): String {
+        if (itemId.isNullOrBlank()) return "Item"
+        return engine.itemRegistry.entry(itemId)?.name ?: itemId
+    }
+
     private fun canStoreTemplateOutput(state: GameState, templateId: String): Boolean {
         val hasTemplateStack = state.player.inventory.any { itemId ->
             itemId == templateId || state.itemInstances[itemId]?.templateId == templateId
@@ -279,3 +294,7 @@ class ProductionCommandService(
         return usedSlots < limit
     }
 }
+
+
+
+

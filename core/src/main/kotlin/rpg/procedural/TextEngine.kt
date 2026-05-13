@@ -1,4 +1,4 @@
-package rpg.procedural
+﻿package rpg.procedural
 
 import kotlin.random.Random
 import rpg.io.DataRepository
@@ -27,7 +27,7 @@ class TextEngine(
         val descriptors = pools.flatMap { it.descriptors }.ifEmpty { defaultPool?.descriptors ?: emptyList() }
         val threats = pools.flatMap { it.threats }.ifEmpty { defaultPool?.threats ?: emptyList() }
 
-        val intro = (intros.ifEmpty { listOf("Voce encontra") }).random(rng)
+        val intro = (intros.ifEmpty { listOf("Você encontra") }).random(rng)
         val desc = (descriptors.ifEmpty { listOf("uma criatura desconhecida") }).random(rng)
         val threat = (threats.ifEmpty { listOf("Ela se move com cautela.") }).random(rng)
 
@@ -45,3 +45,4 @@ class TextEngine(
         return if (matches.isNotEmpty()) matches else listOfNotNull(defaultPool)
     }
 }
+

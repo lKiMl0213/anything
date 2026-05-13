@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import rpg.android.R
 import rpg.android.state.CombatUiState
 import rpg.android.ui.components.GamePanel
+import rpg.android.ui.components.GameActiveEffectLine
 import rpg.android.ui.components.GamePrimaryButton
 import rpg.android.ui.components.GameScreenRoot
 import rpg.android.ui.components.GameStatBar
@@ -41,18 +42,23 @@ fun CombatTouchScreen(
     val uiScale = LocalGameUiSettings.current.scale
     val rowSpacing = GameUiTokens.panelSpacing
     val effectHeight = when (uiScale) {
-        GameUiScale.SMALL -> 58.dp
-        GameUiScale.MEDIUM -> 72.dp
-        GameUiScale.LARGE -> 90.dp
+        GameUiScale.SMALL -> 40.dp
+        GameUiScale.MEDIUM -> 50.dp
+        GameUiScale.LARGE -> 60.dp
     }
     val historyMinHeight = when (uiScale) {
-        GameUiScale.SMALL -> 84.dp
-        GameUiScale.MEDIUM -> 96.dp
-        GameUiScale.LARGE -> 112.dp
+        GameUiScale.SMALL -> 72.dp
+        GameUiScale.MEDIUM -> 84.dp
+        GameUiScale.LARGE -> 96.dp
     }
     val historyMaxHeight = when (uiScale) {
-        GameUiScale.SMALL -> 84.dp
-        GameUiScale.MEDIUM -> 96.dp
+        GameUiScale.SMALL -> 72.dp
+        GameUiScale.MEDIUM -> 84.dp
+        GameUiScale.LARGE -> 96.dp
+    }
+    val unitPanelHeight = when (uiScale) {
+        GameUiScale.SMALL -> 92.dp
+        GameUiScale.MEDIUM -> 102.dp
         GameUiScale.LARGE -> 112.dp
     }
     var selectedItemIndex by remember(state.consumables) { mutableIntStateOf(0) }
@@ -83,22 +89,53 @@ fun CombatTouchScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(rowSpacing)
             ) {
-                GamePanel(modifier = Modifier.weight(1f), title = state.playerName) {
-                    GameStatBar(label = "HP", current = state.playerHp, max = state.playerHpMax)
-                    GameStatBar(label = "MP", current = state.playerMp, max = state.playerMpMax)
-                }
-                GamePanel(modifier = Modifier.weight(1f), title = state.enemyName) {
-                    GameStatBar(label = "HP", current = state.enemyHp, max = state.enemyHpMax)
-                    Text(
-                        text = "HP ${(state.enemyHp / state.enemyHpMax.coerceAtLeast(1.0) * 100.0).toInt()}%",
+                GamePanel(
+                    modifier = Modifier
+                        .weight(1f)
+                        .heightIn(min = unitPanelHeight, max = unitPanelHeight),
+                    title = null
+                ) {
+                    Column(
                         modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
+                        verticalArrangement = Arrangement.spacedBy(2.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = state.playerName,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                        GameStatBar(label = "HP", current = state.playerHp, max = state.playerHpMax)
+                        GameStatBar(label = "MP", current = state.playerMp, max = state.playerMpMax)
+                        GameActiveEffectLine(
+                            effectName = state.activeEffectName,
+                            initialRemainingSeconds = state.activeEffectRemainingSeconds
+                        )
+                    }
+                }
+                GamePanel(
+                    modifier = Modifier
+                        .weight(1f)
+                        .heightIn(min = unitPanelHeight, max = unitPanelHeight),
+                    title = null
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(2.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = state.enemyName,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                        GameStatBar(label = "HP", current = state.enemyHp, max = state.enemyHpMax)
+                    }
                 }
             }
 
             GamePanel(title = "ATB") {
-                Text("Voce: ${state.playerAtbLabel}")
+                Text("Você: ${state.playerAtbLabel}")
                 LinearProgressIndicator(progress = { state.playerAtbProgress }, modifier = Modifier.fillMaxWidth())
                 Text("Inimigo: ${state.enemyAtbLabel}")
                 LinearProgressIndicator(progress = { state.enemyAtbProgress }, modifier = Modifier.fillMaxWidth())
@@ -114,7 +151,7 @@ fun CombatTouchScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .verticalScroll(rememberScrollState()),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
                     ) {
                         if (state.statusLines.isEmpty()) {
                             Text("Sem efeitos ativos.")
@@ -152,15 +189,15 @@ fun CombatTouchScreen(
                 }
             }
 
-            GamePanel(title = "Estado da acao") {
+            GamePanel(title = "Estado da ação") {
                 Text(
-                    text = if (state.playerReady) "Acao pronta!" else "Aguardando carregamento da barra de acao.",
+                    text = if (state.playerReady) "Ação pronta!" else "Aguardando carregamento da barra de ação.",
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center
                 )
             }
 
-            GamePanel(title = "Acoes") {
+            GamePanel(title = "Ações") {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(rowSpacing)
@@ -214,7 +251,7 @@ fun CombatTouchScreen(
                         )
                     }
                 } else {
-                    Text("Sem consumiveis disponiveis.")
+                    Text("Sem consumíveis disponíveis.")
                 }
             }
         }
@@ -227,3 +264,7 @@ private fun sanitizeLogLine(raw: String): String {
         .replace(Regex("\\[(?:\\d{1,3};?)+m"), "")
         .trim()
 }
+
+
+
+

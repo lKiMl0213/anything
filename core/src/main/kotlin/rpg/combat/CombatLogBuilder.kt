@@ -1,10 +1,10 @@
-package rpg.combat
+﻿package rpg.combat
 
 internal class CombatLogBuilder(
     private val logger: (String) -> Unit
 ) {
     fun subjectLabel(actor: CombatActor): String = if (actor.kind == CombatantKind.PLAYER) {
-        "Voce"
+        "Você"
     } else {
         "O inimigo"
     }
@@ -26,3 +26,4 @@ internal class CombatLogBuilder(
         const val ansiCyan = "\u001B[36m"
     }
 }
+

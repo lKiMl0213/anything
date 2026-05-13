@@ -1,4 +1,4 @@
-package rpg.classsystem
+﻿package rpg.classsystem
 
 import kotlin.math.ceil
 import rpg.model.RaceDef
@@ -41,8 +41,9 @@ object RaceBonusSupport {
             SkillType.MINING -> listOf("mining", "mineracao")
             SkillType.WOODCUTTING -> listOf("woodcutting", "lenhador", "madeira")
             SkillType.FISHING -> listOf("fishing", "pesca")
-            SkillType.HUNTING -> listOf("hunting", "caca", "ca\u00e7a")
+            SkillType.HUNTING -> listOf("hunting", "caça", "ca\u00e7a")
             SkillType.GATHERING -> listOf("gathering", "coleta", "herbalism", "herbalismo")
         } + skillType.name.lowercase()
     }
 }
+

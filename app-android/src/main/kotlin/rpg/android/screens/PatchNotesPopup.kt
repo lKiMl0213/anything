@@ -1,4 +1,4 @@
-package rpg.android.screens
+﻿package rpg.android.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -191,3 +191,4 @@ private fun AnnotatedString.Builder.appendInlineMarkdown(source: String) {
         }
     }
 }
+

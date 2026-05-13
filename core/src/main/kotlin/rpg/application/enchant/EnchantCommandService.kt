@@ -1,4 +1,4 @@
-package rpg.application.enchant
+﻿package rpg.application.enchant
 
 import rpg.achievement.AchievementTracker
 import rpg.achievement.AchievementCounterKeys
@@ -34,7 +34,7 @@ class EnchantCommandService(
             return EnchantPrepareResult(
                 ready = false,
                 messages = if (preview.blockedReasons.isEmpty()) {
-                    listOf("Nao foi possivel preparar o encantamento.")
+                    listOf("Não foi possível preparar o encantamento.")
                 } else {
                     preview.blockedReasons
                 }
@@ -122,3 +122,6 @@ class EnchantCommandService(
 
     private fun format(value: Double): String = "%.1f".format(value)
 }
+
+
+
