@@ -8,6 +8,7 @@ import rpg.model.ItemInstance
 import rpg.model.ItemType
 import rpg.model.PlayerState
 import rpg.model.SkillType
+import rpg.premium.PremiumSupport
 import rpg.registry.ItemRegistry
 import rpg.skills.SkillSystem
 
@@ -70,11 +71,14 @@ class ExtractionService(
             if (owned <= 0) reasons += "Pergaminho de protecao indisponivel."
         }
 
-        val cost = item?.let { goldCostFor(it) } ?: 0
+        val baseCost = item?.let { goldCostFor(it) } ?: 0
+        val cost = applyProductionCostReduction(prepared, baseCost)
         if (cost > prepared.gold) reasons += "Ouro insuficiente (custo: $cost)."
 
-        val duration = skillSystem.actionDurationSeconds(extractionConfig.baseDurationSeconds, skillLevel)
-            .coerceAtLeast(extractionConfig.minDurationSeconds)
+        val duration = (
+            skillSystem.actionDurationSeconds(extractionConfig.baseDurationSeconds, skillLevel)
+                .coerceAtLeast(extractionConfig.minDurationSeconds)
+            ) * PremiumSupport.productionDurationMultiplier(prepared)
         return ExtractionPreview(
             itemId = request.itemId,
             itemName = item?.name ?: request.itemId,
@@ -209,7 +213,8 @@ class ExtractionService(
         val xp = skillSystem.gainXp(
             player = mutablePlayer,
             skill = SkillType.ENCHANTING,
-            baseXp = extractionConfig.attemptBaseXp + if (success) extractionConfig.successBonusXp else 0.0,
+            baseXp = (extractionConfig.attemptBaseXp + if (success) extractionConfig.successBonusXp else 0.0) *
+                PremiumSupport.skillXpMultiplier(mutablePlayer),
             difficulty = 1.0 + (preview.currentEnchantLevel * extractionConfig.xpPerEnchantLevelDifficulty),
             tier = 1
         )
@@ -288,4 +293,10 @@ class ExtractionService(
     fun enchantStoneTemplateIds(): Set<String> = extractionConfig.enchantStoneTemplateIds()
     fun removalScrollItemIds(): Set<String> = extractionConfig.removalScrollItemIds()
     fun protectionScrollItemIds(): Set<String> = extractionConfig.protectionScrollItemIds()
+
+    private fun applyProductionCostReduction(player: PlayerState, baseCost: Int): Int {
+        if (baseCost <= 0) return 0
+        val multiplier = (1.0 - PremiumSupport.productionCostReductionPct(player) / 100.0).coerceIn(0.1, 1.0)
+        return ceil(baseCost * multiplier).toInt().coerceAtLeast(1)
+    }
 }

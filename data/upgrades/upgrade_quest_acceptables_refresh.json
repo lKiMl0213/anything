@@ -1,0 +1,130 @@
+{
+  "id": "quest_acceptables_refresh",
+  "name": "Ritmo do Quadro de Missoes",
+  "description": "Reduz em 1 minuto o tempo de geracao de novas missoes aceitaveis por nivel.",
+  "effectType": "QUEST_ACCEPTABLE_REFRESH_REDUCTION_MINUTES",
+  "valueMode": "FLAT",
+  "enabled": true,
+  "levels": [
+    {
+      "level": 1,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 1200 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 45 }
+      ]
+    },
+    {
+      "level": 2,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 1800 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 60 }
+      ]
+    },
+    {
+      "level": 3,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 2500 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 75 }
+      ]
+    },
+    {
+      "level": 4,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 3300 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 92 }
+      ]
+    },
+    {
+      "level": 5,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 4200 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 110 }
+      ]
+    },
+    {
+      "level": 6,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 5200 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 128 }
+      ]
+    },
+    {
+      "level": 7,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 6400 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 148 }
+      ]
+    },
+    {
+      "level": 8,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 7800 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 170 }
+      ]
+    },
+    {
+      "level": 9,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 9400 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 194 }
+      ]
+    },
+    {
+      "level": 10,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 11200 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 220 }
+      ]
+    },
+    {
+      "level": 11,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 13200 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 248 }
+      ]
+    },
+    {
+      "level": 12,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 15400 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 278 }
+      ]
+    },
+    {
+      "level": 13,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 17800 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 310 }
+      ]
+    },
+    {
+      "level": 14,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 20400 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 344 }
+      ]
+    },
+    {
+      "level": 15,
+      "value": 1.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 23200 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 380 }
+      ]
+    }
+  ]
+}

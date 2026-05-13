@@ -8,6 +8,7 @@ import rpg.model.CraftRecipeDef
 import rpg.model.GameState
 import rpg.model.GatherNodeDef
 import rpg.model.GatheringType
+import rpg.premium.PremiumSupport
 
 class ProductionActionDurationService(
     private val engine: GameEngine
@@ -22,21 +23,39 @@ class ProductionActionDurationService(
             .firstOrNull { it.id == recipeId }
             ?: return null
         val maxCraftable = engine.craftingService.maxCraftable(state.player, state.itemInstances, recipe)
+        return resolveCraftFromRecipe(
+            state = state,
+            discipline = discipline,
+            recipe = recipe,
+            maxCraftable = maxCraftable,
+            requestedTimes = requestedTimes
+        )
+    }
+
+    internal fun resolveCraftFromRecipe(
+        state: GameState,
+        discipline: CraftDiscipline,
+        recipe: CraftRecipeDef,
+        maxCraftable: Int,
+        requestedTimes: Int? = null,
+        skillLevelOverride: Int? = null
+    ): CraftDurationResolution? {
         if (maxCraftable <= 0) return null
         val craftBatchLimit = engine.permanentUpgradeService.craftBatchLimit(state.player)
         val maxBatch = min(maxCraftable, max(1, craftBatchLimit))
         val times = requestedTimes?.coerceAtLeast(1)?.coerceAtMost(maxBatch) ?: maxBatch
         val skill = engine.craftingService.recipeSkill(recipe)
-        val snapshot = engine.skillSystem.snapshot(state.player, skill)
+        val skillLevel = skillLevelOverride ?: engine.skillSystem.snapshot(state.player, skill).level
         val duration = engine.skillSystem.actionDurationSeconds(
             baseSeconds = recipe.baseDurationSeconds * times.coerceAtLeast(1) * craftDurationMultiplier(discipline),
-            skillLevel = snapshot.level
-        ) * taskDurationMultiplier(state.player, discipline.name.lowercase())
+            skillLevel = skillLevel
+        ) * taskDurationMultiplier(state.player, discipline.name.lowercase()) *
+            PremiumSupport.productionDurationMultiplier(state.player)
         return CraftDurationResolution(
             recipe = recipe,
             times = times,
             skillLabel = skill.name.lowercase(),
-            skillLevel = snapshot.level,
+            skillLevel = skillLevel,
             durationSeconds = duration
         )
     }
@@ -54,7 +73,8 @@ class ProductionActionDurationService(
         val duration = engine.skillSystem.actionDurationSeconds(
             baseSeconds = node.baseDurationSeconds,
             skillLevel = snapshot.level
-        ) * taskDurationMultiplier(state.player, taskIdForGathering(type))
+        ) * taskDurationMultiplier(state.player, taskIdForGathering(type)) *
+            PremiumSupport.productionDurationMultiplier(state.player)
         return GatherDurationResolution(
             node = node,
             skillLabel = skill.name.lowercase(),

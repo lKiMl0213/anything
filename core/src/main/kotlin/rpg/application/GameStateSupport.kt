@@ -9,6 +9,12 @@ import rpg.model.GameState
 import rpg.model.ItemInstance
 import rpg.model.PlayerState
 import rpg.talent.TalentTreeService
+import rpg.application.support.OutOfCombatTimeService
+
+data class OfflineSyncResult(
+    val state: GameState,
+    val messages: List<String> = emptyList()
+)
 
 class GameStateSupport(
     private val repo: DataRepository,
@@ -30,8 +36,10 @@ class GameStateSupport(
         config = repo.globalBossSystem,
         eventsById = repo.globalBossEvents
     )
+    private val outOfCombatTimeService = OutOfCombatTimeService(engine)
 
     fun normalize(state: GameState): GameState {
+        val nowMillis = System.currentTimeMillis()
         val ammoNormalizedPlayer = rpg.inventory.InventorySystem.normalizeAmmoStorage(
             state.player,
             state.itemInstances,
@@ -54,17 +62,47 @@ class GameStateSupport(
             currentHp = progressionPlayer.currentHp.coerceIn(0.0, computed.derived.hpMax),
             currentMp = progressionPlayer.currentMp.coerceIn(0.0, computed.derived.mpMax)
         )
+        val activePlayer = clampedPlayer.copy(lastActiveEpochMs = nowMillis)
         val syncedBoard = engine.questProgressTracker.synchronizeCollectProgressFromInventory(
-            board = engine.questBoardEngine.synchronize(state.questBoard, clampedPlayer),
-            inventory = clampedPlayer.inventory,
+            board = engine.questBoardEngine.synchronize(state.questBoard, activePlayer),
+            inventory = activePlayer.inventory,
             itemInstanceTemplateById = { id -> state.itemInstances[id]?.templateId }
         )
         val normalized = state.copy(
-            player = clampedPlayer,
+            player = activePlayer,
             questBoard = syncedBoard,
-            lastClockSyncEpochMs = System.currentTimeMillis()
+            lastClockSyncEpochMs = nowMillis
         )
         return globalBossProgressService.synchronize(normalized)
+    }
+
+    fun applyOfflineProgress(
+        state: GameState,
+        nowMillis: Long = System.currentTimeMillis()
+    ): OfflineSyncResult {
+        val lastSync = state.lastClockSyncEpochMs.takeIf { it > 0L } ?: return OfflineSyncResult(
+            state = state.copy(lastClockSyncEpochMs = nowMillis)
+        )
+        val elapsedMs = (nowMillis - lastSync).coerceAtLeast(0L)
+        if (elapsedMs <= 0L) {
+            return OfflineSyncResult(state = state.copy(lastClockSyncEpochMs = nowMillis))
+        }
+        val elapsedMinutes = elapsedMs.toDouble() / 60_000.0
+        if (elapsedMinutes <= 0.0) {
+            return OfflineSyncResult(state = state.copy(lastClockSyncEpochMs = nowMillis))
+        }
+        val advance = outOfCombatTimeService.advance(
+            player = state.player,
+            itemInstances = state.itemInstances,
+            minutes = elapsedMinutes
+        )
+        return OfflineSyncResult(
+            state = state.copy(
+                player = advance.player,
+                lastClockSyncEpochMs = nowMillis
+            ),
+            messages = advance.messages
+        )
     }
 
     fun applyRestRoom(

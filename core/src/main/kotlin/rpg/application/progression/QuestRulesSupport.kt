@@ -16,6 +16,19 @@ import rpg.quest.QuestStatus
 
 class QuestRulesSupport(
     private val classQuestMenu: ClassQuestMenu,
+    private val acceptedLimitProvider: (PlayerState) -> Int = { QuestBoardEngine.MAX_ACCEPTED_ACTIVE },
+    private val poolLimitProvider: (PlayerState) -> Int = { QuestBoardEngine.MAX_ACCEPTABLE_POOL },
+    private val replaceLimitProvider: (PlayerState, QuestSection) -> Int = { _, section ->
+        when (section) {
+            QuestSection.DAILY -> QuestBoardEngine.DAILY_REPLACE_LIMIT
+            QuestSection.WEEKLY -> QuestBoardEngine.WEEKLY_REPLACE_LIMIT
+            QuestSection.MONTHLY -> QuestBoardEngine.MONTHLY_REPLACE_LIMIT
+            else -> 0
+        }
+    },
+    private val acceptableRefreshMinutesProvider: (PlayerState) -> Int = {
+        (QuestBoardEngine.ACCEPTABLE_REFRESH_INTERVAL_MS / 60_000L).toInt()
+    },
     private val zoneId: ZoneId = ZoneId.systemDefault()
 ) {
     fun classQuestEntry(player: PlayerState): ClassQuestDynamicEntry? = classQuestMenu.dynamicEntry(player)
@@ -23,32 +36,35 @@ class QuestRulesSupport(
     fun classQuestView(player: PlayerState): ClassQuestMenuView? = classQuestMenu.view(player)
 
     fun overview(board: QuestBoardState, player: PlayerState): QuestBoardOverviewView {
+        val acceptedLimit = acceptedLimitProvider(player).coerceAtLeast(1)
+        val poolLimit = poolLimitProvider(player).coerceAtLeast(1)
+        val refreshMinutes = acceptableRefreshMinutesProvider(player).coerceAtLeast(1)
         return QuestBoardOverviewView(
-            replaceSummary = "Replaces: diaria ${remainingReplaces(board, QuestSection.DAILY)} | " +
-                "semanal ${remainingReplaces(board, QuestSection.WEEKLY)} | " +
-                "mensal ${remainingReplaces(board, QuestSection.MONTHLY)}",
-            acceptedCountLabel = "${sectionQuests(board, QuestSection.ACCEPTED).size}/${QuestBoardEngine.MAX_ACCEPTED_ACTIVE}",
-            poolCountLabel = board.availableAcceptableQuestPool.size.toString(),
+            replaceSummary = "Replaces: diaria ${remainingReplaces(board, QuestSection.DAILY, player)} | " +
+                "semanal ${remainingReplaces(board, QuestSection.WEEKLY, player)} | " +
+                "mensal ${remainingReplaces(board, QuestSection.MONTHLY, player)}",
+            acceptedCountLabel = "${sectionQuests(board, QuestSection.ACCEPTED).size}/$acceptedLimit",
+            poolCountLabel = "${board.availableAcceptableQuestPool.size}/$poolLimit (novo ciclo a cada ${refreshMinutes} min)",
             classQuestLabel = classQuestEntry(player)?.label,
             sections = listOf(
-                sectionSummary(board, QuestSection.ACCEPTABLE_POOL),
-                sectionSummary(board, QuestSection.ACCEPTED),
-                sectionSummary(board, QuestSection.DAILY),
-                sectionSummary(board, QuestSection.WEEKLY),
-                sectionSummary(board, QuestSection.MONTHLY)
+                sectionSummary(board, QuestSection.ACCEPTABLE_POOL, player),
+                sectionSummary(board, QuestSection.ACCEPTED, player),
+                sectionSummary(board, QuestSection.DAILY, player),
+                sectionSummary(board, QuestSection.WEEKLY, player),
+                sectionSummary(board, QuestSection.MONTHLY, player)
             )
         )
     }
 
-    fun sectionSummary(board: QuestBoardState, section: QuestSection): QuestSectionSummaryView {
+    fun sectionSummary(board: QuestBoardState, section: QuestSection, player: PlayerState): QuestSectionSummaryView {
         val quests = when (section) {
             QuestSection.CLASS_QUEST -> emptyList()
             QuestSection.ACCEPTABLE_POOL -> board.availableAcceptableQuestPool
             else -> sectionQuests(board, section)
         }
         val countLabel = when (section) {
-            QuestSection.ACCEPTABLE_POOL -> "${quests.size} disponivel/is"
-            QuestSection.ACCEPTED -> "${quests.size}/${QuestBoardEngine.MAX_ACCEPTED_ACTIVE}"
+            QuestSection.ACCEPTABLE_POOL -> "${quests.size}/${poolLimitProvider(player).coerceAtLeast(1)} disponiveis"
+            QuestSection.ACCEPTED -> "${quests.size}/${acceptedLimitProvider(player).coerceAtLeast(1)}"
             QuestSection.CLASS_QUEST -> "-"
             else -> "${quests.size} ativa(s)"
         }
@@ -108,8 +124,8 @@ class QuestRulesSupport(
         return quests.any { it.status == QuestStatus.READY_TO_CLAIM }
     }
 
-    fun remainingReplaces(board: QuestBoardState, section: QuestSection): Int {
-        val limit = replaceLimit(section)
+    fun remainingReplaces(board: QuestBoardState, section: QuestSection, player: PlayerState): Int {
+        val limit = replaceLimit(section, player)
         val used = when (section) {
             QuestSection.DAILY -> board.dailyReplaceUsed
             QuestSection.WEEKLY -> board.weeklyReplaceUsed
@@ -119,13 +135,8 @@ class QuestRulesSupport(
         return (limit - used).coerceAtLeast(0)
     }
 
-    fun replaceLimit(section: QuestSection): Int {
-        return when (section) {
-            QuestSection.DAILY -> QuestBoardEngine.DAILY_REPLACE_LIMIT
-            QuestSection.WEEKLY -> QuestBoardEngine.WEEKLY_REPLACE_LIMIT
-            QuestSection.MONTHLY -> QuestBoardEngine.MONTHLY_REPLACE_LIMIT
-            else -> 0
-        }
+    fun replaceLimit(section: QuestSection, player: PlayerState): Int {
+        return replaceLimitProvider(player, section).coerceAtLeast(0)
     }
 
     fun questTier(section: QuestSection): QuestTier? {

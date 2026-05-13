@@ -1,4 +1,122 @@
 # Changelog
+## 2026-05-12 - Patch notes consolidado para 0.1.3
+
+### Updated Systems
+- `data/patchnotes/changelog.json` atualizado para `currentVersion: 0.1.3`.
+- Entrada `0.1.3` adicionada como patch note consolidado (mudancas novas + historico relevante anterior) para exibir no popup ao abrir o app no proximo build.
+- Entrada anterior `0.1.1` mantida no historico para rastreabilidade.
+- Versao Android atualizada em `app-android/build.gradle.kts`:
+  - `versionName = "0.1.3"`
+  - `versionCode = 4`
+
+### Validation Notes
+- `./gradlew --no-daemon :app-android:compileDebugKotlin -x checkKotlinFileLineLimit` passou.
+
+## 2026-05-12 - Premium em 2 colunas + craft com ordem fixa por nivel e lista leve
+
+### Updated Systems
+- Menu Premium (Android) reorganizado em duas colunas fixas:
+  - coluna `OURO` com planos de 7/15/30 dias por ouro;
+  - coluna `CASH` com 7/15/30 dias + permanente por cash;
+  - titulos centralizados e botoes compactos, sem mistura entre moedas.
+- Craft/Forja (e demais disciplinas de craft) com separacao explicita de responsabilidades:
+  - ordem da lista fixa por `minSkillLevel` e nome (cacheada por catalogo);
+  - bloqueio continua por nivel de skill;
+  - craftavel (verde/vermelho) continua por materiais do inventario.
+- Performance no menu de receitas:
+  - `warmCraftRecipeCaches` agora aquece apenas a ordem (nao recalcula status pesado);
+  - lista de receitas passou a usar caminho leve sem calculo de tempo/lote em massa;
+  - tempos e lote continuam no detalhe da receita (quando o usuario abre a receita).
+- Inventario nao altera a posicao dos itens na lista; altera apenas estado de craftabilidade.
+
+### Validation Notes
+- `./gradlew compileKotlin -x checkKotlinFileLineLimit` passou.
+- `./gradlew :app-android:compileDebugKotlin -x checkKotlinFileLineLimit` passou.
+- `./gradlew test -x checkKotlinFileLineLimit` passou.
+
+## 2026-05-12 - Performance no menu de craft (cache de lista por disciplina/estado)
+
+### Updated Systems
+- `ProductionQueryService` agora separa:
+  - ordem visivel da lista de receitas;
+  - status de desbloqueio;
+  - status de craftabilidade por materiais.
+- Ordem do menu de receitas de craft alterada para:
+  - `minSkillLevel` crescente (`nv0`, `nv1`, `nv2`, ...);
+  - desempate por nome (e `id` como fallback estavel).
+- Cache aplicado no menu de receitas por disciplina:
+  - reutiliza lista pronta quando assinatura de estado nao muda;
+  - assinatura considera inventario real, niveis de skill relevantes e limite de lote.
+- Pre-warm de cache adicionado ao abrir o menu `Craft`, reduzindo latencia ao entrar em `Forja`, `Alquimia` e `Culinaria`.
+- `CraftingService` passou a expor catalogo habilitado por disciplina + revisao de catalogo para invalidacao segura de cache quando a base de receitas mudar.
+
+### Validation Notes
+- `./gradlew compileKotlin -x checkKotlinFileLineLimit` passou.
+- `./gradlew :app-android:compileDebugKotlin -x checkKotlinFileLineLimit` passou.
+- `graphify update .` executado apos as mudancas.
+
+## 2026-05-12 - Cash/Premium + offline regen + producao persistente + ajustes UX Android
+
+### Updated Systems
+- Android (`app-android`) recebeu ajustes de UX solicitados:
+  - botoes de exclusao de save em vermelho (lixeira e confirmar excluir);
+  - painel da cidade mostra `Ouro` e `Cash` abaixo de HP/MP;
+  - feedback de loja sem ouro virou fluxo reutilizavel e repetivel (toast + destaque vermelho + shake sem travar apos 1 uso);
+  - detalhe de receita em producao preserva linhas de ingredientes para evitar exibicao vazia.
+- Producao/craft:
+  - status visual de craftabilidade reforcado com fonte de verdade no core (`craftable` vindo da regra real);
+  - otimizado carregamento de preview/menu para reduzir latencia ao abrir Forja/Alquimia/Culinaria;
+  - timer de acao de producao passou a persistir no Android ViewModel (retoma apos troca de tela/app e em retorno de sessao quando aplicavel).
+- Regen offline de HP/MP:
+  - sincronizacao por timestamp (`lastClockSyncEpochMs`) aplicada em load/continue de sessao;
+  - app passa a gravar sync de clock ao ir para background para catch-up consistente.
+- Sistema de CASH:
+  - novo fluxo `Cidade > Loja > Comprar Cash` com packs data-driven entre `R$ 5` e `R$ 200`, com taxa progressiva;
+  - primeira compra concede bonus de +10%;
+  - bonus `Bem-vindo de volta` (+10%) liberado apos usar bonus inicial e ficar 30 dias sem atividade elegivel.
+- Sistema Premium:
+  - nova loja Premium na cidade com compra por ouro (7/15/30 dias) e por cash (7/15/30/permanente);
+  - ativacao temporal/permanente centralizada em `PremiumSupport`;
+  - beneficios aplicados em: limites de quests/rerolls, bonus de ouro, desconto de loja, XP (combat + skills), custo/duracao de producao e runs extras de boss global.
+- Missoes:
+  - quests aceitaveis agora expiram em 24h;
+  - limites base alinhados para 5 aceitaveis e 5 aceitas;
+  - novos upgrades adicionados: capacidade de aceitaveis, reducao de refresh por nivel (min 5 min) e capacidade de aceitas (cap total 20).
+
+### Data-driven Content
+- Novos arquivos:
+  - `data/cash_packs/cash_pack_mega.json`
+  - `data/upgrades/upgrade_quest_acceptables_capacity.json`
+  - `data/upgrades/upgrade_quest_acceptables_refresh.json`
+  - `data/upgrades/upgrade_quest_accepted_capacity.json`
+- Ajustes de balanceamento em packs existentes:
+  - `cash_pack_small.json`, `cash_pack_medium.json`, `cash_pack_large.json`.
+
+### Validation Notes
+- `./gradlew compileKotlin -x checkKotlinFileLineLimit` passou.
+- `./gradlew :app-android:compileDebugKotlin -x checkKotlinFileLineLimit` passou.
+- `./gradlew test -x checkKotlinFileLineLimit` passou.
+- `graphify update .` executado para atualizar `graphify-out/`.
+
+## 2026-05-12 - Bugfix producao craft (performance + status visual de craftabilidade)
+
+### Updated Systems
+- Otimizacao de abertura de listas de craft (`Forja`, `Alquimia`, `Culinaria`):
+  - `ProductionQueryService` passou a calcular snapshot de inventario uma unica vez por tela de receitas;
+  - cache local de nivel de skill por tipo durante a montagem da lista;
+  - remocao de recalculos duplicados de duracao/lote por receita.
+- `ProductionActionDurationService` ganhou rota de resolucao por receita ja conhecida:
+  - `resolveCraftFromRecipe(...)` evita nova busca de receita e novo recalculo redundante quando os dados ja estao em memoria.
+- Reativado feedback visual de craft disponivel no Android:
+  - receita desbloqueada e craftavel: botao verde;
+  - receita desbloqueada sem materiais suficientes (inclusive parcial): botao vermelho;
+  - receita bloqueada por requisito de unlock: mantem visual bloqueado atual.
+- Regra de craftabilidade mantida em fonte unica de dominio:
+  - `maxCraftable > 0` somente quando todos os ingredientes atendem `qtdJogador >= qtdNecessaria`.
+
+### Validation Notes
+- `./gradlew :app-android:compileDebugKotlin -x checkKotlinFileLineLimit` passou com sucesso.
+
 ## 2026-05-12 - Android UI consistente (tema/popup) + exclusao de save + bloqueio de producao por skill
 
 ### Updated Systems

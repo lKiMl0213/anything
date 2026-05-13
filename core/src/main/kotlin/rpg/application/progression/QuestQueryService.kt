@@ -18,11 +18,12 @@ class QuestQueryService(
 
     fun questList(state: GameState, section: QuestSection): QuestListView {
         val quests = support.sectionQuests(state.questBoard, section)
+        val refreshMinutes = (engine.permanentUpgradeService.acceptableQuestRefreshIntervalMs(state.player) / 60_000L).toInt()
         return QuestListView(
             section = section,
             title = section.label,
             emptyMessage = when (section) {
-                QuestSection.ACCEPTABLE_POOL -> "Pool vazia. Aguarde o proximo ciclo de 20 minutos."
+                QuestSection.ACCEPTABLE_POOL -> "Pool vazia. Aguarde o proximo ciclo de $refreshMinutes minutos."
                 QuestSection.ACCEPTED -> "Nenhuma quest aceita."
                 QuestSection.DAILY,
                 QuestSection.WEEKLY,
@@ -61,9 +62,9 @@ class QuestQueryService(
             canClaim = quest.status == QuestStatus.READY_TO_CLAIM,
             canCancel = section == QuestSection.ACCEPTED && quest.canCancel,
             canReplace = section in listOf(QuestSection.DAILY, QuestSection.WEEKLY, QuestSection.MONTHLY) &&
-                support.remainingReplaces(state.questBoard, section) > 0 &&
+                support.remainingReplaces(state.questBoard, section, state.player) > 0 &&
                 quest.status != QuestStatus.CLAIMED,
-            replaceRemaining = support.remainingReplaces(state.questBoard, section)
+            replaceRemaining = support.remainingReplaces(state.questBoard, section, state.player)
         )
     }
 

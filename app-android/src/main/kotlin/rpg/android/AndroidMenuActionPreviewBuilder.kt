@@ -19,6 +19,13 @@ internal fun buildMenuActionPreviews(
 ): Map<String, MenuActionPreviewUiModel> {
     val state = session.gameState ?: return emptyMap()
     val previews = mutableMapOf<String, MenuActionPreviewUiModel>()
+    val requiresShopEntryPreview = viewModel.options.any { it.action is GameAction.BuyShopEntry }
+    val requiresUpgradePreview = viewModel.options.any { option ->
+        when (val action = option.action) {
+            is GameAction.BuyUpgrade -> action.costId != "__max__" && action.costId != "__unavailable__"
+            else -> false
+        }
+    }
     val shopQuery = deps.actionHandler.shopQueryService()
     val inventorySupport = deps.inventoryQueryService.support()
     val currency = session.selectedShopCurrency ?: ShopCurrency.GOLD
@@ -28,18 +35,30 @@ internal fun buildMenuActionPreviews(
     } else {
         null
     }
-    val shopEntries = shopQuery.entries(
-        player = state.player,
-        itemInstances = state.itemInstances,
-        currency = currency,
-        category = selectedCategory,
-        weaponClass = weaponClass
-    )
-    val upgrades = shopQuery.upgrades(
-        player = state.player,
-        currency = currency,
-        category = session.selectedUpgradeCategory ?: UpgradeMenuCategory.UTILITY
-    )
+    val shopEntries by lazy {
+        if (!requiresShopEntryPreview) {
+            emptyList()
+        } else {
+            shopQuery.entries(
+                player = state.player,
+                itemInstances = state.itemInstances,
+                currency = currency,
+                category = selectedCategory,
+                weaponClass = weaponClass
+            )
+        }
+    }
+    val upgrades by lazy {
+        if (!requiresUpgradePreview) {
+            emptyList()
+        } else {
+            shopQuery.upgrades(
+                player = state.player,
+                currency = currency,
+                category = session.selectedUpgradeCategory ?: UpgradeMenuCategory.UTILITY
+            )
+        }
+    }
 
     viewModel.options.forEach { option ->
         when (val action = option.action) {

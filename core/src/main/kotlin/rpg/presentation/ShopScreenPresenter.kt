@@ -7,6 +7,7 @@ import rpg.application.shop.ShopQueryService
 import rpg.application.shop.UpgradeMenuCategory
 import rpg.application.shop.WeaponClassCategory
 import rpg.model.ShopCurrency
+import rpg.premium.PremiumSupport
 import rpg.presentation.model.MenuScreenViewModel
 import rpg.presentation.model.ScreenOptionViewModel
 import rpg.presentation.model.ScreenViewModel
@@ -25,7 +26,15 @@ internal class ShopScreenPresenter(
                 label = "${category.category.label} (${category.count})",
                 action = GameAction.OpenShopCategory(category.category)
             )
-        } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
+        }.toMutableList()
+        if (currency == ShopCurrency.CASH) {
+            options += ScreenOptionViewModel(
+                key = (options.size + 1).toString(),
+                label = "Comprar Cash",
+                action = GameAction.OpenCashTopUp
+            )
+        }
+        options += ScreenOptionViewModel("x", "Voltar", GameAction.Back)
         return MenuScreenViewModel(
             title = "Loja (${currencyLabel(currency)})",
             summary = support.playerSummary(state),
@@ -33,6 +42,77 @@ internal class ShopScreenPresenter(
                 "Saldo atual: ${if (currency == ShopCurrency.GOLD) state.player.gold else state.player.premiumCash} ${currencyLabel(currency)}",
                 "Selecione uma categoria."
             ),
+            options = options,
+            messages = session.messages
+        )
+    }
+
+    fun presentCashTopUp(session: GameSession): ScreenViewModel {
+        val state = session.gameState ?: return support.presentMissingState("Comprar Cash")
+        val packs = queryService.cashPacks(state.player)
+        val options = packs.mapIndexed { index, pack ->
+            ScreenOptionViewModel(
+                key = (index + 1).toString(),
+                label = "${pack.name} | ${pack.platformPriceLabel} | +${pack.finalCashAmount} CASH",
+                action = GameAction.BuyCashPack(pack.id)
+            )
+        } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
+
+        val body = mutableListOf<String>()
+        body += "Selecione um pacote para adicionar CASH (simulacao local, sem pagamento real)."
+        body += "Quanto maior o valor, melhor a taxa de CASH por R$."
+        if (packs.isNotEmpty()) {
+            body += "Bonus atual: ${packs.first().bonusLabel}"
+            packs.forEach { pack ->
+                body += "- ${pack.name}: ${pack.description.ifBlank { "Pacote de recarga." }}"
+            }
+        }
+
+        return MenuScreenViewModel(
+            title = "Comprar Cash",
+            summary = support.playerSummary(state),
+            bodyLines = body,
+            options = options,
+            messages = session.messages
+        )
+    }
+
+    fun presentPremiumShop(session: GameSession): ScreenViewModel {
+        val state = session.gameState ?: return support.presentMissingState("Premium")
+        val plans = queryService.premiumPlans()
+        val options = plans.mapIndexed { index, plan ->
+            val costLabel = if (plan.currency == ShopCurrency.GOLD) "${plan.cost} ouro" else "${plan.cost} CASH"
+            ScreenOptionViewModel(
+                key = (index + 1).toString(),
+                label = "${plan.label} | $costLabel",
+                action = GameAction.BuyPremiumPlan(plan.id)
+            )
+        } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
+
+        val active = PremiumSupport.isPremiumActive(state.player)
+        val statusLine = if (state.player.premiumPermanent) {
+            "Status premium: permanente"
+        } else if (active) {
+            "Status premium: ativo ate ${java.time.Instant.ofEpochMilli(state.player.premiumExpiresAtEpochMs)}"
+        } else {
+            "Status premium: inativo"
+        }
+
+        val body = listOf(
+            statusLine,
+            "Beneficios premium:",
+            "Missoes: +10 aceitaveis, +10 diarias, +10 semanais, +10 mensais, +10 rerolls por categoria.",
+            "Producao: -10% custo e +10% velocidade.",
+            "Loja: -10% nos precos.",
+            "XP: +20% (skills e batalha).",
+            "Ouro em quests/vendas: +15%.",
+            "Boss global: +3 runs gratis por dia."
+        )
+
+        return MenuScreenViewModel(
+            title = "Premium",
+            summary = support.playerSummary(state),
+            bodyLines = body,
             options = options,
             messages = session.messages
         )

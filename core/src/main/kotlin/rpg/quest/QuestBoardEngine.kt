@@ -8,6 +8,7 @@ import java.time.temporal.TemporalAdjusters
 import kotlin.math.min
 import rpg.model.PlayerState
 import rpg.model.QuestTier
+import rpg.progression.PermanentUpgradeService
 
 data class QuestBoardActionResult(
     val board: QuestBoardState,
@@ -17,6 +18,7 @@ data class QuestBoardActionResult(
 
 class QuestBoardEngine(
     private val generator: QuestGenerator,
+    private val permanentUpgradeService: PermanentUpgradeService? = null,
     private val zoneId: ZoneId = ZoneId.systemDefault()
 ) {
     fun synchronize(
@@ -25,12 +27,19 @@ class QuestBoardEngine(
         nowMillis: Long = System.currentTimeMillis()
     ): QuestBoardState {
         val context = generator.buildContext(player)
+        val dailyCount = permanentUpgradeService?.dailyQuestCount(player) ?: DAILY_QUEST_COUNT
+        val weeklyCount = permanentUpgradeService?.weeklyQuestCount(player) ?: WEEKLY_QUEST_COUNT
+        val monthlyCount = permanentUpgradeService?.monthlyQuestCount(player) ?: MONTHLY_QUEST_COUNT
+        val acceptedLimit = permanentUpgradeService?.acceptedQuestLimit(player) ?: MAX_ACCEPTED_ACTIVE
+        val acceptableLimit = permanentUpgradeService?.acceptableQuestPoolLimit(player) ?: MAX_ACCEPTABLE_POOL
+        val refreshIntervalMs = permanentUpgradeService?.acceptableQuestRefreshIntervalMs(player)
+            ?: ACCEPTABLE_REFRESH_INTERVAL_MS
         var updated = board
         updated = synchronizeCycle(
             board = updated,
             tier = QuestTier.DAILY,
             context = context,
-            requiredCount = DAILY_QUEST_COUNT,
+            requiredCount = dailyCount,
             cycleStartMillis = cycleStartDaily(nowMillis),
             cycleEndMillis = cycleEndDaily(nowMillis),
             usedReplaces = updated.dailyReplaceUsed
@@ -46,7 +55,7 @@ class QuestBoardEngine(
             board = updated,
             tier = QuestTier.WEEKLY,
             context = context,
-            requiredCount = WEEKLY_QUEST_COUNT,
+            requiredCount = weeklyCount,
             cycleStartMillis = cycleStartWeekly(nowMillis),
             cycleEndMillis = cycleEndWeekly(nowMillis),
             usedReplaces = updated.weeklyReplaceUsed
@@ -62,7 +71,7 @@ class QuestBoardEngine(
             board = updated,
             tier = QuestTier.MONTHLY,
             context = context,
-            requiredCount = MONTHLY_QUEST_COUNT,
+            requiredCount = monthlyCount,
             cycleStartMillis = cycleStartMonthly(nowMillis),
             cycleEndMillis = cycleEndMonthly(nowMillis),
             usedReplaces = updated.monthlyReplaceUsed
@@ -76,51 +85,57 @@ class QuestBoardEngine(
 
         var available = updated.availableAcceptableQuestPool
             .filter { it.status == QuestStatus.ACTIVE }
-            .take(MAX_ACCEPTABLE_POOL)
+            .filter { quest ->
+                val expiresAt = quest.expiresAt ?: return@filter true
+                expiresAt > nowMillis
+            }
+            .take(acceptableLimit)
         var lastRoll = updated.lastAcceptableQuestRoll
         if (lastRoll <= 0L) {
-            lastRoll = nowMillis - ACCEPTABLE_REFRESH_INTERVAL_MS
+            lastRoll = nowMillis - refreshIntervalMs
         }
-        val elapsedTicks = ((nowMillis - lastRoll) / ACCEPTABLE_REFRESH_INTERVAL_MS).toInt().coerceAtLeast(0)
+        val elapsedTicks = ((nowMillis - lastRoll) / refreshIntervalMs).toInt().coerceAtLeast(0)
         if (elapsedTicks > 0) {
-            val toGenerate = min(elapsedTicks, MAX_ACCEPTABLE_POOL - available.size)
+            val toGenerate = min(elapsedTicks, acceptableLimit - available.size)
             repeat(toGenerate) {
                 val avoid = (available + updated.acceptedQuests).mapTo(mutableSetOf()) { it.templateId }
                 val generated = generator.generateSingle(
                     tier = QuestTier.ACCEPTED,
                     context = context,
                     createdAt = nowMillis,
-                    expiresAt = null,
+                    expiresAt = nowMillis + ACCEPTABLE_EXPIRATION_MS,
                     sourcePool = "acceptable_pool",
                     avoidTemplateIds = avoid
                 )
                 if (generated != null) {
-                    available = (available + generated).take(MAX_ACCEPTABLE_POOL)
+                    available = (available + generated).take(acceptableLimit)
                 }
             }
-            lastRoll += elapsedTicks.toLong() * ACCEPTABLE_REFRESH_INTERVAL_MS
+            lastRoll += elapsedTicks.toLong() * refreshIntervalMs
         }
 
         return updated.copy(
             availableAcceptableQuestPool = available,
             acceptedQuests = updated.acceptedQuests
                 .filter { it.status == QuestStatus.ACTIVE || it.status == QuestStatus.READY_TO_CLAIM }
-                .take(MAX_ACCEPTED_ACTIVE),
+                .take(acceptedLimit),
             completedQuests = updated.completedQuests.takeLast(MAX_COMPLETED_HISTORY),
-            lastAcceptableQuestRoll = maxOf(lastRoll, nowMillis - ACCEPTABLE_REFRESH_INTERVAL_MS)
+            lastAcceptableQuestRoll = maxOf(lastRoll, nowMillis - refreshIntervalMs)
         )
     }
 
     fun acceptQuest(
         board: QuestBoardState,
+        player: PlayerState,
         instanceId: String,
         acceptedAt: Long = System.currentTimeMillis()
     ): QuestBoardActionResult {
-        if (board.acceptedQuests.size >= MAX_ACCEPTED_ACTIVE) {
+        val acceptedLimit = permanentUpgradeService?.acceptedQuestLimit(player) ?: MAX_ACCEPTED_ACTIVE
+        if (board.acceptedQuests.size >= acceptedLimit) {
             return QuestBoardActionResult(
                 board = board,
                 success = false,
-                message = "Limite de $MAX_ACCEPTED_ACTIVE quests aceitas atingido."
+                message = "Limite de $acceptedLimit quests aceitas atingido."
             )
         }
         val quest = board.availableAcceptableQuestPool.firstOrNull { it.instanceId == instanceId }
@@ -133,7 +148,7 @@ class QuestBoardEngine(
         )
         return QuestBoardActionResult(
             board = board.copy(
-                acceptedQuests = (board.acceptedQuests + updatedQuest).take(MAX_ACCEPTED_ACTIVE),
+                acceptedQuests = (board.acceptedQuests + updatedQuest).take(acceptedLimit),
                 availableAcceptableQuestPool = board.availableAcceptableQuestPool.filterNot { it.instanceId == instanceId }
             ),
             success = true,
@@ -172,19 +187,19 @@ class QuestBoardEngine(
             QuestTier.DAILY -> Quad(
                 board.dailyQuests,
                 board.dailyReplaceUsed,
-                DAILY_REPLACE_LIMIT,
+                permanentUpgradeService?.dailyReplaceLimit(player) ?: DAILY_REPLACE_LIMIT,
                 cycleEndDaily(nowMillis)
             )
             QuestTier.WEEKLY -> Quad(
                 board.weeklyQuests,
                 board.weeklyReplaceUsed,
-                WEEKLY_REPLACE_LIMIT,
+                permanentUpgradeService?.weeklyReplaceLimit(player) ?: WEEKLY_REPLACE_LIMIT,
                 cycleEndWeekly(nowMillis)
             )
             QuestTier.MONTHLY -> Quad(
                 board.monthlyQuests,
                 board.monthlyReplaceUsed,
-                MONTHLY_REPLACE_LIMIT,
+                permanentUpgradeService?.monthlyReplaceLimit(player) ?: MONTHLY_REPLACE_LIMIT,
                 cycleEndMonthly(nowMillis)
             )
             QuestTier.ACCEPTED -> Quad(emptyList(), 0, 0, null)
@@ -328,5 +343,6 @@ class QuestBoardEngine(
         const val MONTHLY_REPLACE_LIMIT = 5
         const val MAX_COMPLETED_HISTORY = 200
         const val ACCEPTABLE_REFRESH_INTERVAL_MS = 20 * 60 * 1000L
+        const val ACCEPTABLE_EXPIRATION_MS = 24L * 60L * 60L * 1000L
     }
 }

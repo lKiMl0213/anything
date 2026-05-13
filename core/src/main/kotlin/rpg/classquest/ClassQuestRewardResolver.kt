@@ -1,6 +1,7 @@
 package rpg.classquest
 
 import kotlin.random.Random
+import kotlin.math.roundToInt
 import rpg.classsystem.AttributeEngine
 import rpg.classsystem.ClassSystem
 import rpg.inventory.InventorySystem
@@ -11,6 +12,7 @@ import rpg.model.EquipSlot
 import rpg.model.ItemInstance
 import rpg.model.PlayerState
 import rpg.progression.ExperienceEngine
+import rpg.premium.PremiumSupport
 import rpg.registry.ItemRegistry
 
 internal class ClassQuestRewardResolver(
@@ -26,7 +28,8 @@ internal class ClassQuestRewardResolver(
         stage: ClassQuestStageDefinition
     ): ClassQuestUpdate {
         val reward = stage.reward
-        var updatedPlayer = player.copy(gold = player.gold + reward.gold)
+        val premiumGold = (reward.gold * PremiumSupport.goldMultiplier(player)).roundToInt().coerceAtLeast(0)
+        var updatedPlayer = player.copy(gold = player.gold + premiumGold)
         updatedPlayer = applyXpWithAutoPoints(updatedPlayer, reward.xp)
 
         val updatedInstances = itemInstances.toMutableMap()
@@ -92,7 +95,7 @@ internal class ClassQuestRewardResolver(
         )
         val stageName = "Etapa ${stage.stage}"
         val messages = mutableListOf(
-            "$stageName: +${reward.xp} XP, +${reward.gold} ouro e recompensas recebidas."
+            "$stageName: +${reward.xp} XP, +$premiumGold ouro e recompensas recebidas."
         )
         if (insert.rejected.isNotEmpty()) {
             messages += "$stageName: inventario cheio, ${insert.rejected.size} item(ns) foram descartados."

@@ -13,6 +13,7 @@ data class PlayerSummaryViewModel(
     val level: Int,
     val classLabel: String,
     val gold: Int,
+    val cash: Int,
     val hp: ProgressBarViewModel,
     val mp: ProgressBarViewModel
 )
@@ -22,7 +23,8 @@ data class ScreenOptionViewModel(
     val label: String,
     val action: GameAction,
     val enabled: Boolean = true,
-    val lockedReason: String? = null
+    val lockedReason: String? = null,
+    val craftable: Boolean? = null
 )
 
 sealed interface ScreenViewModel {

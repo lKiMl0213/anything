@@ -13,6 +13,7 @@ import rpg.globalboss.models.GlobalBossState
 import rpg.model.GameState
 import rpg.model.ItemInstance
 import rpg.model.PlayerState
+import rpg.premium.PremiumSupport
 
 class GlobalBossProgressService(
     private val engine: GameEngine,
@@ -25,7 +26,14 @@ class GlobalBossProgressService(
     private val rewardService = GlobalBossRewardService(engine)
     private val cycleSupport = GlobalBossProgressCycleSupport(zoneId)
 
-    fun runLimits(): GlobalBossRunLimitConfig = config.runLimits
+    fun runLimits(player: PlayerState): GlobalBossRunLimitConfig {
+        val bonusRuns = PremiumSupport.globalBossExtraRuns(player).coerceAtLeast(0)
+        if (bonusRuns <= 0) return config.runLimits
+        return config.runLimits.copy(
+            freeRunsPerDay = config.runLimits.freeRunsPerDay + bonusRuns,
+            maxRunsPerDay = config.runLimits.maxRunsPerDay + bonusRuns
+        )
+    }
 
     fun synchronize(state: GameState, nowMillis: Long = System.currentTimeMillis()): GameState {
         if (events.isEmpty()) return state
@@ -67,7 +75,7 @@ class GlobalBossProgressService(
     fun consumeRunAttempt(state: GameState, eventId: String): GlobalBossAttemptResult {
         val (normalized, event, progress) = resolveEventAndProgress(state, eventId)
             ?: return GlobalBossAttemptResult(false, state, listOf("Evento global nao encontrado."))
-        val limits = config.runLimits
+        val limits = runLimits(normalized.player)
         if (progress.runsUsed >= limits.maxRunsPerDay) {
             return GlobalBossAttemptResult(false, normalized, listOf("Limite diario de ${limits.maxRunsPerDay} runs atingido."))
         }
@@ -117,7 +125,7 @@ class GlobalBossProgressService(
     fun buyPaidAttempt(state: GameState, eventId: String): GlobalBossAttemptResult {
         val (normalized, event, progress) = resolveEventAndProgress(state, eventId)
             ?: return GlobalBossAttemptResult(false, state, listOf("Evento global nao encontrado."))
-        val limits = config.runLimits
+        val limits = runLimits(normalized.player)
         if (progress.dailyPaidRunsBought >= limits.purchasableRunsPerDay) {
             return GlobalBossAttemptResult(false, normalized, listOf("Limite diario de compras atingido."))
         }

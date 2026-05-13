@@ -63,3 +63,22 @@ data class ShopMutationResult(
     val state: rpg.model.GameState,
     val messages: List<String>
 )
+
+data class CashPackDisplay(
+    val id: String,
+    val name: String,
+    val platformPriceLabel: String,
+    val baseCashAmount: Int,
+    val finalCashAmount: Int,
+    val bonusLabel: String,
+    val description: String
+)
+
+data class PremiumPlanDisplay(
+    val id: String,
+    val label: String,
+    val durationDays: Int?,
+    val permanent: Boolean,
+    val currency: ShopCurrency,
+    val cost: Int
+)

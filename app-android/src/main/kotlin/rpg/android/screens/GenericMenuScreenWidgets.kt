@@ -99,12 +99,25 @@ internal fun GenericMenuHeaderPanel(
                     color = goldTextColor,
                     textAlign = TextAlign.Center
                 )
+                if (section == MainSection.CITY) {
+                    Text(
+                        text = "Cash ${header.cash}",
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
         bodyLines.forEach { line ->
+            val (lineColor, _) = getIngredientLineColor(line)
             Text(
                 text = line,
                 modifier = Modifier.fillMaxWidth(),
+                color = when (lineColor) {
+                    IngredientColorState.AVAILABLE -> MaterialTheme.colorScheme.primary
+                    IngredientColorState.UNAVAILABLE -> MaterialTheme.colorScheme.error
+                    IngredientColorState.NEUTRAL -> MaterialTheme.colorScheme.onSurface
+                },
                 textAlign = if (isExplorationAreasContext || section == MainSection.PRODUCTION) {
                     TextAlign.Center
                 } else {
@@ -152,6 +165,34 @@ internal fun ShopFilterPanel(
             width = GameUiTokens.buttonMaxWidth
         )
     }
+}
+
+enum class IngredientColorState {
+    NEUTRAL, AVAILABLE, UNAVAILABLE
+}
+
+private fun getIngredientLineColor(line: String): Pair<IngredientColorState, Pair<Int, Int>?> {
+    val availability = parseIngredientAvailability(line)
+    val state = when {
+        availability == null -> IngredientColorState.NEUTRAL
+        availability.first >= availability.second -> IngredientColorState.AVAILABLE
+        else -> IngredientColorState.UNAVAILABLE
+    }
+    return state to availability
+}
+
+private fun parseIngredientAvailability(line: String): Pair<Int, Int>? {
+    Regex("(?i)possui\\s*(\\d+)\\s*/\\s*precisa\\s*(\\d+)").find(line)?.let { match ->
+        val owned = match.groupValues[1].toIntOrNull() ?: return null
+        val needed = match.groupValues[2].toIntOrNull() ?: return null
+        return owned to needed
+    }
+    Regex("(.+?)\\s+(\\d+)\\s*\\(\\s*(\\d+)\\s*\\)").find(line)?.let { match ->
+        val needed = match.groupValues[2].toIntOrNull() ?: return null
+        val owned = match.groupValues[3].toIntOrNull() ?: return null
+        return owned to needed
+    }
+    return null
 }
 
 internal fun optionShouldAlert(option: ScreenOptionViewModel, isQuestContext: Boolean): Boolean {

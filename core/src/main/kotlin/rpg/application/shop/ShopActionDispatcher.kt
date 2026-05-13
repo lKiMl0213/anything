@@ -16,11 +16,15 @@ class ShopActionDispatcher(
         return when (action) {
             GameAction.OpenGoldShop -> openShopCategories(session, ShopCurrency.GOLD)
             GameAction.OpenCashShop -> openShopCategories(session, ShopCurrency.CASH)
+            GameAction.OpenCashTopUp -> openCashTopUp(session)
             GameAction.OpenUpgradeShop -> openUpgradeCategories(session, ShopCurrency.GOLD)
+            GameAction.OpenPremiumShop -> openPremiumShop(session)
             is GameAction.SetShopCurrency -> setCurrency(session, action.currency)
             is GameAction.OpenShopCategory -> openShopItems(session, action.category)
             is GameAction.SetShopWeaponClass -> setWeaponClass(session, action.category)
             is GameAction.BuyShopEntry -> buyShopEntry(session, action)
+            is GameAction.BuyCashPack -> buyCashPack(session, action)
+            is GameAction.BuyPremiumPlan -> buyPremiumPlan(session, action)
             is GameAction.OpenUpgradeCategory -> openUpgradeList(session, action.category)
             is GameAction.BuyUpgrade -> buyUpgrade(session, action)
             else -> null
@@ -49,6 +53,29 @@ class ShopActionDispatcher(
                 selectedShopCurrency = currency,
                 selectedUpgradeCategory = null,
                 navigation = NavigationState.CityUpgradeCategories,
+                messages = emptyList()
+            )
+        )
+    }
+
+    private fun openCashTopUp(session: GameSession): GameActionResult {
+        val state = session.gameState ?: return missing(session)
+        return GameActionResult(
+            session = session.copy(
+                gameState = stateSupport.normalize(state),
+                selectedShopCurrency = ShopCurrency.CASH,
+                navigation = NavigationState.CityCashTopUp,
+                messages = emptyList()
+            )
+        )
+    }
+
+    private fun openPremiumShop(session: GameSession): GameActionResult {
+        val state = session.gameState ?: return missing(session)
+        return GameActionResult(
+            session = session.copy(
+                gameState = stateSupport.normalize(state),
+                navigation = NavigationState.CityPremiumShop,
                 messages = emptyList()
             )
         )
@@ -128,6 +155,32 @@ class ShopActionDispatcher(
             session = session.copy(
                 gameState = stateSupport.normalize(mutation.state),
                 navigation = NavigationState.CityShopItems,
+                messages = mutation.messages
+            )
+        )
+    }
+
+    private fun buyCashPack(session: GameSession, action: GameAction.BuyCashPack): GameActionResult {
+        val state = session.gameState ?: return missing(session)
+        val normalized = stateSupport.normalize(state)
+        val mutation = commandService.buyCashPack(normalized, action.packId)
+        return GameActionResult(
+            session = session.copy(
+                gameState = stateSupport.normalize(mutation.state),
+                navigation = NavigationState.CityCashTopUp,
+                messages = mutation.messages
+            )
+        )
+    }
+
+    private fun buyPremiumPlan(session: GameSession, action: GameAction.BuyPremiumPlan): GameActionResult {
+        val state = session.gameState ?: return missing(session)
+        val normalized = stateSupport.normalize(state)
+        val mutation = commandService.buyPremiumPlan(normalized, action.planId)
+        return GameActionResult(
+            session = session.copy(
+                gameState = stateSupport.normalize(mutation.state),
+                navigation = NavigationState.CityPremiumShop,
                 messages = mutation.messages
             )
         )

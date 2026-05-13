@@ -1,0 +1,50 @@
+{
+  "id": "quest_acceptables_capacity",
+  "name": "Quadro de Missoes Extras",
+  "description": "Aumenta o limite de missoes aceitaveis disponiveis no quadro.",
+  "effectType": "QUEST_ACCEPTABLE_POOL_BONUS",
+  "valueMode": "FLAT",
+  "enabled": true,
+  "levels": [
+    {
+      "level": 1,
+      "value": 3.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 1800 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 60 }
+      ]
+    },
+    {
+      "level": 2,
+      "value": 3.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 3600 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 115 }
+      ]
+    },
+    {
+      "level": 3,
+      "value": 3.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 6200 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 185 }
+      ]
+    },
+    {
+      "level": 4,
+      "value": 3.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 9600 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 275 }
+      ]
+    },
+    {
+      "level": 5,
+      "value": 3.0,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 14000 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 380 }
+      ]
+    }
+  ]
+}

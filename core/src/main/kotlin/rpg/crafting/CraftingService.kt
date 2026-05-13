@@ -12,6 +12,7 @@ import rpg.model.SkillSnapshot
 import rpg.model.SkillType
 import rpg.skills.SkillSystem
 import rpg.progression.PermanentUpgradeService
+import rpg.premium.PremiumSupport
 import rpg.registry.ItemRegistry
 
 data class CraftExecutionResult(
@@ -38,6 +39,15 @@ class CraftingService(
     private val permanentUpgradeService: PermanentUpgradeService,
     private val raceProfessionBonusPct: (PlayerState, SkillType) -> Double = { _, _ -> 0.0 }
 ) {
+    private val catalogRevision: Int = buildCatalogRevision()
+    private val enabledCatalogByDiscipline: Map<CraftDiscipline, List<CraftRecipeDef>> =
+        CraftDiscipline.entries.associateWith { discipline ->
+            recipes.values
+                .asSequence()
+                .filter { it.enabled && it.discipline == discipline }
+                .toList()
+        }
+
     fun availableRecipes(playerLevel: Int, discipline: CraftDiscipline? = null): List<CraftRecipeDef> {
         @Suppress("UNUSED_VARIABLE")
         val ignoredPlayerLevel = playerLevel
@@ -45,9 +55,15 @@ class CraftingService(
             .asSequence()
             .filter { it.enabled }
             .filter { discipline == null || it.discipline == discipline }
-            .sortedBy { it.name }
+            .sortedWith(recipeComparator())
             .toList()
     }
+
+    fun enabledRecipeCatalog(discipline: CraftDiscipline): List<CraftRecipeDef> {
+        return enabledCatalogByDiscipline[discipline].orEmpty()
+    }
+
+    fun recipeCatalogRevision(): Int = catalogRevision
 
     fun availableRecipes(player: PlayerState, discipline: CraftDiscipline? = null): List<CraftRecipeDef> {
         val prepared = skillSystem.ensureProgress(player)
@@ -59,7 +75,7 @@ class CraftingService(
                 val skill = recipeSkill(recipe)
                 skillSystem.snapshot(prepared, skill).level >= recipe.minSkillLevel
             }
-            .sortedBy { it.name }
+            .sortedWith(recipeComparator())
             .toList()
     }
 
@@ -96,7 +112,10 @@ class CraftingService(
         var successfulCrafts = 0
 
         for (attempt in 1..batch) {
-            val craftCostReductionPct = permanentUpgradeService.craftingCostReductionPct(preparedPlayer, recipe.discipline)
+            val craftCostReductionPct = (
+                permanentUpgradeService.craftingCostReductionPct(preparedPlayer, recipe.discipline) +
+                    PremiumSupport.productionCostReductionPct(preparedPlayer)
+                ).coerceIn(0.0, 90.0)
             val effectiveIngredients = recipe.ingredients.map { ingredient ->
                 val baseRequired = ingredient.quantity.coerceAtLeast(1)
                 val discounted = max(
@@ -270,6 +289,65 @@ class CraftingService(
         }
     }
 
+    private fun recipeComparator(): Comparator<CraftRecipeDef> {
+        return compareBy({ recipeCategoryRank(it) }, { recipeSubcategoryRank(it) }, { it.tier }, { it.name.lowercase() })
+    }
+
+    private fun recipeCategoryRank(recipe: CraftRecipeDef): Int {
+        val entry = itemRegistry.entry(recipe.outputItemId)
+        return when (entry?.type) {
+            rpg.model.ItemType.EQUIPMENT -> 0
+            rpg.model.ItemType.MATERIAL -> 1
+            rpg.model.ItemType.CONSUMABLE -> 2
+            else -> 3
+        }
+    }
+
+    private fun recipeSubcategoryRank(recipe: CraftRecipeDef): Int {
+        val entry = itemRegistry.entry(recipe.outputItemId) ?: return 999
+        return when (entry.type) {
+            rpg.model.ItemType.EQUIPMENT -> equipmentSlotRank(entry.slot)
+            rpg.model.ItemType.MATERIAL -> materialRank(entry)
+            rpg.model.ItemType.CONSUMABLE -> consumableRank(entry)
+            else -> 999
+        }
+    }
+
+    private fun equipmentSlotRank(slot: rpg.model.EquipSlot?): Int {
+        return when (slot) {
+            rpg.model.EquipSlot.HEAD -> 0
+            rpg.model.EquipSlot.CHEST -> 1
+            rpg.model.EquipSlot.LEGS -> 2
+            rpg.model.EquipSlot.BOOTS -> 3
+            rpg.model.EquipSlot.GLOVES -> 4
+            rpg.model.EquipSlot.CAPE -> 5
+            rpg.model.EquipSlot.WEAPON_MAIN -> 6
+            rpg.model.EquipSlot.WEAPON_OFF -> 7
+            rpg.model.EquipSlot.ALJAVA -> 8
+            rpg.model.EquipSlot.BACKPACK -> 9
+            rpg.model.EquipSlot.ACCESSORY -> 10
+            null -> 11
+        }
+    }
+
+    private fun materialRank(entry: rpg.registry.ItemRegistryEntry): Int {
+        val tags = entry.tags.map { it.lowercase() } + entry.name.lowercase()
+        return when {
+            tags.any { it.contains("bar") || it.contains("lingote") } -> 0
+            tags.any { it.contains("ore") || it.contains("mineral") } -> 1
+            tags.any { it.contains("crystal") || it.contains("shard") || it.contains("gem") } -> 2
+            else -> 3
+        }
+    }
+
+    private fun consumableRank(entry: rpg.registry.ItemRegistryEntry): Int {
+        val tags = entry.tags.map { it.lowercase() } + entry.name.lowercase()
+        return when {
+            tags.any { it.contains("food") || it.contains("potion") || it.contains("ether") } -> 0
+            else -> 1
+        }
+    }
+
     private fun appendRecipeOutput(
         recipe: CraftRecipeDef,
         outputAmount: Int,
@@ -334,5 +412,23 @@ class CraftingService(
             }
         }
         return true
+    }
+
+    private fun buildCatalogRevision(): Int {
+        var signature = 17
+        recipes.values
+            .asSequence()
+            .filter { it.enabled }
+            .sortedBy { it.id.lowercase() }
+            .forEach { recipe ->
+                signature = (signature * 31) + recipe.id.hashCode()
+                signature = (signature * 31) + recipe.name.lowercase().hashCode()
+                signature = (signature * 31) + recipe.discipline.name.hashCode()
+                signature = (signature * 31) + recipe.minSkillLevel
+                signature = (signature * 31) + recipe.outputItemId.hashCode()
+                signature = (signature * 31) + recipe.outputQty
+                signature = (signature * 31) + recipe.ingredients.size
+            }
+        return signature
     }
 }

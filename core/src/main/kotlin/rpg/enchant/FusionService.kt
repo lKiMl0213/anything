@@ -8,6 +8,7 @@ import rpg.model.ItemInstance
 import rpg.model.ItemType
 import rpg.model.PlayerState
 import rpg.model.SkillType
+import rpg.premium.PremiumSupport
 import rpg.registry.ItemRegistry
 import rpg.skills.SkillSystem
 
@@ -42,16 +43,19 @@ class FusionService(
         val levelPlan = calculateLevelPlan(levels.first, levels.second)
         val skillLevel = skillSystem.snapshot(prepared, SkillType.ENCHANTING).level
         val successChance = mode?.let { computeSuccessChance(levelPlan.baseLevel, skillLevel, it) } ?: 0.0
-        val goldCost = if (leftItem != null && rightItem != null && mode != null) {
+        val baseGoldCost = if (leftItem != null && rightItem != null && mode != null) {
             goldCostFor(leftItem, rightItem, levels.first, levels.second, mode)
         } else {
             0
         }
+        val goldCost = applyProductionCostReduction(prepared, baseGoldCost)
         if (goldCost > prepared.gold) {
             reasons += "Ouro insuficiente (custo: $goldCost)."
         }
-        val durationSeconds = skillSystem.actionDurationSeconds(fusionConfig.baseDurationSeconds, skillLevel)
-            .coerceAtLeast(fusionConfig.minDurationSeconds)
+        val durationSeconds = (
+            skillSystem.actionDurationSeconds(fusionConfig.baseDurationSeconds, skillLevel)
+                .coerceAtLeast(fusionConfig.minDurationSeconds)
+            ) * PremiumSupport.productionDurationMultiplier(prepared)
         return FusionPreview(
             slot1ItemId = request.slot1ItemId,
             slot2ItemId = request.slot2ItemId,
@@ -120,7 +124,8 @@ class FusionService(
         val xp = skillSystem.gainXp(
             player = updatedPlayer,
             skill = SkillType.ENCHANTING,
-            baseXp = fusionConfig.attemptBaseXp + if (success) fusionConfig.successBonusXp else 0.0,
+            baseXp = (fusionConfig.attemptBaseXp + if (success) fusionConfig.successBonusXp else 0.0) *
+                PremiumSupport.skillXpMultiplier(updatedPlayer),
             difficulty = 1.0 + (levelPlan.baseLevel * fusionConfig.xpPerEnchantLevelDifficulty),
             tier = 1
         )
@@ -240,6 +245,12 @@ class FusionService(
             preview = preview
         )
     }
+
+    private fun applyProductionCostReduction(player: PlayerState, baseCost: Int): Int {
+        if (baseCost <= 0) return 0
+        val multiplier = (1.0 - PremiumSupport.productionCostReductionPct(player) / 100.0).coerceIn(0.1, 1.0)
+        return ceil(baseCost * multiplier).toInt().coerceAtLeast(1)
+    }
 }
 
 private data class FusionLevelPlan(
@@ -249,4 +260,3 @@ private data class FusionLevelPlan(
     val failureMinLevel: Int,
     val failureMaxLevel: Int
 )
-

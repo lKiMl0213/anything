@@ -10,6 +10,7 @@ import rpg.model.ItemInstance
 import rpg.model.PlayerState
 import rpg.model.SkillSnapshot
 import rpg.model.SkillType
+import rpg.premium.PremiumSupport
 import rpg.progression.PermanentUpgradeService
 import rpg.registry.ItemRegistry
 import rpg.skills.SkillSystem
@@ -79,9 +80,11 @@ class HuntingService(
         val taskEfficiency = activeTaskEfficiencyPct(prepared, "hunting")
         val baseCycleSeconds = spot?.minCycleSeconds?.coerceAtLeast(1) ?: 1
         val cycleDurationSeconds = config.cycleDurationSeconds(baseCycleSeconds, skillLevel, taskEfficiency)
-        val durationSeconds = config.actionDurationSeconds(normalizedDurationSeconds)
+        val durationSeconds = config.actionDurationSeconds(normalizedDurationSeconds) *
+            PremiumSupport.productionDurationMultiplier(prepared)
         val cycles = if (spot == null) 0 else config.resolveCycles(normalizedDurationSeconds, cycleDurationSeconds)
-        val cost = if (spot == null) 0 else goldCostFor(spot, normalizedDurationSeconds)
+        val baseCost = if (spot == null) 0 else goldCostFor(spot, normalizedDurationSeconds)
+        val cost = applyProductionCostReduction(prepared, baseCost)
         if (spot != null && cycles <= 0) {
             reasons += "Tempo escolhido insuficiente para completar 1 ciclo."
         }
@@ -297,5 +300,11 @@ class HuntingService(
     private fun List<ItemRarity>.averageOf(selector: (ItemRarity) -> Double): Double {
         if (isEmpty()) return 0.0
         return sumOf(selector) / size.toDouble()
+    }
+
+    private fun applyProductionCostReduction(player: PlayerState, baseCost: Int): Int {
+        if (baseCost <= 0) return 0
+        val multiplier = (1.0 - PremiumSupport.productionCostReductionPct(player) / 100.0).coerceIn(0.1, 1.0)
+        return ceil(baseCost * multiplier).toInt().coerceAtLeast(1)
     }
 }

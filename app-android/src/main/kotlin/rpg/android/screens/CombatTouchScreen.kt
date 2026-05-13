@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -64,6 +65,8 @@ fun CombatTouchScreen(
         .filter { it.isNotBlank() }
         .takeLast(40)
 
+    val historyScrollState = rememberScrollState()
+
     GameScreenRoot(backgroundRes = R.drawable.bg_combat) {
         Column(
             modifier = Modifier
@@ -84,7 +87,7 @@ fun CombatTouchScreen(
                     GameStatBar(label = "HP", current = state.playerHp, max = state.playerHpMax)
                     GameStatBar(label = "MP", current = state.playerMp, max = state.playerMpMax)
                 }
-                GamePanel(modifier = Modifier.weight(1f), title = "Monstro") {
+                GamePanel(modifier = Modifier.weight(1f), title = state.enemyName) {
                     GameStatBar(label = "HP", current = state.enemyHp, max = state.enemyHpMax)
                     Text(
                         text = "HP ${(state.enemyHp / state.enemyHpMax.coerceAtLeast(1.0) * 100.0).toInt()}%",
@@ -125,6 +128,10 @@ fun CombatTouchScreen(
             }
 
             GamePanel(title = "Historico") {
+                LaunchedEffect(visibleLogs.size) {
+                    historyScrollState.scrollTo(historyScrollState.maxValue)
+                }
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -133,7 +140,7 @@ fun CombatTouchScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .verticalScroll(rememberScrollState()),
+                            .verticalScroll(historyScrollState),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         if (visibleLogs.isEmpty()) {

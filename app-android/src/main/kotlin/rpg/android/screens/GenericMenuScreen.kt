@@ -76,6 +76,7 @@ fun GenericMenuScreen(
     val isAchievementContext = isAchievementContext(viewModel.title, rawOptions)
     val isExplorationAreasContext = isExplorationAreasContext(viewModel.title, rawOptions)
     val isGlobalBossContext = isGlobalBossContext(viewModel.title, rawOptions)
+    val isPremiumContext = isPremiumPlansContext(viewModel.title, options)
     val useCompactActionGrid =
         section == MainSection.PRODUCTION ||
             section == MainSection.CITY ||
@@ -95,6 +96,9 @@ fun GenericMenuScreen(
             "Escolha uma area para iniciar a exploracao!",
             "Cada area possui um ecossistema proprio!"
         )
+        section == MainSection.PRODUCTION &&
+            viewModel.title.contains("Receita", ignoreCase = true) &&
+            viewModel.bodyLines.any { it.contains("Ingredientes", ignoreCase = true) } -> viewModel.bodyLines
         section == MainSection.PRODUCTION -> compactProductionSummary(viewModel.bodyLines)
         else -> viewModel.bodyLines
     }
@@ -113,13 +117,13 @@ fun GenericMenuScreen(
         else -> viewModel.messages
     }
     var goldErrorPulse by remember { mutableIntStateOf(0) }
-    val latestMessage = if (section == MainSection.CITY) {
-        viewModel.messages.lastOrNull()
+    val insufficientGoldToken = if (section == MainSection.CITY) {
+        insufficientGoldFeedbackToken(viewModel.messages)
     } else {
         null
     }
-    LaunchedEffect(section, viewModel.messages.size) {
-        if (section == MainSection.CITY && latestMessage?.contains("Ouro insuficiente", ignoreCase = true) == true) {
+    LaunchedEffect(section, insufficientGoldToken) {
+        if (section == MainSection.CITY && insufficientGoldToken != null) {
             Toast.makeText(context, "Ouro insuficiente", Toast.LENGTH_SHORT).show()
             goldErrorPulse += 1
         }
@@ -229,6 +233,11 @@ fun GenericMenuScreen(
                                     )
                                 }
                             }
+                        } else if (isPremiumContext) {
+                            PremiumPlanGrid(
+                                options = options,
+                                onAction = onAction
+                            )
                         } else if (useCompactActionGrid) {
                             val compactRows = options.chunked(2)
                             compactRows.forEach { rowOptions ->
@@ -250,8 +259,8 @@ fun GenericMenuScreen(
                                         )
                                         val tone = when {
                                             section == MainSection.PRODUCTION && !option.enabled -> GameButtonTone.LOCKED
-                                            section == MainSection.PRODUCTION && craftAvailabilityForUi(option) == true -> GameButtonTone.SUCCESS
-                                            section == MainSection.PRODUCTION && craftAvailabilityForUi(option) == false -> GameButtonTone.ALERT
+                                            section == MainSection.PRODUCTION && resolveCraftAvailability(option) == true -> GameButtonTone.SUCCESS
+                                            section == MainSection.PRODUCTION && resolveCraftAvailability(option) == false -> GameButtonTone.ALERT
                                             optionShouldAlert(option, isQuestContext) -> GameButtonTone.ALERT
                                             else -> GameButtonTone.DEFAULT
                                         }
@@ -304,8 +313,8 @@ fun GenericMenuScreen(
                                 )
                                 val tone = when {
                                     section == MainSection.PRODUCTION && !option.enabled -> GameButtonTone.LOCKED
-                                    section == MainSection.PRODUCTION && craftAvailabilityForUi(option) == true -> GameButtonTone.SUCCESS
-                                    section == MainSection.PRODUCTION && craftAvailabilityForUi(option) == false -> GameButtonTone.ALERT
+                                    section == MainSection.PRODUCTION && resolveCraftAvailability(option) == true -> GameButtonTone.SUCCESS
+                                    section == MainSection.PRODUCTION && resolveCraftAvailability(option) == false -> GameButtonTone.ALERT
                                     optionShouldAlert(option, isQuestContext) -> GameButtonTone.ALERT
                                     else -> GameButtonTone.DEFAULT
                                 }

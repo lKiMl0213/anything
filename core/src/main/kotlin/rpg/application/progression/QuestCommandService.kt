@@ -12,7 +12,11 @@ class QuestCommandService(
     private val support: QuestRulesSupport
 ) {
     fun acceptQuest(state: GameState, instanceId: String): ProgressionMutationResult {
-        val result = engine.questBoardEngine.acceptQuest(state.questBoard, instanceId)
+        val result = engine.questBoardEngine.acceptQuest(
+            board = state.questBoard,
+            player = state.player,
+            instanceId = instanceId
+        )
         return ProgressionMutationResult(
             state = state.copy(questBoard = result.board),
             messages = listOf(result.message)

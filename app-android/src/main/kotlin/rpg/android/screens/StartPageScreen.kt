@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import rpg.android.R
 import rpg.android.state.StartPageUiModel
+import rpg.android.ui.components.GameButtonTone
 import rpg.android.ui.components.GameInfoPanel
 import rpg.android.ui.components.GamePopup
 import rpg.android.ui.components.GamePrimaryButton
@@ -98,7 +99,8 @@ fun StartPageScreen(
                             )
                             GamePrimaryButton(
                                 label = "\uD83D\uDDD1",
-                                onClick = { pendingDelete = save.fileName }
+                                onClick = { pendingDelete = save.fileName },
+                                tone = GameButtonTone.ALERT
                             )
                         }
                     }
@@ -137,7 +139,8 @@ fun StartPageScreen(
                             onDeleteSelected(fileName)
                             pendingDelete = null
                         },
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        tone = GameButtonTone.ALERT
                     )
                 }
             }

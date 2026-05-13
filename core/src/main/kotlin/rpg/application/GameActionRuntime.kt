@@ -91,7 +91,20 @@ internal class GameActionRuntime(
     )
 
     private val questRulesSupport = QuestRulesSupport(
-        classQuestMenu = ClassQuestMenu(engine.classQuestService)
+        classQuestMenu = ClassQuestMenu(engine.classQuestService),
+        acceptedLimitProvider = { player -> engine.permanentUpgradeService.acceptedQuestLimit(player) },
+        poolLimitProvider = { player -> engine.permanentUpgradeService.acceptableQuestPoolLimit(player) },
+        replaceLimitProvider = { player, section ->
+            when (section) {
+                rpg.application.progression.QuestSection.DAILY -> engine.permanentUpgradeService.dailyReplaceLimit(player)
+                rpg.application.progression.QuestSection.WEEKLY -> engine.permanentUpgradeService.weeklyReplaceLimit(player)
+                rpg.application.progression.QuestSection.MONTHLY -> engine.permanentUpgradeService.monthlyReplaceLimit(player)
+                else -> 0
+            }
+        },
+        acceptableRefreshMinutesProvider = { player ->
+            (engine.permanentUpgradeService.acceptableQuestRefreshIntervalMs(player) / 60_000L).toInt()
+        }
     )
     val questQueryService = QuestQueryService(engine, questRulesSupport)
     private val questCommandService = QuestCommandService(

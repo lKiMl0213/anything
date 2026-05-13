@@ -1,11 +1,13 @@
 package rpg.application.shop
 
 import kotlin.math.ceil
+import kotlin.math.roundToInt
 import rpg.classsystem.RaceBonusSupport
 import rpg.engine.GameEngine
 import rpg.io.DataRepository
 import rpg.model.ItemType
 import rpg.model.ShopCurrency
+import rpg.premium.PremiumSupport
 import rpg.progression.PermanentUpgradeService
 
 class ShopQueryService(
@@ -13,6 +15,67 @@ class ShopQueryService(
     private val repo: DataRepository,
     private val permanentUpgradeService: PermanentUpgradeService
 ) {
+    companion object {
+        val PREMIUM_PLANS: List<PremiumPlanDisplay> = listOf(
+            PremiumPlanDisplay(
+                id = "premium_gold_7d",
+                label = "Premium 7 dias (Ouro)",
+                durationDays = 7,
+                permanent = false,
+                currency = ShopCurrency.GOLD,
+                cost = 70_000
+            ),
+            PremiumPlanDisplay(
+                id = "premium_gold_15d",
+                label = "Premium 15 dias (Ouro)",
+                durationDays = 15,
+                permanent = false,
+                currency = ShopCurrency.GOLD,
+                cost = 130_000
+            ),
+            PremiumPlanDisplay(
+                id = "premium_gold_30d",
+                label = "Premium 30 dias (Ouro)",
+                durationDays = 30,
+                permanent = false,
+                currency = ShopCurrency.GOLD,
+                cost = 240_000
+            ),
+            PremiumPlanDisplay(
+                id = "premium_cash_7d",
+                label = "Premium 7 dias (Cash)",
+                durationDays = 7,
+                permanent = false,
+                currency = ShopCurrency.CASH,
+                cost = 350
+            ),
+            PremiumPlanDisplay(
+                id = "premium_cash_15d",
+                label = "Premium 15 dias (Cash)",
+                durationDays = 15,
+                permanent = false,
+                currency = ShopCurrency.CASH,
+                cost = 650
+            ),
+            PremiumPlanDisplay(
+                id = "premium_cash_30d",
+                label = "Premium 30 dias (Cash)",
+                durationDays = 30,
+                permanent = false,
+                currency = ShopCurrency.CASH,
+                cost = 1_200
+            ),
+            PremiumPlanDisplay(
+                id = "premium_cash_permanent",
+                label = "Premium permanente (Cash)",
+                durationDays = null,
+                permanent = true,
+                currency = ShopCurrency.CASH,
+                cost = 2_800
+            )
+        )
+    }
+
     fun categories(player: rpg.model.PlayerState, currency: ShopCurrency): List<ShopCategorySummary> {
         val entries = currencyEntries(currency)
         return ShopCategory.entries.map { category ->
@@ -99,6 +162,45 @@ class ShopQueryService(
             .toList()
     }
 
+    fun cashPacks(
+        player: rpg.model.PlayerState,
+        nowMillis: Long = System.currentTimeMillis()
+    ): List<CashPackDisplay> {
+        val firstBonus = !player.cashFirstPurchaseBonusConsumed
+        val welcomeBackBonus = !firstBonus && PremiumSupport.cashWelcomeBackEligible(player, nowMillis)
+        val bonusPct = when {
+            firstBonus -> 10
+            welcomeBackBonus -> 10
+            else -> 0
+        }
+        val bonusLabel = when {
+            firstBonus -> "Bonus de primeira compra +10%"
+            welcomeBackBonus -> "Bonus de boas-vindas +10%"
+            else -> "Sem bonus adicional"
+        }
+        return repo.cashPacks.values
+            .filter { it.enabled }
+            .sortedBy { it.premiumCashAmount }
+            .map { pack ->
+                val finalCash = if (bonusPct <= 0) {
+                    pack.premiumCashAmount
+                } else {
+                    (pack.premiumCashAmount * (1.0 + bonusPct / 100.0)).roundToInt()
+                }
+                CashPackDisplay(
+                    id = pack.id,
+                    name = pack.name,
+                    platformPriceLabel = pack.platformPriceLabel,
+                    baseCashAmount = pack.premiumCashAmount,
+                    finalCashAmount = finalCash,
+                    bonusLabel = bonusLabel,
+                    description = pack.description
+                )
+            }
+    }
+
+    fun premiumPlans(): List<PremiumPlanDisplay> = PREMIUM_PLANS
+
     fun classifyCategory(entry: rpg.model.ShopEntryDef): ShopCategory {
         val lowerTags = entry.tags.map { it.trim().lowercase() }
         if ("accessory" in lowerTags || "ring" in lowerTags || "amulet" in lowerTags) return ShopCategory.ACCESSORIES
@@ -165,7 +267,10 @@ class ShopQueryService(
         val raceDef = runCatching { engine.classSystem.raceDef(player.raceId) }.getOrNull()
         val raceDiscount = RaceBonusSupport.tradeBuyDiscountPct(raceDef)
         val raceMultiplier = (1.0 - raceDiscount / 100.0).coerceIn(0.75, 1.0)
-        return ceil(base * levelCurve * rarityCurve * categoryCurve * stockCurve * raceMultiplier).toInt().coerceAtLeast(1)
+        val premiumMultiplier = (1.0 - PremiumSupport.shopDiscountPct(player) / 100.0).coerceIn(0.50, 1.0)
+        return ceil(base * levelCurve * rarityCurve * categoryCurve * stockCurve * raceMultiplier * premiumMultiplier)
+            .toInt()
+            .coerceAtLeast(1)
     }
 
     fun shouldMarkSpecialOffer(player: rpg.model.PlayerState, entry: rpg.model.ShopEntryDef): Boolean {
@@ -206,6 +311,9 @@ class ShopQueryService(
             rpg.model.PermanentUpgradeEffectType.MONSTER_RARITY_BONUS -> UpgradeMenuCategory.BATTLE
 
             rpg.model.PermanentUpgradeEffectType.QUEST_ITEM_KEEP_CHANCE,
+            rpg.model.PermanentUpgradeEffectType.QUEST_ACCEPTABLE_POOL_BONUS,
+            rpg.model.PermanentUpgradeEffectType.QUEST_ACCEPTABLE_REFRESH_REDUCTION_MINUTES,
+            rpg.model.PermanentUpgradeEffectType.QUEST_ACCEPTED_LIMIT_BONUS,
             rpg.model.PermanentUpgradeEffectType.TAVERN_COST_REDUCTION,
             rpg.model.PermanentUpgradeEffectType.QUIVER_CAPACITY_BONUS -> UpgradeMenuCategory.UTILITY
         }

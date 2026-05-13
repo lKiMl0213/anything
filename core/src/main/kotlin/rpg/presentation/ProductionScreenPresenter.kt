@@ -15,6 +15,7 @@ internal class ProductionScreenPresenter(
 ) {
     fun presentCraftMenu(session: GameSession): ScreenViewModel {
         val state = session.gameState ?: return support.presentMissingState("Craft")
+        queryService.warmCraftRecipeCaches(state)
         return MenuScreenViewModel(
             title = "Craft",
             summary = support.playerSummary(state),
@@ -43,16 +44,17 @@ internal class ProductionScreenPresenter(
         val recipes = queryService.recipes(state, discipline)
         val options = recipes.mapIndexed { index, recipe ->
             val status = when {
-                !recipe.unlocked -> "Bloqueado"
-                recipe.available -> "Disponivel (${recipe.maxCraftable}x)"
+                !recipe.unlocked -> recipe.unlockReason ?: "Bloqueado"
+                recipe.available -> "Disponivel"
                 else -> "Sem ingredientes"
             }
             ScreenOptionViewModel(
                 (index + 1).toString(),
-                "${recipe.name} -> ${recipe.outputLabel} | $status | acao ${formatSeconds(recipe.estimatedPerActionSeconds)}s | lote ${formatSeconds(recipe.estimatedBatchSeconds)}s",
+                "${recipe.name} -> ${recipe.outputLabel} | $status",
                 GameAction.InspectCraftRecipe(recipe.id),
                 enabled = recipe.unlocked,
-                lockedReason = recipe.unlockReason
+                lockedReason = recipe.unlockReason,
+                craftable = if (recipe.unlocked) recipe.available else null
             )
         } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
 

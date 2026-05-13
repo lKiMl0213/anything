@@ -40,8 +40,10 @@ sealed interface NavigationState {
     data object Tavern : NavigationState
     data object CityShopCategories : NavigationState
     data object CityShopItems : NavigationState
+    data object CityCashTopUp : NavigationState
     data object CityUpgradeCategories : NavigationState
     data object CityUpgradeList : NavigationState
+    data object CityPremiumShop : NavigationState
     data object SaveMenu : NavigationState
     data object CharacterMenu : NavigationState
     data object Attributes : NavigationState

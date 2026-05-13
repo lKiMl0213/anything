@@ -1,6 +1,7 @@
 package rpg.quest
 
 import kotlin.random.Random
+import kotlin.math.roundToInt
 import rpg.classsystem.AttributeEngine
 import rpg.classsystem.ClassSystem
 import rpg.inventory.InventorySystem
@@ -9,6 +10,7 @@ import rpg.model.ItemInstance
 import rpg.model.PlayerState
 import rpg.progression.ExperienceEngine
 import rpg.progression.PermanentUpgradeService
+import rpg.premium.PremiumSupport
 import rpg.registry.ItemRegistry
 
 data class QuestClaimResult(
@@ -89,9 +91,10 @@ class QuestRewardService(
             }
         }
 
+        val premiumGold = (quest.rewards.gold * PremiumSupport.goldMultiplier(updatedPlayer)).roundToInt().coerceAtLeast(0)
         updatedPlayer = updatedPlayer.copy(
             inventory = inventory,
-            gold = updatedPlayer.gold + quest.rewards.gold,
+            gold = updatedPlayer.gold + premiumGold,
             questCurrency = updatedPlayer.questCurrency + quest.rewards.specialCurrency
         )
         updatedPlayer = applyXpWithAutoPoints(updatedPlayer, quest.rewards.xp)

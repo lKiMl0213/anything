@@ -39,7 +39,8 @@ class SessionActionDispatcher(
     private fun continueSession(session: GameSession): GameActionResult {
         val state = session.gameState
             ?: return GameActionResult(session.copy(messages = listOf("Nenhuma sessao carregada.")))
-        val normalized = stateSupport.normalize(state)
+        val offline = stateSupport.applyOfflineProgress(state)
+        val normalized = stateSupport.normalize(offline.state)
         return GameActionResult(
             session = session.copy(
                 gameState = normalized,
@@ -74,7 +75,7 @@ class SessionActionDispatcher(
                 selectedGlobalBossEventId = null,
                 selectedAchievementCategory = null,
                 selectedAchievementId = null,
-                messages = emptyList()
+                messages = offline.messages
             )
         )
     }
@@ -91,7 +92,9 @@ class SessionActionDispatcher(
     }
 
     private fun loadSave(session: GameSession, action: GameAction.LoadSave): GameActionResult {
-        val loaded = stateSupport.normalize(saveGateway.load(action.path))
+        val loadedRaw = saveGateway.load(action.path)
+        val offline = stateSupport.applyOfflineProgress(loadedRaw)
+        val loaded = stateSupport.normalize(offline.state)
         return GameActionResult(
             session = session.copy(
                 gameState = loaded,
@@ -130,7 +133,7 @@ class SessionActionDispatcher(
                 selectedGlobalBossEventId = null,
                 selectedAchievementCategory = null,
                 selectedAchievementId = null,
-                messages = emptyList()
+                messages = offline.messages
             )
         )
     }

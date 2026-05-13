@@ -1,8 +1,8 @@
 {
     "id":  "cash_pack_small",
     "name":  "Pacote Pequeno",
-    "premiumCashAmount":  100,
-    "platformPriceLabel":  "R$ 4,90",
+    "premiumCashAmount":  110,
+    "platformPriceLabel":  "R$ 5,00",
     "description":  "Entrada rapida para compras leves.",
     "enabled":  true
 }

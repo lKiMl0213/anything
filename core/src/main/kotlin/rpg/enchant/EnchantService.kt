@@ -4,6 +4,7 @@ import kotlin.random.Random
 import rpg.model.ItemInstance
 import rpg.model.PlayerState
 import rpg.model.SkillType
+import rpg.premium.PremiumSupport
 import rpg.registry.ItemRegistry
 import rpg.skills.SkillSystem
 
@@ -36,7 +37,8 @@ class EnchantService(
             enchantSkillLevel = skillLevel,
             totalRuneBonusPctOverride = runePlan.totalBonusPct
         )
-        val cost = item?.let(itemSupport::goldCostFor) ?: 0
+        val baseCost = item?.let(itemSupport::goldCostFor) ?: 0
+        val cost = applyProductionCostReduction(prepared, baseCost)
         val reasons = validator.validate(
             player = prepared,
             itemInstances = itemInstances,
@@ -58,7 +60,7 @@ class EnchantService(
             goldCost = cost,
             enhancementRunesRequired = normalizedEnhancementRunes,
             useProtectionRune = request.useProtectionRune,
-            durationSeconds = chance.durationSeconds,
+            durationSeconds = chance.durationSeconds * PremiumSupport.productionDurationMultiplier(prepared),
             blockedReasons = reasons
         )
     }
@@ -192,7 +194,9 @@ class EnchantService(
         val xpResult = skillSystem.gainXp(
             player = mutablePlayer,
             skill = SkillType.ENCHANTING,
-            baseXp = baseXp * itemSupport.antiExploitXpMultiplier(materialized.item.level),
+            baseXp = baseXp *
+                itemSupport.antiExploitXpMultiplier(materialized.item.level) *
+                PremiumSupport.skillXpMultiplier(mutablePlayer),
             difficulty = 1.0 + (materialized.item.enchantLevel * config.xpPerEnchantLevelDifficulty),
             tier = 1
         )
@@ -227,4 +231,10 @@ class EnchantService(
     fun enhancementRuneItemIds(): Set<String> = config.enhancementRuneItemIds()
     fun protectionRuneItemIds(): Set<String> = config.protectionRuneItemIds()
     fun maxEnhancementRunesPerAttempt(): Int = config.maxEnhancementRunesPerAttempt
+
+    private fun applyProductionCostReduction(player: PlayerState, baseCost: Int): Int {
+        if (baseCost <= 0) return 0
+        val multiplier = (1.0 - PremiumSupport.productionCostReductionPct(player) / 100.0).coerceIn(0.1, 1.0)
+        return kotlin.math.ceil(baseCost * multiplier).toInt().coerceAtLeast(1)
+    }
 }

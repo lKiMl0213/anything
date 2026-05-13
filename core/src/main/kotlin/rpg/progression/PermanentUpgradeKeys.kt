@@ -15,4 +15,7 @@ object PermanentUpgradeKeys {
     const val ALCHEMY_DISCOUNT = "alchemy_efficiency"
     const val TAVERN_DISCOUNT = "tavern_bargaining"
     const val QUIVER_CAPACITY = "quiver_expansion"
+    const val QUEST_ACCEPTABLE_CAP = "quest_acceptables_capacity"
+    const val QUEST_ACCEPTABLE_REFRESH = "quest_acceptables_refresh"
+    const val QUEST_ACCEPTED_CAP = "quest_accepted_capacity"
 }

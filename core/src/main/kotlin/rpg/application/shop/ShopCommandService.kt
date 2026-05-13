@@ -9,6 +9,8 @@ import rpg.model.PlayerState
 import rpg.model.ShopCurrency
 import rpg.progression.PermanentUpgradeService
 import rpg.io.DataRepository
+import rpg.premium.PremiumSupport
+import kotlin.math.roundToInt
 
 class ShopCommandService(
     private val engine: GameEngine,
@@ -17,6 +19,96 @@ class ShopCommandService(
     private val permanentUpgradeService: PermanentUpgradeService,
     private val achievementTracker: AchievementTracker
 ) {
+    fun buyCashPack(
+        state: GameState,
+        packId: String,
+        nowMillis: Long = System.currentTimeMillis()
+    ): ShopMutationResult {
+        val pack = repo.cashPacks.values.firstOrNull {
+            it.enabled && it.id.equals(packId, ignoreCase = true)
+        } ?: return ShopMutationResult(state, listOf("Pacote de cash nao encontrado."))
+        val player = state.player
+        val firstBonus = !player.cashFirstPurchaseBonusConsumed
+        val welcomeBackBonus = !firstBonus && PremiumSupport.cashWelcomeBackEligible(player, nowMillis)
+        val bonusPct = when {
+            firstBonus -> 10
+            welcomeBackBonus -> 10
+            else -> 0
+        }
+        val finalCash = if (bonusPct <= 0) {
+            pack.premiumCashAmount
+        } else {
+            (pack.premiumCashAmount * (1.0 + bonusPct / 100.0)).roundToInt()
+        }
+        val updatedPlayer = player.copy(
+            premiumCash = player.premiumCash + finalCash,
+            cashFirstPurchaseBonusConsumed = true,
+            lastCashPurchaseEpochMs = nowMillis
+        )
+        val bonusLine = when {
+            firstBonus -> "Bonus aplicado: primeira compra +10%."
+            welcomeBackBonus -> "Bonus aplicado: bem-vindo de volta +10%."
+            else -> "Sem bonus adicional nesta compra."
+        }
+        return ShopMutationResult(
+            state = state.copy(player = updatedPlayer),
+            messages = listOf(
+                "Compra concluida: ${pack.name} -> +$finalCash CASH (${pack.platformPriceLabel}).",
+                bonusLine
+            )
+        )
+    }
+
+    fun buyPremiumPlan(
+        state: GameState,
+        planId: String,
+        nowMillis: Long = System.currentTimeMillis()
+    ): ShopMutationResult {
+        val plan = queryService.premiumPlans().firstOrNull { it.id.equals(planId, ignoreCase = true) }
+            ?: return ShopMutationResult(state, listOf("Plano premium nao encontrado."))
+        val player = state.player
+        val paidPlayer = when (plan.currency) {
+            ShopCurrency.GOLD -> {
+                if (player.gold < plan.cost) {
+                    return ShopMutationResult(state, listOf("Ouro insuficiente."))
+                }
+                player.copy(gold = player.gold - plan.cost)
+            }
+
+            ShopCurrency.CASH -> {
+                if (player.premiumCash < plan.cost) {
+                    return ShopMutationResult(state, listOf("CASH insuficiente."))
+                }
+                player.copy(premiumCash = player.premiumCash - plan.cost)
+            }
+        }
+        val upgradedPlayer = if (plan.currency == ShopCurrency.GOLD && plan.cost > 0) {
+            achievementTracker.onGoldSpent(paidPlayer, plan.cost.toLong()).player
+        } else {
+            paidPlayer
+        }
+        val updatedPlayer = upgradedPlayer.let { basePlayer ->
+            if (plan.permanent) {
+                PremiumSupport.applyPremiumPermanent(basePlayer)
+            } else {
+                PremiumSupport.applyPremiumDuration(
+                    player = basePlayer,
+                    days = plan.durationDays ?: 0,
+                    nowMillis = nowMillis
+                )
+            }
+        }
+        val message = if (plan.permanent) {
+            "Premium permanente ativado com sucesso."
+        } else {
+            "Premium ativado por ${plan.durationDays} dias."
+        }
+        return ShopMutationResult(
+            state = state.copy(player = updatedPlayer),
+            messages = listOf(message)
+        )
+    }
+
     fun buyEntry(
         state: GameState,
         currency: ShopCurrency,

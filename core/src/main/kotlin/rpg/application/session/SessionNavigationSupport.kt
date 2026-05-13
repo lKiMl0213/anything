@@ -45,8 +45,10 @@ internal object SessionNavigationSupport {
             NavigationState.Tavern -> NavigationState.CityMenu
             NavigationState.CityShopCategories -> NavigationState.CityMenu
             NavigationState.CityShopItems -> NavigationState.CityShopCategories
+            NavigationState.CityCashTopUp -> NavigationState.CityShopCategories
             NavigationState.CityUpgradeCategories -> NavigationState.CityMenu
             NavigationState.CityUpgradeList -> NavigationState.CityUpgradeCategories
+            NavigationState.CityPremiumShop -> NavigationState.CityMenu
             NavigationState.SaveMenu -> NavigationState.Hub
             NavigationState.CharacterMenu -> NavigationState.Hub
             NavigationState.Attributes -> NavigationState.CharacterMenu
@@ -171,8 +173,10 @@ internal object SessionNavigationSupport {
             selectedShopCurrency = if (
                 target == NavigationState.CityShopCategories ||
                 target == NavigationState.CityShopItems ||
+                target == NavigationState.CityCashTopUp ||
                 target == NavigationState.CityUpgradeCategories ||
-                target == NavigationState.CityUpgradeList
+                target == NavigationState.CityUpgradeList ||
+                target == NavigationState.CityPremiumShop
             ) session.selectedShopCurrency else null,
             selectedShopCategory = if (target == NavigationState.CityShopItems) session.selectedShopCategory else null,
             selectedWeaponClassCategory = if (target == NavigationState.CityShopItems) {

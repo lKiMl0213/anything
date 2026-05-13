@@ -38,8 +38,10 @@ internal fun sectionForNavigation(navigation: NavigationState): MainSection {
         NavigationState.Tavern,
         NavigationState.CityShopCategories,
         NavigationState.CityShopItems,
+        NavigationState.CityCashTopUp,
         NavigationState.CityUpgradeCategories,
-        NavigationState.CityUpgradeList -> MainSection.CITY
+        NavigationState.CityUpgradeList,
+        NavigationState.CityPremiumShop -> MainSection.CITY
 
         NavigationState.ProgressionMenu,
         NavigationState.QuestBoard,

@@ -122,6 +122,7 @@ internal class NavigationScreenPresenter(
                 ScreenOptionViewModel("2", "Loja de Ouro", GameAction.OpenGoldShop),
                 ScreenOptionViewModel("3", "Loja de Cash", GameAction.OpenCashShop),
                 ScreenOptionViewModel("4", "Aprimoramentos", GameAction.OpenUpgradeShop),
+                ScreenOptionViewModel("5", "Premium", GameAction.OpenPremiumShop),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)
             ),
             messages = session.messages

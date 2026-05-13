@@ -35,7 +35,7 @@ class GlobalBossQueryService(
 
     fun menuView(state: GameState): GlobalBossMenuView {
         val normalized = progressService.synchronize(state)
-        val limits = progressService.runLimits()
+        val limits = progressService.runLimits(normalized.player)
         val nowMillis = System.currentTimeMillis()
         val items = catalogService.allEvents().map { event ->
             val progress = eventProgress(normalized, event)
@@ -63,7 +63,7 @@ class GlobalBossQueryService(
         val normalized = progressService.synchronize(state)
         val nowMillis = System.currentTimeMillis()
         val progress = eventProgress(normalized, event)
-        val limits = progressService.runLimits()
+        val limits = progressService.runLimits(normalized.player)
         val paidBuyRemaining = (limits.purchasableRunsPerDay - progress.dailyPaidRunsBought).coerceAtLeast(0)
         val runsRemaining = (limits.maxRunsPerDay - progress.runsUsed).coerceAtLeast(0)
         val canStart = hasRunAvailable(progress, limits)

@@ -1,7 +1,42 @@
-﻿{
-  "currentVersion": "0.1.1",
+{
+  "currentVersion": "0.1.3",
   "baselineRef": "12ff29ccc4d15ee0edbaff17e6e8cae02131e5a1",
   "entries": [
+    {
+      "version": "0.1.3",
+      "date": "12/05/26",
+      "novidades": [
+        "Loja de CASH com recarga simulada (R$5 ate R$200), bonus de primeira compra e bonus de retorno.",
+        "Sistema Premium completo com compra por ouro/cash (7d, 15d, 30d e permanente no cash).",
+        "Producao com desbloqueio por skill, mantendo itens bloqueados visiveis com motivo de bloqueio.",
+        "Missoes com expiracao de aceitaveis (24h) e novos aprimoramentos de capacidade/refresh.",
+        "Detalhes de talentos em popup sobreposto, mantendo a arvore ao fundo.",
+        "Conteudo legado mantido: Boss Global semanal/mensal, milestones e tutorial guiado."
+      ],
+      "melhorias": [
+        "Tema claro/escuro com melhor contraste para textos, placeholders, cursor e bordas.",
+        "Padrao global de popup consolidado: sem botao X, fecha ao clicar fora e nao fecha com clique interno.",
+        "Painel da Cidade atualizado para mostrar Ouro e CASH junto do resumo do personagem.",
+        "Menu Premium reorganizado em 2 colunas (OURO e CASH), com botoes compactos e opcoes separadas.",
+        "Lista de Craft otimizada com ordem fixa por nivel de desbloqueio (nv0, nv1, nv2...) e desempate por nome.",
+        "Lista de Craft agora usa pre-cache de ordenacao; inventario afeta apenas status/cor, nao a posicao."
+      ],
+      "correcoes": [
+        "Corrigido problema de detalhes de receita mostrando ingredientes vazios.",
+        "Corrigido feedback de compra sem ouro para disparar multiplas vezes (toast + destaque + shake).",
+        "Corrigido status visual de craftabilidade: verde quando tem todos os materiais e vermelho quando faltar qualquer item.",
+        "Corrigida lentidao de abertura em Forja/Alquimia/Culinaria com reducao de recalculos pesados na lista.",
+        "Corrigidos fluxos de exclusao de save com confirmacao obrigatoria e atualizacao imediata da lista.",
+        "Corrigidas falhas no popup de patch notes (manual e automatico) das versoes anteriores."
+      ],
+      "sistemas": [
+        "Producao em background com timer persistente para manter progresso entre telas e retomadas do app.",
+        "Regeneracao offline de HP/MP baseada em timestamp de sync.",
+        "Componente reutilizavel LockedContent para gates de conteudo bloqueado.",
+        "Aplicados multiplicadores premium em XP, ouro, loja, producao e limites de atividades.",
+        "Fluxo de patch notes por versao mantido com exibicao automatica na abertura apos atualizacao."
+      ]
+    },
     {
       "version": "0.1.1",
       "date": "07/05/26",

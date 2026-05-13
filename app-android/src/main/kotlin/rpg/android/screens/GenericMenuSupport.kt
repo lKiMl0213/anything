@@ -84,6 +84,7 @@ internal fun craftAvailabilityForUi(option: ScreenOptionViewModel): Boolean? {
         is GameAction.CraftRecipe -> {
             val label = option.label
             when {
+                label.contains("sem ingredientes", ignoreCase = true) -> false
                 label.contains("indispon", ignoreCase = true) ||
                     label.contains("bloqueado", ignoreCase = true) -> false
                 label.contains("dispon", ignoreCase = true) -> true
@@ -93,6 +94,10 @@ internal fun craftAvailabilityForUi(option: ScreenOptionViewModel): Boolean? {
 
         else -> null
     }
+}
+
+internal fun resolveCraftAvailability(option: ScreenOptionViewModel): Boolean? {
+    return option.craftable ?: craftAvailabilityForUi(option)
 }
 
 internal fun compactProductionSummary(lines: List<String>): List<String> {
@@ -159,6 +164,14 @@ internal fun cityRelevantMessages(messages: List<String>): List<String> {
         line.contains("Conquista concluida", ignoreCase = true) ||
             line.contains("Recompensa disponivel", ignoreCase = true)
     }.takeLast(6)
+}
+
+internal fun insufficientGoldFeedbackToken(messages: List<String>): Int? {
+    val latest = messages.lastOrNull() ?: return null
+    if (!latest.contains("Ouro insuficiente", ignoreCase = true)) {
+        return null
+    }
+    return System.identityHashCode(messages)
 }
 
 internal fun visibleOptions(options: List<ScreenOptionViewModel>): List<ScreenOptionViewModel> {

@@ -12,6 +12,7 @@ import rpg.model.PlayerState
 import rpg.model.ShopCurrency
 import rpg.model.SkillType
 import rpg.registry.ItemRegistry
+import rpg.premium.PremiumSupport
 
 data class PermanentUpgradePurchaseResult(
     val success: Boolean,
@@ -76,12 +77,12 @@ class PermanentUpgradeService(
             SkillType.ALCHEMIST, SkillType.COOKING, SkillType.WOODCUTTING, SkillType.ENCHANTING -> Unit
         }
         val bonusPct = valueForEffect(player, PermanentUpgradeEffectType.PROFESSION_XP_BOOST)
-        return 1.0 + (bonusPct / 100.0)
+        return (1.0 + (bonusPct / 100.0)) * PremiumSupport.skillXpMultiplier(player)
     }
 
     fun combatXpMultiplier(player: PlayerState): Double {
         val bonusPct = valueForEffect(player, PermanentUpgradeEffectType.COMBAT_XP_BOOST)
-        return 1.0 + (bonusPct / 100.0)
+        return (1.0 + (bonusPct / 100.0)) * PremiumSupport.combatXpMultiplier(player)
     }
 
     fun monsterRarityBonusPct(player: PlayerState): Double {
@@ -117,6 +118,56 @@ class PermanentUpgradeService(
 
     fun quiverCapacityBonus(player: PlayerState): Int {
         return valueForEffect(player, PermanentUpgradeEffectType.QUIVER_CAPACITY_BONUS).toInt().coerceAtLeast(0)
+    }
+
+    fun acceptedQuestLimit(player: PlayerState): Int {
+        val base = 5
+        val bonus = valueForEffect(player, PermanentUpgradeEffectType.QUEST_ACCEPTED_LIMIT_BONUS).toInt()
+        return (base + bonus).coerceIn(base, 20)
+    }
+
+    fun acceptableQuestPoolLimit(player: PlayerState): Int {
+        val base = 5
+        val upgradeBonus = valueForEffect(player, PermanentUpgradeEffectType.QUEST_ACCEPTABLE_POOL_BONUS).toInt()
+        val premiumBonus = PremiumSupport.questExtraCount(player)
+        return (base + upgradeBonus + premiumBonus).coerceIn(base, 20)
+    }
+
+    fun acceptableQuestRefreshIntervalMs(player: PlayerState): Long {
+        val baseMinutes = 20
+        val reduction = valueForEffect(player, PermanentUpgradeEffectType.QUEST_ACCEPTABLE_REFRESH_REDUCTION_MINUTES).toInt()
+        val finalMinutes = (baseMinutes - reduction).coerceAtLeast(5)
+        return finalMinutes * 60_000L
+    }
+
+    fun dailyQuestCount(player: PlayerState): Int {
+        val base = 6
+        return (base + PremiumSupport.questExtraCount(player)).coerceAtMost(20)
+    }
+
+    fun weeklyQuestCount(player: PlayerState): Int {
+        val base = 10
+        return (base + PremiumSupport.questExtraCount(player)).coerceAtMost(20)
+    }
+
+    fun monthlyQuestCount(player: PlayerState): Int {
+        val base = 12
+        return (base + PremiumSupport.questExtraCount(player)).coerceAtMost(24)
+    }
+
+    fun dailyReplaceLimit(player: PlayerState): Int {
+        val base = 3
+        return (base + PremiumSupport.questExtraRerolls(player)).coerceAtMost(20)
+    }
+
+    fun weeklyReplaceLimit(player: PlayerState): Int {
+        val base = 4
+        return (base + PremiumSupport.questExtraRerolls(player)).coerceAtMost(20)
+    }
+
+    fun monthlyReplaceLimit(player: PlayerState): Int {
+        val base = 5
+        return (base + PremiumSupport.questExtraRerolls(player)).coerceAtMost(20)
     }
 
     fun nextLevelCosts(
@@ -213,7 +264,10 @@ class PermanentUpgradeService(
         val level = currentLevel(player, def.id)
         if (level <= 0) return 0.0
         if (def.effectType == PermanentUpgradeEffectType.CRAFT_BATCH_BONUS ||
-            def.effectType == PermanentUpgradeEffectType.QUIVER_CAPACITY_BONUS
+            def.effectType == PermanentUpgradeEffectType.QUIVER_CAPACITY_BONUS ||
+            def.effectType == PermanentUpgradeEffectType.QUEST_ACCEPTABLE_POOL_BONUS ||
+            def.effectType == PermanentUpgradeEffectType.QUEST_ACCEPTABLE_REFRESH_REDUCTION_MINUTES ||
+            def.effectType == PermanentUpgradeEffectType.QUEST_ACCEPTED_LIMIT_BONUS
         ) {
             return def.levels
                 .sortedBy { it.level }

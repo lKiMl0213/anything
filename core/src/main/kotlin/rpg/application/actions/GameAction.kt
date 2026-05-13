@@ -70,7 +70,11 @@ sealed interface GameAction {
     data object OpenCityMenu : GameAction
     data object OpenGoldShop : GameAction
     data object OpenCashShop : GameAction
+    data object OpenCashTopUp : GameAction
+    data class BuyCashPack(val packId: String) : GameAction
     data object OpenUpgradeShop : GameAction
+    data object OpenPremiumShop : GameAction
+    data class BuyPremiumPlan(val planId: String) : GameAction
     data class SetShopCurrency(val currency: ShopCurrency) : GameAction
     data class OpenShopCategory(val category: ShopCategory) : GameAction
     data class SetShopWeaponClass(val category: WeaponClassCategory) : GameAction

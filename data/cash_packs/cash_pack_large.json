@@ -1,8 +1,8 @@
 {
     "id":  "cash_pack_large",
     "name":  "Pacote Grande",
-    "premiumCashAmount":  760,
-    "platformPriceLabel":  "R$ 27,90",
+    "premiumCashAmount":  2100,
+    "platformPriceLabel":  "R$ 75,00",
     "description":  "Melhor custo para compras premium.",
     "enabled":  true
 }

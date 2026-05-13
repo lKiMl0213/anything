@@ -12,6 +12,8 @@ import rpg.model.GameState
 import rpg.model.ItemInstance
 import rpg.model.ItemType
 import rpg.model.PlayerState
+import rpg.premium.PremiumSupport
+import kotlin.math.roundToInt
 
 class InventoryCommandService(
     private val engine: GameEngine,
@@ -145,7 +147,7 @@ class InventoryCommandService(
         val item = engine.itemResolver.resolve(itemId, state.itemInstances)
             ?: return InventoryMutationResult(state, listOf("Item nao encontrado."))
         val forcedSaleValue = ClassQuestTagRules.forcedSellValue(item.tags)
-        val saleValue = if (forcedSaleValue != null) {
+        val baseSaleValue = if (forcedSaleValue != null) {
             forcedSaleValue
         } else {
             val baseSaleValue = engine.economyEngine.sellValue(
@@ -156,6 +158,7 @@ class InventoryCommandService(
             )
             applyRaceSellBonus(state.player, baseSaleValue)
         }
+        val saleValue = (baseSaleValue * PremiumSupport.goldMultiplier(state.player)).roundToInt().coerceAtLeast(0)
         val inventory = state.player.inventory.toMutableList()
         if (!inventory.remove(itemId)) {
             return InventoryMutationResult(state, listOf("Item nao esta no inventario."))
@@ -250,7 +253,8 @@ class InventoryCommandService(
             type = item.type,
             tags = item.tags
         )
-        val saleValue = applyRaceSellBonus(state.player, baseSaleValue)
+        val raceSaleValue = applyRaceSellBonus(state.player, baseSaleValue)
+        val saleValue = (raceSaleValue * PremiumSupport.goldMultiplier(state.player)).roundToInt().coerceAtLeast(0)
         val quiverInventory = state.player.quiverInventory.toMutableList()
         if (!quiverInventory.remove(itemId)) {
             return InventoryMutationResult(state, listOf("Essa flecha nao esta carregada."))

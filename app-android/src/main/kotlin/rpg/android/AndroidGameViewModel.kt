@@ -44,6 +44,8 @@ import rpg.application.GameEffect
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
 import rpg.application.support.OutOfCombatTimeService
+import rpg.model.CraftDiscipline
+import rpg.model.GatheringType
 import rpg.navigation.NavigationState
 import rpg.presentation.model.MenuScreenViewModel
 
@@ -104,6 +106,7 @@ class AndroidGameViewModel(
     private var passiveTickJob: Job? = null
     private var lastElapsedRealtimeMs: Long = 0L
     private var lastPassiveAutosaveMs: Long = 0L
+    private var restoringTimedAction = false
 
     init {
         viewModelScope.launch {
@@ -496,17 +499,25 @@ class AndroidGameViewModel(
     fun cancelTimedAction() {
         if (timedActionJob?.isActive != true) {
             _timedActionState.value = null
+            clearPersistedTimedAction()
             return
         }
         emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.CANCEL))
         timedActionJob?.cancel()
         timedActionJob = null
         _timedActionState.value = null
+        clearPersistedTimedAction()
         session = session.copy(messages = listOf("Acao cancelada."))
         publishFromSession()
     }
 
     fun onAppBackgrounded() {
+        val state = session.gameState
+        if (state != null) {
+            session = session.copy(
+                gameState = state.copy(lastClockSyncEpochMs = System.currentTimeMillis())
+            )
+        }
         requestAutosave(immediate = true)
     }
 
@@ -541,6 +552,9 @@ class AndroidGameViewModel(
             }
         }
         handleEffect(result.effect)
+        if ((action is GameAction.LoadSave || action is GameAction.ContinueSession) && !restoringTimedAction) {
+            restorePersistedTimedActionIfAny()
+        }
         if (beforeState != session.gameState) {
             requestAutosave()
         }
@@ -559,27 +573,226 @@ class AndroidGameViewModel(
 
     private fun startTimedAction(effect: GameEffect.LaunchProductionTimedAction) {
         timedActionJob?.cancel()
-        emitAudioEvent(AudioEvent.PlaySfx(soundForTimedActionStart(effect)))
+        val totalDurationMs = (effect.view.durationSeconds.coerceAtLeast(0.5) * 1000.0).toLong()
+        val endsAtEpochMs = System.currentTimeMillis() + totalDurationMs
+        launchTimedAction(
+            title = effect.view.categoryLabel,
+            detail = "${effect.view.actionLabel} | ${effect.view.skillLabel} ${effect.view.skillLevel}",
+            completionAction = effect.completionAction,
+            totalDurationMs = totalDurationMs,
+            endsAtEpochMs = endsAtEpochMs,
+            playStartSound = true,
+            startSound = soundForTimedActionStart(effect)
+        )
+    }
+
+    private fun launchTimedAction(
+        title: String,
+        detail: String,
+        completionAction: GameAction,
+        totalDurationMs: Long,
+        endsAtEpochMs: Long,
+        playStartSound: Boolean,
+        startSound: SoundEffect? = null
+    ) {
+        val clampedTotalMs = totalDurationMs.coerceAtLeast(500L)
+        if (playStartSound && startSound != null) {
+            emitAudioEvent(AudioEvent.PlaySfx(startSound))
+        }
+        persistTimedAction(
+            title = title,
+            detail = detail,
+            completionAction = completionAction,
+            totalDurationMs = clampedTotalMs,
+            endsAtEpochMs = endsAtEpochMs
+        )
         requestAutosave(immediate = true)
+
+        timedActionJob?.cancel()
         timedActionJob = viewModelScope.launch {
-            val totalMs = (effect.view.durationSeconds.coerceAtLeast(0.5) * 1000.0).toLong()
             val stepMs = 120L
-            val totalSteps = (totalMs / stepMs).coerceAtLeast(1L).toInt()
-            for (step in 0..totalSteps) {
-                val progress = (step.toFloat() / totalSteps.toFloat()).coerceIn(0f, 1f)
-                val remainingMs = (totalMs - step * stepMs).coerceAtLeast(0L)
+            while (true) {
+                val now = System.currentTimeMillis()
+                val remainingMs = (endsAtEpochMs - now).coerceAtLeast(0L)
+                val progress = (1f - (remainingMs.toFloat() / clampedTotalMs.toFloat())).coerceIn(0f, 1f)
                 _timedActionState.value = TimedActionUiState(
-                    title = effect.view.categoryLabel,
-                    detail = "${effect.view.actionLabel} | ${effect.view.skillLabel} ${effect.view.skillLevel}",
+                    title = title,
+                    detail = detail,
                     remainingSeconds = ((remainingMs + 999L) / 1000L).toInt(),
                     progress = progress
                 )
-                if (step < totalSteps) delay(stepMs)
+                if (remainingMs <= 0L) break
+                delay(stepMs.coerceAtMost(remainingMs))
             }
+
             _timedActionState.value = null
-            applyAction(effect.completionAction)
+            clearPersistedTimedAction()
+            applyAction(completionAction)
             emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.CRAFT_FINISH))
             requestAutosave(immediate = true)
+        }
+    }
+
+    private fun persistTimedAction(
+        title: String,
+        detail: String,
+        completionAction: GameAction,
+        totalDurationMs: Long,
+        endsAtEpochMs: Long
+    ) {
+        val encodedAction = encodeTimedCompletionAction(completionAction) ?: return
+        val saveKey = session.currentSaveName
+            ?: session.currentSavePath?.fileName?.toString()
+            ?: session.gameState?.player?.name
+            ?: return
+        preferences.edit()
+            .putString(PREF_TIMED_ACTION_SAVE, saveKey)
+            .putString(PREF_TIMED_ACTION_TITLE, title)
+            .putString(PREF_TIMED_ACTION_DETAIL, detail)
+            .putString(PREF_TIMED_ACTION_ACTION, encodedAction)
+            .putLong(PREF_TIMED_ACTION_TOTAL_MS, totalDurationMs.coerceAtLeast(500L))
+            .putLong(PREF_TIMED_ACTION_END_EPOCH_MS, endsAtEpochMs)
+            .apply()
+    }
+
+    private fun clearPersistedTimedAction() {
+        preferences.edit()
+            .remove(PREF_TIMED_ACTION_SAVE)
+            .remove(PREF_TIMED_ACTION_TITLE)
+            .remove(PREF_TIMED_ACTION_DETAIL)
+            .remove(PREF_TIMED_ACTION_ACTION)
+            .remove(PREF_TIMED_ACTION_TOTAL_MS)
+            .remove(PREF_TIMED_ACTION_END_EPOCH_MS)
+            .apply()
+    }
+
+    private fun restorePersistedTimedActionIfAny() {
+        if (timedActionJob?.isActive == true) return
+
+        val encodedAction = preferences.getString(PREF_TIMED_ACTION_ACTION, null) ?: return
+        val completionAction = decodeTimedCompletionAction(encodedAction)
+        if (completionAction == null) {
+            clearPersistedTimedAction()
+            return
+        }
+
+        val saveKey = preferences.getString(PREF_TIMED_ACTION_SAVE, null)
+        val currentKey = session.currentSaveName
+            ?: session.currentSavePath?.fileName?.toString()
+            ?: session.gameState?.player?.name
+        if (!saveKey.isNullOrBlank() && !currentKey.isNullOrBlank() && !saveKey.equals(currentKey, ignoreCase = true)) {
+            return
+        }
+
+        val title = preferences.getString(PREF_TIMED_ACTION_TITLE, null) ?: "Producao"
+        val detail = preferences.getString(PREF_TIMED_ACTION_DETAIL, null) ?: "Acao em andamento"
+        val totalDurationMs = preferences.getLong(PREF_TIMED_ACTION_TOTAL_MS, 0L).coerceAtLeast(500L)
+        val endsAtEpochMs = preferences.getLong(PREF_TIMED_ACTION_END_EPOCH_MS, 0L)
+        if (endsAtEpochMs <= 0L) {
+            clearPersistedTimedAction()
+            return
+        }
+
+        val remainingMs = endsAtEpochMs - System.currentTimeMillis()
+        if (remainingMs <= 0L) {
+            clearPersistedTimedAction()
+            restoringTimedAction = true
+            try {
+                applyAction(completionAction)
+                emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.CRAFT_FINISH))
+                requestAutosave(immediate = true)
+            } finally {
+                restoringTimedAction = false
+            }
+            return
+        }
+
+        launchTimedAction(
+            title = title,
+            detail = detail,
+            completionAction = completionAction,
+            totalDurationMs = totalDurationMs,
+            endsAtEpochMs = endsAtEpochMs,
+            playStartSound = false
+        )
+    }
+
+    private fun encodeTimedCompletionAction(action: GameAction): String? {
+        return when (action) {
+            is GameAction.ExecuteCraftRecipe ->
+                "craft|${action.discipline.name}|${action.recipeId}|${action.times}"
+
+            is GameAction.ExecuteGatherNode ->
+                "gather|${action.type.name}|${action.nodeId}"
+
+            is GameAction.ExecuteHunting ->
+                "hunt|${action.spotId}|${action.durationSeconds}"
+
+            is GameAction.ExecuteEnchantItem ->
+                "enchant|${action.itemId}|${action.enhancementRunes}|${action.useProtectionRune}"
+
+            is GameAction.ExecuteFusion ->
+                "fusion|${action.slot1ItemId}|${action.slot2ItemId}"
+
+            is GameAction.ExecuteExtraction ->
+                "extract|${action.itemId}|${action.useRemovalScroll}|${action.useProtectionScroll}"
+
+            else -> null
+        }
+    }
+
+    private fun decodeTimedCompletionAction(raw: String): GameAction? {
+        val parts = raw.split('|')
+        if (parts.isEmpty()) return null
+        return when (parts[0]) {
+            "craft" -> {
+                val discipline = parts.getOrNull(1)?.let { runCatching { CraftDiscipline.valueOf(it) }.getOrNull() } ?: return null
+                val recipeId = parts.getOrNull(2) ?: return null
+                val times = parts.getOrNull(3)?.toIntOrNull() ?: return null
+                GameAction.ExecuteCraftRecipe(discipline = discipline, recipeId = recipeId, times = times)
+            }
+
+            "gather" -> {
+                val type = parts.getOrNull(1)?.let { runCatching { GatheringType.valueOf(it) }.getOrNull() } ?: return null
+                val nodeId = parts.getOrNull(2) ?: return null
+                GameAction.ExecuteGatherNode(type = type, nodeId = nodeId)
+            }
+
+            "hunt" -> {
+                val spotId = parts.getOrNull(1) ?: return null
+                val duration = parts.getOrNull(2)?.toIntOrNull() ?: return null
+                GameAction.ExecuteHunting(spotId = spotId, durationSeconds = duration)
+            }
+
+            "enchant" -> {
+                val itemId = parts.getOrNull(1) ?: return null
+                val runes = parts.getOrNull(2)?.toIntOrNull() ?: return null
+                val protection = parts.getOrNull(3)?.toBooleanStrictOrNull() ?: return null
+                GameAction.ExecuteEnchantItem(
+                    itemId = itemId,
+                    enhancementRunes = runes,
+                    useProtectionRune = protection
+                )
+            }
+
+            "fusion" -> {
+                val slot1 = parts.getOrNull(1) ?: return null
+                val slot2 = parts.getOrNull(2) ?: return null
+                GameAction.ExecuteFusion(slot1ItemId = slot1, slot2ItemId = slot2)
+            }
+
+            "extract" -> {
+                val itemId = parts.getOrNull(1) ?: return null
+                val removal = parts.getOrNull(2)?.toBooleanStrictOrNull() ?: return null
+                val protection = parts.getOrNull(3)?.toBooleanStrictOrNull() ?: return null
+                GameAction.ExecuteExtraction(
+                    itemId = itemId,
+                    useRemovalScroll = removal,
+                    useProtectionScroll = protection
+                )
+            }
+
+            else -> null
         }
     }
 
@@ -942,7 +1155,10 @@ class AndroidGameViewModel(
             (session.messages + advance.messages).takeLast(12)
         }
         session = session.copy(
-            gameState = state.copy(player = advance.player),
+            gameState = state.copy(
+                player = advance.player,
+                lastClockSyncEpochMs = System.currentTimeMillis()
+            ),
             messages = mergedMessages
         )
         publishFromSession()
@@ -1022,6 +1238,8 @@ class AndroidGameViewModel(
 
             is GameAction.BuyShopEntry,
             is GameAction.BuyUpgrade,
+            is GameAction.BuyCashPack,
+            is GameAction.BuyPremiumPlan,
             is GameAction.BuyGlobalBossRunAttempt -> SoundEffect.BUY
 
             is GameAction.SellInventoryItem,
@@ -1166,6 +1384,12 @@ class AndroidGameViewModel(
         private const val PREF_EFFECTS_ENABLED = "audio_effects_enabled"
         private const val PREF_LAST_SEEN_PATCH_VERSION_PREFIX = "last_seen_patch_version_"
         private const val PREF_LAST_SEEN_PATCH_VERSION_LEGACY = "last_seen_patch_version"
+        private const val PREF_TIMED_ACTION_SAVE = "timed_action_save"
+        private const val PREF_TIMED_ACTION_TITLE = "timed_action_title"
+        private const val PREF_TIMED_ACTION_DETAIL = "timed_action_detail"
+        private const val PREF_TIMED_ACTION_ACTION = "timed_action_action"
+        private const val PREF_TIMED_ACTION_TOTAL_MS = "timed_action_total_ms"
+        private const val PREF_TIMED_ACTION_END_EPOCH_MS = "timed_action_end_epoch_ms"
 
         fun factory(application: Application): ViewModelProvider.Factory {
             return object : ViewModelProvider.Factory {

@@ -1,0 +1,8 @@
+{
+    "id":  "cash_pack_mega",
+    "name":  "Pacote Mega",
+    "premiumCashAmount":  6200,
+    "platformPriceLabel":  "R$ 200,00",
+    "description":  "Maior taxa de CASH por R$ para compras de longo prazo.",
+    "enabled":  true
+}

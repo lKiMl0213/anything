@@ -39,6 +39,7 @@ internal class PresentationSupport(
             level = state.player.level,
             classLabel = classLabel,
             gold = state.player.gold,
+            cash = state.player.premiumCash,
             hp = ProgressBarViewModel("HP", state.player.currentHp, stats.derived.hpMax),
             mp = ProgressBarViewModel("MP", state.player.currentMp, stats.derived.mpMax)
         )

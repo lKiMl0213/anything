@@ -107,6 +107,7 @@ fun RaceClassScreen(
                 Text(
                     text = "Selecionado: $selectedRaceLabel | $selectedClassLabel",
                     modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.SemiBold
                 )
