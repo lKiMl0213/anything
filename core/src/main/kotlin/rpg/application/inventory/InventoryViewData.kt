@@ -25,13 +25,18 @@ data class EquippedSlotView(
     val displayLabel: String
 )
 
+data class BackpackTierView(
+    val tier: Int,
+    val equipped: Boolean
+)
+
 data class InventoryItemDetailView(
     val sampleItemId: String,
     val quantity: Int,
     val item: ResolvedItem,
     val saleValue: Int,
     val detailLines: List<String>,
-    val comparisonSummary: String? = null
+    val comparisonLines: List<String> = emptyList()
 )
 
 data class EquippedItemDetailView(
@@ -39,7 +44,7 @@ data class EquippedItemDetailView(
     val itemId: String,
     val item: ResolvedItem,
     val detailLines: List<String>,
-    val removalSummary: String
+    val removalLines: List<String>
 )
 
 data class EquipComparisonPreviewData(

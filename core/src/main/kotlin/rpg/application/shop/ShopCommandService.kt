@@ -123,6 +123,22 @@ class ShopCommandService(
         val sourceEntry = findShopEntryById(entryId, currency)
             ?: return ShopMutationResult(state, listOf("Item da loja não encontrado."))
 
+        val backpackTier = InventorySystem.backpackTier(sourceEntry.itemId, state.itemInstances, engine.itemRegistry)
+        if (backpackTier != null) {
+            val alreadyOwned = InventorySystem.hasOwnedBackpackTier(
+                player = player,
+                itemInstances = state.itemInstances,
+                itemRegistry = engine.itemRegistry,
+                tier = backpackTier
+            )
+            if (alreadyOwned) {
+                return ShopMutationResult(
+                    state,
+                    listOf("Você já possui a mochila do tier $backpackTier.")
+                )
+            }
+        }
+
         if (!display.inStock) {
             return ShopMutationResult(state, listOf("Item indisponivel no estoque desta rodada."))
         }

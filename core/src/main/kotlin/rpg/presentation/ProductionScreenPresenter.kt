@@ -19,11 +19,11 @@ internal class ProductionScreenPresenter(
         return MenuScreenViewModel(
             title = "Craft",
             summary = support.playerSummary(state),
-            bodyLines = listOf("Selecione a disciplina de craft. Os tempos sao mostrados em cada receita."),
+            bodyLines = listOf("Selecione a disciplina de craft. Os tempos são mostrados em cada receita."),
             options = listOf(
                 ScreenOptionViewModel("1", "Forja", GameAction.OpenCraftDiscipline(CraftDiscipline.FORGE)),
                 ScreenOptionViewModel("2", "Alquimia", GameAction.OpenCraftDiscipline(CraftDiscipline.ALCHEMY)),
-                ScreenOptionViewModel("3", "Culinaria", GameAction.OpenCraftDiscipline(CraftDiscipline.COOKING)),
+                ScreenOptionViewModel("3", "Culinária", GameAction.OpenCraftDiscipline(CraftDiscipline.COOKING)),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)
             ),
             messages = session.messages
@@ -45,7 +45,7 @@ internal class ProductionScreenPresenter(
         val options = recipes.mapIndexed { index, recipe ->
             val status = when {
                 !recipe.unlocked -> recipe.unlockReason ?: "Bloqueado"
-                recipe.available -> "Disponivel"
+                recipe.available -> "Disponível"
                 else -> "Sem ingredientes"
             }
             ScreenOptionViewModel(
@@ -61,7 +61,7 @@ internal class ProductionScreenPresenter(
         val body = mutableListOf<String>()
         body += "Disciplina: ${discipline.name.lowercase()}"
         if (recipes.isEmpty()) {
-            body += "Nenhuma receita cadastrada para está disciplina."
+            body += "Nenhuma receita cadastrada para esta disciplina."
         } else {
             body += "Selecione uma receita para ver ingredientes completos e definir quantidade."
         }
@@ -109,7 +109,7 @@ internal class ProductionScreenPresenter(
 
         val maxSelectableQty = recipe.maxSelectableBatch.coerceAtLeast(1)
         val currentQty = requestedQty.coerceIn(1, maxSelectableQty)
-        val status = if (recipe.available) "Disponivel" else "Indisponivel"
+        val status = if (recipe.available) "Disponível" else "Indisponível"
 
         val body = mutableListOf<String>()
         body += "Receita: ${recipe.name} -> ${recipe.outputLabel} | $status | ação ${formatSeconds(recipe.estimatedPerActionSeconds)}s | lote ${formatSeconds(recipe.estimatedBatchSeconds)}s (${recipe.batchSize}x)"
@@ -121,7 +121,7 @@ internal class ProductionScreenPresenter(
         recipe.ingredientLines.forEach { ingredientLine ->
             body += "- $ingredientLine"
         }
-        body += "Quantidade: ${currentQty} / CAP: ${maxSelectableQty}"
+        body += "Quantidade: ${currentQty} / LIMITE: ${maxSelectableQty}"
 
         val options = listOf(
             ScreenOptionViewModel(
@@ -161,7 +161,7 @@ internal class ProductionScreenPresenter(
             )
         val nodes = queryService.gatherNodes(state, type)
         val options = nodes.mapIndexed { index, node ->
-            val status = if (node.unlocked) "Disponivel" else "Bloqueado"
+            val status = if (node.unlocked) "Disponível" else "Bloqueado"
             ScreenOptionViewModel(
                 (index + 1).toString(),
                 "${node.name} -> ${node.resourceLabel} | $status | tempo ${formatSeconds(node.durationSeconds)}s",
@@ -177,7 +177,7 @@ internal class ProductionScreenPresenter(
             body += "Nenhum ponto de coleta disponível."
         } else {
             nodes.take(6).forEach { node ->
-                body += "- ${node.name}: ${node.resourceLabel} (skill ${node.skillType.name.lowercase()} ${node.skillLevel}/${node.minSkillLevel}) | ${formatSeconds(node.durationSeconds)}s"
+                body += "- ${node.name}: ${node.resourceLabel} (nível ${node.skillType.name.lowercase()} ${node.skillLevel}/${node.minSkillLevel}) | ${formatSeconds(node.durationSeconds)}s"
             }
             if (nodes.size > 6) body += "... (${nodes.size - 6} pontos adicionais nas opções)."
         }
@@ -193,7 +193,7 @@ internal class ProductionScreenPresenter(
 
     private fun gatheringTypeLabel(type: GatheringType): String = when (type) {
         GatheringType.HERBALISM -> "Coleta de ervas"
-        GatheringType.MINING -> "Mineracao"
+        GatheringType.MINING -> "Mineração"
         GatheringType.WOODCUTTING -> "Corte de madeira"
         GatheringType.FISHING -> "Pesca"
     }

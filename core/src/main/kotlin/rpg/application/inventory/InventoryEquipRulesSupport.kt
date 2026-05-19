@@ -82,23 +82,28 @@ internal class InventoryEquipRulesSupport(
     }
 
     fun formatEquipComparison(before: ComputedStats, after: ComputedStats): String {
-        return listOf(
-            "DMG" to (after.derived.damagePhysical - before.derived.damagePhysical),
-            "M-DMG" to (after.derived.damageMagic - before.derived.damageMagic),
-            "DEF" to (after.derived.defPhysical - before.derived.defPhysical),
-            "M-DEF" to (after.derived.defMagic - before.derived.defMagic),
-            "HP" to (after.derived.hpMax - before.derived.hpMax),
-            "MP" to (after.derived.mpMax - before.derived.mpMax),
-            "CRIT" to (after.derived.critChancePct - before.derived.critChancePct),
-            "ACC" to (after.derived.accuracy - before.derived.accuracy),
-            "EVA" to (after.derived.evasion - before.derived.evasion),
-            "ASPD" to (after.derived.attackSpeed - before.derived.attackSpeed),
-            "MOVE" to (after.derived.moveSpeed - before.derived.moveSpeed),
-            "CDR" to (after.derived.cdrPct - before.derived.cdrPct),
-            "DR" to (after.derived.damageReductionPct - before.derived.damageReductionPct)
-        ).mapNotNull { (label, delta) ->
+        return comparisonDeltas(before, after).mapNotNull { (label, delta) ->
             if (abs(delta) < 0.01) null else "$label ${formatSignedDouble(delta)}"
         }.joinToString(" | ")
+    }
+
+    fun formatEquipComparisonLines(before: ComputedStats, after: ComputedStats): List<String> {
+        val deltas = comparisonDeltas(before, after)
+            .filter { (_, delta) -> abs(delta) >= 0.01 }
+        if (deltas.isEmpty()) return listOf("Sem alterações relevantes.")
+
+        val gains = deltas.filter { (_, delta) -> delta > 0.0 }
+        val losses = deltas.filter { (_, delta) -> delta < 0.0 }
+        val lines = mutableListOf<String>()
+        if (gains.isNotEmpty()) {
+            lines += "Ganho:"
+            lines += gains.map { (label, delta) -> "+ $label ${formatMagnitude(delta)}" }
+        }
+        if (losses.isNotEmpty()) {
+            lines += "Perda:"
+            lines += losses.map { (label, delta) -> "- $label ${formatMagnitude(delta)}" }
+        }
+        return lines
     }
 
     fun buildUnequippedPreview(player: PlayerState, slotKey: String): PlayerState {
@@ -163,4 +168,24 @@ internal class InventoryEquipRulesSupport(
         val slotKey: String,
         val currentItemId: String?
     )
+
+    private fun comparisonDeltas(before: ComputedStats, after: ComputedStats): List<Pair<String, Double>> {
+        return listOf(
+            "Ataque" to (after.derived.damagePhysical - before.derived.damagePhysical),
+            "Ataque mágico" to (after.derived.damageMagic - before.derived.damageMagic),
+            "Defesa" to (after.derived.defPhysical - before.derived.defPhysical),
+            "Defesa mágica" to (after.derived.defMagic - before.derived.defMagic),
+            "HP" to (after.derived.hpMax - before.derived.hpMax),
+            "MP" to (after.derived.mpMax - before.derived.mpMax),
+            "Crítico" to (after.derived.critChancePct - before.derived.critChancePct),
+            "Precisão" to (after.derived.accuracy - before.derived.accuracy),
+            "Esquiva" to (after.derived.evasion - before.derived.evasion),
+            "Vel. ataque" to (after.derived.attackSpeed - before.derived.attackSpeed),
+            "Movimento" to (after.derived.moveSpeed - before.derived.moveSpeed),
+            "Recarga" to (after.derived.cdrPct - before.derived.cdrPct),
+            "Redução de dano" to (after.derived.damageReductionPct - before.derived.damageReductionPct)
+        )
+    }
+
+    private fun formatMagnitude(value: Double): String = format(abs(value))
 }

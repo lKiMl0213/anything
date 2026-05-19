@@ -4,7 +4,9 @@
     "freeRunsPerDay": 2,
     "purchasableRunsPerDay": 3,
     "maxRunsPerDay": 5,
-    "purchasedRunCashCost": 1
+    "purchasedRunCashCost": 2,
+    "weeklyPurchasedRunCashCost": 2,
+    "monthlyPurchasedRunCashCost": 4
   },
   "scaling": {
     "turnStepActions": 3,

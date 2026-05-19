@@ -14,7 +14,7 @@ data class AndroidGamePaths(
 )
 
 object AndroidDataBootstrap {
-    private const val PATCH_NOTES_ASSET = "patchnotes/changelog.json"
+    private val preservedRootDirs = setOf("saves")
 
     fun prepare(context: Context): AndroidGamePaths {
         val dataRoot = context.filesDir.toPath().resolve("game-data")
@@ -23,7 +23,7 @@ object AndroidDataBootstrap {
             dataRoot.createDirectories()
             copyAssetsTree(context.assets, "", dataRoot.toFile())
         } else {
-            syncPatchNotesAsset(context.assets, dataRoot.toFile())
+            syncDataAssets(context.assets, dataRoot.toFile())
         }
         savesRoot.createDirectories()
         purgeLegacyAutosaves(savesRoot.toFile())
@@ -56,10 +56,14 @@ object AndroidDataBootstrap {
         }
     }
 
-    private fun syncPatchNotesAsset(assets: AssetManager, dataRoot: File) {
-        val target = File(dataRoot, PATCH_NOTES_ASSET)
+    private fun syncDataAssets(assets: AssetManager, dataRoot: File) {
         runCatching {
-            copyFile(assets, PATCH_NOTES_ASSET, target)
+            mirrorAssetsTree(
+                assets = assets,
+                assetPath = "",
+                target = dataRoot,
+                preserveAtRoot = preservedRootDirs
+            )
         }
     }
 
@@ -71,6 +75,44 @@ object AndroidDataBootstrap {
             if (file.isFile && isLegacyAutosave) {
                 runCatching { file.delete() }
             }
+        }
+    }
+
+    private fun mirrorAssetsTree(
+        assets: AssetManager,
+        assetPath: String,
+        target: File,
+        preserveAtRoot: Set<String>
+    ) {
+        val entries = assets.list(assetPath).orEmpty()
+        if (entries.isEmpty()) {
+            copyFile(assets, assetPath, target)
+            return
+        }
+
+        if (!target.exists()) {
+            target.mkdirs()
+        }
+
+        val assetEntrySet = entries.toSet()
+        target.listFiles().orEmpty().forEach { localChild ->
+            if (assetPath.isBlank() && localChild.name in preserveAtRoot) {
+                return@forEach
+            }
+            if (localChild.name !in assetEntrySet) {
+                runCatching { localChild.deleteRecursively() }
+            }
+        }
+
+        entries.forEach { entry ->
+            val nextAssetPath = if (assetPath.isBlank()) entry else "$assetPath/$entry"
+            val nextTarget = File(target, entry)
+            mirrorAssetsTree(
+                assets = assets,
+                assetPath = nextAssetPath,
+                target = nextTarget,
+                preserveAtRoot = emptySet()
+            )
         }
     }
 }

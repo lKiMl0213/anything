@@ -72,8 +72,18 @@ data class GlobalBossRunLimitConfig(
     val freeRunsPerDay: Int = 2,
     val purchasableRunsPerDay: Int = 3,
     val maxRunsPerDay: Int = 5,
-    val purchasedRunCashCost: Int = 2
-)
+    val purchasedRunCashCost: Int = 2,
+    val weeklyPurchasedRunCashCost: Int? = null,
+    val monthlyPurchasedRunCashCost: Int? = null
+) {
+    fun runCashCost(cadence: GlobalBossCadence): Int {
+        val fallback = purchasedRunCashCost.coerceAtLeast(1)
+        return when (cadence) {
+            GlobalBossCadence.WEEKLY -> (weeklyPurchasedRunCashCost ?: fallback).coerceAtLeast(1)
+            GlobalBossCadence.MONTHLY -> (monthlyPurchasedRunCashCost ?: fallback).coerceAtLeast(1)
+        }
+    }
+}
 
 @Serializable
 data class GlobalBossScalingConfig(

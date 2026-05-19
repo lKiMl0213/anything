@@ -71,22 +71,33 @@ class InventoryRulesSupport(
                 itemIds = ids.toList(),
                 item = resolved
             )
-        }.sortedWith(
-            compareByDescending<InventoryStackView> { it.item.rarity.ordinal }
-                .thenByDescending { it.item.powerScore }
-                .thenBy { it.item.name.lowercase() }
-        )
+        }
     }
 
     fun applyInventoryFilter(
         stacks: List<InventoryStackView>,
         filter: InventoryFilterState
     ): List<InventoryStackView> {
-        return stacks.filter { stack ->
+        val filtered = stacks.filter { stack ->
             val typeOk = filter.type == null || stack.item.type == filter.type
             val rarityOk = filter.minimumRarity == null || stack.item.rarity.ordinal >= filter.minimumRarity.ordinal
             typeOk && rarityOk
         }
+        val comparator = when (filter.sortMode) {
+            InventorySortMode.TYPE -> compareBy<InventoryStackView>(
+                { it.item.type.ordinal },
+                { it.item.name.lowercase() }
+            )
+                .thenByDescending { it.item.rarity.ordinal }
+                .thenByDescending { it.item.powerScore }
+            InventorySortMode.RARITY -> compareByDescending<InventoryStackView> { it.item.rarity.ordinal }
+                .thenByDescending { it.item.powerScore }
+                .thenBy { it.item.name.lowercase() }
+            InventorySortMode.VALUE -> compareByDescending<InventoryStackView> { it.item.value }
+                .thenByDescending { it.item.rarity.ordinal }
+                .thenBy { it.item.name.lowercase() }
+        }
+        return filtered.sortedWith(comparator)
     }
 
     fun inventoryFilterSummary(filter: InventoryFilterState): String {
@@ -97,7 +108,12 @@ class InventoryRulesSupport(
             ItemType.MATERIAL -> "materiais"
         }
         val rarityLabel = filter.minimumRarity?.colorLabel ?: "qualquer raridade"
-        return "tipo=$typeLabel | raridade min=$rarityLabel"
+        val sortLabel = when (filter.sortMode) {
+            InventorySortMode.TYPE -> "tipo"
+            InventorySortMode.RARITY -> "raridade"
+            InventorySortMode.VALUE -> "valor"
+        }
+        return "tipo=$typeLabel | raridade min=$rarityLabel | ordenar=$sortLabel"
     }
 
     fun buildAmmoStacks(
@@ -135,7 +151,7 @@ class InventoryRulesSupport(
             val equippedId = player.equipped[slotKey]
             val label = when {
                 equippedId == null -> "-"
-                equippedId == offhandBlockedId -> "Bloqueado por arma de duas maos"
+                equippedId == offhandBlockedId -> "Bloqueado por arma de duas mãos"
                 else -> engine.itemResolver.resolve(equippedId, itemInstances)?.let(::itemDisplayLabel) ?: equippedId
             }
             val slotLabel = if (slotKey == EquipSlot.ALJAVA.name && equippedId != null && equippedId != offhandBlockedId) {
@@ -150,6 +166,23 @@ class InventoryRulesSupport(
                 label = equippedSlotLabel(slotKey),
                 equippedItemId = equippedId?.takeIf { it != offhandBlockedId },
                 displayLabel = slotLabel
+            )
+        }
+    }
+
+    fun backpackTierViews(
+        player: PlayerState,
+        itemInstances: Map<String, ItemInstance>
+    ): List<BackpackTierView> {
+        val equippedByTier = rpg.inventory.InventorySystem.equippedBackpackItemIdsByTier(
+            player = player,
+            itemInstances = itemInstances,
+            itemRegistry = engine.itemRegistry
+        )
+        return (1..3).map { tier ->
+            BackpackTierView(
+                tier = tier,
+                equipped = equippedByTier[tier] != null
             )
         }
     }
@@ -189,16 +222,17 @@ class InventoryRulesSupport(
     }
 
     fun equippedSlotLabel(slotKey: String): String = when (slotKey) {
-        EquipSlot.WEAPON_MAIN.name -> "Arma primaria"
-        EquipSlot.WEAPON_OFF.name -> "Arma secundaria"
+        EquipSlot.WEAPON_MAIN.name -> "Arma primária"
+        EquipSlot.WEAPON_OFF.name -> "Arma secundária"
         EquipSlot.ALJAVA.name -> "Aljava"
-        EquipSlot.HEAD.name -> "Cabeca"
-        EquipSlot.CHEST.name -> "Peito"
+        EquipSlot.HEAD.name -> "Cabeça"
+        EquipSlot.CHEST.name -> "Cota"
         EquipSlot.LEGS.name -> "Pernas"
         EquipSlot.GLOVES.name -> "Luvas"
         EquipSlot.BOOTS.name -> "Botas"
+        EquipSlot.ACCESSORY.name -> "Acessório"
         else -> if (slotKey.uppercase().startsWith("ACCESSORY")) {
-            slotKey.replace('_', ' ').lowercase().replaceFirstChar { it.uppercase() }
+            "Acessório ${slotKey.filter { it.isDigit() }.ifBlank { "" }}".trim()
         } else {
             slotKey
         }
@@ -227,6 +261,13 @@ class InventoryRulesSupport(
 
     fun formatEquipComparison(before: rpg.engine.ComputedStats, after: rpg.engine.ComputedStats): String {
         return equipRules.formatEquipComparison(before, after)
+    }
+
+    fun formatEquipComparisonLines(
+        before: rpg.engine.ComputedStats,
+        after: rpg.engine.ComputedStats
+    ): List<String> {
+        return equipRules.formatEquipComparisonLines(before, after)
     }
 
     fun buildUnequippedPreview(player: PlayerState, slotKey: String): PlayerState {

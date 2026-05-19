@@ -1,0 +1,18 @@
+﻿{
+  "id": "hunting_ruins_of_hunters",
+  "name": "Ruínas do Caçador",
+  "recommendedLevel": 45,
+  "minCycleSeconds": 240,
+  "baseXp": 62.0,
+  "difficulty": 2.22,
+  "description": "Ruínas antigas onde apenas caçadores experientes sobrevivem por muito tempo.",
+  "drops": [
+    { "itemId": "predator_eye", "weight": 20, "minQty": 1, "maxQty": 3, "rareChancePct": 20.0, "minPlayerLevel": 38 },
+    { "itemId": "golden_flower", "weight": 16, "minQty": 1, "maxQty": 2, "rareChancePct": 18.0, "minPlayerLevel": 40 },
+    { "itemId": "luminous_mushroom", "weight": 14, "minQty": 1, "maxQty": 3, "rareChancePct": 16.0, "minPlayerLevel": 38 },
+    { "itemId": "oil", "weight": 14, "minQty": 1, "maxQty": 3, "rareChancePct": 17.0, "minPlayerLevel": 39 },
+    { "itemId": "rough_hide", "weight": 12, "minQty": 2, "maxQty": 4, "rareChancePct": 13.0, "minPlayerLevel": 36 },
+    { "itemId": "wolf_fang", "weight": 12, "minQty": 2, "maxQty": 4, "rareChancePct": 14.0, "minPlayerLevel": 35 },
+    { "itemId": "beast_meat", "weight": 8, "minQty": 2, "maxQty": 5, "rareChancePct": 0.0, "minPlayerLevel": 34 }
+  ]
+}

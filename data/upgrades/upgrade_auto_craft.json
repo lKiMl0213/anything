@@ -1,0 +1,17 @@
+{
+  "id": "auto_craft",
+  "name": "Auto Craft",
+  "description": "Repete automaticamente o último craft até acabar recurso ou encher o inventário.",
+  "effectType": "AUTO_CRAFT_UNLOCK",
+  "valueMode": "FLAT",
+  "levels": [
+    {
+      "level": 1,
+      "value": 1,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 28000 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 920 }
+      ]
+    }
+  ]
+}

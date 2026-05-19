@@ -26,6 +26,7 @@ sealed class CombatAction {
     data class Attack(val preferMagic: Boolean? = null) : CombatAction()
     data class Skill(val spec: CombatSkillSpec) : CombatAction()
     data class UseItem(val itemId: String) : CombatAction()
+    data class UseItemInstant(val itemId: String) : CombatAction()
     data object Escape : CombatAction()
 }
 

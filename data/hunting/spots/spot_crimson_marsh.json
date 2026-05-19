@@ -1,0 +1,18 @@
+﻿{
+  "id": "hunting_crimson_marsh",
+  "name": "Brejo Carmesim",
+  "recommendedLevel": 35,
+  "minCycleSeconds": 180,
+  "baseXp": 46.0,
+  "difficulty": 1.90,
+  "description": "Pântano de névoa densa com trilhas de predadores e coleta arriscada.",
+  "drops": [
+    { "itemId": "beast_meat", "weight": 24, "minQty": 2, "maxQty": 4, "rareChancePct": 0.0, "minPlayerLevel": 26 },
+    { "itemId": "rough_hide", "weight": 20, "minQty": 1, "maxQty": 3, "rareChancePct": 8.0, "minPlayerLevel": 28 },
+    { "itemId": "predator_eye", "weight": 16, "minQty": 1, "maxQty": 2, "rareChancePct": 15.0, "minPlayerLevel": 30 },
+    { "itemId": "luminous_mushroom", "weight": 16, "minQty": 1, "maxQty": 2, "rareChancePct": 10.0, "minPlayerLevel": 30 },
+    { "itemId": "oil", "weight": 12, "minQty": 1, "maxQty": 2, "rareChancePct": 14.0, "minPlayerLevel": 32 },
+    { "itemId": "charcoal", "weight": 10, "minQty": 1, "maxQty": 2, "rareChancePct": 9.0, "minPlayerLevel": 30 },
+    { "itemId": "wild_mint_leaf", "weight": 8, "minQty": 1, "maxQty": 2, "rareChancePct": 12.0, "minPlayerLevel": 28 }
+  ]
+}

@@ -140,6 +140,18 @@ class PermanentUpgradeService(
         return finalMinutes * 60_000L
     }
 
+    fun hasAutoPotion(player: PlayerState): Boolean {
+        return valueForEffect(player, PermanentUpgradeEffectType.AUTO_POTION_UNLOCK) > 0.0
+    }
+
+    fun hasAutoContinue(player: PlayerState): Boolean {
+        return valueForEffect(player, PermanentUpgradeEffectType.AUTO_CONTINUE_UNLOCK) > 0.0
+    }
+
+    fun hasAutoCraft(player: PlayerState): Boolean {
+        return valueForEffect(player, PermanentUpgradeEffectType.AUTO_CRAFT_UNLOCK) > 0.0
+    }
+
     fun dailyQuestCount(player: PlayerState): Int {
         val base = 6
         return (base + PremiumSupport.questExtraCount(player)).coerceAtMost(20)

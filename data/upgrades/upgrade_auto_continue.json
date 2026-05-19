@@ -1,0 +1,17 @@
+{
+  "id": "auto_continue",
+  "name": "Auto Continuar",
+  "description": "Desbloqueia o avanço automático para a próxima sala após vencer uma batalha na dungeon.",
+  "effectType": "AUTO_CONTINUE_UNLOCK",
+  "valueMode": "FLAT",
+  "levels": [
+    {
+      "level": 1,
+      "value": 1,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 24000 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 820 }
+      ]
+    }
+  ]
+}

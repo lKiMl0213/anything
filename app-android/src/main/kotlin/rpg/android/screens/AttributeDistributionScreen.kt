@@ -18,11 +18,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import rpg.android.R
 import rpg.android.state.AttributeDistributionUiModel
+import rpg.android.ui.components.AttributeInfoPopup
 import rpg.android.ui.components.AttributeRow
 import rpg.android.ui.components.GameBackIconButton
 import rpg.android.ui.components.GameFooterActions
 import rpg.android.ui.components.GameInfoPanel
-import rpg.android.ui.components.GamePopup
 import rpg.android.ui.components.GameScreenRoot
 
 @Composable
@@ -62,7 +62,7 @@ fun AttributeDistributionScreen(
 
             GameInfoPanel(title = "Distribuicao de Atributos") {
                 Text(
-                    text = "Pontos restantes: ${state.pointsRemaining}",
+                    text = "Pontos de atributos disponíveis: ${state.pointsRemaining}",
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center
                 )
@@ -70,8 +70,9 @@ fun AttributeDistributionScreen(
             GameInfoPanel(title = "Atributos") {
                 state.rows.forEach { row ->
                     AttributeRow(
-                        code = row.code,
-                        valueLabel = "${row.label}: ${row.previewValue} [alocado ${row.allocated}]",
+                        code = row.label,
+                        valueLabel = row.previewValue.toString(),
+                        allocatedLabel = "[alocado ${row.allocated}]",
                         onInfoClick = { popupCode = row.code },
                         onDecrease = { onDecrease(row.code) },
                         onIncrease = { onIncrease(row.code) },
@@ -95,30 +96,10 @@ fun AttributeDistributionScreen(
     }
 
     popupCode?.let { selectedCode ->
-        GamePopup(
-            title = selectedCode,
+        AttributeInfoPopup(
+            title = state.rows.firstOrNull { it.code == selectedCode }?.label ?: selectedCode,
+            lines = popupLines,
             onDismiss = { popupCode = null }
-        ) {
-            if (popupLines.isEmpty()) {
-                Text(
-                    text = "Sem detalhes adicionais.",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
-            } else {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    popupLines.forEach { line ->
-                        Text(
-                            text = line,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-            }
-        }
+        )
     }
 }

@@ -17,17 +17,18 @@ internal class HuntingScreenPresenter(
         val options = spots.mapIndexed { index, spot ->
             val status = when {
                 !spot.unlocked -> spot.unlockReason ?: "Bloqueado"
-                spot.available -> "Disponivel"
-                else -> spot.blockedReasons.joinToString(" | ").ifBlank { "Indisponivel" }
+                spot.available -> "Disponível"
+                else -> spot.blockedReasons.joinToString(" | ").ifBlank { "Indisponível" }
             }
             ScreenOptionViewModel(
                 key = (index + 1).toString(),
-                label = "${spot.name} | nv desbloq ${spot.minSkillLevel} | ciclo base ${spot.minimumCycleSeconds}s | $status",
+                label = "${spot.name} | nv desbloq ${spot.unlockLevel} | ciclo base ${spot.minimumCycleSeconds}s | $status",
                 action = GameAction.SelectHuntingSpot(spot.id),
                 enabled = spot.unlocked,
                 lockedReason = spot.unlockReason
             )
         } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
+
         val body = mutableListOf<String>()
         if (spots.isEmpty()) {
             body += "Nenhum spot de caça disponível."
@@ -36,7 +37,7 @@ internal class HuntingScreenPresenter(
             spots.take(5).forEach { spot ->
                 val description = spot.description.ifBlank { "Sem descrição." }
                 val unlockLine = if (spot.unlocked) {
-                    "nv caça ${spot.skillLevel}/${spot.minSkillLevel}"
+                    "nv personagem ${spot.playerLevel}/${spot.unlockLevel} | nv caça ${spot.huntingSkillLevel}"
                 } else {
                     spot.unlockReason ?: "Bloqueado"
                 }
@@ -51,6 +52,7 @@ internal class HuntingScreenPresenter(
                 body += "... (${spots.size - 5} spots adicionais nas opções)."
             }
         }
+
         return MenuScreenViewModel(
             title = "Caça - Spots",
             summary = support.playerSummary(state),
@@ -83,7 +85,7 @@ internal class HuntingScreenPresenter(
         } else {
             listOf(
                 "Spot selecionado: $spotId",
-                "Escolha o tempo total real da caça; nível melhora eficiência do ciclo sem alterar o tempo total."
+                "Escolha o tempo total real da caça; nível de caça melhora eficiência do ciclo sem alterar o tempo total."
             )
         }
         return MenuScreenViewModel(
@@ -95,8 +97,3 @@ internal class HuntingScreenPresenter(
         )
     }
 }
-
-
-
-
-

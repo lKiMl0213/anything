@@ -16,14 +16,19 @@ import rpg.combat.PlayerCombatController
 import rpg.engine.GameEngine
 import rpg.model.GameState
 import rpg.model.ItemType
+import rpg.status.StatusEffectInstance
 import rpg.status.StatusType
 import rpg.android.state.CombatActionButtonUi
 import rpg.android.state.CombatConsumableUi
+import rpg.android.state.CombatStatusEffectUi
 import rpg.android.state.CombatUiState
 
 internal class AndroidCombatFlowController(
     private val engine: GameEngine,
     private val outcomeResolver: AndroidCombatOutcomeResolver,
+    private val autoPotionEnabledProvider: () -> Boolean,
+    private val autoPotionThresholdProvider: () -> Int,
+    private val selectedAutoConsumableProvider: () -> String?,
     private val resolveGlobalBossCombat: (
         gameState: GameState,
         encounter: PendingEncounter,
@@ -32,10 +37,13 @@ internal class AndroidCombatFlowController(
     ) -> CombatFlowResult
 ) {
     private val actionChannel = Channel<CombatAction>(Channel.UNLIMITED)
+    private var preferredConsumableItemId: String? = null
+    private var autoPotionConsumedInCurrentDecision: Boolean = false
     private val _uiState = MutableStateFlow(
         CombatUiState(
             title = "Combate",
             enemyName = "-",
+            enemyStars = 0,
             introLines = emptyList(),
             playerName = "-",
             playerHp = 0.0,
@@ -51,6 +59,8 @@ internal class AndroidCombatFlowController(
             playerAtbLabel = "0%",
             enemyAtbLabel = "0%",
             playerReady = false,
+            playerStatusEffects = emptyList(),
+            enemyStatusEffects = emptyList(),
             statusLines = emptyList(),
             logLines = emptyList(),
             actions = emptyList(),
@@ -69,7 +79,12 @@ internal class AndroidCombatFlowController(
     }
 
     fun submitUseItem(itemId: String) {
+        preferredConsumableItemId = itemId
         actionChannel.trySend(CombatAction.UseItem(itemId))
+    }
+
+    fun submitSelectConsumable(itemId: String) {
+        preferredConsumableItemId = itemId
     }
 
     fun run(gameState: GameState, encounter: PendingEncounter): CombatFlowResult {
@@ -120,6 +135,7 @@ internal class AndroidCombatFlowController(
         }
 
         override fun onDecisionStarted(snapshot: CombatSnapshot) {
+            autoPotionConsumedInCurrentDecision = false
             publish(snapshot, pausedForDecision = true)
         }
 
@@ -130,7 +146,45 @@ internal class AndroidCombatFlowController(
 
         override fun pollAction(snapshot: CombatSnapshot): CombatAction? {
             publish(snapshot, pausedForDecision = true)
+            resolveAutoPotionAction(snapshot)?.let { autoAction ->
+                return autoAction
+            }
             return runBlocking { actionChannel.receive() }
+        }
+
+        private fun resolveAutoPotionAction(snapshot: CombatSnapshot): CombatAction? {
+            if (!autoPotionEnabledProvider()) return null
+            if (autoPotionConsumedInCurrentDecision) return null
+            val hpMax = snapshot.playerStats.derived.hpMax.coerceAtLeast(1.0)
+            val hpPct = (snapshot.player.currentHp / hpMax) * 100.0
+            val thresholdPct = autoPotionThresholdProvider().coerceIn(5, 95)
+            if (hpPct > thresholdPct) return null
+
+            val selectedId = selectedAutoConsumableProvider()?.takeIf { it.isNotBlank() }
+                ?: preferredConsumableItemId
+            val candidateId = selectAutoPotionItemId(snapshot, selectedId) ?: return null
+            autoPotionConsumedInCurrentDecision = true
+            return CombatAction.UseItemInstant(candidateId)
+        }
+
+        private fun selectAutoPotionItemId(snapshot: CombatSnapshot, preferredItemId: String?): String? {
+            if (preferredItemId != null && isAutoPotionCandidate(snapshot, preferredItemId)) {
+                return preferredItemId
+            }
+            return snapshot.player.inventory.firstOrNull { itemId ->
+                isAutoPotionCandidate(snapshot, itemId)
+            }
+        }
+
+        private fun isAutoPotionCandidate(snapshot: CombatSnapshot, itemId: String): Boolean {
+            val resolved = engine.itemResolver.resolve(itemId, snapshot.itemInstances) ?: return false
+            if (resolved.type != ItemType.CONSUMABLE) return false
+            val effects = resolved.effects
+            return effects.fullRestore ||
+                effects.hpRestore > 0.0 ||
+                effects.hpRestorePct > 0.0 ||
+                effects.mpRestore > 0.0 ||
+                effects.mpRestorePct > 0.0
         }
 
         private fun publish(snapshot: CombatSnapshot?, pausedForDecision: Boolean) {
@@ -146,7 +200,9 @@ internal class AndroidCombatFlowController(
             val playerStats = engine.computePlayerStats(snapshot.player, snapshot.itemInstances)
             val enemyStats = engine.computeMonsterStats(snapshot.monster)
             val consumables = buildConsumables(snapshot)
-            val statusLines = buildStatusLines(snapshot)
+            val playerStatusEffects = buildStatusEffects(snapshot.playerRuntime.statuses)
+            val enemyStatusEffects = buildStatusEffects(snapshot.monsterRuntime.statuses)
+            val statusLines = buildStatusLines(playerStatusEffects, enemyStatusEffects)
             val (activeEffectName, activeEffectRemainingSeconds) = buildActiveEffect(snapshot)
             val actionButtons = listOf(
                 CombatActionButtonUi("Atacar", GameAction.Attack, playerReady),
@@ -156,6 +212,7 @@ internal class AndroidCombatFlowController(
             _uiState.value = CombatUiState(
                 title = if (encounter.isBoss) "Combate | Boss" else "Combate",
                 enemyName = engine.monsterDisplayName(snapshot.monster),
+                enemyStars = snapshot.monster.stars.coerceIn(0, 7),
                 introLines = encounter.introLines,
                 playerName = snapshot.player.name,
                 playerHp = snapshot.player.currentHp,
@@ -171,6 +228,8 @@ internal class AndroidCombatFlowController(
                 playerAtbLabel = if (playerReady) "PRONTO" else "${(playerProgress * 100f).toInt()}% carregando",
                 enemyAtbLabel = "${(enemyProgress * 100f).toInt()}% carregando",
                 playerReady = playerReady,
+                playerStatusEffects = playerStatusEffects,
+                enemyStatusEffects = enemyStatusEffects,
                 statusLines = statusLines,
                 logLines = history.toList(),
                 actions = actionButtons,
@@ -178,18 +237,30 @@ internal class AndroidCombatFlowController(
             )
         }
 
-        private fun buildStatusLines(snapshot: CombatSnapshot): List<String> {
-            val playerStatuses = snapshot.playerRuntime.statuses
-                .joinToString(" | ") { status ->
-                    "${statusIcon(status.type)} ${format(status.remainingSeconds)}s"
-                }
-            val enemyStatuses = snapshot.monsterRuntime.statuses
-                .joinToString(" | ") { status ->
-                    "${statusIcon(status.type)} ${format(status.remainingSeconds)}s"
-                }
+        private fun buildStatusLines(
+            playerStatusEffects: List<CombatStatusEffectUi>,
+            enemyStatusEffects: List<CombatStatusEffectUi>
+        ): List<String> {
+            val playerStatuses = playerStatusEffects.joinToString(" | ") { status ->
+                "${status.icon} ${status.remainingSeconds}s"
+            }
+            val enemyStatuses = enemyStatusEffects.joinToString(" | ") { status ->
+                "${status.icon} ${status.remainingSeconds}s"
+            }
             return buildList {
                 if (playerStatuses.isNotBlank()) add("Você: $playerStatuses")
                 if (enemyStatuses.isNotBlank()) add("Inimigo: $enemyStatuses")
+            }
+        }
+
+        private fun buildStatusEffects(statuses: List<StatusEffectInstance>): List<CombatStatusEffectUi> {
+            return statuses.map { status ->
+                CombatStatusEffectUi(
+                    typeKey = status.type.name,
+                    icon = statusIcon(status.type),
+                    label = statusLabel(status.type),
+                    remainingSeconds = status.remainingSeconds.toInt().coerceAtLeast(0)
+                )
             }
         }
 
@@ -210,6 +281,19 @@ internal class AndroidCombatFlowController(
                 StatusType.WEAKNESS -> "\uD83E\uDDE9"
                 StatusType.SLOW -> "\uD83D\uDC22"
                 StatusType.MARKED -> "\uD83C\uDFAF"
+            }
+        }
+
+        private fun statusLabel(type: StatusType): String {
+            return when (type) {
+                StatusType.BURNING -> "Queimando"
+                StatusType.FROZEN -> "Congelado"
+                StatusType.POISONED -> "Envenenado"
+                StatusType.PARALYZED -> "Paralisado"
+                StatusType.BLEEDING -> "Sangramento"
+                StatusType.WEAKNESS -> "Fraqueza"
+                StatusType.SLOW -> "Lento"
+                StatusType.MARKED -> "Marcado"
             }
         }
 

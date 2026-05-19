@@ -445,7 +445,7 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
         }
         if (monster.stars <= 0) return shortName
         val tag = balance.starTags.sortedByDescending { it.minStars }.firstOrNull { monster.stars >= it.minStars }
-        val starSuffix = "(${monster.stars}⭐)"
+        val starSuffix = "(${renderStars(monster.stars)})"
         return if (tag != null && tag.label.isNotBlank()) {
             "$shortName ${tag.label} $starSuffix"
         } else {
@@ -508,6 +508,8 @@ class GameEngine(private val repo: DataRepository, private val rng: Random = Ran
             }
             .ifBlank { value }
     }
+
+    private fun renderStars(count: Int): String = "⭐".repeat(count.coerceAtLeast(0))
 
     fun applyAutoPoints(
         player: PlayerState,

@@ -5,6 +5,7 @@
   "slot": "BACKPACK",
   "tags": [
     "{Any.Class}",
+    "backpack_tier:1",
     "inventory_slots:10",
     "cash"
   ],

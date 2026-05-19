@@ -159,6 +159,12 @@ internal fun MenuActionPreviewPopup(
                     onClick = { showDetailPopup = true },
                     modifier = Modifier.fillMaxWidth(0.88f)
                 )
+            } else if (preview.secondaryLabel != null && section != MainSection.PRODUCTION) {
+                GamePrimaryButton(
+                    label = preview.secondaryLabel,
+                    onClick = onDismiss,
+                    modifier = Modifier.fillMaxWidth(0.88f)
+                )
             }
 
             if (section == MainSection.PRODUCTION) {

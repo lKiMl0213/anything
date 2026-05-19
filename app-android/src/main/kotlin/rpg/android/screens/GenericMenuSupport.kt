@@ -127,17 +127,20 @@ internal fun compactTalentSummary(lines: List<String>): List<String> {
 }
 
 internal fun compactUpgradeSummary(lines: List<String>): List<String> {
-    val summary = lines
+    val normalized = lines
         .map { it.trim() }
         .filter { it.isNotBlank() }
-        .filterNot { it.startsWith("- ") }
-        .filterNot { it.contains("Nível atual", ignoreCase = true) }
-        .filterNot { it.contains("Atual:", ignoreCase = true) }
-        .filterNot { it.contains("Proximo:", ignoreCase = true) }
-        .take(3)
-        .toMutableList()
-    summary += "Toque em um aprimoramento para ver detalhes e confirmar compra."
-    return summary
+        .map { line -> if (line.startsWith("- ")) line.removePrefix("- ").trim() else line }
+    if (normalized.isEmpty()) {
+        return listOf("Toque em um aprimoramento para ver detalhes e confirmar compra.")
+    }
+
+    val headerLines = normalized.filter { line ->
+        line.startsWith("Categoria:", ignoreCase = true) ||
+            line.startsWith("Saldo atual:", ignoreCase = true)
+    }
+    val detailLines = normalized.filterNot { line -> line in headerLines }
+    return (headerLines + detailLines.take(18))
 }
 
 internal fun compactStatisticsSummary(lines: List<String>): List<String> {
@@ -301,6 +304,8 @@ private fun compactQuestOptionLabel(label: String, hideInProgressLabel: Boolean)
 private fun cleanupProductionLabel(raw: String): String {
     return raw
         .replace("|", " - ")
+        .replace("Disponível", "", ignoreCase = true)
+        .replace("Indisponível", "", ignoreCase = true)
         .replace("Disponivel", "", ignoreCase = true)
         .replace("Indisponivel", "", ignoreCase = true)
         .replace(Regex("\\s+"), " ")

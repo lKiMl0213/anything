@@ -1,0 +1,17 @@
+{
+  "id": "auto_potion",
+  "name": "Auto Poção",
+  "description": "Desbloqueia o uso automático da poção selecionada durante o combate quando o HP estiver no limite configurado.",
+  "effectType": "AUTO_POTION_UNLOCK",
+  "valueMode": "FLAT",
+  "levels": [
+    {
+      "level": 1,
+      "value": 1,
+      "costs": [
+        { "id": "gold", "shopCurrencies": ["GOLD"], "goldCost": 22000 },
+        { "id": "cash", "shopCurrencies": ["CASH"], "cashCost": 760 }
+      ]
+    }
+  ]
+}

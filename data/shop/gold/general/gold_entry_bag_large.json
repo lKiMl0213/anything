@@ -1,0 +1,16 @@
+{
+  "id": "gold_entry_bag_large",
+  "name": "Mochila de Expedição",
+  "itemId": "cash_bag_large",
+  "price": 56000,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 1,
+  "description": "+30 slots de inventário.",
+  "enabled": true,
+  "tags": [
+    "gold",
+    "bag",
+    "backpack_tier:3"
+  ]
+}

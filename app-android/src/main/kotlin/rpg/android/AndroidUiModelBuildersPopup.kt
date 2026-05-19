@@ -36,7 +36,7 @@ internal fun buildAndroidPopupDetail(
             val totalValue = detail.saleValue * currentQty
             PopupDetailUiModel(
                 title = detail.item.name,
-                lines = detail.detailLines,
+                lines = detail.detailLines + detail.comparisonLines,
                 primaryLabel = primary?.first,
                 onPrimary = primary?.second,
                 secondaryLabel = "Vender (${totalValue} ouro)",
@@ -62,7 +62,7 @@ internal fun buildAndroidPopupDetail(
             val detail = deps.inventoryQueryService.equippedDetail(state, slot) ?: return null
             PopupDetailUiModel(
                 title = detail.item.name,
-                lines = detail.detailLines + detail.removalSummary,
+                lines = detail.detailLines + detail.removalLines,
                 primaryLabel = "Desequipar",
                 onPrimary = { onUnequip(slot) }
             )

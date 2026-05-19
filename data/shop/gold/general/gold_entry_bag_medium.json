@@ -1,0 +1,16 @@
+{
+  "id": "gold_entry_bag_medium",
+  "name": "Mochila de Aventureiro",
+  "itemId": "cash_bag_medium",
+  "price": 28000,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 1,
+  "description": "+20 slots de inventário.",
+  "enabled": true,
+  "tags": [
+    "gold",
+    "bag",
+    "backpack_tier:2"
+  ]
+}

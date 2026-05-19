@@ -76,13 +76,28 @@ class InventoryActionDispatcher(
                 )
             )
 
-            GameAction.ClearInventoryFilters -> GameActionResult(
+            is GameAction.SetInventorySortMode -> GameActionResult(
                 session = session.copy(
-                    inventoryFilter = InventoryFilterState(),
+                    inventoryFilter = session.inventoryFilter.copy(sortMode = action.sortMode),
                     navigation = NavigationState.Inventory,
                     messages = emptyList()
                 )
             )
+
+            GameAction.ClearInventoryFilters -> GameActionResult(
+                session = session.copy(
+                    inventoryFilter = InventoryFilterState(sortMode = session.inventoryFilter.sortMode),
+                    navigation = NavigationState.Inventory,
+                    messages = emptyList()
+                )
+            )
+
+            GameAction.AutoEquipBest -> mutate(
+                session,
+                NavigationState.Inventory,
+                null,
+                null
+            ) { commandService.autoEquipBest(it) }
 
             is GameAction.SelectActiveAmmo -> mutate(
                 session,

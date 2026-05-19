@@ -10,7 +10,8 @@
   "enabled": true,
   "tags": [
     "cash",
-    "bag"
+    "bag",
+    "backpack_tier:2"
   ]
 }
 

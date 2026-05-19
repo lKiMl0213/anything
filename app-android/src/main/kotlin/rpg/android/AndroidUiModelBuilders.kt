@@ -1,6 +1,8 @@
 ﻿package rpg.android
 
 import rpg.android.state.AttributeAllocationUiState
+import rpg.android.state.BackpackTierUi
+import rpg.android.state.CharacterUpgradeUi
 import rpg.android.state.AttributeDistributionRowUi
 import rpg.android.state.AttributeDistributionUiModel
 import rpg.android.state.CharacterCreationUiState
@@ -13,8 +15,11 @@ import rpg.android.state.NewGameUiModel
 import rpg.android.state.RaceClassUiModel
 import rpg.android.state.SelectOption
 import rpg.application.GameSession
+import rpg.engine.Progression
 import rpg.model.GameState
 import rpg.model.SkillType
+import rpg.model.ShopCurrency
+import rpg.application.shop.UpgradeMenuCategory
 import rpg.premium.PremiumSupport
 import kotlin.math.ceil
 
@@ -26,6 +31,7 @@ internal object AndroidUiModelBuilders {
             selectedClassName = state.classes.firstOrNull { it.id == state.selectedClassId }?.label ?: "-",
             pointsRemaining = state.pointsRemaining,
             attributes = state.attributes.map { NewGameAttributeUi(it.code, it.label, it.finalValue) },
+            attributeDetailByCode = state.attributes.associate { it.code to listOf(it.label) },
             canConfirm = state.canConfirm,
             message = state.message
         )
@@ -33,7 +39,7 @@ internal object AndroidUiModelBuilders {
 
     fun fallbackCharacterAttributeUi(state: AttributeAllocationUiState): AttributeDistributionUiModel {
         return AttributeDistributionUiModel(
-            title = "Distribuicao de Atributos",
+            title = "Distribuição de Atributos",
             pointsRemaining = state.pointsRemaining,
             rows = state.rows.map { AttributeDistributionRowUi(it.code, it.label, it.previewFinal, it.pending) },
             detailByCode = state.rows.associate { it.code to listOf(it.label) },
@@ -54,6 +60,10 @@ internal object AndroidUiModelBuilders {
             selectedClassName = deps.creationQueryService.classById(draft.classId)?.name ?: "-",
             pointsRemaining = draft.remainingPoints,
             attributes = rows.map { NewGameAttributeUi(it.code, it.label, it.finalValue) },
+            attributeDetailByCode = rows.associate { row ->
+                val detail = deps.creationQueryService.attributeDetail(row.code)
+                row.code to (detail?.directEffects.orEmpty() + detail?.gameplayImpact.orEmpty())
+            },
             canConfirm = draft.name.isNotBlank() && draft.raceId != null && draft.classId != null,
             message = session.messages.firstOrNull()
         )
@@ -70,8 +80,24 @@ internal object AndroidUiModelBuilders {
             raceOptions = deps.creationQueryService.availableRaces().map { SelectOption(it.id, it.name) },
             classOptions = deps.creationQueryService.availableClasses().map { SelectOption(it.id, it.name) },
             raceSummaryLines = deps.creationQueryService.raceSummaryLines(selected.raceId),
-            classSummaryLines = deps.creationQueryService.classSummaryLines(selected.classId)
+            classSummaryLines = deps.creationQueryService.classSummaryLines(selected.classId),
+            spriteAssetPath = characterCreationSpritePath(
+                raceId = selected.raceId,
+                classId = selected.classId
+            )
         )
+    }
+
+    private fun characterCreationSpritePath(
+        raceId: String?,
+        classId: String?
+    ): String {
+        val race = raceId?.takeIf { it.isNotBlank() } ?: return ""
+        return if (classId.isNullOrBlank()) {
+            "character_sprites/$race/base/${race}base.png"
+        } else {
+            "character_sprites/$race/$classId/$race$classId.png"
+        }
     }
 
     fun buildCreationAttributeUi(
@@ -95,7 +121,7 @@ internal object AndroidUiModelBuilders {
             row.code to (detail?.directEffects.orEmpty() + detail?.gameplayImpact.orEmpty())
         }
         return AttributeDistributionUiModel(
-            title = "Distribuicao de Atributos",
+            title = "Distribuição de Atributos",
             pointsRemaining = remaining,
             rows = rows,
             detailByCode = details,
@@ -121,7 +147,7 @@ internal object AndroidUiModelBuilders {
             row.code to deps.characterQueryService.attributeDetail(state, row.code)?.detailLines.orEmpty()
         }
         return AttributeDistributionUiModel(
-            title = "Distribuicao de Atributos",
+            title = "Distribuição de Atributos",
             pointsRemaining = remaining,
             rows = uiRows,
             detailByCode = details,
@@ -140,6 +166,9 @@ internal object AndroidUiModelBuilders {
             premiumStatusLabel = "Premium: desativado",
             raceClassLabel = "-",
             levelXpLabel = "-",
+            playerLevel = 1,
+            playerXp = 0,
+            playerXpMax = 1,
             currencyLabel = "-",
             inventoryCapacityLabel = "-",
             hpCurrent = 0.0,
@@ -163,16 +192,17 @@ internal object AndroidUiModelBuilders {
         val skills = listOf(
             Triple(SkillType.BLACKSMITH, "Forja", "🔨"),
             Triple(SkillType.FISHING, "Pesca", "🎣"),
-            Triple(SkillType.MINING, "Mineracao", "⛏"),
+            Triple(SkillType.MINING, "Mineração", "⛏"),
             Triple(SkillType.GATHERING, "Coleta", "🌿"),
             Triple(SkillType.WOODCUTTING, "Lenhador", "🪓"),
             Triple(SkillType.HUNTING, "Caça", "🏹"),
             Triple(SkillType.ALCHEMIST, "Alquimia", "🧪"),
-            Triple(SkillType.COOKING, "Culinaria", "🍳"),
+            Triple(SkillType.COOKING, "Culinária", "🍳"),
             Triple(SkillType.ENCHANTING, "Encantamento", "✨")
         ).map { (type, label, symbol) ->
             val snapshot = deps.actionHandler.engine().skillSystem.snapshot(gameState.player, type)
             HubSkillUi(
+                skillType = type,
                 symbol = symbol,
                 label = label,
                 level = snapshot.level,
@@ -194,6 +224,9 @@ internal object AndroidUiModelBuilders {
             premiumStatusLabel = premiumStatusLabel,
             raceClassLabel = "$race | ${clazz?.name ?: gameState.player.classId}",
             levelXpLabel = "Nível ${gameState.player.level} | XP ${gameState.player.xp}",
+            playerLevel = gameState.player.level,
+            playerXp = gameState.player.xp,
+            playerXpMax = Progression.xpForNext(gameState.player.level),
             currencyLabel = "Ouro ${gameState.player.gold} | Cash ${gameState.player.premiumCash}",
             inventoryCapacityLabel = deps.inventoryQueryService.inventoryCapacityLabel(gameState),
             hpCurrent = gameState.player.currentHp,
@@ -276,13 +309,56 @@ internal object AndroidUiModelBuilders {
         val slots = deps.inventoryQueryService.equippedSlots(state)
         val mainSlots = slots.filterNot { it.slotKey.startsWith("ACCESSORY") }
         val accessorySlots = slots.filter { it.slotKey.startsWith("ACCESSORY") }
+        val backpackTiers = deps.inventoryQueryService.backpackTierViews(state)
+            .map { BackpackTierUi(tier = it.tier, equipped = it.equipped) }
+        val shopQuery = deps.actionHandler.shopQueryService()
+        val acquiredUpgrades = UpgradeMenuCategory.entries
+            .flatMap { category ->
+                shopQuery.upgrades(
+                    player = state.player,
+                    currency = ShopCurrency.GOLD,
+                    category = category
+                )
+            }
+            .filter { it.level > 0 }
+            .sortedBy { it.name }
+            .map { upgrade ->
+                val upgradeAction = if (!upgrade.atMaxLevel) {
+                    upgrade.costs.firstOrNull()?.id?.let { costId ->
+                        rpg.application.actions.GameAction.BuyUpgrade(
+                            upgradeId = upgrade.id,
+                            costId = costId,
+                            currency = ShopCurrency.GOLD
+                        )
+                    }
+                } else {
+                    null
+                }
+                CharacterUpgradeUi(
+                    id = upgrade.id,
+                    name = upgrade.name,
+                    level = upgrade.level,
+                    maxLevel = upgrade.maxLevel,
+                    effectLabel = upgrade.currentLabel,
+                    summary = upgrade.description.ifBlank { "Sem descrição." },
+                    upgradeAction = upgradeAction
+                )
+            }
         return CharacterUiModel(
             equippedSlots = mainSlots,
             accessorySlots = accessorySlots,
+            spriteAssetPath = characterCreationSpritePath(
+                raceId = state.player.raceId,
+                classId = state.player.classId
+            ),
+            backpackTiers = backpackTiers,
             inventoryStacks = deps.inventoryQueryService.inventoryStacks(state, session.inventoryFilter),
             inventoryCapacityLabel = deps.inventoryQueryService.inventoryCapacityLabel(state),
+            inventorySortMode = session.inventoryFilter.sortMode,
+            acquiredUpgrades = acquiredUpgrades,
             canOpenAttributes = true,
-            canOpenTalents = true
+            canOpenTalents = true,
+            canOpenUpgrades = true
         )
     }
 }

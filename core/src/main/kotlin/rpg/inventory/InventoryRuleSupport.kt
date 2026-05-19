@@ -9,7 +9,18 @@ import rpg.progression.PermanentUpgradeKeys
 import rpg.registry.ItemRegistry
 
 internal object InventoryRuleSupport {
-    private const val backpackSlotKey = "BACKPACK"
+    private const val legacyBackpackSlotKey = "BACKPACK"
+    private const val backpackTierPrefix = "backpack_tier:"
+    private val backpackSlotsByTier = mapOf(
+        1 to "BACKPACK_T1",
+        2 to "BACKPACK_T2",
+        3 to "BACKPACK_T3"
+    )
+    private val backpackKnownTierBonuses = mapOf(
+        10 to 1,
+        20 to 2,
+        30 to 3
+    )
     private const val slotTagPrefix = "inventory_slots:"
     private const val ammoCapacityPrefix = "ammo_capacity:"
     private const val defaultQuiverCapacity = 30
@@ -23,15 +34,67 @@ internal object InventoryRuleSupport {
         itemRegistry: ItemRegistry
     ): Int {
         val base = player.inventoryBaseSlots.coerceAtLeast(1)
-        val backpackId = player.equipped[backpackSlotKey] ?: return base
-        val tags = itemInstances[backpackId]?.tags
-            ?: itemRegistry.item(backpackId)?.tags
-            ?: emptyList()
-        val bônus = tags.firstNotNullOfOrNull { tag ->
-            if (!tag.startsWith(slotTagPrefix)) return@firstNotNullOfOrNull null
-            tag.removePrefix(slotTagPrefix).toIntOrNull()
-        } ?: 0
-        return base + max(0, bônus)
+        val equippedBackpacks = equippedBackpackItemIdsByTier(player, itemInstances, itemRegistry)
+        if (equippedBackpacks.isEmpty()) return base
+        val bonus = equippedBackpacks.values.sumOf { backpackId ->
+            parseInventorySlotBonus(resolveItemTags(backpackId, itemInstances, itemRegistry)) ?: 0
+        }
+        return base + max(0, bonus)
+    }
+
+    fun backpackSlotKeyForTier(tier: Int): String? = backpackSlotsByTier[tier]
+
+    fun backpackTier(
+        itemId: String,
+        itemInstances: Map<String, ItemInstance>,
+        itemRegistry: ItemRegistry
+    ): Int? {
+        val tags = resolveItemTags(itemId, itemInstances, itemRegistry)
+        val taggedTier = tags.firstNotNullOfOrNull { tag ->
+            val normalized = tag.trim().lowercase()
+            if (!normalized.startsWith(backpackTierPrefix)) return@firstNotNullOfOrNull null
+            normalized.removePrefix(backpackTierPrefix).toIntOrNull()
+        }
+        if (taggedTier != null) {
+            return taggedTier.takeIf { it in backpackSlotsByTier.keys }
+        }
+        val slotBonus = parseInventorySlotBonus(tags) ?: return null
+        return backpackKnownTierBonuses[slotBonus]
+    }
+
+    fun equippedBackpackItemIdsByTier(
+        player: PlayerState,
+        itemInstances: Map<String, ItemInstance>,
+        itemRegistry: ItemRegistry
+    ): Map<Int, String> {
+        val byTier = linkedMapOf<Int, String>()
+        backpackSlotsByTier.forEach { (tier, slotKey) ->
+            val equippedId = player.equipped[slotKey] ?: return@forEach
+            if (backpackTier(equippedId, itemInstances, itemRegistry) == tier) {
+                byTier[tier] = equippedId
+            }
+        }
+        val legacyId = player.equipped[legacyBackpackSlotKey]
+        val legacyTier = legacyId?.let { backpackTier(it, itemInstances, itemRegistry) }
+        if (legacyId != null && legacyTier != null && byTier[legacyTier] == null) {
+            byTier[legacyTier] = legacyId
+        }
+        return byTier.toMap()
+    }
+
+    fun hasOwnedBackpackTier(
+        player: PlayerState,
+        itemInstances: Map<String, ItemInstance>,
+        itemRegistry: ItemRegistry,
+        tier: Int
+    ): Boolean {
+        if (tier !in backpackSlotsByTier.keys) return false
+        if (equippedBackpackItemIdsByTier(player, itemInstances, itemRegistry).containsKey(tier)) {
+            return true
+        }
+        return player.inventory.any { itemId ->
+            backpackTier(itemId, itemInstances, itemRegistry) == tier
+        }
     }
 
     fun slotsUsed(
@@ -154,6 +217,25 @@ internal object InventoryRuleSupport {
         val selected = arrows.filter { ammoTemplateId(it, itemInstances, itemRegistry) == selectedTemplateId }
         val others = arrows.filter { ammoTemplateId(it, itemInstances, itemRegistry) != selectedTemplateId }
         return selected + others
+    }
+
+    private fun parseInventorySlotBonus(tags: List<String>): Int? {
+        return tags.firstNotNullOfOrNull { tag ->
+            val normalized = tag.trim().lowercase()
+            if (!normalized.startsWith(slotTagPrefix)) return@firstNotNullOfOrNull null
+            normalized.removePrefix(slotTagPrefix).toIntOrNull()
+        }
+    }
+
+    private fun resolveItemTags(
+        itemId: String,
+        itemInstances: Map<String, ItemInstance>,
+        itemRegistry: ItemRegistry
+    ): List<String> {
+        return itemInstances[itemId]?.tags
+            ?: itemRegistry.item(itemId)?.tags
+            ?: itemRegistry.template(itemId)?.tags
+            ?: emptyList()
     }
 }
 

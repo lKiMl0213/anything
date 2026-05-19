@@ -27,7 +27,7 @@ internal class NavigationScreenPresenter(
     fun presentMainMenu(session: GameSession): ScreenViewModel {
         val options = mutableListOf<ScreenOptionViewModel>()
         if (session.gameState != null) {
-            options += ScreenOptionViewModel("1", "Continuar sessao", GameAction.ContinueSession)
+            options += ScreenOptionViewModel("1", "Continuar sessão", GameAction.ContinueSession)
             options += ScreenOptionViewModel("2", "Novo jogo", GameAction.StartNewGame)
             options += ScreenOptionViewModel("3", "Carregar jogo", GameAction.OpenLoadGame)
         } else {
@@ -81,8 +81,8 @@ internal class NavigationScreenPresenter(
                 ScreenOptionViewModel("1", "Explorar", GameAction.OpenExploration),
                 ScreenOptionViewModel("2", "Eventos$globalBossAlert", GameAction.OpenGlobalBossMenu),
                 ScreenOptionViewModel("3", "Personagem$characterAlert", GameAction.OpenCharacterMenu),
-                ScreenOptionViewModel("4", "Producao", GameAction.OpenProductionMenu),
-                ScreenOptionViewModel("5", "Progressao$progressionAlert", GameAction.OpenProgressionMenu),
+                ScreenOptionViewModel("4", "Produção", GameAction.OpenProductionMenu),
+                ScreenOptionViewModel("5", "Progressão$progressionAlert", GameAction.OpenProgressionMenu),
                 ScreenOptionViewModel("6", "Cidade", GameAction.OpenCityMenu),
                 ScreenOptionViewModel("7", "Salvar", GameAction.OpenSaveMenu),
                 ScreenOptionViewModel("x", "Sair para o menu", GameAction.Back)
@@ -92,11 +92,11 @@ internal class NavigationScreenPresenter(
     }
 
     fun presentProductionMenu(session: GameSession): ScreenViewModel {
-        val state = session.gameState ?: return support.presentMissingState("Producao")
+        val state = session.gameState ?: return support.presentMissingState("Produção")
         return MenuScreenViewModel(
-            title = "Producao",
+            title = "Produção",
             summary = support.playerSummary(state),
-            bodyLines = listOf("Crie equipamentos, consumíveis, encante itens e realize caças."),
+            bodyLines = listOf("Crie equipamentos, consumíveis, encante itens e realize caçadas."),
             options = listOf(
                 ScreenOptionViewModel("1", "Craft", GameAction.OpenCraftMenu),
                 ScreenOptionViewModel("2", "Encantamento", GameAction.OpenEnchantMenu),
@@ -116,12 +116,12 @@ internal class NavigationScreenPresenter(
         return MenuScreenViewModel(
             title = "Cidade",
             summary = support.playerSummary(state),
-            bodyLines = listOf("Descanse e acesse os servicos da cidade."),
+            bodyLines = listOf("Descanse e acesse os serviços da cidade."),
             options = listOf(
                 ScreenOptionViewModel("1", "Taverna", GameAction.OpenTavern),
                 ScreenOptionViewModel("2", "Loja de Ouro", GameAction.OpenGoldShop),
                 ScreenOptionViewModel("3", "Loja de Cash", GameAction.OpenCashShop),
-                ScreenOptionViewModel("4", "Aprimoramentos", GameAction.OpenUpgradeShop),
+                ScreenOptionViewModel("4", "Melhorias", GameAction.OpenUpgradeShop),
                 ScreenOptionViewModel("5", "Premium", GameAction.OpenPremiumShop),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)
             ),
@@ -155,7 +155,7 @@ internal class NavigationScreenPresenter(
     }
 
     fun presentExploration(session: GameSession): ScreenViewModel {
-        val state = session.gameState ?: return support.presentMissingState("Exploracao")
+        val state = session.gameState ?: return support.presentMissingState("Exploração")
         val run = state.currentRun
         if (run != null && run.isActive) {
             val runLabel = areaSupport.runLabel(state.player, run)
@@ -167,7 +167,7 @@ internal class NavigationScreenPresenter(
             options += ScreenOptionViewModel("2", "Usar item", GameAction.OpenInventory)
             options += ScreenOptionViewModel("x", "Sair da Dungeon", GameAction.ExitDungeonRun)
             return MenuScreenViewModel(
-                title = "Exploracao",
+                title = "Exploração",
                 summary = support.playerSummary(state),
                 bodyLines = listOf(
                     "Run ativa: $runLabel | profundidade ${run.depth} | vitorias ${run.victoriesInRun} | bosses ${run.bossesDefeatedInRun}",
@@ -178,11 +178,11 @@ internal class NavigationScreenPresenter(
             )
         }
         return MenuScreenViewModel(
-            title = "Exploracao",
+            title = "Exploração",
             summary = support.playerSummary(state),
-            bodyLines = listOf("Escolha seu proximo destino de aventura."),
+            bodyLines = listOf("Escolha seu próximo destino de aventura."),
             options = listOf(
-                ScreenOptionViewModel("1", "áreas", GameAction.OpenDungeonSelection),
+                ScreenOptionViewModel("1", "Áreas", GameAction.OpenDungeonSelection),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)
             ),
             messages = session.messages
@@ -190,7 +190,7 @@ internal class NavigationScreenPresenter(
     }
 
     fun presentExplorationLowHpConfirm(session: GameSession): ScreenViewModel {
-        val state = session.gameState ?: return support.presentMissingState("Exploracao")
+        val state = session.gameState ?: return support.presentMissingState("Exploração")
         return MenuScreenViewModel(
             title = "Explorar com vida baixa",
             summary = support.playerSummary(state),
@@ -222,7 +222,7 @@ internal class NavigationScreenPresenter(
             title = "Áreas de Exploração",
             summary = support.playerSummary(state),
             bodyLines = listOf(
-                "Escolha uma área para iniciar a proxima sala da run.",
+                "Escolha uma área para iniciar a próxima sala da run.",
                 "Cada área possui ecossistema próprio de monstros e risco progressivo."
             ),
             options = options + ScreenOptionViewModel("x", "Voltar", GameAction.Back),

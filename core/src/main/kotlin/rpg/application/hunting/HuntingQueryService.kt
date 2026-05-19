@@ -1,4 +1,4 @@
-package rpg.application.hunting
+﻿package rpg.application.hunting
 
 import rpg.engine.GameEngine
 import rpg.model.GameState
@@ -9,11 +9,12 @@ class HuntingQueryService(
 ) {
     fun spots(state: GameState): List<HuntingSpotView> {
         val player = state.player
+        val playerLevel = player.level
         val huntingSkillLevel = engine.skillSystem.snapshot(player, SkillType.HUNTING).level
         return engine.huntingService.spotCatalog().map { spot ->
-            val minSkillLevel = spot.recommendedLevel.coerceAtLeast(1)
-            val unlocked = huntingSkillLevel >= minSkillLevel
-            val unlockReason = if (unlocked) null else "Desbloqueado no nv $minSkillLevel"
+            val unlockLevel = spot.recommendedLevel.coerceAtLeast(1)
+            val unlocked = playerLevel >= unlockLevel
+            val unlockReason = if (unlocked) null else "Desbloqueado no nv $unlockLevel"
             val baselinePreview = if (unlocked) {
                 engine.huntingService.preview(
                     player = player,
@@ -33,8 +34,9 @@ class HuntingQueryService(
                 id = spot.id,
                 name = spot.name,
                 recommendedLevel = spot.recommendedLevel,
-                minSkillLevel = minSkillLevel,
-                skillLevel = huntingSkillLevel,
+                unlockLevel = unlockLevel,
+                playerLevel = playerLevel,
+                huntingSkillLevel = huntingSkillLevel,
                 unlocked = unlocked,
                 unlockReason = unlockReason,
                 minimumCycleSeconds = spot.minCycleSeconds,

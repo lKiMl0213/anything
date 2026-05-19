@@ -43,9 +43,11 @@ import rpg.android.ui.scale.GameUiScale
 import rpg.application.GameEffect
 import rpg.application.GameSession
 import rpg.application.actions.GameAction
+import rpg.application.inventory.InventorySortMode
 import rpg.application.support.OutOfCombatTimeService
 import rpg.model.CraftDiscipline
 import rpg.model.GatheringType
+import rpg.model.SkillType
 import rpg.navigation.NavigationState
 import rpg.presentation.model.MenuScreenViewModel
 
@@ -86,6 +88,8 @@ class AndroidGameViewModel(
     val audioSettings: StateFlow<AudioSettings> = _audioSettings.asStateFlow()
     private val _audioEvents = MutableSharedFlow<AudioEvent>(extraBufferCapacity = 48)
     val audioEvents: SharedFlow<AudioEvent> = _audioEvents.asSharedFlow()
+    private val _uiEvents = MutableSharedFlow<AndroidUiEvent>(extraBufferCapacity = 16)
+    val uiEvents: SharedFlow<AndroidUiEvent> = _uiEvents.asSharedFlow()
 
     private var runtime: RuntimeDeps? = null
     private val tutorialManager = TutorialManager()
@@ -97,6 +101,21 @@ class AndroidGameViewModel(
     private var characterAttributePending: MutableMap<String, Int> = mutableMapOf()
     private var sellQuantityState: SellQuantityState? = null
     private var attributeContext: AttributeContext? = null
+    private var selectedCombatConsumableItemId: String? = null
+    private val _combatAutoContinueUnlocked = MutableStateFlow(false)
+    val combatAutoContinueUnlocked: StateFlow<Boolean> = _combatAutoContinueUnlocked.asStateFlow()
+    private val _combatAutoContinueEnabled = MutableStateFlow(false)
+    val combatAutoContinueEnabled: StateFlow<Boolean> = _combatAutoContinueEnabled.asStateFlow()
+    private val _combatAutoPotionUnlocked = MutableStateFlow(false)
+    val combatAutoPotionUnlocked: StateFlow<Boolean> = _combatAutoPotionUnlocked.asStateFlow()
+    private val _combatAutoPotionEnabled = MutableStateFlow(false)
+    val combatAutoPotionEnabled: StateFlow<Boolean> = _combatAutoPotionEnabled.asStateFlow()
+    private val _combatAutoPotionThresholdPct = MutableStateFlow(35)
+    val combatAutoPotionThresholdPct: StateFlow<Int> = _combatAutoPotionThresholdPct.asStateFlow()
+    private val _autoCraftUnlocked = MutableStateFlow(false)
+    val autoCraftUnlocked: StateFlow<Boolean> = _autoCraftUnlocked.asStateFlow()
+    private val _autoCraftEnabled = MutableStateFlow(false)
+    val autoCraftEnabled: StateFlow<Boolean> = _autoCraftEnabled.asStateFlow()
 
     private var combatController: AndroidCombatFlowController? = null
     private var combatUiJob: Job? = null
@@ -169,6 +188,9 @@ class AndroidGameViewModel(
             emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
             return
         }
+        if (action == GameAction.ExitDungeonRun) {
+            setCombatAutoContinue(false, publishNow = false)
+        }
         playActionSound(action)
         applyAction(action)
     }
@@ -188,7 +210,9 @@ class AndroidGameViewModel(
     }
 
     fun onClassSelected(classId: String) {
-        raceClassSelection = raceClassSelection?.copy(classId = classId)
+        val current = raceClassSelection ?: return
+        if (current.raceId == null) return
+        raceClassSelection = current.copy(classId = classId)
         publishFromSession()
     }
 
@@ -299,6 +323,25 @@ class AndroidGameViewModel(
         applyAction(GameAction.OpenProductionMenu)
     }
 
+    fun openProductionSkill(skillType: SkillType) {
+        if (!allowTutorialAction(TutorialAction.OPEN_PRODUCTION)) {
+            emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
+            return
+        }
+        val action = when (skillType) {
+            SkillType.FISHING -> GameAction.OpenGatheringType(GatheringType.FISHING)
+            SkillType.MINING -> GameAction.OpenGatheringType(GatheringType.MINING)
+            SkillType.GATHERING -> GameAction.OpenGatheringType(GatheringType.HERBALISM)
+            SkillType.WOODCUTTING -> GameAction.OpenGatheringType(GatheringType.WOODCUTTING)
+            SkillType.BLACKSMITH -> GameAction.OpenCraftDiscipline(CraftDiscipline.FORGE)
+            SkillType.ALCHEMIST -> GameAction.OpenCraftDiscipline(CraftDiscipline.ALCHEMY)
+            SkillType.COOKING -> GameAction.OpenCraftDiscipline(CraftDiscipline.COOKING)
+            SkillType.HUNTING -> GameAction.OpenHuntingMenu
+            SkillType.ENCHANTING -> GameAction.OpenEnchantMenu
+        }
+        applyAction(action)
+    }
+
     fun openExplore() {
         if (!allowTutorialAction(TutorialAction.OPEN_EXPLORE)) {
             emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
@@ -351,6 +394,45 @@ class AndroidGameViewModel(
     fun onCharacterInventoryItemTapped(itemId: String) {
         sellQuantityState = null
         applyAction(GameAction.InspectInventoryItem(itemId))
+    }
+    fun onInventorySortSelected(rawSortMode: String) {
+        val sortMode = runCatching { InventorySortMode.valueOf(rawSortMode.trim().uppercase()) }.getOrNull() ?: return
+        applyAction(GameAction.SetInventorySortMode(sortMode))
+    }
+    fun onAutoEquip() {
+        applyAction(GameAction.AutoEquipBest, publishNow = false)
+        emitUiEvent(AndroidUiEvent.ShowToast("Melhor equipamento aplicado"))
+        publishFromSession()
+    }
+    fun onUpgradeAction(action: GameAction) {
+        onMenuAction(action)
+    }
+    fun onAutoCraftChanged(enabled: Boolean) {
+        val state = session.gameState ?: return
+        if (enabled && !hasAutoCraftUpgrade(state)) return
+        _autoCraftEnabled.value = enabled
+        updatePlayerAutomationFlags(autoCraftEnabled = enabled, publishNow = true)
+    }
+    fun onCombatAutoContinueChanged(enabled: Boolean) {
+        val state = session.gameState ?: return
+        if (enabled && !hasAutoContinueUpgrade(state)) return
+        setCombatAutoContinue(enabled, publishNow = false)
+    }
+    fun onCombatAutoPotionEnabledChanged(enabled: Boolean) {
+        val state = session.gameState ?: return
+        if (enabled && !hasAutoPotionUpgrade(state)) return
+        _combatAutoPotionEnabled.value = enabled
+        updatePlayerAutomationFlags(autoPotionEnabled = enabled, publishNow = false)
+    }
+    fun onCombatAutoPotionThresholdChanged(thresholdPct: Int) {
+        val clamped = thresholdPct.coerceIn(5, 95)
+        _combatAutoPotionThresholdPct.value = clamped
+        updatePlayerAutomationFlags(autoPotionThresholdPct = clamped, publishNow = false)
+    }
+    fun onCombatConsumableSelected(itemId: String) {
+        if (itemId.isBlank()) return
+        selectedCombatConsumableItemId = itemId
+        combatController?.submitSelectConsumable(itemId)
     }
 
     fun clearPopup() {
@@ -407,7 +489,7 @@ class AndroidGameViewModel(
             emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.ERROR))
             return false
         }
-        publishFromSession()
+        refreshTutorialOverlay()
         return true
     }
 
@@ -453,11 +535,13 @@ class AndroidGameViewModel(
 
     fun onCombatEscape() {
         emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.CANCEL))
+        setCombatAutoContinue(false, publishNow = false)
         combatController?.submitEscape()
     }
 
     fun onCombatUseItem(itemId: String) {
         emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.POTION))
+        selectedCombatConsumableItemId = itemId
         combatController?.submitUseItem(itemId)
     }
     fun clearHubInfo() {
@@ -551,6 +635,7 @@ class AndroidGameViewModel(
                 session = session.copy(gameState = tutorialManager.startForNewCharacter(createdState))
             }
         }
+        syncAutomationFlagsFromState(session.gameState)
         handleEffect(result.effect)
         if ((action is GameAction.LoadSave || action is GameAction.ContinueSession) && !restoringTimedAction) {
             restorePersistedTimedActionIfAny()
@@ -628,6 +713,7 @@ class AndroidGameViewModel(
             _timedActionState.value = null
             clearPersistedTimedAction()
             applyAction(completionAction)
+            maybeQueueAutoCraftRepeat(completionAction)
             emitAudioEvent(AudioEvent.PlaySfx(SoundEffect.CRAFT_FINISH))
             requestAutosave(immediate = true)
         }
@@ -684,7 +770,7 @@ class AndroidGameViewModel(
             return
         }
 
-        val title = preferences.getString(PREF_TIMED_ACTION_TITLE, null) ?: "Producao"
+        val title = preferences.getString(PREF_TIMED_ACTION_TITLE, null) ?: "Produção"
         val detail = preferences.getString(PREF_TIMED_ACTION_DETAIL, null) ?: "Ação em andamento"
         val totalDurationMs = preferences.getLong(PREF_TIMED_ACTION_TOTAL_MS, 0L).coerceAtLeast(500L)
         val endsAtEpochMs = preferences.getLong(PREF_TIMED_ACTION_END_EPOCH_MS, 0L)
@@ -798,6 +884,9 @@ class AndroidGameViewModel(
 
     private fun startCombat(effect: GameEffect.LaunchCombat) {
         val deps = runtime ?: return
+        val activeState = session.gameState ?: return
+        syncAutomationFlagsFromState(activeState)
+        selectedCombatConsumableItemId = null
         combatUiJob?.cancel(); combatRunJob?.cancel()
         val controller = AndroidCombatFlowController(
             engine = deps.actionHandler.engine(),
@@ -807,6 +896,9 @@ class AndroidGameViewModel(
                 applyGoldEarnedAchievement = deps.actionHandler::applyGoldEarnedAchievement,
                 applyDeathAchievement = deps.actionHandler::applyDeathAchievement
             ),
+            autoPotionEnabledProvider = { _combatAutoPotionEnabled.value && _combatAutoPotionUnlocked.value },
+            autoPotionThresholdProvider = { _combatAutoPotionThresholdPct.value },
+            selectedAutoConsumableProvider = { selectedCombatConsumableItemId },
             resolveGlobalBossCombat = deps.actionHandler::resolveGlobalBossCombat
         )
         combatController = controller
@@ -819,9 +911,13 @@ class AndroidGameViewModel(
             withContext(Dispatchers.Main) {
                 combatUiJob?.cancel(); combatController = null
                 session = deps.actionHandler.applyCombatResult(session, outcome)
+                syncAutomationFlagsFromState(session.gameState)
+                maybeAutoContinueAfterCombat()
                 playCombatResolutionAudio(outcome)
                 requestAutosave(immediate = true)
-                publishFromSession()
+                if (combatController == null) {
+                    publishFromSession()
+                }
             }
         }
     }
@@ -829,6 +925,7 @@ class AndroidGameViewModel(
     private fun publishFromSession() {
         val deps = runtime ?: return
         val state = session.gameState
+        syncAutomationFlagsFromState(state)
         _progressAlert.value = if (state == null) {
             false
         } else {
@@ -879,6 +976,10 @@ class AndroidGameViewModel(
                 )
             )
             )
+            return
+        }
+        if (session.navigation == NavigationState.Combat && _uiState.value is AndroidUiState.Combat) {
+            refreshTutorialOverlay()
             return
         }
 
@@ -1230,6 +1331,10 @@ class AndroidGameViewModel(
         _audioEvents.tryEmit(event)
     }
 
+    private fun emitUiEvent(event: AndroidUiEvent) {
+        _uiEvents.tryEmit(event)
+    }
+
     private fun playActionSound(action: GameAction) {
         val effect = when (action) {
             is GameAction.ClaimQuest,
@@ -1379,6 +1484,106 @@ class AndroidGameViewModel(
         }.sortedBy { it.characterName.lowercase() }
     }
 
+    private fun setCombatAutoContinue(enabled: Boolean, publishNow: Boolean) {
+        if (enabled) {
+            val state = session.gameState ?: return
+            if (!hasAutoContinueUpgrade(state)) return
+        }
+        _combatAutoContinueEnabled.value = enabled
+        updatePlayerAutomationFlags(autoContinueDungeon = enabled, publishNow = publishNow)
+    }
+
+    private fun hasAutoContinueUpgrade(state: rpg.model.GameState): Boolean {
+        val deps = runtime ?: return false
+        return deps.actionHandler.engine().permanentUpgradeService.hasAutoContinue(state.player)
+    }
+
+    private fun hasAutoPotionUpgrade(state: rpg.model.GameState): Boolean {
+        val deps = runtime ?: return false
+        return deps.actionHandler.engine().permanentUpgradeService.hasAutoPotion(state.player)
+    }
+
+    private fun hasAutoCraftUpgrade(state: rpg.model.GameState): Boolean {
+        val deps = runtime ?: return false
+        return deps.actionHandler.engine().permanentUpgradeService.hasAutoCraft(state.player)
+    }
+
+    private fun syncAutomationFlagsFromState(state: rpg.model.GameState?) {
+        if (state == null) {
+            _combatAutoContinueUnlocked.value = false
+            _combatAutoContinueEnabled.value = false
+            _combatAutoPotionUnlocked.value = false
+            _combatAutoPotionEnabled.value = false
+            _combatAutoPotionThresholdPct.value = 35
+            _autoCraftUnlocked.value = false
+            _autoCraftEnabled.value = false
+            return
+        }
+        val autoContinueUnlocked = hasAutoContinueUpgrade(state)
+        val autoPotionUnlocked = hasAutoPotionUpgrade(state)
+        val autoCraftUnlocked = hasAutoCraftUpgrade(state)
+        _combatAutoContinueUnlocked.value = autoContinueUnlocked
+        _combatAutoContinueEnabled.value = if (autoContinueUnlocked) state.player.autoContinueDungeon else false
+        _combatAutoPotionUnlocked.value = autoPotionUnlocked
+        _combatAutoPotionEnabled.value = if (autoPotionUnlocked) state.player.autoPotionEnabled else false
+        _combatAutoPotionThresholdPct.value = state.player.autoPotionThresholdPct.coerceIn(5, 95)
+        _autoCraftUnlocked.value = autoCraftUnlocked
+        _autoCraftEnabled.value = if (autoCraftUnlocked) state.player.autoCraftEnabled else false
+    }
+
+    private fun updatePlayerAutomationFlags(
+        autoContinueDungeon: Boolean? = null,
+        autoPotionEnabled: Boolean? = null,
+        autoPotionThresholdPct: Int? = null,
+        autoCraftEnabled: Boolean? = null,
+        publishNow: Boolean
+    ) {
+        val state = session.gameState ?: return
+        val current = state.player
+        val updatedPlayer = current.copy(
+            autoContinueDungeon = autoContinueDungeon ?: current.autoContinueDungeon,
+            autoPotionEnabled = autoPotionEnabled ?: current.autoPotionEnabled,
+            autoPotionThresholdPct = autoPotionThresholdPct?.coerceIn(5, 95) ?: current.autoPotionThresholdPct,
+            autoCraftEnabled = autoCraftEnabled ?: current.autoCraftEnabled
+        )
+        if (updatedPlayer == current) return
+        session = session.copy(gameState = state.copy(player = updatedPlayer))
+        requestAutosave(immediate = true)
+        if (publishNow && combatController == null) {
+            publishFromSession()
+        }
+    }
+
+    private fun maybeAutoContinueAfterCombat() {
+        val state = session.gameState ?: return
+        if (!_combatAutoContinueUnlocked.value) return
+        if (!_combatAutoContinueEnabled.value) return
+        val run = state.currentRun ?: return
+        if (!run.isActive) return
+        if (state.player.currentHp <= 0.0) return
+        if (session.navigation != NavigationState.Exploration) return
+        val tierId = run.tierId?.trim().orEmpty()
+        if (tierId.isBlank()) return
+        val action = if (run.classDungeonPathId.isNullOrBlank()) {
+            GameAction.EnterDungeon(tierId)
+        } else {
+            GameAction.EnterClassDungeon(tierId)
+        }
+        applyAction(action, publishNow = false)
+    }
+
+    private fun maybeQueueAutoCraftRepeat(completionAction: GameAction) {
+        val craftCompletion = completionAction as? GameAction.ExecuteCraftRecipe ?: return
+        val state = session.gameState ?: return
+        if (!_autoCraftUnlocked.value) return
+        if (!_autoCraftEnabled.value) return
+        if (!state.player.autoCraftEnabled) return
+        viewModelScope.launch {
+            delay(80L)
+            applyAction(GameAction.CraftRecipe(craftCompletion.recipeId))
+        }
+    }
+
     companion object {
         private const val PREF_MUSIC_ENABLED = "audio_music_enabled"
         private const val PREF_EFFECTS_ENABLED = "audio_effects_enabled"
@@ -1403,6 +1608,10 @@ class AndroidGameViewModel(
             }
         }
     }
+}
+
+sealed interface AndroidUiEvent {
+    data class ShowToast(val message: String) : AndroidUiEvent
 }
 
 

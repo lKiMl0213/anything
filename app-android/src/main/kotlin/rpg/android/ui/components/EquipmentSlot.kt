@@ -75,15 +75,6 @@ fun EquipmentSlot(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.alpha(if (isEmpty) 0.70f else 1f)
                 )
-                if (!isEmpty && !isBlocked) {
-                    Text(
-                        text = "\u2022",
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(bottom = 4.dp)
-                    )
-                }
             }
         } else {
             Box(

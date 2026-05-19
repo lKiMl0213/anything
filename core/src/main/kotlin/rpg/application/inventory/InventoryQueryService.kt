@@ -29,6 +29,10 @@ class InventoryQueryService(
         return support.equippedSlotViews(state.player, state.itemInstances)
     }
 
+    fun backpackTierViews(state: GameState): List<BackpackTierView> {
+        return support.backpackTierViews(state.player, state.itemInstances)
+    }
+
     fun equippedDetail(state: GameState, slotKey: String): EquippedItemDetailView? {
         return support.buildEquippedItemDetail(state.player, state.itemInstances, slotKey)
     }

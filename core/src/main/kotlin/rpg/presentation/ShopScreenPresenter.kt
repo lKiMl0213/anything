@@ -59,7 +59,7 @@ internal class ShopScreenPresenter(
         } + ScreenOptionViewModel("x", "Voltar", GameAction.Back)
 
         val body = mutableListOf<String>()
-        body += "Selecione um pacote para adicionar CASH (simulacao local, sem pagamento real)."
+        body += "Selecione um pacote para adicionar CASH (simulação local, sem pagamento real)."
         body += "Quanto maior o valor, melhor a taxa de CASH por R$."
         if (packs.isNotEmpty()) {
             body += "Bônus atual: ${packs.first().bonusLabel}"
@@ -100,13 +100,13 @@ internal class ShopScreenPresenter(
 
         val body = listOf(
             statusLine,
-            "Beneficios premium:",
-            "Missões: +10 aceitáveis, +10 diarias, +10 semanais, +10 mensais, +10 rerolls por categoria.",
+            "Benefícios premium:",
+            "Missões: +10 aceitáveis, +10 diárias, +10 semanais, +10 mensais, +10 rerolls por categoria.",
             "Produção: -10% custo e +10% velocidade.",
-            "Loja: -10% nos precos.",
+            "Loja: -10% nos preços.",
             "XP: +20% (skills e batalha).",
             "Ouro em quests/vendas: +15%.",
-            "Boss global: +3 runs gratis por dia."
+            "Boss global: +3 runs grátis por dia."
         )
 
         return MenuScreenViewModel(
@@ -143,14 +143,16 @@ internal class ShopScreenPresenter(
         entries.forEach { entry ->
             val balance = if (currency == ShopCurrency.GOLD) state.player.gold else state.player.premiumCash
             val status = when {
-                state.player.level < entry.requiredLevel -> "Indisponivel (requer nível ${entry.requiredLevel})"
-                balance < entry.finalPrice -> "Indisponivel (saldo insuficiente)"
-                else -> "Disponivel"
+                !entry.inStock -> "Indisponível (estoque esgotado)"
+                state.player.level < entry.requiredLevel -> "Indisponível (requer nível ${entry.requiredLevel})"
+                balance < entry.finalPrice -> "Indisponível (saldo insuficiente)"
+                else -> "Disponível"
             }
             options += ScreenOptionViewModel(
                 key = cursor.toString(),
                 label = "${entry.name} x${entry.quantity} - ${entry.finalPrice} ${currencyLabel(currency)} | $status",
-                action = GameAction.BuyShopEntry(entry.id)
+                action = GameAction.BuyShopEntry(entry.id),
+                enabled = entry.inStock
             )
             cursor++
         }
@@ -199,9 +201,9 @@ internal class ShopScreenPresenter(
         options += ScreenOptionViewModel("x", "Voltar", GameAction.Back)
         return MenuScreenViewModel(
             title = "Aprimoramentos (${currencyLabel(currency)})",
-            summary = support.playerSummary(state),
+            summary = null,
             bodyLines = listOf(
-                "Selecione uma categoria de aprimoramentos permanentes. (Moeda selecionada: ${currencyMenuLabel(currency)})"
+                "Saldo atual: ${state.player.gold} ouro, ${state.player.premiumCash} CASH"
             ),
             options = options,
             messages = session.messages
@@ -216,10 +218,11 @@ internal class ShopScreenPresenter(
         val options = mutableListOf<ScreenOptionViewModel>()
         var index = 1
         upgrades.forEach { upgrade ->
+            val stateLabel = if (upgrade.level > 0) "Comprado" else "Não comprado"
             if (upgrade.atMaxLevel) {
                 options += ScreenOptionViewModel(
                     key = index.toString(),
-                    label = "${upgrade.name} (${upgrade.level}/${upgrade.maxLevel}) -> MAX",
+                    label = "${upgrade.name} | Estado: $stateLabel | Valor: MAX",
                     action = GameAction.BuyUpgrade(upgrade.id, "__max__", currency)
                 )
             } else {
@@ -228,7 +231,7 @@ internal class ShopScreenPresenter(
                 val costId = cost?.id ?: "__unavailable__"
                 options += ScreenOptionViewModel(
                     key = index.toString(),
-                    label = "${upgrade.name} (${upgrade.level}/${upgrade.maxLevel}) -> custo $costLabel",
+                    label = "${upgrade.name} | Estado: $stateLabel | Valor: $costLabel",
                     action = GameAction.BuyUpgrade(upgrade.id, costId, currency)
                 )
             }
@@ -236,28 +239,15 @@ internal class ShopScreenPresenter(
         }
         options += ScreenOptionViewModel("x", "Voltar", GameAction.Back)
 
-        val body = mutableListOf<String>()
-        body += "Categoria: ${category.label}"
-        body += "Saldo atual: ${if (currency == ShopCurrency.GOLD) state.player.gold else state.player.premiumCash} ${currencyLabel(currency)}"
-        if (upgrades.isEmpty()) {
-            body += "Nenhum aprimoramento disponível."
-        } else {
-            upgrades.forEach { upgrade ->
-                val description = upgrade.description.ifBlank {
-                    fallbackUpgradeDescription(upgrade.id)
-                }
-                body += "- ${upgrade.name}: $description"
-                body += "  Atual ${upgrade.currentLabel} | Proximo ${upgrade.nextLabel}"
-                body += ""
-            }
-            if (body.lastOrNull().isNullOrBlank()) {
-                body.removeAt(body.lastIndex)
-            }
-        }
+        val body = mutableListOf(
+            "Categoria: ${category.label}",
+            "Saldo atual: ${state.player.gold} ouro, ${state.player.premiumCash} CASH"
+        )
+        if (upgrades.isEmpty()) body += "Nenhum aprimoramento disponível."
 
         return MenuScreenViewModel(
             title = "Aprimoramentos > ${category.label}",
-            summary = support.playerSummary(state),
+            summary = null,
             bodyLines = body,
             options = options,
             messages = session.messages
@@ -273,12 +263,6 @@ internal class ShopScreenPresenter(
             parts += "$reqId x${cost.requiredItemQty}"
         }
         return parts.joinToString(" + ").ifBlank { "Sem custo" }
-    }
-
-    private fun fallbackUpgradeDescription(upgradeId: String): String = when (upgradeId.trim().lowercase()) {
-        "profession_mastery" -> "Aumenta a XP de forja, coleta de ervas, mineração e pesca."
-        "fishermans_instinct" -> "Chance de pesca render coleta dobrada."
-        else -> "Sem descrição."
     }
 
     private fun currencyLabel(currency: ShopCurrency): String = if (currency == ShopCurrency.GOLD) "ouro" else "CASH"

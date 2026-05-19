@@ -126,20 +126,21 @@ class GlobalBossProgressService(
         val (normalized, event, progress) = resolveEventAndProgress(state, eventId)
             ?: return GlobalBossAttemptResult(false, state, listOf("Evento global não encontrado."))
         val limits = runLimits(normalized.player)
+        val runCashCost = limits.runCashCost(event.cadence)
         if (progress.dailyPaidRunsBought >= limits.purchasableRunsPerDay) {
             return GlobalBossAttemptResult(false, normalized, listOf("Limite diario de compras atingido."))
         }
         if (progress.runsUsed >= limits.maxRunsPerDay) {
             return GlobalBossAttemptResult(false, normalized, listOf("Limite diario de runs atingido hoje."))
         }
-        if (normalized.player.premiumCash < limits.purchasedRunCashCost) {
+        if (normalized.player.premiumCash < runCashCost) {
             return GlobalBossAttemptResult(false, normalized, listOf("CASH insuficiente para comprar tentativa."))
         }
         val updatedProgress = progress.copy(dailyPaidRunsBought = progress.dailyPaidRunsBought + 1)
         val updatedState = writeProgress(
             normalized.copy(
                 player = normalized.player.copy(
-                    premiumCash = normalized.player.premiumCash - limits.purchasedRunCashCost
+                    premiumCash = normalized.player.premiumCash - runCashCost
                 )
             ),
             event.id,
@@ -148,7 +149,7 @@ class GlobalBossProgressService(
         return GlobalBossAttemptResult(
             success = true,
             state = updatedState,
-            messages = listOf("Tentativa extra comprada por ${limits.purchasedRunCashCost} CASH.")
+            messages = listOf("Tentativa extra comprada por ${runCashCost} CASH.")
         )
     }
 

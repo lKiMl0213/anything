@@ -84,6 +84,9 @@ class HuntingService(
         val spot = spots[spotId]
         val reasons = mutableListOf<String>()
         if (spot == null) reasons += "Área de caça inválida."
+        if (spot != null && player.level < spot.recommendedLevel.coerceAtLeast(1)) {
+            reasons += "Desbloqueado no nv ${spot.recommendedLevel.coerceAtLeast(1)}."
+        }
         val normalizedDurationSeconds = config.normalizeSelectedDurationSeconds(selectedDurationSeconds)
         val skillLevel = skillSystem.snapshot(prepared, SkillType.HUNTING).level
         val taskEfficiency = activeTaskEfficiencyPct(prepared, "hunting")

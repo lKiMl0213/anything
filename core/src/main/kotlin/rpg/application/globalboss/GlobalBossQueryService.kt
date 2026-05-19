@@ -64,13 +64,14 @@ class GlobalBossQueryService(
         val nowMillis = System.currentTimeMillis()
         val progress = eventProgress(normalized, event)
         val limits = progressService.runLimits(normalized.player)
+        val runCashCost = limits.runCashCost(event.cadence)
         val paidBuyRemaining = (limits.purchasableRunsPerDay - progress.dailyPaidRunsBought).coerceAtLeast(0)
         val runsRemaining = (limits.maxRunsPerDay - progress.runsUsed).coerceAtLeast(0)
         val canStart = hasRunAvailable(progress, limits)
         val canAutoClear = canStart && progress.bestRun > 0
         val canBuy = runsRemaining > 0 &&
             paidBuyRemaining > 0 &&
-            normalized.player.premiumCash >= limits.purchasedRunCashCost
+            normalized.player.premiumCash >= runCashCost
 
         val milestoneViews = milestoneViews(event, progress)
         val claimableCount = milestoneViews.count { it.claimable }
@@ -111,7 +112,7 @@ class GlobalBossQueryService(
             canStartRun = canStart,
             canAutoClear = canAutoClear,
             canBuyAttempt = canBuy,
-            buyCostCash = limits.purchasedRunCashCost,
+            buyCostCash = runCashCost,
             milestones = milestoneViews,
             quests = quests,
             rankingLabel = "Ranking global online: indisponivel offline",

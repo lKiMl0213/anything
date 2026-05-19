@@ -1,0 +1,16 @@
+{
+  "id": "gold_entry_bag_small",
+  "name": "Mochila Compacta",
+  "itemId": "cash_bag_small",
+  "price": 12000,
+  "currency": "GOLD",
+  "quantity": 1,
+  "minPlayerLevel": 1,
+  "description": "+10 slots de inventário.",
+  "enabled": true,
+  "tags": [
+    "gold",
+    "bag",
+    "backpack_tier:1"
+  ]
+}

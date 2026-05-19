@@ -1,0 +1,18 @@
+﻿{
+  "id": "hunting_ancient_fang_valley",
+  "name": "Vale das Presas Antigas",
+  "recommendedLevel": 40,
+  "minCycleSeconds": 210,
+  "baseXp": 54.0,
+  "difficulty": 2.08,
+  "description": "Terreno de caça pesado com alcateias antigas e troféus valiosos.",
+  "drops": [
+    { "itemId": "rough_hide", "weight": 22, "minQty": 2, "maxQty": 4, "rareChancePct": 10.0, "minPlayerLevel": 32 },
+    { "itemId": "wolf_pelt", "weight": 18, "minQty": 1, "maxQty": 3, "rareChancePct": 12.0, "minPlayerLevel": 34 },
+    { "itemId": "predator_eye", "weight": 16, "minQty": 1, "maxQty": 2, "rareChancePct": 18.0, "minPlayerLevel": 36 },
+    { "itemId": "golden_flower", "weight": 12, "minQty": 1, "maxQty": 2, "rareChancePct": 16.0, "minPlayerLevel": 36 },
+    { "itemId": "oil", "weight": 12, "minQty": 1, "maxQty": 3, "rareChancePct": 15.0, "minPlayerLevel": 35 },
+    { "itemId": "charcoal", "weight": 10, "minQty": 1, "maxQty": 2, "rareChancePct": 11.0, "minPlayerLevel": 33 },
+    { "itemId": "beast_meat", "weight": 10, "minQty": 2, "maxQty": 5, "rareChancePct": 0.0, "minPlayerLevel": 30 }
+  ]
+}

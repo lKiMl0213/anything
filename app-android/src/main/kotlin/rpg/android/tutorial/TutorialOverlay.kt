@@ -2,6 +2,7 @@
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,9 +11,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,7 +53,9 @@ fun TutorialOverlay(
     onSkip: () -> Unit
 ) {
     var rootSize by remember { mutableStateOf(IntSize.Zero) }
+    var cardSize by remember { mutableStateOf(IntSize.Zero) }
     var showSkipConfirm by remember { mutableStateOf(false) }
+    val blockerInteraction = remember { MutableInteractionSource() }
     val anchoredRect = TutorialAnchorRegistry.rectFor(state.target)
     val highlightRect = tutorialHighlightRect(
         target = state.target,
@@ -72,6 +77,8 @@ fun TutorialOverlay(
     val safeLeftInset = with(density) {
         WindowInsets.safeDrawing.getLeft(this, LayoutDirection.Ltr).toDp()
     }
+    val safeTopPx = with(density) { safeTopInset.toPx() }
+    val safeBottomPx = with(density) { safeBottomInset.toPx() }
     val placeSkipOnLeft = state.target == TutorialTarget.SETTINGS_BUTTON
 
     BoxWithConstraints(
@@ -123,6 +130,13 @@ fun TutorialOverlay(
             }
         }
 
+        TutorialInputBlockers(
+            rootSize = rootSize,
+            highlightRect = highlightRect,
+            allowHighlightedArea = state.requiresUserAction,
+            interactionSource = blockerInteraction
+        )
+
         Text(
             text = "Pular tutorial",
             color = Color.White,
@@ -143,8 +157,8 @@ fun TutorialOverlay(
         )
 
         highlightRect?.let { rect ->
-            val arrowSymbol = if (cardPlacement == TutorialCardPlacement.TOP) "\u2b06" else "\u2b07"
-            val rawY = if (cardPlacement == TutorialCardPlacement.TOP) rect.bottom + 8f else rect.top - 30f
+            val arrowSymbol = if (cardPlacement == TutorialCardPlacement.BOTTOM) "\u2b06" else "\u2b07"
+            val rawY = if (cardPlacement == TutorialCardPlacement.BOTTOM) rect.bottom + 8f else rect.top - 30f
             val arrowY = rawY.coerceIn(8f, max(8f, (rootSize.height - 34).toFloat()))
             val arrowX = rect.center.x.coerceIn(18f, max(18f, (rootSize.width - 18).toFloat()))
             Text(
@@ -161,28 +175,21 @@ fun TutorialOverlay(
             )
         }
 
-        val helpCardModifier = if (cardPlacement == TutorialCardPlacement.TOP) {
-            Modifier
-                .align(Alignment.TopCenter)
-                .padding(
-                    top = safeTopInset + 70.dp,
-                    start = 12.dp,
-                    end = 12.dp
-                )
-                .fillMaxWidth(0.96f)
-        } else {
-            Modifier
-                .align(Alignment.BottomCenter)
-                .padding(
-                    bottom = safeBottomInset + 12.dp,
-                    start = 12.dp,
-                    end = 12.dp
-                )
-                .fillMaxWidth(0.96f)
-        }
+        val helpCardOffset = tutorialCardOffset(
+            rootSize = rootSize,
+            cardSize = cardSize,
+            highlightRect = highlightRect,
+            placement = cardPlacement,
+            safeTopPx = safeTopPx,
+            safeBottomPx = safeBottomPx
+        )
 
         Column(
-            modifier = helpCardModifier,
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .offset { helpCardOffset }
+                .fillMaxWidth(0.92f)
+                .onSizeChanged { cardSize = it },
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             GamePanel(title = state.title) {
@@ -256,6 +263,69 @@ fun TutorialOverlay(
     }
 }
 
+@Composable
+private fun TutorialInputBlockers(
+    rootSize: IntSize,
+    highlightRect: Rect?,
+    allowHighlightedArea: Boolean,
+    interactionSource: MutableInteractionSource
+) {
+    if (rootSize.width <= 0 || rootSize.height <= 0) return
+
+    if (highlightRect == null || !allowHighlightedArea) {
+        TutorialBlockerRegion(
+            left = 0f,
+            top = 0f,
+            width = rootSize.width.toFloat(),
+            height = rootSize.height.toFloat(),
+            interactionSource = interactionSource
+        )
+        return
+    }
+
+    val rootWidth = rootSize.width.toFloat()
+    val rootHeight = rootSize.height.toFloat()
+    TutorialBlockerRegion(0f, 0f, rootWidth, highlightRect.top, interactionSource)
+    TutorialBlockerRegion(0f, highlightRect.bottom, rootWidth, rootHeight - highlightRect.bottom, interactionSource)
+    TutorialBlockerRegion(0f, highlightRect.top, highlightRect.left, highlightRect.height, interactionSource)
+    TutorialBlockerRegion(
+        left = highlightRect.right,
+        top = highlightRect.top,
+        width = rootWidth - highlightRect.right,
+        height = highlightRect.height,
+        interactionSource = interactionSource
+    )
+}
+
+@Composable
+private fun TutorialBlockerRegion(
+    left: Float,
+    top: Float,
+    width: Float,
+    height: Float,
+    interactionSource: MutableInteractionSource
+) {
+    if (width <= 0f || height <= 0f) return
+    val density = LocalDensity.current
+    Box(
+        modifier = Modifier
+            .offset {
+                IntOffset(
+                    x = left.roundToInt(),
+                    y = top.roundToInt()
+                )
+            }
+            .width(with(density) { width.toDp() })
+            .height(with(density) { height.toDp() })
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null
+            ) {
+                // Consome toques fora do alvo do tutorial.
+            }
+    )
+}
+
 private fun tutorialHighlightRect(
     target: TutorialTarget,
     size: IntSize,
@@ -311,6 +381,37 @@ private fun tutorialHighlightRect(
         ),
         size = size
     )
+}
+
+private fun tutorialCardOffset(
+    rootSize: IntSize,
+    cardSize: IntSize,
+    highlightRect: Rect?,
+    placement: TutorialCardPlacement,
+    safeTopPx: Float,
+    safeBottomPx: Float
+): IntOffset {
+    if (rootSize.width <= 0 || rootSize.height <= 0) return IntOffset.Zero
+
+    val cardWidth = rootSize.width * 0.92f
+    val estimatedHeight = rootSize.height * 0.24f
+    val cardHeight = cardSize.height.takeIf { it > 0 }?.toFloat() ?: estimatedHeight
+    val gap = rootSize.height * 0.018f
+    val x = if (highlightRect == null) {
+        (rootSize.width - cardWidth) / 2f
+    } else {
+        (highlightRect.center.x - cardWidth / 2f)
+            .coerceIn(8f, max(8f, rootSize.width - cardWidth - 8f))
+    }
+    val minY = safeTopPx + 8f
+    val maxY = (rootSize.height - safeBottomPx - cardHeight - 8f).coerceAtLeast(minY)
+    val y = when {
+        highlightRect == null -> maxY
+        placement == TutorialCardPlacement.BOTTOM -> highlightRect.bottom + gap
+        else -> highlightRect.top - cardHeight - gap
+    }.coerceIn(minY, maxY)
+
+    return IntOffset(x.roundToInt(), y.roundToInt())
 }
 
 private fun decideCardPlacement(

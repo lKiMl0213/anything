@@ -214,6 +214,27 @@ internal class CombatActionExecutor(
                 ActionOutcome()
             }
 
+            is CombatAction.UseItemInstant -> {
+                if (action.itemId.isBlank()) {
+                    gateway.combatLog(gateway.colorize("Nenhum item selecionado.", gateway.ansiYellow))
+                    return ActionOutcome(consumedReady = false)
+                }
+                val result = gateway.useItem(
+                    selfActor = actor,
+                    player = playerState,
+                    itemInstances = itemInstances,
+                    itemId = action.itemId,
+                    currentStatuses = actor.runtime.statuses,
+                    currentImmunitySeconds = actor.runtime.statusImmunitySeconds
+                )
+                onPlayerUpdate(result.player, result.itemInstances)
+                actor.runtime = actor.runtime.copy(
+                    statuses = result.statuses,
+                    statusImmunitySeconds = result.statusImmunitySeconds
+                )
+                ActionOutcome(consumedReady = false)
+            }
+
             is CombatAction.Escape -> {
                 if (!rules.allowEscape) {
                     gateway.combatLog(gateway.colorize("Fuga indisponivel neste modo de combate.", gateway.ansiYellow))
@@ -366,6 +387,11 @@ internal class CombatActionExecutor(
             is CombatAction.UseItem -> {
                 if (caster.kind == CombatantKind.PLAYER) {
                     // Casting for consumables is not supported.
+                }
+            }
+            is CombatAction.UseItemInstant -> {
+                if (caster.kind == CombatantKind.PLAYER) {
+                    // Casting for instant consumables is not supported.
                 }
             }
 

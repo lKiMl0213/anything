@@ -1,6 +1,7 @@
 package rpg.application.actions
 
 import java.nio.file.Path
+import rpg.application.inventory.InventorySortMode
 import rpg.achievement.AchievementCategory
 import rpg.application.shop.ShopCategory
 import rpg.application.shop.UpgradeMenuCategory
@@ -139,7 +140,9 @@ sealed interface GameAction {
     data class UnequipSlot(val slotKey: String) : GameAction
     data class SetInventoryFilterType(val type: ItemType?) : GameAction
     data class SetInventoryMinimumRarity(val rarity: ItemRarity?) : GameAction
+    data class SetInventorySortMode(val sortMode: InventorySortMode) : GameAction
     data object ClearInventoryFilters : GameAction
+    data object AutoEquipBest : GameAction
     data class SelectActiveAmmo(val templateId: String) : GameAction
     data class LoadAmmoToQuiver(val itemId: String) : GameAction
     data class UnloadAmmoFromQuiver(val itemId: String) : GameAction

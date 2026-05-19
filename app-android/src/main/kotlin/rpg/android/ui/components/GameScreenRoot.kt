@@ -19,6 +19,7 @@ fun GameScreenRoot(
     modifier: Modifier = Modifier,
     footer: (@Composable () -> Unit)? = null,
     bottomNav: (@Composable () -> Unit)? = null,
+    overlay: (@Composable () -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Box(
@@ -36,5 +37,6 @@ fun GameScreenRoot(
             footer?.invoke()
             bottomNav?.invoke()
         }
+        overlay?.invoke()
     }
 }

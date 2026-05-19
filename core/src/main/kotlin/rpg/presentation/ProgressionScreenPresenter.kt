@@ -109,7 +109,7 @@ internal class ProgressionScreenPresenter(
         if (detail.canReplace) {
             options += ScreenOptionViewModel(
                 index++.toString(),
-                "Replace (${detail.replaceRemaining} restante(s))",
+                "Substituir (${detail.replaceRemaining} restante(s))",
                 GameAction.ReplaceQuest(detail.section, detail.instanceId)
             )
         }

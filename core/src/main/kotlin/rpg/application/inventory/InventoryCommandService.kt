@@ -4,9 +4,11 @@ import rpg.achievement.AchievementTracker
 import rpg.achievement.AchievementCounterKeys
 import rpg.classsystem.RaceBonusSupport
 import rpg.classquest.ClassQuestTagRules
+import rpg.engine.ComputedStats
 import rpg.engine.GameEngine
 import rpg.inventory.InventorySystem
 import rpg.item.ResolvedItem
+import rpg.model.Attributes
 import rpg.model.EquipSlot
 import rpg.model.GameState
 import rpg.model.ItemInstance
@@ -21,6 +23,24 @@ class InventoryCommandService(
     private val support: InventoryRulesSupport
 ) {
     private val offhandBlockedId = "__offhand_blocked__"
+
+    fun autoEquipBest(state: GameState): InventoryMutationResult {
+        var workingState = state
+        var equippedChanges = 0
+        val iterationLimit = 40
+        repeat(iterationLimit) {
+            val best = bestAutoEquipCandidate(workingState) ?: return@repeat
+            val mutation = equipItem(workingState, best.itemId)
+            if (mutation.state.player == workingState.player) return@repeat
+            workingState = mutation.state
+            equippedChanges += 1
+        }
+        return if (equippedChanges <= 0) {
+            InventoryMutationResult(state, listOf("Nenhum upgrade de equipamento encontrado."))
+        } else {
+            InventoryMutationResult(workingState, listOf("Melhor equipamento aplicado."))
+        }
+    }
 
     fun equipItem(state: GameState, itemId: String): InventoryMutationResult {
         val player = state.player
@@ -44,7 +64,7 @@ class InventoryCommandService(
         val equippedId = player.equipped[slotKey]
             ?: return InventoryMutationResult(state, listOf("Slot vazio."))
         if (support.isOffhandBlocked(equippedId)) {
-            return InventoryMutationResult(state, listOf("Slot bloqueado por arma de duas maos."))
+            return InventoryMutationResult(state, listOf("Slot bloqueado por arma de duas mãos."))
         }
         val item = engine.itemResolver.resolve(equippedId, state.itemInstances)
             ?: return InventoryMutationResult(state, listOf("Item equipado não encontrado."))
@@ -297,6 +317,7 @@ class InventoryCommandService(
                     )
                 }
             }
+            EquipSlot.BACKPACK -> equipBackpack(player, item, itemInstances, equipped, inventory)
             EquipSlot.WEAPON_MAIN -> equipMainWeapon(player, item, itemInstances, equipped, inventory)
             EquipSlot.WEAPON_OFF -> equipOffhand(player, item, itemInstances, equipped, inventory)
             else -> {
@@ -363,11 +384,115 @@ class InventoryCommandService(
         return support.normalizePlayerStorage(player.copy(equipped = equipped, inventory = inventory), itemInstances)
     }
 
+    private fun equipBackpack(
+        player: PlayerState,
+        item: ResolvedItem,
+        itemInstances: Map<String, ItemInstance>,
+        equipped: MutableMap<String, String>,
+        inventory: MutableList<String>
+    ): PlayerState {
+        val tier = InventorySystem.backpackTier(item.id, itemInstances, engine.itemRegistry)
+            ?: return player
+        val slotKey = InventorySystem.backpackSlotKeyForTier(tier)
+            ?: return player
+
+        val legacyKey = EquipSlot.BACKPACK.name
+        val legacyItemId = equipped[legacyKey]
+        val legacyTier = legacyItemId?.let {
+            InventorySystem.backpackTier(it, itemInstances, engine.itemRegistry)
+        }
+        if (legacyTier == tier) {
+            support.moveEquippedToInventory(equipped, inventory, legacyKey)
+        }
+
+        support.moveEquippedToInventory(equipped, inventory, slotKey)
+        equipped[slotKey] = item.id
+        inventory.remove(item.id)
+        return support.normalizePlayerStorage(
+            player.copy(equipped = equipped, inventory = inventory),
+            itemInstances
+        )
+    }
+
     private fun applyRaceSellBonus(player: PlayerState, baseSaleValue: Int): Int {
         val raceDef = runCatching { engine.classSystem.raceDef(player.raceId) }.getOrNull()
         val bonusPct = RaceBonusSupport.tradeSellBonusPct(raceDef)
         return RaceBonusSupport.applyTradeSellBonus(baseSaleValue, bonusPct)
     }
+
+    private fun bestAutoEquipCandidate(state: GameState): AutoEquipCandidate? {
+        val player = state.player
+        val weights = classPreferenceWeights(player)
+        val baseline = engine.computePlayerStats(player, state.itemInstances)
+        val baselineScore = autoEquipScore(baseline, weights)
+        var best: AutoEquipCandidate? = null
+
+        player.inventory.forEach { itemId ->
+            val item = engine.itemResolver.resolve(itemId, state.itemInstances) ?: return@forEach
+            if (item.type != ItemType.EQUIPMENT) return@forEach
+            val preview = support.previewEquipDelta(player, item, state.itemInstances) ?: return@forEach
+            val candidateScore = autoEquipScore(preview.after, weights)
+            val scoreDelta = candidateScore - baselineScore
+            if (scoreDelta <= 0.05) return@forEach
+            if (best == null || scoreDelta > best!!.scoreDelta) {
+                best = AutoEquipCandidate(itemId = item.id, scoreDelta = scoreDelta)
+            }
+        }
+        return best
+    }
+
+    private fun classPreferenceWeights(player: PlayerState): Attributes {
+        val classDef = runCatching { engine.classSystem.classDef(player.classId) }.getOrNull()
+        val subclassDef = runCatching { engine.classSystem.subclassDef(player.subclassId) }.getOrNull()
+        val specializationDef = runCatching { engine.classSystem.specializationDef(player.specializationId) }.getOrNull()
+        val merged = (classDef?.autoPointWeights ?: Attributes()) +
+            (classDef?.growth ?: Attributes()) +
+            (subclassDef?.autoPointWeights ?: Attributes()) +
+            (subclassDef?.growth ?: Attributes()) +
+            (specializationDef?.autoPointWeights ?: Attributes()) +
+            (specializationDef?.growth ?: Attributes())
+        val total = merged.str + merged.agi + merged.dex + merged.vit + merged.`int` + merged.spr + merged.luk
+        return if (total <= 0) {
+            Attributes(str = 1, agi = 1, dex = 1, vit = 1, `int` = 1, spr = 1, luk = 1)
+        } else {
+            merged
+        }
+    }
+
+    private fun autoEquipScore(stats: ComputedStats, weights: Attributes): Double {
+        val wStr = weights.str.coerceAtLeast(1).toDouble()
+        val wAgi = weights.agi.coerceAtLeast(1).toDouble()
+        val wDex = weights.dex.coerceAtLeast(1).toDouble()
+        val wVit = weights.vit.coerceAtLeast(1).toDouble()
+        val wInt = weights.`int`.coerceAtLeast(1).toDouble()
+        val wSpr = weights.spr.coerceAtLeast(1).toDouble()
+        val wLuk = weights.luk.coerceAtLeast(1).toDouble()
+        val physicalAffinity = (wStr + wAgi + wDex + (wVit * 0.4)) / 40.0
+        val magicAffinity = (wInt + wSpr + (wLuk * 0.2)) / 30.0
+        val defenseAffinity = (wVit + wSpr + (wStr * 0.2)) / 35.0
+
+        return (stats.attributes.str * wStr) +
+            (stats.attributes.agi * wAgi) +
+            (stats.attributes.dex * wDex) +
+            (stats.attributes.vit * wVit) +
+            (stats.attributes.`int` * wInt) +
+            (stats.attributes.spr * wSpr) +
+            (stats.attributes.luk * wLuk) +
+            (stats.derived.damagePhysical * (0.65 + physicalAffinity)) +
+            (stats.derived.damageMagic * (0.65 + magicAffinity)) +
+            (stats.derived.hpMax * (0.06 + defenseAffinity * 0.04)) +
+            (stats.derived.mpMax * (0.03 + magicAffinity * 0.03)) +
+            (stats.derived.defPhysical * (0.30 + defenseAffinity)) +
+            (stats.derived.defMagic * (0.30 + defenseAffinity)) +
+            (stats.derived.critChancePct * 0.25) +
+            (stats.derived.accuracy * 0.15) +
+            (stats.derived.evasion * 0.15)
+    }
+
+    private data class AutoEquipCandidate(
+        val itemId: String,
+        val scoreDelta: Double
+    )
 }
 
 

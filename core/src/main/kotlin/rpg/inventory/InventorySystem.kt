@@ -158,4 +158,33 @@ object InventorySystem {
     ): String {
         return InventoryRuleSupport.stackKey(itemId, itemInstances, itemRegistry)
     }
+
+    fun backpackTier(
+        itemId: String,
+        itemInstances: Map<String, ItemInstance>,
+        itemRegistry: ItemRegistry
+    ): Int? {
+        return InventoryRuleSupport.backpackTier(itemId, itemInstances, itemRegistry)
+    }
+
+    fun backpackSlotKeyForTier(tier: Int): String? {
+        return InventoryRuleSupport.backpackSlotKeyForTier(tier)
+    }
+
+    fun equippedBackpackItemIdsByTier(
+        player: PlayerState,
+        itemInstances: Map<String, ItemInstance>,
+        itemRegistry: ItemRegistry
+    ): Map<Int, String> {
+        return InventoryRuleSupport.equippedBackpackItemIdsByTier(player, itemInstances, itemRegistry)
+    }
+
+    fun hasOwnedBackpackTier(
+        player: PlayerState,
+        itemInstances: Map<String, ItemInstance>,
+        itemRegistry: ItemRegistry,
+        tier: Int
+    ): Boolean {
+        return InventoryRuleSupport.hasOwnedBackpackTier(player, itemInstances, itemRegistry, tier)
+    }
 }

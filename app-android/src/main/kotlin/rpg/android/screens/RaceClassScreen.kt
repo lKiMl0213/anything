@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import rpg.android.R
 import rpg.android.state.RaceClassUiModel
+import rpg.android.ui.components.CharacterSpriteImage
 import rpg.android.ui.components.GameBackIconButton
 import rpg.android.ui.components.GameDropdownSelect
 import rpg.android.ui.components.GameFooterActions
@@ -34,6 +35,7 @@ fun RaceClassScreen(
 ) {
     val selectedRaceLabel = state.raceOptions.firstOrNull { it.id == state.selectedRaceId }?.label ?: "-"
     val selectedClassLabel = state.classOptions.firstOrNull { it.id == state.selectedClassId }?.label ?: "-"
+    val canSelectClass = state.selectedRaceId != null
 
     GameScreenRoot(
         backgroundRes = R.drawable.bg_new_game,
@@ -92,14 +94,22 @@ fun RaceClassScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 GameDropdownSelect(
-                    label = "Racas",
+                    label = "Raças",
                     options = state.raceOptions.map { GameSelectOption(it.id, it.label) },
                     onSelect = { option -> onSelectRace(option.key) }
                 )
                 GameDropdownSelect(
                     label = "Classes",
                     options = state.classOptions.map { GameSelectOption(it.id, it.label) },
-                    onSelect = { option -> onSelectClass(option.key) }
+                    onSelect = { option -> onSelectClass(option.key) },
+                    enabled = canSelectClass
+                )
+            }
+
+            if (state.spriteAssetPath.isNotBlank()) {
+                CharacterSpriteImage(
+                    assetPath = state.spriteAssetPath,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
 

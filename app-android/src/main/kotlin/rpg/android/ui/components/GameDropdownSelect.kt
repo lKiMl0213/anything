@@ -30,7 +30,8 @@ fun GameDropdownSelect(
     options: List<GameSelectOption>,
     onSelect: (GameSelectOption) -> Unit,
     modifier: Modifier = Modifier,
-    width: Dp? = null
+    width: Dp? = null,
+    enabled: Boolean = true
 ) {
     var expanded by remember { mutableStateOf(false) }
     val audioController = LocalGameAudioController.current
@@ -42,11 +43,12 @@ fun GameDropdownSelect(
     ) {
         GamePrimaryButton(
             label = "$label \u25be",
-            onClick = { expanded = true },
-            modifier = Modifier.fillMaxWidth()
+            onClick = { if (enabled) expanded = true },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled
         )
         DropdownMenu(
-            expanded = expanded,
+            expanded = expanded && enabled,
             onDismissRequest = { expanded = false },
             modifier = Modifier.width(resolvedWidth)
         ) {

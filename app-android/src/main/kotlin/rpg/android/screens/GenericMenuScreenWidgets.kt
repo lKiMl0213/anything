@@ -3,7 +3,9 @@ package rpg.android.screens
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import rpg.android.state.MainSection
 import rpg.android.ui.components.GamePanel
@@ -109,6 +112,14 @@ internal fun GenericMenuHeaderPanel(
             }
         }
         bodyLines.forEach { line ->
+            val isCityIntroLine = section == MainSection.CITY &&
+                (
+                    line.contains("Descanse e acesse os serviços da cidade.", ignoreCase = true) ||
+                        line.contains("Descanse e acesse os servicos da cidade.", ignoreCase = true)
+                    )
+            if (isCityIntroLine) {
+                Spacer(modifier = Modifier.height(6.dp))
+            }
             val (lineColor, _) = getIngredientLineColor(line)
             Text(
                 text = line,
@@ -118,12 +129,15 @@ internal fun GenericMenuHeaderPanel(
                     IngredientColorState.UNAVAILABLE -> MaterialTheme.colorScheme.error
                     IngredientColorState.NEUTRAL -> MaterialTheme.colorScheme.onSurface
                 },
-                textAlign = if (isExplorationAreasContext || section == MainSection.PRODUCTION) {
+                textAlign = if (isExplorationAreasContext || section == MainSection.PRODUCTION || isCityIntroLine) {
                     TextAlign.Center
                 } else {
                     TextAlign.Start
                 }
             )
+            if (isCityIntroLine) {
+                Spacer(modifier = Modifier.height(4.dp))
+            }
         }
         if (section != MainSection.PRODUCTION) {
             sectionMessages.forEach { line ->
@@ -263,7 +277,7 @@ internal fun defaultBottomNavItems(
         ),
         BottomNavItem(
             key = "production",
-            label = "Producao",
+            label = "Produção",
             icon = "\u2692",
             selected = section == MainSection.PRODUCTION,
             onClick = onOpenProduction

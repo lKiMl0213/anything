@@ -128,7 +128,7 @@ internal class TutorialManager {
             TutorialStep.OPEN_CITY -> TutorialOverlayState(
                 step = tutorial.step,
                 title = "Tutorial",
-                message = "Na cidade ficam loja, taverna, melhorias e outros servicos.",
+                message = "Na cidade ficam loja, taverna, melhorias e outros serviços.",
                 target = TutorialTarget.BOTTOM_NAV_CITY,
                 requiresUserAction = true
             )

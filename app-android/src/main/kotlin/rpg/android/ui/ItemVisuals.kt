@@ -16,6 +16,7 @@ private const val ICON_HELM = "\uD83E\uDE96"
 private const val ICON_BOOT = "\uD83E\uDD7E"
 private const val ICON_GLOVE = "\uD83E\uDDE4"
 private const val ICON_CAPE = "\uD83E\uDDE5"
+private const val ICON_LEGS = "\uD83E\uDDB5"
 private const val ICON_FOOD = "\uD83C\uDF56"
 private const val ICON_EQUIPMENT = "\uD83D\uDEE0"
 private const val ICON_CONSUMABLE = "\uD83E\uDDF4"
@@ -36,10 +37,12 @@ internal fun itemEmoji(name: String, type: ItemType, tags: List<String>): String
         "bow" in lower || "arco" in lower -> ICON_BOW
         "sword" in lower || "espada" in lower -> ICON_SWORD
         "shield" in lower || "escudo" in lower -> ICON_SHIELD
+        "armor" in lower || "armadura" in lower || "cota" in lower || "peitoral" in lower -> ICON_SHIELD
         "helmet" in lower || "capacete" in lower -> ICON_HELM
         "boot" in lower || "bota" in lower -> ICON_BOOT
         "glove" in lower || "luva" in lower -> ICON_GLOVE
         "cape" in lower || "capa" in lower -> ICON_CAPE
+        "pants" in lower || "calça" in lower || "perneira" in lower || "pernas" in lower -> ICON_LEGS
         "food" in allTags || "comida" in allTags -> ICON_FOOD
         type == ItemType.EQUIPMENT -> ICON_EQUIPMENT
         type == ItemType.CONSUMABLE -> ICON_CONSUMABLE
@@ -53,8 +56,8 @@ internal fun slotEmoji(slotKey: String): String {
         "WEAPON_OFF" -> ICON_SHIELD
         "ALJAVA" -> ICON_BOW
         "HEAD" -> ICON_HELM
-        "CHEST" -> ICON_CAPE
-        "LEGS" -> "\uD83E\uDDB5"
+        "CHEST" -> ICON_SHIELD
+        "LEGS" -> ICON_LEGS
         "GLOVES" -> ICON_GLOVE
         "BOOTS" -> ICON_BOOT
         else -> if (slotKey.uppercase().startsWith("ACCESSORY")) ICON_GEM else ICON_WHITE_CIRCLE

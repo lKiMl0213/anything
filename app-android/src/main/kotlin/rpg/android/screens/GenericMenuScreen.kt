@@ -3,10 +3,14 @@
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -38,6 +42,7 @@ import rpg.android.tutorial.TutorialTarget
 import rpg.android.tutorial.tutorialAnchor
 import rpg.application.actions.GameAction
 import rpg.presentation.model.MenuScreenViewModel
+import rpg.presentation.model.ScreenOptionViewModel
 
 @Composable
 fun GenericMenuScreen(
@@ -46,7 +51,10 @@ fun GenericMenuScreen(
     actionPreviews: Map<String, MenuActionPreviewUiModel>,
     talentTreeGraph: TalentTreeGraphUiModel?,
     hasProgressAlert: Boolean,
+    autoCraftUnlocked: Boolean,
+    autoCraftEnabled: Boolean,
     onAction: (GameAction) -> Unit,
+    onAutoCraftChanged: (Boolean) -> Unit,
     onOpenCharacter: () -> Unit,
     onOpenProduction: () -> Unit,
     onOpenHub: () -> Unit,
@@ -77,6 +85,12 @@ fun GenericMenuScreen(
     val isExplorationAreasContext = isExplorationAreasContext(viewModel.title, rawOptions)
     val isGlobalBossContext = isGlobalBossContext(viewModel.title, rawOptions)
     val isPremiumContext = isPremiumPlansContext(viewModel.title, options)
+    val isCraftContext =
+        section == MainSection.PRODUCTION &&
+            (
+                viewModel.title.contains("craft", ignoreCase = true) ||
+                    viewModel.title.contains("receita", ignoreCase = true)
+                )
     val useCompactActionGrid =
         section == MainSection.PRODUCTION ||
             section == MainSection.CITY ||
@@ -196,6 +210,21 @@ fun GenericMenuScreen(
                 )
             }
 
+            if (isCraftContext && autoCraftUnlocked) {
+                GamePanel(title = null) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        GamePrimaryButton(
+                            label = if (autoCraftEnabled) "Auto Craft: ON" else "Auto Craft: OFF",
+                            onClick = { onAutoCraftChanged(!autoCraftEnabled) },
+                            modifier = Modifier.fillMaxWidth(0.76f)
+                        )
+                    }
+                }
+            }
+
             if (showActionPanel) {
                 GamePanel(
                     modifier = if (hasTalentNodeOptions) {
@@ -239,65 +268,78 @@ fun GenericMenuScreen(
                                 onAction = onAction
                             )
                         } else if (useCompactActionGrid) {
-                            val compactRows = options.chunked(2)
-                            compactRows.forEach { rowOptions ->
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth(0.90f)
-                                        .align(Alignment.CenterHorizontally),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    rowOptions.forEach { option ->
-                                        val preview = actionPreviews[option.key]
-                                        val rawLabel = formattedOptionLabel(
-                                            option = option,
-                                            section = section,
-                                            isAchievementContext = isAchievementContext,
-                                            isQuestContext = isQuestContext,
-                                            screenTitle = viewModel.title
-                                        )
-                                        val tone = when {
-                                            section == MainSection.PRODUCTION && !option.enabled -> GameButtonTone.LOCKED
-                                            section == MainSection.PRODUCTION && resolveCraftAvailability(option) == true -> GameButtonTone.SUCCESS
-                                            section == MainSection.PRODUCTION && resolveCraftAvailability(option) == false -> GameButtonTone.ALERT
-                                            optionShouldAlert(option, isQuestContext) -> GameButtonTone.ALERT
-                                            else -> GameButtonTone.DEFAULT
-                                        }
-                                        if (section == MainSection.PRODUCTION && !option.enabled) {
-                                            LockedContent(
-                                                unlocked = false,
-                                                reason = option.lockedReason.orEmpty(),
-                                                modifier = Modifier.weight(1f)
-                                            ) {
+                            val useLazyProductionGrid = section == MainSection.PRODUCTION && options.size >= 12
+                            if (useLazyProductionGrid) {
+                                ProductionActionGrid(
+                                    options = options,
+                                    actionPreviews = actionPreviews,
+                                    isAchievementContext = isAchievementContext,
+                                    isQuestContext = isQuestContext,
+                                    screenTitle = viewModel.title,
+                                    onAction = onAction,
+                                    onPreview = { pendingPreview = it }
+                                )
+                            } else {
+                                val compactRows = options.chunked(2)
+                                compactRows.forEach { rowOptions ->
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth(0.90f)
+                                            .align(Alignment.CenterHorizontally),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        rowOptions.forEach { option ->
+                                            val preview = actionPreviews[option.key]
+                                            val rawLabel = formattedOptionLabel(
+                                                option = option,
+                                                section = section,
+                                                isAchievementContext = isAchievementContext,
+                                                isQuestContext = isQuestContext,
+                                                screenTitle = viewModel.title
+                                            )
+                                            val tone = when {
+                                                section == MainSection.PRODUCTION && !option.enabled -> GameButtonTone.LOCKED
+                                                section == MainSection.PRODUCTION && resolveCraftAvailability(option) == true -> GameButtonTone.SUCCESS
+                                                section == MainSection.PRODUCTION && resolveCraftAvailability(option) == false -> GameButtonTone.ALERT
+                                                optionShouldAlert(option, isQuestContext) -> GameButtonTone.ALERT
+                                                else -> GameButtonTone.DEFAULT
+                                            }
+                                            if (section == MainSection.PRODUCTION && !option.enabled) {
+                                                LockedContent(
+                                                    unlocked = false,
+                                                    reason = option.lockedReason.orEmpty(),
+                                                    modifier = Modifier.weight(1f)
+                                                ) {
+                                                    GamePrimaryButton(
+                                                        label = toInfoButtonLabel(rawLabel),
+                                                        onClick = {},
+                                                        modifier = Modifier.fillMaxWidth(),
+                                                        enabled = false,
+                                                        tone = tone,
+                                                        density = GameButtonDensity.INFO
+                                                    )
+                                                }
+                                            } else {
                                                 GamePrimaryButton(
                                                     label = toInfoButtonLabel(rawLabel),
-                                                    onClick = {},
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    enabled = false,
+                                                    onClick = {
+                                                        if (preview != null) {
+                                                            pendingPreview = preview
+                                                        } else {
+                                                            onAction(option.action)
+                                                        }
+                                                    },
+                                                    modifier = Modifier.weight(1f),
+                                                    enabled = option.enabled,
                                                     tone = tone,
                                                     density = GameButtonDensity.INFO
                                                 )
                                             }
-                                        } else {
-                                            GamePrimaryButton(
-                                                label = toInfoButtonLabel(rawLabel),
-                                                onClick = {
-                                                    if (preview != null) {
-                                                        pendingPreview = preview
-                                                    } else {
-                                                        onAction(option.action)
-                                                    }
-                                                },
-                                                modifier = Modifier.weight(1f),
-                                                enabled = option.enabled,
-                                                tone = tone,
-                                                density = GameButtonDensity.INFO
-                                            )
                                         }
-                                    }
-                                    if (rowOptions.size == 1) {
-                                        Spacer(modifier = Modifier.weight(1f))
+                                        if (rowOptions.size == 1) {
+                                            Spacer(modifier = Modifier.weight(1f))
+                                        }
                                     }
                                 }
                             }
@@ -390,5 +432,75 @@ fun GenericMenuScreen(
     }
 }
 
-
-
+@Composable
+private fun ColumnScope.ProductionActionGrid(
+    options: List<ScreenOptionViewModel>,
+    actionPreviews: Map<String, MenuActionPreviewUiModel>,
+    isAchievementContext: Boolean,
+    isQuestContext: Boolean,
+    screenTitle: String,
+    onAction: (GameAction) -> Unit,
+    onPreview: (MenuActionPreviewUiModel) -> Unit
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = Modifier
+            .fillMaxWidth(0.90f)
+            .heightIn(min = 140.dp, max = 430.dp)
+            .align(Alignment.CenterHorizontally),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        itemsIndexed(
+            items = options,
+            key = { _, option -> option.key }
+        ) { _, option ->
+            val preview = actionPreviews[option.key]
+            val rawLabel = formattedOptionLabel(
+                option = option,
+                section = MainSection.PRODUCTION,
+                isAchievementContext = isAchievementContext,
+                isQuestContext = isQuestContext,
+                screenTitle = screenTitle
+            )
+            val tone = when {
+                !option.enabled -> GameButtonTone.LOCKED
+                resolveCraftAvailability(option) == true -> GameButtonTone.SUCCESS
+                resolveCraftAvailability(option) == false -> GameButtonTone.ALERT
+                optionShouldAlert(option, isQuestContext) -> GameButtonTone.ALERT
+                else -> GameButtonTone.DEFAULT
+            }
+            if (!option.enabled) {
+                LockedContent(
+                    unlocked = false,
+                    reason = option.lockedReason.orEmpty(),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    GamePrimaryButton(
+                        label = toInfoButtonLabel(rawLabel),
+                        onClick = {},
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = false,
+                        tone = tone,
+                        density = GameButtonDensity.INFO
+                    )
+                }
+            } else {
+                GamePrimaryButton(
+                    label = toInfoButtonLabel(rawLabel),
+                    onClick = {
+                        if (preview != null) {
+                            onPreview(preview)
+                        } else {
+                            onAction(option.action)
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = option.enabled,
+                    tone = tone,
+                    density = GameButtonDensity.INFO
+                )
+            }
+        }
+    }
+}

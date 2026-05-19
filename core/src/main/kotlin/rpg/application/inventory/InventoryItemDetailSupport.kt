@@ -1,5 +1,6 @@
 ﻿package rpg.application.inventory
 
+import kotlin.math.abs
 import rpg.classquest.ClassQuestTagRules
 import rpg.classsystem.RaceBonusSupport
 import rpg.engine.GameEngine
@@ -40,14 +41,25 @@ internal class InventoryItemDetailSupport(
         }
         val lines = mutableListOf<String>()
         lines += "Raridade: ${item.rarity.colorLabel}"
+        lines += "Tipo: ${itemTypeLabel(item.type)}"
+        if (item.type == ItemType.EQUIPMENT) {
+            val slotLabel = item.slot?.name?.let { equippedSlotLabel(it) } ?: "Desconhecido"
+            val handLabel = if (item.twoHanded) " (duas mãos)" else ""
+            lines += "Slot: $slotLabel$handLabel"
+        }
         if (item.qualityRollPct != 100 || item.powerScore > 0) {
             val powerLabel = if (item.powerScore > 0) " | Poder ${item.powerScore}" else ""
             lines += "Qualidade: ${item.qualityRollPct}%$powerLabel"
         }
         if (item.minLevel > 1) lines += "Nível requerido: ${item.minLevel}"
-        if (item.description.isNotBlank()) lines += "Descrição: ${item.description}"
+        appendAttributeLines(lines, item)
+        if (item.description.isNotBlank()) {
+            lines += ""
+            lines += "Descrição:"
+            lines += item.description
+        }
         if (item.affixes.isNotEmpty()) lines += "Afixos: ${item.affixes.joinToString(", ")}"
-        lines += "Tipo: ${item.type.name.lowercase()} | Valor por unidade: $saleValue"
+        lines += "Valor por unidade: $saleValue ouro"
         when (item.type) {
             ItemType.CONSUMABLE -> {
                 val restores = mutableListOf<String>()
@@ -60,7 +72,7 @@ internal class InventoryItemDetailSupport(
                 if (item.effects.clearNegativeStatuses) restores += "Remove status negativos"
                 if (item.effects.statusImmunitySeconds > 0.0) restores += "Imunidade ${format(item.effects.statusImmunitySeconds)}s"
                 if (engine.cookingBuffService.hasBuffForItem(canonical)) {
-                    restores += "Ativa buff culinario temporario (substitui o buff anterior)"
+                    restores += "Ativa buff culinário temporário (substitui o buff anterior)"
                 }
                 if (restores.isNotEmpty()) lines += "Efeito: ${restores.joinToString(" | ")}"
             }
@@ -79,15 +91,10 @@ internal class InventoryItemDetailSupport(
                     .map { "${it.name} (${it.discipline.name.lowercase()})" }
                 if (gatherSources.isNotEmpty()) lines += "Origem: ${gatherSources.joinToString(", ")}"
                 if (uses.isNotEmpty()) lines += "Usado em: ${uses.joinToString(", ")}"
-                val ammoBonusLabel = formatItemBonuses(item)
-                if (ammoBonusLabel.isNotBlank()) lines += "Bônus: $ammoBonusLabel"
                 val ammoEffectLabel = formatItemEffectsSummary(item)
                 if (ammoEffectLabel.isNotBlank()) lines += "Efeito: $ammoEffectLabel"
             }
             ItemType.EQUIPMENT -> {
-                val slotLabel = item.slot?.name ?: "desconhecido"
-                val handLabel = if (item.twoHanded) " (duas maos)" else ""
-                lines += "Slot: $slotLabel$handLabel"
                 if (item.enchantLevel > 0) {
                     lines += "Encantamento: +${item.enchantLevel}"
                 }
@@ -96,24 +103,23 @@ internal class InventoryItemDetailSupport(
                 val classLock = ClassQuestTagRules.classLocked(item.tags)
                 val pathLock = ClassQuestTagRules.pathLocked(item.tags)
                 if (classLock != null || pathLock != null) {
-                    lines += "Restricoes: classe=${classLock ?: "-"} | caminho=${pathLock ?: "-"}"
+                    lines += "Restrições: classe=${classLock ?: "-"} | caminho=${pathLock ?: "-"}"
                 }
                 if (ClassQuestTagRules.isQuestReward(item.tags)) {
                     lines += "Item de set de quest (revenda fixa)."
                 }
-                val bonusLabel = formatItemBonuses(item)
-                if (bonusLabel.isNotBlank()) lines += "Bônus: $bonusLabel"
                 val effectLabel = formatItemEffectsSummary(item)
                 if (effectLabel.isNotBlank()) lines += "Efeito: $effectLabel"
             }
         }
-        val comparison = if (item.type == ItemType.EQUIPMENT) {
+        val comparisonLines = if (item.type == ItemType.EQUIPMENT) {
             equipRules.previewEquipDelta(player, item, itemInstances)?.let { preview ->
-                val equippedLabel = preview.replacedItem?.let(itemDisplayLabel) ?: "Vazio"
-                "Comparando com (${equippedSlotLabel(preview.slotKey)}): $equippedLabel | " +
-                    equipRules.formatEquipComparison(preview.before, preview.after).ifBlank {
-                        "sem alteracoes relevantes"
-                    }
+                val equippedLabel = preview.replacedItem?.name ?: "Vazio"
+                listOf(
+                    "",
+                    "Ao equipar:",
+                    "Comparando com: ${equippedSlotLabel(preview.slotKey)} - $equippedLabel"
+                ) + equipRules.formatEquipComparisonLines(preview.before, preview.after)
             }
         } else null
         return InventoryItemDetailView(
@@ -122,7 +128,7 @@ internal class InventoryItemDetailSupport(
             item = item,
             saleValue = saleValue,
             detailLines = lines,
-            comparisonSummary = comparison
+            comparisonLines = comparisonLines.orEmpty()
         )
     }
 
@@ -135,33 +141,40 @@ internal class InventoryItemDetailSupport(
         val equippedId = player.equipped[slotKey] ?: return null
         if (isOffhandBlocked(equippedId)) return null
         val item = engine.itemResolver.resolve(equippedId, itemInstances) ?: return null
-        val lines = mutableListOf(
-            "Item: ${itemDisplayLabel(item)}"
-        )
-        if (item.description.isNotBlank()) lines += "Descrição: ${item.description}"
-        val slotLabel = item.slot?.name ?: slotKey
-        val handLabel = if (item.twoHanded) " (duas maos)" else ""
+        val lines = mutableListOf<String>()
+        lines += "Raridade: ${item.rarity.colorLabel}"
+        lines += "Tipo: ${itemTypeLabel(item.type)}"
+        val slotLabel = item.slot?.name?.let { equippedSlotLabel(it) } ?: equippedSlotLabel(slotKey)
+        val handLabel = if (item.twoHanded) " (duas mãos)" else ""
         lines += "Slot: $slotLabel$handLabel"
+        if (item.qualityRollPct != 100 || item.powerScore > 0) {
+            val powerLabel = if (item.powerScore > 0) " | Poder ${item.powerScore}" else ""
+            lines += "Qualidade: ${item.qualityRollPct}%$powerLabel"
+        }
         if (slotKey == EquipSlot.ALJAVA.name) {
             val current = rpg.inventory.InventorySystem.quiverAmmoCount(player, itemInstances, engine.itemRegistry)
             val max = rpg.inventory.InventorySystem.quiverCapacity(player, itemInstances, engine.itemRegistry)
             lines += "Aljava: $current/$max flechas"
         }
-        val bonusLabel = formatItemBonuses(item)
-        if (bonusLabel.isNotBlank()) lines += "Bônus: $bonusLabel"
+        appendAttributeLines(lines, item)
+        if (item.description.isNotBlank()) {
+            lines += ""
+            lines += "Descrição:"
+            lines += item.description
+        }
+        if (item.affixes.isNotEmpty()) lines += "Afixos: ${item.affixes.joinToString(", ")}"
+        val effectLabel = formatItemEffectsSummary(item)
+        if (effectLabel.isNotBlank()) lines += "Efeito: $effectLabel"
         val before = engine.computePlayerStats(player, itemInstances)
         val after = engine.computePlayerStats(equipRules.buildUnequippedPreview(player, slotKey), itemInstances)
-        val removal = "Ao desequipar: " +
-            "DMG ${formatSignedDouble(after.derived.damagePhysical - before.derived.damagePhysical)} | " +
-            "DEF ${formatSignedDouble(after.derived.defPhysical - before.derived.defPhysical)} | " +
-            "HP ${formatSignedDouble(after.derived.hpMax - before.derived.hpMax)} | " +
-            "SPD ${formatSignedDouble(after.derived.attackSpeed - before.derived.attackSpeed)}"
+        val removalLines = listOf("", "Ao desequipar:") +
+            equipRules.formatEquipComparisonLines(before, after)
         return EquippedItemDetailView(
             slotKey = slotKey,
             itemId = equippedId,
             item = item,
             detailLines = lines,
-            removalSummary = removal
+            removalLines = removalLines
         )
     }
 
@@ -209,6 +222,58 @@ internal class InventoryItemDetailSupport(
         return (attrParts + derivedParts).joinToString(", ")
     }
 
+    private fun appendAttributeLines(lines: MutableList<String>, item: ResolvedItem) {
+        val bonusLines = formatItemBonusLines(item)
+        if (bonusLines.isEmpty()) return
+        lines += "Atributos:"
+        lines += bonusLines
+    }
+
+    private fun formatItemBonusLines(item: ResolvedItem): List<String> {
+        val attrs = item.bonuses.attributes
+        val lines = mutableListOf<String>()
+        if (attrs.str != 0) lines += formatBonusLine("Força", attrs.str.toDouble())
+        if (attrs.agi != 0) lines += formatBonusLine("Agilidade", attrs.agi.toDouble())
+        if (attrs.dex != 0) lines += formatBonusLine("Destreza", attrs.dex.toDouble())
+        if (attrs.vit != 0) lines += formatBonusLine("Vitalidade", attrs.vit.toDouble())
+        if (attrs.`int` != 0) lines += formatBonusLine("Inteligência", attrs.`int`.toDouble())
+        if (attrs.spr != 0) lines += formatBonusLine("Espírito", attrs.spr.toDouble())
+        if (attrs.luk != 0) lines += formatBonusLine("Sorte", attrs.luk.toDouble())
+
+        val add = item.bonuses.derivedAdd
+        if (add.damagePhysical != 0.0) lines += formatBonusLine("Ataque", add.damagePhysical)
+        if (add.damageMagic != 0.0) lines += formatBonusLine("Ataque mágico", add.damageMagic)
+        if (add.defPhysical != 0.0) lines += formatBonusLine("Defesa", add.defPhysical)
+        if (add.defMagic != 0.0) lines += formatBonusLine("Defesa mágica", add.defMagic)
+        if (add.hpMax != 0.0) lines += formatBonusLine("HP", add.hpMax)
+        if (add.mpMax != 0.0) lines += formatBonusLine("MP", add.mpMax)
+        if (add.attackSpeed != 0.0) lines += formatBonusLine("Vel. ataque", add.attackSpeed)
+        if (add.moveSpeed != 0.0) lines += formatBonusLine("Movimento", add.moveSpeed)
+        if (add.critChancePct != 0.0) lines += formatBonusLine("Crítico", add.critChancePct, "%")
+        if (add.critDamagePct != 0.0) lines += formatBonusLine("Dano crítico", add.critDamagePct, "%")
+        if (add.accuracy != 0.0) lines += formatBonusLine("Precisão", add.accuracy)
+        if (add.evasion != 0.0) lines += formatBonusLine("Esquiva", add.evasion)
+        if (add.cdrPct != 0.0) lines += formatBonusLine("Recarga", add.cdrPct, "%")
+        if (add.dropBonusPct != 0.0) lines += formatBonusLine("Drop", add.dropBonusPct, "%")
+        if (add.hpRegen != 0.0) lines += formatBonusLine("Regeneração de HP", add.hpRegen)
+        if (add.mpRegen != 0.0) lines += formatBonusLine("Regeneração de MP", add.mpRegen)
+        if (add.vampirismPct != 0.0) lines += formatBonusLine("Vampirismo", add.vampirismPct, "%")
+        if (add.damageReductionPct != 0.0) lines += formatBonusLine("Redução de dano", add.damageReductionPct, "%")
+        if (add.tenacityPct != 0.0) lines += formatBonusLine("Tenacidade", add.tenacityPct, "%")
+        if (add.penPhysical != 0.0) lines += formatBonusLine("Penetração física", add.penPhysical)
+        if (add.penMagic != 0.0) lines += formatBonusLine("Penetração mágica", add.penMagic)
+        if (add.xpGainPct != 0.0) lines += formatBonusLine("XP", add.xpGainPct, "%")
+
+        val mult = item.bonuses.derivedMult
+        if (mult.attackSpeed != 0.0) lines += formatBonusLine("Vel. ataque", mult.attackSpeed, "%")
+        if (mult.moveSpeed != 0.0) lines += formatBonusLine("Movimento", mult.moveSpeed, "%")
+        if (mult.damagePhysical != 0.0) lines += formatBonusLine("Ataque", mult.damagePhysical, "%")
+        if (mult.damageMagic != 0.0) lines += formatBonusLine("Ataque mágico", mult.damageMagic, "%")
+        if (mult.defPhysical != 0.0) lines += formatBonusLine("Defesa", mult.defPhysical, "%")
+        if (mult.defMagic != 0.0) lines += formatBonusLine("Defesa mágica", mult.defMagic, "%")
+        return lines
+    }
+
     fun formatItemEffectsSummary(item: ResolvedItem): String {
         val parts = mutableListOf<String>()
         if (item.effects.statusImmunitySeconds > 0.0) parts += "Imunidade ${format(item.effects.statusImmunitySeconds)}s"
@@ -225,10 +290,23 @@ internal class InventoryItemDetailSupport(
         return itemInstances[itemId]?.templateId ?: itemId
     }
 
+    private fun itemTypeLabel(type: ItemType): String {
+        return when (type) {
+            ItemType.EQUIPMENT -> "Equipamento"
+            ItemType.CONSUMABLE -> "Consumível"
+            ItemType.MATERIAL -> "Material"
+        }
+    }
+
+    private fun formatBonusLine(label: String, value: Double, suffix: String = ""): String {
+        val sign = if (value >= 0.0) "+" else "-"
+        return "$sign $label ${formatMagnitude(value)}$suffix"
+    }
+
+    private fun formatMagnitude(value: Double): String = format(abs(value))
+
     private fun formatSigned(value: Int): String = if (value >= 0) "+$value" else value.toString()
     private fun formatSignedDouble(value: Double): String = if (value >= 0.0) "+${format(value)}" else format(value)
     private fun format(value: Double): String = "%.1f".format(value)
 }
-
-
 

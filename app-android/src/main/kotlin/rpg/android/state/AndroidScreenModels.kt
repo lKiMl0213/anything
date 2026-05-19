@@ -2,7 +2,9 @@ package rpg.android.state
 
 import rpg.application.actions.GameAction
 import rpg.application.inventory.EquippedSlotView
+import rpg.application.inventory.InventorySortMode
 import rpg.application.inventory.InventoryStackView
+import rpg.model.SkillType
 
 data class StartPageUiModel(
     val canLoad: Boolean,
@@ -27,6 +29,7 @@ data class NewGameUiModel(
     val selectedClassName: String,
     val pointsRemaining: Int,
     val attributes: List<NewGameAttributeUi>,
+    val attributeDetailByCode: Map<String, List<String>>,
     val canConfirm: Boolean,
     val message: String? = null
 )
@@ -37,7 +40,8 @@ data class RaceClassUiModel(
     val raceOptions: List<SelectOption>,
     val classOptions: List<SelectOption>,
     val raceSummaryLines: List<String>,
-    val classSummaryLines: List<String>
+    val classSummaryLines: List<String>,
+    val spriteAssetPath: String
 )
 
 data class AttributeDistributionRowUi(
@@ -57,6 +61,7 @@ data class AttributeDistributionUiModel(
 )
 
 data class HubSkillUi(
+    val skillType: SkillType,
     val symbol: String,
     val label: String,
     val level: Int,
@@ -69,6 +74,9 @@ data class MainHubUiModel(
     val premiumStatusLabel: String,
     val raceClassLabel: String,
     val levelXpLabel: String,
+    val playerLevel: Int,
+    val playerXp: Int,
+    val playerXpMax: Int,
     val currencyLabel: String,
     val inventoryCapacityLabel: String,
     val hpCurrent: Double,
@@ -90,10 +98,30 @@ data class MainHubUiModel(
 data class CharacterUiModel(
     val equippedSlots: List<EquippedSlotView>,
     val accessorySlots: List<EquippedSlotView>,
+    val spriteAssetPath: String,
+    val backpackTiers: List<BackpackTierUi>,
     val inventoryStacks: List<InventoryStackView>,
     val inventoryCapacityLabel: String,
+    val inventorySortMode: InventorySortMode,
+    val acquiredUpgrades: List<CharacterUpgradeUi>,
     val canOpenAttributes: Boolean,
-    val canOpenTalents: Boolean
+    val canOpenTalents: Boolean,
+    val canOpenUpgrades: Boolean
+)
+
+data class BackpackTierUi(
+    val tier: Int,
+    val equipped: Boolean
+)
+
+data class CharacterUpgradeUi(
+    val id: String,
+    val name: String,
+    val level: Int,
+    val maxLevel: Int,
+    val effectLabel: String,
+    val summary: String,
+    val upgradeAction: GameAction? = null
 )
 
 data class TimedActionUiState(

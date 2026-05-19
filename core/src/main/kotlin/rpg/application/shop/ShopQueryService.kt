@@ -4,6 +4,7 @@ import kotlin.math.ceil
 import kotlin.math.roundToInt
 import rpg.classsystem.RaceBonusSupport
 import rpg.engine.GameEngine
+import rpg.inventory.InventorySystem
 import rpg.io.DataRepository
 import rpg.model.ItemType
 import rpg.model.ShopCurrency
@@ -109,6 +110,7 @@ class ShopQueryService(
             }
             .map { entry ->
                 val specialOffer = false
+                val inStock = isInStock(player, itemInstances, entry, specialOffer)
                 ShopDisplayEntry(
                     id = entry.id,
                     itemId = entry.itemId,
@@ -120,14 +122,18 @@ class ShopQueryService(
                     currency = entry.currency,
                     category = classifyCategory(entry),
                     weaponClassCategory = classifyWeaponClass(entry),
-                    inStock = true,
+                    inStock = inStock,
                     specialOffer = specialOffer
                 )
             }
     }
 
     fun upgradeCategories(currency: ShopCurrency): List<UpgradeCategorySummary> {
-        val grouped = permanentUpgradeService.definitions().groupBy(::resolveUpgradeCategory)
+        @Suppress("UNUSED_PARAMETER")
+        val ignoredCurrency = currency
+        val grouped = permanentUpgradeService.definitions()
+            .filter { it.enabled }
+            .groupBy(::resolveUpgradeCategory)
         return UpgradeMenuCategory.entries.map { category ->
             val count = grouped[category].orEmpty().size
             UpgradeCategorySummary(category, count)
@@ -277,7 +283,22 @@ class ShopQueryService(
         return false
     }
 
-    fun isInStock(player: rpg.model.PlayerState, entry: rpg.model.ShopEntryDef, specialOffer: Boolean): Boolean {
+    fun isInStock(
+        player: rpg.model.PlayerState,
+        itemInstances: Map<String, rpg.model.ItemInstance>,
+        entry: rpg.model.ShopEntryDef,
+        specialOffer: Boolean
+    ): Boolean {
+        val backpackTier = InventorySystem.backpackTier(entry.itemId, itemInstances, engine.itemRegistry)
+        if (backpackTier != null) {
+            val alreadyOwned = InventorySystem.hasOwnedBackpackTier(
+                player = player,
+                itemInstances = itemInstances,
+                itemRegistry = engine.itemRegistry,
+                tier = backpackTier
+            )
+            if (alreadyOwned) return false
+        }
         return true
     }
 
@@ -308,14 +329,17 @@ class ShopQueryService(
             rpg.model.PermanentUpgradeEffectType.ALCHEMY_COST_REDUCTION -> UpgradeMenuCategory.PRODUCTION
 
             rpg.model.PermanentUpgradeEffectType.COMBAT_XP_BOOST,
-            rpg.model.PermanentUpgradeEffectType.MONSTER_RARITY_BONUS -> UpgradeMenuCategory.BATTLE
+            rpg.model.PermanentUpgradeEffectType.MONSTER_RARITY_BONUS,
+            rpg.model.PermanentUpgradeEffectType.AUTO_CONTINUE_UNLOCK,
+            rpg.model.PermanentUpgradeEffectType.AUTO_POTION_UNLOCK -> UpgradeMenuCategory.BATTLE
 
             rpg.model.PermanentUpgradeEffectType.QUEST_ITEM_KEEP_CHANCE,
             rpg.model.PermanentUpgradeEffectType.QUEST_ACCEPTABLE_POOL_BONUS,
             rpg.model.PermanentUpgradeEffectType.QUEST_ACCEPTABLE_REFRESH_REDUCTION_MINUTES,
             rpg.model.PermanentUpgradeEffectType.QUEST_ACCEPTED_LIMIT_BONUS,
             rpg.model.PermanentUpgradeEffectType.TAVERN_COST_REDUCTION,
-            rpg.model.PermanentUpgradeEffectType.QUIVER_CAPACITY_BONUS -> UpgradeMenuCategory.UTILITY
+            rpg.model.PermanentUpgradeEffectType.QUIVER_CAPACITY_BONUS,
+            rpg.model.PermanentUpgradeEffectType.AUTO_CRAFT_UNLOCK -> UpgradeMenuCategory.UTILITY
         }
     }
 }

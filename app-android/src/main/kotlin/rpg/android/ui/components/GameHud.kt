@@ -1,13 +1,19 @@
 ﻿package rpg.android.ui.components
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,7 +21,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -100,6 +108,9 @@ fun GameTopHud(
     premiumStatusLabel: String,
     raceClassLabel: String,
     levelXpLabel: String,
+    playerLevel: Int,
+    playerXp: Int,
+    playerXpMax: Int,
     currencyLabel: String,
     inventoryLabel: String,
     debuffLabel: String?,
@@ -139,14 +150,6 @@ fun GameTopHud(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
-                    Text(
-                        text = premiumStatusLabel,
-                        style = bodyStyle,
-                        modifier = Modifier.weight(1f),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.End
-                    )
                     if (onRaceClassInfoClick != null) {
                         GameIconActionButton(
                             icon = "\u2699\ufe0f",
@@ -167,12 +170,12 @@ fun GameTopHud(
                     overflow = TextOverflow.Ellipsis
                 )
                 if (compact) {
-                    Text(
-                        text = levelXpLabel,
-                        style = bodyStyle,
-                        modifier = Modifier.fillMaxWidth(),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                    GameXpBarRow(
+                        level = playerLevel,
+                        currentXp = playerXp,
+                        maxXp = playerXpMax,
+                        compact = true,
+                        modifier = Modifier.fillMaxWidth()
                     )
                     Text(
                         text = currencyLabel,
@@ -182,7 +185,7 @@ fun GameTopHud(
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
-                        text = "Inventário $inventoryLabel",
+                        text = "Inventário $inventoryLabel | $premiumStatusLabel",
                         style = bodyStyle,
                         modifier = Modifier.fillMaxWidth(),
                         maxLines = 1,
@@ -200,12 +203,12 @@ fun GameTopHud(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
-                        Text(
-                            text = levelXpLabel,
-                            style = bodyStyle,
-                            modifier = Modifier.weight(1f),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+                        GameXpBarRow(
+                            level = playerLevel,
+                            currentXp = playerXp,
+                            maxXp = playerXpMax,
+                            compact = false,
+                            modifier = Modifier.weight(1f)
                         )
                         Text(
                             text = currencyLabel,
@@ -227,9 +230,18 @@ fun GameTopHud(
                             overflow = TextOverflow.Ellipsis
                         )
                         Text(
-                            text = debuffLabel ?: "-",
+                            text = premiumStatusLabel,
                             style = bodyStyle,
                             modifier = Modifier.weight(1f),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                    if (!debuffLabel.isNullOrBlank()) {
+                        Text(
+                            text = debuffLabel,
+                            style = bodyStyle,
+                            modifier = Modifier.fillMaxWidth(),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -262,6 +274,82 @@ fun GameTopHud(
         GameActiveEffectLine(
             effectName = activeEffectName,
             initialRemainingSeconds = activeEffectRemainingSeconds
+        )
+    }
+}
+
+@Composable
+private fun GameXpBarRow(
+    level: Int,
+    currentXp: Int,
+    maxXp: Int,
+    compact: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "Nível $level | XP",
+            modifier = Modifier.weight(if (compact) 0.80f else 0.72f),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.bodyMedium.copy(fontSize = GameUiTokens.bodyTextSize),
+            fontWeight = FontWeight.SemiBold
+        )
+        GameXpBar(
+            current = currentXp,
+            max = maxXp,
+            modifier = Modifier
+                .weight(if (compact) 1.20f else 1.28f)
+                .widthIn(min = 104.dp)
+        )
+    }
+}
+
+@Composable
+private fun GameXpBar(
+    current: Int,
+    max: Int,
+    modifier: Modifier = Modifier
+) {
+    val clampedMax = max.coerceAtLeast(1)
+    val clampedCurrent = current.coerceIn(0, clampedMax)
+    val targetProgress = clampedCurrent.toFloat() / clampedMax.toFloat()
+    val animatedProgress by animateFloatAsState(
+        targetValue = targetProgress,
+        label = "xpProgress"
+    )
+    val shape = RoundedCornerShape(999.dp)
+
+    BoxWithConstraints(
+        modifier = modifier
+            .height(14.dp)
+            .clip(shape)
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.92f)),
+        contentAlignment = Alignment.Center
+    ) {
+        Box(
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .fillMaxWidth(animatedProgress.coerceIn(0f, 1f))
+                .height(14.dp)
+                .clip(shape)
+                .background(MaterialTheme.colorScheme.tertiary.copy(alpha = 0.88f))
+        )
+        Text(
+            text = "XP ($clampedCurrent/$clampedMax)",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp),
+            textAlign = TextAlign.Center,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.labelSmall.copy(fontSize = GameUiTokens.labelTextSize),
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface
         )
     }
 }

@@ -1,9 +1,14 @@
 package rpg.android.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,11 +21,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import rpg.android.audio.LocalGameAudioController
 import rpg.android.audio.SoundEffect
 import rpg.android.tutorial.TutorialTarget
@@ -55,6 +63,14 @@ fun GameBottomNav(
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         items.forEach { item ->
+            val itemWeight by animateFloatAsState(
+                targetValue = if (item.selected) 1.22f else 1f,
+                label = "bottomNavWeight"
+            )
+            val itemScale by animateFloatAsState(
+                targetValue = if (item.selected) 1.06f else 1f,
+                label = "bottomNavScale"
+            )
             val background = when {
                 item.selected && item.hasAlert -> MaterialTheme.colorScheme.error.copy(alpha = 0.88f)
                 item.selected -> MaterialTheme.colorScheme.primary.copy(alpha = 0.90f)
@@ -66,7 +82,7 @@ fun GameBottomNav(
             } ?: Modifier
             Box(
                 modifier = anchoredModifier
-                    .weight(1f)
+                    .weight(itemWeight)
                     .fillMaxHeight()
                     .background(background, RoundedCornerShape(GameUiTokens.buttonCorner))
                     .clickable(
@@ -77,19 +93,55 @@ fun GameBottomNav(
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = item.icon,
-                    color = if (item.selected) {
-                        MaterialTheme.colorScheme.onPrimary
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    },
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontSize = GameUiTokens.bottomNavIconSize,
-                        fontWeight = FontWeight.SemiBold
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .scale(itemScale)
+                        .padding(horizontal = 2.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = item.icon,
+                        color = if (item.selected) {
+                            MaterialTheme.colorScheme.onPrimary
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontSize = GameUiTokens.bottomNavIconSize,
+                            fontWeight = FontWeight.SemiBold
+                        )
                     )
-                )
+                    AnimatedVisibility(
+                        modifier = Modifier.fillMaxWidth(),
+                        visible = item.selected,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(12.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = item.label,
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center,
+                                maxLines = 1,
+                                softWrap = false,
+                                style = MaterialTheme.typography.labelSmall.copy(
+                                    fontSize = 9.sp,
+                                    lineHeight = 10.sp,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            )
+                        }
+                    }
+                }
                 if (item.hasAlert) {
                     Text(
                         text = "\u2022",

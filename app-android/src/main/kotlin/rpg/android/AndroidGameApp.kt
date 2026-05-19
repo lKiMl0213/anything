@@ -2,6 +2,7 @@
 
 import android.app.Activity
 import android.app.Application
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Arrangement
@@ -73,9 +74,17 @@ fun AndroidGameApp() {
     val darkThemeEnabled by viewModel.darkTheme.collectAsState()
     val uiScale by viewModel.uiScale.collectAsState()
     val audioSettings by viewModel.audioSettings.collectAsState()
+    val autoCraftUnlocked by viewModel.autoCraftUnlocked.collectAsState()
+    val autoCraftEnabled by viewModel.autoCraftEnabled.collectAsState()
+    val combatAutoContinueUnlocked by viewModel.combatAutoContinueUnlocked.collectAsState()
+    val combatAutoContinueEnabled by viewModel.combatAutoContinueEnabled.collectAsState()
+    val combatAutoPotionUnlocked by viewModel.combatAutoPotionUnlocked.collectAsState()
+    val combatAutoPotionEnabled by viewModel.combatAutoPotionEnabled.collectAsState()
+    val combatAutoPotionThresholdPct by viewModel.combatAutoPotionThresholdPct.collectAsState()
     val lifecycleOwner = LocalLifecycleOwner.current
     val buildInfo = AppBuildInfoProvider.current()
     val audioManager = remember(app) { AndroidAudioManager(app) }
+    val context = LocalContext.current
     val audioController = remember(viewModel) {
         GameAudioController { effect ->
             viewModel.playUiSound(effect)
@@ -124,6 +133,16 @@ fun AndroidGameApp() {
                         delay(event.durationMs.coerceAtLeast(600L))
                         musicOverride = null
                     }
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(viewModel) {
+        viewModel.uiEvents.collect { event ->
+            when (event) {
+                is AndroidUiEvent.ShowToast -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -225,6 +244,7 @@ fun AndroidGameApp() {
                 onExplore = viewModel::openExplore,
                 onOpenCharacter = viewModel::openCharacter,
                 onOpenProduction = viewModel::openProduction,
+                onOpenSkill = { skill -> viewModel.openProductionSkill(skill.skillType) },
                 onOpenCity = viewModel::openCity,
                 onOpenProgression = viewModel::openProgression,
                 onOpenGlobalBoss = viewModel::openGlobalBoss
@@ -235,6 +255,9 @@ fun AndroidGameApp() {
                 hasProgressAlert = hasProgressAlert,
                 onSlotClick = viewModel::onCharacterSlotTapped,
                 onInventoryItemClick = viewModel::onCharacterInventoryItemTapped,
+                onSortSelected = viewModel::onInventorySortSelected,
+                onAutoEquip = viewModel::onAutoEquip,
+                onUpgradeAction = viewModel::onUpgradeAction,
                 onOpenAttributes = viewModel::openCharacterAttributes,
                 onOpenTalents = viewModel::openTalents,
                 onOpenProduction = viewModel::openProduction,
@@ -249,7 +272,10 @@ fun AndroidGameApp() {
                 actionPreviews = state.actionPreviews,
                 talentTreeGraph = state.talentTreeGraph,
                 hasProgressAlert = hasProgressAlert,
+                autoCraftUnlocked = autoCraftUnlocked,
+                autoCraftEnabled = autoCraftEnabled,
                 onAction = viewModel::onMenuAction,
+                onAutoCraftChanged = viewModel::onAutoCraftChanged,
                 onOpenCharacter = viewModel::openCharacter,
                 onOpenProduction = viewModel::openProduction,
                 onOpenHub = viewModel::openHub,
@@ -261,7 +287,16 @@ fun AndroidGameApp() {
                 state = state.state,
                 onAttack = viewModel::onCombatAttack,
                 onEscape = viewModel::onCombatEscape,
-                onUseItem = viewModel::onCombatUseItem
+                onUseItem = viewModel::onCombatUseItem,
+                autoContinueUnlocked = combatAutoContinueUnlocked,
+                autoContinueEnabled = combatAutoContinueEnabled,
+                onAutoContinueChanged = viewModel::onCombatAutoContinueChanged,
+                autoPotionUnlocked = combatAutoPotionUnlocked,
+                autoPotionEnabled = combatAutoPotionEnabled,
+                autoPotionThresholdPct = combatAutoPotionThresholdPct,
+                onAutoPotionEnabledChanged = viewModel::onCombatAutoPotionEnabledChanged,
+                onAutoPotionThresholdChanged = viewModel::onCombatAutoPotionThresholdChanged,
+                onSelectedConsumableChanged = viewModel::onCombatConsumableSelected
             )
         }
 

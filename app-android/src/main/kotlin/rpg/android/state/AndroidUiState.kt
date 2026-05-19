@@ -87,9 +87,17 @@ data class CombatActionButtonUi(
     val enabled: Boolean
 )
 
+data class CombatStatusEffectUi(
+    val typeKey: String,
+    val icon: String,
+    val label: String,
+    val remainingSeconds: Int
+)
+
 data class CombatUiState(
     val title: String,
     val enemyName: String,
+    val enemyStars: Int,
     val introLines: List<String>,
     val playerName: String,
     val playerHp: Double,
@@ -105,6 +113,8 @@ data class CombatUiState(
     val playerAtbLabel: String,
     val enemyAtbLabel: String,
     val playerReady: Boolean,
+    val playerStatusEffects: List<CombatStatusEffectUi>,
+    val enemyStatusEffects: List<CombatStatusEffectUi>,
     val statusLines: List<String>,
     val logLines: List<String>,
     val actions: List<CombatActionButtonUi>,

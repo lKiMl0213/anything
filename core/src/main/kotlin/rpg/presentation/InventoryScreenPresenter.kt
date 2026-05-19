@@ -112,9 +112,9 @@ internal class InventoryScreenPresenter(
             }
         }
         options += ScreenOptionViewModel("x", "Voltar", GameAction.Back)
-        val body = mutableListOf("Item: ${inventoryQueryService.support().itemDisplayLabel(detail.item)}")
+        val body = mutableListOf(detail.item.name)
         body += detail.detailLines
-        detail.comparisonSummary?.let(body::add)
+        body += detail.comparisonLines
         if (detail.quantity > 1) {
             body += "Quantidade na stack: ${detail.quantity}"
         }
@@ -155,7 +155,7 @@ internal class InventoryScreenPresenter(
         return MenuScreenViewModel(
             title = inventoryQueryService.support().equippedSlotLabel(slotKey),
             summary = support.playerSummary(state),
-            bodyLines = detail.detailLines + detail.removalSummary,
+            bodyLines = listOf(detail.item.name) + detail.detailLines + detail.removalLines,
             options = listOf(
                 ScreenOptionViewModel("1", "Desequipar", GameAction.UnequipSlot(slotKey)),
                 ScreenOptionViewModel("x", "Voltar", GameAction.Back)

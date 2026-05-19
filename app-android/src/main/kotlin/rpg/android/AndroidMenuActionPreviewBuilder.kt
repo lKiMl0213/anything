@@ -93,7 +93,7 @@ internal fun buildMenuActionPreviews(
                 lines += "Nível atual: ${upgrade.level}/${upgrade.maxLevel}"
                 lines += "Atual: ${upgrade.currentLabel}"
                 lines += "Proximo: ${upgrade.nextLabel}"
-                lines += "Valor: ${selectedCost?.let(::renderUpgradeCost).orEmpty().ifBlank { "Indisponivel" }}"
+                lines += "Valor: ${selectedCost?.let(::renderUpgradeCost).orEmpty().ifBlank { "Indisponível" }}"
                 previews[option.key] = MenuActionPreviewUiModel(
                     optionKey = option.key,
                     title = upgrade.name,
@@ -168,6 +168,17 @@ internal fun buildMenuActionPreviews(
                 )
             }
 
+            is GameAction.ReplaceQuest -> {
+                previews[option.key] = MenuActionPreviewUiModel(
+                    optionKey = option.key,
+                    title = "Substituir missão",
+                    lines = listOf("Tem certeza que deseja substituir esta missão?"),
+                    primaryLabel = "Confirmar",
+                    primaryAction = action,
+                    secondaryLabel = "Cancelar"
+                )
+            }
+
             else -> Unit
         }
     }
@@ -182,7 +193,7 @@ private fun usageLabel(
     return when (item.type) {
         rpg.model.ItemType.EQUIPMENT -> {
             val slot = item.slot?.name?.let(inventorySupport::equippedSlotLabel) ?: "Slot indefinido"
-            if (item.twoHanded) "$slot (duas maos)" else slot
+            if (item.twoHanded) "$slot (duas mãos)" else slot
         }
         rpg.model.ItemType.CONSUMABLE -> "Consumivel"
         rpg.model.ItemType.MATERIAL -> "Material de craft/coleta"

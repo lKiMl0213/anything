@@ -1,0 +1,18 @@
+﻿{
+  "id": "hunting_crimson_moon_abyss",
+  "name": "Abismo da Lua Rubra",
+  "recommendedLevel": 50,
+  "minCycleSeconds": 270,
+  "baseXp": 72.0,
+  "difficulty": 2.38,
+  "description": "Zona extrema de caça com criaturas ferozes e materiais raríssimos.",
+  "drops": [
+    { "itemId": "predator_eye", "weight": 22, "minQty": 1, "maxQty": 3, "rareChancePct": 22.0, "minPlayerLevel": 42 },
+    { "itemId": "golden_flower", "weight": 16, "minQty": 1, "maxQty": 3, "rareChancePct": 20.0, "minPlayerLevel": 44 },
+    { "itemId": "oil", "weight": 14, "minQty": 1, "maxQty": 3, "rareChancePct": 19.0, "minPlayerLevel": 42 },
+    { "itemId": "luminous_mushroom", "weight": 14, "minQty": 1, "maxQty": 3, "rareChancePct": 18.0, "minPlayerLevel": 41 },
+    { "itemId": "rough_hide", "weight": 12, "minQty": 2, "maxQty": 4, "rareChancePct": 15.0, "minPlayerLevel": 40 },
+    { "itemId": "beast_meat", "weight": 12, "minQty": 3, "maxQty": 5, "rareChancePct": 0.0, "minPlayerLevel": 38 },
+    { "itemId": "wolf_pelt", "weight": 10, "minQty": 2, "maxQty": 4, "rareChancePct": 17.0, "minPlayerLevel": 40 }
+  ]
+}
